@@ -15,6 +15,7 @@ PACKAGE =
 
 RECURSE_DIRS = \
 	lib \
+	liblang \
 	module \
 	pyre \
 	tests \
@@ -36,6 +37,6 @@ builddoc:
 	$(MM) -C doc
 
 # version
-# $Id: Make.mm,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+# $Id: Make.mm,v 1.2 2005/03/19 00:47:51 baagaard Exp $
 
 # End of file 
