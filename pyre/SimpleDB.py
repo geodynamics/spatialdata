@@ -52,7 +52,7 @@ class SimpleDB(SpatialDB):
     ## Python object for managing SimpleDB facilities and properties.
     ##
     ## \b Properties
-    ## @li queryType Type of query to perform
+    ## @li query_type Type of query to perform
     ##
     ## \b Facilities
     ## @li \b iohandler I/O handler for database
@@ -66,6 +66,6 @@ class SimpleDB(SpatialDB):
     iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
 
 # version
-__id__ = "$Id: SimpleDB.py,v 1.3 2005/03/21 20:25:08 baagaard Exp $"
+__id__ = "$Id: SimpleDB.py,v 1.4 2005/03/23 18:09:11 baagaard Exp $"
 
 # End of file 
