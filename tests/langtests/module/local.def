@@ -13,7 +13,10 @@
 PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/module
 
 PROJ_CXX_INCLUDES += $(PYTHIA_INCDIR)
-PROJ_LCXX_FLAGS += -L$(PYTHIA_LIBDIR) -ljournal
+ifdef PYTHIA_LIBDIR
+PROJ_LCXX_FLAGS += -L$(PYTHIA_LIBDIR)
+endif
+PROJ_LCXX_FLAGS += -ljournal
 
 PROJ_CXX_INCLUDES += $(PYTHIAUTIL_INCDIR)
 ifdef PYTHIAUTIL_LIBDIR
@@ -21,10 +24,9 @@ PROJ_LCXX_FLAGS += -L$(PYTHIAUTIL_LIBDIR)
 endif
 PROJ_LCXX_FLAGS += -lpythiautil
 
-PROJ_LCXX_FLAGS += -lctestspatialdata
-PROJ_LCXX_FLAGS += -lf77testspatialdata
+PROJ_LCXX_FLAGS += -lctestspatialdata -lf77testspatialdata
 
 # version
-# $Id: local.def,v 1.2 2005/03/27 01:08:10 baagaard Exp $
+# $Id: local.def,v 1.3 2005/03/27 02:58:06 baagaard Exp $
 
 # End of file
