@@ -14,27 +14,7 @@ import unittest
 
 class TestSpatialDB(unittest.TestCase):
 
-  def test_cquery(self):
-    self._initialize()
-    
-    self._db.open()
-    self._db.queryVals(["two", "one"])
-    self._cquery()
-    self._db.close()
-    
-    return
-
-  def test_f77query(self):
-    self._initialize()
-    
-    self._db.open()
-    self._db.queryVals(["two", "one"])
-    self._f77query()
-    self._db.close()
-    
-    return
-
-  def _initialize(self):
+  def setUp(self):
 
     from spatialdata.SimpleIOAscii import SimpleIOAscii
     iohandler = SimpleIOAscii()
@@ -48,7 +28,22 @@ class TestSpatialDB(unittest.TestCase):
     db.initialize()
 
     self._db = db
+    return
 
+  def test_cquery(self):
+    self._db.open()
+    self._db.queryVals(["two", "one"])
+    self._cquery()
+    self._db.close()
+    
+    return
+
+  def test_f77query(self):
+    self._db.open()
+    self._db.queryVals(["two", "one"])
+    self._f77query()
+    self._db.close()
+    
     return
 
   def _cquery(self):
@@ -62,6 +57,6 @@ class TestSpatialDB(unittest.TestCase):
     return
 
 # version
-__id__ = "$Id: TestSpatialDB.py,v 1.2 2005/03/20 19:42:22 baagaard Exp $"
+__id__ = "$Id: TestSpatialDB.py,v 1.3 2005/03/23 18:10:47 baagaard Exp $"
 
 # End of file 
