@@ -93,7 +93,7 @@ class spatial::SimpleDB : public SpatialDB
    *
    * @param iohandler
    */
-  void IOHandler(SimpleIO* iohandler);
+  void IOHandler(const SimpleIO* iohandler);
 
   /** Query the database.
    *
@@ -136,6 +136,6 @@ private :
 #endif // _spatial_simpledb_h
 
 // version
-// $Id: SimpleDB.h,v 1.2 2005/03/19 00:24:16 baagaard Exp $
+// $Id: SimpleDB.h,v 1.3 2005/03/23 18:08:18 baagaard Exp $
 
 // End of file 

@@ -119,7 +119,7 @@ spatial::SimpleDB::QueryVals(const char** names,
 // ----------------------------------------------------------------------
 // Set the I/O handler.
 void
-spatial::SimpleDB::IOHandler(SimpleIO* iohandler)
+spatial::SimpleDB::IOHandler(const SimpleIO* iohandler)
 { // IOHandler
   mpIOHandler = iohandler->Clone();
 } // IOHandler
@@ -151,6 +151,6 @@ spatial::SimpleDB::Query(double** pVals,
 } // Query
 
 // version
-// $Id: SimpleDB.cc,v 1.2 2005/03/19 00:24:16 baagaard Exp $
+// $Id: SimpleDB.cc,v 1.3 2005/03/23 18:08:18 baagaard Exp $
 
 // End of file 
