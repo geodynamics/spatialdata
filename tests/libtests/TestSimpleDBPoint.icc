@@ -1,0 +1,68 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(_spatial_testsimpledbpoint_h)
+#error "TestSimpleDBPoint.icc must only be included from TestSimpleDBPoint.h"
+#endif
+
+// Get data for database.
+inline
+const double*
+spatial::TestSimpleDBPoint::Data(void) const
+{ return DATA; }
+
+// Get names of values in database.
+inline
+const char**
+spatial::TestSimpleDBPoint::Names(void) const
+{ return NAMES; }
+
+// Get number of locations in database.
+inline
+int 
+spatial::TestSimpleDBPoint::NumLocs(void) const
+{ return NUMLOCS; }
+
+// Get number of values at each location in database.
+inline
+int
+spatial::TestSimpleDBPoint::NumVals(void) const
+{ return NUMVALS; }
+
+// Get topology of data in database.
+inline
+spatial::SimpleDB::TopoEnum
+spatial::TestSimpleDBPoint::Topology(void) const
+{ return TOPOLOGY; }
+
+// Get number of queries.
+inline
+int
+spatial::TestSimpleDBPoint::NumQueries(void) const
+{ return NUMQUERIES; }
+
+// Get query data for nearest neighbor algorithm.
+inline
+const double*
+spatial::TestSimpleDBPoint::QueryNearest(void) const
+{ return QUERYNEAREST; }
+
+// Get query data for linear interpolation algorithm.
+inline
+const double*
+spatial::TestSimpleDBPoint::QueryLinear(void) const
+{ return QUERYLINEAR; }
+
+// version
+// $Id: TestSimpleDBPoint.icc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+
+// End of file 

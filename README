@@ -1,0 +1,57 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+/** @mainpage
+ *
+ * @author Brad Aagaard
+ * @date 2005/03/17
+ * @version 0.1
+ *
+ * @section summary Summary
+ *
+ * This directory tree contains SpatialData version 0.1. This package
+ * provides a simple interface for specifying data in a domain of
+ * dimension 0 (point) through 3 (volume) and querying it to set
+ * values at desired locations.
+ *
+ * The package provides one realization of this interface that allows
+ * querying using data at the nearest location in the database or
+ * using linear interpolation.
+ *
+ * The software is built using the Pyre build procedure and makes use
+ * of pythia-0.8.
+ *
+ * @section dirs Directories
+ * @li \b doc Documentation
+ * @li \b lib C++ code for querying (generates library)
+ * @li \b pyre Python code
+ * @li \b tests Regression tests of library
+ *
+ * @section reqs Required software
+ * @li Pyre (with pythia-0.8)
+ * @li pythiautil-0.6
+ * @li CppUnit (for regression testing)
+ *
+ * If not in the default include and linking paths, the environment
+ * variables PYTHIA_INCDIR and PYTHIA_LIBDIR must point to directories
+ * containing pythia header files and libraries to use. 
+ *
+ * Likewise, the environment variables PYTHIAUTIL_INCDIR and
+ * PYTHIA_LIBDIR should also point to directories containing the
+ * pythiautil header files and libraries if they are not in the
+ * standard include and linking paths.
+ */
+
+// version
+// $Id: README,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+
+// End of file 

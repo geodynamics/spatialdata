@@ -1,0 +1,25 @@
+# -*- Makefile -*-
+#
+# ----------------------------------------------------------------------
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# <LicenseText>
+#
+# ----------------------------------------------------------------------
+#
+
+PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)/lib
+
+PROJ_SAR = $(BLD_LIBDIR)/libspatialdata.$(EXT_SAR)
+
+PROJ_CLEAN += $(PROJ_SAR)
+
+PROJ_CXX_INCLUDES += $(PYTHIA_INCDIR)
+PROJ_CXX_INCLUDES += $(PYTHIAUTIL_INCDIR)
+
+# version
+# $Id: local.def,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+
+# End of file 

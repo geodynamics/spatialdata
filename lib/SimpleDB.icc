@@ -1,0 +1,20 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(_spatial_simpledb_h)
+#error "SimpleDB.icc must only be included from SimpleDB.h"
+#endif
+
+// version
+// $Id: SimpleDB.icc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+
+// End of file 
