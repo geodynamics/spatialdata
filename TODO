@@ -1,3 +1,8 @@
+Cleanup SimpleDB::DataStruct, SimpleDBTypes
+  Create SimpleDBPayload class w/accessors?
+  who needs access to Data?
+  Move SpatialDB enums to SimpleDBTypes header file?
+
 Give units for each value.
 
 Need routines to return units to Python, get scale factor from Python.
