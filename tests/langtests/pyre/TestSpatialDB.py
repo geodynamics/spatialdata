@@ -18,7 +18,6 @@ class TestSpatialDB(unittest.TestCase):
     self._initialize()
     
     self._db.open()
-    self._db.queryType("Nearest")
     self._db.queryVals(["two", "one"])
     self._cquery()
     self._db.close()
@@ -29,7 +28,6 @@ class TestSpatialDB(unittest.TestCase):
     self._initialize()
     
     self._db.open()
-    self._db.queryType("Nearest")
     self._db.queryVals(["two", "one"])
     self._f77query()
     self._db.close()
@@ -64,6 +62,6 @@ class TestSpatialDB(unittest.TestCase):
     return
 
 # version
-__id__ = "$Id: TestSpatialDB.py,v 1.1 2005/03/19 00:46:58 baagaard Exp $"
+__id__ = "$Id: TestSpatialDB.py,v 1.2 2005/03/20 19:42:22 baagaard Exp $"
 
 # End of file 
