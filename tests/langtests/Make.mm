@@ -33,7 +33,10 @@ clean::
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
+test::
+	BLD_ACTION="test" $(MM) recurse
+
 # version
-# $Id: Make.mm,v 1.1 2005/03/19 00:46:58 baagaard Exp $
+# $Id: Make.mm,v 1.2 2005/03/21 15:38:58 baagaard Exp $
 
 # End of file 
