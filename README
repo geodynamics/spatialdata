@@ -13,7 +13,7 @@
 /** @mainpage
  *
  * @author Brad Aagaard
- * @date 2005/03/17
+ * @date 2005/03/26
  * @version 0.1
  *
  * @section summary Summary
@@ -41,17 +41,14 @@
  * @li pythiautil-0.6
  * @li CppUnit (for regression testing)
  *
- * If not in the default include and linking paths, the environment
- * variables PYTHIA_INCDIR and PYTHIA_LIBDIR must point to directories
- * containing pythia header files and libraries to use. 
+ * @section notes Notes
  *
- * Likewise, the environment variables PYTHIAUTIL_INCDIR and
- * PYTHIA_LIBDIR should also point to directories containing the
- * pythiautil header files and libraries if they are not in the
- * standard include and linking paths.
+ * If libraries or header files for Pythia or CppUnit are not in the
+ * default path, you can use environment variables to point to their
+ * locations. See the local.def files to see which variables to set.
  */
 
 // version
-// $Id: README,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: README,v 1.2 2005/03/27 01:06:29 baagaard Exp $
 
 // End of file 
