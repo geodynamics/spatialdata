@@ -132,7 +132,7 @@ spatial::TestSimpleDB::CheckQuery(const double* queryData) const
     valNames[numVals-i-1] = Names()[i];
   mpDB->QueryVals(valNames, numVals);
   
-  double* vals = 0;
+  double* pVals = (0 < numVals) ? new double[numVals] : 0;
   const double tolerance = 1.0e-06;
   
   const int numQueries = NumQueries();
@@ -140,21 +140,22 @@ spatial::TestSimpleDB::CheckQuery(const double* queryData) const
   for (int iQuery=0; iQuery < numQueries; ++iQuery) {
     const double* qCoords = &queryData[iQuery*locSize];
     const double* qVals = &queryData[iQuery*locSize+3];
-    mpDB->Query(&vals, qCoords[0], qCoords[1], qCoords[2]);
+    mpDB->Query(&pVals, numVals, qCoords[0], qCoords[1], qCoords[2]);
     for (int iVal=0; iVal < numVals; ++iVal) {
       debug
 	<< journal::at(__HERE__)
 	<< "iVal: " << iVal
-	<< ", vals[" << iVal << "]: " << vals[iVal]
+	<< ", pVals[" << iVal << "]: " << pVals[iVal]
 	<< ", qVals[" << numVals-iVal-1 << "]: " << qVals[numVals-iVal-1]
 	<< journal::endl;
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(vals[iVal]/qVals[numVals-iVal-1], 1.0,
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(pVals[iVal]/qVals[numVals-iVal-1], 1.0,
 				   tolerance);
     } // for
   } // for
+  delete[] pVals; pVals = 0;
 } // CheckQuery
 
 // version
-// $Id: TestSimpleDB.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDB.cc,v 1.2 2005/03/19 00:27:36 baagaard Exp $
 
 // End of file 

@@ -57,7 +57,6 @@ spatial::TestSpatialDB::tearDown(void)
 void
 spatial::TestSpatialDB::testDB(void)
 { // testDB
-#if 0
   FIREWALL(0 != mpDB);
 
   const char* names[] = {"two", "one"};
@@ -67,18 +66,18 @@ spatial::TestSpatialDB::testDB(void)
 
   mpDB->QueryVals(names, numVals);
 
-  double* pValsQ = 0;
-  mpDB->Query(&pValsQ, queryLoc[0], queryLoc[1], queryLoc[2]);
+  double* pValsQ = (0 < numVals) ? new double[numVals] : 0;
+  mpDB->Query(&pValsQ, numVals, queryLoc[0], queryLoc[1], queryLoc[2]);
   const double tolerance = 1.0e-06;
   for (int iVal=0; iVal < numVals; ++iVal)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(pValsQ[iVal]/pVals[numVals-iVal-1],
 				 1.0, tolerance);
 
+  delete[] pValsQ; pValsQ = 0;
   mpDB->Close();
-#endif
 } // testDB
 
 // version
-// $Id: TestSpatialDB.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSpatialDB.cc,v 1.2 2005/03/19 00:27:36 baagaard Exp $
 
 // End of file 
