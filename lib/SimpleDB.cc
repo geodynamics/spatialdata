@@ -128,6 +128,7 @@ spatial::SimpleDB::IOHandler(SimpleIO* iohandler)
 // Query the database.
 void
 spatial::SimpleDB::Query(double** pVals,
+			 const int numVals,
 			 const double x,
 			 const double y,
 			 const double z)
@@ -146,10 +147,10 @@ spatial::SimpleDB::Query(double** pVals,
       << "Database query aborted.";
     throw std::runtime_error(msg.str());
   } // if
-  mpQuery->Query(pVals, x, y, z);
+  mpQuery->Query(pVals, numVals, x, y, z);
 } // Query
 
 // version
-// $Id: SimpleDB.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDB.cc,v 1.2 2005/03/19 00:24:16 baagaard Exp $
 
 // End of file 

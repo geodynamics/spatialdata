@@ -100,6 +100,7 @@ spatial::SimpleDBQuery::QueryVals(const char** names,
 // Query the database.
 void
 spatial::SimpleDBQuery::Query(double** pVals,
+			      const int numVals,
 			      const double x,
 			      const double y,
 			      const double z)
@@ -111,16 +112,25 @@ spatial::SimpleDBQuery::Query(double** pVals,
       << "have not been set. Please call QueryVals() before Query().";
     throw std::runtime_error(msg.str());
   } // if
+  else if (numVals != mQuerySize) {
+    std::ostringstream msg;
+    msg
+      << "Number of values to be returned by spatial database "
+      << mDB.Label() << "\n"
+      << "(" << mQuerySize << ") does not match size of array provided ("
+      << numVals << ").";
+    throw std::runtime_error(msg.str());
+  } // if
   mQ[0] = x;
   mQ[1] = y;
   mQ[2] = z;
   switch (mQueryType)
     { // switch
     case SimpleDB::LINEAR :
-      QueryLinear(pVals);
+      QueryLinear(pVals, numVals);
       break;
     case SimpleDB::NEAREST :
-      QueryNearest(pVals);
+      QueryNearest(pVals, numVals);
       break;
     default :
       throw std::runtime_error("Could not find requested query type.");
@@ -130,15 +140,13 @@ spatial::SimpleDBQuery::Query(double** pVals,
 // ----------------------------------------------------------------------
 // Query database using nearest neighbor algorithm.
 void
-spatial::SimpleDBQuery::QueryNearest(double** pVals)
+spatial::SimpleDBQuery::QueryNearest(double** pVals,
+				     const int numVals)
 { // QueryNearest
   FIREWALL(0 != pVals);
   FIREWALL(0 != mDB.mpData);
-  FIREWALL(0 < mQuerySize);
+  FIREWALL(numVals == mQuerySize);
 
-  const int querySize = mQuerySize;
-  delete[] *pVals; *pVals = new double[querySize];
-  
   int iNear = 0;
   double nearDist = 
     DistSquared(mQ, SimpleDBTypes::DataCoords(*mDB.mpData, iNear));
@@ -152,6 +160,7 @@ spatial::SimpleDBQuery::QueryNearest(double** pVals)
     } // if
   } // for
   const double* nearVals = SimpleDBTypes::DataVals(*mDB.mpData, iNear);
+  const int querySize = mQuerySize;
   for (int iVal=0; iVal < querySize; ++iVal)
     (*pVals)[iVal] = nearVals[mQueryVals[iVal]];
 } // QueryNearest
@@ -159,18 +168,17 @@ spatial::SimpleDBQuery::QueryNearest(double** pVals)
 // ----------------------------------------------------------------------
 // Query database using linear interpolation algorithm.
 void
-spatial::SimpleDBQuery::QueryLinear(double** pVals)
+spatial::SimpleDBQuery::QueryLinear(double** pVals,
+				    const int numVals)
 { // QueryLinear
   FIREWALL(0 != pVals);
   FIREWALL(0 != mDB.mpData);
-  FIREWALL(0 != mQuerySize);
-
-  const int querySize = mQuerySize;
-  delete[] *pVals; *pVals = new double[querySize];
+  FIREWALL(numVals == mQuerySize);
 
   if (SimpleDB::POINT == mDB.mpData->Topology) {
     const int index = 0;
     const double* nearVals = SimpleDBTypes::DataVals(*mDB.mpData, index);
+    const int querySize = mQuerySize;
     for (int iVal=0; iVal < querySize; ++iVal)
       (*pVals)[iVal] = nearVals[mQueryVals[iVal]];
   } else { // else
@@ -183,6 +191,7 @@ spatial::SimpleDBQuery::QueryLinear(double** pVals)
 
     // Interpolate values
     const int numWts = weights.size();
+    const int querySize = mQuerySize;
     for (int iVal=0; iVal < querySize; ++iVal) {
       double val = 0;
       for (int iWt=0; iWt < numWts; ++iWt) {
@@ -631,6 +640,6 @@ spatial::SimpleDBQuery::Volume(const double a[3],
 } // Volume
 
 // version
-// $Id: SimpleDBQuery.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDBQuery.cc,v 1.2 2005/03/19 00:24:16 baagaard Exp $
 
 // End of file 

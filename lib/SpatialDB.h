@@ -68,11 +68,13 @@ class spatial::SpatialDB
    * @pre Must call Open() before Query()
    *
    * @param pVals Pointer to computed values (output from query)
+   * @param numVals Number of values expected (size of pVals array)
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
    */
   virtual void Query(double** pVals,
+		     const int numVals,
 		     const double x,
 		     const double y,
 		     const double z) = 0;
@@ -105,6 +107,6 @@ private :
 #endif // _spatial_spatialdb_h
 
 // version
-// $Id: SpatialDB.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SpatialDB.h,v 1.2 2005/03/19 00:24:16 baagaard Exp $
 
 // End of file 

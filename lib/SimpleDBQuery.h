@@ -51,11 +51,13 @@ class spatial::SimpleDBQuery
   /** Query the database.
    *
    * @param pValues Pointer to computed values (output from query)
+   * @param numVals Number of values expected (size of pVals array)
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
    */
   void Query(double** pVals,
+	     const int numVals,
 	     const double x,
 	     const double y,
 	     const double z);
@@ -78,20 +80,20 @@ class spatial::SimpleDBQuery
    * database.
    *
    * @param pValues Pointer to computed values (output from query)
-   * @param names Names of values to query
-   * @param numVals Number of values to query
+   * @param numVals Number of values expected (size of pVals array)
    */
-  void QueryNearest(double** pVals);
+  void QueryNearest(double** pVals,
+		    const int numVals);
 
   /** Query database using linear interpolation algorithm.
    *
    * Values at location are interpolation from locations in database.
    *
    * @param pValues Pointer to computed values (output from query)
-   * @param names Names of values to query
-   * @param numVals Number of values to query
+   * @param numVals Number of values expected (size of pVals array)
    */
-  void QueryLinear(double** pVals);
+  void QueryLinear(double** pVals,
+		   const int numVals);
 
   /// Find locations in database nearest query location.
   void FindNearest(void);
@@ -189,6 +191,6 @@ private :
 #endif // _eqsim_spatialdataquery_h
 
 // version
-// $Id: SimpleDBQuery.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDBQuery.h,v 1.2 2005/03/19 00:24:16 baagaard Exp $
 
 // End of file 
