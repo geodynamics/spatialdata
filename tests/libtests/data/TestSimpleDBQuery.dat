@@ -42,6 +42,6 @@ const double spatial::TestSimpleDBQuery::AREADIR[] = {
 const double spatial::TestSimpleDBQuery::VOLUME =   2.954580000000e+00;
 
 // version
-// $Id: TestSimpleDBQuery.dat,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDBQuery.dat,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

@@ -116,6 +116,6 @@ private :
 #endif // _spatial_testsimpledbarea_h
 
 // version
-// $Id: TestSimpleDBArea.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDBArea.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

@@ -119,6 +119,6 @@ private :
 #endif // _spatial_testsimpledbpoint_h
 
 // version
-// $Id: TestSimpleDBPoint.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDBPoint.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

@@ -150,6 +150,6 @@ spatial::SimpleDB::Query(double** pVals,
 } // Query
 
 // version
-// $Id: SimpleDB.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDB.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

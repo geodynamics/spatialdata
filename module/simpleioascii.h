@@ -28,6 +28,6 @@ extern char pyspatialdata_CppSimpleIOAscii__doc__[];
 #endif // pyspatialdata_simpleioascii_h
 
 // version
-// $Id: simpleioascii.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: simpleioascii.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

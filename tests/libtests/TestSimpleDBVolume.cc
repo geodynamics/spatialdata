@@ -25,6 +25,6 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatial::TestSimpleDBVolume );
 #include "data/TestSimpleDBVolume.dat"
 
 // version
-// $Id: TestSimpleDBVolume.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDBVolume.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

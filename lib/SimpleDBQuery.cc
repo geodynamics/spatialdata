@@ -631,6 +631,6 @@ spatial::SimpleDBQuery::Volume(const double a[3],
 } // Volume
 
 // version
-// $Id: SimpleDBQuery.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDBQuery.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

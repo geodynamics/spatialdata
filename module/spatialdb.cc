@@ -199,6 +199,6 @@ pyspatialdata_CppSpatialDB_Label(PyObject*, PyObject* args)
 } // CppSpatialDB_Label
         
 // version
-// $Id: spatialdb.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: spatialdb.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

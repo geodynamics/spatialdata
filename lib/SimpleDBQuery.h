@@ -189,6 +189,6 @@ private :
 #endif // _eqsim_spatialdataquery_h
 
 // version
-// $Id: SimpleDBQuery.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDBQuery.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

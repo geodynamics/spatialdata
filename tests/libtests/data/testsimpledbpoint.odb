@@ -46,6 +46,6 @@ class PointData(SimpleDBQueryData):
     return
 
 # version
-__id__ = "$Id: testsimpledbpoint.odb,v 1.1 2005/03/17 22:18:34 baagaard Exp $"
+__id__ = "$Id: testsimpledbpoint.odb,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $"
 
 # End of file 

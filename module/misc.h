@@ -28,6 +28,6 @@ extern char pyspatialdata_copyright__doc__[];
 #endif // pyspatialdata_misc_h
 
 // version
-// $Id: misc.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: misc.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

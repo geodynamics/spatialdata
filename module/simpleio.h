@@ -27,6 +27,6 @@ extern char pyspatialdata_CppSimpleIO_Filename__doc__[];
 #endif // pyspatialdata_simpleio_h
 
 // version
-// $Id: simpleio.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: simpleio.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

@@ -24,6 +24,6 @@ extern struct PyMethodDef pyspatialdata_methods[];
 #endif
 
 // version
-// $Id: bindings.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: bindings.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

@@ -30,6 +30,6 @@ test:
 	@LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(BLD_LIBDIR) ./testspatial.py
 
 # version
-# $Id: Make.mm,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+# $Id: Make.mm,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 # End of file

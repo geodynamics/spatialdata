@@ -64,6 +64,6 @@ class SpatialDB(Component):
     label = pyre.inventory.str("label", default="spatial database")
 
 # version
-__id__ = "$Id: SpatialDB.py,v 1.1 2005/03/17 22:18:34 baagaard Exp $"
+__id__ = "$Id: SpatialDB.py,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $"
 
 # End of file 

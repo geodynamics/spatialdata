@@ -68,6 +68,6 @@ pyspatialdata_CppSimpleIO_Filename(PyObject*, PyObject* args)
 } // CppSimpleIO_Filename
         
 // version
-// $Id: simpleio.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: simpleio.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

@@ -25,6 +25,6 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatial::TestSimpleDBArea );
 #include "data/TestSimpleDBArea.dat"
 
 // version
-// $Id: TestSimpleDBArea.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDBArea.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

@@ -45,6 +45,6 @@ extern char pyspatialdata_CppSpatialDB_Label__doc__[];
 #endif // pyspatialdata_spatialdb_h
 
 // version
-// $Id: spatialdb.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: spatialdb.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

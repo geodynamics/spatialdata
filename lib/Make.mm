@@ -40,6 +40,6 @@ EXPORT_HEADERS = \
 EXPORT_LIBS = $(PROJ_SAR)
 
 # version
-# $Id: Make.mm,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+# $Id: Make.mm,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 # End of file 

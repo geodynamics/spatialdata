@@ -63,6 +63,6 @@ spatial::TestSimpleDBLine::QueryLinear(void) const
 { return QUERYLINEAR; }
 
 // version
-// $Id: TestSimpleDBLine.icc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDBLine.icc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

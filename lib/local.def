@@ -20,6 +20,6 @@ PROJ_CXX_INCLUDES += $(PYTHIA_INCDIR)
 PROJ_CXX_INCLUDES += $(PYTHIAUTIL_INCDIR)
 
 # version
-# $Id: local.def,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+# $Id: local.def,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 # End of file 

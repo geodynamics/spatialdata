@@ -155,6 +155,6 @@ spatial::TestSimpleDB::CheckQuery(const double* queryData) const
 } // CheckQuery
 
 // version
-// $Id: TestSimpleDB.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleDB.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

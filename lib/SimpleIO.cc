@@ -81,6 +81,6 @@ spatial::SimpleIO::CheckCompatibility(const SimpleDB::DataStruct& data)
 } // CheckCompatibility
 
 // version
-// $Id: SimpleIO.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleIO.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

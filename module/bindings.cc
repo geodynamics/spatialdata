@@ -84,6 +84,6 @@ struct PyMethodDef pyspatialdata_methods[] = {
 }; // pyspatialdata_methods
 
 // version
-// $Id: bindings.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: bindings.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file

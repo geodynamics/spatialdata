@@ -81,6 +81,6 @@ spatial::TestSimpleIOAscii::testIO(void)
 } // testIO
 
 // version
-// $Id: TestSimpleIOAscii.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: TestSimpleIOAscii.cc,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 

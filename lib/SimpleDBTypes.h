@@ -59,6 +59,6 @@ public :
 #endif // _spatial_simpledbtypes_h
 
 // version
-// $Id: SimpleDBTypes.h,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleDBTypes.h,v 1.1.1.1 2005/03/17 22:18:34 baagaard Exp $
 
 // End of file 
