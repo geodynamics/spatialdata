@@ -18,9 +18,13 @@ PROJ_CLEAN += $(PROJ_SAR)
 
 PROJ_CXX_INCLUDES += $(PYTHIA_INCDIR)
 PROJ_CXX_INCLUDES += $(PYTHIAUTIL_INCDIR)
-PROJ_LCXX_FLAGS += -L$(PYTHIAUTIL_LIBDIR) -lpythiautil
+
+ifdef PYTHIAUTIL_LIBDIR
+PROJ_LCXX_FLAGS += -L$(PYTHIAUTIL_LIBDIR)
+endif
+PROJ_LCXX_FLAGS += -lpythiautil
 
 # version
-# $Id: local.def,v 1.1 2005/03/19 00:47:11 baagaard Exp $
+# $Id: local.def,v 1.2 2005/03/27 01:08:10 baagaard Exp $
 
 # End of file 

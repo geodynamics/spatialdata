@@ -16,13 +16,19 @@ PROJ_CLEAN += $(PROJ_BIN)
 PROJ_CXX_INCLUDES += $(BUILD_INCDIR)
 
 PROJ_CXX_INCLUDES += ${CPPUNIT_INCDIR}
-PROJ_LCXX_FLAGS += -L$(CPPUNIT_LIBDIR) -lcppunit -ldl
+ifdef CPPUNIT_LIBDIR
+PROJ_LCXX_FLAGS += -L$(CPPUNIT_LIBDIR)
+endif
+PROJ_LCXX_FLAGS += -lcppunit -ldl
 
 PROJ_LCXX_FLAGS += -L$(PYTHIA_LIBDIR) -ljournal
-PROJ_LCXX_FLAGS += -L$(PYTHIAUTIL_LIBDIR) -lpythiautil
+ifdef PYTHIAUTIL_LIBDIR
+PROJ_LCXX_FLAGS += -L$(PYTHIAUTIL_LIBDIR)
+endif
+PROJ_LCXX_FLAGS += -lpythiautil
 PROJ_LCXX_FLAGS += -lspatialdata
 
 # version
-# $Id: local.def,v 1.2 2005/03/19 00:27:22 baagaard Exp $
+# $Id: local.def,v 1.3 2005/03/27 01:08:10 baagaard Exp $
 
 # End of file 
