@@ -23,9 +23,13 @@ class SimpleDB(SpatialDB):
 
   def initialize(self):
     """Initialize database."""
+
+    iohandler = self.inventory.iohandler
+    iohandler.initialize()
+
     SpatialDB.initialize(self)
     bindings.CppSimpleDB_IOHandler(self._cppSpatialDB,
-                                   self.inventory.iohandler.handle())
+                                   iohandler.handle())
     return
   
   def open(self):
@@ -62,6 +66,6 @@ class SimpleDB(SpatialDB):
     iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
 
 # version
-__id__ = "$Id: SimpleDB.py,v 1.2 2005/03/20 19:42:22 baagaard Exp $"
+__id__ = "$Id: SimpleDB.py,v 1.3 2005/03/21 20:25:08 baagaard Exp $"
 
 # End of file 
