@@ -19,36 +19,35 @@
 
 #if defined(NEEDS_F77_TRANSLATION)
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #if defined(F77EXTERNS_LOWERCASE_TRAILINGBAR)
 
 #define f77test_query_f f77test_query_
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #elif defined(F77EXTERNS_NOTRAILINGBAR)
 
 #define f77test_query_f f77test_query
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #elif defined(F77EXTERNS_EXTRATRAILINGBAR)
 
 #define f77test_query_f f77test_query__
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #elif defined(F77EXTERNS_UPPERCASE_NOTRAILINGBAR)
 
 #define f77test_query_f F77TEST_QUERY
 
-// ----------------------------------------
-#elif defined(F77EXTERNS_COMPAQ_F90)
+// ----------------------------------------------------------------------
+#elif defined(F77EXTERNS_SOMETIMES_TRAILINGBAR)
 
 // symbols that contain underbars get two underbars at the end
 // symbols that do not contain underbars get one underbar at the end
-// this applies to the FORTRAN external, not the local macro alias!!!
 
 #define f77test_query_f f77test_query__
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #else
 #error "Unknown translation for FORTRAN external symbols"
 #endif
@@ -69,6 +68,6 @@ extern "C" {
 #endif // _spatial_f77testspatialdb_h
 
 // version
-// $Id: f77testspatialdb.h,v 1.1 2005/03/19 00:46:57 baagaard Exp $
+// $Id: f77testspatialdb.h,v 1.2 2005/03/19 04:21:16 baagaard Exp $
 
 // End of file 

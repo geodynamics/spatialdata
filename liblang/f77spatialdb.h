@@ -15,42 +15,42 @@
 
 #if defined(NEEDS_F77_TRANSLATION)
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #if defined(F77EXTERNS_LOWERCASE_TRAILINGBAR)
 
 #define spatialdb_query_f spatialdb_query_f_
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #elif defined(F77EXTERNS_NOTRAILINGBAR)
 
 #define spatialdb_query_f spatialdb_query_f
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #elif defined(F77EXTERNS_EXTRATRAILINGBAR)
 
 #define spatialdb_query_f spatialdb_query_f__
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #elif defined(F77EXTERNS_UPPERCASE_NOTRAILINGBAR)
 
 #define spatialdb_query_f SPATIALDB_QUERY_F
 
-// ----------------------------------------
-#elif defined(F77EXTERNS_COMPAQ_F90)
+// ----------------------------------------------------------------------
+#elif defined(F77EXTERNS_SOMETIMES_TRAILINGBAR)
 
 // symbols that contain underbars get two underbars at the end
 // symbols that do not contain underbars get one underbar at the end
-// this applies to the FORTRAN external, not the local macro alias!!!
 
-#define spatialdb_query_f spatialdb_query__
+#define spatialdb_query_f spatialdb_query_f__
 
-// ----------------------------------------
+// ----------------------------------------------------------------------
 #else
 #error "Unknown translation for FORTRAN external symbols"
 #endif
 
 #endif
 
+// ----------------------------------------------------------------------
 /** Call SpatialDB:Query().
  *
  * @param db Pointer to SpatialDB
@@ -72,6 +72,6 @@ void spatialdb_query_f(void* db,
 #endif /* _spatial_f77spatialdb_h */
 
 // version
-// $Id: f77spatialdb.h,v 1.1 2005/03/19 00:47:11 baagaard Exp $
+// $Id: f77spatialdb.h,v 1.2 2005/03/19 04:21:16 baagaard Exp $
 
 // End of file
