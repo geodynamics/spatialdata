@@ -21,11 +21,8 @@ PROJ_LCXX_FLAGS += -L$(CPPUNIT_LIBDIR) -lcppunit -ldl
 PROJ_LCXX_FLAGS += -L$(PYTHIA_LIBDIR) -ljournal
 PROJ_LCXX_FLAGS += -L$(PYTHIAUTIL_LIBDIR) -lpythiautil
 PROJ_LCXX_FLAGS += -lspatialdata
-PROJ_LCXX_FLAGS += -L$(PYTHON_LIBDIR) -lpython$(PYTHON_VERSION)
-
-PROJ_LCXX_FLAGS += $(EXTERNAL_LIBS)
 
 # version
-# $Id: local.def,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+# $Id: local.def,v 1.2 2005/03/19 00:27:22 baagaard Exp $
 
 # End of file 
