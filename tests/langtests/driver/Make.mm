@@ -5,23 +5,18 @@
 #                           Brad T. Aagaard
 #                        U.S. Geological Survey
 #
-# <LicenseText>
+# {LicenseText}
 #
 # ----------------------------------------------------------------------
 #
 
 PROJECT = spatialdata
-PACKAGE = tests
+PACKAGE = tests/ctests/driver
 
 RECURSE_DIRS = \
-	libtests \
-	pytests \
-	langtests \
-
-OTHERS = \
+	data \
 
 # ----------------------------------------------------------------------
-
 all:
 	BLD_ACTION="all" $(MM) recurse
 
@@ -31,7 +26,10 @@ clean::
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
-# version
-# $Id: Make.mm,v 1.2 2005/03/19 00:46:58 baagaard Exp $
+test:
+	@LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(BLD_LIBDIR) ./testcspatial.py
 
-# End of file 
+# version
+# $Id: Make.mm,v 1.1 2005/03/19 00:46:56 baagaard Exp $
+
+# End of file

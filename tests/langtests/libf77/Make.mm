@@ -11,27 +11,16 @@
 #
 
 PROJECT = spatialdata
-PACKAGE = tests
+PACKAGE = tests/langtests
 
-RECURSE_DIRS = \
-	libtests \
-	pytests \
-	langtests \
+include local.def
 
-OTHERS = \
+PROJ_SRCS = \
+	f77testspatialdb.f \
 
-# ----------------------------------------------------------------------
-
-all:
-	BLD_ACTION="all" $(MM) recurse
-
-clean::
-	BLD_ACTION="clean" $(MM) recurse
-
-tidy::
-	BLD_ACTION="tidy" $(MM) recurse
+all: $(PROJ_SAR)
 
 # version
-# $Id: Make.mm,v 1.2 2005/03/19 00:46:58 baagaard Exp $
+# $Id: Make.mm,v 1.1 2005/03/19 00:46:57 baagaard Exp $
 
 # End of file 

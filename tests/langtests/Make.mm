@@ -11,12 +11,14 @@
 #
 
 PROJECT = spatialdata
-PACKAGE = tests
+PACKAGE = tests/langtests
 
 RECURSE_DIRS = \
-	libtests \
-	pytests \
-	langtests \
+	libc \
+	libf77 \
+	module \
+	pyre \
+	driver \
 
 OTHERS = \
 
@@ -32,6 +34,6 @@ tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
 # version
-# $Id: Make.mm,v 1.2 2005/03/19 00:46:58 baagaard Exp $
+# $Id: Make.mm,v 1.1 2005/03/19 00:46:58 baagaard Exp $
 
 # End of file 
