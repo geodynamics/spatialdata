@@ -26,11 +26,10 @@ export:: release-package-headers export-libraries
 
 EXPORT_HEADERS = \
 	cspatialdb.h \
-	spatialdbF77.h \
 
 EXPORT_LIBS = $(PROJ_SAR)
 
 # version
-# $Id: Make.mm,v 1.1 2005/03/19 00:47:11 baagaard Exp $
+# $Id: Make.mm,v 1.2 2005/03/19 04:21:48 baagaard Exp $
 
 # End of file 
