@@ -36,7 +36,8 @@
 #define spatialdb_query_f SPATIALDB_QUERY_F
 
 // ----------------------------------------------------------------------
-#elif defined(F77EXTERNS_SOMETIMES_TRAILINGBAR)
+#elif defined(F77EXTERNS_UNDERBAR_EXTRATRAILINGBAR) || \
+  defined(F77EXTERNS_COMPAQ_F90)
 
 // symbols that contain underbars get two underbars at the end
 // symbols that do not contain underbars get one underbar at the end
@@ -72,6 +73,6 @@ void spatialdb_query_f(void* db,
 #endif /* _spatial_f77spatialdb_h */
 
 // version
-// $Id: f77spatialdb.h,v 1.2 2005/03/19 04:21:16 baagaard Exp $
+// $Id: f77spatialdb.h,v 1.3 2005/04/11 16:27:41 baagaard Exp $
 
 // End of file
