@@ -1,6 +1,6 @@
 #SPATIAL.ascii 1
-     2
-  One  Two
-     1
-point
+Number of values:     2
+Names of values:  One  Two
+Number of locations:     1
+Topology: point
   6.000000e-01  1.000000e-01  2.000000e-01  6.300000e+00  4.700000e+00

@@ -108,15 +108,20 @@ spatial::SimpleIOAscii::ReadV1(SimpleDB::DataStruct* pData,
 { // ReadV1
   FIREWALL(0 != pData);
 
+  const int maxLineLen = 256;
+  filein.ignore(maxLineLen, ':');
   filein >> pData->NumVals;
   delete[] pData->ValNames; 
   const int numVals = pData->NumVals;
   pData->ValNames = (numVals > 0) ? new std::string[numVals] : 0;
+  filein.ignore(maxLineLen, ':');
   for (int iVal=0; iVal < numVals; ++iVal)
     filein >> pData->ValNames[iVal];
+  filein.ignore(maxLineLen, ':');
   filein >> pData->NumLocs;
 
   std::string topoString;
+  filein.ignore(maxLineLen, ':');
   filein >> topoString;
   pData->Topology = ParseTopoString(topoString.c_str());
   
@@ -150,13 +155,14 @@ spatial::SimpleIOAscii::Write(const SimpleDB::DataStruct& data)
 
   fileout
     << HEADER << " " << version << "\n"
-    << std::setw(6) << numVals << "\n";
+    << "Number of values: " << std::setw(6) << numVals << "\n";
+  fileout << "Names of values: ";
   for (int iVal=0; iVal < numVals; ++iVal)
     fileout << "  " << data.ValNames[iVal];
   fileout
     << "\n"
-    << std::setw(6) << numLocs << "\n"
-    << TopoString(data.Topology) << "\n";
+    << "Number of locations: " << std::setw(6) << numLocs << "\n"
+    << "Topology: " << TopoString(data.Topology) << "\n";
 
   fileout
     << std::resetiosflags(std::ios::fixed)
@@ -225,6 +231,6 @@ spatial::SimpleIOAscii::TopoString(SimpleDB::TopoEnum topoType)
 } // ParseTopoString
 
 // version
-// $Id: SimpleIOAscii.cc,v 1.1 2005/03/17 22:18:34 baagaard Exp $
+// $Id: SimpleIOAscii.cc,v 1.2 2005/04/11 16:26:33 baagaard Exp $
 
 // End of file 
