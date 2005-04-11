@@ -4,5 +4,4 @@ Cleanup SimpleDB::DataStruct, SimpleDBTypes
   Move SpatialDB enums to SimpleDBTypes header file?
 
 Give units for each value.
-
 Need routines to return units to Python, get scale factor from Python.
