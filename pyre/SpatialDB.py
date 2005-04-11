@@ -21,6 +21,26 @@ import spatialdata as bindings
 class SpatialDB(Component):
   """Python manager for spatial database."""
 
+  # INVENTORY //////////////////////////////////////////////////////////
+
+  class Inventory(Component.Inventory):
+    """Python object for managing SpatialDB facilities and properties."""
+
+    ## @class Inventory
+    ## Python object for managing SpatialDB facilities and properties.
+    ##
+    ## \b Properties
+    ## @li \b label Label of database
+    ##
+    ## \b Facilities
+    ## @li None
+
+    import pyre.inventory
+
+    label = pyre.inventory.str("label", default="spatial database")
+
+  # PUBLIC METHODS /////////////////////////////////////////////////////
+
   def handle(self):
     """Get handle to C++ object."""
     return self._cppSpatialDB
@@ -51,23 +71,7 @@ class SpatialDB(Component):
     self._cppSpatialDB = None
     return
 
-  class Inventory(Component.Inventory):
-    """Python object for managing SpatialDB facilities and properties."""
-
-    ## @class Inventory
-    ## Python object for managing SpatialDB facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b label Label of database
-    ##
-    ## \b Facilities
-    ## @li None
-
-    import pyre.inventory
-
-    label = pyre.inventory.str("label", default="spatial database")
-
 # version
-__id__ = "$Id: SpatialDB.py,v 1.2 2005/03/19 00:48:28 baagaard Exp $"
+__id__ = "$Id: SpatialDB.py,v 1.3 2005/04/11 16:25:58 baagaard Exp $"
 
 # End of file 

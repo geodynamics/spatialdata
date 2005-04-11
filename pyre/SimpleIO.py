@@ -19,22 +19,7 @@ from pyre.components.Component import Component
 class SimpleIO(Component):
   """Python I/O manager for simple database (SimpleDB)."""
 
-  def initialize(self):
-    """Initialize the database."""
-    import spatialdata as bindings
-    bindings.CppSimpleIO_Filename(self._cppSimpleIO,
-                                  self.inventory.filename)
-    return
-    
-  def handle(self):
-    """Get handle to C++ object."""
-    return self._cppSimpleIO
-
-  def __init__(self, name="simpleio"):
-    """Constructor."""
-    Component.__init__(self, name, facility="simpleio")
-    self._cppSimpleIO = None
-    return
+  # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
     """Python object for managing SimpleIO facilities and properties."""
@@ -52,7 +37,26 @@ class SimpleIO(Component):
 
     filename = pyre.inventory.str("filename", default="")
 
+  # PUBLIC METHODS /////////////////////////////////////////////////////
+
+  def initialize(self):
+    """Initialize the database."""
+    import spatialdata as bindings
+    bindings.CppSimpleIO_Filename(self._cppSimpleIO,
+                                  self.inventory.filename)
+    return
+    
+  def handle(self):
+    """Get handle to C++ object."""
+    return self._cppSimpleIO
+
+  def __init__(self, name="simpleio"):
+    """Constructor."""
+    Component.__init__(self, name, facility="simpleio")
+    self._cppSimpleIO = None
+    return
+
 # version
-__id__ = "$Id: SimpleIO.py,v 1.1 2005/03/17 22:18:34 baagaard Exp $"
+__id__ = "$Id: SimpleIO.py,v 1.2 2005/04/11 16:25:58 baagaard Exp $"
 
 # End of file 

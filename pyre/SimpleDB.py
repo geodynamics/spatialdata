@@ -21,6 +21,30 @@ import spatialdata as bindings
 class SimpleDB(SpatialDB):
   """Python manager for simple spatial database."""
 
+  # INVENTORY //////////////////////////////////////////////////////////
+
+  class Inventory(SpatialDB.Inventory):
+    """Python object for managing SimpleDB facilities and properties."""
+
+    ## @class Inventory
+    ## Python object for managing SimpleDB facilities and properties.
+    ##
+    ## \b Properties
+    ## @li query_type Type of query to perform
+    ##
+    ## \b Facilities
+    ## @li \b iohandler I/O handler for database
+
+    import pyre.inventory
+
+    queryType = pyre.inventory.str("query_type", default="Nearest")
+    queryType.validator = pyre.inventory.choice(["Nearest", "Linear"])
+
+    from SimpleIOAscii import SimpleIOAscii
+    iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
+
+  # PUBLIC METHODS /////////////////////////////////////////////////////
+
   def initialize(self):
     """Initialize database."""
 
@@ -45,27 +69,7 @@ class SimpleDB(SpatialDB):
     self._cppSpatialDB = bindings.CppSimpleDB()
     return
 
-  class Inventory(SpatialDB.Inventory):
-    """Python object for managing SimpleDB facilities and properties."""
-
-    ## @class Inventory
-    ## Python object for managing SimpleDB facilities and properties.
-    ##
-    ## \b Properties
-    ## @li query_type Type of query to perform
-    ##
-    ## \b Facilities
-    ## @li \b iohandler I/O handler for database
-
-    import pyre.inventory
-
-    queryType = pyre.inventory.str("query_type", default="Nearest")
-    queryType.validator = pyre.inventory.choice(["Nearest", "Linear"])
-
-    from SimpleIOAscii import SimpleIOAscii
-    iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
-
 # version
-__id__ = "$Id: SimpleDB.py,v 1.4 2005/03/23 18:09:11 baagaard Exp $"
+__id__ = "$Id: SimpleDB.py,v 1.5 2005/04/11 16:25:58 baagaard Exp $"
 
 # End of file 
