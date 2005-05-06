@@ -22,8 +22,12 @@
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 
+#if !defined(NO_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
+#else
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -151,6 +155,6 @@ spatial::SimpleDB::Query(double** pVals,
 } // Query
 
 // version
-// $Id: SimpleDB.cc,v 1.3 2005/03/23 18:08:18 baagaard Exp $
+// $Id: SimpleDB.cc,v 1.4 2005/05/05 20:31:29 baagaard Exp $
 
 // End of file 

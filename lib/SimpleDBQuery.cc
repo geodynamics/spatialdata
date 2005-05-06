@@ -28,8 +28,12 @@
 #define MAXFLOAT 1e+30
 #endif
 
+#if !defined(NO_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
+#else
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 // Default constructor.
@@ -640,6 +644,6 @@ spatial::SimpleDBQuery::Volume(const double a[3],
 } // Volume
 
 // version
-// $Id: SimpleDBQuery.cc,v 1.2 2005/03/19 00:24:16 baagaard Exp $
+// $Id: SimpleDBQuery.cc,v 1.3 2005/05/05 20:31:29 baagaard Exp $
 
 // End of file 

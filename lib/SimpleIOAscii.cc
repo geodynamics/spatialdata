@@ -25,8 +25,12 @@
 
 #include "SimpleDBTypes.h" // USES SimpleDBTypes
 
+#if !defined(NO_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
+#else
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 const char* spatial::SimpleIOAscii::HEADER =  "#SPATIAL.ascii";
@@ -231,6 +235,6 @@ spatial::SimpleIOAscii::TopoString(SimpleDB::TopoEnum topoType)
 } // ParseTopoString
 
 // version
-// $Id: SimpleIOAscii.cc,v 1.2 2005/04/11 16:26:33 baagaard Exp $
+// $Id: SimpleIOAscii.cc,v 1.3 2005/05/05 20:31:29 baagaard Exp $
 
 // End of file 
