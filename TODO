@@ -5,3 +5,5 @@ Cleanup SimpleDB::DataStruct, SimpleDBTypes
 
 Give units for each value.
 Need routines to return units to Python, get scale factor from Python.
+
+How do we handle transformations b/t model and geographic coordinates?
