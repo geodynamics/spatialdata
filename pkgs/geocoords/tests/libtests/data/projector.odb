@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+## @file geocoords/tests/libtests/data/projector.odb
+## @brief Python data generator for projector tests.
+
+from Numeric import ravel
+
+def data():
+  """Factory method for facility quaddata."""
+  return Projector()
+
+from ConvertData import ConvertData
+
+# Projector class
+class Projector(ConvertData):
+  """Python data generator for projector tests."""
+
+  def calculate(self):
+    """Calculate original and converted coordinates."""
+    self.lonlat = [ [-120.342532,  53.23423],
+                    [ -53.303945,  33.34902],
+                    [  34.229085, -25.23422],
+                    [ 142.084523, -34.39085],
+                    [  49.908543,   2.40983] ]
+    self.xy = self._convert(self.lonlat)
+    return
+
+  def dump(self, dumper):
+    """Dump data."""
+    dumper.open(self.name)
+    dumper.writeVal("int", "_NUMLOCS", len(self.lonlat), "%d")
+    dumper.writeArray("double", "_LONLAT", ravel(self.lonlat), "%20.12e,", 2)
+    dumper.writeArray("double", "_XY", ravel(self.xy), "%20.12e,", 2)
+    dumper.close()
+    return
+
+  def __init__(self):
+    """Constructor."""
+    ConvertData.__init__(self, name='projector')
+    self._fileSrc = "src.dat"
+    self._fileDest = "dest.dat"
+    self._command = "proj +proj=aea -f %.5f"
+    return
+
+# version
+__id__ = "$Id: projector.odb,v 1.1 2005/05/25 17:30:21 baagaard Exp $"
+
+# End of file 

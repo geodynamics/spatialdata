@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+## @file geocoords/tests/libtests/data/geocsconverter.odb
+## @brief Python data generator for geocsconverter tests.
+
+from Numeric import ravel
+
+def data():
+  """Factory method for facility quaddata."""
+  return GeoCSConverter()
+
+from ConvertData import ConvertData
+
+# GeoCSConverter class
+class GeoCSConverter(ConvertData):
+  """Python data generator for geocsconverter tests."""
+
+  def calculate(self):
+    """Calculate original and converted coordinates."""
+    self.lonlatsrc = [ [-120.342532,  43.23423, 0.0],
+                       [-121.342532,  45.23423, 0.0],
+                       [-115.342532,  36.23423, 0.0],
+                       [-110.342532,  39.23423, 0.0],
+                       [-107.342532,  33.23423, 0.0] ]
+
+    # convert NAD27 to WGS84
+    self._command = "cs2cs " \
+                    "+proj=latlong +datum=NAD27 +ellps=clrk66 " \
+                    "+to +proj=latlong +datum=WGS84 +ellps=WGS84 " \
+                    "-f %.5f"
+    self.lonlatdest = self._convert(self.lonlatsrc)
+
+    # convert NAD27 to ECEF WGS84
+    self._command = "cs2cs " \
+                    "+proj=latlong +datum=NAD27 +ellps=clrk66 " \
+                    "+to +proj=geocent +datum=WGS84 +ellps=WGS84 " \
+                    "-f %.5f"
+    self.xyzdest = self._convert(self.lonlatsrc)
+    return
+
+  def dump(self, dumper):
+    """Dump data."""
+    dumper.open(self.name)
+    dumper.writeVal("int", "_NUMLOCS", len(self.lonlatsrc), "%d")
+    dumper.writeArray("double", "_LONLATSRC", ravel(self.lonlatsrc), "%20.12e,", 3)
+    dumper.writeArray("double", "_LONLATDEST", ravel(self.lonlatdest),
+                      "%20.12e,", 3)
+    dumper.writeArray("double", "_XYZDEST", ravel(self.xyzdest), "%20.12e,",
+                      3)
+    dumper.close()
+    return
+
+  def __init__(self):
+    """Constructor."""
+    ConvertData.__init__(self, name='geocsconverter')
+    self._fileSrc = "src.dat"
+    self._fileDest = "dest.dat"
+    return
+
+# version
+__id__ = "$Id: geocsconverter.odb,v 1.1 2005/05/25 17:30:21 baagaard Exp $"
+
+# End of file 
