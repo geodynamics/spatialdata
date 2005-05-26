@@ -14,11 +14,7 @@ PROJECT = spatialdata
 PACKAGE = 
 
 RECURSE_DIRS = \
-	lib \
-	liblang \
-	module \
-	pyre \
-	tests \
+	pkgs \
 
 OTHERS = \
 
@@ -37,6 +33,6 @@ builddoc:
 	$(MM) -C doc
 
 # version
-# $Id: Make.mm,v 1.2 2005/03/19 00:47:51 baagaard Exp $
+# $Id: Make.mm,v 1.3 2005/05/25 19:10:33 baagaard Exp $
 
 # End of file 
