@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+## @file tests/libtests/data/testsimpledbpoint.odb
+## @brief Python data generator for tests of C++ SimpleDB using
+## TestSimpleDBPoint.
+
+def query_data():
+  """Factory method for facility query_data."""
+  return PointData()
+
+from SimpleDBQueryData import SimpleDBQueryData
+
+# PointData class
+class PointData(SimpleDBQueryData):
+  """Python data generator for tests of C++ SimpleDBQuery using
+  TestSimpleDBPoint."""
+
+  def initialize(self):
+    """Initialize."""
+    self._numLocs = 1
+    self._numVals = 2
+    self._names = [ "One", "Two" ]
+    self._topology = "spatialdata::SimpleDB::POINT"
+    self._data = [0.1, 0.2, 0.3, 6.3, 7.4]
+    self._numQueries = 3
+    self._qndata = [4.5, 2.3, 4.0, 6.3, 7.4,
+                   3.2, 7.4, 5.8, 6.3, 7.4,
+                   4.0, 9.8, 5.7, 6.3, 7.4]
+    self._qldata = [2.9, 3.4, 8.7, 6.3, 7.4,
+                   2.2, 9.0, 8.5, 6.3, 7.4,
+                   0.2, 5.8, 6.6, 6.3, 7.4]
+    return
+
+  def __init__(self):
+    """Constructor."""
+    SimpleDBQueryData.__init__(self, name="pointdata")
+    return
+
+# version
+__id__ = "$Id: testsimpledbpoint.odb,v 1.1 2005/05/25 18:43:08 baagaard Exp $"
+
+# End of file 

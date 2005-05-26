@@ -1,0 +1,68 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_testsimpledbvolume_h)
+#error "TestSimpleDBVolume.icc must only be included from TestSimpleDBVolume.h"
+#endif
+
+// Get data for database.
+inline
+const double*
+spatialdata::TestSimpleDBVolume::Data(void) const
+{ return DATA; }
+
+// Get names of values in database.
+inline
+const char**
+spatialdata::TestSimpleDBVolume::Names(void) const
+{ return NAMES; }
+
+// Get number of locations in database.
+inline
+int 
+spatialdata::TestSimpleDBVolume::NumLocs(void) const
+{ return NUMLOCS; }
+
+// Get number of values at each location in database.
+inline
+int
+spatialdata::TestSimpleDBVolume::NumVals(void) const
+{ return NUMVALS; }
+
+// Get topology of data in database.
+inline
+spatialdata::SimpleDB::TopoEnum
+spatialdata::TestSimpleDBVolume::Topology(void) const
+{ return TOPOLOGY; }
+
+// Get number of queries.
+inline
+int
+spatialdata::TestSimpleDBVolume::NumQueries(void) const
+{ return NUMQUERIES; }
+
+// Get query data for nearest neighbor algorithm.
+inline
+const double*
+spatialdata::TestSimpleDBVolume::QueryNearest(void) const
+{ return QUERYNEAREST; }
+
+// Get query data for linear interpolation algorithm.
+inline
+const double*
+spatialdata::TestSimpleDBVolume::QueryLinear(void) const
+{ return QUERYLINEAR; }
+
+// version
+// $Id: TestSimpleDBVolume.icc,v 1.1 2005/05/25 18:43:06 baagaard Exp $
+
+// End of file 

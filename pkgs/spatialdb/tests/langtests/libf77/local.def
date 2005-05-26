@@ -1,0 +1,25 @@
+# -*- Makefile -*-
+#
+# ----------------------------------------------------------------------
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# <LicenseText>
+#
+# ----------------------------------------------------------------------
+#
+
+PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)/libf77
+
+PROJ_SAR = $(BLD_LIBDIR)/libf77testspatialdata.$(EXT_SAR)
+
+PROJ_CLEAN += $(PROJ_SAR)
+
+PROJ_LCXX_FLAGS += -lcspatialdata
+PROJ_LCXX_FLAGS += $(LCXX_FORTRAN)
+
+# version
+# $Id: local.def,v 1.1 2005/05/25 18:43:02 baagaard Exp $
+
+# End of file 

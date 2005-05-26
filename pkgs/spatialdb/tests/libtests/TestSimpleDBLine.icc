@@ -1,0 +1,68 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_testsimpledbline_h)
+#error "TestSimpleDBLine.icc must only be included from TestSimpleDBLine.h"
+#endif
+
+// Get data for database.
+inline
+const double*
+spatialdata::TestSimpleDBLine::Data(void) const
+{ return DATA; }
+
+// Get names of values in database.
+inline
+const char**
+spatialdata::TestSimpleDBLine::Names(void) const
+{ return NAMES; }
+
+// Get number of locations in database.
+inline
+int 
+spatialdata::TestSimpleDBLine::NumLocs(void) const
+{ return NUMLOCS; }
+
+// Get number of values at each location in database.
+inline
+int
+spatialdata::TestSimpleDBLine::NumVals(void) const
+{ return NUMVALS; }
+
+// Get topology of data in database.
+inline
+spatialdata::SimpleDB::TopoEnum
+spatialdata::TestSimpleDBLine::Topology(void) const
+{ return TOPOLOGY; }
+
+// Get number of queries.
+inline
+int
+spatialdata::TestSimpleDBLine::NumQueries(void) const
+{ return NUMQUERIES; }
+
+// Get query data for nearest neighbor algorithm.
+inline
+const double*
+spatialdata::TestSimpleDBLine::QueryNearest(void) const
+{ return QUERYNEAREST; }
+
+// Get query data for linear interpolation algorithm.
+inline
+const double*
+spatialdata::TestSimpleDBLine::QueryLinear(void) const
+{ return QUERYLINEAR; }
+
+// version
+// $Id: TestSimpleDBLine.icc,v 1.1 2005/05/25 18:43:05 baagaard Exp $
+
+// End of file 

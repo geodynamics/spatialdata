@@ -1,0 +1,68 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_testsimpledbarea_h)
+#error "TestSimpleDBArea.icc must only be included from TestSimpleDBArea.h"
+#endif
+
+// Get data for database.
+inline
+const double*
+spatialdata::TestSimpleDBArea::Data(void) const
+{ return DATA; }
+
+// Get names of values in database.
+inline
+const char**
+spatialdata::TestSimpleDBArea::Names(void) const
+{ return NAMES; }
+
+// Get number of locations in database.
+inline
+int 
+spatialdata::TestSimpleDBArea::NumLocs(void) const
+{ return NUMLOCS; }
+
+// Get number of values at each location in database.
+inline
+int
+spatialdata::TestSimpleDBArea::NumVals(void) const
+{ return NUMVALS; }
+
+// Get topology of data in database.
+inline
+spatialdata::SimpleDB::TopoEnum
+spatialdata::TestSimpleDBArea::Topology(void) const
+{ return TOPOLOGY; }
+
+// Get number of queries.
+inline
+int
+spatialdata::TestSimpleDBArea::NumQueries(void) const
+{ return NUMQUERIES; }
+
+// Get query data for nearest neighbor algorithm.
+inline
+const double*
+spatialdata::TestSimpleDBArea::QueryNearest(void) const
+{ return QUERYNEAREST; }
+
+// Get query data for linear interpolation algorithm.
+inline
+const double*
+spatialdata::TestSimpleDBArea::QueryLinear(void) const
+{ return QUERYLINEAR; }
+
+// version
+// $Id: TestSimpleDBArea.icc,v 1.1 2005/05/25 18:43:05 baagaard Exp $
+
+// End of file 
