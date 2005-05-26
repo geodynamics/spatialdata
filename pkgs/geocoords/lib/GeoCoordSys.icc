@@ -1,0 +1,76 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_geocoordsys_h)
+#error "GeoCoordSys.icc must only be included from GeoCoordSys.h"
+#endif
+
+// Set projection.
+inline
+void
+spatialdata::GeoCoordSys::projection(const char* name)
+{ _projection = name; }
+
+// Get name of projection.
+inline
+const char*
+spatialdata::GeoCoordSys::projection(void) const
+{ return _projection; }
+
+// Set reference ellipsoid.
+inline
+void
+spatialdata::GeoCoordSys::ellipsoid(const char* name)
+{ _ellipsoid = name; }
+
+// Get reference ellipsoid.
+inline
+const char*
+spatialdata::GeoCoordSys::ellipsoid(void) const
+{ return _ellipsoid; }
+
+// Set datum.
+inline
+void 
+spatialdata::GeoCoordSys::datum(const char* name)
+{ _datum = name; }
+
+// Get datum.
+inline
+const char*
+spatialdata::GeoCoordSys::datum(void) const
+{ return _datum; }
+
+// Set units of coordinate system.
+inline
+void
+spatialdata::GeoCoordSys::units(const char* name)
+{ _units = name; }
+
+// Get units of coordinate system.
+inline
+const char*
+spatialdata::GeoCoordSys::units(void) const
+{ return _units; }
+
+// Get coordinate system
+inline
+const projPJ
+spatialdata::GeoCoordSys::coordsys(void) const
+{ return _pCS; }
+
+// Get
+
+// version
+// $Id: GeoCoordSys.icc,v 1.1 2005/05/25 17:28:12 baagaard Exp $
+
+// End of file 

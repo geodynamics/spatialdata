@@ -1,0 +1,68 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_projector_h)
+#error "Projector.icc must only be included from Projector.h"
+#endif
+
+// Set projection.
+inline
+void
+spatialdata::Projector::projection(const char* name)
+{ _projection = name; }
+
+// Get name of projection.
+inline
+const char*
+spatialdata::Projector::projection(void) const
+{ return _projection; }
+
+// Set reference ellipsoid.
+inline
+void
+spatialdata::Projector::ellipsoid(const char* name)
+{ _ellipsoid = name; }
+
+// Get reference ellipsoid.
+inline
+const char*
+spatialdata::Projector::ellipsoid(void) const
+{ return _ellipsoid; }
+
+// Set datum.
+inline
+void 
+spatialdata::Projector::datum(const char* name)
+{ _datum = name; }
+
+// Get datum.
+inline
+const char*
+spatialdata::Projector::datum(void) const
+{ return _datum; }
+
+// Set units of projection.
+inline
+void
+spatialdata::Projector::units(const char* name)
+{ _units = name; }
+
+// Get units of projection.
+inline
+const char*
+spatialdata::Projector::units(void) const
+{ return _units; }
+
+// version
+// $Id: Projector.icc,v 1.1 2005/05/25 17:28:12 baagaard Exp $
+
+// End of file 
