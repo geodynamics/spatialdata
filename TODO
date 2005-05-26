@@ -1,5 +1,7 @@
 GEOCOORDS
 
+  Stricter tests of GeoCoordSys equals, copy constructors (check proj status);
+
   Convert elevation wrt MSL to Geoid height
 
 SPATIALDB
