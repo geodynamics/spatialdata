@@ -16,6 +16,7 @@ PACKAGE = geocoords
 RECURSE_DIRS = \
 	lib \
 	tests \
+	applications \
 
 OTHERS = \
 
@@ -34,6 +35,6 @@ builddoc:
 	$(MM) -C doc
 
 # version
-# $Id: Make.mm,v 1.1 2005/05/25 17:27:41 baagaard Exp $
+# $Id: Make.mm,v 1.2 2005/05/31 15:18:16 baagaard Exp $
 
 # End of file 
