@@ -44,26 +44,17 @@ class spatialdata::GeoCSConverter
   ~GeoCSConverter(void);
 
   /** Convert coordinates from source coordinate system to destination
-   * coordinate system.
-   *
-   * @param ppDest Pointer to array of destination locations
-   * @param pSrc Array of source locations
-   * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2-D, false if 3-D
-   */
-  void convert(double** ppDest,
-	       const double* pSrc,
-	       const int numLocs,
-	       const bool is2D =false) const;
-
-  /** Convert coordinates in place without and deg<->rad conversions.
+   * coordinate system. Source coordinates are overwritten by
+   * destination coordinates.
    *
    * @param ppDest Pointer to array of destination locations
    * @param numLocs Number of locations
+   * @param isDeg True if coordinates are in degrees, false otherwise
    * @param is2D True if coordinates are 2-D, false if 3-D
    */
   void convert(double** ppDest,
 	       const int numLocs,
+	       const bool isDeg =true,
 	       const bool is2D =false) const;
 
 private :
@@ -77,6 +68,6 @@ private :
 #endif // spatialdata_geocsconverter_h
 
 // version
-// $Id: GeoCSConverter.h,v 1.1 2005/05/25 17:28:11 baagaard Exp $
+// $Id: GeoCSConverter.h,v 1.2 2005/06/01 16:51:34 baagaard Exp $
 
 // End of file 

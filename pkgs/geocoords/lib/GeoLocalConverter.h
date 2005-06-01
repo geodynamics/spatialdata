@@ -56,16 +56,16 @@ class spatialdata::GeoLocalConverter
 		   const double lat,
 		   const double elev);
 
-  /** Convert coordinates from source coordinate system to destination
-   * coordinate system.
+  /** Convert coordinates from geographic coordinate system to local
+   * cartesian coordinate system.
    *
    * @param ppDest Pointer to array of destination locations
-   * @param pSrc Array of source locations
    * @param numLocs Number of locations
+   * @param invert Invert conversion for local to geo coordinate conversion
    */
   void convert(double** ppDest,
-	       const double* pSrc,
-	       const int numLocs) const;
+	       const int numLocs,
+	       const bool invert =false) const;
 
 private :
  // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -78,10 +78,12 @@ private :
    * @param ppCoords Pointer to array of destination locations
    * @param numLocs Number of locations
    * @param pCS Pointer to current coordinate system
+   * @param invert Invert conversion for local to geo coordinate conversion
    */
   void _geoToWGS84(double** const ppCoords,
 		   const int numLocs,
-		   GeoCoordSys* pCS) const;
+		   GeoCoordSys* pCS,
+		   const bool invert =false) const;
 
   /** Convert elevation to height above WGS84 reference ellipsoid
    *
@@ -90,10 +92,12 @@ private :
    * @param ppCoords Pointer to array of destination locations
    * @param numLocs Number of locations
    * @param pCS Pointer to current coordinate system
+   * @param invert Invert conversion for local to geo coordinate conversion
    */
   void _elevToGeoidHt(double** const ppCoords,
 		      const int numLocs,
-		      GeoCoordSys* pCS) const;
+		      GeoCoordSys* pCS,
+		      const bool invert =false) const;
 
   /** Convert geographic coordinates in lat/lon with WGS64 datum and
    *  ellipsoid to ECEF cartesian coordinates.
@@ -103,10 +107,12 @@ private :
    * @param ppCoords Pointer to array of destination locations
    * @param numLocs Number of locations
    * @param pCS Pointer to current coordinate system
+   * @param invert Invert conversion for local to geo coordinate conversion
    */
   void _wgs84ToECEF(double** const ppCoords,
 		    const int numLocs,
-		    GeoCoordSys* pCS) const;
+		    GeoCoordSys* pCS,
+		    const bool invert =false) const;
 
   /** Convert ECEF cartesian coordinates to local cartesian coordinates.
    *
@@ -115,10 +121,12 @@ private :
    * @param ppCoords Pointer to array of destination locations
    * @param numLocs Number of locations
    * @param pCS Pointer to current coordinate system
+   * @param invert Invert conversion for local to geo coordinate conversion
    */
   void _ecefToLocal(double** const ppCoords,
 		    const int numLocs,
-		    GeoCoordSys* pCS) const;
+		    GeoCoordSys* pCS,
+		    const bool invert =false) const;
 
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
@@ -137,6 +145,6 @@ private :
 #endif // spatialdata_geolocalconverter_h
 
 // version
-// $Id: GeoLocalConverter.h,v 1.1 2005/05/25 17:28:11 baagaard Exp $
+// $Id: GeoLocalConverter.h,v 1.2 2005/06/01 16:51:34 baagaard Exp $
 
 // End of file 

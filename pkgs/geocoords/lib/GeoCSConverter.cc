@@ -46,39 +46,36 @@ spatialdata::GeoCSConverter::~GeoCSConverter(void)
 { // destructor
 } // destructor
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Convert coordinates.
 void
 spatialdata::GeoCSConverter::convert(double** ppDest,
-				     const double* pSrc,
 				     const int numLocs,
+				     const bool isDeg,
 				     const bool is2D) const
 { // convert
   FIREWALL(0 != ppDest);
-  FIREWALL( (0 != numLocs && 0 != pSrc) ||
-	    (0 == numLocs && 0 == pSrc) );
+  FIREWALL( (0 != *ppDest && 0 < numLocs) ||
+	    (0 == *ppDest && 0 == numLocs) );
   FIREWALL(0 != _csSrc.coordsys());
   FIREWALL(0 != _csDest.coordsys());
 
-  delete[] *ppDest; *ppDest = 0;
   const int numCoords = (is2D) ? 2 : 3;
-  const int size = numCoords * numLocs;
-  if (size > 0)
-    *ppDest = new double[size];
-  
-  if (pj_is_latlong(_csSrc.coordsys())) {
+
+  if (isDeg) {
     const double degToRad = M_PI / 180.0;
     if (is2D) {
+      const int size = numLocs*numCoords;
       for (int i=0; i < size; ++i)
-	(*ppDest)[i] = pSrc[i] * degToRad;
+	(*ppDest)[i] *= degToRad;
     } else
       for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
-	(*ppDest)[index++] = pSrc[index] * degToRad;
-	(*ppDest)[index++] = pSrc[index] * degToRad;
-	(*ppDest)[index++] = pSrc[index];
+	(*ppDest)[index++] *= degToRad;
+	(*ppDest)[index++] *= degToRad;
+	++index; // skip vertical
       } // for
-  } else
-    memcpy(*ppDest, pSrc, size*sizeof(double));
+  } // if
 
   const int offset = numCoords;
 
@@ -94,9 +91,10 @@ spatialdata::GeoCSConverter::convert(double** ppDest,
     throw std::runtime_error(msg.str());
   } // if
 
-  if (pj_is_latlong(_csDest.coordsys())) {
+  if (isDeg && pj_is_latlong(_csDest.coordsys())) {
     const double radToDeg = 180.0 / M_PI;
     if (is2D) {
+      const int size = numLocs*numCoords;
       for (int i=0; i < size; ++i)
 	(*ppDest)[i] *= radToDeg;
     } else
@@ -108,36 +106,7 @@ spatialdata::GeoCSConverter::convert(double** ppDest,
   } // if
 } // convert
 
-// ----------------------------------------------------------------------
-// Convert coordinates in place without and deg<->rad conversions.
-void
-spatialdata::GeoCSConverter::convert(double** ppDest,
-				     const int numLocs,
-				     const bool is2D) const
-{ // convert
-  FIREWALL(0 != ppDest);
-  FIREWALL(0 < numLocs);
-
-  const int numCoords = (is2D) ? 2 : 3;
-  const int offset = numCoords;
-
-  double* pX = (*ppDest) + 0; // lon
-  double* pY = (*ppDest) + 1; // lat
-  double* pZ = (is2D) ? 0 : (*ppDest) + 2;
-
-  FIREWALL(0 != _csSrc.coordsys());
-  FIREWALL(0 != _csDest.coordsys());
-  const int pjerrno = pj_transform(_csSrc.coordsys(), _csDest.coordsys(),
-				   numLocs, offset, pX, pY, pZ);
-  if (0 != pjerrno) {
-    std::ostringstream msg;
-    msg << "Error while converting coordinates:\n"
-	<< "  " << pj_strerrno(pjerrno) << "\n";
-    throw std::runtime_error(msg.str());
-  } // if
-} // convert
-
 // version
-// $Id: GeoCSConverter.cc,v 1.1 2005/05/25 17:28:11 baagaard Exp $
+// $Id: GeoCSConverter.cc,v 1.2 2005/06/01 16:51:34 baagaard Exp $
 
 // End of file 

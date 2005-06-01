@@ -137,23 +137,17 @@ spatialdata::GeoLocalConverter::localOrigin(const double lon,
 } // localOrigin
 
 // ----------------------------------------------------------------------
-// Convert coordinates.
+// Convert coordinates from geographic coordinate system to local
+// cartesian coordinate system.
 void
 spatialdata::GeoLocalConverter::convert(double** ppDest,
-					const double* pSrc,
-					const int numLocs) const
+					const int numLocs,
+					const bool invert) const
 { // convert
   FIREWALL(0 != ppDest);
-  FIREWALL( (0 != pSrc && 0 < numLocs) ||
-	    (0 == pSrc && 0 == numLocs) );
+  FIREWALL( (0 != *ppDest && 0 < numLocs) ||
+	    (0 == *ppDest && 0 == numLocs) );
   FIREWALL(0 != _csSrc.coordsys());
-
-  delete[] *ppDest; *ppDest = 0;
-  const int numCoords = 3;
-  const int size = numCoords*numLocs;
-  if (size > 0)
-    *ppDest = new double[size];
-  memcpy(*ppDest, pSrc, size*sizeof(double));
 
   GeoCoordSys cs(_csSrc);
 
@@ -166,10 +160,17 @@ spatialdata::GeoLocalConverter::convert(double** ppDest,
     } // for
   } // if
 
-  _geoToWGS84(ppDest, numLocs, &cs);
-  _elevToGeoidHt(ppDest, numLocs, &cs);
-  _wgs84ToECEF(ppDest, numLocs, &cs);
-  _ecefToLocal(ppDest, numLocs, &cs);
+  if (!invert) {
+    _geoToWGS84(ppDest, numLocs, &cs);
+    _elevToGeoidHt(ppDest, numLocs, &cs);
+    _wgs84ToECEF(ppDest, numLocs, &cs);
+    _ecefToLocal(ppDest, numLocs, &cs);
+  } else {
+    _ecefToLocal(ppDest, numLocs, &cs, invert); 
+    _wgs84ToECEF(ppDest, numLocs, &cs, invert);
+    _elevToGeoidHt(ppDest, numLocs, &cs, invert);
+    _geoToWGS84(ppDest, numLocs, &cs, invert);
+  } // else
 } // convert
 
 // ----------------------------------------------------------------------
@@ -178,7 +179,8 @@ spatialdata::GeoLocalConverter::convert(double** ppDest,
 void
 spatialdata::GeoLocalConverter::_geoToWGS84(double** const ppCoords,
 					    const int numLocs,
-					    GeoCoordSys* pCS) const
+					    GeoCoordSys* pCS,
+					    const bool invert) const
 { // _geoToWGS84
   FIREWALL(0 != ppCoords);
   FIREWALL(0 != pCS);
@@ -189,9 +191,13 @@ spatialdata::GeoLocalConverter::_geoToWGS84(double** const ppCoords,
   csDest.datum("WGS84");
   csDest.units("m");
   csDest.initialize();
+
   if ( !(csDest == *pCS) ) {
-    GeoCSConverter csConverter(csDest, *pCS);
-    csConverter.convert(ppCoords, numLocs);
+    const GeoCoordSys* pCSTo = (!invert) ? &csDest : pCS;
+    const GeoCoordSys* pCSFrom = (!invert) ? pCS : &csDest;
+    GeoCSConverter csConverter(*pCSTo, *pCSFrom);
+    const bool isDeg = false;
+    csConverter.convert(ppCoords, numLocs, isDeg);
   } // if
   *pCS = csDest;
 } // _geoToWGS84
@@ -201,7 +207,8 @@ spatialdata::GeoLocalConverter::_geoToWGS84(double** const ppCoords,
 void
 spatialdata::GeoLocalConverter::_elevToGeoidHt(double** const ppCoords,
 					       const int numLocs,
-					       GeoCoordSys* pCS) const
+					       GeoCoordSys* pCS,
+					       const bool invert) const
 { // _elevToGeoidHt
   FIREWALL(0 != ppCoords);
   FIREWALL(0 != pCS);
@@ -213,7 +220,8 @@ spatialdata::GeoLocalConverter::_elevToGeoidHt(double** const ppCoords,
 void
 spatialdata::GeoLocalConverter::_wgs84ToECEF(double** const ppCoords,
 					     const int numLocs,
-					     GeoCoordSys* pCS) const
+					     GeoCoordSys* pCS,
+					     const bool invert) const
 { // _wgs84ToECEF
   FIREWALL(0 != ppCoords);
   FIREWALL(0 != pCS);
@@ -224,9 +232,13 @@ spatialdata::GeoLocalConverter::_wgs84ToECEF(double** const ppCoords,
   csDest.datum("WGS84");
   csDest.units("m");
   csDest.initialize();
-  GeoCSConverter csConverter(csDest, *pCS);
 
-  csConverter.convert(ppCoords, numLocs);
+  const GeoCoordSys* pCSTo = (!invert) ? &csDest : pCS;
+  const GeoCoordSys* pCSFrom = (!invert) ? pCS : &csDest;
+  GeoCSConverter csConverter(*pCSTo, *pCSFrom);
+
+  const bool isDeg = false;
+  csConverter.convert(ppCoords, numLocs, isDeg);
   *pCS = csDest;
 } // _wgs84ToECEF
 
@@ -235,31 +247,54 @@ spatialdata::GeoLocalConverter::_wgs84ToECEF(double** const ppCoords,
 void
 spatialdata::GeoLocalConverter::_ecefToLocal(double** const ppCoords,
 					     const int numLocs,
-					     GeoCoordSys* pCS) const
+					     GeoCoordSys* pCS,
+					     const bool invert) const
 { // _ecefToLocal
   FIREWALL(0 != ppCoords);
   FIREWALL(0 != pCS);
 
-  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
-    const double xOld = (*ppCoords)[index  ];
-    const double yOld = (*ppCoords)[index+1];
-    const double zOld = (*ppCoords)[index+2];
-    (*ppCoords)[index++] = 
-      _localOrientation[0]*xOld +
-      _localOrientation[1]*yOld +
-      _localOrientation[2]*zOld - _originX;
-    (*ppCoords)[index++] = 
-      _localOrientation[3]*xOld +
-      _localOrientation[4]*yOld +
-      _localOrientation[5]*zOld - _originY;
-    (*ppCoords)[index++] = 
-      _localOrientation[6]*xOld +
-      _localOrientation[7]*yOld +
-      _localOrientation[8]*zOld - _originZ;
-  } // for
+  if (!invert) {
+    for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
+      const double xOld = (*ppCoords)[index  ];
+      const double yOld = (*ppCoords)[index+1];
+      const double zOld = (*ppCoords)[index+2];
+      (*ppCoords)[index++] = 
+	_localOrientation[0]*xOld +
+	_localOrientation[1]*yOld +
+	_localOrientation[2]*zOld - _originX;
+      (*ppCoords)[index++] = 
+	_localOrientation[3]*xOld +
+	_localOrientation[4]*yOld +
+	_localOrientation[5]*zOld - _originY;
+      (*ppCoords)[index++] = 
+	_localOrientation[6]*xOld +
+	_localOrientation[7]*yOld +
+	_localOrientation[8]*zOld - _originZ;
+    } // for
+  } else {
+    for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
+      // add origin to old to invert
+      const double xOld = (*ppCoords)[index  ] + _originX;
+      const double yOld = (*ppCoords)[index+1] + _originY;
+      const double zOld = (*ppCoords)[index+2] + _originZ;
+      // multiply by transpose of direction cosines to invert
+      (*ppCoords)[index++] = 
+	_localOrientation[0]*xOld +
+	_localOrientation[3]*yOld +
+	_localOrientation[6]*zOld;
+      (*ppCoords)[index++] = 
+	_localOrientation[1]*xOld +
+	_localOrientation[4]*yOld +
+	_localOrientation[7]*zOld;
+      (*ppCoords)[index++] = 
+	_localOrientation[2]*xOld +
+	_localOrientation[5]*yOld +
+	_localOrientation[8]*zOld;
+    } // for
+  } // else
 } // _ecefToLocal
 
 // version
-// $Id: GeoLocalConverter.cc,v 1.1 2005/05/25 17:28:11 baagaard Exp $
+// $Id: GeoLocalConverter.cc,v 1.2 2005/06/01 16:51:34 baagaard Exp $
 
 // End of file 
