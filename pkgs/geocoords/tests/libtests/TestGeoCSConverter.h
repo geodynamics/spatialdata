@@ -35,8 +35,8 @@ class spatialdata::TestGeoCSConverter : public CppUnit::TestFixture
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestGeoCSConverter );
   CPPUNIT_TEST( testConstructor );
-  CPPUNIT_TEST( testConvertDestSrc );
-  CPPUNIT_TEST( testConvertDest );
+  CPPUNIT_TEST( testConvertGeoDatum );
+  CPPUNIT_TEST( testConvertGeoXYZ );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -45,11 +45,11 @@ public :
   /// Test constructor
   void testConstructor(void);
 
-  /// Test convert() with source, destination arrays
-  void testConvertDestSrc(void);
+  /// Test convert() with datum switch
+  void testConvertGeoDatum(void);
 
-  /// Test convert() in place
-  void testConvertDest(void);
+  /// Test convert() with latlong to geocent
+  void testConvertGeoXYZ(void);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
@@ -64,6 +64,6 @@ private :
 #endif // spatialdata_testgeocsconverter
 
 // version
-// $Id: TestGeoCSConverter.h,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+// $Id: TestGeoCSConverter.h,v 1.2 2005/06/01 16:51:58 baagaard Exp $
 
 // End of file 

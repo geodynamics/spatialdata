@@ -177,27 +177,28 @@ spatialdata::TestGeoLocalConverter::testConvert(void)
   GeoLocalConverter converter(src);
   converter.localOrigin(_ORIGINLON, _ORIGINLAT, _ORIGINELEV);
 
-  double* pXYZDest = 0;
-  const double* pLonLatSrc = _LONLATNAD27ELEV;
+  const bool is2D = false;
+  const int numCoords = (is2D) ? 2 : 3;
   const int numLocs = _NUMLOCS;
-  converter.convert(&pXYZDest, pLonLatSrc, numLocs);
-  CPPUNIT_ASSERT(0 != pXYZDest);
+  const int size = numLocs*numCoords;
+  double* pCoords = (size > 0) ? new double[size] : 0;
+  memcpy(pCoords, _LONLATNAD27ELEV, size*sizeof(double));
+  
+  converter.convert(&pCoords, numLocs, is2D);
 
-  const int numCoords = 3;
-  const int size = numCoords * numLocs;
   const double tolerance = 1.0e-6;
   const double* pXYZE = _XYZLOCAL;
   for (int i=0; i < size; ++i) {
     if (fabs(pXYZE[i]) > tolerance)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pXYZDest[i]/pXYZE[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[i]/pXYZE[i], tolerance);
     else
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(pXYZE[i], pXYZDest[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(pXYZE[i], pCoords[i], tolerance);
   } // for
 
-  delete[] pXYZDest; pXYZDest = 0;
+  delete[] pCoords; pCoords = 0;
 } // testConvert
 
 // version
-// $Id: TestGeoLocalConverter.cc,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+// $Id: TestGeoLocalConverter.cc,v 1.2 2005/06/01 16:51:58 baagaard Exp $
 
 // End of file 

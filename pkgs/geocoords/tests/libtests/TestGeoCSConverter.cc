@@ -43,10 +43,10 @@ spatialdata::TestGeoCSConverter::testConstructor(void)
 } // testConstructor
 
 // ----------------------------------------------------------------------
-// Test convert() with source, destination arrays
+// Test convert() with datum switch
 void
-spatialdata::TestGeoCSConverter::testConvertDestSrc(void)
-{ // testConvertDestSrc
+spatialdata::TestGeoCSConverter::testConvertGeoDatum(void)
+{ // testConvertGeoDatum
   GeoCoordSys src;
   src.projection("latlong");
   src.datum("NAD27");
@@ -61,29 +61,31 @@ spatialdata::TestGeoCSConverter::testConvertDestSrc(void)
 
   GeoCSConverter converter(dest, src);
 
-  double* pLonLatDest = 0;
-  const double* pLonLatSrc = _LONLATSRC;
-  const int numLocs = _NUMLOCS;
   const bool is2D = false;
   const int numCoords = (is2D) ? 2 : 3;
-  converter.convert(&pLonLatDest, pLonLatSrc, numLocs, is2D);
-
+  const int numLocs = _NUMLOCS;
   const int size = numCoords*numLocs;
+  double* pLonLat = (size > 0) ? new double[size] : 0;
+  memcpy(pLonLat, _LONLATSRC, size*sizeof(double));
+
+  const bool isDeg = true;
+  converter.convert(&pLonLat, numLocs, isDeg, is2D);
+
   const double tolerance = 1.0e-5;
   for (int i=0; i < size; ++i)
     if (fabs(_LONLATDEST[i]) > tolerance)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(pLonLatDest[i]/_LONLATDEST[i], 1.0, 
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pLonLat[i]/_LONLATDEST[i],
 				   tolerance);
     else
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(pLonLatDest[i], _LONLATDEST[i], tolerance);
-  delete[] pLonLatDest; pLonLatDest = 0;
-} // testConvertDestSrc
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(_LONLATDEST[i], pLonLat[i], tolerance);
+  delete[] pLonLat; pLonLat = 0;
+} // testConvertGeoDatum
 
 // ----------------------------------------------------------------------
-// Test convert() with x, y, z, arrays
+// Test convert() with latlong to geocent
 void
-spatialdata::TestGeoCSConverter::testConvertDest(void)
-{ // testConvertXYZ
+spatialdata::TestGeoCSConverter::testConvertGeoXYZ(void)
+{ // testConvertGeoXYZ
   GeoCoordSys src;
   src.projection("latlong");
   src.datum("NAD27");
@@ -98,28 +100,24 @@ spatialdata::TestGeoCSConverter::testConvertDest(void)
 
   GeoCSConverter converter(dest, src);
 
-  double* pXYZ = 0;
+  const bool is2D = false;
+  const int numCoords = (is2D) ? 2 : 3;
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
   const int size = numLocs*numCoords;
-  if (size > 0)
-    pXYZ = new double[size];
-  const double degToRad = M_PI / 180.0;
-  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
-    pXYZ[index++] = _LONLATSRC[index] * degToRad;
-    pXYZ[index++] = _LONLATSRC[index] * degToRad;
-    pXYZ[index++] = _LONLATSRC[index];
-  } // for
-  converter.convert(&pXYZ, numLocs);
+  double* pCoords = (size > 0) ? new double[size] : 0;
+  memcpy(pCoords, _LONLATSRC, size*sizeof(double));
+
+  const bool isDeg = true;
+  converter.convert(&pCoords, numLocs, isDeg, is2D);
 
   const double tolerance = 1.0e-6;
-  for (int i=0; i < size; ++i) {
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(pXYZ[i]/_XYZDEST[i], 1.0, tolerance);
-  } // for
-  delete[] pXYZ; pXYZ = 0;
-} // testConvertXYZ
+  for (int i=0; i < size; ++i)
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[i]/_XYZDEST[i], tolerance);
+
+  delete[] pCoords; pCoords = 0;
+} // testConvertGeoXYZ
 
 // version
-// $Id: TestGeoCSConverter.cc,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+// $Id: TestGeoCSConverter.cc,v 1.2 2005/06/01 16:51:58 baagaard Exp $
 
 // End of file 
