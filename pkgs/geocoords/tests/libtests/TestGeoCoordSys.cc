@@ -33,19 +33,21 @@ void
 spatialdata::TestGeoCoordSys::testCopyConstructor(void)
 { // testCopyConstructor
   GeoCoordSys cs;
-  const char* projection = "abc";
-  const char* ellipsoid = "def";
-  const char* datum = "ghi";
-  const char* units = "jkl";
+  const char* projection = "tmerc";
+  const char* ellipsoid = "clrk66";
+  const char* datum = "NAD27";
+  const char* units = "km";
   cs.projection(projection);
   cs.ellipsoid(ellipsoid);
   cs.datum(datum);
   cs.units(units);
+  cs.initialize();
   GeoCoordSys csB(cs);
   CPPUNIT_ASSERT(0 == strcmp(projection, csB.projection()));
   CPPUNIT_ASSERT(0 == strcmp(ellipsoid, csB.ellipsoid()));
   CPPUNIT_ASSERT(0 == strcmp(datum, csB.datum()));
   CPPUNIT_ASSERT(0 == strcmp(units, csB.units()));
+  CPPUNIT_ASSERT(0 != cs.coordsys());
 } // testCopyConstructor
 
 // ----------------------------------------------------------------------
@@ -53,21 +55,23 @@ spatialdata::TestGeoCoordSys::testCopyConstructor(void)
 void
 spatialdata::TestGeoCoordSys::testAssign(void)
 { // testAssign
-  const char* projection = "abc";
-  const char* ellipsoid = "def";
-  const char* datum = "ghi";
-  const char* units = "jkl";
+  const char* projection = "sinu";
+  const char* ellipsoid = "GRS80";
+  const char* datum = "NAD83";
+  const char* units = "ft";
   GeoCoordSys cs;
   cs.projection(projection);
   cs.ellipsoid(ellipsoid);
   cs.datum(datum);
   cs.units(units);
+  cs.initialize();
   GeoCoordSys csB;
   csB = cs;
   CPPUNIT_ASSERT(0 == strcmp(projection, csB.projection()));
   CPPUNIT_ASSERT(0 == strcmp(ellipsoid, csB.ellipsoid()));
   CPPUNIT_ASSERT(0 == strcmp(datum, csB.datum()));
   CPPUNIT_ASSERT(0 == strcmp(units, csB.units()));
+  CPPUNIT_ASSERT(0 != csB.coordsys());
 } // testAssign
 
 // ----------------------------------------------------------------------
@@ -177,6 +181,6 @@ spatialdata::TestGeoCoordSys::testEquals(void)
 } // testEquals
 
 // version
-// $Id: TestGeoCoordSys.cc,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+// $Id: TestGeoCoordSys.cc,v 1.2 2005/05/31 23:08:39 baagaard Exp $
 
 // End of file 
