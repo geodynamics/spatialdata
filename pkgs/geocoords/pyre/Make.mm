@@ -21,14 +21,12 @@ all: export
 
 EXPORT_PYTHON_MODULES = \
 	GeoCoordSys.py \
-	GeoCSConverter.py \
 	GeoLocalConverter.py \
-	Projector.py \
 	__init__.py \
 
 export:: export-package-python-modules
 
 # version
-# $Id: Make.mm,v 1.1 2005/05/28 00:31:04 baagaard Exp $
+# $Id: Make.mm,v 1.2 2005/06/01 23:55:48 baagaard Exp $
 
 # End of file
