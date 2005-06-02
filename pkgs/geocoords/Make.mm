@@ -15,8 +15,9 @@ PACKAGE = geocoords
 
 RECURSE_DIRS = \
 	lib \
+	module \
+        pyre \
 	tests \
-	applications \
 
 OTHERS = \
 
@@ -35,6 +36,6 @@ builddoc:
 	$(MM) -C doc
 
 # version
-# $Id: Make.mm,v 1.2 2005/05/31 15:18:16 baagaard Exp $
+# $Id: Make.mm,v 1.3 2005/06/01 23:57:07 baagaard Exp $
 
 # End of file 
