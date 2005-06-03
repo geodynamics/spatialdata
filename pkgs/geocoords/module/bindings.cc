@@ -27,6 +27,26 @@ struct PyMethodDef pyspatialdata_geocoords_methods[] = {
    METH_VARARGS,
    pyspatialdata_geocoords_CppGeoCoordSys__doc__},
   
+  {pyspatialdata_geocoords_CppGeoCoordSys_projection__name__,
+   pyspatialdata_geocoords_CppGeoCoordSys_projection,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppGeoCoordSys_projection__doc__},
+
+  {pyspatialdata_geocoords_CppGeoCoordSys_ellipsoid__name__,
+   pyspatialdata_geocoords_CppGeoCoordSys_ellipsoid,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppGeoCoordSys_ellipsoid__doc__},
+
+  {pyspatialdata_geocoords_CppGeoCoordSys_datum__name__,
+   pyspatialdata_geocoords_CppGeoCoordSys_datum,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppGeoCoordSys_datum__doc__},
+
+  {pyspatialdata_geocoords_CppGeoCoordSys_units__name__,
+   pyspatialdata_geocoords_CppGeoCoordSys_units,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppGeoCoordSys_units__doc__},
+
   {pyspatialdata_geocoords_CppGeoCoordSys_initialize__name__,
    pyspatialdata_geocoords_CppGeoCoordSys_initialize,
    METH_VARARGS,
@@ -60,6 +80,6 @@ struct PyMethodDef pyspatialdata_geocoords_methods[] = {
 }; // pyspatialdata_geocoords_methods
 
 // version
-// $Id: bindings.cc,v 1.1 2005/06/01 23:56:09 baagaard Exp $
+// $Id: bindings.cc,v 1.2 2005/06/02 21:35:36 baagaard Exp $
 
 // End of file
