@@ -116,11 +116,13 @@ pyspatialdata_geocoords_CppGeoLocalConverter_convert(PyObject*, PyObject* args)
   PyObject* pyCoords = 0;
   int numLocs = 0;
   int numCoords = 0;
+  double elevToMeters = 1.0;
   int invertFlag = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OOiii:CppGeoLocalConverter_convert",
+			    "OOiidi:CppGeoLocalConverter_convert",
 			    &pyConverter, 
-			    &pyCoords, &numLocs, &numCoords, &invertFlag);
+			    &pyCoords, &numLocs, &numCoords, 
+			    &elevToMeters, &invertFlag);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -150,7 +152,7 @@ pyspatialdata_geocoords_CppGeoLocalConverter_convert(PyObject*, PyObject* args)
       return 0;
     }
 
-    pConverter->convert(&pCoords, numLocs, invert);
+    pConverter->convert(&pCoords, numLocs, elevToMeters, invert);
 
   } // try
   catch (const std::exception& err) {
@@ -166,6 +168,6 @@ pyspatialdata_geocoords_CppGeoLocalConverter_convert(PyObject*, PyObject* args)
 } // CppGeoLocalConverter_convert
 
 // version
-// $Id: geolocalconverter.cc,v 1.1 2005/06/01 23:56:09 baagaard Exp $
+// $Id: geolocalconverter.cc,v 1.2 2005/06/02 21:36:16 baagaard Exp $
 
 // End of file
