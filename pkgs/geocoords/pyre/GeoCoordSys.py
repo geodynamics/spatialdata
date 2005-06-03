@@ -41,7 +41,7 @@ class GeoCoordSys(Component):
     projection = pyre.inventory.str("projection", default="aea")
     projection.meta['tip'] = "Name of projection."
     
-    ellipsoid = pyre.inventory.str("sllipsoid", default="WGS84")
+    ellipsoid = pyre.inventory.str("ellipsoid", default="WGS84")
     ellipsoid.meta['tip'] = "Name of ellipsoid."
 
     datum = pyre.inventory.str("datum", default="WGS84")
@@ -60,6 +60,10 @@ class GeoCoordSys(Component):
   def initialize(self):
     """Initialize geographic coordinate system."""
     import spatialdata.geocoords.geocoords as bindings
+    bindings.CppGeoCoordSys_projection(self._cppCoordSys, self.projection)
+    bindings.CppGeoCoordSys_ellipsoid(self._cppCoordSys, self.ellipsoid)
+    bindings.CppGeoCoordSys_datum(self._cppCoordSys, self.datum)
+    bindings.CppGeoCoordSys_units(self._cppCoordSys, self.units)
     bindings.CppGeoCoordSys_initialize(self._cppCoordSys)
     return
 
@@ -73,7 +77,19 @@ class GeoCoordSys(Component):
     
     return
 
+  # PRIVATE METHODS ////////////////////////////////////////////////////
+
+  def _configure(self):
+    """Setup members using inventory."""
+
+    self.projection = self.inventory.projection
+    self.ellipsoid = self.inventory.ellipsoid
+    self.datum = self.inventory.datum
+    self.units = self.inventory.units
+    return
+
+
 # version
-__id__ = "$Id: GeoCoordSys.py,v 1.1 2005/06/01 23:55:34 baagaard Exp $"
+__id__ = "$Id: GeoCoordSys.py,v 1.2 2005/06/02 21:33:39 baagaard Exp $"
 
 # End of file 
