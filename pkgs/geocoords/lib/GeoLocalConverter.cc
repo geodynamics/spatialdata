@@ -133,6 +133,7 @@ spatialdata::GeoLocalConverter::localOrigin(const double lon,
   _originY = pCoords[1];
   _originZ = pCoords[2];
 
+
   delete[] pCoords; pCoords = 0;
 } // localOrigin
 
@@ -142,6 +143,7 @@ spatialdata::GeoLocalConverter::localOrigin(const double lon,
 void
 spatialdata::GeoLocalConverter::convert(double** ppDest,
 					const int numLocs,
+					const double elevToMeters,
 					const bool invert) const
 { // convert
   FIREWALL(0 != ppDest);
@@ -156,7 +158,7 @@ spatialdata::GeoLocalConverter::convert(double** ppDest,
     for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
       (*ppDest)[index++] *= degToRad; // lon
       (*ppDest)[index++] *= degToRad; // lat
-      ++index; // skip elev
+      (*ppDest)[index++] *= elevToMeters; // convert elev to m
     } // for
   } // if
 
@@ -295,6 +297,6 @@ spatialdata::GeoLocalConverter::_ecefToLocal(double** const ppCoords,
 } // _ecefToLocal
 
 // version
-// $Id: GeoLocalConverter.cc,v 1.2 2005/06/01 16:51:34 baagaard Exp $
+// $Id: GeoLocalConverter.cc,v 1.3 2005/06/02 21:35:01 baagaard Exp $
 
 // End of file 

@@ -61,10 +61,12 @@ class spatialdata::GeoLocalConverter
    *
    * @param ppDest Pointer to array of destination locations
    * @param numLocs Number of locations
+   * @param elevToMeters Factor to multiply by to convert elev to meters
    * @param invert Invert conversion for local to geo coordinate conversion
    */
   void convert(double** ppDest,
 	       const int numLocs,
+	       const double elevToMeters =1.0,
 	       const bool invert =false) const;
 
 private :
@@ -145,6 +147,6 @@ private :
 #endif // spatialdata_geolocalconverter_h
 
 // version
-// $Id: GeoLocalConverter.h,v 1.2 2005/06/01 16:51:34 baagaard Exp $
+// $Id: GeoLocalConverter.h,v 1.3 2005/06/02 21:35:01 baagaard Exp $
 
 // End of file 
