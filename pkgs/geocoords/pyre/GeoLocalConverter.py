@@ -34,6 +34,7 @@ class GeoLocalConverter(Component):
     ## @li \b origin-lon Longitude of local origin
     ## @li \b origin-lat Latitude of local origin
     ## @li \b origin-elev Elevation of local origin
+    ## @li \b src-elev-units Units of elevation used in src coordinates
     ## @li \b invert Invert conversion for local to geo conversion
     ##
     ## \b Facilities
@@ -47,8 +48,12 @@ class GeoLocalConverter(Component):
     originLat = pyre.inventory.float("origin-lat", default=0.0)
     originLat.meta['tip'] = "Latitude of local origin"
 
-    originElev = pyre.inventory.float("origin-elev", default=0.0)
+    from pyre.units.length import meter
+    originElev = pyre.inventory.dimensional("origin-elev", default=0.0*meter)
     originElev.meta['tip'] = "Elevation of local origin"
+
+    srcElevUnits = pyre.inventory.dimensional("src-elev-units", default=meter)
+    srcElevUnits.meta['tip'] = "Units of elevation used in src coordinates."
 
     invert = pyre.inventory.bool("invert", default=False)
     invert.meta['tip'] = "Invert conversion for local to geo conversion"
@@ -67,19 +72,16 @@ class GeoLocalConverter(Component):
     bindings.CppGeoLocalConverter_localOrigin(self._cppConverter,
                                               self.originLon,
                                               self.originLat,
-                                              self.originElev)
+                                              self.originElev.value)
     return
 
 
   def convert(self, handle, numLocs, numCoords):
     """Convert geographic coordinates to local cartesian coordinates."""
     import spatialdata.geocoords.geocoords as bindings
-    bindings.CppGeoLocalConverter_localOrigin(self._cppConverter,
-                                              self.originLon,
-                                              self.originLat,
-                                              self.originElev)
     bindings.CppGeoLocalConverter_convert(self._cppConverter,
                                           handle(), numLocs, numCoords,
+                                          self.srcElevUnits.value,
                                           self.invert)
     return
 
@@ -90,6 +92,7 @@ class GeoLocalConverter(Component):
     self.originLon = None
     self.originLat = None
     self.originElev = None
+    self.srcElevUnits = None
     self.invert = None
     self.geoCoordSys = None
     return
@@ -101,11 +104,12 @@ class GeoLocalConverter(Component):
     self.originLon = self.inventory.originLon
     self.originLat = self.inventory.originLat
     self.originElev = self.inventory.originElev
+    self.srcElevUnits = self.inventory.srcElevUnits
     self.invert = self.inventory.invert
     self.geoCoordSys = self.inventory.geoCoordSys
     return
 
 # version
-__id__ = "$Id: GeoLocalConverter.py,v 1.2 2005/06/01 23:55:48 baagaard Exp $"
+__id__ = "$Id: GeoLocalConverter.py,v 1.3 2005/06/02 21:34:10 baagaard Exp $"
 
 # End of file 
