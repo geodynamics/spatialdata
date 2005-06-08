@@ -1,6 +1,6 @@
 GEOCOORDS
 
-  Stricter tests of GeoCoordSys equals, copy constructors (check proj status);
+  Add tests for inverting conversions
 
   Convert elevation wrt MSL to Geoid height
 
