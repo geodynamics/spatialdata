@@ -19,7 +19,6 @@ PROJ_SRCS = \
 	GeoCoordSys.cc \
 	GeoCSConverter.cc \
 	GeoLocalConverter.cc \
-	PointStream.cc \
 	Projector.cc \
 
 all: $(PROJ_SAR) export-package-headers
@@ -40,6 +39,6 @@ EXPORT_HEADERS = \
 EXPORT_LIBS = $(PROJ_SAR)
 
 # version
-# $Id: Make.mm,v 1.2 2005/06/08 03:20:40 baagaard Exp $
+# $Id: Make.mm,v 1.3 2005/06/08 15:36:45 baagaard Exp $
 
 # End of file 
