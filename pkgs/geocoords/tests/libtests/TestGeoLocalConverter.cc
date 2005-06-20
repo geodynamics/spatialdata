@@ -27,8 +27,6 @@
 #define FIREWALL assert
 #endif
 
-#include <iostream>
-
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestGeoLocalConverter );
 
@@ -77,11 +75,11 @@ spatialdata::TestGeoLocalConverter::testGeoToWGS84(void)
   const double* pValsE = _LONLATWGS84ELEV;
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     const double tolerance = 1.0e-06;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(pCoords[index]/pValsE[index++]/degToRad, 1.0,
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
 				 tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(pCoords[index]/pValsE[index++]/degToRad, 1.0,
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
 				 tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(pCoords[index]/pValsE[index++], 1.0, 
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++],
 				 tolerance);
   } // for
   
@@ -93,7 +91,43 @@ spatialdata::TestGeoLocalConverter::testGeoToWGS84(void)
 void
 spatialdata::TestGeoLocalConverter::testElevToGeoidHt(void)
 { // testElevToGeoidHt
-  CPPUNIT_ASSERT(false);
+  GeoCoordSys csSrc;
+  csSrc.projection("latlong");
+  csSrc.datum("WGS84");
+  csSrc.ellipsoid("WGS84");
+  csSrc.initialize();
+
+  GeoLocalConverter converter(csSrc);
+
+  GeoCoordSys csCur(csSrc);
+
+  const int numLocs = _NUMLOCS;
+  const int numCoords = 3;
+  const int size = numLocs*numCoords;
+  double* pCoords = 0;
+  if (size > 0)
+    pCoords = new double[size];
+  const double degToRad = M_PI / 180.0;
+  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
+    pCoords[index++] = _LONLATWGS84ELEV[index] * degToRad;
+    pCoords[index++] = _LONLATWGS84ELEV[index] * degToRad;
+    pCoords[index++] = _LONLATWGS84ELEV[index];
+  } // for
+  
+  converter._elevToGeoidHt(&pCoords, numLocs, &csCur);
+  
+  const double* pValsE = _LONLATWGS84GEOID;
+  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
+    const double tolerance = 1.0e-06;
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
+				 tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
+				 tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++],
+				 tolerance);
+  } // for
+  
+  delete[] pCoords; pCoords = 0;
 } // testElevToGeoidHt
 
 // ----------------------------------------------------------------------
@@ -127,9 +161,9 @@ spatialdata::TestGeoLocalConverter::testWGS84ToECEF(void)
   converter._wgs84ToECEF(&pCoords, numLocs, &csCur);
   
   const double* pValsE = _XYZECEF;
-  const double tolerance = 1.0e-06;
+  const double tolerance = 1.0e-05;
   for (int i=0; i < size; ++i)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(pCoords[i]/pValsE[i], 1.0, tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[i]/pValsE[i], tolerance);
   
   delete[] pCoords; pCoords = 0;
 } // testWGS84ToECEF
@@ -199,6 +233,6 @@ spatialdata::TestGeoLocalConverter::testConvert(void)
 } // testConvert
 
 // version
-// $Id: TestGeoLocalConverter.cc,v 1.2 2005/06/01 16:51:58 baagaard Exp $
+// $Id: TestGeoLocalConverter.cc,v 1.3 2005/06/19 19:38:36 baagaard Exp $
 
 // End of file 

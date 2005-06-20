@@ -18,6 +18,7 @@ include local.def
 PROJ_SRCS = \
 	TestGeoCoordSys.cc \
 	TestGeoCSConverter.cc \
+	TestGeoid.cc \
 	TestGeoLocalConverter.cc \
 	TestProjector.cc \
 	testgeocoords.cc \
@@ -48,6 +49,6 @@ clean::
 EXPORT_BINS = $(PROJ_BIN)
 
 # version
-# $Id: Make.mm,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+# $Id: Make.mm,v 1.2 2005/06/19 19:38:36 baagaard Exp $
 
 # End of file 
