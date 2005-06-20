@@ -16,6 +16,7 @@
 
 #include "GeoCoordSys.h" // USES GeoCoordSys
 #include "GeoCSConverter.h" // USES GeoCSConverter
+#include "Geoid.h" // Geoid
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
@@ -214,6 +215,16 @@ spatialdata::GeoLocalConverter::_elevToGeoidHt(double** const ppCoords,
 { // _elevToGeoidHt
   FIREWALL(0 != ppCoords);
   FIREWALL(0 != pCS);
+
+  Geoid geoid;
+  geoid.initialize();
+  
+  const int numCoords = 3;
+  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc, index+=numCoords) {
+    const double geoidHt = geoid.elevation((*ppCoords)[index], 
+					   (*ppCoords)[index+1]);
+    (*ppCoords)[index+2] += (!invert) ? geoidHt : -geoidHt;
+  } // for
 } // _elevToGeoidHt
 
 // ----------------------------------------------------------------------
@@ -297,6 +308,6 @@ spatialdata::GeoLocalConverter::_ecefToLocal(double** const ppCoords,
 } // _ecefToLocal
 
 // version
-// $Id: GeoLocalConverter.cc,v 1.3 2005/06/02 21:35:01 baagaard Exp $
+// $Id: GeoLocalConverter.cc,v 1.4 2005/06/19 19:36:39 baagaard Exp $
 
 // End of file 

@@ -18,6 +18,7 @@ include local.def
 PROJ_SRCS = \
 	GeoCoordSys.cc \
 	GeoCSConverter.cc \
+	Geoid.cc \
 	GeoLocalConverter.cc \
 	Projector.cc \
 
@@ -30,6 +31,7 @@ EXPORT_HEADERS = \
 	GeoCoordSys.h \
 	GeoCoordSys.icc \
 	GeoCSConverter.h \
+	Geoid.h \
 	GeoLocalConverter.h \
 	PointStream.h \
 	Projector.h \
@@ -39,6 +41,6 @@ EXPORT_HEADERS = \
 EXPORT_LIBS = $(PROJ_SAR)
 
 # version
-# $Id: Make.mm,v 1.3 2005/06/08 15:36:45 baagaard Exp $
+# $Id: Make.mm,v 1.4 2005/06/19 19:36:53 baagaard Exp $
 
 # End of file 
