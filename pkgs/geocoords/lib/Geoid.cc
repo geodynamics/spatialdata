@@ -128,6 +128,8 @@ spatialdata::Geoid::elevation(const double lon,
 
   delete[] pCosML; pCosML = 0;
   delete[] pSinML; pSinML = 0;
+  delete[] pLegCoef; pLegCoef = 0;
+  delete[] pLegFn; pLegFn = 0;
 
   return elev;
 } // elevation
@@ -341,6 +343,7 @@ spatialdata::Geoid::_calcLegFn(double** ppLegFn,
   } // if
   
   pLegFn[order1-1] = pRlnn[order1-1];
+  delete[] pRlnn; pRlnn = 0;
   if (order2-1 < legSize) {
     pLegFn[order2-1] = _pRoots[order1*2] * cosLat * pLegFn[order1-1];
     for (int i=order2; i < legSize; ++i) {
@@ -356,6 +359,6 @@ spatialdata::Geoid::_calcLegFn(double** ppLegFn,
 } // _calcLegFn
 
 // version
-// $Id: Geoid.cc,v 1.1 2005/06/19 19:23:22 baagaard Exp $
+// $Id: Geoid.cc,v 1.2 2005/06/21 18:34:02 baagaard Exp $
 
 // End of file 
