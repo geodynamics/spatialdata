@@ -78,17 +78,29 @@ class spatialdata::GeoCoordSys
    */
   const char* ellipsoid(void) const;
 
-  /** Set datum.
+  /** Set horizontal datum.
    *
-   * @param name Name of datum
+   * @param name Name of horizontal datum
    */
-  void datum(const char* name);
+  void datumHoriz(const char* name);
 
-  /** Get datum.
+  /** Get horizontal datum.
    *
    * @returns Name of datum
    */
-  const char* datum(void) const;
+  const char* datumHoriz(void) const;
+
+  /** Set vertical datum.
+   *
+   * @param name Name of vertical datum
+   */
+  void datumVert(const char* name);
+
+  /** Get horizontal datum.
+   *
+   * @returns Name of datum
+   */
+  const char* datumVert(void) const;
 
   /** Set units of coordinate system.
    *
@@ -123,7 +135,8 @@ private :
 
   const char* _projection; ///< Name of projection
   const char* _ellipsoid; ///< Name of reference ellipsoid
-  const char* _datum; ///< Name of geographic datum
+  const char* _datumHoriz; ///< Name of horizontal geographic datum
+  const char* _datumVert; ///< Name of vertical datum
   const char* _units; ///< Name of units in projection
   
   projPJ _pCS; ///< Pointer to coordinate system
@@ -135,6 +148,6 @@ private :
 #endif // spatialdata_geocoordsys_h
 
 // version
-// $Id: GeoCoordSys.h,v 1.1 2005/05/25 17:28:11 baagaard Exp $
+// $Id: GeoCoordSys.h,v 1.2 2005/07/02 00:23:25 baagaard Exp $
 
 // End of file 

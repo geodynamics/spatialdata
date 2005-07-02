@@ -87,20 +87,6 @@ private :
 		   GeoCoordSys* pCS,
 		   const bool invert =false) const;
 
-  /** Convert elevation to height above WGS84 reference ellipsoid
-   *
-   * @warning Transformed coordinates replace original coordinates
-   *
-   * @param ppCoords Pointer to array of destination locations
-   * @param numLocs Number of locations
-   * @param pCS Pointer to current coordinate system
-   * @param invert Invert conversion for local to geo coordinate conversion
-   */
-  void _elevToGeoidHt(double** const ppCoords,
-		      const int numLocs,
-		      GeoCoordSys* pCS,
-		      const bool invert =false) const;
-
   /** Convert geographic coordinates in lat/lon with WGS64 datum and
    *  ellipsoid to ECEF cartesian coordinates.
    *
@@ -147,6 +133,6 @@ private :
 #endif // spatialdata_geolocalconverter_h
 
 // version
-// $Id: GeoLocalConverter.h,v 1.3 2005/06/02 21:35:01 baagaard Exp $
+// $Id: GeoLocalConverter.h,v 1.4 2005/07/02 00:23:25 baagaard Exp $
 
 // End of file 

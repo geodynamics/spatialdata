@@ -38,17 +38,29 @@ const char*
 spatialdata::GeoCoordSys::ellipsoid(void) const
 { return _ellipsoid; }
 
-// Set datum.
+// Set horizontal datum.
 inline
 void 
-spatialdata::GeoCoordSys::datum(const char* name)
-{ _datum = name; }
+spatialdata::GeoCoordSys::datumHoriz(const char* name)
+{ _datumHoriz = name; }
 
-// Get datum.
+// Get horizontal datum.
 inline
 const char*
-spatialdata::GeoCoordSys::datum(void) const
-{ return _datum; }
+spatialdata::GeoCoordSys::datumHoriz(void) const
+{ return _datumHoriz; }
+
+// Set vertical datum.
+inline
+void 
+spatialdata::GeoCoordSys::datumVert(const char* name)
+{ _datumVert = name; }
+
+// Get vertical datum.
+inline
+const char*
+spatialdata::GeoCoordSys::datumVert(void) const
+{ return _datumVert; }
 
 // Set units of coordinate system.
 inline
@@ -71,6 +83,6 @@ spatialdata::GeoCoordSys::coordsys(void) const
 // Get
 
 // version
-// $Id: GeoCoordSys.icc,v 1.1 2005/05/25 17:28:12 baagaard Exp $
+// $Id: GeoCoordSys.icc,v 1.2 2005/07/02 00:23:25 baagaard Exp $
 
 // End of file 

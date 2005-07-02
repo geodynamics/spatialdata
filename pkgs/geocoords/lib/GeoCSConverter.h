@@ -58,6 +58,18 @@ class spatialdata::GeoCSConverter
 	       const bool is2D =false) const;
 
 private :
+ // PRIVATE METHODS ////////////////////////////////////////////////////
+
+  /** Convert vertical datum b/t elevation wrt WGS ellipsoid and mean
+   *  sea level.
+   *
+   * @param ppDest Pointer to array of destination locations
+   * @param numLocs Number of locations
+   */
+  void GeoCSConverter::_elevToGeoidHt(double** ppDest,
+				      const int numLocs) const;
+
+private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   const GeoCoordSys& _csDest; ///< Pointer to destination coordinate system
@@ -68,6 +80,6 @@ private :
 #endif // spatialdata_geocsconverter_h
 
 // version
-// $Id: GeoCSConverter.h,v 1.2 2005/06/01 16:51:34 baagaard Exp $
+// $Id: GeoCSConverter.h,v 1.3 2005/07/02 00:23:25 baagaard Exp $
 
 // End of file 

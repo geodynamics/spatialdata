@@ -16,7 +16,6 @@
 
 #include "GeoCoordSys.h" // USES GeoCoordSys
 #include "GeoCSConverter.h" // USES GeoCSConverter
-#include "Geoid.h" // Geoid
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
@@ -87,7 +86,6 @@ spatialdata::GeoLocalConverter::localOrigin(const double lon,
   const double lonWGS84 = pCoords[0];
 
   // convert origin and point above origin to ECEF
-  _elevToGeoidHt(&pCoords, numLocs, &cs);
   _wgs84ToECEF(&pCoords, numLocs, &cs);
 
   // Create unit vector for local +z direction; local +z direction is
@@ -165,13 +163,11 @@ spatialdata::GeoLocalConverter::convert(double** ppDest,
 
   if (!invert) {
     _geoToWGS84(ppDest, numLocs, &cs);
-    _elevToGeoidHt(ppDest, numLocs, &cs);
     _wgs84ToECEF(ppDest, numLocs, &cs);
     _ecefToLocal(ppDest, numLocs, &cs);
   } else {
     _ecefToLocal(ppDest, numLocs, &cs, invert); 
     _wgs84ToECEF(ppDest, numLocs, &cs, invert);
-    _elevToGeoidHt(ppDest, numLocs, &cs, invert);
     _geoToWGS84(ppDest, numLocs, &cs, invert);
   } // else
 } // convert
@@ -191,7 +187,8 @@ spatialdata::GeoLocalConverter::_geoToWGS84(double** const ppCoords,
   GeoCoordSys csDest;
   csDest.projection("latlong");
   csDest.ellipsoid("WGS84");
-  csDest.datum("WGS84");
+  csDest.datumHoriz("WGS84");
+  csDest.datumVert("WGS84 ellipsoid");
   csDest.units("m");
   csDest.initialize();
 
@@ -204,28 +201,6 @@ spatialdata::GeoLocalConverter::_geoToWGS84(double** const ppCoords,
   } // if
   *pCS = csDest;
 } // _geoToWGS84
-
-// ----------------------------------------------------------------------
-// Convert elevation to height above WGS84 reference ellipsoid
-void
-spatialdata::GeoLocalConverter::_elevToGeoidHt(double** const ppCoords,
-					       const int numLocs,
-					       GeoCoordSys* pCS,
-					       const bool invert) const
-{ // _elevToGeoidHt
-  FIREWALL(0 != ppCoords);
-  FIREWALL(0 != pCS);
-
-  Geoid geoid;
-  geoid.initialize();
-  
-  const int numCoords = 3;
-  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc, index+=numCoords) {
-    const double geoidHt = geoid.elevation((*ppCoords)[index], 
-					   (*ppCoords)[index+1]);
-    (*ppCoords)[index+2] += (!invert) ? geoidHt : -geoidHt;
-  } // for
-} // _elevToGeoidHt
 
 // ----------------------------------------------------------------------
 // Convert geographic coordinates in lat/lon with WGS64 datum and
@@ -242,7 +217,8 @@ spatialdata::GeoLocalConverter::_wgs84ToECEF(double** const ppCoords,
   GeoCoordSys csDest;
   csDest.projection("geocent");
   csDest.ellipsoid("WGS84");
-  csDest.datum("WGS84");
+  csDest.datumHoriz("WGS84");
+  csDest.datumVert("WGS84 ellipsoid");
   csDest.units("m");
   csDest.initialize();
 
@@ -308,6 +284,6 @@ spatialdata::GeoLocalConverter::_ecefToLocal(double** const ppCoords,
 } // _ecefToLocal
 
 // version
-// $Id: GeoLocalConverter.cc,v 1.4 2005/06/19 19:36:39 baagaard Exp $
+// $Id: GeoLocalConverter.cc,v 1.5 2005/07/02 00:23:25 baagaard Exp $
 
 // End of file 

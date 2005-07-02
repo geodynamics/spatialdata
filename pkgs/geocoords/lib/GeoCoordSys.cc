@@ -33,7 +33,8 @@ extern "C" {
 spatialdata::GeoCoordSys::GeoCoordSys(void) :
   _projection("aea"),
   _ellipsoid("WGS84"),
-  _datum("WGS84"),
+  _datumHoriz("WGS84"),
+  _datumVert("WGS84 ellipsoid"),
   _units("m"),
   _pCS(0)
 { // constructor
@@ -51,7 +52,8 @@ spatialdata::GeoCoordSys::~GeoCoordSys(void)
 spatialdata::GeoCoordSys::GeoCoordSys(const GeoCoordSys& cs) :
   _projection(cs._projection),
   _ellipsoid(cs._ellipsoid),
-  _datum(cs._datum),
+  _datumHoriz(cs._datumHoriz),
+  _datumVert(cs._datumVert),
   _units(cs._units),
   _pCS(0)
 { // copy constructor
@@ -68,7 +70,8 @@ spatialdata::GeoCoordSys::operator=(const GeoCoordSys& cs)
   if (this != &cs) {
     _projection = cs._projection;
     _ellipsoid = cs._ellipsoid;
-    _datum = cs._datum;
+    _datumHoriz = cs._datumHoriz;
+    _datumVert = cs._datumVert;
     _units = cs._units;
     if (0 != cs._pCS)
       initialize();
@@ -86,7 +89,7 @@ spatialdata::GeoCoordSys::initialize(void)
   args
     << "+proj=" << _projection
     << " +ellps=" << _ellipsoid
-    << " +datum=" << _datum
+    << " +datum=" << _datumHoriz
     << " +units=" << _units;
   
   pj_free(_pCS);
@@ -97,7 +100,7 @@ spatialdata::GeoCoordSys::initialize(void)
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
 	<< "  ellipsoid: " << _ellipsoid << "\n"
-	<< "  datum: " << _datum << "\n"
+	<< "  horiz. datum: " << _datumHoriz << "\n"
 	<< "  units: " << _units << "\n";
     throw std::runtime_error(msg.str());
   } // if
@@ -111,11 +114,12 @@ spatialdata::operator==(const spatialdata::GeoCoordSys& a,
 { // operator==
   return ( 0 == strcmp(a._projection, b._projection) &&
 	   0 == strcmp(a._ellipsoid, b._ellipsoid) &&
-	   0 == strcmp(a._datum, b._datum) &&
+	   0 == strcmp(a._datumHoriz, b._datumHoriz) &&
+	   0 == strcmp(a._datumVert, b._datumVert) &&
 	   0 == strcmp(a._units, b._units) );
 } // operator==
 
 // version
-// $Id: GeoCoordSys.cc,v 1.1 2005/05/25 17:28:11 baagaard Exp $
+// $Id: GeoCoordSys.cc,v 1.2 2005/07/02 00:23:25 baagaard Exp $
 
 // End of file 
