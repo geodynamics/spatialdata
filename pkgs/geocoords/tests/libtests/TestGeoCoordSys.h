@@ -39,7 +39,8 @@ class spatialdata::TestGeoCoordSys : public CppUnit::TestFixture
   CPPUNIT_TEST( testAssign );
   CPPUNIT_TEST( testProjection );
   CPPUNIT_TEST( testEllipsoid );
-  CPPUNIT_TEST( testDatum );
+  CPPUNIT_TEST( testDatumHoriz );
+  CPPUNIT_TEST( testDatumVert );
   CPPUNIT_TEST( testUnits );
   CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testCoordSys );
@@ -64,8 +65,11 @@ public :
   /// Test ellipsoid()
   void testEllipsoid(void);
 
-  /// Test datum()
-  void testDatum(void);
+  /// Test datumHoriz()
+  void testDatumHoriz(void);
+
+  /// Test datumVert()
+  void testDatumVert(void);
 
   /// Test units()
   void testUnits(void);
@@ -84,6 +88,6 @@ public :
 #endif // spatialdata_testgeocoordsys
 
 // version
-// $Id: TestGeoCoordSys.h,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+// $Id: TestGeoCoordSys.h,v 1.2 2005/07/02 00:21:13 baagaard Exp $
 
 // End of file 

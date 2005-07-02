@@ -30,6 +30,6 @@ const double spatialdata::TestProjector::_XY[] = {
 };
 
 // version
-// $Id: TestProjector.dat,v 1.1 2005/05/25 17:30:22 baagaard Exp $
+// $Id: TestProjector.dat,v 1.2 2005/07/02 00:20:57 baagaard Exp $
 
 // End of file

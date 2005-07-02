@@ -36,7 +36,6 @@ class spatialdata::TestGeoLocalConverter : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE( TestGeoLocalConverter );
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testGeoToWGS84 );
-  CPPUNIT_TEST( testElevToGeoidHt );
   CPPUNIT_TEST( testWGS84ToECEF );
   CPPUNIT_TEST( testLocalOrigin );
   CPPUNIT_TEST( testConvert );
@@ -50,9 +49,6 @@ public :
 
   /// Test geoToWGS84()
   void testGeoToWGS84(void);
-
-  /// Test elevToGeoidHt()
-  void testElevToGeoidHt(void);
 
   /// Test wgs84ToECEF()
   void testWGS84ToECEF(void);
@@ -87,6 +83,6 @@ private :
 #endif // spatialdata_testgeolocalconverter
 
 // version
-// $Id: TestGeoLocalConverter.h,v 1.1 2005/05/25 17:29:42 baagaard Exp $
+// $Id: TestGeoLocalConverter.h,v 1.2 2005/07/02 00:21:13 baagaard Exp $
 
 // End of file 

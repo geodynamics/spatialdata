@@ -49,7 +49,8 @@ spatialdata::TestGeoLocalConverter::testGeoToWGS84(void)
 { // testGeoToWGS84
   GeoCoordSys csSrc;
   csSrc.projection("latlong");
-  csSrc.datum("NAD27");
+  csSrc.datumHoriz("NAD27");
+  csSrc.datumVert("MSL");
   csSrc.ellipsoid("clrk66");
   csSrc.initialize();
 
@@ -72,7 +73,7 @@ spatialdata::TestGeoLocalConverter::testGeoToWGS84(void)
   
   converter._geoToWGS84(&pCoords, numLocs, &csCur);
   
-  const double* pValsE = _LONLATWGS84ELEV;
+  const double* pValsE = _LONLATWGS84GEOID;
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     const double tolerance = 1.0e-06;
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
@@ -87,57 +88,14 @@ spatialdata::TestGeoLocalConverter::testGeoToWGS84(void)
 } // testGeoToWGS84
 
 // ----------------------------------------------------------------------
-// Test elevToGeoidHt()
-void
-spatialdata::TestGeoLocalConverter::testElevToGeoidHt(void)
-{ // testElevToGeoidHt
-  GeoCoordSys csSrc;
-  csSrc.projection("latlong");
-  csSrc.datum("WGS84");
-  csSrc.ellipsoid("WGS84");
-  csSrc.initialize();
-
-  GeoLocalConverter converter(csSrc);
-
-  GeoCoordSys csCur(csSrc);
-
-  const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
-  double* pCoords = 0;
-  if (size > 0)
-    pCoords = new double[size];
-  const double degToRad = M_PI / 180.0;
-  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
-    pCoords[index++] = _LONLATWGS84ELEV[index] * degToRad;
-    pCoords[index++] = _LONLATWGS84ELEV[index] * degToRad;
-    pCoords[index++] = _LONLATWGS84ELEV[index];
-  } // for
-  
-  converter._elevToGeoidHt(&pCoords, numLocs, &csCur);
-  
-  const double* pValsE = _LONLATWGS84GEOID;
-  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
-    const double tolerance = 1.0e-06;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
-				 tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++]/degToRad,
-				 tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[index]/pValsE[index++],
-				 tolerance);
-  } // for
-  
-  delete[] pCoords; pCoords = 0;
-} // testElevToGeoidHt
-
-// ----------------------------------------------------------------------
 // Test wgs84ToECEF()
 void
 spatialdata::TestGeoLocalConverter::testWGS84ToECEF(void)
 { // testWGS84ToECEF
   GeoCoordSys csSrc;
   csSrc.projection("latlong");
-  csSrc.datum("WGS84");
+  csSrc.datumHoriz("WGS84");
+  csSrc.datumVert("WGS84 ellipsoid");
   csSrc.ellipsoid("WGS84");
   csSrc.initialize();
 
@@ -175,7 +133,8 @@ spatialdata::TestGeoLocalConverter::testLocalOrigin(void)
 { // TestLocalOrigin
   GeoCoordSys src;
   src.projection("latlong");
-  src.datum("NAD27");
+  src.datumHoriz("NAD27");
+  src.datumVert("MSL");
   src.ellipsoid("clrk66");
   src.initialize();
 
@@ -204,7 +163,8 @@ spatialdata::TestGeoLocalConverter::testConvert(void)
 { // testConvert
   GeoCoordSys src;
   src.projection("latlong");
-  src.datum("NAD27");
+  src.datumHoriz("NAD27");
+  src.datumVert("MSL");
   src.ellipsoid("clrk66");
   src.initialize();
 
@@ -233,6 +193,6 @@ spatialdata::TestGeoLocalConverter::testConvert(void)
 } // testConvert
 
 // version
-// $Id: TestGeoLocalConverter.cc,v 1.3 2005/06/19 19:38:36 baagaard Exp $
+// $Id: TestGeoLocalConverter.cc,v 1.4 2005/07/02 00:21:13 baagaard Exp $
 
 // End of file 

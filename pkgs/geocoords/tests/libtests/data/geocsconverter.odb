@@ -26,36 +26,63 @@ class GeoCSConverter(ConvertData):
 
   def calculate(self):
     """Calculate original and converted coordinates."""
-    self.lonlatsrc = [ [-120.342532,  43.23423, 0.0],
-                       [-121.342532,  45.23423, 0.0],
-                       [-115.342532,  36.23423, 0.0],
-                       [-110.342532,  39.23423, 0.0],
-                       [-107.342532,  33.23423, 0.0] ]
+
+    self.lonlatNAD27Elev = [ [-115.000000,  39.00000, 0.01],
+                             [-120.342532,  43.23423, 0.01],
+                             [-121.342532,  45.23423, 0.01],
+                             [-115.342532,  36.23423, 0.01],
+                             [-110.342532,  39.23423, 0.01],
+                             [-107.342532,  33.23423, 0.01] ]
+    self.geoidHt = [ -20.9472070802,
+                     -19.323765177,
+                     -20.1157110649,
+                     -27.3792312799,
+                     -18.6295580482,
+                     -23.7238990803]
+
+    self.lonlatNAD27Geoid = []
+    for i in range(len(self.lonlatNAD27Elev)):
+      lon = self.lonlatNAD27Elev[i][0]
+      lat = self.lonlatNAD27Elev[i][1]
+      elevAdj = self.lonlatNAD27Elev[i][2] + self.geoidHt[i]
+      self.lonlatNAD27Geoid.append([lon, lat, elevAdj]) 
 
     # convert NAD27 to WGS84
     self._command = "cs2cs " \
                     "+proj=latlong +datum=NAD27 +ellps=clrk66 " \
                     "+to +proj=latlong +datum=WGS84 +ellps=WGS84 " \
-                    "-f %.5f"
-    self.lonlatdest = self._convert(self.lonlatsrc)
+                    "-f %.12f"
+    self.lonlatWGS84Elev = self._convert(self.lonlatNAD27Elev)
 
-    # convert NAD27 to ECEF WGS84
+    # convert NAD27 to WGS84 (geoid)
+    self._command = "cs2cs " \
+                    "+proj=latlong +datum=NAD27 +ellps=clrk66 " \
+                    "+to +proj=latlong +datum=WGS84 +ellps=WGS84 " \
+                    "-f %.12f"
+    self.lonlatWGS84Geoid = self._convert(self.lonlatNAD27Geoid)
+
+    # convert NAD27 to ECEF
     self._command = "cs2cs " \
                     "+proj=latlong +datum=NAD27 +ellps=clrk66 " \
                     "+to +proj=geocent +datum=WGS84 +ellps=WGS84 " \
-                    "-f %.5f"
-    self.xyzdest = self._convert(self.lonlatsrc)
+                    "-f %.12f"
+    self.xyzECEF = self._convert(self.lonlatNAD27Geoid)
+
     return
 
   def dump(self, dumper):
     """Dump data."""
     dumper.open(self.name)
-    dumper.writeVal("int", "_NUMLOCS", len(self.lonlatsrc), "%d")
-    dumper.writeArray("double", "_LONLATSRC", ravel(self.lonlatsrc), "%20.12e,", 3)
-    dumper.writeArray("double", "_LONLATDEST", ravel(self.lonlatdest),
+
+    dumper.writeVal("int", "_NUMLOCS", len(self.lonlatNAD27Elev), "%d")
+    dumper.writeArray("double", "_LONLATNAD27ELEV", ravel(self.lonlatNAD27Elev),
                       "%20.12e,", 3)
-    dumper.writeArray("double", "_XYZDEST", ravel(self.xyzdest), "%20.12e,",
-                      3)
+    dumper.writeArray("double", "_LONLATWGS84ELEV", ravel(self.lonlatWGS84Elev),
+                      "%20.12e,", 3)
+    dumper.writeArray("double", "_LONLATWGS84GEOID", ravel(self.lonlatWGS84Geoid),
+                      "%20.12e,", 3)
+    dumper.writeArray("double", "_XYZECEF", ravel(self.xyzECEF),
+                      "%20.12e,", 3)
     dumper.close()
     return
 
@@ -67,6 +94,6 @@ class GeoCSConverter(ConvertData):
     return
 
 # version
-__id__ = "$Id: geocsconverter.odb,v 1.1 2005/05/25 17:30:21 baagaard Exp $"
+__id__ = "$Id: geocsconverter.odb,v 1.2 2005/07/02 00:20:57 baagaard Exp $"
 
 # End of file 
