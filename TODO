@@ -2,7 +2,7 @@ GEOCOORDS
 
   Add tests for inverting conversions
 
-  Convert elevation wrt MSL to Geoid height
+  Add tests to GeoCSConverter for datum changes.
 
 SPATIALDB
 
