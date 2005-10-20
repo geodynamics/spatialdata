@@ -47,8 +47,8 @@ pyspatialdb_CppSimpleIO_Filename(PyObject*, PyObject* args)
   } // if
 
   try {
-    spatialdata::SimpleIO* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SimpleIO*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SimpleIO* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SimpleIO*>::GetCObj(pyDB, 
 							      "SimpleIO*",
 					      "Python handle to SimpleIO*");
     FIREWALL(0 != pDB);

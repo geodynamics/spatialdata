@@ -24,31 +24,31 @@ datfiles: \
 
 TestSimpleDBQuery:
 	TestSimpleDBQuery.py \
-		--dumper.className=spatialdata::TestSimpleDBQuery \
+		--dumper.className=spatialdata::spatialdb::TestSimpleDBQuery \
 		--dumper.filename=TestSimpleDBQuery.dat
 
 TestSimpleDBPoint:
 	TestSimpleDBDataApp.py \
 		--query_data=testsimpledbpoint \
-		--dumper.className=spatialdata::TestSimpleDBPoint \
+		--dumper.className=spatialdata::spatialdb::TestSimpleDBPoint \
 		--dumper.filename=TestSimpleDBPoint.dat \
 
 TestSimpleDBLine:
 	TestSimpleDBDataApp.py \
 		--query_data=testsimpledbline \
-		--dumper.className=spatialdata::TestSimpleDBLine \
+		--dumper.className=spatialdata::spatialdb::TestSimpleDBLine \
 		--dumper.filename=TestSimpleDBLine.dat \
 
 TestSimpleDBArea:
 	TestSimpleDBDataApp.py \
 		--query_data=testsimpledbarea \
-		--dumper.className=spatialdata::TestSimpleDBArea \
+		--dumper.className=spatialdata::spatialdb::TestSimpleDBArea \
 		--dumper.filename=TestSimpleDBArea.dat \
 
 TestSimpleDBVolume:
 	TestSimpleDBDataApp.py \
 		--query_data=testsimpledbvolume \
-		--dumper.className=spatialdata::TestSimpleDBVolume \
+		--dumper.className=spatialdata::spatialdb::TestSimpleDBVolume \
 		--dumper.filename=TestSimpleDBVolume.dat \
 
 # ----------------------------------------------------------------------

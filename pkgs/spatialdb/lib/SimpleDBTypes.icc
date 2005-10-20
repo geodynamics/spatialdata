@@ -10,22 +10,22 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_simpledbtypes_h)
+#if !defined(spatialdata_spatialdb_simpledbtypes_h)
 #error "SimpleDBTypes.icc must only be included from SimpleDBTypes.h"
 #endif
 
 // Get coordinates of location in database.
 inline
 double*
-spatialdata::SimpleDBTypes::DataCoords(const SimpleDB::DataStruct& data,
-				       const int index)
+spatialdata::spatialdb::SimpleDBTypes::DataCoords(const SimpleDB::DataStruct& data,
+						  const int index)
 { return data.Data+(index*(3+data.NumVals)); }
 
 // Get values of location in database.
 inline
 double* 
-spatialdata::SimpleDBTypes::DataVals(const SimpleDB::DataStruct& data,
-				     const int index)
+spatialdata::spatialdb::SimpleDBTypes::DataVals(const SimpleDB::DataStruct& data,
+						const int index)
 { return data.Data+(index*(3+data.NumVals)+3); }
 
 // version

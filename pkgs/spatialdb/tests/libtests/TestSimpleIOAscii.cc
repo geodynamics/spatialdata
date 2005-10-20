@@ -24,12 +24,12 @@
 #include <sstream> // USES std::ostringstream
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSimpleIOAscii );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleIOAscii );
 
 // ----------------------------------------------------------------------
 // Test Filename(), Write(), Read()
 void
-spatialdata::TestSimpleIOAscii::testIO(void)
+spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
 { // testIO
   const double data[] = { 0.6, 0.1, 0.2,  6.6, 3.4,
 			  1.0, 1.1, 1.2,  5.5, 6.7,

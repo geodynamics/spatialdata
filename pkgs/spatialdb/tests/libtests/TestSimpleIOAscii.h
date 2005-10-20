@@ -17,19 +17,21 @@
  * C++ unit testing for SimpleIOAscii.
  */
 
-#if !defined(spatialdata_testsimpleioascii_h)
-#define spatialdata_testsimpleioascii_h
+#if !defined(spatialdata_spatialdb_testsimpleioascii_h)
+#define spatialdata_spatialdb_testsimpleioascii_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatialdata package
 namespace spatialdata {
-  class TestSimpleIOAscii;
-  class SimpleIOAscii; // USES SimpleIOAscii
-}; // spatialdata
+  namespace spatialdb {
+    class TestSimpleIOAscii;
+    class SimpleIOAscii; // USES SimpleIOAscii
+  } // spatialdb
+} // spatialdata
 
 /// C++ unit testing for SimpleIO
-class spatialdata::TestSimpleIOAscii : public CppUnit::TestFixture
+class spatialdata::spatialdb::TestSimpleIOAscii : public CppUnit::TestFixture
 { // class TestSimpleIOAscii
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
@@ -45,7 +47,7 @@ public :
 
 }; // class TestSimpleIOAscii
 
-#endif // spatialdata_testsimpleioascii
+#endif // spatialdata_spatialdb_testsimpleioascii
 
 // version
 // $Id: TestSimpleIOAscii.h,v 1.1 2005/05/25 18:43:06 baagaard Exp $

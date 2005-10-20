@@ -10,8 +10,8 @@
  * ======================================================================
  */
 
-#if !defined(spatialdata_f77spatialdb_h)
-#define spatialdata_f77spatialdb_h
+#if !defined(spatialdata_spatialdb_f77spatialdb_h)
+#define spatialdata_spatialdb_f77spatialdb_h
 
 #if defined(NEEDS_F77_TRANSLATION)
 
@@ -70,7 +70,7 @@ void spatialdb_query_f(void* db,
 		       const double* y,
 		       const double* z);
 
-#endif /* spatialdata_f77spatialdb_h */
+#endif /* spatialdata_spatialdb_f77spatialdb_h */
 
 // version
 // $Id: f77spatialdb.h,v 1.1 2005/05/25 18:42:58 baagaard Exp $

@@ -10,56 +10,56 @@
 // ======================================================================
 //
 
-#if !defined(spatialdata_testsimpledbvolume_h)
+#if !defined(spatialdata_spatialdb_testsimpledbvolume_h)
 #error "TestSimpleDBVolume.icc must only be included from TestSimpleDBVolume.h"
 #endif
 
 // Get data for database.
 inline
 const double*
-spatialdata::TestSimpleDBVolume::Data(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::Data(void) const
 { return DATA; }
 
 // Get names of values in database.
 inline
 const char**
-spatialdata::TestSimpleDBVolume::Names(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::Names(void) const
 { return NAMES; }
 
 // Get number of locations in database.
 inline
 int 
-spatialdata::TestSimpleDBVolume::NumLocs(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::NumLocs(void) const
 { return NUMLOCS; }
 
 // Get number of values at each location in database.
 inline
 int
-spatialdata::TestSimpleDBVolume::NumVals(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::NumVals(void) const
 { return NUMVALS; }
 
 // Get topology of data in database.
 inline
-spatialdata::SimpleDB::TopoEnum
-spatialdata::TestSimpleDBVolume::Topology(void) const
+spatialdata::spatialdb::SimpleDB::TopoEnum
+spatialdata::spatialdb::TestSimpleDBVolume::Topology(void) const
 { return TOPOLOGY; }
 
 // Get number of queries.
 inline
 int
-spatialdata::TestSimpleDBVolume::NumQueries(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::NumQueries(void) const
 { return NUMQUERIES; }
 
 // Get query data for nearest neighbor algorithm.
 inline
 const double*
-spatialdata::TestSimpleDBVolume::QueryNearest(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::QueryNearest(void) const
 { return QUERYNEAREST; }
 
 // Get query data for linear interpolation algorithm.
 inline
 const double*
-spatialdata::TestSimpleDBVolume::QueryLinear(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::QueryLinear(void) const
 { return QUERYLINEAR; }
 
 // version

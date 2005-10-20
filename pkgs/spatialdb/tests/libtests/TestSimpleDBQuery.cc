@@ -24,7 +24,7 @@
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSimpleDBQuery );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBQuery );
 
 // ----------------------------------------------------------------------
 // Get static members
@@ -33,7 +33,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSimpleDBQuery );
 // ----------------------------------------------------------------------
 /// Setup test subject
 void
-spatialdata::TestSimpleDBQuery::setUp(void)
+spatialdata::spatialdb::TestSimpleDBQuery::setUp(void)
 { // setUp
   SimpleDB::DataStruct* pData = new SimpleDB::DataStruct;
 
@@ -62,7 +62,7 @@ spatialdata::TestSimpleDBQuery::setUp(void)
 // ----------------------------------------------------------------------
 /// Cleanup test subject
 void
-spatialdata::TestSimpleDBQuery::tearDown(void)
+spatialdata::spatialdb::TestSimpleDBQuery::tearDown(void)
 { // tearDown
   delete mpQuery; mpQuery = 0;
   delete mpDB; mpDB = 0;
@@ -71,7 +71,7 @@ spatialdata::TestSimpleDBQuery::tearDown(void)
 // ----------------------------------------------------------------------
 /// Test Constructor()
 void
-spatialdata::TestSimpleDBQuery::testConstructor(void)
+spatialdata::spatialdb::TestSimpleDBQuery::testConstructor(void)
 { // testConstructor
   SimpleDB db;
   SimpleDBQuery query(db);
@@ -80,7 +80,7 @@ spatialdata::TestSimpleDBQuery::testConstructor(void)
 // ----------------------------------------------------------------------
 /// Test DistSquared()
 void
-spatialdata::TestSimpleDBQuery::testDistSquared(void)
+spatialdata::spatialdb::TestSimpleDBQuery::testDistSquared(void)
 { // testDistSquared
   FIREWALL(2 <= NUMPTS);
   const int numCoords = 3;
@@ -93,7 +93,7 @@ spatialdata::TestSimpleDBQuery::testDistSquared(void)
 // ----------------------------------------------------------------------
 /// Test Area()
 void
-spatialdata::TestSimpleDBQuery::testArea(void)
+spatialdata::spatialdb::TestSimpleDBQuery::testArea(void)
 { // testArea
   FIREWALL(3 <= NUMPTS);
   const int numCoords = 3;
@@ -111,7 +111,7 @@ spatialdata::TestSimpleDBQuery::testArea(void)
 // ----------------------------------------------------------------------
 /// Test Volume()
 void
-spatialdata::TestSimpleDBQuery::testVolume(void)
+spatialdata::spatialdb::TestSimpleDBQuery::testVolume(void)
 { // testVolume
   FIREWALL(4 <= NUMPTS);
   const int numCoords = 3;
@@ -125,7 +125,7 @@ spatialdata::TestSimpleDBQuery::testVolume(void)
 // ----------------------------------------------------------------------
 /// Test QueryType()
 void
-spatialdata::TestSimpleDBQuery::testQueryType(void)
+spatialdata::spatialdb::TestSimpleDBQuery::testQueryType(void)
 { // testQueryType
   FIREWALL(0 != mpQuery);
 
@@ -145,7 +145,7 @@ spatialdata::TestSimpleDBQuery::testQueryType(void)
 // ----------------------------------------------------------------------
 /// Test QueryVals()
 void
-spatialdata::TestSimpleDBQuery::testQueryVals(void)
+spatialdata::spatialdb::TestSimpleDBQuery::testQueryVals(void)
 { // testQueryVals
   FIREWALL(0 != mpQuery);
 

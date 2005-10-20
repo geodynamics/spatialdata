@@ -20,19 +20,21 @@
  * TestSimpleDBVolume).
  */
 
-#if !defined(spatialdata_testsimpledb_h)
-#define spatialdata_testsimpledb_h
+#if !defined(spatialdata_spatialdb_testsimpledb_h)
+#define spatialdata_spatialdb_testsimpledb_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatial package
 namespace spatialdata {
-  class TestSimpleDB;
-  class SimpleDB; // USES SimpleDB
-}; // spatialdata
+  namespace spatialdb {
+    class TestSimpleDB;
+    class SimpleDB; // USES SimpleDB
+  } // spatialdb
+} // spatialdata
 
 /// C++ unit testing for SimpleDB
-class spatialdata::TestSimpleDB : public CppUnit::TestFixture
+class spatialdata::spatialdb::TestSimpleDB : public CppUnit::TestFixture
 { // class TestSimpleDB
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -144,7 +146,7 @@ private :
 
 #include "TestSimpleDB.icc" // inline methods
 
-#endif // spatialdata_testsimpledb
+#endif // spatialdata_spatialdb_testsimpledb
 
 // version
 // $Id: TestSimpleDB.h,v 1.1 2005/05/25 18:43:04 baagaard Exp $

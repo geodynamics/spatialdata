@@ -15,10 +15,10 @@
  * @brief C++ types used in simple spatial database.
  */
 
-#if !defined(spatialdata_simpledbtypes_h)
-#define spatialdata_simpledbtypes_h
+#if !defined(spatialdata_spatialdb_simpledbtypes_h)
+#define spatialdata_spatialdb_simpledbtypes_h
 
-struct spatialdata::SimpleDB::DataStruct {
+struct spatialdata::spatialdb::SimpleDB::DataStruct {
   double* Data;
   std::string* ValNames;
   int NumLocs;
@@ -27,10 +27,12 @@ struct spatialdata::SimpleDB::DataStruct {
 }; // DataStruct
 
 namespace spatialdata {
+  namespace spatialdb {
   class SpatialDBTypes;
-}; // namespace spatialdata
+  } // spatialdb
+} // spatialdata
 
-class spatialdata::SimpleDBTypes
+class spatialdata::spatialdb::SimpleDBTypes
 { // SimpleDBTypes
 
 public :
@@ -56,7 +58,7 @@ public :
 
 #include "SimpleDBTypes.icc" // inline methods
 
-#endif // spatialdata_simpledbtypes_h
+#endif // spatialdata_spatialdb_simpledbtypes_h
 
 // version
 // $Id: SimpleDBTypes.h,v 1.1 2005/05/25 18:42:56 baagaard Exp $

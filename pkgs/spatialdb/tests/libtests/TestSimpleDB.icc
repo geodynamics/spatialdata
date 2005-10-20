@@ -10,14 +10,14 @@
 // ======================================================================
 //
 
-#if !defined(spatialdata_testsimpledb_h)
+#if !defined(spatialdata_spatialdb_testsimpledb_h)
 #error "TestSimpleDB.icc must only be included from TestSimpleDB.h"
 #endif
 
 // Get database.
 inline
-spatialdata::SimpleDB*
-spatialdata::TestSimpleDB::Database(void)
+spatialdata::spatialdb::SimpleDB*
+spatialdata::spatialdb::TestSimpleDB::Database(void)
 { return mpDB; }
 
 // version

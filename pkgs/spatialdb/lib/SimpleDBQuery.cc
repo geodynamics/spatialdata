@@ -37,7 +37,7 @@
 
 // ----------------------------------------------------------------------
 // Default constructor.
-spatialdata::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
+spatialdata::spatialdb::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
   mQueryType(SimpleDB::LINEAR),
   mDB(db),
   mQueryVals(0),
@@ -47,7 +47,7 @@ spatialdata::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
 
 // ----------------------------------------------------------------------
 // Default destructor.
-spatialdata::SimpleDBQuery::~SimpleDBQuery(void)
+spatialdata::spatialdb::SimpleDBQuery::~SimpleDBQuery(void)
 { // destructor
   delete[] mQueryVals; mQueryVals = 0;
   mQuerySize = 0;
@@ -56,7 +56,7 @@ spatialdata::SimpleDBQuery::~SimpleDBQuery(void)
 // ----------------------------------------------------------------------
 // Set query type.
 void
-spatialdata::SimpleDBQuery::QueryType(const SimpleDB::QueryEnum queryType)
+spatialdata::spatialdb::SimpleDBQuery::QueryType(const SimpleDB::QueryEnum queryType)
 { // QueryType
   mQueryType = queryType;
 } // QueryType
@@ -64,8 +64,8 @@ spatialdata::SimpleDBQuery::QueryType(const SimpleDB::QueryEnum queryType)
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::SimpleDBQuery::QueryVals(const char** names,
-				      const int numVals)
+spatialdata::spatialdb::SimpleDBQuery::QueryVals(const char** names,
+						 const int numVals)
 { // QueryVals
   FIREWALL(0 != mDB.mpData);
   if (0 == numVals) {
@@ -103,11 +103,11 @@ spatialdata::SimpleDBQuery::QueryVals(const char** names,
 // ----------------------------------------------------------------------
 // Query the database.
 void
-spatialdata::SimpleDBQuery::Query(double** pVals,
-				  const int numVals,
-				  const double x,
-				  const double y,
-				  const double z)
+spatialdata::spatialdb::SimpleDBQuery::Query(double** pVals,
+					     const int numVals,
+					     const double x,
+					     const double y,
+					     const double z)
 { // Query
   if (0 == mQuerySize) {
     std::ostringstream msg;
@@ -144,8 +144,8 @@ spatialdata::SimpleDBQuery::Query(double** pVals,
 // ----------------------------------------------------------------------
 // Query database using nearest neighbor algorithm.
 void
-spatialdata::SimpleDBQuery::QueryNearest(double** pVals,
-					 const int numVals)
+spatialdata::spatialdb::SimpleDBQuery::QueryNearest(double** pVals,
+						    const int numVals)
 { // QueryNearest
   FIREWALL(0 != pVals);
   FIREWALL(0 != mDB.mpData);
@@ -172,7 +172,7 @@ spatialdata::SimpleDBQuery::QueryNearest(double** pVals,
 // ----------------------------------------------------------------------
 // Query database using linear interpolation algorithm.
 void
-spatialdata::SimpleDBQuery::QueryLinear(double** pVals,
+spatialdata::spatialdb::SimpleDBQuery::QueryLinear(double** pVals,
 					const int numVals)
 { // QueryLinear
   FIREWALL(0 != pVals);
@@ -210,7 +210,7 @@ spatialdata::SimpleDBQuery::QueryLinear(double** pVals,
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleDBQuery::FindNearest(void)
+spatialdata::spatialdb::SimpleDBQuery::FindNearest(void)
 { // FindNearest
   FIREWALL(0 != mDB.mpData);
 
@@ -257,7 +257,7 @@ spatialdata::SimpleDBQuery::FindNearest(void)
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleDBQuery::GetWeights(std::vector<WtStruct>* pWeights)
+spatialdata::spatialdb::SimpleDBQuery::GetWeights(std::vector<WtStruct>* pWeights)
 { // GetWeights
   FIREWALL(0 != mDB.mpData);
   FIREWALL(0 != pWeights);
@@ -308,7 +308,7 @@ spatialdata::SimpleDBQuery::GetWeights(std::vector<WtStruct>* pWeights)
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleDBQuery::FindPointPt(std::vector<WtStruct>* pWeights)
+spatialdata::spatialdb::SimpleDBQuery::FindPointPt(std::vector<WtStruct>* pWeights)
 { // FindPointPt
   FIREWALL(0 != mDB.mpData);
   FIREWALL(0 != pWeights);
@@ -319,7 +319,7 @@ spatialdata::SimpleDBQuery::FindPointPt(std::vector<WtStruct>* pWeights)
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleDBQuery::FindLinePt(std::vector<WtStruct>* pWeights)
+spatialdata::spatialdb::SimpleDBQuery::FindLinePt(std::vector<WtStruct>* pWeights)
 { // FindPointPt
   FIREWALL(0 != mDB.mpData);
   FIREWALL(0 != pWeights);
@@ -376,7 +376,7 @@ spatialdata::SimpleDBQuery::FindLinePt(std::vector<WtStruct>* pWeights)
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleDBQuery::FindAreaPt(std::vector<WtStruct>* pWeights)
+spatialdata::spatialdb::SimpleDBQuery::FindAreaPt(std::vector<WtStruct>* pWeights)
 { // FindAreaPt
   FIREWALL(0 != mDB.mpData);
   FIREWALL(0 != pWeights);
@@ -473,7 +473,7 @@ spatialdata::SimpleDBQuery::FindAreaPt(std::vector<WtStruct>* pWeights)
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleDBQuery::FindVolumePt(std::vector<WtStruct>* pWeights)
+spatialdata::spatialdb::SimpleDBQuery::FindVolumePt(std::vector<WtStruct>* pWeights)
 { // FindVolumePt
   FIREWALL(0 != mDB.mpData);
   FIREWALL(0 != pWeights);
@@ -569,8 +569,8 @@ spatialdata::SimpleDBQuery::FindVolumePt(std::vector<WtStruct>* pWeights)
 // ----------------------------------------------------------------------
 // Compute square of distance between points A and B.
 double
-spatialdata::SimpleDBQuery::DistSquared(const double a[3],
-					const double b[3])
+spatialdata::spatialdb::SimpleDBQuery::DistSquared(const double a[3],
+						   const double b[3])
 { // DistSquared
   const double abX = b[0]-a[0];
   const double abY = b[1]-a[1];
@@ -584,11 +584,11 @@ spatialdata::SimpleDBQuery::DistSquared(const double a[3],
  * normal to triangular surface.
  */
 void
-spatialdata::SimpleDBQuery::Area(double* pArea,
-				 double dir[3],
-				 const double* a,
-				 const double* b,
-				 const double* c)
+spatialdata::spatialdb::SimpleDBQuery::Area(double* pArea,
+					    double dir[3],
+					    const double* a,
+					    const double* b,
+					    const double* c)
 { // Area
   FIREWALL(0 != pArea);
   FIREWALL(0 != dir);
@@ -618,10 +618,10 @@ spatialdata::SimpleDBQuery::Area(double* pArea,
 
 // ----------------------------------------------------------------------
 double
-spatialdata::SimpleDBQuery::Volume(const double a[3],
-				   const double b[3],
-				   const double c[3],
-				   const double d[3])
+spatialdata::spatialdb::SimpleDBQuery::Volume(const double a[3],
+					      const double b[3],
+					      const double c[3],
+					      const double d[3])
 /* Compute volume of tetrahedral defined by four points. */
 { // Volume
   const double det1 = 

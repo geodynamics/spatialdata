@@ -15,15 +15,17 @@
  * @brief C++ manager for spatial database.
  */
 
-#if !defined(spatialdata_spatialdb_h)
-#define spatialdata_spatialdb_h
+#if !defined(spatialdata_spatialdb_spatialdb_h)
+#define spatialdata_spatialdb_spatialdb_h
 
 namespace spatialdata {
-  class SpatialDB;
-}; // namespace spatialdata
+  namespace spatialdb {
+    class SpatialDB;
+  } // spatialdb
+} // spatialdata
 
 /// C++ manager for spatial database.
-class spatialdata::SpatialDB
+class spatialdata::spatialdb::SpatialDB
 { // class SpatialDB
 
  public :
@@ -104,7 +106,7 @@ private :
 
 #include "SpatialDB.icc" // inline methods
 
-#endif // spatialdata_spatialdb_h
+#endif // spatialdata_spatialdb_spatialdb_h
 
 // version
 // $Id: SpatialDB.h,v 1.1 2005/05/25 18:42:57 baagaard Exp $

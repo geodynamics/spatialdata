@@ -18,17 +18,19 @@
  * interpolation.
  */
 
-#if !defined(spatialdata_testsimpledbline_h)
-#define spatialdata_testsimpledbline_h
+#if !defined(spatialdata_spatialdb_testsimpledbline_h)
+#define spatialdata_spatialdb_testsimpledbline_h
 
 /// Namespace for spatial package
 namespace spatialdata {
-  class TestSimpleDB;
-  class TestSimpleDBLine;
-}; // spatialdata
+  namespace spatialdb {
+    class TestSimpleDB;
+    class TestSimpleDBLine;
+  } // spatialdb
+} // spatialdata
 
 /// C++ unit testing for SimpleDB
-class spatialdata::TestSimpleDBLine : public TestSimpleDB
+class spatialdata::spatialdb::TestSimpleDBLine : public TestSimpleDB
 { // class TestSimpleDBLine
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
@@ -113,7 +115,7 @@ private :
 
 #include "TestSimpleDBLine.icc" // inline methods
 
-#endif // spatialdata_testsimpledbline_h
+#endif // spatialdata_spatialdb_testsimpledbline_h
 
 // version
 // $Id: TestSimpleDBLine.h,v 1.1 2005/05/25 18:43:05 baagaard Exp $

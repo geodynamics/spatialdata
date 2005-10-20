@@ -35,8 +35,8 @@ static char pyspatialdb_CppSimpleDB_note[] =
 PyObject*
 pyspatialdb_CppSimpleDB(PyObject*, PyObject*)
 { // CppSimpleDB
-  return PyCObject_FromVoidPtr((void*) new spatialdata::SimpleDB(),
-		pythiautil::BindingsTUtil<spatialdata::SimpleDB>::DeleteObj);
+  return PyCObject_FromVoidPtr((void*) new spatialdata::spatialdb::SimpleDB(),
+       pythiautil::BindingsTUtil<spatialdata::spatialdb::SimpleDB>::DeleteObj);
 } // CppSimpleDB
         
 // ----------------------------------------------------------------------
@@ -64,17 +64,18 @@ pyspatialdb_CppSimpleDB_QueryType(PyObject*, PyObject* args)
 
 
   try {
-    spatialdata::SimpleDB* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SimpleDB*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SimpleDB* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SimpleDB*>::GetCObj(pyDB, 
 							     "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
     const char* queryString = PyString_AsString(pyQueryString);
-    spatialdata::SimpleDB::QueryEnum queryType = spatialdata::SimpleDB::NEAREST;
+    spatialdata::spatialdb::SimpleDB::QueryEnum queryType = 
+      spatialdata::spatialdb::SimpleDB::NEAREST;
     if (0 == strcasecmp(queryString, "Nearest"))
-      queryType = spatialdata::SimpleDB::NEAREST;
+      queryType = spatialdata::spatialdb::SimpleDB::NEAREST;
     else if (0 == strcasecmp(queryString, "Linear"))
-      queryType = spatialdata::SimpleDB::LINEAR;
+      queryType = spatialdata::spatialdb::SimpleDB::LINEAR;
     else {
       std::ostringstream msg;
       msg << "Could not parse query type string '" << queryString << "'\n"
@@ -123,13 +124,13 @@ pyspatialdb_CppSimpleDB_IOHandler(PyObject*, PyObject* args)
 
 
   try {
-    spatialdata::SimpleDB* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SimpleDB*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SimpleDB* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SimpleDB*>::GetCObj(pyDB, 
 							     "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
-    spatialdata::SimpleIO* pIOHandler = 
-      pythiautil::BindingsTUtil<spatialdata::SimpleIO*>::GetCObj(pyIOHandler, 
+    spatialdata::spatialdb::SimpleIO* pIOHandler = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SimpleIO*>::GetCObj(pyIOHandler, 
 							     "SimpleIO*",
 					      "Python handle to SimpleIO*");
     FIREWALL(0 != pIOHandler);

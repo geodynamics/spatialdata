@@ -25,19 +25,19 @@
 
 // ----------------------------------------------------------------------
 /// Default constructor
-spatialdata::SimpleIO::SimpleIO(void)
+spatialdata::spatialdb::SimpleIO::SimpleIO(void)
 { // constructor
 } // constructor
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::SimpleIO::~SimpleIO(void)
+spatialdata::spatialdb::SimpleIO::~SimpleIO(void)
 { // destructor
 } // destructor
 
 // ----------------------------------------------------------------------
 void
-spatialdata::SimpleIO::CheckCompatibility(const SimpleDB::DataStruct& data)
+spatialdata::spatialdb::SimpleIO::CheckCompatibility(const SimpleDB::DataStruct& data)
 { // CheckCompatibility
   const int numLocs = data.NumLocs;
   switch (data.Topology)

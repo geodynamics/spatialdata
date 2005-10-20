@@ -19,7 +19,7 @@
 #include "TestSimpleDBLine.h" // Implementation of class methods
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSimpleDBLine );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBLine );
 
 // ----------------------------------------------------------------------
 #include "data/TestSimpleDBLine.dat"

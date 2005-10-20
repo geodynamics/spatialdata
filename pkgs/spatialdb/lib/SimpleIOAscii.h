@@ -10,17 +10,19 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_simpleioascii_h)
-#define spatialdata_simpleioascii_h
+#if !defined(spatialdata_spatialdb_simpleioascii_h)
+#define spatialdata_spatialdb_simpleioascii_h
 
 #include <iosfwd> // USES std::istream
 
 namespace spatialdata {
-  class SimpleIOAscii;
-}; // namespace spatialdata
+  namespace spatialdb {
+    class SimpleIOAscii;
+  } // spatialdb
+} // spatialdata
 
 // ----------------------------------------------------------------------
-class spatialdata::SimpleIOAscii : public SimpleIO
+class spatialdata::spatialdb::SimpleIOAscii : public SimpleIO
 { // SimpleIOAscii
 
 public :
@@ -99,7 +101,7 @@ private :
 
 #include "SimpleIOAscii.icc" // inline methods
 
-#endif // spatialdata_SimpleIOAscii_h
+#endif // spatialdata_spatialdb_SimpleIOAscii_h
 
 // version
 // $Id: SimpleIOAscii.h,v 1.1 2005/05/25 18:42:57 baagaard Exp $

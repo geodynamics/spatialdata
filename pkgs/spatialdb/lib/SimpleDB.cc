@@ -31,7 +31,7 @@
 
 // ----------------------------------------------------------------------
 /// Default constructor
-spatialdata::SimpleDB::SimpleDB(void) :
+spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
   mpIOHandler(0),
   mpQuery(0),
   mpData(0)
@@ -40,7 +40,7 @@ spatialdata::SimpleDB::SimpleDB(void) :
 
 // ----------------------------------------------------------------------
 /// Constructor with label
-spatialdata::SimpleDB::SimpleDB(const char* label) :
+spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
   SpatialDB(label),
   mpIOHandler(0),
   mpQuery(0),
@@ -50,7 +50,7 @@ spatialdata::SimpleDB::SimpleDB(const char* label) :
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::SimpleDB::~SimpleDB(void)
+spatialdata::spatialdb::SimpleDB::~SimpleDB(void)
 { // destructor
   delete mpQuery; mpQuery = 0;
   if (0 != mpData) {
@@ -63,7 +63,7 @@ spatialdata::SimpleDB::~SimpleDB(void)
 // ----------------------------------------------------------------------
 /// Open the database and prepare for querying.
 void
-spatialdata::SimpleDB::Open(void)
+spatialdata::spatialdb::SimpleDB::Open(void)
 { // Open
   FIREWALL(0 != mpIOHandler);
 
@@ -83,7 +83,7 @@ spatialdata::SimpleDB::Open(void)
 // ----------------------------------------------------------------------
 /// Close the database.
 void
-spatialdata::SimpleDB::Close(void)
+spatialdata::spatialdb::SimpleDB::Close(void)
 { // Close
   delete mpQuery; mpQuery = 0;
   delete[] mpData; mpData = 0;
@@ -92,7 +92,7 @@ spatialdata::SimpleDB::Close(void)
 // ----------------------------------------------------------------------
 // Set query type.
 void
-spatialdata::SimpleDB::QueryType(const SimpleDB::QueryEnum queryType)
+spatialdata::spatialdb::SimpleDB::QueryType(const SimpleDB::QueryEnum queryType)
 { // QueryType
   if (0 == mpQuery) {
     std::ostringstream msg;
@@ -107,8 +107,8 @@ spatialdata::SimpleDB::QueryType(const SimpleDB::QueryEnum queryType)
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::SimpleDB::QueryVals(const char** names,
-				 const int numVals)
+spatialdata::spatialdb::SimpleDB::QueryVals(const char** names,
+					    const int numVals)
 { // QueryVals
   if (0 == mpQuery) {
     std::ostringstream msg;
@@ -123,7 +123,7 @@ spatialdata::SimpleDB::QueryVals(const char** names,
 // ----------------------------------------------------------------------
 // Set the I/O handler.
 void
-spatialdata::SimpleDB::IOHandler(const SimpleIO* iohandler)
+spatialdata::spatialdb::SimpleDB::IOHandler(const SimpleIO* iohandler)
 { // IOHandler
   mpIOHandler = iohandler->Clone();
 } // IOHandler
@@ -131,11 +131,11 @@ spatialdata::SimpleDB::IOHandler(const SimpleIO* iohandler)
 // ----------------------------------------------------------------------
 // Query the database.
 void
-spatialdata::SimpleDB::Query(double** pVals,
-			     const int numVals,
-			     const double x,
-			     const double y,
-			     const double z)
+spatialdata::spatialdb::SimpleDB::Query(double** pVals,
+					const int numVals,
+					const double x,
+					const double y,
+					const double z)
 { // Query
   if (0 == mpQuery) {
     std::ostringstream msg;

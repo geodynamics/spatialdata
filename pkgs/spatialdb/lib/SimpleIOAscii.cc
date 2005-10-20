@@ -33,18 +33,18 @@
 #endif
 
 // ----------------------------------------------------------------------
-const char* spatialdata::SimpleIOAscii::HEADER =  "#SPATIAL.ascii";
-//const char* spatialdata::SimpleIOAscii::ASCIIHEADER =  "#EQSIM.spatial.ascii";
+const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =  "#SPATIAL.ascii";
+//const char* spatialdata::spatialdb::SimpleIOAscii::ASCIIHEADER =  "#EQSIM.spatial.ascii";
 
-const char* spatialdata::SimpleIOAscii::POINTSTRING = "point";
-const char* spatialdata::SimpleIOAscii::LINESTRING = "line";
-const char* spatialdata::SimpleIOAscii::AREASTRING = "area";
-const char* spatialdata::SimpleIOAscii::VOLSTRING = "volume";
+const char* spatialdata::spatialdb::SimpleIOAscii::POINTSTRING = "point";
+const char* spatialdata::spatialdb::SimpleIOAscii::LINESTRING = "line";
+const char* spatialdata::spatialdb::SimpleIOAscii::AREASTRING = "area";
+const char* spatialdata::spatialdb::SimpleIOAscii::VOLSTRING = "volume";
 
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
-spatialdata::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
+spatialdata::spatialdb::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
 { // Read
   FIREWALL(0 != pData);
 
@@ -107,7 +107,7 @@ spatialdata::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
-spatialdata::SimpleIOAscii::ReadV1(SimpleDB::DataStruct* pData,
+spatialdata::spatialdb::SimpleIOAscii::ReadV1(SimpleDB::DataStruct* pData,
 			       std::istream& filein)
 { // ReadV1
   FIREWALL(0 != pData);
@@ -143,7 +143,7 @@ spatialdata::SimpleIOAscii::ReadV1(SimpleDB::DataStruct* pData,
 // ----------------------------------------------------------------------
 // Write ascii database file.
 void
-spatialdata::SimpleIOAscii::Write(const SimpleDB::DataStruct& data)
+spatialdata::spatialdb::SimpleIOAscii::Write(const SimpleDB::DataStruct& data)
 { // Write
   std::ofstream fileout(Filename());
   if (!fileout.is_open() || !fileout.good()) {
@@ -186,8 +186,8 @@ spatialdata::SimpleIOAscii::Write(const SimpleDB::DataStruct& data)
 
 // ----------------------------------------------------------------------
 // Parse string into topology type.
-spatialdata::SimpleDB::TopoEnum
-spatialdata::SimpleIOAscii::ParseTopoString(const char* str)
+spatialdata::spatialdb::SimpleDB::TopoEnum
+spatialdata::spatialdb::SimpleIOAscii::ParseTopoString(const char* str)
 { // ParseTopoString
   SimpleDB::TopoEnum topoType = SimpleDB::POINT;
   if (strcasecmp(str, POINTSTRING) == 0)
@@ -210,7 +210,7 @@ spatialdata::SimpleIOAscii::ParseTopoString(const char* str)
 // ----------------------------------------------------------------------
 // Get string associated with topology type.
 const char*
-spatialdata::SimpleIOAscii::TopoString(SimpleDB::TopoEnum topoType)
+spatialdata::spatialdb::SimpleIOAscii::TopoString(SimpleDB::TopoEnum topoType)
 { // ParseTopoString
   const char* str = POINTSTRING;
   switch (topoType)

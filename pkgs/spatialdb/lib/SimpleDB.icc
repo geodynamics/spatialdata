@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_simpledb_h)
+#if !defined(spatialdata_spatialdb_simpledb_h)
 #error "SimpleDB.icc must only be included from SimpleDB.h"
 #endif
 

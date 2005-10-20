@@ -15,10 +15,11 @@
  * @brief C++ manager for simple spatial database.
  */
 
-#if !defined(spatialdata_simpledb_h)
-#define spatialdata_simpledb_h
+#if !defined(spatialdata_spatialdb_simpledb_h)
+#define spatialdata_spatialdb_simpledb_h
 
 namespace spatialdata {
+  namespace spatialdb {
   class SpatialDB; // ISA SpatialDB
   class SimpleDB;
   class SimpleIO; // USES SimpleIO
@@ -26,10 +27,11 @@ namespace spatialdata {
   class SimpleDBQuery; // helper
   class TestSimpleDB; // regression testing
   class TestSimpleDBQuery; // regression testing
-}; // namespace spatialdata
+  } // spatialdb
+} // spatialdata
 
 /// C++ manager for simple spatial database.
-class spatialdata::SimpleDB : public SpatialDB
+class spatialdata::spatialdb::SimpleDB : public SpatialDB
 { // class SimpleDB
   friend class SimpleDBQuery; // helper
   friend class SimpleDBTypes; // helper
@@ -133,7 +135,7 @@ private :
 
 #include "SimpleDB.icc"
 
-#endif // spatialdata_simpledb_h
+#endif // spatialdata_spatialdb_simpledb_h
 
 // version
 // $Id: SimpleDB.h,v 1.1 2005/05/25 18:42:56 baagaard Exp $

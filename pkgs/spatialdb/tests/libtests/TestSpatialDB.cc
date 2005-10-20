@@ -24,12 +24,12 @@
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSpatialDB );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSpatialDB );
 
 // ----------------------------------------------------------------------
 // Setup test subject
 void
-spatialdata::TestSpatialDB::setUp(void)
+spatialdata::spatialdb::TestSpatialDB::setUp(void)
 { // setUp
   SimpleDB* pDB = new SimpleDB;
 
@@ -47,7 +47,7 @@ spatialdata::TestSpatialDB::setUp(void)
 // ----------------------------------------------------------------------
 // Cleanup test subject
 void
-spatialdata::TestSpatialDB::tearDown(void)
+spatialdata::spatialdb::TestSpatialDB::tearDown(void)
 { // tearDown
   delete mpDB; mpDB = 0;
 } // tearDown
@@ -55,7 +55,7 @@ spatialdata::TestSpatialDB::tearDown(void)
 // ----------------------------------------------------------------------
 // Test SpatialDB
 void
-spatialdata::TestSpatialDB::testDB(void)
+spatialdata::spatialdb::TestSpatialDB::testDB(void)
 { // testDB
   FIREWALL(0 != mpDB);
 

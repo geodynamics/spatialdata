@@ -17,20 +17,22 @@
  * C++ unit testing for SimpleDBQuery.
  */
 
-#if !defined(spatialdata_testsimpledbquery_h)
-#define spatialdata_testsimpledbquery_h
+#if !defined(spatialdata_spatialdb_testsimpledbquery_h)
+#define spatialdata_spatialdb_testsimpledbquery_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatial package
 namespace spatialdata {
-  class TestSimpleDBQuery;
-  class SimpleDB; // USES SimpleDB
-  class SimpleDBQuery; // USES SimpleDBQuery
-}; // spatialdata
+  namespace spatialdb {
+    class TestSimpleDBQuery;
+    class SimpleDB; // USES SimpleDB
+    class SimpleDBQuery; // USES SimpleDBQuery
+  } // spatialdb
+} // spatialdata
 
 /// C++ unit testing for SimpleDBQuery
-class spatialdata::TestSimpleDBQuery : public CppUnit::TestFixture
+class spatialdata::spatialdb::TestSimpleDBQuery : public CppUnit::TestFixture
 { // class TestSimpleDBQuery
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
@@ -91,7 +93,7 @@ private :
 
 }; // class TestSimpleDBQuery
 
-#endif // spatialdata_testsimpledbquery_h
+#endif // spatialdata_spatialdb_testsimpledbquery_h
 
 // version
 // $Id: TestSimpleDBQuery.h,v 1.1 2005/05/25 18:43:05 baagaard Exp $

@@ -31,7 +31,8 @@ void spatialdb_query(void* db,
 		     const double* y,
 		     const double* z)
 { // spatialdb_query
-  spatialdata::SpatialDB* pDB = (spatialdata::SpatialDB*) db;
+  spatialdata::spatialdb::SpatialDB* pDB = 
+    (spatialdata::spatialdb::SpatialDB*) db;
   FIREWALL(0 != pDB);
   FIREWALL(0 != x);
   FIREWALL(0 != y);

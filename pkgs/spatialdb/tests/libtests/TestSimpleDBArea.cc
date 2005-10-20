@@ -19,7 +19,7 @@
 #include "TestSimpleDBArea.h" // Implementation of class methods
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSimpleDBArea );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBArea );
 
 // ----------------------------------------------------------------------
 #include "data/TestSimpleDBArea.dat"

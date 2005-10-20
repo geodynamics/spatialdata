@@ -10,8 +10,8 @@
  * ======================================================================
  */
 
-#if !defined(spatialdata_cspatialdb_h)
-#define spatialdata_cspatialdb_h
+#if !defined(spatialdata_spatialdb_cspatialdb_h)
+#define spatialdata_spatialdb_cspatialdb_h
 
 /** Call SpatialDB:Query().
  *

@@ -10,56 +10,56 @@
 // ======================================================================
 //
 
-#if !defined(spatialdata_testsimpledbpoint_h)
+#if !defined(spatialdata_spatialdb_testsimpledbpoint_h)
 #error "TestSimpleDBPoint.icc must only be included from TestSimpleDBPoint.h"
 #endif
 
 // Get data for database.
 inline
 const double*
-spatialdata::TestSimpleDBPoint::Data(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::Data(void) const
 { return DATA; }
 
 // Get names of values in database.
 inline
 const char**
-spatialdata::TestSimpleDBPoint::Names(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::Names(void) const
 { return NAMES; }
 
 // Get number of locations in database.
 inline
 int 
-spatialdata::TestSimpleDBPoint::NumLocs(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::NumLocs(void) const
 { return NUMLOCS; }
 
 // Get number of values at each location in database.
 inline
 int
-spatialdata::TestSimpleDBPoint::NumVals(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::NumVals(void) const
 { return NUMVALS; }
 
 // Get topology of data in database.
 inline
-spatialdata::SimpleDB::TopoEnum
-spatialdata::TestSimpleDBPoint::Topology(void) const
+spatialdata::spatialdb::SimpleDB::TopoEnum
+spatialdata::spatialdb::TestSimpleDBPoint::Topology(void) const
 { return TOPOLOGY; }
 
 // Get number of queries.
 inline
 int
-spatialdata::TestSimpleDBPoint::NumQueries(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::NumQueries(void) const
 { return NUMQUERIES; }
 
 // Get query data for nearest neighbor algorithm.
 inline
 const double*
-spatialdata::TestSimpleDBPoint::QueryNearest(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::QueryNearest(void) const
 { return QUERYNEAREST; }
 
 // Get query data for linear interpolation algorithm.
 inline
 const double*
-spatialdata::TestSimpleDBPoint::QueryLinear(void) const
+spatialdata::spatialdb::TestSimpleDBPoint::QueryLinear(void) const
 { return QUERYLINEAR; }
 
 // version

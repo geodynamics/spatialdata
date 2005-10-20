@@ -17,19 +17,21 @@
  * C++ unit testing for SpatialDB.
  */
 
-#if !defined(spatialdata_testspatialdb_h)
-#define spatialdata_testspatialdb_h
+#if !defined(spatialdata_spatialdb_testspatialdb_h)
+#define spatialdata_spatialdb_testspatialdb_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatial package
 namespace spatialdata {
-  class TestSpatialDB;
-  class SpatialDB; // USES SpatialDB
-}; // spatialdata
+  namespace spatialdb {
+    class TestSpatialDB;
+    class SpatialDB; // USES SpatialDB
+  } // spatialdb
+} // spatialdata
 
 /// C++ unit testing for SimpleIO
-class spatialdata::TestSpatialDB : public CppUnit::TestFixture
+class spatialdata::spatialdb::TestSpatialDB : public CppUnit::TestFixture
 { // class TestSpatialDB
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
@@ -56,7 +58,7 @@ private :
 
 }; // class TestSpatialDB
 
-#endif // spatialdata_testspatialdb
+#endif // spatialdata_spatialdb_testspatialdb
 
 // version
 // $Id: TestSpatialDB.h,v 1.1 2005/05/25 18:43:06 baagaard Exp $

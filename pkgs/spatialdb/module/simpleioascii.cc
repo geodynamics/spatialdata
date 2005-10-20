@@ -32,8 +32,8 @@ static char pyspatialdb_CppSimpleIOAscii_note[] =
 PyObject*
 pyspatialdb_CppSimpleIOAscii(PyObject*, PyObject*)
 { // CppSimpleIOAscii
-  return PyCObject_FromVoidPtr((void*) new spatialdata::SimpleIOAscii(),
-		pythiautil::BindingsTUtil<spatialdata::SimpleIOAscii>::DeleteObj);
+  return PyCObject_FromVoidPtr((void*) new spatialdata::spatialdb::SimpleIOAscii(),
+   pythiautil::BindingsTUtil<spatialdata::spatialdb::SimpleIOAscii>::DeleteObj);
 } // CppSimpleIOAscii
         
 // version

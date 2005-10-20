@@ -28,7 +28,7 @@
 // ----------------------------------------------------------------------
 // Setup test subject
 void
-spatialdata::TestSimpleDB::setUp(void)
+spatialdata::spatialdb::TestSimpleDB::setUp(void)
 { // setUp
   SimpleDB::DataStruct* pData = new SimpleDB::DataStruct;
 
@@ -57,7 +57,7 @@ spatialdata::TestSimpleDB::setUp(void)
 // ----------------------------------------------------------------------
 // Cleanup test subject
 void
-spatialdata::TestSimpleDB::tearDown(void)
+spatialdata::spatialdb::TestSimpleDB::tearDown(void)
 { // tearDown
   delete mpDB; mpDB = 0;
 } // tearDown
@@ -65,7 +65,7 @@ spatialdata::TestSimpleDB::tearDown(void)
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::TestSimpleDB::testConstructorA(void)
+spatialdata::spatialdb::TestSimpleDB::testConstructorA(void)
 { // testConstructorA
   SimpleDB db;
 } // testConstructorA
@@ -73,7 +73,7 @@ spatialdata::TestSimpleDB::testConstructorA(void)
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::TestSimpleDB::testConstructorB(void)
+spatialdata::spatialdb::TestSimpleDB::testConstructorB(void)
 { // testConstructorB
   const char* label = "database A";
   SimpleDB db(label);
@@ -83,7 +83,7 @@ spatialdata::TestSimpleDB::testConstructorB(void)
 // ----------------------------------------------------------------------
 // Test Label()
 void
-spatialdata::TestSimpleDB::testLabel(void)
+spatialdata::spatialdb::TestSimpleDB::testLabel(void)
 { // testLabel
   SimpleDB db;
   const char* label = "database 2";
@@ -94,7 +94,7 @@ spatialdata::TestSimpleDB::testLabel(void)
 // ----------------------------------------------------------------------
 // Test Query() using nearest neighbor
 void
-spatialdata::TestSimpleDB::testQueryNearest(void)
+spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void)
 { // testQueryNearest
   SimpleDB* pDB = Database();
   FIREWALL(0 != pDB);
@@ -106,7 +106,7 @@ spatialdata::TestSimpleDB::testQueryNearest(void)
 // ----------------------------------------------------------------------
 // Test Query() using linear interpolation
 void
-spatialdata::TestSimpleDB::testQueryLinear(void)
+spatialdata::spatialdb::TestSimpleDB::testQueryLinear(void)
 { // testQueryLinear
   FIREWALL(0 != mpDB);
 
@@ -117,7 +117,7 @@ spatialdata::TestSimpleDB::testQueryLinear(void)
 // ----------------------------------------------------------------------
 // Check query values.
 void
-spatialdata::TestSimpleDB::CheckQuery(const double* queryData) const
+spatialdata::spatialdb::TestSimpleDB::CheckQuery(const double* queryData) const
 { // CheckQuery
   journal::debug_t debug("TestSimpleDB");
 

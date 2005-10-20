@@ -44,8 +44,8 @@ pyspatialdb_CppSpatialDB_Open(PyObject*, PyObject* args)
   } // if
 
   try {
-    spatialdata::SpatialDB* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SpatialDB*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SpatialDB* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SpatialDB*>::GetCObj(pyDB, 
 							      "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
@@ -85,8 +85,8 @@ pyspatialdb_CppSpatialDB_Close(PyObject*, PyObject* args)
   } // if
 
   try {
-    spatialdata::SpatialDB* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SpatialDB*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SpatialDB* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SpatialDB*>::GetCObj(pyDB, 
 							      "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
@@ -127,8 +127,8 @@ pyspatialdb_CppSpatialDB_QueryVals(PyObject*, PyObject* args)
   } // if
 
   try {
-    spatialdata::SpatialDB* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SpatialDB*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SpatialDB* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SpatialDB*>::GetCObj(pyDB, 
 							      "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
@@ -178,8 +178,8 @@ pyspatialdb_CppSpatialDB_Label(PyObject*, PyObject* args)
   } // if
 
   try {
-    spatialdata::SpatialDB* pDB = 
-      pythiautil::BindingsTUtil<spatialdata::SpatialDB*>::GetCObj(pyDB, 
+    spatialdata::spatialdb::SpatialDB* pDB = 
+      pythiautil::BindingsTUtil<spatialdata::spatialdb::SpatialDB*>::GetCObj(pyDB, 
 							      "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);

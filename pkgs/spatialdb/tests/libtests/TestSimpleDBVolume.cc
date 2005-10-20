@@ -19,7 +19,7 @@
 #include "TestSimpleDBVolume.h" // Implementation of class methods
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestSimpleDBVolume );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBVolume );
 
 // ----------------------------------------------------------------------
 #include "data/TestSimpleDBVolume.dat"

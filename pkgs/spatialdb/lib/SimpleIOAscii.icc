@@ -10,15 +10,15 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_simpleioascii_h)
+#if !defined(spatialdata_spatialdb_simpleioascii_h)
 #error "SimpleIOAscii.icc must only be included from SimpleIOAscii.h"
 #endif
 
 // ----------------------------------------------------------------------
 // Clone object.
 inline
-spatialdata::SimpleIO*
-spatialdata::SimpleIOAscii::Clone(void) const
+spatialdata::spatialdb::SimpleIO*
+spatialdata::spatialdb::SimpleIOAscii::Clone(void) const
 { return new SimpleIOAscii(*this); }
   
 // version

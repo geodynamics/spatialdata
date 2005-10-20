@@ -15,16 +15,18 @@
  * @brief C++ abstract base class for I/O of data for simple spatial database.
  */
 
-#if !defined(spatialdata_simpleio_h)
-#define spatialdata_simpleio_h
+#if !defined(spatialdata_spatialdb_simpleio_h)
+#define spatialdata_spatialdb_simpleio_h
 
 namespace spatialdata {
-  class SimpleIO;
-  class SimpleDB; // USES SimpleDB
-}; // namespace spatialdata
+  namespace spatialdb {
+    class SimpleIO;
+    class SimpleDB; // USES SimpleDB
+  } // spatialdb
+} // spatialdata
 
 /// C++ manager for simple spatial database.
-class spatialdata::SimpleIO
+class spatialdata::spatialdb::SimpleIO
 { // class SimpleIO
 
 public :
@@ -97,7 +99,7 @@ private :
 
 #include "SimpleIO.icc"
 
-#endif // spatialdata_simpleio_h
+#endif // spatialdata_spatialdb_simpleio_h
 
 // version
 // $Id: SimpleIO.h,v 1.1 2005/05/25 18:42:56 baagaard Exp $

@@ -10,20 +10,20 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_spatialdb_h)
+#if !defined(spatialdata_spatialdb_spatialdb_h)
 #error "SpatialDB.icc must only be included from SpatialDB.h"
 #endif
 
 // Set label of spatial database.
 inline
 void
-spatialdata::SpatialDB::Label(const char* label)
+spatialdata::spatialdb::SpatialDB::Label(const char* label)
 { mLabel = label; }
   
 // Get label of spatial database.
 inline
 const char*
-spatialdata::SpatialDB::Label(void) const
+spatialdata::spatialdb::SpatialDB::Label(void) const
 { return mLabel; }
 
 // version

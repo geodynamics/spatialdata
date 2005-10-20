@@ -16,21 +16,21 @@
 
 // ----------------------------------------------------------------------
 /// Default constructor
-spatialdata::SpatialDB::SpatialDB(void) :
+spatialdata::spatialdb::SpatialDB::SpatialDB(void) :
   mLabel("")
 { // constructor
 } // constructor
 
 // ----------------------------------------------------------------------
 /// Constructor with label
-spatialdata::SpatialDB::SpatialDB(const char* label) :
+spatialdata::spatialdb::SpatialDB::SpatialDB(const char* label) :
   mLabel(label)
 { // constructor
 } // constructor
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::SpatialDB::~SpatialDB(void)
+spatialdata::spatialdb::SpatialDB::~SpatialDB(void)
 { // destructor
 } // destructor
 

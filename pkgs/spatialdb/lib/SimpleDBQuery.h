@@ -14,14 +14,16 @@
 #define spatialdata_simpledbquery_h
 
 namespace spatialdata {
-  class SimpleDBQuery;
-  class TestSimpleDBQuery; // regression testing
-}; // namespace spatialdata
+  namespace spatialdb {
+    class SimpleDBQuery;
+    class TestSimpleDBQuery; // regression testing
+  } // spatialdb
+} // spatialdata
 
 #include <vector> // USES std::vector
 
 // ----------------------------------------------------------------------
-class spatialdata::SimpleDBQuery
+class spatialdata::spatialdb::SimpleDBQuery
 { // class SimpleDBQuery
   friend class TestSimpleDBQuery;
 
@@ -188,7 +190,7 @@ private :
 
 }; // class SimpleDBQuery
 
-#endif // spatialdata_spatialdbquery_h
+#endif // spatialdata_spatialdb_spatialdbquery_h
 
 // version
 // $Id: SimpleDBQuery.h,v 1.1 2005/05/25 18:42:56 baagaard Exp $
