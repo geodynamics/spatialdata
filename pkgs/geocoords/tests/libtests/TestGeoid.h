@@ -17,18 +17,20 @@
  * C++ unit testing for TestGeoid.
  */
 
-#if !defined(spatialdata_testgeoid_h)
-#define spatialdata_testgeoid_h
+#if !defined(spatialdata_geocoords_testgeoid_h)
+#define spatialdata_geocoords_testgeoid_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatialdata package
 namespace spatialdata {
+  namespace geocoords {
   class TestGeoid;
-}; // spatialdata
+  } // geocoords
+} // spatialdata
 
 /// C++ unit testing for Geoid
-class spatialdata::TestGeoid : public CppUnit::TestFixture
+class spatialdata::geocoords::TestGeoid : public CppUnit::TestFixture
 { // class TestGeoid
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
@@ -55,7 +57,7 @@ private :
 
 }; // class TestGeoid
 
-#endif // spatialdata_testgeoid
+#endif // spatialdata_geocoords_testgeoid
 
 // version
 // $Id: TestGeoid.h,v 1.1 2005/06/19 19:38:36 baagaard Exp $

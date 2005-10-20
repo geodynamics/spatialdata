@@ -10,54 +10,59 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file tests/libtests/TestGeoLocalConverter.h
+/** @file tests/libtests/TestConverter.h
  *
- * @brief C++ TestGeoLocalConverter object
+ * @brief C++ TestConverter object
  *
- * C++ unit testing for TestGeoLocalConverter.
+ * C++ unit testing for Converter.
  */
 
-#if !defined(spatialdata_testgeolocalconverter_h)
-#define spatialdata_testgeolocalconverter_h
+#if !defined(spatialdata_testconverter_h)
+#define spatialdata_testconverter_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatialdata package
 namespace spatialdata {
-  class TestGeoLocalConverter;
-  class GeoLocalConverter; // USES GeoLocalConverter
-}; // spatialdata
+  namespace geocoords {
+    class TestConverter;
+  } // geocoords
+} // spatialdata
 
-/// C++ unit testing for GeoLocalConverter
-class spatialdata::TestGeoLocalConverter : public CppUnit::TestFixture
-{ // class TestGeoLocalConverter
+/// C++ unit testing for Converter
+class spatialdata::geocoords::TestConverter : public CppUnit::TestFixture
+{ // class TestConverter
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestGeoLocalConverter );
-  CPPUNIT_TEST( testConstructor );
-  CPPUNIT_TEST( testGeoToWGS84 );
+  CPPUNIT_TEST_SUITE( TestConverter );
+  CPPUNIT_TEST( testNAD27ToWGS84 );
+  CPPUNIT_TEST( testWGS84ToNAD27 );
   CPPUNIT_TEST( testWGS84ToECEF );
-  CPPUNIT_TEST( testLocalOrigin );
-  CPPUNIT_TEST( testConvert );
+  CPPUNIT_TEST( testECEFToWGS84 );
+  CPPUNIT_TEST( testNAD27ToLocal );
+  CPPUNIT_TEST( testLocalToNAD27 );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test constructor
-  void testConstructor(void);
+  /// Test NAD27 -> WGS84
+  void testNAD27ToWGS84(void);
 
-  /// Test geoToWGS84()
-  void testGeoToWGS84(void);
+  /// Test WGS84 -> NAD27
+  void testWGS84ToNAD27(void);
 
-  /// Test wgs84ToECEF()
+  /// Test WGS84 -> ECEF
   void testWGS84ToECEF(void);
 
-  /// Test localOrigin()
-  void testLocalOrigin(void);
+  /// Test ECEF -> WGS84
+  void testECEFToWGS84(void);
 
-  /// Test convert()
-  void testConvert(void);
+  /// Test NAD27 -> local
+  void testNAD27ToLocal(void);
+
+  /// Test local -> NAD27
+  void testLocalToNAD27(void);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
@@ -72,17 +77,13 @@ private :
   static const double _ORIGINLAT; ///< Latitude of local origin in NAD27
   static const double _ORIGINELEV; ///< Elevation of local origin
 
-  static const double _ORIGINX; ///< X coordinate in rotated ECEF
-  static const double _ORIGINY; ///< Y coordinate in rotated ECEF
-  static const double _ORIGINZ; ///< Z coordinate in rotated ECEF
-
   static const int _NUMLOCS; ///< Number of locations
 
-}; // class TestGeoLocalConverter
+}; // class TestConverter
 
-#endif // spatialdata_testgeolocalconverter
+#endif // spatialdata_geocoords_testconverter
 
 // version
-// $Id: TestGeoLocalConverter.h,v 1.2 2005/07/02 00:21:13 baagaard Exp $
+// $Id$
 
 // End of file 

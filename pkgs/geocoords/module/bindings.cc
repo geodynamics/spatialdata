@@ -15,58 +15,104 @@
 
 #include "misc.h" // misc methods
 
-#include "geocoordsys.h"  // GeoCoordSys bindings
-#include "geolocalconverter.h"  // GeoLocalConverter bindings
+#include "converter.h"  // Converter bindings
+#include "coordsys.h"  // CoordSys bindings
+#include "coordsysgeo.h"  // CoordSysGeo bindings
+#include "coordsyslocal.h"  // CoordSysLocal bindings
+#include "projector.h"  // Projector bindings
 
 // the method table
 struct PyMethodDef pyspatialdata_geocoords_methods[] = {
 
-  // GeoCoordSys
-  {pyspatialdata_geocoords_CppGeoCoordSys__name__,
-   pyspatialdata_geocoords_CppGeoCoordSys,
+  // Converter
+  {pyspatialdata_geocoords_CppConverter_convert__name__,
+   pyspatialdata_geocoords_CppConverter_convert,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoCoordSys__doc__},
+   pyspatialdata_geocoords_CppConverter_convert__doc__},
   
-  {pyspatialdata_geocoords_CppGeoCoordSys_projection__name__,
-   pyspatialdata_geocoords_CppGeoCoordSys_projection,
+  // CoordSys
+  {pyspatialdata_geocoords_CppCoordSys_initialize__name__,
+   pyspatialdata_geocoords_CppCoordSys_initialize,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoCoordSys_projection__doc__},
-
-  {pyspatialdata_geocoords_CppGeoCoordSys_ellipsoid__name__,
-   pyspatialdata_geocoords_CppGeoCoordSys_ellipsoid,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoCoordSys_ellipsoid__doc__},
-
-  {pyspatialdata_geocoords_CppGeoCoordSys_datum__name__,
-   pyspatialdata_geocoords_CppGeoCoordSys_datum,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoCoordSys_datum__doc__},
-
-  {pyspatialdata_geocoords_CppGeoCoordSys_units__name__,
-   pyspatialdata_geocoords_CppGeoCoordSys_units,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoCoordSys_units__doc__},
-
-  {pyspatialdata_geocoords_CppGeoCoordSys_initialize__name__,
-   pyspatialdata_geocoords_CppGeoCoordSys_initialize,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoCoordSys_initialize__doc__},
-
-  // GeoLocalConverter
-  {pyspatialdata_geocoords_CppGeoLocalConverter__name__,
-   pyspatialdata_geocoords_CppGeoLocalConverter,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoLocalConverter__doc__},
+   pyspatialdata_geocoords_CppCoordSys_initialize__doc__},
   
-  {pyspatialdata_geocoords_CppGeoLocalConverter_localOrigin__name__,
-   pyspatialdata_geocoords_CppGeoLocalConverter_localOrigin,
+  // CoordSysGeo
+  {pyspatialdata_geocoords_CppCoordSysGeo__name__,
+   pyspatialdata_geocoords_CppCoordSysGeo,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoLocalConverter_localOrigin__doc__},
+   pyspatialdata_geocoords_CppCoordSysGeo__doc__},
+  
+  {pyspatialdata_geocoords_CppCoordSysGeo_ellipsoid__name__,
+   pyspatialdata_geocoords_CppCoordSysGeo_ellipsoid,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysGeo_ellipsoid__doc__},
 
-  {pyspatialdata_geocoords_CppGeoLocalConverter_convert__name__,
-   pyspatialdata_geocoords_CppGeoLocalConverter_convert,
+  {pyspatialdata_geocoords_CppCoordSysGeo_datumHoriz__name__,
+   pyspatialdata_geocoords_CppCoordSysGeo_datumHoriz,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppGeoLocalConverter_convert__doc__},
+   pyspatialdata_geocoords_CppCoordSysGeo_datumHoriz__doc__},
+
+  {pyspatialdata_geocoords_CppCoordSysGeo_datumVert__name__,
+   pyspatialdata_geocoords_CppCoordSysGeo_datumVert,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysGeo_datumVert__doc__},
+
+  {pyspatialdata_geocoords_CppCoordSysGeo_isGeocentric__name__,
+   pyspatialdata_geocoords_CppCoordSysGeo_isGeocentric,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysGeo_isGeocentric__doc__},
+
+  {pyspatialdata_geocoords_CppCoordSysGeo_elevToMeters__name__,
+   pyspatialdata_geocoords_CppCoordSysGeo_elevToMeters,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysGeo_elevToMeters__doc__},
+
+  // CoordSysLocal
+  {pyspatialdata_geocoords_CppCoordSysLocal__name__,
+   pyspatialdata_geocoords_CppCoordSysLocal,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysLocal__doc__},
+  
+  {pyspatialdata_geocoords_CppCoordSysLocal_localOrigin__name__,
+   pyspatialdata_geocoords_CppCoordSysLocal_localOrigin,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysLocal_localOrigin__doc__},
+
+  {pyspatialdata_geocoords_CppCoordSysLocal_xyzToMeters__name__,
+   pyspatialdata_geocoords_CppCoordSysLocal_xyzToMeters,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCoordSysLocal_xyzToMeters__doc__},
+
+  // Projector
+  {pyspatialdata_geocoords_CppProjector__name__,
+   pyspatialdata_geocoords_CppProjector,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector__doc__},
+  
+  {pyspatialdata_geocoords_CppProjector_projection__name__,
+   pyspatialdata_geocoords_CppProjector_projection,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_projection__doc__},
+
+  {pyspatialdata_geocoords_CppProjector_units__name__,
+   pyspatialdata_geocoords_CppProjector_units,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_units__doc__},
+
+  {pyspatialdata_geocoords_CppProjector_initialize__name__,
+   pyspatialdata_geocoords_CppProjector_initialize,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_initialize__doc__},
+
+  {pyspatialdata_geocoords_CppProjector_project__name__,
+   pyspatialdata_geocoords_CppProjector_project,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_project__doc__},
+
+  {pyspatialdata_geocoords_CppProjector_invproject__name__,
+   pyspatialdata_geocoords_CppProjector_invproject,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_invproject__doc__},
 
   // misc
   {pyspatialdata_geocoords_copyright__name__,

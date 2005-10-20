@@ -24,31 +24,41 @@ from ConvertData import ConvertData
 class Projector(ConvertData):
   """Python data generator for projector tests."""
 
+
   def calculate(self):
     """Calculate original and converted coordinates."""
+
+    self.projection = "aea"
+    self.units = "km"
+    self._command = "proj +proj=%s +units=%s -f %s" % \
+                    (self.projection, self.units, "%.5f")
     self.lonlat = [ [-120.342532,  53.23423],
                     [ -53.303945,  33.34902],
                     [  34.229085, -25.23422],
                     [ 142.084523, -34.39085],
                     [  49.908543,   2.40983] ]
     self.xy = self._convert(self.lonlat)
+
     return
+
 
   def dump(self, dumper):
     """Dump data."""
     dumper.open(self.name)
+    dumper.writeVal("char*", "_PROJECTION", self.projection, "\"%s\"")
+    dumper.writeVal("char*", "_UNITS", self.units, "\"%s\"")
     dumper.writeVal("int", "_NUMLOCS", len(self.lonlat), "%d")
     dumper.writeArray("double", "_LONLAT", ravel(self.lonlat), "%20.12e,", 2)
     dumper.writeArray("double", "_XY", ravel(self.xy), "%20.12e,", 2)
     dumper.close()
     return
 
+
   def __init__(self):
     """Constructor."""
     ConvertData.__init__(self, name='projector')
     self._fileSrc = "src.dat"
     self._fileDest = "dest.dat"
-    self._command = "proj +proj=aea -f %.5f"
     return
 
 # version

@@ -19,8 +19,11 @@ PROJ_SRCS = \
 	bindings.cc \
 	exceptions.cc \
 	misc.cc \
-	geocoordsys.cc \
-	geolocalconverter.cc \
+	converter.cc \
+	coordsys.cc \
+	coordsysgeo.cc \
+	coordsyslocal.cc \
+	projector.cc \
 
 # version
 # $Id: Make.mm,v 1.1 2005/06/01 23:56:10 baagaard Exp $

@@ -20,8 +20,11 @@ all: export
 # ----------------------------------------------------------------------
 
 EXPORT_PYTHON_MODULES = \
-	GeoCoordSys.py \
-	GeoLocalConverter.py \
+	CoordSys.py \
+	CoordSysGeo.py \
+	CoordSysLocal.py \
+	Converter.py \
+	Projector.py \
 	__init__.py \
 
 export:: export-package-python-modules

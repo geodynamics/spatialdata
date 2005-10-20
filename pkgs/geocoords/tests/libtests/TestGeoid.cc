@@ -21,7 +21,7 @@
 #include "journal/debug.h" // USES journal::debug_t
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestGeoid );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestGeoid );
 
 // ----------------------------------------------------------------------
 #include "data/TestGeoid.dat"
@@ -29,7 +29,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestGeoid );
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::TestGeoid::testConstructor(void)
+spatialdata::geocoords::TestGeoid::testConstructor(void)
 { // testConstructor
   Geoid geoid;
 } // testConstructor
@@ -37,7 +37,7 @@ spatialdata::TestGeoid::testConstructor(void)
 // ----------------------------------------------------------------------
 // Test elevation()
 void
-spatialdata::TestGeoid::testElevation(void)
+spatialdata::geocoords::TestGeoid::testElevation(void)
 { // testElevation
   Geoid geoid;
   geoid.initialize();

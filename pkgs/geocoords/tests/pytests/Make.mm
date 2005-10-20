@@ -5,22 +5,15 @@
 #                           Brad T. Aagaard
 #                        U.S. Geological Survey
 #
-# <LicenseText>
+# {LicenseText}
 #
 # ----------------------------------------------------------------------
 #
 
 PROJECT = spatialdata
-PACKAGE = geocoords/tests
-
-RECURSE_DIRS = \
-	libtests \
-	pytests \
-
-OTHERS = \
+PACKAGE = spatialdb/tests/pytests
 
 # ----------------------------------------------------------------------
-
 all:
 	BLD_ACTION="all" $(MM) recurse
 
@@ -30,10 +23,10 @@ clean::
 tidy::
 	BLD_ACTION="tidy" $(MM) recurse
 
-test::
-	BLD_ACTION="test" $(MM) recurse
+test:
+	@LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(BLD_LIBDIR) ./testgeocoords.py
 
 # version
-# $Id: Make.mm,v 1.1 2005/05/25 17:29:14 baagaard Exp $
+# $Id$
 
-# End of file 
+# End of file

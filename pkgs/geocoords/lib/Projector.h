@@ -17,24 +17,29 @@
  * C++ object for projecting to/from geographic projections.
  */
 
-#if !defined(spatialdata_projector_h)
-#define spatialdata_projector_h
+#if !defined(spatialdata_geocoords_projector_h)
+#define spatialdata_geocoords_projector_h
+
+#include <string> // HASA std::string
 
 namespace spatialdata {
-  class Projector;
-}; // namespace spatialdata
+  namespace geocoords {
+    class Projector;
+    class CoordSysGeo;
+  } // geocoords
+} // spatialdata
 
 #include "proj4fwd.h" // Proj4 forward declaration
 
 /// C++ object for projecting to/from geographic projections
-class spatialdata::Projector
+class spatialdata::geocoords::Projector
 { // class Projector
 
  public :
   // PUBLIC METHODS /////////////////////////////////////////////////////
 
   /// Default constructor
-  Projector(void);
+  Projector(const CoordSysGeo& coordSys);
 
   /// Default destructor
   ~Projector(void);
@@ -45,35 +50,11 @@ class spatialdata::Projector
    */
   void projection(const char* name);
 
-  /** Get name of projection.
+  /** Get projection.
    *
    * @returns Name of projection
    */
   const char* projection(void) const;
-
-  /** Set reference ellipsoid.
-   *
-   * @param name Name of reference ellipsoid
-   */
-  void ellipsoid(const char* name);
-
-  /** Get reference ellipsoid.
-   *
-   * @returns Name of reference ellipsoid
-   */
-  const char* ellipsoid(void) const;
-
-  /** Set datum.
-   *
-   * @param name Name of datum
-   */
-  void datum(const char* name);
-
-  /** Get datum.
-   *
-   * @returns Name of datum
-   */
-  const char* datum(void) const;
 
   /** Set units of projection.
    *
@@ -117,10 +98,9 @@ class spatialdata::Projector
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-  const char* _projection; ///< Name of projection
-  const char* _ellipsoid; ///< Name of reference ellipsoid
-  const char* _datum; ///< Name of geographic datum
-  const char* _units; ///< Name of units in projection
+  std::string _projection; ///< Name of projection
+  std::string _units; ///< Name of units in projection
+  const CoordSysGeo& _coordSys; ///< Geographic coordinate system
   
   projPJ _pProj; ///< Pointer to projection
   
@@ -128,7 +108,7 @@ private :
 
 #include "Projector.icc" // inline methods
 
-#endif // spatialdata_projector_h
+#endif // spatialdata_geocoords_projector_h
 
 // version
 // $Id: Projector.h,v 1.1 2005/05/25 17:28:11 baagaard Exp $

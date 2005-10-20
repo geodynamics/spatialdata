@@ -16,10 +16,10 @@ PACKAGE = geocoords/tests/libtests
 include local.def
 
 PROJ_SRCS = \
-	TestGeoCoordSys.cc \
-	TestGeoCSConverter.cc \
+	TestConverter.cc \
+	TestCoordSysGeo.cc \
+	TestCoordSysLocal.cc \
 	TestGeoid.cc \
-	TestGeoLocalConverter.cc \
 	TestProjector.cc \
 	testgeocoords.cc \
 

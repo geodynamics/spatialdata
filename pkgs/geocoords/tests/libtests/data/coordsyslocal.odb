@@ -9,34 +9,39 @@
 #
 # ======================================================================
 #
-## @file geocoords/tests/libtests/data/geolocalconverter.odb
-## @brief Python data generator for geolocalconverter tests.
+## @file geocoords/tests/libtests/data/coordsyslocal.odb
+## @brief Python data generator for testing of CoordSysLocal.
 
 from Numeric import ravel
 
 def data():
   """Factory method for facility quaddata."""
-  return GeoLocalConverter()
+  return CoordSysLocal()
 
 from ConvertData import ConvertData
 
-# GeoLocalConverter class
-class GeoLocalConverter(ConvertData):
-  """Python data generator for geolocalconverter tests."""
+# CoordSysLocal class
+class CoordSysLocal(ConvertData):
+  """Python data generator for testing of CoordSysLocal."""
+
 
   def calculate(self):
     """Calculate original and converted coordinates."""
 
-    # origin in NAD27
+    self.ellipsoid = "clrk66"
+    self.datumHoriz = "NAD27"
+    self.datumVert = "mean sea level"
+
     self.originLLENAD27 = [-100.0, 39.0, 0.01]
     self.originGeoidHt = -26.2262952997
 
-    self.lonlatNAD27Elev = [ [-115.000000,  39.00000, 0.01],
-                             [-120.342532,  43.23423, 0.01],
-                             [-121.342532,  45.23423, 0.01],
-                             [-115.342532,  36.23423, 0.01],
-                             [-110.342532,  39.23423, 0.01],
-                             [-107.342532,  33.23423, 0.01] ]
+
+    self.lonlatNAD27Elev = [ [-115.000000,  39.00000, 12.0],
+                             [-120.342532,  43.23423, 4.7],
+                             [-121.342532,  45.23423, 13.4],
+                             [-115.342532,  36.23423, 7.34],
+                             [-110.342532,  39.23423, 65.3],
+                             [-107.342532,  33.23423, 2.3] ]
     self.geoidHt = [ -20.9472070802,
                      -19.323765177,
                      -20.1157110649,
@@ -76,11 +81,18 @@ class GeoLocalConverter(ConvertData):
 
     # convert NAD27 to local
     self.xyzLocal = self._xyzECEFToLocal(self.xyzECEF)
+
     return
+
 
   def dump(self, dumper):
     """Dump data."""
     dumper.open(self.name)
+
+    dumper.writeVal("char*", "_ELLIPSOID", self.ellipsoid, "\"%s\"")
+    dumper.writeVal("char*", "_DATUMHORIZ", self.datumHoriz, "\"%s\"")
+    dumper.writeVal("char*", "_DATUMVERT", self.datumVert, "\"%s\"")
+
     dumper.writeVal("double", "_ORIGINLON", self.originLLENAD27[0], "%20.12e")
     dumper.writeVal("double", "_ORIGINLAT", self.originLLENAD27[1], "%20.12e")
     dumper.writeVal("double", "_ORIGINELEV", self.originLLENAD27[2], "%20.12e")
@@ -89,18 +101,20 @@ class GeoLocalConverter(ConvertData):
     dumper.writeVal("double", "_ORIGINZ", self.originXYZ[2], "%20.12e")
 
     dumper.writeVal("int", "_NUMLOCS", len(self.lonlatNAD27Elev), "%d")
-    dumper.writeArray("double", "_LONLATNAD27ELEV", ravel(self.lonlatNAD27Elev),
-                      "%20.12e,", 3)
-    dumper.writeArray("double", "_LONLATWGS84ELEV", ravel(self.lonlatWGS84Elev),
-                      "%20.12e,", 3)
-    dumper.writeArray("double", "_LONLATWGS84GEOID", ravel(self.lonlatWGS84Geoid),
-                      "%20.12e,", 3)
     dumper.writeArray("double", "_XYZECEF", ravel(self.xyzECEF),
                       "%20.12e,", 3)
     dumper.writeArray("double", "_XYZLOCAL", ravel(self.xyzLocal),
                       "%20.12e,", 3)
     dumper.close()
     return
+
+  def __init__(self):
+    """Constructor."""
+    ConvertData.__init__(self, name='coordsyslocal')
+    self._fileSrc = "src.dat"
+    self._fileDest = "dest.dat"
+    return
+
 
   def _calcOriginInfo(self, originLLENAD27, geoidHt):
 
@@ -156,9 +170,10 @@ class GeoLocalConverter(ConvertData):
     self.originXYZ = coords[0]
 
     #print self.orientation
-    #print self.originXYZ
+    print self.originXYZ
 
     return
+
 
   def _xyzECEFToLocal(self, xyzECEF):
     xyzLocal = []
@@ -178,14 +193,8 @@ class GeoLocalConverter(ConvertData):
       xyzLocal.append([xNew, yNew, zNew])
     return xyzLocal
 
-  def __init__(self):
-    """Constructor."""
-    ConvertData.__init__(self, name='geolocalconverter')
-    self._fileSrc = "src.dat"
-    self._fileDest = "dest.dat"
-    return
 
 # version
-__id__ = "$Id: geolocalconverter.odb,v 1.2 2005/06/19 19:38:36 baagaard Exp $"
+__id__ = "$Id$"
 
 # End of file 

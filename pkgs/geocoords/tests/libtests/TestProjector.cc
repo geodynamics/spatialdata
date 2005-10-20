@@ -16,10 +16,11 @@
 
 #include "spatialdata/geocoords/Projector.h" // USES Projector
 
-#include "journal/debug.h" // USES journal::debug_t
+#include "spatialdata/geocoords/CoordSys.h" // USES CoordSysGeo
+#include "spatialdata/geocoords/CoordSysGeo.h" // USES CoordSysGeo
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestProjector );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestProjector );
 
 // ----------------------------------------------------------------------
 #include "data/TestProjector.dat"
@@ -27,71 +28,55 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::TestProjector );
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::TestProjector::testConstructor(void)
+spatialdata::geocoords::TestProjector::testConstructor(void)
 { // testConstructor
-  Projector proj;
+  CoordSysGeo cs;
+  Projector proj(cs);
 } // testConstructor
 
 // ----------------------------------------------------------------------
 // Test projection()
 void
-spatialdata::TestProjector::testProjection(void)
+spatialdata::geocoords::TestProjector::testProjection(void)
 { // testProjection
-  Projector proj;
-  const char* projection = "aea";
-  proj.projection(projection);
-  CPPUNIT_ASSERT(0 == strcmp(proj.projection(), projection));
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.projection(_PROJECTION);
+  CPPUNIT_ASSERT(0 == strcmp(proj.projection(), _PROJECTION));
 } // testProjection
-
-// ----------------------------------------------------------------------
-// Test ellipsoid()
-void
-spatialdata::TestProjector::testEllipsoid(void)
-{ // testEllipsoid
-  Projector proj;
-  const char* ellipsoid = "WGS84";
-  proj.ellipsoid(ellipsoid);
-  CPPUNIT_ASSERT(0 == strcmp(proj.ellipsoid(), ellipsoid));
-} // testEllipsoid
-
-// ----------------------------------------------------------------------
-// Test datum()
-void
-spatialdata::TestProjector::testDatum(void)
-{ // testDatum
-  Projector proj;
-  const char* datum = "NAD27";
-  proj.datum(datum);
-  CPPUNIT_ASSERT(0 == strcmp(proj.datum(), datum));
-} // testDatum
 
 // ----------------------------------------------------------------------
 // Test units()
 void
-spatialdata::TestProjector::testUnits(void)
+spatialdata::geocoords::TestProjector::testUnits(void)
 { // testUnits
-  Projector proj;
-  const char* units = "km";
-  proj.units(units);
-  CPPUNIT_ASSERT(0 == strcmp(proj.units(), units));
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.units(_UNITS);
+  CPPUNIT_ASSERT(0 == strcmp(proj.units(), _UNITS));
 } // testUnits
 
 // ----------------------------------------------------------------------
 // Test initialize()
 void
-spatialdata::TestProjector::testInitialize(void)
+spatialdata::geocoords::TestProjector::testInitialize(void)
 { // testInitialize
-  Projector proj;
+  CoordSysGeo cs;
+  Projector proj(cs);
   proj.initialize();
 } // testIniailize
 
 // ----------------------------------------------------------------------
 // Test project()
 void
-spatialdata::TestProjector::testProject(void)
+spatialdata::geocoords::TestProjector::testProject(void)
 { // testProject
-  Projector proj;
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.projection(_PROJECTION);
+  proj.units(_UNITS);
   proj.initialize();
+
   const int numLocs = _NUMLOCS;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     double x = 0;
@@ -108,10 +93,14 @@ spatialdata::TestProjector::testProject(void)
 // ----------------------------------------------------------------------
 // Test invproject()
 void
-spatialdata::TestProjector::testInvproject(void)
+spatialdata::geocoords::TestProjector::testInvproject(void)
 { // testInvproject
-  Projector proj;
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.projection(_PROJECTION);
+  proj.units(_UNITS);
   proj.initialize();
+
   const int numLocs = _NUMLOCS;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     double lon = 0;

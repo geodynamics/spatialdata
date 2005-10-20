@@ -10,8 +10,8 @@
 // ----------------------------------------------------------------------
 //
 
-const int spatialdata::TestGeoid::_NUMLOCS = 6;
-const double spatialdata::TestGeoid::_LONLAT[] = {
+const int spatialdata::geocoords::TestGeoid::_NUMLOCS = 6;
+const double spatialdata::geocoords::TestGeoid::_LONLAT[] = {
    269.7791550,   38.6281550,
    305.0211140,  -14.6212170,
    102.4487290,   46.8743190,
@@ -19,7 +19,7 @@ const double spatialdata::TestGeoid::_LONLAT[] = {
    359.9995000,   38.6254730,
      0.0023000,   -0.4667440
 };
-const double spatialdata::TestGeoid::_GEOIDHT[] = {
+const double spatialdata::geocoords::TestGeoid::_GEOIDHT[] = {
   -31.62920759,
   -2.96600457,
   -43.57201637,

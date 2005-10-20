@@ -16,28 +16,27 @@ PACKAGE = data
 default all:
 
 datfiles: \
-	Projector \
-	GeoCSConverter \
-	GeoLocalConverter \
+	TestConverter \
+	TestCoordSysLocal \
+	TestProjector \
 
-Projector:
+TestConverter:
+	ConvertDataApp.py \
+		--data=converter \
+		--dumper.className=spatialdata::geocoords::TestConverter \
+		--dumper.filename=TestConverter.dat
+
+TestCoordSysLocal:
+	ConvertDataApp.py \
+		--data=coordsyslocal \
+		--dumper.className=spatialdata::geocoords::TestCoordSysLocal \
+		--dumper.filename=TestCoordSysLocal.dat
+
+TestProjector:
 	ConvertDataApp.py \
 		--data=projector \
-		--dumper.className=spatialdata::TestProjector \
+		--dumper.className=spatialdata::geocoords::TestProjector \
 		--dumper.filename=TestProjector.dat
-
-GeoCSConverter:
-	ConvertDataApp.py \
-		--data=geocsconverter \
-		--dumper.className=spatialdata::TestGeoCSConverter \
-		--dumper.filename=TestGeoCSConverter.dat
-
-GeoLocalConverter:
-	ConvertDataApp.py \
-		--data=geolocalconverter \
-		--dumper.className=spatialdata::TestGeoLocalConverter \
-		--dumper.filename=TestGeoLocalConverter.dat
-
 
 # ----------------------------------------------------------------------
 

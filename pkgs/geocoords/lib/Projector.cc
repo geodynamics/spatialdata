@@ -14,6 +14,9 @@
 
 #include "Projector.h" // implementation of class methods
 
+#include "CoordSys.h" // HOLDS CoordSysGeo
+#include "CoordSysGeo.h" // HOLDS CoordSysGeo
+
 extern "C" {
 #include "proj_api.h" // USES PROJ4
 };
@@ -30,18 +33,17 @@ extern "C" {
 
 // ----------------------------------------------------------------------
 // Default constructor
-spatialdata::Projector::Projector(void) :
+spatialdata::geocoords::Projector::Projector(const CoordSysGeo& coordSys) :
   _projection("aea"),
-  _ellipsoid("WGS84"),
-  _datum("WGS84"),
   _units("m"),
+  _coordSys(coordSys),
   _pProj(0)
 { // constructor
 } // constructor
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::Projector::~Projector(void)
+spatialdata::geocoords::Projector::~Projector(void)
 { // destructor
   pj_free(_pProj);
 } // destructor
@@ -49,13 +51,16 @@ spatialdata::Projector::~Projector(void)
 // ----------------------------------------------------------------------
 // Initialize projector.
 void 
-spatialdata::Projector::initialize(void)
+spatialdata::geocoords::Projector::initialize(void)
 { // initialize
+  const char* ellipsoid = _coordSys.ellipsoid();
+  const char* datumHoriz = _coordSys.datumHoriz();
+
   std::ostringstream args;
   args
     << "+proj=" << _projection
-    << " +ellps=" << _ellipsoid
-    << " +datum=" << _datum
+    << " +ellps=" << ellipsoid
+    << " +datum=" << datumHoriz
     << " +units=" << _units;
   
   pj_free(_pProj);
@@ -65,8 +70,8 @@ spatialdata::Projector::initialize(void)
     msg << "Error while initializing projection:\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  ellipsoid: " << _ellipsoid << "\n"
-	<< "  datum: " << _datum << "\n"
+	<< "  ellipsoid: " << ellipsoid << "\n"
+	<< "  horizontal datum: " << datumHoriz << "\n"
 	<< "  units: " << _units << "\n";
     throw std::runtime_error(msg.str());
   } // if
@@ -75,26 +80,27 @@ spatialdata::Projector::initialize(void)
 // ----------------------------------------------------------------------
 // Project geographic coordinates.
 void
-spatialdata::Projector::project(double* pX,
-				double* pY,
-				const double lon,
-				const double lat)
+spatialdata::geocoords::Projector::project(double* pX,
+					   double* pY,
+					   const double lon,
+					   const double lat)
 { // project
   FIREWALL(0 != pX);
   FIREWALL(0 != pY);
   FIREWALL(0 != _pProj);
   
   projUV lonlat;
-  lonlat.u = lon * DEG_TO_RAD;
-  lonlat.v = lat * DEG_TO_RAD;
+  const double degToRad = M_PI / 180.0;
+  lonlat.u = lon * degToRad;
+  lonlat.v = lat * degToRad;
   projUV xy = pj_fwd(lonlat, _pProj);
   if (HUGE_VAL == xy.u) {
     std::ostringstream msg;
     msg << "Error while projecting location.\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  ellipsoid: " << _ellipsoid << "\n"
-	<< "  datum: " << _datum << "\n"
+	<< "  ellipsoid: " << _coordSys.ellipsoid() << "\n"
+	<< "  datum: " << _coordSys.datumHoriz() << "\n"
 	<< "  units: " << _units << "\n"
 	<< "  longitude: " << lon << "\n"
 	<< "  latitude: " << lat << "\n";
@@ -107,7 +113,7 @@ spatialdata::Projector::project(double* pX,
 // ----------------------------------------------------------------------
 // Get geographic coordinates of projected location.
 void
-spatialdata::Projector::invproject(double* pLon,
+spatialdata::geocoords::Projector::invproject(double* pLon,
 				   double* pLat,
 				   const double x,
 				   const double y)
@@ -126,16 +132,17 @@ spatialdata::Projector::invproject(double* pLon,
       "location.\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  ellipsoid: " << _ellipsoid << "\n"
-	<< "  datum: " << _datum << "\n"
+	<< "  ellipsoid: " << _coordSys.ellipsoid() << "\n"
+	<< "  datum: " << _coordSys.datumHoriz() << "\n"
 	<< "  units: " << _units << "\n"
 	<< "  x: " << x << "\n"
 	<< "  y: " << y << "\n";
     throw std::runtime_error(msg.str());
   } // if
 
-  *pLon = lonlat.u * RAD_TO_DEG;
-  *pLat = lonlat.v * RAD_TO_DEG;
+  const double radToDeg = 180.0 / M_PI;
+  *pLon = lonlat.u * radToDeg;
+  *pLat = lonlat.v * radToDeg;
 } // invproject
 
 // version

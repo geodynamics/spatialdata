@@ -22,12 +22,14 @@
 #define spatialdata_geoid_h
 
 namespace spatialdata {
-  class Geoid;
-}; // namespace spatialdata
+  namespace geocoords {
+    class Geoid;
+  } // geocoords
+} // spatialdata
 
 /// C++ object for converting difference between elevation relative to
 /// mean seal level (MSL) and elevation relative to WGS ellipsoid.
-class spatialdata::Geoid
+class spatialdata::geocoords::Geoid
 { // class Geoid
 
  public :
@@ -99,7 +101,7 @@ private :
 
 }; // class Geoid
 
-#endif // spatialdata_geoid_h
+#endif // spatialdata_geocoords_geoid_h
 
 // version
 // $Id: Geoid.h,v 1.1 2005/06/19 19:23:22 baagaard Exp $

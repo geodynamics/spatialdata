@@ -27,10 +27,12 @@
 
 // ----------------------------------------------------------------------
 namespace spatialdata {
-  class WGSConstants;
-}; // namespace spatialdata
+  namespace geocoords {
+    class WGSConstants;
+  }; // geocoords
+}; // spatialdata
 
-class spatialdata::WGSConstants {
+class spatialdata::geocoords::WGSConstants {
 public:
 
   static const double E2;
@@ -41,22 +43,22 @@ public:
   static const double OMEGA;
   static const double RF;
 }; // WGSConstants
-const double spatialdata::WGSConstants::GM = 0.3986004418E+15;
-const double spatialdata::WGSConstants::AE = 6378137.0;
-const double spatialdata::WGSConstants::OMEGA = 7.292115E-05;
-const double spatialdata::WGSConstants::RF = 298.257223563;
-const double spatialdata::WGSConstants::E2 = 0.00669437999013;
-const double spatialdata::WGSConstants::GEQT = 9.7803253359;
-const double spatialdata::WGSConstants::K = 0.00193185265246;
+const double spatialdata::geocoords::WGSConstants::GM = 0.3986004418E+15;
+const double spatialdata::geocoords::WGSConstants::AE = 6378137.0;
+const double spatialdata::geocoords::WGSConstants::OMEGA = 7.292115E-05;
+const double spatialdata::geocoords::WGSConstants::RF = 298.257223563;
+const double spatialdata::geocoords::WGSConstants::E2 = 0.00669437999013;
+const double spatialdata::geocoords::WGSConstants::GEQT = 9.7803253359;
+const double spatialdata::geocoords::WGSConstants::K = 0.00193185265246;
 
 // ----------------------------------------------------------------------
-const int spatialdata::Geoid::_NUMMODES = 360;
+const int spatialdata::geocoords::Geoid::_NUMMODES = 360;
 #include "data/egm96.dat"
 #include "data/corrcoef.dat"
 
 // ----------------------------------------------------------------------
 // Default constructor.
-spatialdata::Geoid::Geoid(void) :
+spatialdata::geocoords::Geoid::Geoid(void) :
   _pHC(0),
   _pHS(0),
   _pCC(0),
@@ -68,7 +70,7 @@ spatialdata::Geoid::Geoid(void) :
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::Geoid::~Geoid(void)
+spatialdata::geocoords::Geoid::~Geoid(void)
 { // destructor
   delete[] _pHC; _pHC = 0;
   delete[] _pHS; _pHS = 0;
@@ -81,7 +83,7 @@ spatialdata::Geoid::~Geoid(void)
 // ----------------------------------------------------------------------
 // Initialize
 void
-spatialdata::Geoid::initialize(void)
+spatialdata::geocoords::Geoid::initialize(void)
 { // initialize
   _setHCHS();
   _setCCCS();
@@ -92,8 +94,8 @@ spatialdata::Geoid::initialize(void)
 // Compute elevation with respect to WGS ellipsoid relative to
 //  elevation with respect to MSL.
 double
-spatialdata::Geoid::elevation(const double lon,
-			      const double lat) const
+spatialdata::geocoords::Geoid::elevation(const double lon,
+					const double lat) const
 { // elevation
   // compute the geocentric latitude, geocentric radius, and normal gravity
   double latGeocent = 0.0;
@@ -137,11 +139,11 @@ spatialdata::Geoid::elevation(const double lon,
 // ----------------------------------------------------------------------
 // 
 double
-spatialdata::Geoid::_calcElev(const double* pLegCoef,
-			      const double* pCosML,
-			      const double* pSinML,
-			      const double radiusGeocent,
-			      const double normalGrav) const
+spatialdata::geocoords::Geoid::_calcElev(const double* pLegCoef,
+					const double* pCosML,
+					const double* pSinML,
+					const double radiusGeocent,
+					const double normalGrav) const
 { // _calcElev
   FIREWALL(0 != _pHC);
   FIREWALL(0 != _pHS);
@@ -182,11 +184,11 @@ spatialdata::Geoid::_calcElev(const double* pLegCoef,
 // ----------------------------------------------------------------------
 // Compute geocentric latitude, geocentric radius and normal gravity
 void
-spatialdata::Geoid::_geocentricLat(double* pLatGeocent,
-				   double* pRadiusGeocent,
-				   double* pNormalGrav,
-				   const double lon,
-				   const double lat) const
+spatialdata::geocoords::Geoid::_geocentricLat(double* pLatGeocent,
+					     double* pRadiusGeocent,
+					     double* pNormalGrav,
+					     const double lon,
+					     const double lat) const
 { // _geocentricLat
   FIREWALL(0 != pLatGeocent);
   FIREWALL(0 != pRadiusGeocent);
@@ -216,9 +218,9 @@ spatialdata::Geoid::_geocentricLat(double* pLatGeocent,
 // ----------------------------------------------------------------------
 // ????
 void
-spatialdata::Geoid::_calcML(double** ppCosML,
-			    double** ppSinML,
-			    const double lon) const
+spatialdata::geocoords::Geoid::_calcML(double** ppCosML,
+				      double** ppSinML,
+				      const double lon) const
 { // _calcML
   FIREWALL(0 != *ppSinML);
   FIREWALL(0 != *ppCosML);
@@ -244,7 +246,7 @@ spatialdata::Geoid::_calcML(double** ppCosML,
 // ----------------------------------------------------------------------
 // ????
 void
-spatialdata::Geoid::_setCCCS(void)
+spatialdata::geocoords::Geoid::_setCCCS(void)
 { // _setCCCS
   const int ccSize = _NUMMODES*(_NUMMODES+1)/2 + _NUMMODES+1;
 
@@ -265,7 +267,7 @@ spatialdata::Geoid::_setCCCS(void)
 // ----------------------------------------------------------------------
 // ????
 void
-spatialdata::Geoid::_setHCHS(void)
+spatialdata::geocoords::Geoid::_setHCHS(void)
 { // _setHCHS
   const int hcSize = _NUMMODES*(_NUMMODES+1)/2 + _NUMMODES+1;
   delete[] _pHC; _pHC = new double[hcSize];
@@ -293,7 +295,7 @@ spatialdata::Geoid::_setHCHS(void)
 // ----------------------------------------------------------------------
 // ????
 void
-spatialdata::Geoid::_calcRoots(void)
+spatialdata::geocoords::Geoid::_calcRoots(void)
 { // _calcRoots
   const int size = 2 * _NUMMODES + 1;
   
@@ -309,9 +311,9 @@ spatialdata::Geoid::_calcRoots(void)
 // ----------------------------------------------------------------------
 // Compute normalized legendre function.
 void
-spatialdata::Geoid::_calcLegFn(double** ppLegFn,
-			       const int order,
-			       const double latGeocent) const
+spatialdata::geocoords::Geoid::_calcLegFn(double** ppLegFn,
+					 const int order,
+					 const double latGeocent) const
 { // _calcLegFn
   FIREWALL(0 != ppLegFn);
   FIREWALL(0 != *ppLegFn);
