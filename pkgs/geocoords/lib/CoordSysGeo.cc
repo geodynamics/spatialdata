@@ -15,6 +15,7 @@
 #include "CoordSys.h" // ISA Coordsys
 #include "CoordSysGeo.h" // implementation of class methods
 
+#include <math.h> // USES M_PI
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 

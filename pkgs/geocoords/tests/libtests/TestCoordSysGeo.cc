@@ -16,6 +16,7 @@
 
 #include "spatialdata/geocoords/CoordSys.h" // USES CoordSysGeo
 #include "spatialdata/geocoords/CoordSysGeo.h" // USES CoordSysGeo
+#include <math.h> // USES M_PI
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCoordSysGeo );
