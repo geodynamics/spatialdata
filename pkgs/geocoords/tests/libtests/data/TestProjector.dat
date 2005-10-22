@@ -14,6 +14,9 @@
 // This file was generated from the python application projector.
 
 const char* spatialdata::geocoords::TestProjector::_PROJECTION = "aea";
+const double spatialdata::geocoords::TestProjector::_FALSEEASTING =  -1.000000000000e+02;
+const double spatialdata::geocoords::TestProjector::_FALSENORTHING =   3.000000000000e+01;
+const double spatialdata::geocoords::TestProjector::_SCALEFACTOR =   9.996000000000e-01;
 const char* spatialdata::geocoords::TestProjector::_UNITS = "km";
 const int spatialdata::geocoords::TestProjector::_NUMLOCS = 5;
 const double spatialdata::geocoords::TestProjector::_LONLAT[] = {
@@ -24,11 +27,11 @@ const double spatialdata::geocoords::TestProjector::_LONLAT[] = {
   4.990854300000e+01,  2.409830000000e+00,
 };
 const double spatialdata::geocoords::TestProjector::_XY[] = {
- -6.277899090000e+03,  1.031520891000e+04,
- -4.674048300000e+03,  4.847652140000e+03,
-  5.085303100000e+03, -1.214864990000e+03,
-  1.501732917000e+04,  1.114914645000e+04,
-  6.044641640000e+03,  1.856267650000e+03,
+ -1.397886620000e+03,  2.729173050000e+03,
+  4.145823900000e+03,  1.412439200000e+03,
+  1.424820130000e+04,  6.884278430000e+03,
+ -1.424775469000e+04,  4.279122720000e+03,
+  1.205623096000e+04,  9.239581410000e+03,
 };
 
 // version

@@ -26,6 +26,42 @@ const char*
 spatialdata::geocoords::Projector::projection(void) const
 { return _projection.c_str(); }
 
+// Set false easting.
+inline
+void 
+spatialdata::geocoords::Projector::falseEasting(const double easting)
+{ _falseEasting = easting; }
+
+// Get false easting.
+inline
+double
+spatialdata::geocoords::Projector::falseEasting(void) const
+{ return _falseEasting; }
+
+// Set false northing.
+inline
+void
+spatialdata::geocoords::Projector::falseNorthing(const double northing)
+{ _falseNorthing = northing; }
+
+// Get false northing.
+inline
+double
+spatialdata::geocoords::Projector::falseNorthing(void) const
+{ return _falseNorthing; }
+
+// Set projection scale factor (along central meridian).
+inline
+void
+spatialdata::geocoords::Projector::scaleFactor(const double value)
+{ _scaleFactor = value; }
+
+// Get projection scale factor (along central meridian).
+inline
+double
+spatialdata::geocoords::Projector::scaleFactor(void) const
+{ return _scaleFactor; }
+
 // Set units of projection.
 inline
 void

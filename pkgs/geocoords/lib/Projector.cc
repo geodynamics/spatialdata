@@ -34,6 +34,9 @@ extern "C" {
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::Projector::Projector(const CoordSysGeo& coordSys) :
+  _falseEasting(0),
+  _falseNorthing(0),
+  _scaleFactor(1.0),
   _projection("aea"),
   _units("m"),
   _coordSys(coordSys),
@@ -61,6 +64,9 @@ spatialdata::geocoords::Projector::initialize(void)
     << "+proj=" << _projection
     << " +ellps=" << ellipsoid
     << " +datum=" << datumHoriz
+    << " +lon_0=" << _falseEasting
+    << " +lat_0=" << _falseNorthing
+    << " +k=" << _scaleFactor
     << " +units=" << _units;
   
   pj_free(_pProj);
@@ -72,6 +78,9 @@ spatialdata::geocoords::Projector::initialize(void)
 	<< "  projection: " << _projection << "\n"
 	<< "  ellipsoid: " << ellipsoid << "\n"
 	<< "  horizontal datum: " << datumHoriz << "\n"
+	<< "  false easting: " << _falseEasting << "\n"
+	<< "  false northing: " << _falseNorthing << "\n"
+	<< "  scale factor: " << _scaleFactor << "\n"
 	<< "  units: " << _units << "\n";
     throw std::runtime_error(msg.str());
   } // if
@@ -100,7 +109,10 @@ spatialdata::geocoords::Projector::project(double* pX,
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
 	<< "  ellipsoid: " << _coordSys.ellipsoid() << "\n"
-	<< "  datum: " << _coordSys.datumHoriz() << "\n"
+	<< "  horizontal datum: " << _coordSys.datumHoriz() << "\n"
+	<< "  false easting: " << _falseEasting << "\n"
+	<< "  false northing: " << _falseNorthing << "\n"
+	<< "  scale factor: " << _scaleFactor << "\n"
 	<< "  units: " << _units << "\n"
 	<< "  longitude: " << lon << "\n"
 	<< "  latitude: " << lat << "\n";
@@ -133,7 +145,10 @@ spatialdata::geocoords::Projector::invproject(double* pLon,
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
 	<< "  ellipsoid: " << _coordSys.ellipsoid() << "\n"
-	<< "  datum: " << _coordSys.datumHoriz() << "\n"
+	<< "  horizontal datum: " << _coordSys.datumHoriz() << "\n"
+	<< "  false easting: " << _falseEasting << "\n"
+	<< "  false northing: " << _falseNorthing << "\n"
+	<< "  scale factor: " << _scaleFactor << "\n"
 	<< "  units: " << _units << "\n"
 	<< "  x: " << x << "\n"
 	<< "  y: " << y << "\n";

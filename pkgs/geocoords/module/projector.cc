@@ -38,7 +38,7 @@ pyspatialdata_geocoords_CppProjector(PyObject*, PyObject* args)
 { // CppProjector
   PyObject* pyCoordSys = 0;
   int ok = PyArg_ParseTuple(args,
-			    "O:CppProjector_projection", &pyCoordSys);
+			    "O:CppProjector", &pyCoordSys);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -114,6 +114,138 @@ pyspatialdata_geocoords_CppProjector_projection(PyObject*, PyObject* args)
   Py_INCREF(Py_None);
   return Py_None;
 } // CppProjector_projection
+
+// ----------------------------------------------------------------------
+// CppProjector_falseEasting
+char pyspatialdata_geocoords_CppProjector_falseEasting__doc__[] = "";
+char pyspatialdata_geocoords_CppProjector_falseEasting__name__[] = "CppProjector_falseEasting";
+
+static char pyspatialdata_geocoords_CppProjector_falseEasting_note[] = 
+  "spatialdata geocoords python module: U.S. Geological Survey";
+
+PyObject*
+pyspatialdata_geocoords_CppProjector_falseEasting(PyObject*, PyObject* args)
+{ // CppProjector_falseEasting
+  PyObject* pyProjector = 0;
+  double falseEasting = 0;
+  int ok = PyArg_ParseTuple(args,
+			    "Od:CppProjector_falseEasting",
+			    &pyProjector, &falseEasting);
+  if (!ok) {
+    PyErr_SetString(PyExc_TypeError,
+		    "C++ bindings error: "
+		    "Could not parse tuple for arguments.");
+    return 0;
+  } // if
+
+  try {
+    spatialdata::geocoords::Projector* pProjector = 
+      pythiautil::BindingsTUtil<spatialdata::geocoords::Projector*>::GetCObj(pyProjector, 
+						      "Projector*",
+				     "Python handle to Projector*");
+    FIREWALL(0 != pProjector);
+
+    pProjector->falseEasting(falseEasting);
+  } // try
+  catch (const std::exception& err) {
+    PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
+    return 0;
+  } catch (...) {
+    PyErr_SetString(PyExc_RuntimeError, "Caught unknown C++ exception.");
+    return 0;
+  } // catch
+
+  Py_INCREF(Py_None);
+  return Py_None;
+} // CppProjector_falseEasting
+
+// ----------------------------------------------------------------------
+// CppProjector_falseNorthing
+char pyspatialdata_geocoords_CppProjector_falseNorthing__doc__[] = "";
+char pyspatialdata_geocoords_CppProjector_falseNorthing__name__[] = "CppProjector_falseNorthing";
+
+static char pyspatialdata_geocoords_CppProjector_falseNorthing_note[] = 
+  "spatialdata geocoords python module: U.S. Geological Survey";
+
+PyObject*
+pyspatialdata_geocoords_CppProjector_falseNorthing(PyObject*, PyObject* args)
+{ // CppProjector_falseNorthing
+  PyObject* pyProjector = 0;
+  double falseNorthing = 0;
+  int ok = PyArg_ParseTuple(args,
+			    "Od:CppProjector_falseNorthing",
+			    &pyProjector, &falseNorthing);
+  if (!ok) {
+    PyErr_SetString(PyExc_TypeError,
+		    "C++ bindings error: "
+		    "Could not parse tuple for arguments.");
+    return 0;
+  } // if
+
+  try {
+    spatialdata::geocoords::Projector* pProjector = 
+      pythiautil::BindingsTUtil<spatialdata::geocoords::Projector*>::GetCObj(pyProjector, 
+						      "Projector*",
+				     "Python handle to Projector*");
+    FIREWALL(0 != pProjector);
+
+    pProjector->falseNorthing(falseNorthing);
+  } // try
+  catch (const std::exception& err) {
+    PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
+    return 0;
+  } catch (...) {
+    PyErr_SetString(PyExc_RuntimeError, "Caught unknown C++ exception.");
+    return 0;
+  } // catch
+
+  Py_INCREF(Py_None);
+  return Py_None;
+} // CppProjector_falseNorthing
+
+// ----------------------------------------------------------------------
+// CppProjector_scaleFactor
+char pyspatialdata_geocoords_CppProjector_scaleFactor__doc__[] = "";
+char pyspatialdata_geocoords_CppProjector_scaleFactor__name__[] = "CppProjector_scaleFactor";
+
+static char pyspatialdata_geocoords_CppProjector_scaleFactor_note[] = 
+  "spatialdata geocoords python module: U.S. Geological Survey";
+
+PyObject*
+pyspatialdata_geocoords_CppProjector_scaleFactor(PyObject*, PyObject* args)
+{ // CppProjector_scaleFactor
+  PyObject* pyProjector = 0;
+  double scaleFactor = 0;
+  int ok = PyArg_ParseTuple(args,
+			    "Od:CppProjector_scaleFactor",
+			    &pyProjector, &scaleFactor);
+  if (!ok) {
+    PyErr_SetString(PyExc_TypeError,
+		    "C++ bindings error: "
+		    "Could not parse tuple for arguments.");
+    return 0;
+  } // if
+
+  try {
+    spatialdata::geocoords::Projector* pProjector = 
+      pythiautil::BindingsTUtil<spatialdata::geocoords::Projector*>::GetCObj(pyProjector, 
+						      "Projector*",
+				     "Python handle to Projector*");
+    FIREWALL(0 != pProjector);
+
+    pProjector->scaleFactor(scaleFactor);
+  } // try
+  catch (const std::exception& err) {
+    PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
+    return 0;
+  } catch (...) {
+    PyErr_SetString(PyExc_RuntimeError, "Caught unknown C++ exception.");
+    return 0;
+  } // catch
+
+  Py_INCREF(Py_None);
+  return Py_None;
+} // CppProjector_scaleFactor
 
 // ----------------------------------------------------------------------
 // CppProjector_units

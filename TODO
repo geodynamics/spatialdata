@@ -1,9 +1,21 @@
 SPATIALDB
 
+  CoordSys (general)
+    CoordSysGeo
+      CoordSysGeoLocalCart (formerly CoordSysLocal)
+      CoordSysGeoProj (projected)
+    CoordSysCart (conventional cartesian coordinate system)
+  Converter
+    convert
+      _convertGeo()
+      _convertCart()
+
+  Add coordinate systems to SpatialDB
+
+  CenCalVMDB
+
   Give units for each value.
   Need routines to return units to Python, get scale factor from Python.
-
-  Need coordinate systems in spatial data and queries  
 
   Cleanup SimpleDB::DataStruct, SimpleDBTypes
     Create SimpleDBPayload class w/accessors?

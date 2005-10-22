@@ -56,6 +56,42 @@ class spatialdata::geocoords::Projector
    */
   const char* projection(void) const;
 
+  /** Set false easting.
+   *
+   * @param easting False easting
+   */
+  void falseEasting(const double easting);
+
+  /** Get false easting.
+   *
+   * @returns False easting
+   */
+  double falseEasting(void) const;
+
+  /** Set false northing.
+   *
+   * @param northing False northing
+   */
+  void falseNorthing(const double northing);
+
+  /** Get false northing.
+   *
+   * @returns False northing
+   */
+  double falseNorthing(void) const;
+
+  /** Set projection scale factor (along central meridian).
+   *
+   * @param value Value for scale factor
+   */
+  void scaleFactor(const double value);
+
+  /** Get projection scale factor (along central meridian).
+   *
+   * @returns Scale factor
+   */
+  double scaleFactor(void) const;
+
   /** Set units of projection.
    *
    * @param name Name of units
@@ -98,6 +134,9 @@ class spatialdata::geocoords::Projector
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
+  double _falseEasting; ///< Longitude of origin
+  double _falseNorthing; ///< Latitude of origin
+  double _scaleFactor; ///< Scale factor
   std::string _projection; ///< Name of projection
   std::string _units; ///< Name of units in projection
   const CoordSysGeo& _coordSys; ///< Geographic coordinate system

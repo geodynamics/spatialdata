@@ -29,9 +29,15 @@ class Projector(ConvertData):
     """Calculate original and converted coordinates."""
 
     self.projection = "aea"
+    self.falseEasting = -100.0
+    self.falseNorthing = 30.0
+    self.scaleFactor = 0.9996
     self.units = "km"
-    self._command = "proj +proj=%s +units=%s -f %s" % \
-                    (self.projection, self.units, "%.5f")
+    self._command = "proj +proj=%s +lon_0=%f +lat_0=%f +k=%f " \
+                    "+units=%s -f %s" % \
+                    (self.projection,
+                     self.falseEasting, self.falseNorthing,
+                     self.scaleFactor, self.units, "%.5f")
     self.lonlat = [ [-120.342532,  53.23423],
                     [ -53.303945,  33.34902],
                     [  34.229085, -25.23422],
@@ -46,6 +52,9 @@ class Projector(ConvertData):
     """Dump data."""
     dumper.open(self.name)
     dumper.writeVal("char*", "_PROJECTION", self.projection, "\"%s\"")
+    dumper.writeVal("double", "_FALSEEASTING", self.falseEasting, "%20.12e")
+    dumper.writeVal("double", "_FALSENORTHING", self.falseNorthing, "%20.12e")
+    dumper.writeVal("double", "_SCALEFACTOR", self.scaleFactor, "%20.12e")
     dumper.writeVal("char*", "_UNITS", self.units, "\"%s\"")
     dumper.writeVal("int", "_NUMLOCS", len(self.lonlat), "%d")
     dumper.writeArray("double", "_LONLAT", ravel(self.lonlat), "%20.12e,", 2)

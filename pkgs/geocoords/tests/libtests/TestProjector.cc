@@ -26,6 +26,17 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestProjector );
 #include "data/TestProjector.dat"
 
 // ----------------------------------------------------------------------
+// Test projection()
+void
+spatialdata::geocoords::TestProjector::testProjection(void)
+{ // testProjection
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.projection(_PROJECTION);
+  CPPUNIT_ASSERT(0 == strcmp(proj.projection(), _PROJECTION));
+} // testProjection
+
+// ----------------------------------------------------------------------
 // Test constructor
 void
 spatialdata::geocoords::TestProjector::testConstructor(void)
@@ -35,14 +46,42 @@ spatialdata::geocoords::TestProjector::testConstructor(void)
 } // testConstructor
 
 // ----------------------------------------------------------------------
-// Test projection()
+// Test falseEasting()
 void
-spatialdata::geocoords::TestProjector::testProjection(void)
-{ // testProjection
+spatialdata::geocoords::TestProjector::testFalseEasting(void)
+{ // testFalseEasting
   CoordSysGeo cs;
   Projector proj(cs);
-  proj.projection(_PROJECTION);
-  CPPUNIT_ASSERT(0 == strcmp(proj.projection(), _PROJECTION));
+  proj.falseEasting(_FALSEEASTING);
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.falseEasting()/_FALSEEASTING,
+			       tolerance);
+} // testEasting
+
+// ----------------------------------------------------------------------
+// Test falseNorthing()
+void
+spatialdata::geocoords::TestProjector::testFalseNorthing(void)
+{ // testFalseNorthing
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.falseNorthing(_FALSENORTHING);
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.falseNorthing()/_FALSENORTHING,
+			       tolerance);
+} // testNorthing
+
+// ----------------------------------------------------------------------
+// Test scaleFactor()
+void
+spatialdata::geocoords::TestProjector::testScaleFactor(void)
+{ // testScaleFactor
+  CoordSysGeo cs;
+  Projector proj(cs);
+  proj.scaleFactor(_SCALEFACTOR);
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.scaleFactor()/_SCALEFACTOR,
+			       tolerance);
 } // testProjection
 
 // ----------------------------------------------------------------------
@@ -74,6 +113,9 @@ spatialdata::geocoords::TestProjector::testProject(void)
   CoordSysGeo cs;
   Projector proj(cs);
   proj.projection(_PROJECTION);
+  proj.falseEasting(_FALSEEASTING);
+  proj.falseNorthing(_FALSENORTHING);
+  proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
   proj.initialize();
 
@@ -98,6 +140,9 @@ spatialdata::geocoords::TestProjector::testInvproject(void)
   CoordSysGeo cs;
   Projector proj(cs);
   proj.projection(_PROJECTION);
+  proj.falseEasting(_FALSEEASTING);
+  proj.falseNorthing(_FALSENORTHING);
+  proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
   proj.initialize();
 

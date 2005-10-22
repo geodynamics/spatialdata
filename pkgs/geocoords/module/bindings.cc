@@ -94,6 +94,21 @@ struct PyMethodDef pyspatialdata_geocoords_methods[] = {
    METH_VARARGS,
    pyspatialdata_geocoords_CppProjector_projection__doc__},
 
+  {pyspatialdata_geocoords_CppProjector_falseEasting__name__,
+   pyspatialdata_geocoords_CppProjector_falseEasting,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_falseEasting__doc__},
+
+  {pyspatialdata_geocoords_CppProjector_falseNorthing__name__,
+   pyspatialdata_geocoords_CppProjector_falseNorthing,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_falseNorthing__doc__},
+
+  {pyspatialdata_geocoords_CppProjector_scaleFactor__name__,
+   pyspatialdata_geocoords_CppProjector_scaleFactor,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppProjector_scaleFactor__doc__},
+
   {pyspatialdata_geocoords_CppProjector_units__name__,
    pyspatialdata_geocoords_CppProjector_units,
    METH_VARARGS,

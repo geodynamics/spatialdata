@@ -30,6 +30,24 @@ PyObject* pyspatialdata_geocoords_CppProjector_projection(PyObject*, PyObject*);
 extern char pyspatialdata_geocoords_CppProjector_projection__name__[];
 extern char pyspatialdata_geocoords_CppProjector_projection__doc__[];
 
+/// Call Projector::falseEasting
+extern "C"
+PyObject* pyspatialdata_geocoords_CppProjector_falseEasting(PyObject*, PyObject*);
+extern char pyspatialdata_geocoords_CppProjector_falseEasting__name__[];
+extern char pyspatialdata_geocoords_CppProjector_falseEasting__doc__[];
+
+/// Call Projector::falseNorthing
+extern "C"
+PyObject* pyspatialdata_geocoords_CppProjector_falseNorthing(PyObject*, PyObject*);
+extern char pyspatialdata_geocoords_CppProjector_falseNorthing__name__[];
+extern char pyspatialdata_geocoords_CppProjector_falseNorthing__doc__[];
+
+/// Call Projector::scaleFactor
+extern "C"
+PyObject* pyspatialdata_geocoords_CppProjector_scaleFactor(PyObject*, PyObject*);
+extern char pyspatialdata_geocoords_CppProjector_scaleFactor__name__[];
+extern char pyspatialdata_geocoords_CppProjector_scaleFactor__doc__[];
+
 /// Call Projector::units
 extern "C"
 PyObject* pyspatialdata_geocoords_CppProjector_units(PyObject*, PyObject*);
