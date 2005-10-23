@@ -12,20 +12,28 @@
 
 #include <portinfo>
 
-#include "CoordSys.h" // implementation of class methods
+#include "CoordSys.h" // ISA Coordsys
+#include "CSCart.h" // implementation of class methods
 
 // ----------------------------------------------------------------------
 // Default constructor
-spatialdata::geocoords::CoordSys::CoordSys(void) :
-  _csType(CARTESIAN)
+spatialdata::geocoords::CSCart::CSCart(void)
 { // constructor
+  csType(CARTESIAN);
 } // constructor
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CoordSys::~CoordSys(void)
+spatialdata::geocoords::CSCart::~CSCart(void)
 { // destructor
 } // destructor
+
+// ----------------------------------------------------------------------
+// Initialize coordinate system.
+void 
+spatialdata::geocoords::CSCart::initialize(void)
+{ // initialize
+} // initialize
 
 // version
 // $Id$

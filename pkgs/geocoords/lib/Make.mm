@@ -18,8 +18,10 @@ include local.def
 PROJ_SRCS = \
 	Converter.cc \
 	CoordSys.cc \
-	CoordSysGeo.cc \
-	CoordSysLocal.cc \
+	CSCart.cc \
+	CSGeo.cc \
+	CSGeoLocalCart.cc \
+	CSGeoProj.cc \
 	Geoid.cc \
 	Projector.cc \
 
@@ -32,14 +34,17 @@ EXPORT_HEADERS = \
 	Converter.h \
 	CoordSys.h \
 	CoordSys.icc \
-	CoordSysGeo.h \
-	CoordSysGeo.icc \
-	CoordSysLocal.h \
-	CoordSysLocal.icc \
-	proj4fwd.h \
+	CSCart.h \
+	CSCart.icc \
+	CSGeo.h \
+	CSGeo.icc \
+	CSGeoLocalCart.h \
+	CSGeoLocalCart.icc \
+	CSGeoProj.h \
 	Geoid.h \
 	Projector.h \
 	Projector.icc \
+	proj4fwd.h \
 
 EXPORT_LIBS = $(PROJ_SAR)
 

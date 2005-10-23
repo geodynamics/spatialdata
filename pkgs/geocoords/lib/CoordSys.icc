@@ -14,11 +14,17 @@
 #error "CoordSys.icc must only be included from CoordSys.h"
 #endif
 
-// Get coordinate system
+// Get type of coordinate system
 inline
-const projPJ
-spatialdata::geocoords::CoordSys::projCoordSys(void) const
-{ return _pCS; }
+spatialdata::geocoords::CoordSys::CSTypeEnum
+spatialdata::geocoords::CoordSys::csType(void) const
+{ return _csType; }
+
+// Set type of coordinate system.
+inline
+void
+spatialdata::geocoords::CoordSys::csType(const CSTypeEnum cs)
+{ _csType = cs; }
 
 // version
 // $Id$

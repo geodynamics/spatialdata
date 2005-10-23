@@ -13,7 +13,8 @@
 #include <portinfo>
 
 #include "CoordSys.h" // ISA CoordSysGeo
-#include "CoordSysLocal.h" // implementation of class methods
+#include "CSGeo.h" // implementation of class methods
+#include "CSGeoLocalCart.h" // implementation of class methods
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
@@ -32,71 +33,67 @@ extern "C" {
 #define FIREWALL assert
 #endif
 
-#include <iostream>
-
 // ----------------------------------------------------------------------
 // Default constructor
-spatialdata::geocoords::CoordSysLocal::CoordSysLocal(void) :
+spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(void) :
   _originLon(0),
   _originLat(0),
   _originElev(0),
   _originX(0),
   _originY(0),
   _originZ(0),
-  _xyzToMeters(1.0),
-  _localOrientation(0),
-  _ellipsoid("WGS84"),
-  _datumHoriz("WGS84"),
-  _datumVert("WGS84 ellipsoid")
+  _localOrientation(0)
 { // constructor
+  CSGeo::isGeocentric(true);
 } // constructor
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CoordSysLocal::~CoordSysLocal(void)
+spatialdata::geocoords::CSGeoLocalCart::~CSGeoLocalCart(void)
 { // destructor
   delete[] _localOrientation; _localOrientation = 0;
 } // destructor
 
-
-#include<iostream>
 // ----------------------------------------------------------------------
 // Set origin of local cartesian coordinate system.
 void
-spatialdata::geocoords::CoordSysLocal::localOrigin(const double lon,
-						   const double lat,
-						   const double elev,
-						   const std::string& ellipsoid,
-						   const std::string& datumHoriz,
-						   const std::string& datumVert)
-{ // localOrigin
+spatialdata::geocoords::CSGeoLocalCart::origin(const double lon,
+					       const double lat,
+					       const double elev)
+{ // origin
   _originLon = lon;
   _originLat = lat;
   _originElev = elev;
-  _ellipsoid = ellipsoid;
-  _datumHoriz = datumHoriz;
-  _datumVert = datumVert;
+} // origin
+
+// ----------------------------------------------------------------------
+// Initialize the coordinate system.
+void
+spatialdata::geocoords::CSGeoLocalCart::initialize(void)
+{ // initialize
+  CSGeo::initialize();
 
   const double degToRad = M_PI / 180.0;
 
   // convert local origin to WGS84
   double lonWGS84 = 0;
   double latWGS84 = 0;
-  _geoToWGS84(&lonWGS84, &latWGS84, lon*degToRad, lat*degToRad,
-	      ellipsoid.c_str(), datumHoriz.c_str());
+  _geoToWGS84(&lonWGS84, &latWGS84, 
+	      _originLon*degToRad, _originLat*degToRad,
+	      ellipsoid(), datumHoriz());
 
-  double originElev = elev;
-  if (0 != strcasecmp(datumVert.c_str(), "WGS84 ellipsoid"))
-    if (0 == strcasecmp(datumVert.c_str(), "mean sea level")) {
+  double originElev = _originElev;
+  if (0 != strcasecmp(datumVert(), "ellipsoid"))
+    if (0 == strcasecmp(datumVert(), "mean sea level")) {
       // change vertical datum to WGS84 ellipsoid
       Geoid geoid;
       geoid.initialize();
       const double geoidHt = geoid.elevation(lonWGS84, latWGS84);
-      originElev += geoidHt;
+      originElev += geoidHt / toMeters();
     } else {
       std::ostringstream msg;
       msg << "Do not know how to convert from vertical datum '"
-	  << datumVert << "' to 'WGS84 ellipsoid'.";
+	  << datumVert() << "' to 'ellipsoid'.";
       throw std::runtime_error(msg.str());	
     } // else
 
@@ -159,20 +156,25 @@ spatialdata::geocoords::CoordSysLocal::localOrigin(const double lon,
     _localOrientation[6]*originECEFX +
     _localOrientation[7]*originECEFY +
     _localOrientation[8]*originECEFZ;
-} // localOrigin
+
+  _originX *= toMeters();
+  _originY *= toMeters();
+  _originZ *= toMeters();
+} // initialize
 
 // ----------------------------------------------------------------------
 // Convert coordinates to PROJ4 useable form.
 void
-spatialdata::geocoords::CoordSysLocal::toProjForm(double** ppCoords,
-						  const int numLocs,
-						  bool is2D) const
+spatialdata::geocoords::CSGeoLocalCart::toProjForm(double** ppCoords,
+						   const int numLocs,
+						   bool is2D) const
 { // toProjForm
+  const double scale = toMeters();
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     // add origin to old to invert
-    const double xOld = (*ppCoords)[index  ] + _originX;
-    const double yOld = (*ppCoords)[index+1] + _originY;
-    const double zOld = (*ppCoords)[index+2] + _originZ;
+    const double xOld = (*ppCoords)[index  ]*scale + _originX;
+    const double yOld = (*ppCoords)[index+1]*scale + _originY;
+    const double zOld = (*ppCoords)[index+2]*scale + _originZ;
     // multiply by transpose of direction cosines to invert
     (*ppCoords)[index++] = 
       _localOrientation[0]*xOld +
@@ -192,9 +194,9 @@ spatialdata::geocoords::CoordSysLocal::toProjForm(double** ppCoords,
 // ----------------------------------------------------------------------
 // Convert coordinates from PROJ4 form to form associated w/coordsys.
 void
-spatialdata::geocoords::CoordSysLocal::fromProjForm(double** ppCoords,
-						    const int numLocs,
-						    bool is2D) const
+spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double** ppCoords,
+						     const int numLocs,
+						     bool is2D) const
 { // fromProjForm
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     const double xOld = (*ppCoords)[index  ];
@@ -213,17 +215,23 @@ spatialdata::geocoords::CoordSysLocal::fromProjForm(double** ppCoords,
       _localOrientation[7]*yOld +
       _localOrientation[8]*zOld - _originZ;
   } // for
+
+  const int numCoords = (is2D) ? 2 : 3;
+  const int size = numLocs * numCoords;
+  const double scale = toMeters();
+  for (int i=0; i < size; ++i)
+    (*ppCoords)[i] /= scale;
 } // fromProjForm
   
 // ----------------------------------------------------------------------
 // Convert coordinates to WGS84.
 void
-spatialdata::geocoords::CoordSysLocal::_geoToWGS84(double* pLonWGS84,
-						   double* pLatWGS84,
-						   const double lon,
-						   const double lat,
-						   const char* ellipsoid,
-						   const char* datumHoriz) const
+spatialdata::geocoords::CSGeoLocalCart::_geoToWGS84(double* pLonWGS84,
+						    double* pLatWGS84,
+						    const double lon,
+						    const double lat,
+						    const char* ellipsoid,
+						    const char* datumHoriz) const
 { // _geoToWGS84
   FIREWALL(0 != pLonWGS84);
   FIREWALL(0 != pLatWGS84);
@@ -275,12 +283,12 @@ spatialdata::geocoords::CoordSysLocal::_geoToWGS84(double* pLonWGS84,
 // ----------------------------------------------------------------------
 // Convert coordinates from WGS84 to ECEF.
 void
-spatialdata::geocoords::CoordSysLocal::_wgs84ToECEF(double* pECEFX,
-						    double* pECEFY,
-						    double* pECEFZ,
-						    const double lonWGS84,
-						    const double latWGS84,
-						    const double elevWGS84) const
+spatialdata::geocoords::CSGeoLocalCart::_wgs84ToECEF(double* pECEFX,
+						     double* pECEFY,
+						     double* pECEFZ,
+						     const double lonWGS84,
+						     const double latWGS84,
+						     const double elevWGS84) const
 { // _wgs84ToECEF
   FIREWALL(0 != pECEFX);
   FIREWALL(0 != pECEFY);
@@ -322,7 +330,7 @@ spatialdata::geocoords::CoordSysLocal::_wgs84ToECEF(double* pECEFX,
 // ----------------------------------------------------------------------
 // Get the PROJ4 string associated with the coordinate system.
 std::string 
-spatialdata::geocoords::CoordSysLocal::_projCSString(void) const
+spatialdata::geocoords::CSGeoLocalCart::_projCSString(void) const
 { // _projCSString
   const char* projString =
     "+proj=geocent +ellps=WGS84 +datum=WGS84 +units=m";

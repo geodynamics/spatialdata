@@ -10,34 +10,33 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file tests/libtests/TestCoordSysLocal.h
+/** @file tests/libtests/TestCSGeoProj.h
  *
- * @brief C++ TestCoordSysLocal object
+ * @brief C++ TestCSGeoProj object
  *
- * C++ unit testing for CoordSysLocal.
+ * C++ unit testing for CSGeoProj.
  */
 
-#if !defined(spatialdata_geocoords_testcoordsyslocal_h)
-#define spatialdata_geocoords_testcoordsyslocal_h
+#if !defined(spatialdata_geocoords_testcsgeolocalcart_h)
+#define spatialdata_geocoords_testcsgeolocalcart_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatialdata package
 namespace spatialdata {
   namespace geocoords {
-    class TestCoordSysLocal;
+    class TestCSGeoProj;
   } // geocoords
 } // spatialdata
 
-/// C++ unit testing for CoordSysLocal
-class spatialdata::geocoords::TestCoordSysLocal : public CppUnit::TestFixture
-{ // class TestCoordSysLocal
+/// C++ unit testing for CSGeoProj
+class spatialdata::geocoords::TestCSGeoProj : public CppUnit::TestFixture
+{ // class TestCSGeoProj
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestCoordSysLocal );
+  CPPUNIT_TEST_SUITE( TestCSGeoProj );
   CPPUNIT_TEST( testConstructor );
-  CPPUNIT_TEST( testLocalOrigin );
-  CPPUNIT_TEST( testXYZToMeters );
+  CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testToProjForm );
   CPPUNIT_TEST( testFromProjForm );
   CPPUNIT_TEST_SUITE_END();
@@ -48,11 +47,8 @@ public :
   /// Test constructor
   void testConstructor(void);
 
-  /// Test localOrigin()
-  void testLocalOrigin(void);
-
-  /// Test xyzToMeters()
-  void testXYZToMeters(void);
+  /// Test initialize()
+  void testInitialize(void);
 
   /// Test toProjForm()
   void testToProjForm(void);
@@ -66,19 +62,19 @@ public :
   static const char* _ELLIPSOID; ///< Name of reference ellipsoid
   static const char* _DATUMHORIZ; ///< Name of horizontal datum
   static const char* _DATUMVERT; ///< Name of vertical datum
-  static const double _ORIGINLON; ///< Longitude of origin in degrees
-  static const double _ORIGINLAT; ///< Latitude of origin in degrees
-  static const double _ORIGINELEV; ///< Elevation of origin in meters
-  static const double _ORIGINX; ///< X coordinate of origin
-  static const double _ORIGINY; ///< Y coordinate of origin
-  static const double _ORIGINZ; ///< Z coordinate of origin
-  static const int _NUMLOCS; ///< Number of points
-  static const double _XYZECEF[]; ///< Coordinate of points in ECEF
-  static const double _XYZLOCAL[]; ///< Coordinate of points in local system
-  
-}; // class TestCoordSysLocal
+  static const double _FALSEEASTING; ///< Longitude of origin
+  static const double _FALSENORTHING; ///< Latitude of origin
+  static const double _SCALEFACTOR; ///< Scale factor (central meridian)
+  static const char* _PROJECTION; ///< Name of projection
+  static const char* _UNITS; ///< Units in projection
 
-#endif // spatialdata_geocoords_testcoordsyslocal
+  static const int _NUMLOCS; ///< Number of points
+  static const double _XYZ[]; ///< Coordinate of points in projected cs
+  static const double _LONLATNAD27ELEV[]; ///< Geographic coordinates of points
+  
+}; // class TestCSGeoProj
+
+#endif // spatialdata_geocoords_testcsgeolocalcart_h
 
 // version
 // $Id$

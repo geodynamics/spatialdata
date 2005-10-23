@@ -32,9 +32,10 @@ class TestProjector(unittest.TestCase):
 
 
   def setUp(self):
-    from spatialdata.geocoords.CoordSysGeo import CoordSysGeo
-    coordSys = CoordSysGeo()
-    coordSys.initialize()
+    from spatialdata.geocoords.CSGeo import CSGeo
+    cs = CSGeo()
+    cs.initialize()
+    self.cs = cs
     
     from spatialdata.geocoords.Projector import Projector
     self.projector = Projector()
@@ -44,17 +45,16 @@ class TestProjector(unittest.TestCase):
     self.projector.falseNorthing = falseNorthing
     self.projector.scaleFactor = scaleFactor
     self.projector.units = units
-    self.projector.coordSys = coordSys
     return
   
 
   def test_initialize(self):
-    self.projector.initialize()
+    self.projector.initialize(self.cs)
     return
 
 
   def test_project(self):
-    self.projector.initialize()
+    self.projector.initialize(self.cs)
     xyValsT = self.projector.project(lonlatVals)
     self.assertEqual(len(xyVals), len(xyValsT))
     for (xy, xyT) in zip(xyVals, xyValsT):
@@ -63,7 +63,7 @@ class TestProjector(unittest.TestCase):
     return
 
   def test_invproject(self):
-    self.projector.initialize()
+    self.projector.initialize(self.cs)
     lonlatValsT = self.projector.invproject(xyVals)
     self.assertEqual(len(lonlatVals), len(lonlatValsT))
     for (lonlat, lonlatT) in zip(lonlatVals, lonlatValsT):

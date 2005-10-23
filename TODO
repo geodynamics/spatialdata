@@ -1,14 +1,6 @@
 SPATIALDB
 
-  CoordSys (general)
-    CoordSysGeo
-      CoordSysGeoLocalCart (formerly CoordSysLocal)
-      CoordSysGeoProj (projected)
-    CoordSysCart (conventional cartesian coordinate system)
-  Converter
-    convert
-      _convertGeo()
-      _convertCart()
+  Test km units in geocoords
 
   Add coordinate systems to SpatialDB
 

@@ -1,0 +1,26 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_geocoords_csgeolocalcart_h)
+#error "CSGeoLocalCart.icc must only be included from CSGeoLocalCart.h"
+#endif
+
+// Get proj form vertical datum.
+inline
+const char*
+spatialdata::geocoords::CSGeoLocalCart::projDatumVert(void) const
+{ return "ellipsoid"; }
+
+// version
+// $Id$
+
+// End of file 

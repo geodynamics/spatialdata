@@ -16,8 +16,9 @@
 
 #include "spatialdata/geocoords/Converter.h" // USES Converter
 #include "spatialdata/geocoords/CoordSys.h" // USES CoordSys
-#include "spatialdata/geocoords/CoordSysGeo.h" // USES CoordSysGeo
-#include "spatialdata/geocoords/CoordSysLocal.h" // USES CoordSysLocal
+#include "spatialdata/geocoords/CSCart.h" // USES CSCart
+#include "spatialdata/geocoords/CSGeo.h" // USES CSGeo
+#include "spatialdata/geocoords/CSGeoLocalCart.h" // USES CSGeoLocalCart
 
 #include <math.h> // USES M_PI
 #include <string.h> // USES memcpy()
@@ -40,15 +41,15 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestConverter );
 void
 spatialdata::geocoords::TestConverter::testNAD27ToWGS84(void)
 { // testNAD27ToWGS84
-  CoordSysGeo csSrc;
+  CSGeo csSrc;
   csSrc.datumHoriz("NAD27");
   csSrc.datumVert("mean sea level");
   csSrc.ellipsoid("clrk66");
   csSrc.initialize();
 
-  CoordSysGeo csDest;
+  CSGeo csDest;
   csDest.datumHoriz("WGS84");
-  csDest.datumVert("WGS84 Ellipsoid");
+  csDest.datumVert("ellipsoid");
   csDest.ellipsoid("WGS84");
   csDest.initialize();
 
@@ -58,7 +59,7 @@ spatialdata::geocoords::TestConverter::testNAD27ToWGS84(void)
   double* pCoords = new double [size];
   memcpy(pCoords, _LONLATNAD27ELEV, size*sizeof(double));
   
-  Converter::convert(&pCoords, numLocs, csDest, csSrc);
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _LONLATWGS84GEOID;
   const double tolerance = 1.0e-06;
@@ -73,13 +74,13 @@ spatialdata::geocoords::TestConverter::testNAD27ToWGS84(void)
 void
 spatialdata::geocoords::TestConverter::testWGS84ToNAD27(void)
 { // testWGS84ToNAD27
-  CoordSysGeo csSrc;
+  CSGeo csSrc;
   csSrc.datumHoriz("WGS84");
-  csSrc.datumVert("WGS84 Ellipsoid");
+  csSrc.datumVert("ellipsoid");
   csSrc.ellipsoid("WGS84");
   csSrc.initialize();
 
-  CoordSysGeo csDest;
+  CSGeo csDest;
   csDest.datumHoriz("NAD27");
   csDest.datumVert("mean sea level");
   csDest.ellipsoid("clrk66");
@@ -91,7 +92,7 @@ spatialdata::geocoords::TestConverter::testWGS84ToNAD27(void)
   double* pCoords = new double [size];
   memcpy(pCoords, _LONLATWGS84GEOID, size*sizeof(double));
   
-  Converter::convert(&pCoords, numLocs, csDest, csSrc);
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _LONLATNAD27ELEV;
   const double tolerance = 1.0e-05;
@@ -106,16 +107,16 @@ spatialdata::geocoords::TestConverter::testWGS84ToNAD27(void)
 void
 spatialdata::geocoords::TestConverter::testWGS84ToECEF(void)
 { // testWGS84ToECEF
-  CoordSysGeo csSrc;
+  CSGeo csSrc;
   csSrc.datumHoriz("WGS84");
-  csSrc.datumVert("WGS84 ellipsoid");
+  csSrc.datumVert("ellipsoid");
   csSrc.ellipsoid("WGS84");
   csSrc.initialize();
 
-  CoordSysGeo csDest;
+  CSGeo csDest;
   csDest.isGeocentric(true);
   csDest.datumHoriz("WGS84");
-  csDest.datumVert("WGS84 ellipsoid");
+  csDest.datumVert("ellipsoid");
   csDest.ellipsoid("WGS84");
   csDest.initialize();
 
@@ -125,7 +126,7 @@ spatialdata::geocoords::TestConverter::testWGS84ToECEF(void)
   double* pCoords = new double[size];
   memcpy(pCoords, _LONLATWGS84GEOID, size*sizeof(double));
   
-  Converter::convert(&pCoords, numLocs, csDest, csSrc);
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _XYZECEF;
   const double tolerance = 1.0e-06;
@@ -140,16 +141,16 @@ spatialdata::geocoords::TestConverter::testWGS84ToECEF(void)
 void
 spatialdata::geocoords::TestConverter::testECEFToWGS84(void)
 { // testECEFToWGS84
-  CoordSysGeo csSrc;
+  CSGeo csSrc;
   csSrc.isGeocentric(true);
   csSrc.datumHoriz("WGS84");
-  csSrc.datumVert("WGS84 ellipsoid");
+  csSrc.datumVert("ellipsoid");
   csSrc.ellipsoid("WGS84");
   csSrc.initialize();
 
-  CoordSysGeo csDest;
+  CSGeo csDest;
   csDest.datumHoriz("WGS84");
-  csDest.datumVert("WGS84 ellipsoid");
+  csDest.datumVert("ellipsoid");
   csDest.ellipsoid("WGS84");
   csDest.initialize();
 
@@ -159,7 +160,7 @@ spatialdata::geocoords::TestConverter::testECEFToWGS84(void)
   double* pCoords = new double[size];
   memcpy(pCoords, _XYZECEF, size*sizeof(double));
   
-  Converter::convert(&pCoords, numLocs, csDest, csSrc);
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _LONLATWGS84GEOID;
   const double tolerance = 1.0e-06;
@@ -174,15 +175,17 @@ spatialdata::geocoords::TestConverter::testECEFToWGS84(void)
 void
 spatialdata::geocoords::TestConverter::testNAD27ToLocal(void)
 { // testNad27ToLocal
-  CoordSysGeo csSrc;
+  CSGeo csSrc;
   csSrc.datumHoriz("NAD27");
   csSrc.datumVert("mean sea level");
   csSrc.ellipsoid("clrk66");
   csSrc.initialize();
 
-  CoordSysLocal csDest;
-  csDest.localOrigin(_ORIGINLON, _ORIGINLAT, _ORIGINELEV,
-		     "clrk66", "NAD27", "mean sea level");
+  CSGeoLocalCart csDest;
+  csDest.origin(_ORIGINLON, _ORIGINLAT, _ORIGINELEV);
+  csDest.ellipsoid("clrk66");
+  csDest.datumHoriz("NAD27");
+  csDest.datumVert("mean sea level");
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
@@ -191,7 +194,7 @@ spatialdata::geocoords::TestConverter::testNAD27ToLocal(void)
   double* pCoords = new double [size];
   memcpy(pCoords, _LONLATNAD27ELEV, size*sizeof(double));
   
-  Converter::convert(&pCoords, numLocs, csDest, csSrc);
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _XYZLOCAL;
   const double tolerance = 1.0e-06;
@@ -209,12 +212,14 @@ spatialdata::geocoords::TestConverter::testNAD27ToLocal(void)
 void
 spatialdata::geocoords::TestConverter::testLocalToNAD27(void)
 { // testNad27ToLocal
-  CoordSysLocal csSrc;
-  csSrc.localOrigin(_ORIGINLON, _ORIGINLAT, _ORIGINELEV,
-		     "clrk66", "NAD27", "mean sea level");
+  CSGeoLocalCart csSrc;
+  csSrc.origin(_ORIGINLON, _ORIGINLAT, _ORIGINELEV);
+  csSrc.ellipsoid("clrk66");
+  csSrc.datumHoriz("NAD27");
+  csSrc.datumVert("mean sea level");
   csSrc.initialize();
 
-  CoordSysGeo csDest;
+  CSGeo csDest;
   csDest.datumHoriz("NAD27");
   csDest.datumVert("mean sea level");
   csDest.ellipsoid("clrk66");
@@ -226,7 +231,7 @@ spatialdata::geocoords::TestConverter::testLocalToNAD27(void)
   double* pCoords = new double [size];
   memcpy(pCoords, _XYZLOCAL, size*sizeof(double));
   
-  Converter::convert(&pCoords, numLocs, csDest, csSrc);
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _LONLATNAD27ELEV;
   const double tolerance = 1.0e-06;
@@ -238,6 +243,43 @@ spatialdata::geocoords::TestConverter::testLocalToNAD27(void)
   
   delete[] pCoords; pCoords = 0;
 } // TestLocalToNAD27
+
+// ----------------------------------------------------------------------
+// Test CartToCart()
+void
+spatialdata::geocoords::TestConverter::testCartToCart(void)
+{ // testCartToCart
+  const double srcToMeters = 2.0;
+  const double destToMeters = 0.4;
+
+  CSCart csSrc;
+  csSrc.toMeters(srcToMeters);
+  csSrc.initialize();
+
+  CSCart csDest;
+  csDest.toMeters(destToMeters);
+  csDest.initialize();
+
+  const int numLocs = _NUMLOCS;
+  const int numCoords = 3;
+  const int size = numLocs*numCoords;
+  double* pCoords = new double [size];
+  memcpy(pCoords, _XYZLOCAL, size*sizeof(double));
+  
+  Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
+  
+  const double* pValsE = _XYZLOCAL;
+  const double tolerance = 1.0e-06;
+  const double scale = srcToMeters / destToMeters;
+  for (int i=0; i < size; ++i)
+    if (fabs(pValsE[i]) > tolerance)
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[i]/(pValsE[i]*scale), 
+				   tolerance);
+    else
+      CPPUNIT_ASSERT_DOUBLES_EQUAL((pValsE[i]*scale), pCoords[i], tolerance);
+  
+  delete[] pCoords; pCoords = 0;
+} // TestCartToCart
 
 // version
 // $Id$

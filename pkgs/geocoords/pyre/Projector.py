@@ -35,7 +35,7 @@ class Projector(Component):
     ## @li \b units Name of units
     ##
     ## \b Facilities
-    ## @li \b coord-sys Geographic coordinate system
+    ## @li None
 
     import pyre.inventory
 
@@ -54,10 +54,6 @@ class Projector(Component):
     units = pyre.inventory.str("units", default="m")
     units.meta['tip'] = "Units of coordinates."
 
-    from CoordSysGeo import CoordSysGeo
-    coordSys = pyre.inventory.facility("coord-sys", factory=CoordSysGeo)
-    coordSys.meta['tip'] = "Geographic coordinate system."
-
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   def handle(self):
@@ -65,17 +61,16 @@ class Projector(Component):
     return self._cppProjector
 
 
-  def initialize(self):
+  def initialize(self, coordSys):
     """Initialize projector."""
     
     import spatialdata.geocoords.geocoords as bindings
-    self._cppProjector = bindings.CppProjector(self.coordSys.handle())
     bindings.CppProjector_projection(self._cppProjector, self.projection)
     bindings.CppProjector_falseEasting(self._cppProjector, self.falseEasting)
     bindings.CppProjector_falseNorthing(self._cppProjector, self.falseNorthing)
     bindings.CppProjector_scaleFactor(self._cppProjector, self.scaleFactor)
     bindings.CppProjector_units(self._cppProjector, self.units)
-    bindings.CppProjector_initialize(self._cppProjector)
+    bindings.CppProjector_initialize(self._cppProjector, coordSys.handle())
     return
 
 
@@ -98,8 +93,9 @@ class Projector(Component):
   def __init__(self, name="projector"):
     """Constructor."""
     Component.__init__(self, name, facility="projector")
-    self._cppProjector = None
-    self.coordSys = None
+
+    import spatialdata.geocoords.geocoords as bindings
+    self._cppProjector = bindings.CppProjector()
     return
 
 
@@ -113,7 +109,6 @@ class Projector(Component):
     self.falseNorthing = self.inventory.falseNorthing
     self.scaleFactor = self.inventory.scaleFactor
     self.units = self.inventory.units
-    self.coordSys = self.inventory.coordSys
     return
 
 

@@ -1,0 +1,92 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_geocoords_csgeo_h)
+#error "CSGeo.icc must only be included from CSGeo.h"
+#endif
+
+// Set reference ellipsoid.
+inline
+void
+spatialdata::geocoords::CSGeo::ellipsoid(const std::string& name)
+{ _ellipsoid = name; }
+
+// Get reference ellipsoid.
+inline
+const char*
+spatialdata::geocoords::CSGeo::ellipsoid(void) const
+{ return _ellipsoid.c_str(); }
+
+// Set horizontal datum.
+inline
+void 
+spatialdata::geocoords::CSGeo::datumHoriz(const std::string& name)
+{ _datumHoriz = name; }
+
+// Get horizontal datum.
+inline
+const char*
+spatialdata::geocoords::CSGeo::datumHoriz(void) const
+{ return _datumHoriz.c_str(); }
+
+// Set vertical datum.
+inline
+void 
+spatialdata::geocoords::CSGeo::datumVert(const std::string& name)
+{ _datumVert = name; }
+
+// Get vertical datum.
+inline
+const char*
+spatialdata::geocoords::CSGeo::datumVert(void) const
+{ return _datumVert.c_str(); }
+
+// Set geocentric flag.
+inline
+void
+spatialdata::geocoords::CSGeo::isGeocentric(bool geocentric)
+{ _isGeocentric = geocentric; }
+
+// Get geocentric flag.
+inline
+bool
+spatialdata::geocoords::CSGeo::isGeocentric(void) const
+{ return _isGeocentric; }
+
+// Set factor to convert Cartesian coordinates to meters.
+inline
+void
+spatialdata::geocoords::CSGeo::toMeters(const double factor)
+{ _toMeters = factor; }
+
+// Get factor to convert Cartesian coordinates to meters.
+inline
+double
+spatialdata::geocoords::CSGeo::toMeters(void) const
+{ return _toMeters; }
+
+// Get proj form vertical datum.
+inline
+const char*
+spatialdata::geocoords::CSGeo::projDatumVert(void) const
+{ return _datumVert.c_str(); }
+
+// Get coordinate system
+inline
+const projPJ
+spatialdata::geocoords::CSGeo::projCoordSys(void) const
+{ return _pCS; }
+
+// version
+// $Id$
+
+// End of file 

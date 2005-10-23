@@ -10,9 +10,9 @@
 // ======================================================================
 //
 
-/** @file pkgs/geocoords/lib/GeoCoordSys.h
+/** @file pkgs/geocoords/lib/CoordSys.h
  *
- * @brief C++ GeoCoordSys object
+ * @brief C++ CoordSys object
  *
  * C++ object for managing parameters defining a coordinate system.
  */
@@ -26,13 +26,19 @@ namespace spatialdata {
   } // geocoords
 } // spatialdata
 
-#include "proj4fwd.h" // Proj4 forward declaration
-#include <string> // USES std::string
-
 /// C++ object for managing parameters defining a coordinate system
 class spatialdata::geocoords::CoordSys
 { // class CoordSys
- public :
+public :
+  // PUBLIC METHODS /////////////////////////////////////////////////////
+
+  /// Type of coordinate system
+  enum CSTypeEnum {
+    CARTESIAN, ///< Cartesian coordinate system
+    GEOGRAPHIC ///< Geographic coordinate system
+  };
+
+public :
   // PUBLIC METHODS /////////////////////////////////////////////////////
 
   /// Default constructor
@@ -41,67 +47,26 @@ class spatialdata::geocoords::CoordSys
   /// Default destructor
   virtual ~CoordSys(void);
 
-  /** Get PROJ coordinate system.
-   *
-   * @returns Coordinate system
-   */
-  const projPJ projCoordSys(void) const;
+  /// Initialize the coordinate system.
+  virtual void initialize(void) = 0;
 
-  /// Initialize the PROJ4 coordinate system.
-  void initialize(void);
+  /// Get type of coordinate system
+  CSTypeEnum csType(void) const;
 
-  /** Get vertical datum.
-   *
-   * @returns Name of datum
-   */
-  virtual const char* datumVert(void) const = 0;
-
-  /** Get conversion of elevation to meters.
-   *
-   * @returns Conversion factor to convert elevation to meters
-   */
-  virtual double elevToMeters(void) const = 0;
-
-  /** Get proj form vertical datum.
-   *
-   * @returns Name of datum
-   */
-  virtual const char* projDatumVert(void) const = 0;
-
-  /** Convert coordinates to PROJ4 useable form.
-   *
-   * @param ppCoords Pointer to array of coordinates [#locs*3]
-   * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2D, false if 3D
-   */
-  virtual void toProjForm(double** ppCoords,
-			  const int numLocs,
-			  bool is2D =false) const = 0;
-  
-  /** Convert coordinates from PROJ4 form to form associated w/coordsys.
-   *
-   * @param ppCoords Pointer to array of coordinates [#locs*3]
-   * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2D, false if 3D
-   */
-  virtual void fromProjForm(double** ppCoords,
-			    const int numLocs,
-			    bool is2D =false) const = 0;
-  
 protected :
-  // PROTECTED MEMBERS /////////////////////////////////////////////////
+  // PROTECTED METHODS //////////////////////////////////////////////////
 
-  /** Get the PROJ4 string associated with the coordinate system.
+  /** Set type of coordinate system.
    *
-   * @returns string
+   * @param cs Type of coordinate system
    */
-  virtual std::string _projCSString(void) const = 0;
-  
-private :
- // PRIVATE MEMBERS ////////////////////////////////////////////////////
+  void csType(const CSTypeEnum cs);
 
-  projPJ _pCS; ///< Pointer to coordinate system
-  
+private :
+  // PRIVATE MEMBERS ////////////////////////////////////////////////////
+
+  CSTypeEnum _csType; ///< Type of coordinate system
+
 }; // class CoordSys
 
 #include "CoordSys.icc" // inline methods

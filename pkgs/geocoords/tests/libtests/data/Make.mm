@@ -17,7 +17,8 @@ default all:
 
 datfiles: \
 	TestConverter \
-	TestCoordSysLocal \
+	TestCSGeoLocalCart \
+	TestCSGeoProj \
 	TestProjector \
 
 TestConverter:
@@ -26,11 +27,17 @@ TestConverter:
 		--dumper.className=spatialdata::geocoords::TestConverter \
 		--dumper.filename=TestConverter.dat
 
-TestCoordSysLocal:
+TestCSGeoLocalCart:
 	ConvertDataApp.py \
-		--data=coordsyslocal \
-		--dumper.className=spatialdata::geocoords::TestCoordSysLocal \
-		--dumper.filename=TestCoordSysLocal.dat
+		--data=csgeolocalcart \
+		--dumper.className=spatialdata::geocoords::TestCSGeoLocalCart \
+		--dumper.filename=TestCSGeoLocalCart.dat
+
+TestCSGeoProj:
+	ConvertDataApp.py \
+		--data=csgeoproj \
+		--dumper.className=spatialdata::geocoords::TestCSGeoProj \
+		--dumper.filename=TestCSGeoProj.dat
 
 TestProjector:
 	ConvertDataApp.py \

@@ -16,8 +16,8 @@
 
 #include "spatialdata/geocoords/Projector.h" // USES Projector
 
-#include "spatialdata/geocoords/CoordSys.h" // USES CoordSysGeo
-#include "spatialdata/geocoords/CoordSysGeo.h" // USES CoordSysGeo
+#include "spatialdata/geocoords/CoordSys.h" // USES CSGeo
+#include "spatialdata/geocoords/CSGeo.h" // USES CSGeo
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestProjector );
@@ -26,32 +26,54 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestProjector );
 #include "data/TestProjector.dat"
 
 // ----------------------------------------------------------------------
-// Test projection()
-void
-spatialdata::geocoords::TestProjector::testProjection(void)
-{ // testProjection
-  CoordSysGeo cs;
-  Projector proj(cs);
-  proj.projection(_PROJECTION);
-  CPPUNIT_ASSERT(0 == strcmp(proj.projection(), _PROJECTION));
-} // testProjection
-
-// ----------------------------------------------------------------------
 // Test constructor
 void
 spatialdata::geocoords::TestProjector::testConstructor(void)
 { // testConstructor
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
 } // testConstructor
+
+// ----------------------------------------------------------------------
+// Test copy constructor
+void
+spatialdata::geocoords::TestProjector::testCopy(void)
+{ // testCopy
+  Projector proj;
+  proj.projection(_PROJECTION);
+  proj.falseEasting(_FALSEEASTING);
+  proj.falseNorthing(_FALSENORTHING);
+  proj.scaleFactor(_SCALEFACTOR);
+  proj.units(_UNITS);
+
+  Projector projB(proj);
+
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT(0 == strcmp(projB.projection(), _PROJECTION));
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.falseEasting()/_FALSEEASTING,
+			       tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.falseNorthing()/_FALSENORTHING,
+			       tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.scaleFactor()/_SCALEFACTOR,
+			       tolerance);
+  CPPUNIT_ASSERT(0 == strcmp(proj.units(), _UNITS));
+} // testCopy
+
+// ----------------------------------------------------------------------
+// Test projection()
+void
+spatialdata::geocoords::TestProjector::testProjection(void)
+{ // testProjection
+  Projector proj;
+  proj.projection(_PROJECTION);
+  CPPUNIT_ASSERT(0 == strcmp(proj.projection(), _PROJECTION));
+} // testProjection
 
 // ----------------------------------------------------------------------
 // Test falseEasting()
 void
 spatialdata::geocoords::TestProjector::testFalseEasting(void)
 { // testFalseEasting
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
   proj.falseEasting(_FALSEEASTING);
   const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.falseEasting()/_FALSEEASTING,
@@ -63,8 +85,7 @@ spatialdata::geocoords::TestProjector::testFalseEasting(void)
 void
 spatialdata::geocoords::TestProjector::testFalseNorthing(void)
 { // testFalseNorthing
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
   proj.falseNorthing(_FALSENORTHING);
   const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.falseNorthing()/_FALSENORTHING,
@@ -76,8 +97,7 @@ spatialdata::geocoords::TestProjector::testFalseNorthing(void)
 void
 spatialdata::geocoords::TestProjector::testScaleFactor(void)
 { // testScaleFactor
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
   proj.scaleFactor(_SCALEFACTOR);
   const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, proj.scaleFactor()/_SCALEFACTOR,
@@ -89,8 +109,7 @@ spatialdata::geocoords::TestProjector::testScaleFactor(void)
 void
 spatialdata::geocoords::TestProjector::testUnits(void)
 { // testUnits
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
   proj.units(_UNITS);
   CPPUNIT_ASSERT(0 == strcmp(proj.units(), _UNITS));
 } // testUnits
@@ -100,9 +119,9 @@ spatialdata::geocoords::TestProjector::testUnits(void)
 void
 spatialdata::geocoords::TestProjector::testInitialize(void)
 { // testInitialize
-  CoordSysGeo cs;
-  Projector proj(cs);
-  proj.initialize();
+  Projector proj;
+  CSGeo cs;
+  proj.initialize(cs);
 } // testIniailize
 
 // ----------------------------------------------------------------------
@@ -110,14 +129,16 @@ spatialdata::geocoords::TestProjector::testInitialize(void)
 void
 spatialdata::geocoords::TestProjector::testProject(void)
 { // testProject
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
   proj.projection(_PROJECTION);
   proj.falseEasting(_FALSEEASTING);
   proj.falseNorthing(_FALSENORTHING);
   proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
-  proj.initialize();
+
+  CSGeo cs;
+  cs.initialize();
+  proj.initialize(cs);
 
   const int numLocs = _NUMLOCS;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
@@ -137,14 +158,16 @@ spatialdata::geocoords::TestProjector::testProject(void)
 void
 spatialdata::geocoords::TestProjector::testInvproject(void)
 { // testInvproject
-  CoordSysGeo cs;
-  Projector proj(cs);
+  Projector proj;
   proj.projection(_PROJECTION);
   proj.falseEasting(_FALSEEASTING);
   proj.falseNorthing(_FALSENORTHING);
   proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
-  proj.initialize();
+
+  CSGeo cs;
+  cs.initialize();
+  proj.initialize(cs);
 
   const int numLocs = _NUMLOCS;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {

@@ -14,7 +14,9 @@
 
 #include "Converter.h" // implementation of class methods
 
-#include "CoordSys.h" // implementation of class methods
+#include "CoordSys.h" // USES CoordSys
+#include "CSGeo.h" // USES CSGeo
+#include "CSCart.h" // USES CSCart
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
@@ -38,15 +40,55 @@ extern "C" {
 void
 spatialdata::geocoords::Converter::convert(double** ppCoords,
 					   const int numLocs,
-					   const CoordSys& csDest,
-					   const CoordSys& csSrc,
+					   const CoordSys* pCSDest,
+					   const CoordSys* pCSSrc,
 					   bool is2D)
+{ // convert
+  FIREWALL(0 != ppCoords);
+  FIREWALL(0 != *ppCoords);
+  FIREWALL(0 != pCSDest);
+  FIREWALL(0 != pCSSrc);
+
+  if (pCSSrc->csType() != pCSDest->csType())
+    throw std::runtime_error("Cannot convert between coordinate systems "
+			     "of different types.");
+
+  switch (pCSSrc->csType())
+    { // switch 
+    case spatialdata::geocoords::CoordSys::GEOGRAPHIC :
+      { // GEOGRAPHIC
+	const CSGeo* pGeoDest = dynamic_cast<const CSGeo*>(pCSDest);
+	const CSGeo* pGeoSrc = dynamic_cast<const CSGeo*>(pCSSrc);
+	_convert(ppCoords, numLocs, *pGeoDest, *pGeoSrc, is2D);
+	break;
+      } // GEOGRAPHIC
+    case spatialdata::geocoords::CoordSys::CARTESIAN :
+      { // GEOGRAPHIC
+	const CSCart* pCartDest = dynamic_cast<const CSCart*>(pCSDest);
+	const CSCart* pCartSrc = dynamic_cast<const CSCart*>(pCSSrc);
+	_convert(ppCoords, numLocs, *pCartDest, *pCartSrc, is2D);
+	break;
+      } // GEOGRAPHIC
+    default :
+      throw std::runtime_error("Could not parse coordinate system type.");
+    } // switch
+} // convert
+
+// ----------------------------------------------------------------------
+// Convert coordinates from source geographic coordinate system to
+// destination geographic coordinate system.
+void
+spatialdata::geocoords::Converter::_convert(double** ppCoords,
+					    const int numLocs,
+					    const CSGeo& csDest,
+					    const CSGeo& csSrc,
+					    bool is2D)
 { // convert
   FIREWALL(0 != ppCoords);
   FIREWALL(0 != *ppCoords);
 
   csSrc.toProjForm(ppCoords, numLocs, is2D);
-
+  
   const int numCoords = is2D ? 2 : 3;
   double* pX = (*ppCoords) + 0; // lon
   double* pY = (*ppCoords) + 1; // lat
@@ -57,9 +99,9 @@ spatialdata::geocoords::Converter::convert(double** ppCoords,
   if (!is2D && 0 != strcasecmp(srcDatumVert, destDatumVert)) {
     bool isMSLToWGS84 = true;
     if (0 == strcasecmp(srcDatumVert, "mean sea level") &&
-	0 == strcasecmp(destDatumVert, "WGS84 ellipsoid"))
+	0 == strcasecmp(destDatumVert, "ellipsoid"))
       isMSLToWGS84 = true;
-    else if (0 == strcasecmp(srcDatumVert, "WGS84 ellipsoid") &&
+    else if (0 == strcasecmp(srcDatumVert, "ellipsoid") &&
 	     0 == strcasecmp(destDatumVert, "mean sea level"))
       isMSLToWGS84 = false;
     else {
@@ -80,8 +122,8 @@ spatialdata::geocoords::Converter::convert(double** ppCoords,
       throw std::runtime_error(msg.str());
     } // if
     int pjerrno = pj_transform(csSrc.projCoordSys(), csWGS84,
-				     numLocs, numCoords, 
-				     pX, pY, pZ);
+			       numLocs, numCoords, 
+			       pX, pY, pZ);
     if (0 != pjerrno) {
       std::ostringstream msg;
       msg << "Error while converting coordinates to WGS84:\n"
@@ -91,12 +133,9 @@ spatialdata::geocoords::Converter::convert(double** ppCoords,
     Geoid geoid;
     geoid.initialize();
     const int size = numLocs * numCoords;
-    const double elevToMeters = csSrc.elevToMeters();
     for (int i=0; i < size; i+=3) {
       const double geoidHt = geoid.elevation((*ppCoords)[i], (*ppCoords)[i+1]);
-      (*ppCoords)[i+2] += (isMSLToWGS84) ? 
-	geoidHt/elevToMeters : 
-	-geoidHt/elevToMeters;
+      (*ppCoords)[i+2] += (isMSLToWGS84) ? geoidHt : -geoidHt;
     } // for
 
     pjerrno = pj_transform(csWGS84, csDest.projCoordSys(), 
@@ -120,6 +159,26 @@ spatialdata::geocoords::Converter::convert(double** ppCoords,
   } // else
 
   csDest.fromProjForm(ppCoords, numLocs, is2D);
+} // convert
+
+// ----------------------------------------------------------------------
+// Convert coordinates from source Cartesian coordinate system to
+// destination Cartesian coordinate system.
+void
+spatialdata::geocoords::Converter::_convert(double** ppCoords,
+					    const int numLocs,
+					    const CSCart& csDest,
+					    const CSCart& csSrc,
+					    bool is2D)
+{ // convert
+  FIREWALL(0 != ppCoords);
+  FIREWALL(0 != *ppCoords);
+
+  const int numCoords = is2D ? 2 : 3;
+  const int size = numLocs*numCoords;
+  const double scale = csSrc.toMeters() / csDest.toMeters();
+  for (int i=0; i < size; ++i)
+    (*ppCoords)[i] *= scale;
 } // convert
 
 // version

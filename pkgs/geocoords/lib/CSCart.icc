@@ -1,0 +1,32 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_geocoords_cscart_h)
+#error "CSCart.icc must only be included from CSCart.h"
+#endif
+
+// Set factor to convert coordinates to meters.
+inline
+void
+spatialdata::geocoords::CSCart::toMeters(const double scale)
+{ _toMeters = scale; }
+
+// Get factor to convert coordinates to meters.
+inline
+double
+spatialdata::geocoords::CSCart::toMeters(void) const
+{ return _toMeters; }
+
+// version
+// $Id$
+
+// End of file 

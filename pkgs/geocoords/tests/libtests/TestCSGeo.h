@@ -10,37 +10,38 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file tests/libtests/TestCoordSysGeo.h
+/** @file tests/libtests/TestCSGeo.h
  *
- * @brief C++ TestCoordSysGeo object
+ * @brief C++ TestCSGeo object
  *
- * C++ unit testing for CoordSysGeo.
+ * C++ unit testing for CSGeo.
  */
 
-#if !defined(spatialdata_geocoords_testcoordsysgeo_h)
-#define spatialdata_geocoords_testcoordsysgeo_h
+#if !defined(spatialdata_geocoords_testcsgeo_h)
+#define spatialdata_geocoords_testcsgeo_h
 
 #include <cppunit/extensions/HelperMacros.h>
 
 /// Namespace for spatialdata package
 namespace spatialdata {
   namespace geocoords {
-    class TestCoordSysGeo;
+    class TestCSGeo;
   } // geocoords
 } // spatialdata
 
-/// C++ unit testing for CoordSysGeo
-class spatialdata::geocoords::TestCoordSysGeo : public CppUnit::TestFixture
-{ // class TestCoordSysGeo
+/// C++ unit testing for CSGeo
+class spatialdata::geocoords::TestCSGeo : public CppUnit::TestFixture
+{ // class TestCSGeo
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestCoordSysGeo );
+  CPPUNIT_TEST_SUITE( TestCSGeo );
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testEllipsoid );
   CPPUNIT_TEST( testDatumHoriz );
   CPPUNIT_TEST( testDatumVert );
   CPPUNIT_TEST( testGeocentric );
-  CPPUNIT_TEST( testElevToMeters );
+  CPPUNIT_TEST( testToMeters );
+  CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testToProjForm );
   CPPUNIT_TEST( testFromProjForm );
   CPPUNIT_TEST_SUITE_END();
@@ -63,8 +64,11 @@ public :
   /// Test isGeocentric()
   void testGeocentric(void);
 
-  /// Test elevToMeters()
-  void testElevToMeters(void);
+  /// Test toMeters()
+  void testToMeters(void);
+
+  /// Test initialize()
+  void testInitialize(void);
 
   /// Test toProjForm()
   void testToProjForm(void);
@@ -72,9 +76,9 @@ public :
   /// Test fromProjForm()
   void testFromProjForm(void);
 
-}; // class TestCoordSysGeo
+}; // class TestCSGeo
 
-#endif // spatialdata_geocoords_testcoordsysgeo
+#endif // spatialdata_geocoords_testcsgeo_h
 
 // version
 // $Id$

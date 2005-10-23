@@ -12,29 +12,29 @@
 
 #include <portinfo>
 
-#include "TestCoordSysGeo.h" // Implementation of class methods
+#include "TestCSGeo.h" // Implementation of class methods
 
-#include "spatialdata/geocoords/CoordSys.h" // USES CoordSysGeo
-#include "spatialdata/geocoords/CoordSysGeo.h" // USES CoordSysGeo
+#include "spatialdata/geocoords/CoordSys.h" // USES CSGeo
+#include "spatialdata/geocoords/CSGeo.h" // USES CSGeo
 #include <math.h> // USES M_PI
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCoordSysGeo );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSGeo );
 
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::geocoords::TestCoordSysGeo::testConstructor(void)
+spatialdata::geocoords::TestCSGeo::testConstructor(void)
 { // testConstructor
-  CoordSysGeo cs;
+  CSGeo cs;
 } // testConstructor
 
 // ----------------------------------------------------------------------
 // Test ellipsoid()
 void
-spatialdata::geocoords::TestCoordSysGeo::testEllipsoid(void)
+spatialdata::geocoords::TestCSGeo::testEllipsoid(void)
 { // testEllipsoid
-  CoordSysGeo cs;
+  CSGeo cs;
   const char* ellipsoid = "WGS83";
   cs.ellipsoid(ellipsoid);
   CPPUNIT_ASSERT(0 == strcmp(cs.ellipsoid(), ellipsoid));
@@ -43,9 +43,9 @@ spatialdata::geocoords::TestCoordSysGeo::testEllipsoid(void)
 // ----------------------------------------------------------------------
 // Test datumHoriz()
 void
-spatialdata::geocoords::TestCoordSysGeo::testDatumHoriz(void)
+spatialdata::geocoords::TestCSGeo::testDatumHoriz(void)
 { // testDatumHoriz
-  CoordSysGeo cs;
+  CSGeo cs;
   const char* datumHoriz = "NAD27";
   cs.datumHoriz(datumHoriz);
   CPPUNIT_ASSERT(0 == strcmp(cs.datumHoriz(), datumHoriz));
@@ -54,9 +54,9 @@ spatialdata::geocoords::TestCoordSysGeo::testDatumHoriz(void)
 // ----------------------------------------------------------------------
 // Test datumVert()
 void
-spatialdata::geocoords::TestCoordSysGeo::testDatumVert(void)
+spatialdata::geocoords::TestCSGeo::testDatumVert(void)
 { // testDatumVert
-  CoordSysGeo cs;
+  CSGeo cs;
   const char* datumVert = "mean sea level";
   cs.datumVert(datumVert);
   CPPUNIT_ASSERT(0 == strcmp(cs.datumVert(), datumVert));
@@ -65,9 +65,9 @@ spatialdata::geocoords::TestCoordSysGeo::testDatumVert(void)
 // ----------------------------------------------------------------------
 // Test isGeocentric()
 void
-spatialdata::geocoords::TestCoordSysGeo::testGeocentric(void)
+spatialdata::geocoords::TestCSGeo::testGeocentric(void)
 { // testGeocentric
-  CoordSysGeo cs;
+  CSGeo cs;
   CPPUNIT_ASSERT(!cs.isGeocentric());
   cs.isGeocentric(true);
   CPPUNIT_ASSERT(cs.isGeocentric());
@@ -76,24 +76,34 @@ spatialdata::geocoords::TestCoordSysGeo::testGeocentric(void)
 } // testGeocentric
 
 // ----------------------------------------------------------------------
-// Test elevToMeters()
+// Test toMeters()
 void
-spatialdata::geocoords::TestCoordSysGeo::testElevToMeters(void)
-{ // testElevToMeters
-  CoordSysGeo cs;
+spatialdata::geocoords::TestCSGeo::testToMeters(void)
+{ // testToMeters
+  CSGeo cs;
   const double tolerance = 1.0e-6;
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, cs.elevToMeters(), tolerance);
-  const double elevToMeters = 5.53;
-  cs.elevToMeters(elevToMeters);
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(elevToMeters, cs.elevToMeters(), tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, cs.toMeters(), tolerance);
+  const double toMeters = 5.53;
+  cs.toMeters(toMeters);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, cs.toMeters(), tolerance);
 } // testElevToMeters
+
+// ----------------------------------------------------------------------
+// Test initialize()
+void
+spatialdata::geocoords::TestCSGeo::testInitialize(void)
+{ // testInitialize
+  CSGeo cs;
+  cs.initialize();
+  CPPUNIT_ASSERT(0 != cs._pCS);
+} // testInitialize
 
 // ----------------------------------------------------------------------
 // Test toProjForm()
 void
-spatialdata::geocoords::TestCoordSysGeo::testToProjForm(void)
+spatialdata::geocoords::TestCSGeo::testToProjForm(void)
 { // testToProjForm
-  CoordSysGeo cs;
+  CSGeo cs;
 
   const double tolerance = 1.0e-6;
 
@@ -158,9 +168,9 @@ spatialdata::geocoords::TestCoordSysGeo::testToProjForm(void)
 // ----------------------------------------------------------------------
 // Test fromProjForm()
 void
-spatialdata::geocoords::TestCoordSysGeo::testFromProjForm(void)
+spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
 { // testFromProjForm
-  CoordSysGeo cs;
+  CSGeo cs;
 
   const double tolerance = 1.0e-6;
 

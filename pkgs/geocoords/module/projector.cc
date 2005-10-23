@@ -16,9 +16,6 @@
 #include "projector.h"
 #include "spatialdata/geocoords/Projector.h"
 
-#include "spatialdata/geocoords/CoordSys.h"
-#include "spatialdata/geocoords/CoordSysGeo.h"
-
 #include <stdexcept> // USES std::exception
 
 #include "journal/firewall.h" // USES FIREWALL
@@ -28,45 +25,17 @@
 // ----------------------------------------------------------------------
 // CppProjector
 char pyspatialdata_geocoords_CppProjector__doc__[] = "";
-char pyspatialdata_geocoords_CppProjector__name__[] = "CppProjector";
+char pyspatialdata_geocoords_CppProjector__name__[] =
+  "CppProjector";
 
 static char pyspatialdata_geocoords_CppProjector_note[] = 
   "spatialdata geocoords python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdata_geocoords_CppProjector(PyObject*, PyObject* args)
+pyspatialdata_geocoords_CppProjector(PyObject*, PyObject*)
 { // CppProjector
-  PyObject* pyCoordSys = 0;
-  int ok = PyArg_ParseTuple(args,
-			    "O:CppProjector", &pyCoordSys);
-  if (!ok) {
-    PyErr_SetString(PyExc_TypeError,
-		    "C++ bindings error: "
-		    "Could not parse tuple for arguments.");
-    return 0;
-  } // if
-
-  PyObject* pyProjector = 0;
-  try {
-    spatialdata::geocoords::CoordSysGeo* pCoordSys = 
-      pythiautil::BindingsTUtil<spatialdata::geocoords::CoordSysGeo*>::GetCObj(pyCoordSys, 
-						      "CoordSysGeo*",
-				     "Python handle to CoordSysGeo*");
-    FIREWALL(0 != pCoordSys);
-
-    pyProjector = 
-      PyCObject_FromVoidPtr((void*) new spatialdata::geocoords::Projector(*pCoordSys),
-        pythiautil::BindingsTUtil<spatialdata::geocoords::Projector>::DeleteObj);
-  } // try
-  catch (const std::exception& err) {
-    PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
-    return 0;
-  } catch (...) {
-    PyErr_SetString(PyExc_RuntimeError, "Caught unknown C++ exception.");
-    return 0;
-  } // catch
-
-  return pyProjector;
+  return PyCObject_FromVoidPtr((void*) new spatialdata::geocoords::Projector(),
+    pythiautil::BindingsTUtil<spatialdata::geocoords::Projector>::DeleteObj);
 } // CppProjector
         
 // ----------------------------------------------------------------------
@@ -305,7 +274,9 @@ PyObject*
 pyspatialdata_geocoords_CppProjector_initialize(PyObject*, PyObject* args)
 { // CppProjector_initialize
   PyObject* pyProjector = 0;
-  int ok = PyArg_ParseTuple(args, "O:CppProjector_initialize", &pyProjector);
+  PyObject* pyCSGeo = 0;
+  int ok = PyArg_ParseTuple(args, "OO:CppProjector_initialize",
+			    &pyProjector, &pyCSGeo);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -320,7 +291,13 @@ pyspatialdata_geocoords_CppProjector_initialize(PyObject*, PyObject* args)
 				     "Python handle to Projector*");
     FIREWALL(0 != pProjector);
 
-    pProjector->initialize();
+    spatialdata::geocoords::CSGeo* pCSGeo = 
+      pythiautil::BindingsTUtil<spatialdata::geocoords::CSGeo*>::GetCObj(pyCSGeo, 
+						      "CSGeo*",
+				     "Python handle to CSGeo*");
+    FIREWALL(0 != pCSGeo);
+
+    pProjector->initialize(*pCSGeo);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));

@@ -21,8 +21,10 @@ all: export
 
 EXPORT_PYTHON_MODULES = \
 	CoordSys.py \
-	CoordSysGeo.py \
-	CoordSysLocal.py \
+	CSCart.py \
+	CSGeo.py \
+	CSGeoLocalCart.py \
+	CSGeoProj.py \
 	Converter.py \
 	Projector.py \
 	__init__.py \

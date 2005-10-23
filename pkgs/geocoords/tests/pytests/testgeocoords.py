@@ -16,11 +16,17 @@ def suite():
 
   suite = unittest.TestSuite()
 
-  from TestCoordSysGeo import TestCoordSysGeo
-  suite.addTest(unittest.makeSuite(TestCoordSysGeo))
+  from TestCSCart import TestCSCart
+  suite.addTest(unittest.makeSuite(TestCSCart))
 
-  from TestCoordSysLocal import TestCoordSysLocal
-  suite.addTest(unittest.makeSuite(TestCoordSysLocal))
+  from TestCSGeo import TestCSGeo
+  suite.addTest(unittest.makeSuite(TestCSGeo))
+
+  from TestCSGeoLocalCart import TestCSGeoLocalCart
+  suite.addTest(unittest.makeSuite(TestCSGeoLocalCart))
+
+  from TestCSGeoProj import TestCSGeoProj
+  suite.addTest(unittest.makeSuite(TestCSGeoProj))
 
   from TestProjector import TestProjector
   suite.addTest(unittest.makeSuite(TestProjector))

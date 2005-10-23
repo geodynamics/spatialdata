@@ -41,6 +41,7 @@ class spatialdata::geocoords::TestConverter : public CppUnit::TestFixture
   CPPUNIT_TEST( testECEFToWGS84 );
   CPPUNIT_TEST( testNAD27ToLocal );
   CPPUNIT_TEST( testLocalToNAD27 );
+  CPPUNIT_TEST( testCartToCart );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -63,6 +64,9 @@ public :
 
   /// Test local -> NAD27
   void testLocalToNAD27(void);
+
+  /// Test xyz -> xyz
+  void testCartToCart(void);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :

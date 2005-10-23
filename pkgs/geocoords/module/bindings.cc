@@ -17,8 +17,10 @@
 
 #include "converter.h"  // Converter bindings
 #include "coordsys.h"  // CoordSys bindings
-#include "coordsysgeo.h"  // CoordSysGeo bindings
-#include "coordsyslocal.h"  // CoordSysLocal bindings
+#include "cscart.h"  // CSCart bindings
+#include "csgeo.h"  // CSGeo bindings
+#include "csgeolocalcart.h"  // CSGeoLocalCart bindings
+#include "csgeoproj.h"  // CSGeoProj bindings
 #include "projector.h"  // Projector bindings
 
 // the method table
@@ -36,52 +38,69 @@ struct PyMethodDef pyspatialdata_geocoords_methods[] = {
    METH_VARARGS,
    pyspatialdata_geocoords_CppCoordSys_initialize__doc__},
   
-  // CoordSysGeo
-  {pyspatialdata_geocoords_CppCoordSysGeo__name__,
-   pyspatialdata_geocoords_CppCoordSysGeo,
+  // CSCart
+  {pyspatialdata_geocoords_CppCSCart__name__,
+   pyspatialdata_geocoords_CppCSCart,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysGeo__doc__},
+   pyspatialdata_geocoords_CppCSCart__doc__},
   
-  {pyspatialdata_geocoords_CppCoordSysGeo_ellipsoid__name__,
-   pyspatialdata_geocoords_CppCoordSysGeo_ellipsoid,
+  {pyspatialdata_geocoords_CppCSCart_toMeters__name__,
+   pyspatialdata_geocoords_CppCSCart_toMeters,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysGeo_ellipsoid__doc__},
+   pyspatialdata_geocoords_CppCSCart_toMeters__doc__},
 
-  {pyspatialdata_geocoords_CppCoordSysGeo_datumHoriz__name__,
-   pyspatialdata_geocoords_CppCoordSysGeo_datumHoriz,
+  // CSGeo
+  {pyspatialdata_geocoords_CppCSGeo__name__,
+   pyspatialdata_geocoords_CppCSGeo,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysGeo_datumHoriz__doc__},
-
-  {pyspatialdata_geocoords_CppCoordSysGeo_datumVert__name__,
-   pyspatialdata_geocoords_CppCoordSysGeo_datumVert,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysGeo_datumVert__doc__},
-
-  {pyspatialdata_geocoords_CppCoordSysGeo_isGeocentric__name__,
-   pyspatialdata_geocoords_CppCoordSysGeo_isGeocentric,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysGeo_isGeocentric__doc__},
-
-  {pyspatialdata_geocoords_CppCoordSysGeo_elevToMeters__name__,
-   pyspatialdata_geocoords_CppCoordSysGeo_elevToMeters,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysGeo_elevToMeters__doc__},
-
-  // CoordSysLocal
-  {pyspatialdata_geocoords_CppCoordSysLocal__name__,
-   pyspatialdata_geocoords_CppCoordSysLocal,
-   METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysLocal__doc__},
+   pyspatialdata_geocoords_CppCSGeo__doc__},
   
-  {pyspatialdata_geocoords_CppCoordSysLocal_localOrigin__name__,
-   pyspatialdata_geocoords_CppCoordSysLocal_localOrigin,
+  {pyspatialdata_geocoords_CppCSGeo_ellipsoid__name__,
+   pyspatialdata_geocoords_CppCSGeo_ellipsoid,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysLocal_localOrigin__doc__},
+   pyspatialdata_geocoords_CppCSGeo_ellipsoid__doc__},
 
-  {pyspatialdata_geocoords_CppCoordSysLocal_xyzToMeters__name__,
-   pyspatialdata_geocoords_CppCoordSysLocal_xyzToMeters,
+  {pyspatialdata_geocoords_CppCSGeo_datumHoriz__name__,
+   pyspatialdata_geocoords_CppCSGeo_datumHoriz,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppCoordSysLocal_xyzToMeters__doc__},
+   pyspatialdata_geocoords_CppCSGeo_datumHoriz__doc__},
+
+  {pyspatialdata_geocoords_CppCSGeo_datumVert__name__,
+   pyspatialdata_geocoords_CppCSGeo_datumVert,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeo_datumVert__doc__},
+
+  {pyspatialdata_geocoords_CppCSGeo_isGeocentric__name__,
+   pyspatialdata_geocoords_CppCSGeo_isGeocentric,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeo_isGeocentric__doc__},
+
+  {pyspatialdata_geocoords_CppCSGeo_toMeters__name__,
+   pyspatialdata_geocoords_CppCSGeo_toMeters,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeo_toMeters__doc__},
+
+  // CSGeoLocalCart
+  {pyspatialdata_geocoords_CppCSGeoLocalCart__name__,
+   pyspatialdata_geocoords_CppCSGeoLocalCart,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeoLocalCart__doc__},
+  
+  {pyspatialdata_geocoords_CppCSGeoLocalCart_origin__name__,
+   pyspatialdata_geocoords_CppCSGeoLocalCart_origin,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeoLocalCart_origin__doc__},
+
+  // CSGeoProj
+  {pyspatialdata_geocoords_CppCSGeoProj__name__,
+   pyspatialdata_geocoords_CppCSGeoProj,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeoProj__doc__},
+  
+  {pyspatialdata_geocoords_CppCSGeoProj_projector__name__,
+   pyspatialdata_geocoords_CppCSGeoProj_projector,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppCSGeoProj_projector__doc__},
 
   // Projector
   {pyspatialdata_geocoords_CppProjector__name__,

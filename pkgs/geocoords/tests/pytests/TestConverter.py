@@ -31,16 +31,15 @@ class TestConverter(unittest.TestCase):
 
 
   def test_convert(self):
-    from spatialdata.geocoords.CoordSysGeo import CoordSysGeo
-    csNAD27 = CoordSysGeo()
+    from spatialdata.geocoords.CSGeo import CSGeo
+    csNAD27 = CSGeo()
     csNAD27.ellipsoid = "clrk66"
     csNAD27.datumHoriz = "NAD27"
     csNAD27.datumVert = "mean sea level"
     csNAD27.initialize()
 
-    from spatialdata.geocoords.CoordSysLocal import CoordSysLocal
-
-    csLocal = CoordSysLocal()
+    from spatialdata.geocoords.CSGeoLocalCart import CSGeoLocalCart
+    csLocal = CSGeoLocalCart()
     csLocal.originLon = -100.0
     csLocal.originLat = 39.0
     csLocal.originElev = 0.01

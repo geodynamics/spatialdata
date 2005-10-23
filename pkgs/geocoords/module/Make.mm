@@ -21,8 +21,10 @@ PROJ_SRCS = \
 	misc.cc \
 	converter.cc \
 	coordsys.cc \
-	coordsysgeo.cc \
-	coordsyslocal.cc \
+	cscart.cc \
+	csgeo.cc \
+	csgeolocalcart.cc \
+	csgeoproj.cc \
 	projector.cc \
 
 # version

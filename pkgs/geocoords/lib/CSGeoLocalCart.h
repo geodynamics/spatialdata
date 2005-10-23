@@ -10,27 +10,27 @@
 // ======================================================================
 //
 
-/** @file pkgs/geocoords/lib/CoordSysLocal.h
+/** @file pkgs/geocoords/lib/CSGeoLocalCart.h
  *
- * @brief C++ CoordSysLocal object
+ * @brief C++ CSGeoLocalCart object
  *
  * C++ object for defining a local cartesian coordinate system.
  */
 
-#if !defined(spatialdata_geocoords_coordsyslocal_h)
-#define spatialdata_geocoords_coordsyslocal_h
+#if !defined(spatialdata_geocoords_csgeolocalcart_h)
+#define spatialdata_geocoords_csgeolocalcart_h
 
 namespace spatialdata {
   namespace geocoords {
-    class CoordSysLocal;
+    class CSGeoLocalCart;
     class testCoordsysLoc; // forward declaration
   } // geocoords
 } // spatialdata
 
 /// C++ object for defining a local cartesian coordinate system
-class spatialdata::geocoords::CoordSysLocal : public CoordSys
-{ // class CoordSysLocal
-  friend class TestCoordSysLocal;
+class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
+{ // class CSGeoLocalCart
+  friend class TestCSGeoLocalCart;
 
  public :
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -39,44 +39,26 @@ class spatialdata::geocoords::CoordSysLocal : public CoordSys
    *
    * @param cs Source coordinate system
    */
-  CoordSysLocal(void);
+  CSGeoLocalCart(void);
 
   /// Default destructor
-  ~CoordSysLocal(void);
+  ~CSGeoLocalCart(void);
+
+  /// Initialize the coordinate system.
+  void initialize(void);
 
   /** Set origin of local cartesian coordinate system.
    *
+   * Units of elevation should be consistent with conversion factor to
+   * meters.
+   *
    * @param lon Longitude of origin (degrees)
    * @param lat Latitude of origin (degrees)
-   * @param elev Elevation (wrt vertical datum) of origin (meters)
-   * @param ellipsoid Name of reference ellipsoid
-   * @param datumHoriz Name of horizontal datum
-   * @param datumVert Name of vertical datum
+   * @param elev Elevation (wrt vertical datum) of origin
    */
-  void localOrigin(const double lon,
-		   const double lat,
-		   const double elev,
-		   const std::string& ellipsoid,
-		   const std::string& datumHoriz,
-		   const std::string& datumVert);
-
-  /** Get vertical datum.
-   *
-   * @returns Name of datum
-   */
-  const char* datumVert(void) const;
-
-  /** Set factor to convert coordinates to meters.
-   *
-   * @param factor Factor to convert coordinates to meters.
-   */
-  void xyzToMeters(const double factor);
-
-  /** Get factor to convert elevation to meters.
-   *
-   * @returns Factor to convert elevation to meters.
-   */
-  double elevToMeters(void) const;
+  void origin(const double lon,
+	      const double lat,
+	      const double elev);
 
   /** Get proj form vertical datum.
    *
@@ -149,25 +131,27 @@ private :
 		    const double elevWGS84) const;
 
 private :
+  // PRIVATE METHODS ///////////////////////////////////////////////////
+
+  void isGecentric(const bool isGeocentric); ///< Not implemented
+
+private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   double _originLon; ///< Longitude of origin
   double _originLat; ///< Latitude of origin
   double _originElev; ///< Elevation of origin
-  double _originX; ///< X coordinate of origin in rotated ECEF
-  double _originY; ///< Y coordinate of origin in rotated ECEF
-  double _originZ; ///< Z coordinate of origin in rotated ECEF
-  double _xyzToMeters; ///< Factor to convert coordinates to meters
-  double* _localOrientation; ///< Direction cosines for local orientation 
-  std::string _ellipsoid; ///< Name of reference ellipsoid
-  std::string _datumHoriz; ///< Name of horizontal geographic datum
-  std::string _datumVert; ///< Name of vertical datum
 
-}; // class CoordSysLocal
+  double _originX; ///< X coordinate of origin in rotated ECEF (meters)
+  double _originY; ///< Y coordinate of origin in rotated ECEF (meters)
+  double _originZ; ///< Z coordinate of origin in rotated ECEF (meters)
+  double* _localOrientation; ///< Direction cosines for local orientation
 
-#include "CoordSysLocal.icc" // inline methods
+}; // class CSGeoLocalCart
 
-#endif // spatialdata_geocoords_coordsyslocal_h
+#include "CSGeoLocalCart.icc" // inline methods
+
+#endif // spatialdata_geocoords_csgeolocalcart_h
 
 // version
 // $Id$

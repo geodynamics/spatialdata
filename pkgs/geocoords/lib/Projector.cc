@@ -15,7 +15,7 @@
 #include "Projector.h" // implementation of class methods
 
 #include "CoordSys.h" // HOLDS CoordSysGeo
-#include "CoordSysGeo.h" // HOLDS CoordSysGeo
+#include "CSGeo.h" // HOLDS CSGeo
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
@@ -33,13 +33,12 @@ extern "C" {
 
 // ----------------------------------------------------------------------
 // Default constructor
-spatialdata::geocoords::Projector::Projector(const CoordSysGeo& coordSys) :
+spatialdata::geocoords::Projector::Projector(void) :
   _falseEasting(0),
   _falseNorthing(0),
   _scaleFactor(1.0),
   _projection("aea"),
   _units("m"),
-  _coordSys(coordSys),
   _pProj(0)
 { // constructor
 } // constructor
@@ -52,12 +51,24 @@ spatialdata::geocoords::Projector::~Projector(void)
 } // destructor
 
 // ----------------------------------------------------------------------
+// Copy constructor
+spatialdata::geocoords::Projector::Projector(const Projector& p) :
+  _falseEasting(p._falseEasting),
+  _falseNorthing(p._falseNorthing),
+  _scaleFactor(p._scaleFactor),
+  _projection(p._projection),
+  _units(p._units),
+  _pProj(0)
+{ // copy constructor
+} // copy constructor
+
+// ----------------------------------------------------------------------
 // Initialize projector.
 void 
-spatialdata::geocoords::Projector::initialize(void)
+spatialdata::geocoords::Projector::initialize(const CSGeo& csGeo)
 { // initialize
-  const char* ellipsoid = _coordSys.ellipsoid();
-  const char* datumHoriz = _coordSys.datumHoriz();
+  const char* ellipsoid = csGeo.ellipsoid();
+  const char* datumHoriz = csGeo.datumHoriz();
 
   std::ostringstream args;
   args
@@ -108,8 +119,6 @@ spatialdata::geocoords::Projector::project(double* pX,
     msg << "Error while projecting location.\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  ellipsoid: " << _coordSys.ellipsoid() << "\n"
-	<< "  horizontal datum: " << _coordSys.datumHoriz() << "\n"
 	<< "  false easting: " << _falseEasting << "\n"
 	<< "  false northing: " << _falseNorthing << "\n"
 	<< "  scale factor: " << _scaleFactor << "\n"
@@ -144,8 +153,6 @@ spatialdata::geocoords::Projector::invproject(double* pLon,
       "location.\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  ellipsoid: " << _coordSys.ellipsoid() << "\n"
-	<< "  horizontal datum: " << _coordSys.datumHoriz() << "\n"
 	<< "  false easting: " << _falseEasting << "\n"
 	<< "  false northing: " << _falseNorthing << "\n"
 	<< "  scale factor: " << _scaleFactor << "\n"

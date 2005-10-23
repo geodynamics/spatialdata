@@ -10,22 +10,22 @@
 # ----------------------------------------------------------------------
 #
 
-## @file geocoords/pyre/CoordSysGeo.py
+## @file geocoords/pyre/CSGeo.py
 ## @brief Python manager for geographic coordinate systems.
 
 from CoordSys import CoordSys
 
-# CoordSys class
-class CoordSysGeo(CoordSys):
+# CSGeo class
+class CSGeo(CoordSys):
   """Python manager for geographic coordinate systems."""
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(CoordSys.Inventory):
-    """Python object for managing CoordSysGeo facilities and properties."""
+    """Python object for managing CSGeo facilities and properties."""
 
     ## @class Inventory
-    ## Python object for managing CoordSysGeo facilities and properties.
+    ## Python object for managing CSGeo facilities and properties.
     ##
     ## \b Properties
     ## @li \b ellipsoid Name of ellipsoid
@@ -45,7 +45,7 @@ class CoordSysGeo(CoordSys):
     datumHoriz = pyre.inventory.str("datum-horiz", default="WGS84")
     datumHoriz.meta['tip'] = "Name of horizontal datum."
 
-    datumVert = pyre.inventory.str("datum-vert", default="WGS84 ellipsoid")
+    datumVert = pyre.inventory.str("datum-vert", default="ellipsoid")
     datumVert.meta['tip'] = "Name of vertical datum."
 
     isGeocentric = pyre.inventory.bool("is-geocentric", default=False)
@@ -59,29 +59,29 @@ class CoordSysGeo(CoordSys):
   def initialize(self):
     """Initialize coordinate system."""
     import spatialdata.geocoords.geocoords as bindings
-    bindings.CppCoordSysGeo_ellipsoid(self._cppCoordSys, self.ellipsoid)
-    bindings.CppCoordSysGeo_datumHoriz(self._cppCoordSys, self.datumHoriz)
-    bindings.CppCoordSysGeo_datumVert(self._cppCoordSys, self.datumVert)
-    bindings.CppCoordSysGeo_isGeocentric(self._cppCoordSys, self.isGeocentric)
+    bindings.CppCSGeo_ellipsoid(self._cppCoordSys, self.ellipsoid)
+    bindings.CppCSGeo_datumHoriz(self._cppCoordSys, self.datumHoriz)
+    bindings.CppCSGeo_datumVert(self._cppCoordSys, self.datumVert)
+    bindings.CppCSGeo_isGeocentric(self._cppCoordSys, self.isGeocentric)
 
     import pyre.units
     uparser = pyre.units.parser()
-    elevUnits = uparser.parse(self.units)
-    bindings.CppCoordSysGeo_elevToMeters(self._cppCoordSys, elevUnits.value)
+    coordUnits = uparser.parse(self.units)
+    bindings.CppCSGeo_toMeters(self._cppCoordSys, coordUnits.value)
 
     CoordSys.initialize(self)
     return
 
 
-  def __init__(self, name="coordsysgeo"):
+  def __init__(self, name="csgeo"):
     """Constructor."""
     CoordSys.__init__(self, name)
 
     import spatialdata.geocoords.geocoords as bindings
-    self._cppCoordSys = bindings.CppCoordSysGeo()
+    self._cppCoordSys = bindings.CppCSGeo()
     self.ellipsoid = "WGS84"
     self.datumHoriz = "WGS84"
-    self.datumVert = "WGS84 ellipsoid"
+    self.datumVert = "ellipsoid"
     self.isGeocentric = False
     self.units = "m"
     return

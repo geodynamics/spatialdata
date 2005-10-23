@@ -17,8 +17,10 @@ include local.def
 
 PROJ_SRCS = \
 	TestConverter.cc \
-	TestCoordSysGeo.cc \
-	TestCoordSysLocal.cc \
+	TestCSCart.cc \
+	TestCSGeo.cc \
+	TestCSGeoLocalCart.cc \
+	TestCSGeoProj.cc \
 	TestGeoid.cc \
 	TestProjector.cc \
 	testgeocoords.cc \

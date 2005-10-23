@@ -80,7 +80,7 @@ pyspatialdata_geocoords_CppConverter_convert(PyObject*, PyObject* args)
 
     const bool is2D = (2 == numCoords) ? true : false;
     spatialdata::geocoords::Converter::convert(&pCoords, 
-					       numLocs, *pCSDest, *pCSSrc,
+					       numLocs, pCSDest, pCSSrc,
 					       is2D);
 
     pyCoordsDestList = PyList_New(numLocs);

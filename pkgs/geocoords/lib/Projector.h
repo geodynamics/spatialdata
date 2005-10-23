@@ -21,15 +21,14 @@
 #define spatialdata_geocoords_projector_h
 
 #include <string> // HASA std::string
+#include "proj4fwd.h" // Proj4 forward declaration
 
 namespace spatialdata {
   namespace geocoords {
     class Projector;
-    class CoordSysGeo;
+    class CSGeo;
   } // geocoords
 } // spatialdata
-
-#include "proj4fwd.h" // Proj4 forward declaration
 
 /// C++ object for projecting to/from geographic projections
 class spatialdata::geocoords::Projector
@@ -39,10 +38,13 @@ class spatialdata::geocoords::Projector
   // PUBLIC METHODS /////////////////////////////////////////////////////
 
   /// Default constructor
-  Projector(const CoordSysGeo& coordSys);
+  Projector(void);
 
   /// Default destructor
   ~Projector(void);
+
+  /// Copy constructor
+  Projector(const Projector& p);
 
   /** Set projection.
    *
@@ -104,8 +106,11 @@ class spatialdata::geocoords::Projector
    */
   const char* units(void) const;
 
-  /// Initialize projector.
-  void initialize(void);
+  /** Initialize projector.
+   *
+   * @param csGeo Geographic coordinate system
+   */
+  void initialize(const CSGeo& csGeo);
 
   /** Project geographic coordinates.
    *
@@ -139,7 +144,6 @@ private :
   double _scaleFactor; ///< Scale factor
   std::string _projection; ///< Name of projection
   std::string _units; ///< Name of units in projection
-  const CoordSysGeo& _coordSys; ///< Geographic coordinate system
   
   projPJ _pProj; ///< Pointer to projection
   

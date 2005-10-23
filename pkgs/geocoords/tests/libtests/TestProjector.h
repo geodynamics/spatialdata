@@ -36,6 +36,7 @@ class spatialdata::geocoords::TestProjector : public CppUnit::TestFixture
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestProjector );
   CPPUNIT_TEST( testConstructor );
+  CPPUNIT_TEST( testCopy );
   CPPUNIT_TEST( testProjection );
   CPPUNIT_TEST( testFalseEasting );
   CPPUNIT_TEST( testFalseNorthing );
@@ -51,6 +52,9 @@ public :
 
   /// Test constructor
   void testConstructor(void);
+
+  /// Test copy constructor
+  void testCopy(void);
 
   /// Test projection()
   void testProjection(void);
