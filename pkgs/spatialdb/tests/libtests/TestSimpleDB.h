@@ -68,43 +68,43 @@ protected :
    *
    * @returns Pointer to database
    */
-  SimpleDB* Database(void);
+  SimpleDB* _database(void);
 
   /** Get data for database.
    *
    * @returns Pointer to data
    */
-  virtual const double* Data(void) const = 0;
+  virtual const double* _data(void) const = 0;
 
   /** Get names of values in database.
    *
    * @returns Pointer to names
    */
-  virtual const char** Names(void) const = 0;
+  virtual const char** _names(void) const = 0;
 
   /** Get number of locations in database.
    *
    * @returns Number of locations
    */
-  virtual int NumLocs(void) const = 0;
+  virtual int _numLocs(void) const = 0;
 
   /** Get number of values at each location in database.
    *
    * @returns Number of values
    */
-  virtual int NumVals(void) const = 0;
+  virtual int _numVals(void) const = 0;
 
   /** Get topology of data in database.
    *
    * @returns Topology of data
    */
-  virtual SimpleDB::TopoEnum Topology(void) const = 0;
+  virtual SimpleDB::TopoEnum _topology(void) const = 0;
 
   /** Get number of queries.
    *
    * @returns Number of queries
    */
-  virtual int NumQueries(void) const = 0;
+  virtual int _numQueries(void) const = 0;
 
   /** Get query data for nearest neighbor algorithm.
    *
@@ -114,7 +114,7 @@ protected :
    *
    * @returns Pointer to data
    */
-  virtual const double* QueryNearest(void) const = 0;
+  virtual const double* _queryNearest(void) const = 0;
 
   /** Get query data for linear interpolation algorithm.
    *
@@ -124,7 +124,7 @@ protected :
    *
    * @returns Pointer to data
    */
-  virtual const double* QueryLinear(void) const = 0;
+  virtual const double* _queryLinear(void) const = 0;
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
@@ -135,12 +135,12 @@ private :
    * 
    * @param queryData Query locations and expected values
    */
-  void CheckQuery(const double* queryData) const;
+  void _checkQuery(const double* queryData) const;
 
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 private :
 
-  SimpleDB* mpDB; ///< Test subject
+  SimpleDB* _pDB; ///< Test subject
 
 }; // class TestSimpleDB
 

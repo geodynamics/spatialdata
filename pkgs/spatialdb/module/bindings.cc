@@ -24,25 +24,25 @@
 struct PyMethodDef pyspatialdb_methods[] = {
 
   // SpatialDB
-  {pyspatialdb_CppSpatialDB_Open__name__,
-   pyspatialdb_CppSpatialDB_Open,
+  {pyspatialdb_CppSpatialDB_open__name__,
+   pyspatialdb_CppSpatialDB_open,
    METH_VARARGS,
-   pyspatialdb_CppSpatialDB_Open__doc__},
+   pyspatialdb_CppSpatialDB_open__doc__},
 
-  {pyspatialdb_CppSpatialDB_Close__name__,
-   pyspatialdb_CppSpatialDB_Close,
+  {pyspatialdb_CppSpatialDB_close__name__,
+   pyspatialdb_CppSpatialDB_close,
    METH_VARARGS,
-   pyspatialdb_CppSpatialDB_Close__doc__},
+   pyspatialdb_CppSpatialDB_close__doc__},
 
-  {pyspatialdb_CppSpatialDB_QueryVals__name__,
-   pyspatialdb_CppSpatialDB_QueryVals,
+  {pyspatialdb_CppSpatialDB_queryVals__name__,
+   pyspatialdb_CppSpatialDB_queryVals,
    METH_VARARGS,
-   pyspatialdb_CppSpatialDB_QueryVals__doc__},
+   pyspatialdb_CppSpatialDB_queryVals__doc__},
 
-  {pyspatialdb_CppSpatialDB_Label__name__,
-   pyspatialdb_CppSpatialDB_Label,
+  {pyspatialdb_CppSpatialDB_label__name__,
+   pyspatialdb_CppSpatialDB_label,
    METH_VARARGS,
-   pyspatialdb_CppSpatialDB_Label__doc__},
+   pyspatialdb_CppSpatialDB_label__doc__},
 
   // SimpleDB
   {pyspatialdb_CppSimpleDB__name__,
@@ -50,21 +50,21 @@ struct PyMethodDef pyspatialdb_methods[] = {
    METH_VARARGS,
    pyspatialdb_CppSimpleDB__doc__},
   
-  {pyspatialdb_CppSimpleDB_QueryType__name__,
-   pyspatialdb_CppSimpleDB_QueryType,
+  {pyspatialdb_CppSimpleDB_queryType__name__,
+   pyspatialdb_CppSimpleDB_queryType,
    METH_VARARGS,
-   pyspatialdb_CppSimpleDB_QueryType__doc__},
+   pyspatialdb_CppSimpleDB_queryType__doc__},
 
-  {pyspatialdb_CppSimpleDB_IOHandler__name__,
-   pyspatialdb_CppSimpleDB_IOHandler,
+  {pyspatialdb_CppSimpleDB_ioHandler__name__,
+   pyspatialdb_CppSimpleDB_ioHandler,
    METH_VARARGS,
-   pyspatialdb_CppSimpleDB_IOHandler__doc__},
+   pyspatialdb_CppSimpleDB_ioHandler__doc__},
 
   // SimpleIO
-  {pyspatialdb_CppSimpleIO_Filename__name__,
-   pyspatialdb_CppSimpleIO_Filename,
+  {pyspatialdb_CppSimpleIO_filename__name__,
+   pyspatialdb_CppSimpleIO_filename,
    METH_VARARGS,
-   pyspatialdb_CppSimpleIO_Filename__doc__},
+   pyspatialdb_CppSimpleIO_filename__doc__},
 
   // SimpleIOAscii
   {pyspatialdb_CppSimpleIOAscii__name__,

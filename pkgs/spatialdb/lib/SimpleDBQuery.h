@@ -10,8 +10,8 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_simpledbquery_h)
-#define spatialdata_simpledbquery_h
+#if !defined(spatialdata_spatialdb_simpledbquery_h)
+#define spatialdata_spatialdb_simpledbquery_h
 
 namespace spatialdata {
   namespace spatialdb {
@@ -40,14 +40,14 @@ class spatialdata::spatialdb::SimpleDBQuery
    *
    * @param Set type of query
    */
-  void QueryType(const SimpleDB::QueryEnum queryType);
+  void queryType(const SimpleDB::QueryEnum queryType);
 
   /** Set values to be returned by queries.
    *
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
    */
-  void QueryVals(const char** names,
+  void queryVals(const char** names,
 		 const int numVals);
 
   /** Query the database.
@@ -57,20 +57,22 @@ class spatialdata::spatialdb::SimpleDBQuery
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
+   * @param pCSQuery Coordinate system of coordinates
    */
-  void Query(double** pVals,
+  void query(double** pVals,
 	     const int numVals,
 	     const double x,
 	     const double y,
-	     const double z);
+	     const double z,
+	     const spatialdata::geocoords::CoordSys* pCSQuery);
 
  private :
   // PRIVATE STRUCT /////////////////////////////////////////////////////
 
   /** Interpolation weighting information */
   struct WtStruct {
-    double Wt; ///< Weight for location
-    int NearIndex; ///< Index into nearest
+    double wt; ///< Weight for location
+    int nearIndex; ///< Index into nearest
   }; // struct WtStruct
 
  private :
@@ -84,8 +86,8 @@ class spatialdata::spatialdb::SimpleDBQuery
    * @param pValues Pointer to computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
    */
-  void QueryNearest(double** pVals,
-		    const int numVals);
+  void _queryNearest(double** pVals,
+		     const int numVals);
 
   /** Query database using linear interpolation algorithm.
    *
@@ -94,17 +96,17 @@ class spatialdata::spatialdb::SimpleDBQuery
    * @param pValues Pointer to computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
    */
-  void QueryLinear(double** pVals,
-		   const int numVals);
+  void _queryLinear(double** pVals,
+		    const int numVals);
 
   /// Find locations in database nearest query location.
-  void FindNearest(void);
+  void _findNearest(void);
 
   /** Get interpolation weighting functions for query.
    *
    * @param pWeights Pointer to array of interpolation weights
    */
-  void GetWeights(std::vector<WtStruct>* pWeights);
+  void _getWeights(std::vector<WtStruct>* pWeights);
 
   /** Get interpolation weighting functions for point interpolation.
    *
@@ -114,32 +116,32 @@ class spatialdata::spatialdb::SimpleDBQuery
    *
    * @param pWeights Pointer to array of interpolation weights
    */
-  void FindPointPt(std::vector<WtStruct>* pWeights);
+  void _findPointPt(std::vector<WtStruct>* pWeights);
 
   /** Get interpolation weighting functions for linear interpolation.
    *
    * @param pWeights Pointer to array of interpolation weights
    */
-  void FindLinePt(std::vector<WtStruct>* pWeights);
+  void _findLinePt(std::vector<WtStruct>* pWeights);
 
   /** Get interpolation weighting functions for areal interpolation.
    *
    * @param pWeights Pointer to array of interpolation weights
    */
-  void FindAreaPt(std::vector<WtStruct>* pWeights);
+  void _findAreaPt(std::vector<WtStruct>* pWeights);
 
   /** Get interpolation weighting functions for volumetric interpolation.
    *
    * @param pWeights Pointer to array of interpolation weights
    */
-  void FindVolumePt(std::vector<WtStruct>* pWeights);
+  void _findVolumePt(std::vector<WtStruct>* pWeights);
 
   /** Compute square of distance between points A and B.
    *
    * @param a Coordinates of point A
    * @param b Coordinates of point B
    */
-  static double DistSquared(const double a[3],
+  static double _distSquared(const double a[3],
 			    const double b[3]);
 
   /** Compute area and "direction" of triangle abc. Direction is vector
@@ -149,11 +151,11 @@ class spatialdata::spatialdb::SimpleDBQuery
    * @param b Coordinates of point B
    * @param c Coordinates of point C
    */
-  static void Area(double* area,
-		   double dir[3],
-		   const double* a,
-		   const double* b,
-		   const double* c);
+  static void _area(double* area,
+		    double dir[3],
+		    const double* a,
+		    const double* b,
+		    const double* c);
 
   /** Compute volume of tetrahedral defined by four points.
    *
@@ -162,31 +164,31 @@ class spatialdata::spatialdb::SimpleDBQuery
    * @param c Coordinates of point C
    * @param d Coordinates of point D
    */
-  static double Volume(const double a[3],
-		       const double b[3],
-		       const double c[3],
-		       const double d[3]);
+  static double _volume(const double a[3],
+			const double b[3],
+			const double c[3],
+			const double d[3]);
 
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   /** Location of query */
-  double mQ[3];
+  double _q[3];
 
   /** Query type */
-  SimpleDB::QueryEnum mQueryType;
+  SimpleDB::QueryEnum _queryType;
 
   /** Index of nearest points in database to location */
-  std::vector<int> mNearest;
+  std::vector<int> _nearest;
 
   /** Reference to simple database */
-  const SimpleDB& mDB;
+  const SimpleDB& _db;
   
   /** Values requested to be returned in queries */
-  int* mQueryVals;
+  int* _queryVals;
 
   /** Number of values requested to be returned in queries */
-  int mQuerySize;
+  int _querySize;
 
 }; // class SimpleDBQuery
 

@@ -75,8 +75,8 @@ public :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 private :
 
-  SimpleDB* mpDB; ///< Database for test subject
-  SimpleDBQuery* mpQuery; ///< Test subject
+  SimpleDB* _pDB; ///< Database for test subject
+  SimpleDBQuery* _pQuery; ///< Test subject
 
   static const double DATA[]; ///< Data for database
   static const char* NAMES[]; ///< Names of values in database

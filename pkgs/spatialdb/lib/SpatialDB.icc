@@ -17,14 +17,14 @@
 // Set label of spatial database.
 inline
 void
-spatialdata::spatialdb::SpatialDB::Label(const char* label)
-{ mLabel = label; }
+spatialdata::spatialdb::SpatialDB::label(const char* label)
+{ _label = label; }
   
 // Get label of spatial database.
 inline
 const char*
-spatialdata::spatialdb::SpatialDB::Label(void) const
-{ return mLabel; }
+spatialdata::spatialdb::SpatialDB::label(void) const
+{ return _label; }
 
 // version
 // $Id: SpatialDB.icc,v 1.1 2005/05/25 18:42:57 baagaard Exp $

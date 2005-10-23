@@ -22,6 +22,9 @@ namespace spatialdata {
   namespace spatialdb {
     class SpatialDB;
   } // spatialdb
+  namespace geocoords {
+    class CoordSys; // forward declaration
+  } // geocoords
 } // spatialdata
 
 /// C++ manager for spatial database.
@@ -47,13 +50,13 @@ class spatialdata::spatialdb::SpatialDB
    *
    * @param label Label for database
    */
-  void Label(const char* label);
+  void label(const char* label);
   
   /// Open the database and prepare for querying.
-  virtual void Open(void) = 0;
+  virtual void open(void) = 0;
 
   /// Close the database.
-  virtual void Close(void) = 0;
+  virtual void close(void) = 0;
 
   /** Set values to be returned by queries.
    *
@@ -62,7 +65,7 @@ class spatialdata::spatialdb::SpatialDB
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
    */
-  virtual void QueryVals(const char** names,
+  virtual void queryVals(const char** names,
 			 const int numVals) = 0;
 
   /** Query the database.
@@ -74,12 +77,14 @@ class spatialdata::spatialdb::SpatialDB
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
+   * @param pCSQuery Coordinate system of coordinates
    */
-  virtual void Query(double** pVals,
+  virtual void query(double** pVals,
 		     const int numVals,
 		     const double x,
 		     const double y,
-		     const double z) = 0;
+		     const double z,
+		     const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
 
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////
@@ -88,7 +93,7 @@ protected :
    *
    * @returns Label of spatial database
    */
-  const char* Label(void) const;
+  const char* label(void) const;
   
  private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -100,7 +105,7 @@ private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
   
   /** Label of spatial database */
-  const char* mLabel;
+  const char* _label;
 
 }; // class SpatialDB
 

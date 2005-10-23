@@ -25,17 +25,17 @@ PyObject* pyspatialdb_CppSimpleDB(PyObject*, PyObject*);
 extern char pyspatialdb_CppSimpleDB__name__[];
 extern char pyspatialdb_CppSimpleDB__doc__[];
 
-/// Call SimpleDB::QueryType
+/// Call SimpleDB::queryType
 extern "C"
-PyObject* pyspatialdb_CppSimpleDB_QueryType(PyObject*, PyObject*);
-extern char pyspatialdb_CppSimpleDB_QueryType__name__[];
-extern char pyspatialdb_CppSimpleDB_QueryType__doc__[];
+PyObject* pyspatialdb_CppSimpleDB_queryType(PyObject*, PyObject*);
+extern char pyspatialdb_CppSimpleDB_queryType__name__[];
+extern char pyspatialdb_CppSimpleDB_queryType__doc__[];
 
-/// Call SimpleDB::IOHandler
+/// Call SimpleDB::ioHandler
 extern "C"
-PyObject* pyspatialdb_CppSimpleDB_IOHandler(PyObject*, PyObject*);
-extern char pyspatialdb_CppSimpleDB_IOHandler__name__[];
-extern char pyspatialdb_CppSimpleDB_IOHandler__doc__[];
+PyObject* pyspatialdb_CppSimpleDB_ioHandler(PyObject*, PyObject*);
+extern char pyspatialdb_CppSimpleDB_ioHandler__name__[];
+extern char pyspatialdb_CppSimpleDB_ioHandler__doc__[];
 
 #endif // pyspatialdb_simpledb_h
 

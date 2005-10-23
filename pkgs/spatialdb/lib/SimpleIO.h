@@ -44,34 +44,38 @@ public :
    *
    * @returns Pointer copy of this.
    */
-  virtual SimpleIO* Clone(void) const = 0;
+  virtual SimpleIO* clone(void) const = 0;
   
   /** Set filename for database.
    *
    * @param filename Filename of database
    */
-  void Filename(const char* filename);
-
-  /** Read the database.
-   *
-   * @param pData Database data
-   */
-  virtual void Read(SimpleDB::DataStruct* pData) = 0;
-
-  /** Write the database.
-   *
-   * @param data Database data
-   */
-  virtual void Write(const SimpleDB::DataStruct& data) = 0;
-
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
+  void filename(const char* filename);
 
   /** Get filename for database.
    *
    * @returns Filename of database
    */
-  const char* Filename(void) const;
+  const char* filename(void) const;
+
+  /** Read the database.
+   *
+   * @param pData Database data
+   * @param ppCS Pointer to coordinate system
+   */
+  virtual void read(SimpleDB::DataStruct* pData,
+		    spatialdata::geocoords::CoordSys** ppCS) = 0;
+
+  /** Write the database.
+   *
+   * @param data Database data
+   * @param cs Coordinate system
+   */
+  virtual void write(const SimpleDB::DataStruct& data,
+		     const spatialdata::geocoords::CoordSys& cs) = 0;
+
+protected :
+  // PROTECTED METHODS //////////////////////////////////////////////////
 
   /** Check compatibility of topology and spatial distribution.
    *
@@ -82,7 +86,7 @@ protected :
    *
    * @param data Database data
    */
-  static void CheckCompatibility(const SimpleDB::DataStruct& data);
+  static void checkCompatibility(const SimpleDB::DataStruct& data);
 
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -93,7 +97,7 @@ private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
   
   /** Filename of database */
-  const char* mFilename;
+  const char* _filename;
 
 }; // class SimpleIO
 

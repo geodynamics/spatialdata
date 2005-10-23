@@ -18,16 +18,18 @@
  * @param db Pointer to SpatialDB
  * @param pVals Pointer to computed values (output from query)
  * @param numVals Number of values expected (size of pVals array)
- * @param x Pointer to x coordinate of location for query
- * @param y Pointer to y coordinate of location for query
- * @param z Pointer to z coordinate of location for query
+ * @param x C coordinate of location for query
+ * @param y Y coordinate of location for query
+ * @param z Z coordinate of location for query
+ * @param cs Pointer to CoordSys
  */
 void spatialdb_query(void* db, 
 		     double** pVals,
 		     const int numVals,
-		     const double* x,
-		     const double* y,
-		     const double* z);
+		     const double x,
+		     const double y,
+		     const double z,
+		     const void* cs);
 
 #endif /* spatialdata_cspatialdb_h */
 

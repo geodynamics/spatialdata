@@ -28,6 +28,11 @@ class TestSpatialDB(unittest.TestCase):
     db.initialize()
 
     self._db = db
+
+    from spatialdata.geocoords.CSCart import CSCart
+    cs = CSCart()
+    cs.initialize()
+    self._cs = cs
     return
 
   def test_cquery(self):
@@ -48,12 +53,12 @@ class TestSpatialDB(unittest.TestCase):
 
   def _cquery(self):
     import spatialdata.spatialdb.tests.langtestspatialdb as bindings
-    bindings.CTestQuery(self._db.handle())
+    bindings.cTestQuery(self._db.handle(), self._cs.handle())
     return
 
   def _f77query(self):
     import spatialdata.spatialdb.tests.langtestspatialdb as bindings
-    bindings.F77TestQuery(self._db.handle())
+    bindings.f77TestQuery(self._db.handle(), self._cs.handle())
     return
 
 # version

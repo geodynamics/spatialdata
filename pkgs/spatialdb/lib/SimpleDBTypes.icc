@@ -17,16 +17,16 @@
 // Get coordinates of location in database.
 inline
 double*
-spatialdata::spatialdb::SimpleDBTypes::DataCoords(const SimpleDB::DataStruct& data,
+spatialdata::spatialdb::SimpleDBTypes::dataCoords(const SimpleDB::DataStruct& data,
 						  const int index)
-{ return data.Data+(index*(3+data.NumVals)); }
+{ return data.data+(index*(3+data.numVals)); }
 
 // Get values of location in database.
 inline
 double* 
-spatialdata::spatialdb::SimpleDBTypes::DataVals(const SimpleDB::DataStruct& data,
+spatialdata::spatialdb::SimpleDBTypes::dataVals(const SimpleDB::DataStruct& data,
 						const int index)
-{ return data.Data+(index*(3+data.NumVals)+3); }
+{ return data.data+(index*(3+data.numVals)+3); }
 
 // version
 // $Id: SimpleDBTypes.icc,v 1.1 2005/05/25 18:42:56 baagaard Exp $

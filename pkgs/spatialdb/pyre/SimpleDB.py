@@ -30,14 +30,14 @@ class SimpleDB(SpatialDB):
     ## Python object for managing SimpleDB facilities and properties.
     ##
     ## \b Properties
-    ## @li query_type Type of query to perform
+    ## @li query-type Type of query to perform
     ##
     ## \b Facilities
     ## @li \b iohandler I/O handler for database
 
     import pyre.inventory
 
-    queryType = pyre.inventory.str("query_type", default="Nearest")
+    queryType = pyre.inventory.str("query-type", default="Nearest")
     queryType.validator = pyre.inventory.choice(["Nearest", "Linear"])
 
     from SimpleIOAscii import SimpleIOAscii
@@ -52,14 +52,14 @@ class SimpleDB(SpatialDB):
     iohandler.initialize()
 
     SpatialDB.initialize(self)
-    bindings.CppSimpleDB_IOHandler(self._cppSpatialDB,
+    bindings.CppSimpleDB_ioHandler(self._cppSpatialDB,
                                    iohandler.handle())
     return
   
   def open(self):
     """Open database and prepare for querying."""
     SpatialDB.open(self)
-    bindings.CppSimpleDB_QueryType(self._cppSpatialDB,
+    bindings.CppSimpleDB_queryType(self._cppSpatialDB,
                                    self.inventory.queryType)
     return
 

@@ -20,6 +20,9 @@
 #include "spatialdata/spatialdb/SimpleIO.h" // USES SimpleIOAscii
 #include "spatialdata/spatialdb/SimpleIOAscii.h" // USES SimpleIOAscii
 
+#include "spatialdata/geocoords/CoordSys.h" // USES CSCart
+#include "spatialdata/geocoords/CSCart.h" // USES CSCart
+
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 
@@ -35,13 +38,13 @@ spatialdata::spatialdb::TestSpatialDB::setUp(void)
 
   const char* filename = "data/spatialdb.dat";
   SimpleIOAscii iohandler;
-  iohandler.Filename(filename);
-  pDB->IOHandler(&iohandler);
+  iohandler.filename(filename);
+  pDB->ioHandler(&iohandler);
 
-  mpDB = pDB;
-  mpDB->Open();
+  _pDB = pDB;
+  _pDB->open();
 
-  pDB->QueryType(SimpleDB::NEAREST);
+  pDB->queryType(SimpleDB::NEAREST);
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -49,7 +52,7 @@ spatialdata::spatialdb::TestSpatialDB::setUp(void)
 void
 spatialdata::spatialdb::TestSpatialDB::tearDown(void)
 { // tearDown
-  delete mpDB; mpDB = 0;
+  delete _pDB; _pDB = 0;
 } // tearDown
 
 // ----------------------------------------------------------------------
@@ -57,24 +60,26 @@ spatialdata::spatialdb::TestSpatialDB::tearDown(void)
 void
 spatialdata::spatialdb::TestSpatialDB::testDB(void)
 { // testDB
-  FIREWALL(0 != mpDB);
+  FIREWALL(0 != _pDB);
 
   const char* names[] = {"two", "one"};
   const int numVals = 2;
   const double queryLoc[] = {1.0, 2.0, 3.0};
   const double pVals[] = { 6.3, 4.7 };
 
-  mpDB->QueryVals(names, numVals);
+  _pDB->queryVals(names, numVals);
 
   double* pValsQ = (0 < numVals) ? new double[numVals] : 0;
-  mpDB->Query(&pValsQ, numVals, queryLoc[0], queryLoc[1], queryLoc[2]);
+  spatialdata::geocoords::CSCart csCart;
+  _pDB->query(&pValsQ, numVals, queryLoc[0], queryLoc[1], queryLoc[2],
+	      &csCart);
   const double tolerance = 1.0e-06;
   for (int iVal=0; iVal < numVals; ++iVal)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(pValsQ[iVal]/pVals[numVals-iVal-1],
 				 1.0, tolerance);
 
   delete[] pValsQ; pValsQ = 0;
-  mpDB->Close();
+  _pDB->close();
 } // testDB
 
 // version

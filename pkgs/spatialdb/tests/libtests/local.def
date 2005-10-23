@@ -37,6 +37,7 @@ endif
 PROJ_LCXX_FLAGS += -lpythiautil
 
 PROJ_LCXX_FLAGS += -lspatialdata
+PROJ_LCXX_FLAGS += -lspatialdatageocoords
 
 # version
 # $Id: local.def,v 1.1 2005/05/25 18:43:06 baagaard Exp $

@@ -23,19 +23,19 @@
 #include "pythiautil/bindings.h" // USES BindingsTUtil
 
 // ----------------------------------------------------------------------
-// CppSpatialDB_Open
-char pyspatialdb_CppSpatialDB_Open__doc__[] = "";
-char pyspatialdb_CppSpatialDB_Open__name__[] = "CppSpatialDB_Open";
+// CppSpatialDB_open
+char pyspatialdb_CppSpatialDB_open__doc__[] = "";
+char pyspatialdb_CppSpatialDB_open__name__[] = "CppSpatialDB_open";
 
-static char pyspatialdb_CppSpatialDB_Open_note[] = 
+static char pyspatialdb_CppSpatialDB_open_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSpatialDB_Open(PyObject*, PyObject* args)
-{ // CppSpatialDB_Open
+pyspatialdb_CppSpatialDB_open(PyObject*, PyObject* args)
+{ // CppSpatialDB_open
   PyObject* pyDB = 0;
   int ok = PyArg_ParseTuple(args,
-			    "O:CppSpatialDB_Open", &pyDB);
+			    "O:CppSpatialDB_open", &pyDB);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -49,7 +49,7 @@ pyspatialdb_CppSpatialDB_Open(PyObject*, PyObject* args)
 							      "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
-    pDB->Open();
+    pDB->open();
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -61,22 +61,22 @@ pyspatialdb_CppSpatialDB_Open(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSpatialDB_Open
+} // CppSpatialDB_open
 
 // ----------------------------------------------------------------------
-// CppSpatialDB_Close
-char pyspatialdb_CppSpatialDB_Close__doc__[] = "";
-char pyspatialdb_CppSpatialDB_Close__name__[] = "CppSpatialDB_Close";
+// CppSpatialDB_close
+char pyspatialdb_CppSpatialDB_close__doc__[] = "";
+char pyspatialdb_CppSpatialDB_close__name__[] = "CppSpatialDB_close";
 
-static char pyspatialdb_CppSpatialDB_Close_note[] = 
+static char pyspatialdb_CppSpatialDB_close_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSpatialDB_Close(PyObject*, PyObject* args)
-{ // CppSpatialDB_Close
+pyspatialdb_CppSpatialDB_close(PyObject*, PyObject* args)
+{ // CppSpatialDB_close
   PyObject* pyDB = 0;
   int ok = PyArg_ParseTuple(args,
-			    "O:CppSpatialDB_Close", &pyDB);
+			    "O:CppSpatialDB_close", &pyDB);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -90,7 +90,7 @@ pyspatialdb_CppSpatialDB_Close(PyObject*, PyObject* args)
 							      "SpatialDB*",
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
-    pDB->Close();
+    pDB->close();
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -102,23 +102,23 @@ pyspatialdb_CppSpatialDB_Close(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSpatialDB_Close
+} // CppSpatialDB_close
 
 // ----------------------------------------------------------------------
-// CppSpatialDB_QueryVals
-char pyspatialdb_CppSpatialDB_QueryVals__doc__[] = "";
-char pyspatialdb_CppSpatialDB_QueryVals__name__[] = "CppSpatialDB_QueryVals";
+// CppSpatialDB_queryVals
+char pyspatialdb_CppSpatialDB_queryVals__doc__[] = "";
+char pyspatialdb_CppSpatialDB_queryVals__name__[] = "CppSpatialDB_queryVals";
 
-static char pyspatialdb_CppSpatialDB_QueryVals_note[] = 
+static char pyspatialdb_CppSpatialDB_queryVals_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSpatialDB_QueryVals(PyObject*, PyObject* args)
-{ // CppSpatialDB_QueryVals
+pyspatialdb_CppSpatialDB_queryVals(PyObject*, PyObject* args)
+{ // CppSpatialDB_queryVals
   PyObject* pyDB = 0;
   PyObject* pyNames = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OO:CppSpatialDB_QueryVals", &pyDB, &pyNames);
+			    "OO:CppSpatialDB_queryVals", &pyDB, &pyNames);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -141,7 +141,7 @@ pyspatialdb_CppSpatialDB_QueryVals(PyObject*, PyObject* args)
       PyObject *pyName = PyList_GetItem(pyNames, iName);
       pNames[iName] = PyString_AsString(pyName);
     } // for
-    pDB->QueryVals(pNames, numNames);
+    pDB->queryVals(pNames, numNames);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -153,23 +153,23 @@ pyspatialdb_CppSpatialDB_QueryVals(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSpatialDB_QueryVals
+} // CppSpatialDB_queryVals
 
 // ----------------------------------------------------------------------
-// CppSpatialDB_Label
-char pyspatialdb_CppSpatialDB_Label__doc__[] = "";
-char pyspatialdb_CppSpatialDB_Label__name__[] = "CppSpatialDB_Label";
+// CppSpatialDB_label
+char pyspatialdb_CppSpatialDB_label__doc__[] = "";
+char pyspatialdb_CppSpatialDB_label__name__[] = "CppSpatialDB_label";
 
-static char pyspatialdb_CppSpatialDB_Label_note[] = 
+static char pyspatialdb_CppSpatialDB_label_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSpatialDB_Label(PyObject*, PyObject* args)
-{ // CppSpatialDB_Label
+pyspatialdb_CppSpatialDB_label(PyObject*, PyObject* args)
+{ // CppSpatialDB_label
   PyObject* pyDB = 0;
   PyObject* pyLabel = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OO:CppSpatialDB_Label", &pyDB, &pyLabel);
+			    "OO:CppSpatialDB_label", &pyDB, &pyLabel);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -184,7 +184,7 @@ pyspatialdb_CppSpatialDB_Label(PyObject*, PyObject* args)
 					      "Python handle to SpatialDB*");
     FIREWALL(0 != pDB);
     const char* label = PyString_AsString(pyLabel);
-    pDB->Label(label);
+    pDB->label(label);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -196,7 +196,7 @@ pyspatialdb_CppSpatialDB_Label(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSpatialDB_Label
+} // CppSpatialDB_label
         
 // version
 // $Id: spatialdb.cc,v 1.1 2005/05/25 18:42:59 baagaard Exp $

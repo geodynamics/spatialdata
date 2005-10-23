@@ -54,7 +54,7 @@ public :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 private :
 
-  SpatialDB* mpDB; ///< Test subject
+  SpatialDB* _pDB; ///< Test subject
 
 }; // class TestSpatialDB
 

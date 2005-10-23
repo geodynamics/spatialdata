@@ -38,19 +38,23 @@ public :
    *
    * @returns Pointer copy of this.
    */
-  SimpleIO* Clone(void) const;
+  SimpleIO* clone(void) const;
   
   /** Read the database.
    *
    * @param pData Database data
+   * @param ppCS Pointer to coordinate system
    */
-  void Read(SimpleDB::DataStruct* pData);
+  void read(SimpleDB::DataStruct* pData,
+	    spatialdata::geocoords::CoordSys** ppCS);
 
   /** Write the database.
    *
    * @param data Database data
+   * @param cs Coordinate system
    */
-  void Write(const SimpleDB::DataStruct& data);
+  void write(const SimpleDB::DataStruct& data,
+	     const spatialdata::geocoords::CoordSys& cs);
 
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -58,10 +62,12 @@ private :
   /** Read database version 1 file.
    *
    * @param pData Database data
+   * @param ppCS Pointer to coordinate system
    * @param filein File input stream
    */
-  static void ReadV1(SimpleDB::DataStruct* pData,
-		     std::istream& filein);
+  static void _readV1(SimpleDB::DataStruct* pData,
+		      spatialdata::geocoords::CoordSys** ppCS,
+		      std::istream& filein);
 
   /** Parse string into topology type.
    *
@@ -69,7 +75,7 @@ private :
    *
    * @returns Topology type
    */
-  static SimpleDB::TopoEnum ParseTopoString(const char* str);
+  static SimpleDB::TopoEnum parseTopoString(const char* str);
   
   /** Get string associated with topology type.
    *
@@ -77,7 +83,7 @@ private :
    *
    * @returns String associated with topology
    */
-  static const char* TopoString(const SimpleDB::TopoEnum topoType);
+  static const char* topoString(const SimpleDB::TopoEnum topoType);
 
  private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////

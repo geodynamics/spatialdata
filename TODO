@@ -1,13 +1,17 @@
+GEOCOORDS
+
+  Add picklers/unpicklers for each coordinate system type
+  Add picker/unpickler class to manage pickling/unpickling
+
+  Add tests that flex unit capabilities
+
 SPATIALDB
 
-  Test km units in geocoords
+  Add reading/writing coordinate systems to SimpleIOAscii
 
-  Add coordinate systems to SpatialDB
-
-  CenCalVMDB
-
-  Give units for each value.
-  Need routines to return units to Python, get scale factor from Python.
+  Give units for each value in database.
+  Asked Michael if there is a good way to do this.
+  Want method that doesn't require driving code from Python.
 
   Cleanup SimpleDB::DataStruct, SimpleDBTypes
     Create SimpleDBPayload class w/accessors?

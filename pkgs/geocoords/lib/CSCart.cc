@@ -17,7 +17,8 @@
 
 // ----------------------------------------------------------------------
 // Default constructor
-spatialdata::geocoords::CSCart::CSCart(void)
+spatialdata::geocoords::CSCart::CSCart(void) :
+  _toMeters(1.0)
 { // constructor
   csType(CARTESIAN);
 } // constructor

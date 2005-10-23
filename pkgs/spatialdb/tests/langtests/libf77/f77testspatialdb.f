@@ -10,11 +10,12 @@ c
 c ======================================================================
 c
 
-      function f77test_query(db)
+      function f77test_query(db, cs)
       implicit none
 
       integer f77test_query
       integer db
+      integer cs
 
       integer numVals
       parameter(numVals=2)
@@ -35,7 +36,8 @@ c
       real*8 error
 
       err = 0
-      call spatialdb_query_f(db, valsQ, numVals, loc(1), loc(2), loc(3))
+      call spatialdb_query_f(db, valsQ, numVals, loc(1), loc(2), 
+     *     loc(3), cs)
       do iVal=1,numVals
          error = 1.0-valsQ(iVal)/vals(1+numVals-iVal)
          if (error .gt. tolerance) then

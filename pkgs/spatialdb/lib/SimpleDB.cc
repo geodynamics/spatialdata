@@ -19,6 +19,8 @@
 #include "SimpleDBQuery.h" // USES SimpleDBQuery
 #include "SimpleDBTypes.h" // USES SimpleDBTypes
 
+#include "spatialdata/geocoords/CoordSys.h" // USES CoordSys
+
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 
@@ -32,9 +34,10 @@
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
-  mpIOHandler(0),
-  mpQuery(0),
-  mpData(0)
+  _pIOHandler(0),
+  _pQuery(0),
+  _pData(0),
+  _pCS(0)
 { // constructor
 } // constructor
 
@@ -42,9 +45,10 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
 /// Constructor with label
 spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
   SpatialDB(label),
-  mpIOHandler(0),
-  mpQuery(0),
-  mpData(0)
+  _pIOHandler(0),
+  _pQuery(0),
+  _pData(0),
+  _pCS(0)
 { // constructor
 } // constructor
 
@@ -52,107 +56,110 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
 /// Default destructor
 spatialdata::spatialdb::SimpleDB::~SimpleDB(void)
 { // destructor
-  delete mpQuery; mpQuery = 0;
-  if (0 != mpData) {
-    delete[] mpData->Data; mpData->Data = 0;
-    delete[] mpData->ValNames; mpData->ValNames = 0;
+  delete _pQuery; _pQuery = 0;
+  if (0 != _pData) {
+    delete[] _pData->data; _pData->data = 0;
+    delete[] _pData->valNames; _pData->valNames = 0;
   } // if
-  delete mpData; mpData = 0;
+  delete _pData; _pData = 0;
+
+  delete _pCS; _pCS = 0;
 } // destructor
 
 // ----------------------------------------------------------------------
 /// Open the database and prepare for querying.
 void
-spatialdata::spatialdb::SimpleDB::Open(void)
-{ // Open
-  FIREWALL(0 != mpIOHandler);
+spatialdata::spatialdb::SimpleDB::open(void)
+{ // open
+  FIREWALL(0 != _pIOHandler);
 
   // Read data
-  if (0 == mpData) {
-    mpData = new DataStruct;
-    mpData->Data = 0;
-    mpData->ValNames = 0;
+  if (0 == _pData) {
+    _pData = new DataStruct;
+    _pData->data = 0;
+    _pData->valNames = 0;
   } // if
-  mpIOHandler->Read(mpData);
+  _pIOHandler->read(_pData, &_pCS);
 
   // Create query object
-  if (0 == mpQuery)
-    mpQuery = new SimpleDBQuery(*this);
-} // Open
+  if (0 == _pQuery)
+    _pQuery = new SimpleDBQuery(*this);
+} // open
 
 // ----------------------------------------------------------------------
 /// Close the database.
 void
-spatialdata::spatialdb::SimpleDB::Close(void)
-{ // Close
-  delete mpQuery; mpQuery = 0;
-  delete[] mpData; mpData = 0;
-} // Close
+spatialdata::spatialdb::SimpleDB::close(void)
+{ // close
+  delete _pQuery; _pQuery = 0;
+  delete[] _pData; _pData = 0;
+} // close
 
 // ----------------------------------------------------------------------
 // Set query type.
 void
-spatialdata::spatialdb::SimpleDB::QueryType(const SimpleDB::QueryEnum queryType)
-{ // QueryType
-  if (0 == mpQuery) {
+spatialdata::spatialdb::SimpleDB::queryType(const SimpleDB::QueryEnum queryType)
+{ // queryType
+  if (0 == _pQuery) {
     std::ostringstream msg;
     msg
-      << "Spatial database " << Label() << " has not been opened.\n"
+      << "Spatial database " << label() << " has not been opened.\n"
       << "Please call Open() before calling QueryType().";
     throw std::runtime_error(msg.str());
   } // if
-  mpQuery->QueryType(queryType);
+  _pQuery->queryType(queryType);
 } // QueryType
 
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::SimpleDB::QueryVals(const char** names,
+spatialdata::spatialdb::SimpleDB::queryVals(const char** names,
 					    const int numVals)
-{ // QueryVals
-  if (0 == mpQuery) {
+{ // queryVals
+  if (0 == _pQuery) {
     std::ostringstream msg;
     msg
-      << "Spatial database " << Label() << " has not been opened.\n"
+      << "Spatial database " << label() << " has not been opened.\n"
       << "Please call Open() before calling QueryVals().";
     throw std::runtime_error(msg.str());
   } // if
-  mpQuery->QueryVals(names, numVals);
-} // QueryVals
+  _pQuery->queryVals(names, numVals);
+} // queryVals
 
 // ----------------------------------------------------------------------
 // Set the I/O handler.
 void
-spatialdata::spatialdb::SimpleDB::IOHandler(const SimpleIO* iohandler)
-{ // IOHandler
-  mpIOHandler = iohandler->Clone();
-} // IOHandler
+spatialdata::spatialdb::SimpleDB::ioHandler(const SimpleIO* iohandler)
+{ // ioHandler
+  _pIOHandler = iohandler->clone();
+} // ioHandler
 
 // ----------------------------------------------------------------------
 // Query the database.
 void
-spatialdata::spatialdb::SimpleDB::Query(double** pVals,
+spatialdata::spatialdb::SimpleDB::query(double** pVals,
 					const int numVals,
 					const double x,
 					const double y,
-					const double z)
-{ // Query
-  if (0 == mpQuery) {
+					const double z,
+			      const spatialdata::geocoords::CoordSys* pCSQuery)
+{ // query
+  if (0 == _pQuery) {
     std::ostringstream msg;
     msg
-      << "Spatial database " << Label() << " has not been opened.\n"
+      << "Spatial database " << label() << " has not been opened.\n"
       << "Please call Open() before calling Query().";
     throw std::runtime_error(msg.str());
   } // if
-  else if (0 == mpData) {
+  else if (0 == _pData) {
     std::ostringstream msg;
     msg
-      << "Spatial database " << Label() << " does not contain any data.\n"
+      << "Spatial database " << label() << " does not contain any data.\n"
       << "Database query aborted.";
     throw std::runtime_error(msg.str());
   } // if
-  mpQuery->Query(pVals, numVals, x, y, z);
-} // Query
+  _pQuery->query(pVals, numVals, x, y, z, pCSQuery);
+} // query
 
 // version
 // $Id: SimpleDB.cc,v 1.1 2005/05/25 18:42:56 baagaard Exp $

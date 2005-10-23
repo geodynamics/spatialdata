@@ -19,11 +19,11 @@
 #define spatialdata_spatialdb_simpledbtypes_h
 
 struct spatialdata::spatialdb::SimpleDB::DataStruct {
-  double* Data;
-  std::string* ValNames;
-  int NumLocs;
-  int NumVals;
-  TopoEnum Topology;
+  double* data;
+  std::string* valNames;
+  int numLocs;
+  int numVals;
+  TopoEnum topology;
 }; // DataStruct
 
 namespace spatialdata {
@@ -43,7 +43,7 @@ public :
    * @param data Datain database
    * @param index Index of location in database
    */
-  static double* DataCoords(const SimpleDB::DataStruct& data,
+  static double* dataCoords(const SimpleDB::DataStruct& data,
 			    const int index);
 
   /** Get values of location in database.
@@ -51,7 +51,7 @@ public :
    * @param data Datain database
    * @param index Index of location in database
    */
-  static double* DataVals(const SimpleDB::DataStruct& data,
+  static double* dataVals(const SimpleDB::DataStruct& data,
 			  const int index);
 
 }; // class SpatialDBTypes

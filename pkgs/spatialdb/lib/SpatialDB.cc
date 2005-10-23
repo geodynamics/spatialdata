@@ -17,14 +17,14 @@
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::SpatialDB::SpatialDB(void) :
-  mLabel("")
+  _label("")
 { // constructor
 } // constructor
 
 // ----------------------------------------------------------------------
 /// Constructor with label
 spatialdata::spatialdb::SpatialDB::SpatialDB(const char* label) :
-  mLabel(label)
+  _label(label)
 { // constructor
 } // constructor
 

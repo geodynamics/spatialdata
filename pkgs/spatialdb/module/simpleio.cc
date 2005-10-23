@@ -25,20 +25,20 @@
 #include "pythiautil/bindings.h" // USES BindingsTUtil
 
 // ----------------------------------------------------------------------
-// CppSimpleIO_Filename
-char pyspatialdb_CppSimpleIO_Filename__doc__[] = "";
-char pyspatialdb_CppSimpleIO_Filename__name__[] = "CppSimpleIO_Filename";
+// CppSimpleIO_filename
+char pyspatialdb_CppSimpleIO_filename__doc__[] = "";
+char pyspatialdb_CppSimpleIO_filename__name__[] = "CppSimpleIO_filename";
 
-static char pyspatialdb_CppSimpleIO_Filename_note[] = 
+static char pyspatialdb_CppSimpleIO_filename_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSimpleIO_Filename(PyObject*, PyObject* args)
-{ // CppSimpleIO_Filename
+pyspatialdb_CppSimpleIO_filename(PyObject*, PyObject* args)
+{ // CppSimpleIO_filename
   PyObject* pyDB = 0;
   PyObject* pyFilename = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OO:CppSimpleIO_Filename", &pyDB, &pyFilename);
+			    "OO:CppSimpleIO_filename", &pyDB, &pyFilename);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -53,7 +53,7 @@ pyspatialdb_CppSimpleIO_Filename(PyObject*, PyObject* args)
 					      "Python handle to SimpleIO*");
     FIREWALL(0 != pDB);
     const char* filename = PyString_AsString(pyFilename);
-    pDB->Filename(filename);
+    pDB->filename(filename);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -65,7 +65,7 @@ pyspatialdb_CppSimpleIO_Filename(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSimpleIO_Filename
+} // CppSimpleIO_filename
         
 // version
 // $Id: simpleio.cc,v 1.1 2005/05/25 18:42:59 baagaard Exp $

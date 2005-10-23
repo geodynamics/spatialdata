@@ -18,7 +18,8 @@
 
 /* Query SpatialDB using C. */
 int
-ctest_query(void* db)
+ctest_query(void* db,
+	    void* cs)
 { /* ctest_query */
 
   const int numVals = 2;
@@ -30,7 +31,7 @@ ctest_query(void* db)
 
   double* pValsQ = (numVals > 0) ? malloc(sizeof(double)*numVals) : 0;
   spatialdb_query(db, &pValsQ, numVals, 
-		  &queryLoc[0], &queryLoc[1], &queryLoc[2]);
+		  queryLoc[0], queryLoc[1], queryLoc[2], cs);
   const double tolerance = 1.0e-06;
   for (iVal=0; iVal < numVals; ++iVal)
     if (1.0 - pValsQ[iVal]/pVals[numVals-iVal-1] > tolerance) {

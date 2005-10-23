@@ -18,11 +18,11 @@
 #if !defined(pyspatialdb_simpleio_h)
 #define pyspatialdb_simpleio_h
 
-/// Call SimpleIO::Filename
+/// Call SimpleIO::filename
 extern "C"
-PyObject* pyspatialdb_CppSimpleIO_Filename(PyObject*, PyObject*);
-extern char pyspatialdb_CppSimpleIO_Filename__name__[];
-extern char pyspatialdb_CppSimpleIO_Filename__doc__[];
+PyObject* pyspatialdb_CppSimpleIO_filename(PyObject*, PyObject*);
+extern char pyspatialdb_CppSimpleIO_filename__name__[];
+extern char pyspatialdb_CppSimpleIO_filename__doc__[];
 
 #endif // pyspatialdb_simpleio_h
 

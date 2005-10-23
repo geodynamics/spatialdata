@@ -61,6 +61,7 @@
  * @param x Pointer to x coordinate of location for query
  * @param y Pointer to y coordinate of location for query
  * @param z Pointer to z coordinate of location for query
+ * @param cs Pointer to CS
  */
 extern "C"
 void spatialdb_query_f(void* db,
@@ -68,7 +69,8 @@ void spatialdb_query_f(void* db,
 		       const int* numVals,
 		       const double* x,
 		       const double* y,
-		       const double* z);
+		       const double* z,
+		       const void* cs);
 
 #endif /* spatialdata_spatialdb_f77spatialdb_h */
 

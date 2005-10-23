@@ -17,49 +17,49 @@
 // Get data for database.
 inline
 const double*
-spatialdata::spatialdb::TestSimpleDBVolume::Data(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_data(void) const
 { return DATA; }
 
 // Get names of values in database.
 inline
 const char**
-spatialdata::spatialdb::TestSimpleDBVolume::Names(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_names(void) const
 { return NAMES; }
 
 // Get number of locations in database.
 inline
 int 
-spatialdata::spatialdb::TestSimpleDBVolume::NumLocs(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_numLocs(void) const
 { return NUMLOCS; }
 
 // Get number of values at each location in database.
 inline
 int
-spatialdata::spatialdb::TestSimpleDBVolume::NumVals(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_numVals(void) const
 { return NUMVALS; }
 
 // Get topology of data in database.
 inline
 spatialdata::spatialdb::SimpleDB::TopoEnum
-spatialdata::spatialdb::TestSimpleDBVolume::Topology(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_topology(void) const
 { return TOPOLOGY; }
 
 // Get number of queries.
 inline
 int
-spatialdata::spatialdb::TestSimpleDBVolume::NumQueries(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_numQueries(void) const
 { return NUMQUERIES; }
 
 // Get query data for nearest neighbor algorithm.
 inline
 const double*
-spatialdata::spatialdb::TestSimpleDBVolume::QueryNearest(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_queryNearest(void) const
 { return QUERYNEAREST; }
 
 // Get query data for linear interpolation algorithm.
 inline
 const double*
-spatialdata::spatialdb::TestSimpleDBVolume::QueryLinear(void) const
+spatialdata::spatialdb::TestSimpleDBVolume::_queryLinear(void) const
 { return QUERYLINEAR; }
 
 // version

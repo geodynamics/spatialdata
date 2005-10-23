@@ -18,12 +18,14 @@
 #include "SimpleIO.h" // ISA SimpleIO
 #include "SimpleIOAscii.h" // implementation of class methods
 
+#include "SimpleDBTypes.h" // USES SimpleDBTypes
+#include "spatialdata/geocoords/CoordSys.h" // USES CSCart
+#include "spatialdata/geocoords/CSCart.h" // USES CSCart
+
 #include <fstream> // USES std::ofstream, std::ifstream
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 #include <iomanip> // USES setw(), setiosflags(), resetiosflags()
-
-#include "SimpleDBTypes.h" // USES SimpleDBTypes
 
 #if !defined(NO_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
@@ -44,12 +46,13 @@ const char* spatialdata::spatialdb::SimpleIOAscii::VOLSTRING = "volume";
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
-spatialdata::spatialdb::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
+spatialdata::spatialdb::SimpleIOAscii::read(SimpleDB::DataStruct* pData,
+				       spatialdata::geocoords::CoordSys** ppCS)
 { // Read
   FIREWALL(0 != pData);
 
   try {
-    std::ifstream filein(Filename());
+    std::ifstream filein(filename());
     if (!filein.is_open() || !filein.good()) {
     std::ostringstream msg;
     msg << "Could not open spatial database file for reading.";
@@ -73,7 +76,7 @@ spatialdata::spatialdb::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
     switch (version)
       { // switch
       case 1 :
-	ReadV1(pData, filein);
+	_readV1(pData, ppCS, filein);
 	break;
       default :
 	{ // default
@@ -90,7 +93,7 @@ spatialdata::spatialdb::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
     std::ostringstream msg;
     msg
       << "Error occurred while reading spatial database file '"
-      << Filename() << "'.\n"
+      << filename() << "'.\n"
       << err.what();
     throw std::runtime_error(msg.str());
   } // catch
@@ -98,7 +101,7 @@ spatialdata::spatialdb::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
     std::ostringstream msg;
     msg
       << "Unknown error occurred while reading spatial database file '"
-      << Filename() << "'.\n";
+      << filename() << "'.\n";
       throw std::runtime_error(msg.str());
   } // catch
 
@@ -107,66 +110,73 @@ spatialdata::spatialdb::SimpleIOAscii::Read(SimpleDB::DataStruct* pData)
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
-spatialdata::spatialdb::SimpleIOAscii::ReadV1(SimpleDB::DataStruct* pData,
-			       std::istream& filein)
+spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDB::DataStruct* pData,
+					 spatialdata::geocoords::CoordSys** ppCS,
+					       std::istream& filein)
 { // ReadV1
   FIREWALL(0 != pData);
+  FIREWALL(0 != ppCS);
+
+  // Set coordinate system to Cartesian by default
+  *ppCS = new spatialdata::geocoords::CSCart();
 
   const int maxLineLen = 256;
   filein.ignore(maxLineLen, ':');
-  filein >> pData->NumVals;
-  delete[] pData->ValNames; 
-  const int numVals = pData->NumVals;
-  pData->ValNames = (numVals > 0) ? new std::string[numVals] : 0;
+  filein >> pData->numVals;
+  delete[] pData->valNames; 
+  const int numVals = pData->numVals;
+  pData->valNames = (numVals > 0) ? new std::string[numVals] : 0;
   filein.ignore(maxLineLen, ':');
   for (int iVal=0; iVal < numVals; ++iVal)
-    filein >> pData->ValNames[iVal];
+    filein >> pData->valNames[iVal];
   filein.ignore(maxLineLen, ':');
-  filein >> pData->NumLocs;
+  filein >> pData->numLocs;
 
   std::string topoString;
   filein.ignore(maxLineLen, ':');
   filein >> topoString;
-  pData->Topology = ParseTopoString(topoString.c_str());
+  pData->topology = parseTopoString(topoString.c_str());
   
   const int numCoords = 3;
-  const int dataSize = pData->NumLocs * (numCoords + numVals);
-  delete[] pData->Data; 
-  pData->Data = (dataSize > 0) ? new double[dataSize] : 0;
+  const int dataSize = pData->numLocs * (numCoords + numVals);
+  delete[] pData->data; 
+  pData->data = (dataSize > 0) ? new double[dataSize] : 0;
   for (int i=0; i < dataSize; ++i)
-    filein >> pData->Data[i];
+    filein >> pData->data[i];
   
   // Check compatibility of topology and number of points
-  CheckCompatibility(*pData);
+  checkCompatibility(*pData);
+
 } // ReadV1
 
 // ----------------------------------------------------------------------
 // Write ascii database file.
 void
-spatialdata::spatialdb::SimpleIOAscii::Write(const SimpleDB::DataStruct& data)
-{ // Write
-  std::ofstream fileout(Filename());
+spatialdata::spatialdb::SimpleIOAscii::write(const SimpleDB::DataStruct& data,
+				    const spatialdata::geocoords::CoordSys& cs)
+{ // write
+  std::ofstream fileout(filename());
   if (!fileout.is_open() || !fileout.good()) {
     std::ostringstream msg;
-    msg << "Could not open spatial database file " << Filename()
+    msg << "Could not open spatial database file " << filename()
 	<< "\nfor writing.";
     throw std::runtime_error(msg.str());
   } // if
 
   const int version = 1;
-  const int numLocs = data.NumLocs;
-  const int numVals = data.NumVals;
+  const int numLocs = data.numLocs;
+  const int numVals = data.numVals;
 
   fileout
     << HEADER << " " << version << "\n"
     << "Number of values: " << std::setw(6) << numVals << "\n";
   fileout << "Names of values: ";
   for (int iVal=0; iVal < numVals; ++iVal)
-    fileout << "  " << data.ValNames[iVal];
+    fileout << "  " << data.valNames[iVal];
   fileout
     << "\n"
     << "Number of locations: " << std::setw(6) << numLocs << "\n"
-    << "Topology: " << TopoString(data.Topology) << "\n";
+    << "Topology: " << topoString(data.topology) << "\n";
 
   fileout
     << std::resetiosflags(std::ios::fixed)
@@ -174,21 +184,21 @@ spatialdata::spatialdb::SimpleIOAscii::Write(const SimpleDB::DataStruct& data)
     << std::setprecision(6);
   const int numCoords = 3;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    const double* pCoords = SimpleDBTypes::DataCoords(data, iLoc);
+    const double* pCoords = SimpleDBTypes::dataCoords(data, iLoc);
     for (int iCoord=0; iCoord < numCoords; ++iCoord)
       fileout << std::setw(14) << pCoords[iCoord];
-    const double* pVals = SimpleDBTypes::DataVals(data, iLoc);
+    const double* pVals = SimpleDBTypes::dataVals(data, iLoc);
     for (int iVal=0; iVal < numVals; ++iVal)
       fileout << std::setw(14) << pVals[iVal];
     fileout << "\n";
   } // for
-} // Write
+} // write
 
 // ----------------------------------------------------------------------
 // Parse string into topology type.
 spatialdata::spatialdb::SimpleDB::TopoEnum
-spatialdata::spatialdb::SimpleIOAscii::ParseTopoString(const char* str)
-{ // ParseTopoString
+spatialdata::spatialdb::SimpleIOAscii::parseTopoString(const char* str)
+{ // parseTopoString
   SimpleDB::TopoEnum topoType = SimpleDB::POINT;
   if (strcasecmp(str, POINTSTRING) == 0)
     topoType = SimpleDB::POINT;
@@ -205,13 +215,13 @@ spatialdata::spatialdb::SimpleIOAscii::ParseTopoString(const char* str)
     throw std::runtime_error(msg.str());
   } // else
   return topoType;
-} // ParseTopoString
+} // parseTopoString
 
 // ----------------------------------------------------------------------
 // Get string associated with topology type.
 const char*
-spatialdata::spatialdb::SimpleIOAscii::TopoString(SimpleDB::TopoEnum topoType)
-{ // ParseTopoString
+spatialdata::spatialdb::SimpleIOAscii::topoString(SimpleDB::TopoEnum topoType)
+{ // topoString
   const char* str = POINTSTRING;
   switch (topoType)
     { // switch
@@ -232,7 +242,7 @@ spatialdata::spatialdb::SimpleIOAscii::TopoString(SimpleDB::TopoEnum topoType)
 			       "topology type.");
     } // switch
   return str;
-} // ParseTopoString
+} // topoString
 
 // version
 // $Id: SimpleIOAscii.cc,v 1.1 2005/05/25 18:42:57 baagaard Exp $

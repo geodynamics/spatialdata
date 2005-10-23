@@ -26,19 +26,20 @@ extern "C" {
 #include "pythiautil/bindings.h" // USES BindingsTUtil
 
 // ----------------------------------------------------------------------
-// CTestQuery
-char pytestlangspatialdb_CTestQuery__doc__[] = "";
-char pytestlangspatialdb_CTestQuery__name__[] = "CTestQuery";
+// cTestQuery
+char pytestlangspatialdb_cTestQuery__doc__[] = "";
+char pytestlangspatialdb_cTestQuery__name__[] = "cTestQuery";
 
-static char pytestlangspatialdb_CTestQuery_note[] = 
+static char pytestlangspatialdb_cTestQuery_note[] = 
   "ctestspatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pytestlangspatialdb_CTestQuery(PyObject*, PyObject* args)
-{ // CTestQuery
+pytestlangspatialdb_cTestQuery(PyObject*, PyObject* args)
+{ // cTestQuery
   PyObject* pyDB = 0;
+  PyObject* pyCS = 0;
   int ok = PyArg_ParseTuple(args,
-			    "O:CTestQuery", &pyDB);
+			    "OO:cTestQuery", &pyDB, &pyCS);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -52,7 +53,12 @@ pytestlangspatialdb_CTestQuery(PyObject*, PyObject* args)
 						"void*",
 						"Python handle to void*");
     FIREWALL(0 != pDB);
-    const int err = ctest_query(pDB);
+    void* pCS = 
+      pythiautil::BindingsTUtil<void*>::GetCObj(pyCS, 
+						"void*",
+						"Python handle to void*");
+    FIREWALL(0 != pCS);
+    const int err = ctest_query(pDB, pCS);
     if (err) {
       std::ostringstream msg;
       msg << "Error #" << err << " in C bindings.";
@@ -69,22 +75,23 @@ pytestlangspatialdb_CTestQuery(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CTestQuery
+} // cTestQuery
 
 // ----------------------------------------------------------------------
-// F77TestQuery
-char pytestlangspatialdb_F77TestQuery__doc__[] = "";
-char pytestlangspatialdb_F77TestQuery__name__[] = "F77TestQuery";
+// f77TestQuery
+char pytestlangspatialdb_f77TestQuery__doc__[] = "";
+char pytestlangspatialdb_f77TestQuery__name__[] = "f77TestQuery";
 
-static char pytestlangspatialdb_F77TestQuery_note[] = 
+static char pytestlangspatialdb_f77TestQuery_note[] = 
   "ctestspatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pytestlangspatialdb_F77TestQuery(PyObject*, PyObject* args)
-{ // F77TestQuery
+pytestlangspatialdb_f77TestQuery(PyObject*, PyObject* args)
+{ // f77TestQuery
   PyObject* pyDB = 0;
+  PyObject* pyCS = 0;
   int ok = PyArg_ParseTuple(args,
-			    "O:F77TestQuery", &pyDB);
+			    "OO:f77TestQuery", &pyDB, &pyCS);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -98,10 +105,15 @@ pytestlangspatialdb_F77TestQuery(PyObject*, PyObject* args)
 						"void*",
 						"Python handle to void*");
     FIREWALL(0 != pDB);
-    const int err = f77test_query_f(pDB);
+    void* pCS = 
+      pythiautil::BindingsTUtil<void*>::GetCObj(pyCS, 
+						"void*",
+						"Python handle to void*");
+    FIREWALL(0 != pCS);
+    const int err = f77test_query_f(pDB, pCS);
     if (err) {
       std::ostringstream msg;
-      msg << "Error #" << err << " in F77 bindings.";
+      msg << "Error #" << err << " in f77 bindings.";
       throw std::runtime_error(msg.str());
     } // if
   } // try
@@ -115,7 +127,7 @@ pytestlangspatialdb_F77TestQuery(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // F77TestQuery
+} // f77TestQuery
 
 // version
 // $Id: langtestspatialdb.cc,v 1.1 2005/05/25 18:43:03 baagaard Exp $

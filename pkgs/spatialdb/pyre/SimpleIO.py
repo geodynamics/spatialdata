@@ -42,7 +42,7 @@ class SimpleIO(Component):
   def initialize(self):
     """Initialize the database."""
     import spatialdb as bindings
-    bindings.CppSimpleIO_Filename(self._cppSimpleIO,
+    bindings.CppSimpleIO_filename(self._cppSimpleIO,
                                   self.inventory.filename)
     return
     

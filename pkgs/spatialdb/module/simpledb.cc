@@ -40,20 +40,20 @@ pyspatialdb_CppSimpleDB(PyObject*, PyObject*)
 } // CppSimpleDB
         
 // ----------------------------------------------------------------------
-// CppSimpleDB_QueryType
-char pyspatialdb_CppSimpleDB_QueryType__doc__[] = "";
-char pyspatialdb_CppSimpleDB_QueryType__name__[] = "CppSimpleDB_QueryType";
+// CppSimpleDB_queryType
+char pyspatialdb_CppSimpleDB_queryType__doc__[] = "";
+char pyspatialdb_CppSimpleDB_queryType__name__[] = "CppSimpleDB_queryType";
 
-static char pyspatialdb_CppSimpleDB_QueryType_note[] = 
+static char pyspatialdb_CppSimpleDB_queryType_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSimpleDB_QueryType(PyObject*, PyObject* args)
+pyspatialdb_CppSimpleDB_queryType(PyObject*, PyObject* args)
 { // CppSimpleDB
   PyObject* pyDB = 0;
   PyObject* pyQueryString = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OO:CppSimpleDB_QueryType", 
+			    "OO:CppSimpleDB_queryType", 
 			    &pyDB, &pyQueryString);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
@@ -85,7 +85,7 @@ pyspatialdb_CppSimpleDB_QueryType(PyObject*, PyObject* args)
 	  << "  LINEAR: 'Linear'";
       throw std::runtime_error(msg.str());
     } // else
-    pDB->QueryType(queryType);
+    pDB->queryType(queryType);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -97,23 +97,23 @@ pyspatialdb_CppSimpleDB_QueryType(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSimpleDB_QueryType
+} // CppSimpleDB_queryType
         
 // ----------------------------------------------------------------------
-// CppSimpleDB_IOHandler
-char pyspatialdb_CppSimpleDB_IOHandler__doc__[] = "";
-char pyspatialdb_CppSimpleDB_IOHandler__name__[] = "CppSimpleDB_IOHandler";
+// CppSimpleDB_ioHandler
+char pyspatialdb_CppSimpleDB_ioHandler__doc__[] = "";
+char pyspatialdb_CppSimpleDB_ioHandler__name__[] = "CppSimpleDB_ioHandler";
 
-static char pyspatialdb_CppSimpleDB_IOHandler_note[] = 
+static char pyspatialdb_CppSimpleDB_ioHandler_note[] = 
   "spatialdata python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdb_CppSimpleDB_IOHandler(PyObject*, PyObject* args)
+pyspatialdb_CppSimpleDB_ioHandler(PyObject*, PyObject* args)
 { // CppSimpleDB
   PyObject* pyDB = 0;
   PyObject* pyIOHandler = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OO:CppSimpleDB_IOHandler", 
+			    "OO:CppSimpleDB_ioHandler", 
 			    &pyDB, &pyIOHandler);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
@@ -134,7 +134,7 @@ pyspatialdb_CppSimpleDB_IOHandler(PyObject*, PyObject* args)
 							     "SimpleIO*",
 					      "Python handle to SimpleIO*");
     FIREWALL(0 != pIOHandler);
-    pDB->IOHandler(pIOHandler);
+    pDB->ioHandler(pIOHandler);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
@@ -146,7 +146,7 @@ pyspatialdb_CppSimpleDB_IOHandler(PyObject*, PyObject* args)
 
   Py_INCREF(Py_None);
   return Py_None;
-} // CppSimpleDB_IOHandler
+} // CppSimpleDB_ioHandler
         
 // version
 // $Id: simpledb.cc,v 1.1 2005/05/25 18:42:59 baagaard Exp $

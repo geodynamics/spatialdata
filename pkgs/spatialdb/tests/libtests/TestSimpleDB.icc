@@ -17,8 +17,8 @@
 // Get database.
 inline
 spatialdata::spatialdb::SimpleDB*
-spatialdata::spatialdb::TestSimpleDB::Database(void)
-{ return mpDB; }
+spatialdata::spatialdb::TestSimpleDB::_database(void)
+{ return _pDB; }
 
 // version
 // $Id: TestSimpleDB.icc,v 1.1 2005/05/25 18:43:04 baagaard Exp $

@@ -68,10 +68,10 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
   ~SimpleDB(void);
   
   /// Open the database and prepare for querying.
-  void Open(void);
+  void open(void);
 
   /// Close the database.
-  void Close(void);
+  void close(void);
 
   /** Set query type.
    *
@@ -79,7 +79,7 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
    *
    * @param queryType Set type of query
    */
-  void QueryType(const SimpleDB::QueryEnum queryType);
+  void queryType(const SimpleDB::QueryEnum queryType);
 
   /** Set values to be returned by queries.
    *
@@ -88,14 +88,14 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
    */
-  void QueryVals(const char** names,
+  void queryVals(const char** names,
 		 const int numVals);
 
   /** Set the I/O handler.
    *
    * @param iohandler
    */
-  void IOHandler(const SimpleIO* iohandler);
+  void ioHandler(const SimpleIO* iohandler);
 
   /** Query the database.
    *
@@ -106,12 +106,14 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
+   * @param pCSQuery Coordinate system of coordinates
    */
-  void Query(double** pVals,
+  void query(double** pVals,
 	     const int numVals,
 	     const double x,
 	     const double y,
-	     const double z);
+	     const double z,
+	     const spatialdata::geocoords::CoordSys* pCSQuery);
 
  private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -122,14 +124,10 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
   
-  /** I/O handler */
-  SimpleIO* mpIOHandler;
-
-  /** Query handler */
-  SimpleDBQuery* mpQuery;
-
-  /** Pointer to data */
-  DataStruct* mpData;
+  SimpleIO* _pIOHandler; ///< I/O handler
+  SimpleDBQuery* _pQuery; ///< Query handler
+  DataStruct* _pData; ///< Pointer to data
+  spatialdata::geocoords::CoordSys* _pCS; ///< Coordinate system
 
 }; // class SimpleDB
 

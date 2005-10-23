@@ -20,6 +20,9 @@
 #include "../../lib/SimpleDBTypes.h" // USES SimpleDBTypes
 #include "../../lib/SimpleDBQuery.h" // USES SimpleDBQuery
 
+#include "spatialdata/geocoords/CoordSys.h" // USE CSCart
+#include "spatialdata/geocoords/CSCart.h" // USE CSCart
+
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 
@@ -33,25 +36,26 @@ spatialdata::spatialdb::TestSimpleDB::setUp(void)
   SimpleDB::DataStruct* pData = new SimpleDB::DataStruct;
 
   const int numCoords = 3;
-  const int numLocs = NumLocs();
-  const int numVals = NumVals();
+  const int numLocs = _numLocs();
+  const int numVals = _numVals();
 
   const int dataSize = numLocs*(numCoords+numVals);
   FIREWALL(0 < dataSize);
-  pData->Data = new double[dataSize];
-  memcpy(pData->Data, Data(), dataSize*sizeof(double));
+  pData->data = new double[dataSize];
+  memcpy(pData->data, _data(), dataSize*sizeof(double));
 
-  pData->ValNames = new std::string[numVals];
+  pData->valNames = new std::string[numVals];
   for (int i=0; i < numVals; ++i)
-    pData->ValNames[i] = Names()[i];
+    pData->valNames[i] = _names()[i];
 
-  pData->NumLocs = numLocs;
-  pData->NumVals = numVals;
-  pData->Topology = Topology();
+  pData->numLocs = numLocs;
+  pData->numVals = numVals;
+  pData->topology = _topology();
 
-  mpDB = new SimpleDB;
-  mpDB->mpData = pData;
-  mpDB->mpQuery = new SimpleDBQuery(*mpDB);
+  _pDB = new SimpleDB;
+  _pDB->_pData = pData;
+  _pDB->_pQuery = new SimpleDBQuery(*_pDB);
+  _pDB->_pCS = new spatialdata::geocoords::CSCart();
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -59,7 +63,7 @@ spatialdata::spatialdb::TestSimpleDB::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleDB::tearDown(void)
 { // tearDown
-  delete mpDB; mpDB = 0;
+  delete _pDB; _pDB = 0;
 } // tearDown
 
 // ----------------------------------------------------------------------
@@ -77,7 +81,7 @@ spatialdata::spatialdb::TestSimpleDB::testConstructorB(void)
 { // testConstructorB
   const char* label = "database A";
   SimpleDB db(label);
-  CPPUNIT_ASSERT(0 == strcmp(label, db.Label()));
+  CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
 } // testConstructorB
 
 // ----------------------------------------------------------------------
@@ -87,8 +91,8 @@ spatialdata::spatialdb::TestSimpleDB::testLabel(void)
 { // testLabel
   SimpleDB db;
   const char* label = "database 2";
-  db.Label(label);
-  CPPUNIT_ASSERT(0 == strcmp(label, db.Label()));
+  db.label(label);
+  CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
 } // testLabel
 
 // ----------------------------------------------------------------------
@@ -96,11 +100,11 @@ spatialdata::spatialdb::TestSimpleDB::testLabel(void)
 void
 spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void)
 { // testQueryNearest
-  SimpleDB* pDB = Database();
+  SimpleDB* pDB = _database();
   FIREWALL(0 != pDB);
 
-  pDB->QueryType(SimpleDB::NEAREST);
-  CheckQuery(QueryNearest());
+  pDB->queryType(SimpleDB::NEAREST);
+  _checkQuery(_queryNearest());
 } // testQueryNearest
 
 // ----------------------------------------------------------------------
@@ -108,39 +112,40 @@ spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void)
 void
 spatialdata::spatialdb::TestSimpleDB::testQueryLinear(void)
 { // testQueryLinear
-  FIREWALL(0 != mpDB);
+  FIREWALL(0 != _pDB);
 
-  mpDB->QueryType(SimpleDB::LINEAR);
-  CheckQuery(QueryLinear());
+  _pDB->queryType(SimpleDB::LINEAR);
+  _checkQuery(_queryLinear());
 } // testQueryLinear
 
 // ----------------------------------------------------------------------
 // Check query values.
 void
-spatialdata::spatialdb::TestSimpleDB::CheckQuery(const double* queryData) const
-{ // CheckQuery
+spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData) const
+{ // _checkQuery
   journal::debug_t debug("TestSimpleDB");
 
   FIREWALL(0 != queryData);
-  FIREWALL(0 != mpDB);
+  FIREWALL(0 != _pDB);
 
-  const int numVals = NumVals();
+  const int numVals = _numVals();
   
   // reverse order of vals in queries
   const char* valNames[numVals];
   for (int i=0; i < numVals; ++i)
-    valNames[numVals-i-1] = Names()[i];
-  mpDB->QueryVals(valNames, numVals);
+    valNames[numVals-i-1] = _names()[i];
+  _pDB->queryVals(valNames, numVals);
   
   double* pVals = (0 < numVals) ? new double[numVals] : 0;
   const double tolerance = 1.0e-06;
   
-  const int numQueries = NumQueries();
+  const int numQueries = _numQueries();
   const int locSize = 3+numVals;
+  spatialdata::geocoords::CSCart csCart;
   for (int iQuery=0; iQuery < numQueries; ++iQuery) {
     const double* qCoords = &queryData[iQuery*locSize];
     const double* qVals = &queryData[iQuery*locSize+3];
-    mpDB->Query(&pVals, numVals, qCoords[0], qCoords[1], qCoords[2]);
+    _pDB->query(&pVals, numVals, qCoords[0], qCoords[1], qCoords[2], &csCart);
     for (int iVal=0; iVal < numVals; ++iVal) {
       debug
 	<< journal::at(__HERE__)

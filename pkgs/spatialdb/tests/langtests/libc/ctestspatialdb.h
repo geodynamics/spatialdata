@@ -15,9 +15,11 @@
 
 /** Query SpatialDB using C
  *
- * db Spatial database
+ * @param db Spatial database
+ * @param cs Coordinate system used in queries
  */
-int ctest_query(void* db);
+int ctest_query(void* db,
+		void* cs);
 
 
 #endif /* spatialdata_ctestspatialdb_h */

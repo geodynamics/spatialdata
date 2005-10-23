@@ -19,6 +19,9 @@
 #include "spatialdata/spatialdb/SimpleIO.h" // USES SimpleIOAscii
 #include "spatialdata/spatialdb/SimpleIOAscii.h" // USES SimpleIOAscii
 
+#include "spatialdata/geocoords/CoordSys.h" // USES CSCart
+#include "spatialdata/geocoords/CSCart.h" // USES CSCart
+
 #include "../../lib/SimpleDBTypes.h" // USES SimpleDBTypes
 
 #include <sstream> // USES std::ostringstream
@@ -43,37 +46,41 @@ spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
   const SimpleDB::TopoEnum topology = SimpleDB::VOLUME;
 
   SimpleDB::DataStruct dbOut;
-  dbOut.Data = (double*) data;
-  dbOut.ValNames = new std::string[numVals];
+  dbOut.data = (double*) data;
+  dbOut.valNames = new std::string[numVals];
   for (int iVal=0; iVal < numVals; ++iVal)
-    dbOut.ValNames[iVal] = names[iVal];
-  dbOut.NumLocs = numLocs;
-  dbOut.NumVals = numVals;
-  dbOut.Topology = topology;
+    dbOut.valNames[iVal] = names[iVal];
+  dbOut.numLocs = numLocs;
+  dbOut.numVals = numVals;
+  dbOut.topology = topology;
+
+  geocoords::CSCart csOut;
 
   const char* filename = "data/spatial.dat";
   SimpleIOAscii dbIO;
-  dbIO.Filename(filename);
-  dbIO.Write(dbOut);
+  dbIO.filename(filename);
+  dbIO.write(dbOut, csOut);
 
   SimpleDB::DataStruct dbIn;
-  dbIn.Data = 0;
-  dbIn.ValNames = 0;
-  dbIO.Read(&dbIn);
+  geocoords::CoordSys* pCSIn = 0;
+  dbIn.data = 0;
+  dbIn.valNames = 0;
+  dbIO.read(&dbIn, &pCSIn);
 
-  CPPUNIT_ASSERT(numLocs == dbIn.NumLocs);
-  CPPUNIT_ASSERT(numVals == dbIn.NumVals);
-  CPPUNIT_ASSERT(topology == dbIn.Topology);
+  CPPUNIT_ASSERT(numLocs == dbIn.numLocs);
+  CPPUNIT_ASSERT(numVals == dbIn.numVals);
+  CPPUNIT_ASSERT(topology == dbIn.topology);
   for (int iVal=0; iVal < numVals; ++iVal)
-    CPPUNIT_ASSERT(0 == strcmp(names[iVal], dbIn.ValNames[iVal].c_str()));
+    CPPUNIT_ASSERT(0 == strcmp(names[iVal], dbIn.valNames[iVal].c_str()));
   const int dataSize = numLocs*(numCoords+numVals);
   const double tolerance = 1.0e-06;
   for (int i=0; i < dataSize; ++i)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(dbIn.Data[i]/data[i], 1.0, tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(dbIn.data[i]/data[i], 1.0, tolerance);
 
-  delete[] dbOut.ValNames;
-  delete[] dbIn.Data;
-  delete[] dbIn.ValNames;
+  delete[] dbOut.valNames;
+  delete[] dbIn.data;
+  delete[] dbIn.valNames;
+  delete pCSIn; pCSIn = 0;
 
   std::ostringstream command;
   command << "rm " << filename;

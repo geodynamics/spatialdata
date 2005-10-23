@@ -43,20 +43,20 @@ spatialdata::spatialdb::TestSimpleDBQuery::setUp(void)
 
   const int dataSize = numLocs*(numCoords+numVals);
   FIREWALL(0 < dataSize);
-  pData->Data = new double[dataSize];
-  memcpy(pData->Data, DATA, dataSize*sizeof(double));
+  pData->data = new double[dataSize];
+  memcpy(pData->data, DATA, dataSize*sizeof(double));
 
-  pData->ValNames = new std::string[numVals];
+  pData->valNames = new std::string[numVals];
   for (int i=0; i < numVals; ++i)
-    pData->ValNames[i] = NAMES[i];
+    pData->valNames[i] = NAMES[i];
 
-  pData->NumLocs = numLocs;
-  pData->NumVals = numVals;
-  pData->Topology = TOPOLOGY;
+  pData->numLocs = numLocs;
+  pData->numVals = numVals;
+  pData->topology = TOPOLOGY;
 
-  mpDB = new SimpleDB;
-  mpDB->mpData = pData;
-  mpQuery = new SimpleDBQuery(*mpDB);
+  _pDB = new SimpleDB;
+  _pDB->_pData = pData;
+  _pQuery = new SimpleDBQuery(*_pDB);
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -64,8 +64,8 @@ spatialdata::spatialdb::TestSimpleDBQuery::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleDBQuery::tearDown(void)
 { // tearDown
-  delete mpQuery; mpQuery = 0;
-  delete mpDB; mpDB = 0;
+  delete _pQuery; _pQuery = 0;
+  delete _pDB; _pDB = 0;
 } // tearDown
 
 // ----------------------------------------------------------------------
@@ -85,7 +85,7 @@ spatialdata::spatialdb::TestSimpleDBQuery::testDistSquared(void)
   FIREWALL(2 <= NUMPTS);
   const int numCoords = 3;
   const double dist2 = 
-    SimpleDBQuery::DistSquared(&COORDS[0], &COORDS[1*numCoords]);
+    SimpleDBQuery::_distSquared(&COORDS[0], &COORDS[1*numCoords]);
   const double tolerance = 1.0e-06;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(dist2/DIST2, 1.0, tolerance);
 } // testDistSquared
@@ -99,8 +99,8 @@ spatialdata::spatialdb::TestSimpleDBQuery::testArea(void)
   const int numCoords = 3;
   double area = 0;
   double dir[numCoords];
-  SimpleDBQuery::Area(&area, dir, &COORDS[0*numCoords], 
-		      &COORDS[1*numCoords], &COORDS[2*numCoords]);
+  SimpleDBQuery::_area(&area, dir, &COORDS[0*numCoords], 
+		       &COORDS[1*numCoords], &COORDS[2*numCoords]);
   const double tolerance = 1.0e-06;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(area/AREA, 1.0, tolerance);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(dir[0]/AREADIR[0], 1.0, tolerance);
@@ -116,8 +116,8 @@ spatialdata::spatialdb::TestSimpleDBQuery::testVolume(void)
   FIREWALL(4 <= NUMPTS);
   const int numCoords = 3;
   const double volume = 
-    SimpleDBQuery::Volume(&COORDS[0*numCoords], &COORDS[1*numCoords], 
-			  &COORDS[2*numCoords], &COORDS[3*numCoords]);
+    SimpleDBQuery::_volume(&COORDS[0*numCoords], &COORDS[1*numCoords], 
+			   &COORDS[2*numCoords], &COORDS[3*numCoords]);
   const double tolerance = 1.0e-06;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(volume/VOLUME, 1.0, tolerance);
 } // testVolume
@@ -127,18 +127,18 @@ spatialdata::spatialdb::TestSimpleDBQuery::testVolume(void)
 void
 spatialdata::spatialdb::TestSimpleDBQuery::testQueryType(void)
 { // testQueryType
-  FIREWALL(0 != mpQuery);
+  FIREWALL(0 != _pQuery);
 
   { // test A
     const SimpleDB::QueryEnum queryType = SimpleDB::NEAREST;
-    mpQuery->QueryType(queryType);
-    CPPUNIT_ASSERT(mpQuery->mQueryType == queryType);
+    _pQuery->queryType(queryType);
+    CPPUNIT_ASSERT(_pQuery->_queryType == queryType);
   } // test A
 
   { // test B
     const SimpleDB::QueryEnum queryType = SimpleDB::LINEAR;
-    mpQuery->QueryType(queryType);
-    CPPUNIT_ASSERT(queryType == mpQuery->mQueryType);
+    _pQuery->queryType(queryType);
+    CPPUNIT_ASSERT(queryType == _pQuery->_queryType);
   } // test B
 } // testQueryType
 
@@ -147,36 +147,36 @@ spatialdata::spatialdb::TestSimpleDBQuery::testQueryType(void)
 void
 spatialdata::spatialdb::TestSimpleDBQuery::testQueryVals(void)
 { // testQueryVals
-  FIREWALL(0 != mpQuery);
+  FIREWALL(0 != _pQuery);
 
   { // test A
     const char* names[] = { "one" };
     const int numNames = 1;
     const int vals[] = {0};
-    mpQuery->QueryVals(names, numNames);
-    CPPUNIT_ASSERT(numNames == mpQuery->mQuerySize);
+    _pQuery->queryVals(names, numNames);
+    CPPUNIT_ASSERT(numNames == _pQuery->_querySize);
     for (int i=0; i < numNames; ++i)
-      CPPUNIT_ASSERT(vals[i] == mpQuery->mQueryVals[i]);
+      CPPUNIT_ASSERT(vals[i] == _pQuery->_queryVals[i]);
   } // test A
 
   { // test B
     const char* names[] = { "two" };
     const int numNames = 1;
     const int vals[] = {1};
-    mpQuery->QueryVals(names, numNames);
-    CPPUNIT_ASSERT(numNames == mpQuery->mQuerySize);
+    _pQuery->queryVals(names, numNames);
+    CPPUNIT_ASSERT(numNames == _pQuery->_querySize);
     for (int i=0; i < numNames; ++i)
-      CPPUNIT_ASSERT(vals[i] == mpQuery->mQueryVals[i]);
+      CPPUNIT_ASSERT(vals[i] == _pQuery->_queryVals[i]);
   } // test B
 
   { // test C
     const char* names[] = { "two", "one" };
     const int numNames = 2;
     const int vals[] = {1, 0};
-    mpQuery->QueryVals(names, numNames);
-    CPPUNIT_ASSERT(numNames == mpQuery->mQuerySize);
+    _pQuery->queryVals(names, numNames);
+    CPPUNIT_ASSERT(numNames == _pQuery->_querySize);
     for (int i=0; i < numNames; ++i)
-      CPPUNIT_ASSERT(vals[i] == mpQuery->mQueryVals[i]);
+      CPPUNIT_ASSERT(vals[i] == _pQuery->_queryVals[i]);
   } // test C
 } // testQueryVals
 

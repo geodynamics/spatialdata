@@ -61,9 +61,11 @@
  * C/C++ definition of function
  *
  * @param db Pointer to spatial database
+ * @param cs Pointer to coordinate system used in queries
  */
 extern "C" {
-  int f77test_query_f(void* db);
+  int f77test_query_f(void* db,
+		      void* cs);
 }
 
 #endif // spatialdata_f77testspatialdb_h

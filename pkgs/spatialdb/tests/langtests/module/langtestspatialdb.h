@@ -16,17 +16,17 @@
 #if !defined(pytestlangspatialdb_ctestspatialdb_h)
 #define pytestlangspatialdb_ctestspatialdb_h
 
-/// CTestQuery
+/// cTestQuery
 extern "C"
-PyObject* pytestlangspatialdb_CTestQuery(PyObject*, PyObject*);
-extern char pytestlangspatialdb_CTestQuery__name__[];
-extern char pytestlangspatialdb_CTestQuery__doc__[];
+PyObject* pytestlangspatialdb_cTestQuery(PyObject*, PyObject*);
+extern char pytestlangspatialdb_cTestQuery__name__[];
+extern char pytestlangspatialdb_cTestQuery__doc__[];
 
-/// F77TestQuery
+/// f77TestQuery
 extern "C"
-PyObject* pytestlangspatialdb_F77TestQuery(PyObject*, PyObject*);
-extern char pytestlangspatialdb_F77TestQuery__name__[];
-extern char pytestlangspatialdb_F77TestQuery__doc__[];
+PyObject* pytestlangspatialdb_f77TestQuery(PyObject*, PyObject*);
+extern char pytestlangspatialdb_f77TestQuery__name__[];
+extern char pytestlangspatialdb_f77TestQuery__doc__[];
 
 #endif // pytestlangspatialdb_ctestspatialdb_h
 

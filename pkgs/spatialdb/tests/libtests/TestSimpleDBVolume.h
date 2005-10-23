@@ -46,37 +46,37 @@ protected :
    *
    * @returns Pointer to data
    */
-  const double* Data(void) const;
+  const double* _data(void) const;
 
   /** Get names of values in database.
    *
    * @returns Pointer to names
    */
-  const char** Names(void) const;
+  const char** _names(void) const;
 
   /** Get number of locations in database.
    *
    * @returns Number of locations
    */
-  int NumLocs(void) const;
+  int _numLocs(void) const;
 
   /** Get number of values at each location in database.
    *
    * @returns Number of values
    */
-  int NumVals(void) const;
+  int _numVals(void) const;
 
   /** Get topology of data in database.
    *
    * @returns Topology of data
    */
-  SimpleDB::TopoEnum Topology(void) const;
+  SimpleDB::TopoEnum _topology(void) const;
 
   /** Get number of queries.
    *
    * @returns Number of queries
    */
-  int NumQueries(void) const;
+  int _numQueries(void) const;
 
   /** Get query data for nearest neighbor algorithm.
    *
@@ -86,7 +86,7 @@ protected :
    *
    * @returns Pointer to data
    */
-  const double* QueryNearest(void) const;
+  const double* _queryNearest(void) const;
 
   /** Get query data for linear interpolation algorithm.
    *
@@ -96,7 +96,7 @@ protected :
    *
    * @returns Pointer to data
    */
-  const double* QueryLinear(void) const;
+  const double* _queryLinear(void) const;
 
 private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////

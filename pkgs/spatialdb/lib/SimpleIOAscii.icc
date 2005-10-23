@@ -18,7 +18,7 @@
 // Clone object.
 inline
 spatialdata::spatialdb::SimpleIO*
-spatialdata::spatialdb::SimpleIOAscii::Clone(void) const
+spatialdata::spatialdb::SimpleIOAscii::clone(void) const
 { return new SimpleIOAscii(*this); }
   
 // version

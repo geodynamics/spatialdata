@@ -47,22 +47,22 @@ class SpatialDB(Component):
 
   def initialize(self):
     """Initialize database."""
-    bindings.CppSpatialDB_Label(self._cppSpatialDB, self.inventory.label)
+    bindings.CppSpatialDB_label(self._cppSpatialDB, self.inventory.label)
     return
 
   def open(self):
     """Open database and prepare for querying."""
-    bindings.CppSpatialDB_Open(self._cppSpatialDB)
+    bindings.CppSpatialDB_open(self._cppSpatialDB)
     return
 
   def close(self):
     """Close database."""
-    bindings.CppSpatialDB_Close(self._cppSpatialDB)
+    bindings.CppSpatialDB_close(self._cppSpatialDB)
     return
 
   def queryVals(self, names):
     """Set values to return in queries."""
-    bindings.CppSpatialDB_QueryVals(self._cppSpatialDB, names)
+    bindings.CppSpatialDB_queryVals(self._cppSpatialDB, names)
     return
 
   def __init__(self, name="spatialdb"):

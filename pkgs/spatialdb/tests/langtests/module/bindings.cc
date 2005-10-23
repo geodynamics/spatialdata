@@ -21,16 +21,16 @@
 struct PyMethodDef pytestlangspatialdb_methods[] = {
 
   // CTestQuery
-  {pytestlangspatialdb_CTestQuery__name__,
-   pytestlangspatialdb_CTestQuery,
+  {pytestlangspatialdb_cTestQuery__name__,
+   pytestlangspatialdb_cTestQuery,
    METH_VARARGS,
-   pytestlangspatialdb_CTestQuery__doc__},
+   pytestlangspatialdb_cTestQuery__doc__},
 
   // F77TestQuery
-  {pytestlangspatialdb_F77TestQuery__name__,
-   pytestlangspatialdb_F77TestQuery,
+  {pytestlangspatialdb_f77TestQuery__name__,
+   pytestlangspatialdb_f77TestQuery,
    METH_VARARGS,
-   pytestlangspatialdb_F77TestQuery__doc__},
+   pytestlangspatialdb_f77TestQuery__doc__},
 
   // misc
   {pytestlangspatialdb_copyright__name__,

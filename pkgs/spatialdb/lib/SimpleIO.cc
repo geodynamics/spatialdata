@@ -37,10 +37,10 @@ spatialdata::spatialdb::SimpleIO::~SimpleIO(void)
 
 // ----------------------------------------------------------------------
 void
-spatialdata::spatialdb::SimpleIO::CheckCompatibility(const SimpleDB::DataStruct& data)
-{ // CheckCompatibility
-  const int numLocs = data.NumLocs;
-  switch (data.Topology)
+spatialdata::spatialdb::SimpleIO::checkCompatibility(const SimpleDB::DataStruct& data)
+{ // checkCompatibility
+  const int numLocs = data.numLocs;
+  switch (data.topology)
     { // switch
     case SimpleDB::POINT :
       if (numLocs > 1) {
@@ -78,7 +78,7 @@ spatialdata::spatialdb::SimpleIO::CheckCompatibility(const SimpleDB::DataStruct&
       throw std::runtime_error("Could not check compatiblity for unrecognized "
 			       "topology type.");
     } // switch
-} // CheckCompatibility
+} // checkCompatibility
 
 // version
 // $Id: SimpleIO.cc,v 1.1 2005/05/25 18:42:56 baagaard Exp $

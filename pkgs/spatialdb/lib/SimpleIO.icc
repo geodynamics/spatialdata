@@ -17,14 +17,14 @@
 // Set filename for database.
 inline
 void
-spatialdata::spatialdb::SimpleIO::Filename(const char* filename)
-{ mFilename = filename; }
+spatialdata::spatialdb::SimpleIO::filename(const char* filename)
+{ _filename = filename; }
 
 // Get filename for database.
 inline
 const char*
-spatialdata::spatialdb::SimpleIO::Filename(void) const
-{ return mFilename; }
+spatialdata::spatialdb::SimpleIO::filename(void) const
+{ return _filename; }
 
 // version
 // $Id: SimpleIO.icc,v 1.1 2005/05/25 18:42:56 baagaard Exp $
