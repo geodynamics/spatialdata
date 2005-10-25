@@ -19,8 +19,13 @@ extern "C" {
 
 #include "spatialdata/spatialdb/SpatialDB.h" /* USES SpatialDB */
 
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
+#else
+#include <assert.h>
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 // Call SpatialDB:Query().

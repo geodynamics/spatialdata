@@ -34,7 +34,7 @@ void
 spatialdata::geocoords::TestCSCart::testToMeters(void)
 { // testToMeters
   CSCart cs;
-  const double toMeters = 6.35;
+  const double toMeters = 3.2;
   cs.toMeters(toMeters);
   const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, cs.toMeters(), tolerance);

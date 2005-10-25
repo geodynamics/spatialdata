@@ -19,15 +19,10 @@
 #include <cppunit/TestRunner.h>
 #include <cppunit/TextOutputter.h>
 
-#include "journal/debug.h" // USES journal::debug_t
-
 int
 main(int argc,
      char* argv[])
 { // main
-  journal::debug_t debug("SimpleIOAscii");
-  debug.activate();
-
   // Create event manager and test controller
   CppUnit::TestResult controller;
 

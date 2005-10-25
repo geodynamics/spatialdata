@@ -10,9 +10,9 @@
 # ----------------------------------------------------------------------
 #
 
-PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)/libc
+PROJ_TMPDIR = $(BLD_TMPDIR)/$(PROJECT)/$(PACKAGE)/liblang
 
-PROJ_SAR = $(BLD_LIBDIR)/libcspatialdata.$(EXT_SAR)
+PROJ_SAR = $(BLD_LIBDIR)/libspatialdatalang.$(EXT_SAR)
 
 PROJ_CLEAN += $(PROJ_SAR)
 

@@ -19,6 +19,8 @@
 #include "spatialdata/geocoords/CSGeoProj.h" // USES CSGeoProj
 #include "spatialdata/geocoords/Projector.h" // USES Projector
 
+#include <math.h> // USES M_PI
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSGeoProj );
 
@@ -80,11 +82,13 @@ spatialdata::geocoords::TestCSGeoProj::testToProjForm(void)
   memcpy(pVals, _XYZ, size*sizeof(double));
   cs.toProjForm(&pVals, _NUMLOCS);
   const double degToRad = M_PI / 180.0;
-  const double tolerance = 1.0e-6;
+  const double tolerance = 1.0e-5;
   for (int i=0; i < size; i+=3) {
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i  ]/(_LONLATNAD27ELEV[i  ]*degToRad),
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, 
+				 pVals[i  ]/(_LONLATNAD27ELEV[i  ]*degToRad),
 				 tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+1]/(_LONLATNAD27ELEV[i+1]*degToRad),
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, 
+				 pVals[i+1]/(_LONLATNAD27ELEV[i+1]*degToRad),
 				 tolerance);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+2]/_LONLATNAD27ELEV[i+2],
 				 tolerance);

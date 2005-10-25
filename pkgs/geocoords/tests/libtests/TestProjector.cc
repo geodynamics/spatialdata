@@ -137,6 +137,8 @@ spatialdata::geocoords::TestProjector::testProject(void)
   proj.units(_UNITS);
 
   CSGeo cs;
+  cs.ellipsoid(_ELLIPSOID);
+  cs.datumHoriz(_DATUMHORIZ);
   cs.initialize();
   proj.initialize(cs);
 
@@ -166,6 +168,8 @@ spatialdata::geocoords::TestProjector::testInvproject(void)
   proj.units(_UNITS);
 
   CSGeo cs;
+  cs.ellipsoid(_ELLIPSOID);
+  cs.datumHoriz(_DATUMHORIZ);
   cs.initialize();
   proj.initialize(cs);
 
@@ -177,8 +181,8 @@ spatialdata::geocoords::TestProjector::testInvproject(void)
     proj.invproject(&lon, &lat, pXY[0], pXY[1]);
     const double* pLonLat = &_LONLAT[2*iLoc];
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(lon/pLonLat[0], 1.0, tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(lat/pLonLat[1], 1.0, tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, lon/pLonLat[0], tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, lat/pLonLat[1], tolerance);
   } // for
 } // testInvproject
 

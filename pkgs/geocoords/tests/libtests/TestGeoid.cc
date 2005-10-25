@@ -18,8 +18,6 @@
 
 #include <math.h> // USES M_PI
 
-#include "journal/debug.h" // USES journal::debug_t
-
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestGeoid );
 

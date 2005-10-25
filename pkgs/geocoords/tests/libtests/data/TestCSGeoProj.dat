@@ -16,7 +16,7 @@
 const char* spatialdata::geocoords::TestCSGeoProj::_ELLIPSOID = "clrk66";
 const char* spatialdata::geocoords::TestCSGeoProj::_DATUMHORIZ = "NAD27";
 const char* spatialdata::geocoords::TestCSGeoProj::_DATUMVERT = "mean sea level";
-const char* spatialdata::geocoords::TestCSGeoProj::_PROJECTION = "aea";
+const char* spatialdata::geocoords::TestCSGeoProj::_PROJECTION = "tmerc";
 const double spatialdata::geocoords::TestCSGeoProj::_FALSEEASTING =  -1.000000000000e+02;
 const double spatialdata::geocoords::TestCSGeoProj::_FALSENORTHING =   3.000000000000e+01;
 const double spatialdata::geocoords::TestCSGeoProj::_SCALEFACTOR =   9.996000000000e-01;
@@ -31,12 +31,12 @@ const double spatialdata::geocoords::TestCSGeoProj::_LONLATNAD27ELEV[] = {
  -1.073425320000e+02,  3.323423000000e+01,  2.300000000000e+00,
 };
 const double spatialdata::geocoords::TestCSGeoProj::_XYZ[] = {
- -1.281724177460e+03,  1.106870961270e+03,  1.200000000000e+01,
- -1.631495050120e+03,  1.654739400910e+03,  4.700000000000e+00,
- -1.660733829620e+03,  1.889636772320e+03,  1.340000000000e+01,
- -1.360560964720e+03,  8.056397785000e+02,  7.340000000000e+00,
- -8.828296279000e+02,  1.079845883880e+03,  6.530000000000e+01,
- -6.792129015000e+02,  3.863044317400e+02,  2.300000000000e+00,
+ -1.301908120000e+03,  1.106593720000e+03,  1.200000000000e+01,
+ -1.653370740000e+03,  1.673535840000e+03,  4.700000000000e+00,
+ -1.674201280000e+03,  1.916784490000e+03,  1.340000000000e+01,
+ -1.383613680000e+03,  8.021640800000e+02,  7.340000000000e+00,
+ -8.936025400000e+02,  1.075277340000e+03,  6.530000000000e+01,
+ -6.848575900000e+02,  3.825874800000e+02,  2.300000000000e+00,
 };
 
 // version

@@ -23,10 +23,13 @@
 #include "spatialdata/geocoords/CoordSys.h" // USE CSCart
 #include "spatialdata/geocoords/CSCart.h" // USE CSCart
 
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
-
-#include "journal/debug.h" // USES journal::debug_t
+#else
+#include <assert.h>
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 // Setup test subject
@@ -123,8 +126,6 @@ spatialdata::spatialdb::TestSimpleDB::testQueryLinear(void)
 void
 spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData) const
 { // _checkQuery
-  journal::debug_t debug("TestSimpleDB");
-
   FIREWALL(0 != queryData);
   FIREWALL(0 != _pDB);
 
@@ -146,16 +147,9 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData) const
     const double* qCoords = &queryData[iQuery*locSize];
     const double* qVals = &queryData[iQuery*locSize+3];
     _pDB->query(&pVals, numVals, qCoords[0], qCoords[1], qCoords[2], &csCart);
-    for (int iVal=0; iVal < numVals; ++iVal) {
-      debug
-	<< journal::at(__HERE__)
-	<< "iVal: " << iVal
-	<< ", pVals[" << iVal << "]: " << pVals[iVal]
-	<< ", qVals[" << numVals-iVal-1 << "]: " << qVals[numVals-iVal-1]
-	<< journal::endl;
+    for (int iVal=0; iVal < numVals; ++iVal)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(pVals[iVal]/qVals[numVals-iVal-1], 1.0,
 				   tolerance);
-    } // for
   } // for
   delete[] pVals; pVals = 0;
 } // CheckQuery

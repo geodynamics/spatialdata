@@ -19,8 +19,8 @@ const char* spatialdata::geocoords::TestCSGeoLocalCart::_DATUMVERT = "mean sea l
 const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINLON =  -1.000000000000e+02;
 const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINLAT =   3.900000000000e+01;
 const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINELEV =   1.000000000000e-02;
-const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINX =   3.613154403865e-04;
-const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINY =  -2.091005180105e+04;
+const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINX =   3.613153239712e-04;
+const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINY =  -2.091005180120e+04;
 const double spatialdata::geocoords::TestCSGeoLocalCart::_ORIGINZ =   6.369650087322e+06;
 const int spatialdata::geocoords::TestCSGeoLocalCart::_NUMLOCS = 6;
 const double spatialdata::geocoords::TestCSGeoLocalCart::_XYZECEF[] = {
@@ -37,7 +37,7 @@ const double spatialdata::geocoords::TestCSGeoLocalCart::_XYZLOCAL[] = {
  -1.637491448648e+06,  8.852743877338e+05, -2.774238061643e+05,
  -1.362847303082e+06, -1.913287309669e+05, -1.500644695920e+05,
  -8.881664928353e+05,  7.658610187234e+04, -6.244942392588e+04,
- -6.825071398797e+05, -6.111301518514e+05, -6.618673313541e+04,
+ -6.825071398797e+05, -6.111301518514e+05, -6.618673313543e+04,
 };
 
 // version

@@ -29,10 +29,11 @@
 #define MAXFLOAT 1e+30
 #endif
 
-#if !defined(NO_PYTHIA)
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 #else
+#include <assert.h>
 #define FIREWALL assert
 #endif
 

@@ -23,13 +23,6 @@
 #include <math.h> // USES M_PI
 #include <string.h> // USES memcpy()
 
-#if !defined(NO_PYTHIA)
-#include "journal/firewall.h" // USES FIREWALL
-#include "pythiautil/FireWallUtil.h" // USES FIREWALL
-#else
-#define FIREWALL assert
-#endif
-
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestConverter );
 
@@ -95,7 +88,7 @@ spatialdata::geocoords::TestConverter::testWGS84ToNAD27(void)
   Converter::convert(&pCoords, numLocs, &csDest, &csSrc);
   
   const double* pValsE = _LONLATNAD27ELEV;
-  const double tolerance = 1.0e-05;
+  const double tolerance = 1.0e-06;
   for (int i=0; i < size; ++i)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pCoords[i]/pValsE[i], tolerance);
   

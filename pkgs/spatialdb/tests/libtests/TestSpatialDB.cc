@@ -23,8 +23,13 @@
 #include "spatialdata/geocoords/CoordSys.h" // USES CSCart
 #include "spatialdata/geocoords/CSCart.h" // USES CSCart
 
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
+#else
+#include <assert.h>
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSpatialDB );

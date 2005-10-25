@@ -89,6 +89,8 @@ private :
   static const double _FALSEEASTING; ///< Longitude of origin
   static const double _FALSENORTHING; ///< Latitude of origin
   static const double _SCALEFACTOR; ///< Scale factor (central meridian)
+  static const char* _ELLIPSOID; ///< Name of reference ellipsoid
+  static const char* _DATUMHORIZ; ///< Name of horizontal datum
   static const char* _PROJECTION; ///< Name of projection
   static const char* _UNITS; ///< Units in projection
 

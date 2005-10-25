@@ -15,8 +15,8 @@ PACKAGE =
 
 RECURSE_DIRS = \
 	pyre \
-	spatialdb \
 	geocoords \
+	spatialdb \
 
 OTHERS = \
 

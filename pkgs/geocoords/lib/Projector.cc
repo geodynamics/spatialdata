@@ -24,10 +24,11 @@ extern "C" {
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 
-#if !defined(NO_PYTHIA)
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 #else
+#include <assert.h>
 #define FIREWALL assert
 #endif
 
@@ -37,7 +38,7 @@ spatialdata::geocoords::Projector::Projector(void) :
   _falseEasting(0),
   _falseNorthing(0),
   _scaleFactor(1.0),
-  _projection("aea"),
+  _projection("tmerc"),
   _units("m"),
   _pProj(0)
 { // constructor

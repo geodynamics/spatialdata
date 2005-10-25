@@ -28,21 +28,24 @@ class Projector(ConvertData):
   def calculate(self):
     """Calculate original and converted coordinates."""
 
-    self.projection = "aea"
+    self.ellipsoid = "WGS84"
+    self.datumHoriz = "WGS84"
+    self.projection = "tmerc"
     self.falseEasting = -100.0
     self.falseNorthing = 30.0
     self.scaleFactor = 0.9996
     self.units = "km"
-    self._command = "proj +proj=%s +lon_0=%f +lat_0=%f +k=%f " \
+    self._command = "proj +proj=%s +datum=%s +ellps=%s " \
+                    "+lon_0=%f +lat_0=%f +k=%f " \
                     "+units=%s -f %s" % \
-                    (self.projection,
+                    (self.projection, self.datumHoriz, self.ellipsoid,
                      self.falseEasting, self.falseNorthing,
                      self.scaleFactor, self.units, "%.5f")
-    self.lonlat = [ [-120.342532,  53.23423],
-                    [ -53.303945,  33.34902],
-                    [  34.229085, -25.23422],
-                    [ 142.084523, -34.39085],
-                    [  49.908543,   2.40983] ]
+    self.lonlat = [ [-101.342532,  32.23423],
+                    [-102.303945,  33.34902],
+                    [-100.229085, -29.23422],
+                    [ -99.084523, -31.39085],
+                    [ -98.908543,  29.40983] ]
     self.xy = self._convert(self.lonlat)
 
     return
@@ -51,6 +54,8 @@ class Projector(ConvertData):
   def dump(self, dumper):
     """Dump data."""
     dumper.open(self.name)
+    dumper.writeVal("char*", "_ELLIPSOID", self.ellipsoid, "\"%s\"")
+    dumper.writeVal("char*", "_DATUMHORIZ", self.datumHoriz, "\"%s\"")
     dumper.writeVal("char*", "_PROJECTION", self.projection, "\"%s\"")
     dumper.writeVal("double", "_FALSEEASTING", self.falseEasting, "%20.12e")
     dumper.writeVal("double", "_FALSENORTHING", self.falseNorthing, "%20.12e")

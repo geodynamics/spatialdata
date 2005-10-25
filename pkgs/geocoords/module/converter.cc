@@ -22,8 +22,6 @@
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 #include "pythiautil/bindings.h" // USES BindingsTUtil
 
-#include <iostream>
-
 // ----------------------------------------------------------------------
 // CppConverter_convert
 char pyspatialdata_geocoords_CppConverter_convert__doc__[] = "";

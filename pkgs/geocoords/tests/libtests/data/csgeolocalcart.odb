@@ -170,7 +170,7 @@ class CoordSysLocal(ConvertData):
     self.originXYZ = coords[0]
 
     #print self.orientation
-    print self.originXYZ
+    #print self.originXYZ
 
     return
 

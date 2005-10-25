@@ -18,6 +18,8 @@
 #if !defined(spatialdata_spatialdb_simpledbtypes_h)
 #define spatialdata_spatialdb_simpledbtypes_h
 
+#include <string> // USES std::string
+
 struct spatialdata::spatialdb::SimpleDB::DataStruct {
   double* data;
   std::string* valNames;

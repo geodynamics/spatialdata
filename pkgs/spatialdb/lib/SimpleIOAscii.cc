@@ -27,10 +27,11 @@
 #include <sstream> // USES std::ostringsgream
 #include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 
-#if !defined(NO_PYTHIA)
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
 #else
+#include <assert.h>
 #define FIREWALL assert
 #endif
 

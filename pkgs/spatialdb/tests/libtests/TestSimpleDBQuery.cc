@@ -20,8 +20,13 @@
 #include "../../lib/SimpleDBQuery.h" // USES SimpleDBQuery
 #include "../../lib/SimpleDBTypes.h" // USES SimpleDBTypes
 
+#if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
+#else
+#include <assert.h>
+#define FIREWALL assert
+#endif
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBQuery );
