@@ -15,6 +15,8 @@
 #include "CoordSys.h" // ISA Coordsys
 #include "CSGeo.h" // implementation of class methods
 
+#include "Geoid.h" // USES Geoid
+
 #include <math.h> // USES M_PI
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
@@ -32,14 +34,17 @@ extern "C" {
 #endif
 
 // ----------------------------------------------------------------------
+spatialdata::geocoords::Geoid spatialdata::geocoords::CSGeo::_geoid = Geoid();
+
+// ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSGeo::CSGeo(void) :
   _toMeters(1.0),
   _ellipsoid("WGS84"),
   _datumHoriz("WGS84"),
   _datumVert("ellipsoid"),
-  _isGeocentric(false),
-  _pCS(0)
+  _pCS(0),
+  _isGeocentric(false)
 { // constructor
   csType(GEOGRAPHIC);
 } // constructor
@@ -67,6 +72,7 @@ spatialdata::geocoords::CSGeo::initialize(void)
 	<< "  proj string: " << csString << "\n";
     throw std::runtime_error(msg.str());
   } // if
+  _geoid.initialize();
 } // initialize
 
 // ----------------------------------------------------------------------

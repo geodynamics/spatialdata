@@ -87,9 +87,7 @@ spatialdata::geocoords::CSGeoLocalCart::initialize(void)
   if (0 != strcasecmp(datumVert(), "ellipsoid"))
     if (0 == strcasecmp(datumVert(), "mean sea level")) {
       // change vertical datum to WGS84 ellipsoid
-      Geoid geoid;
-      geoid.initialize();
-      const double geoidHt = geoid.elevation(lonWGS84, latWGS84);
+      const double geoidHt = geoid().elevation(lonWGS84, latWGS84);
       originElev += geoidHt / toMeters();
     } else {
       std::ostringstream msg;

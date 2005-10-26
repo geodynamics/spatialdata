@@ -131,11 +131,10 @@ spatialdata::geocoords::Converter::_convert(double** ppCoords,
 	  << "  " << pj_strerrno(pjerrno) << "\n";
       throw std::runtime_error(msg.str());
     } // if
-    Geoid geoid;
-    geoid.initialize();
     const int size = numLocs * numCoords;
     for (int i=0; i < size; i+=3) {
-      const double geoidHt = geoid.elevation((*ppCoords)[i], (*ppCoords)[i+1]);
+      const double geoidHt = 
+	CSGeo::geoid().elevation((*ppCoords)[i], (*ppCoords)[i+1]);
       (*ppCoords)[i+2] += (isMSLToWGS84) ? geoidHt : -geoidHt;
     } // for
 

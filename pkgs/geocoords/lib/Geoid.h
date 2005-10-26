@@ -95,6 +95,8 @@ private :
   double* _pRoots;
   double* _pInvRoots;
 
+  bool _initialized;
+
   static const double _EGM96[];
   static const double _CORRCOEF[];
   static const int _NUMMODES;

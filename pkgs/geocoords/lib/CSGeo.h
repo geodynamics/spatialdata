@@ -23,6 +23,7 @@
 namespace spatialdata {
   namespace geocoords {
     class CSGeo;
+    class Geoid;
     class TestCSGeo; // forward declaration
   } // geocoords
 } // spatialdata
@@ -138,6 +139,11 @@ class spatialdata::geocoords::CSGeo : public CoordSys
   virtual void fromProjForm(double** ppCoords,
 			    const int numLocs,
 			    bool is2D) const;
+  /** Get geoid.
+   *
+   * @returns Geoid
+   */
+  static Geoid& geoid(void);
   
 protected :
   // PROTECTED MEMBERS /////////////////////////////////////////////////
@@ -155,10 +161,13 @@ private :
   std::string _ellipsoid; ///< Name of reference ellipsoid
   std::string _datumHoriz; ///< Name of horizontal geographic datum
   std::string _datumVert; ///< Name of vertical datum
-  bool _isGeocentric; ///< True if geocentric, false if lat/lon
   
   projPJ _pCS; ///< Pointer to coordinate system
   
+  bool _isGeocentric; ///< True if geocentric, false if lat/lon
+  
+  static Geoid _geoid; ///< Geoid for mean sea level <-> ellipsoid ht
+
 }; // class CSGeo
 
 #include "CSGeo.icc" // inline methods

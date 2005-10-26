@@ -63,7 +63,8 @@ spatialdata::geocoords::Geoid::Geoid(void) :
   _pCC(0),
   _pCS(0),
   _pRoots(0),
-  _pInvRoots(0)
+  _pInvRoots(0),
+  _initialized(false)
 { // constructor
 } // constructor
 
@@ -84,9 +85,12 @@ spatialdata::geocoords::Geoid::~Geoid(void)
 void
 spatialdata::geocoords::Geoid::initialize(void)
 { // initialize
-  _setHCHS();
-  _setCCCS();
-  _calcRoots();
+  if (!_initialized) {
+    _setHCHS();
+    _setCCCS();
+    _calcRoots();
+    _initialized = true;
+  } // if
 } // initialize
 
 // ----------------------------------------------------------------------
