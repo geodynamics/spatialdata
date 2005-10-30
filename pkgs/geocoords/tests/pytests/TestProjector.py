@@ -13,10 +13,8 @@
 import unittest
 
 projection = "aea"
-falseEasting = -100.0
-falseNorthing = 30.0
-scaleFactor = 0.9996
 units = "km"
+projOptions = "+lon_0=-100.0 +lat_0=30.0 +k=0.9996"
 lonlatVals = [ [-1.203425320000e+02,  5.323423000000e+01],
                [-5.330394500000e+01,  3.334902000000e+01],
                [ 3.422908500000e+01, -2.523422000000e+01],
@@ -41,10 +39,8 @@ class TestProjector(unittest.TestCase):
     self.projector = Projector()
     
     self.projector.projection = projection
-    self.projector.falseEasting = falseEasting
-    self.projector.falseNorthing = falseNorthing
-    self.projector.scaleFactor = scaleFactor
     self.projector.units = units
+    self.projector.projOptions = projOptions
     return
   
 

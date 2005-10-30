@@ -44,6 +44,7 @@ class spatialdata::geocoords::TestCSGeo : public CppUnit::TestFixture
   CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testToProjForm );
   CPPUNIT_TEST( testFromProjForm );
+  CPPUNIT_TEST( testPickle );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -75,6 +76,9 @@ public :
 
   /// Test fromProjForm()
   void testFromProjForm(void);
+
+  /// Test pickle() & unpickle()
+  void testPickle(void);
 
 }; // class TestCSGeo
 

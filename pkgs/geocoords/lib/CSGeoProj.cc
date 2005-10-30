@@ -18,6 +18,11 @@
 
 #include "Projector.h" // USES Projector
 
+#include <iostream> // USES std::istream, std::ostream
+
+#include <stdexcept> // USES std::runtime_error, std::exception
+#include <sstream> // USES std::ostringsgream
+
 #if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
@@ -103,8 +108,69 @@ spatialdata::geocoords::CSGeoProj::fromProjForm(double** ppCoords,
   } // for
 } // fromProjForm
   
-// version
-// $Id$
+// ----------------------------------------------------------------------
+// Pickle coordinate system to ascii stream.
+void
+spatialdata::geocoords::CSGeoProj::pickle(std::ostream& s) const
+{ // pickle
+  s << "geo-projected {\n"
+    << "  to-meters = " << toMeters() << "\n"
+    << "  ellipsoid = " << ellipsoid() << "\n"
+    << "  datum-horiz = " << datumHoriz() << "\n"
+    << "  datum-vert = " << datumVert() << "\n"
+    << "  projector = ";
+  _pProjector->pickle(s);
+  s << "}\n";
+} // pickle
+
+// ----------------------------------------------------------------------
+// Unpickle coordinate system from ascii stream.
+void 
+spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
+{ // unpickle
+  std::string token;
+  const int maxIgnore = 128;
+
+  char buffer[maxIgnore];
+  double val;
+  std::string name;
+
+  s.ignore(maxIgnore, '{');
+  s >> token;
+  while (s.good() && token != "}") {
+    s.ignore(maxIgnore, '=');
+    if (0 == strcasecmp(token.c_str(), "to-meters")) {
+      s >> val;
+      toMeters(val);
+    } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
+      s >> name;
+      ellipsoid(name);
+    } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {
+      s >> std::ws;
+      s.get(buffer, maxIgnore, '\n');
+      datumHoriz(buffer);
+    } else if (0 == strcasecmp(token.c_str(), "datum-vert")) {
+      s >> std::ws;
+      s.get(buffer, maxIgnore, '\n');
+      datumVert(buffer);
+    } else if (0 == strcasecmp(token.c_str(), "projector")) {
+      s >> name;
+      if (0 == _pProjector)
+	_pProjector = new Projector;
+      _pProjector->unpickle(s);
+    } else {
+      std::ostringstream msg;
+      msg << "Could not parse '" << token << "' into a CSGeoProj token.\n"
+	  << "Known CSGeoProj token:\n"
+	  << "  to-meters, ellipsoid, datum-horiz, datum-vert, projector\n";
+      throw std::runtime_error(msg.str().c_str());
+    } // else
+    s >> token;
+  } // while
+  if (!s.good())
+    throw std::runtime_error("I/O error while parsing CSGeoProj "
+			     "settings.");
+} // unpickle
 
 // version
 // $Id$

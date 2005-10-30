@@ -21,6 +21,8 @@ extern "C" {
 #include "proj_api.h" // USES PROJ4
 };
 
+#include <iostream> // USES std::istream, std::ostream
+
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 
@@ -35,11 +37,9 @@ extern "C" {
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::Projector::Projector(void) :
-  _falseEasting(0),
-  _falseNorthing(0),
-  _scaleFactor(1.0),
   _projection("tmerc"),
   _units("m"),
+  _projOptions(""),
   _pProj(0)
 { // constructor
 } // constructor
@@ -54,11 +54,9 @@ spatialdata::geocoords::Projector::~Projector(void)
 // ----------------------------------------------------------------------
 // Copy constructor
 spatialdata::geocoords::Projector::Projector(const Projector& p) :
-  _falseEasting(p._falseEasting),
-  _falseNorthing(p._falseNorthing),
-  _scaleFactor(p._scaleFactor),
   _projection(p._projection),
   _units(p._units),
+  _projOptions(p._projOptions),
   _pProj(0)
 { // copy constructor
 } // copy constructor
@@ -76,10 +74,8 @@ spatialdata::geocoords::Projector::initialize(const CSGeo& csGeo)
     << "+proj=" << _projection
     << " +ellps=" << ellipsoid
     << " +datum=" << datumHoriz
-    << " +lon_0=" << _falseEasting
-    << " +lat_0=" << _falseNorthing
-    << " +k=" << _scaleFactor
-    << " +units=" << _units;
+    << " +units=" << _units
+    << " " << _projOptions;
   
   pj_free(_pProj);
   _pProj = pj_init_plus(args.str().c_str());
@@ -90,10 +86,8 @@ spatialdata::geocoords::Projector::initialize(const CSGeo& csGeo)
 	<< "  projection: " << _projection << "\n"
 	<< "  ellipsoid: " << ellipsoid << "\n"
 	<< "  horizontal datum: " << datumHoriz << "\n"
-	<< "  false easting: " << _falseEasting << "\n"
-	<< "  false northing: " << _falseNorthing << "\n"
-	<< "  scale factor: " << _scaleFactor << "\n"
-	<< "  units: " << _units << "\n";
+	<< "  units: " << _units << "\n"
+	<< "  proj options: " << _projOptions << "\n";
     throw std::runtime_error(msg.str());
   } // if
 } // initialize
@@ -120,12 +114,8 @@ spatialdata::geocoords::Projector::project(double* pX,
     msg << "Error while projecting location.\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  false easting: " << _falseEasting << "\n"
-	<< "  false northing: " << _falseNorthing << "\n"
-	<< "  scale factor: " << _scaleFactor << "\n"
 	<< "  units: " << _units << "\n"
-	<< "  longitude: " << lon << "\n"
-	<< "  latitude: " << lat << "\n";
+	<< "  proj options: " << _projOptions << "\n";
     throw std::runtime_error(msg.str());
   } // if
   *pX = xy.u;
@@ -154,10 +144,8 @@ spatialdata::geocoords::Projector::invproject(double* pLon,
       "location.\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
 	<< "  projection: " << _projection << "\n"
-	<< "  false easting: " << _falseEasting << "\n"
-	<< "  false northing: " << _falseNorthing << "\n"
-	<< "  scale factor: " << _scaleFactor << "\n"
 	<< "  units: " << _units << "\n"
+	<< "  proj options: " << _projOptions << "\n"
 	<< "  x: " << x << "\n"
 	<< "  y: " << y << "\n";
     throw std::runtime_error(msg.str());
@@ -167,6 +155,56 @@ spatialdata::geocoords::Projector::invproject(double* pLon,
   *pLon = lonlat.u * radToDeg;
   *pLat = lonlat.v * radToDeg;
 } // invproject
+
+// ----------------------------------------------------------------------
+// Pickle coordinate system to ascii stream.
+void
+spatialdata::geocoords::Projector::pickle(std::ostream& s) const
+{ // pickle
+  s << "projector {\n"
+    << "  projection = " << _projection << "\n"
+    << "  units = " << _units << "\n";
+  if (_projOptions != "")
+    s << "  proj-options = " << _projOptions << "\n";
+  else
+    s << "  proj-options = none\n";
+  s << "}\n";
+} // pickle
+
+// ----------------------------------------------------------------------
+// Unpickle coordinate system from ascii stream.
+void 
+spatialdata::geocoords::Projector::unpickle(std::istream& s)
+{ // unpickle
+  std::string token;
+  const int maxIgnore = 128;
+  char buffer[maxIgnore];
+
+  s.ignore(maxIgnore, '{');
+  s >> token;
+  while (s.good() && token != "}") {
+    s.ignore(maxIgnore, '=');
+    if (0 == strcasecmp(token.c_str(), "projection")) {
+      s >> _projection;
+    } else if (0 == strcasecmp(token.c_str(), "units")) {
+      s >> _units;
+    } else if (0 == strcasecmp(token.c_str(), "proj-options")) {
+      s >> std::ws;
+      s.get(buffer, maxIgnore, '\n');
+      if (0 != strcasecmp("none", buffer))
+	_projOptions = buffer;
+    } else {
+      std::ostringstream msg;
+      msg << "Could not parse '" << token << "' into a Projector token.\n"
+	  << "Known Projector token:\n"
+	  << "  projection, units, proj-options";
+      throw std::runtime_error(msg.str().c_str());
+    } // else
+    s >> token;
+  } // while
+  if (!s.good())
+    throw std::runtime_error("I/O error while parsing Projector settings.");
+} // unpickle
 
 // version
 // $Id: Projector.cc,v 1.1 2005/05/25 17:28:11 baagaard Exp $

@@ -56,6 +56,18 @@ class spatialdata::geocoords::CSCart : public CoordSys
    */
   double toMeters(void) const;
 
+  /** Pickle coordinate system to ascii stream.
+   *
+   * @param s Output stream
+   */
+  virtual void pickle(std::ostream& s) const;
+
+  /** Unpickle coordinate system from ascii stream.
+   *
+   * @param s Input stream
+   */
+  virtual void unpickle(std::istream& s);
+
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
 

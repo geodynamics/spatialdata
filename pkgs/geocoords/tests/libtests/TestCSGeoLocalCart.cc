@@ -18,6 +18,8 @@
 #include "spatialdata/geocoords/CSGeo.h" // USES CSGeoLocalCart
 #include "spatialdata/geocoords/CSGeoLocalCart.h" // USES CSGeoLocalCart
 
+#include <sstream> // USES std::stringstream
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSGeoLocalCart );
 
@@ -112,6 +114,36 @@ spatialdata::geocoords::TestCSGeoLocalCart::testFromProjForm(void)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/_XYZLOCAL[i], tolerance);
   delete[] pVals; pVals = 0;
 } // testFromProjForm
+
+// ----------------------------------------------------------------------
+// Test pickle() and unpickle()
+void
+spatialdata::geocoords::TestCSGeoLocalCart::testPickle(void)
+{ // testPickle
+  const double toMeters = 4.5;
+
+  CSGeoLocalCart csA;
+  csA.ellipsoid(_ELLIPSOID);
+  csA.datumHoriz(_DATUMHORIZ);
+  csA.datumVert(_DATUMVERT);
+  csA.origin(_ORIGINLON, _ORIGINLAT, _ORIGINELEV);
+  csA.toMeters(toMeters);
+
+  std::stringstream s;
+  csA.pickle(s);
+
+  CSGeoLocalCart csB;
+  csB.unpickle(s);
+
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT(0 == strcasecmp(_ELLIPSOID, csB.ellipsoid()));
+  CPPUNIT_ASSERT(0 == strcasecmp(_DATUMHORIZ, csB.datumHoriz()));
+  CPPUNIT_ASSERT(0 == strcasecmp(_DATUMVERT, csB.datumVert()));
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(_ORIGINLON, csB._originLon, tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(_ORIGINLAT, csB._originLat, tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(_ORIGINELEV, csB._originElev, tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, csB.toMeters(), tolerance);
+} // testPickle
 
 // version
 // $Id$

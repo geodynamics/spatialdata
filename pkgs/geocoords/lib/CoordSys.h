@@ -20,6 +20,8 @@
 #if !defined(spatialdata_geocoords_coordsys_h)
 #define spatialdata_geocoords_coordsys_h
 
+#include <iosfwd> // USES std::istream, std::ostream
+
 namespace spatialdata {
   namespace geocoords {
     class CoordSys;
@@ -52,6 +54,18 @@ public :
 
   /// Get type of coordinate system
   CSTypeEnum csType(void) const;
+
+  /** Pickle coordinate system to ascii stream.
+   *
+   * @param s Output stream
+   */
+  virtual void pickle(std::ostream& s) const = 0;
+
+  /** Unpickle coordinate system from ascii stream.
+   *
+   * @param s Input stream
+   */
+  virtual void unpickle(std::istream& s) = 0;
 
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////

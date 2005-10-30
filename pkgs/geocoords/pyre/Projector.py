@@ -29,10 +29,8 @@ class Projector(Component):
     ##
     ## \b Properties
     ## @li \b projection Name of projection
-    ## @li \b false-easting Longitude of false easting
-    ## @li \b false-northing Latitude of false northing
-    ## @li \b scale-factor Scale factor (central meridian)
     ## @li \b units Name of units
+    ## @li \b proj-options Additional proj options
     ##
     ## \b Facilities
     ## @li None
@@ -42,17 +40,11 @@ class Projector(Component):
     projection = pyre.inventory.str("projection", default="aea")
     projection.meta['tip'] = "Name of projection."
 
-    falseEasting = pyre.inventory.str("false-easting", default=0.0)
-    falseEasting.meta['tip'] = "Longitude of false easting."
-
-    falseNorthing = pyre.inventory.str("false-northing", default=0.0)
-    falseNorthing.meta['tip'] = "Longitude of false northing."
-
-    scaleFactor = pyre.inventory.str("scale-factor", default=1.0)
-    scaleFactor.meta['tip'] = "Scale factor (central meridian)."
-
     units = pyre.inventory.str("units", default="m")
     units.meta['tip'] = "Units of coordinates."
+
+    projOptions = pyre.inventory.str("proj-options", default="m")
+    projOptions.meta['tip'] = "Additional proj options."
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -66,10 +58,8 @@ class Projector(Component):
     
     import spatialdata.geocoords.geocoords as bindings
     bindings.CppProjector_projection(self._cppProjector, self.projection)
-    bindings.CppProjector_falseEasting(self._cppProjector, self.falseEasting)
-    bindings.CppProjector_falseNorthing(self._cppProjector, self.falseNorthing)
-    bindings.CppProjector_scaleFactor(self._cppProjector, self.scaleFactor)
     bindings.CppProjector_units(self._cppProjector, self.units)
+    bindings.CppProjector_projOptions(self._cppProjector, self.projOptions)
     bindings.CppProjector_initialize(self._cppProjector, coordSys.handle())
     return
 
@@ -105,10 +95,8 @@ class Projector(Component):
     """Setup members using inventory."""
 
     self.projection = self.inventory.projection
-    self.falseEasting = self.inventory.falseEasting
-    self.falseNorthing = self.inventory.falseNorthing
-    self.scaleFactor = self.inventory.scaleFactor
     self.units = self.inventory.units
+    self.projOptions = self.inventory.projOptions
     return
 
 

@@ -17,6 +17,8 @@
 #include "spatialdata/geocoords/CoordSys.h" // USES CSCart
 #include "spatialdata/geocoords/CSCart.h" // USES CSCart
 
+#include <sstream> // USES std::stringstream
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSCart );
 
@@ -48,6 +50,25 @@ spatialdata::geocoords::TestCSCart::testInitialize(void)
   CSCart cs;
   cs.initialize();
 } // testInitialize
+
+// ----------------------------------------------------------------------
+// Test pickle() and unpickle()
+void
+spatialdata::geocoords::TestCSCart::testPickle(void)
+{ // testPickle
+  CSCart csA;
+  const double toMeters = 5.4;
+  csA.toMeters(toMeters);
+
+  std::stringstream s;
+  csA.pickle(s);
+
+  CSCart csB;
+  csB.unpickle(s);
+
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, csB.toMeters(), tolerance);
+} // testPickle
 
 // version
 // $Id$

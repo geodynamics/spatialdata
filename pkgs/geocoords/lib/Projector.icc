@@ -26,42 +26,6 @@ const char*
 spatialdata::geocoords::Projector::projection(void) const
 { return _projection.c_str(); }
 
-// Set false easting.
-inline
-void 
-spatialdata::geocoords::Projector::falseEasting(const double easting)
-{ _falseEasting = easting; }
-
-// Get false easting.
-inline
-double
-spatialdata::geocoords::Projector::falseEasting(void) const
-{ return _falseEasting; }
-
-// Set false northing.
-inline
-void
-spatialdata::geocoords::Projector::falseNorthing(const double northing)
-{ _falseNorthing = northing; }
-
-// Get false northing.
-inline
-double
-spatialdata::geocoords::Projector::falseNorthing(void) const
-{ return _falseNorthing; }
-
-// Set projection scale factor (along central meridian).
-inline
-void
-spatialdata::geocoords::Projector::scaleFactor(const double value)
-{ _scaleFactor = value; }
-
-// Get projection scale factor (along central meridian).
-inline
-double
-spatialdata::geocoords::Projector::scaleFactor(void) const
-{ return _scaleFactor; }
-
 // Set units of projection.
 inline
 void
@@ -73,6 +37,18 @@ inline
 const char*
 spatialdata::geocoords::Projector::units(void) const
 { return _units.c_str(); }
+
+// Set proj options.
+inline
+void
+spatialdata::geocoords::Projector::projOptions(const char* options)
+{ _projOptions = options; }
+
+// Get proj options.
+inline
+const char*
+spatialdata::geocoords::Projector::projOptions(void) const
+{ return _projOptions.c_str(); }
 
 // version
 // $Id: Projector.icc,v 1.1 2005/05/25 17:28:12 baagaard Exp $

@@ -25,6 +25,7 @@ testgeocoords_SOURCES = \
 	TestCSGeo.cc \
 	TestCSGeoLocalCart.cc \
 	TestCSGeoProj.cc \
+	TestCSPicklerAscii.cc \
 	TestGeoid.cc \
 	TestProjector.cc \
 	testgeocoords.cc
@@ -35,6 +36,7 @@ noinst_HEADERS = \
 	TestCSGeo.h \
 	TestCSGeoLocalCart.h \
 	TestCSGeoProj.h \
+	TestCSPicklerAscii.h \
 	TestGeoid.h \
 	TestProjector.h
 

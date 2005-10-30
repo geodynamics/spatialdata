@@ -18,6 +18,8 @@
 #include "spatialdata/geocoords/CSGeo.h" // USES CSGeo
 #include <math.h> // USES M_PI
 
+#include <sstream> // USES std::stringstream
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSGeo );
 
@@ -231,6 +233,38 @@ spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
     delete[] pVals; pVals = 0;
   } // 3D
 } // testFromProjForm
+
+// ----------------------------------------------------------------------
+// Test pickle() and unpickle()
+void
+spatialdata::geocoords::TestCSGeo::testPickle(void)
+{ // testPickle
+  const char* ellipsoid = "clrk66";
+  const char* datumHoriz = "NAD27";
+  const char* datumVert = "mean sea level";
+  const bool isGeocentric = true;
+  const double toMeters = 7.3;
+
+  CSGeo csA;
+  csA.ellipsoid(ellipsoid);
+  csA.datumHoriz(datumHoriz);
+  csA.datumVert(datumVert);
+  csA.isGeocentric(isGeocentric);
+  csA.toMeters(toMeters);
+
+  std::stringstream s;
+  csA.pickle(s);
+
+  CSGeo csB;
+  csB.unpickle(s);
+
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT(0 == strcasecmp(ellipsoid, csB.ellipsoid()));
+  CPPUNIT_ASSERT(0 == strcasecmp(datumHoriz, csB.datumHoriz()));
+  CPPUNIT_ASSERT(0 == strcasecmp(datumVert, csB.datumVert()));
+  CPPUNIT_ASSERT(isGeocentric == csB.isGeocentric());
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, csB.toMeters(), tolerance);
+} // testPickle
 
 // version
 // $Id$

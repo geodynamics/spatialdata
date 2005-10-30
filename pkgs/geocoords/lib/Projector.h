@@ -22,6 +22,7 @@
 
 #include <string> // HASA std::string
 #include "proj4fwd.h" // Proj4 forward declaration
+#include <iosfwd> // USES std::istream, std::ostream
 
 namespace spatialdata {
   namespace geocoords {
@@ -58,42 +59,6 @@ class spatialdata::geocoords::Projector
    */
   const char* projection(void) const;
 
-  /** Set false easting.
-   *
-   * @param easting False easting
-   */
-  void falseEasting(const double easting);
-
-  /** Get false easting.
-   *
-   * @returns False easting
-   */
-  double falseEasting(void) const;
-
-  /** Set false northing.
-   *
-   * @param northing False northing
-   */
-  void falseNorthing(const double northing);
-
-  /** Get false northing.
-   *
-   * @returns False northing
-   */
-  double falseNorthing(void) const;
-
-  /** Set projection scale factor (along central meridian).
-   *
-   * @param value Value for scale factor
-   */
-  void scaleFactor(const double value);
-
-  /** Get projection scale factor (along central meridian).
-   *
-   * @returns Scale factor
-   */
-  double scaleFactor(void) const;
-
   /** Set units of projection.
    *
    * @param name Name of units
@@ -105,6 +70,18 @@ class spatialdata::geocoords::Projector
    * @returns Name of units
    */
   const char* units(void) const;
+
+  /** Set proj options.
+   *
+   * @param options
+   */
+  void projOptions(const char* options);
+
+  /** Get proj options.
+   *
+   * @returns Proj options
+   */
+  const char* projOptions(void) const;
 
   /** Initialize projector.
    *
@@ -136,14 +113,24 @@ class spatialdata::geocoords::Projector
 		  const double x,
 		  const double y);
 
+  /** Pickle coordinate system to ascii stream.
+   *
+   * @param s Output stream
+   */
+  void pickle(std::ostream& s) const;
+
+  /** Unpickle coordinate system from ascii stream.
+   *
+   * @param s Input stream
+   */
+  void unpickle(std::istream& s);
+
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-  double _falseEasting; ///< Longitude of origin
-  double _falseNorthing; ///< Latitude of origin
-  double _scaleFactor; ///< Scale factor
   std::string _projection; ///< Name of projection
   std::string _units; ///< Name of units in projection
+  std::string _projOptions; ///< options for proj
   
   projPJ _pProj; ///< Pointer to projection
   

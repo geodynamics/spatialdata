@@ -145,6 +145,18 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    */
   static Geoid& geoid(void);
   
+  /** Pickle coordinate system to ascii stream.
+   *
+   * @param s Output stream
+   */
+  virtual void pickle(std::ostream& s) const;
+
+  /** Unpickle coordinate system from ascii stream.
+   *
+   * @param s Input stream
+   */
+  virtual void unpickle(std::istream& s);
+
 protected :
   // PROTECTED MEMBERS /////////////////////////////////////////////////
 

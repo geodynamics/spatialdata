@@ -74,6 +74,18 @@ class spatialdata::geocoords::CSGeoProj : public CSGeo
 		    const int numLocs,
 		    bool is2D =false) const;
   
+  /** Pickle coordinate system to ascii stream.
+   *
+   * @param s Output stream
+   */
+  virtual void pickle(std::ostream& s) const;
+
+  /** Unpickle coordinate system from ascii stream.
+   *
+   * @param s Input stream
+   */
+  virtual void unpickle(std::istream& s);
+
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 

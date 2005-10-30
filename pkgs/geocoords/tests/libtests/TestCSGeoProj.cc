@@ -20,6 +20,7 @@
 #include "spatialdata/geocoords/Projector.h" // USES Projector
 
 #include <math.h> // USES M_PI
+#include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSGeoProj );
@@ -42,10 +43,8 @@ spatialdata::geocoords::TestCSGeoProj::testInitialize(void)
 { // testInitialize
   Projector proj;
   proj.projection(_PROJECTION);
-  proj.falseEasting(_FALSEEASTING);
-  proj.falseNorthing(_FALSENORTHING);
-  proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
+  proj.projOptions(_PROJOPTIONS);
 
   CSGeoProj cs;
   cs.ellipsoid(_ELLIPSOID);
@@ -63,10 +62,8 @@ spatialdata::geocoords::TestCSGeoProj::testToProjForm(void)
 { // testToProjForm
   Projector proj;
   proj.projection(_PROJECTION);
-  proj.falseEasting(_FALSEEASTING);
-  proj.falseNorthing(_FALSENORTHING);
-  proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
+  proj.projOptions(_PROJOPTIONS);
 
   CSGeoProj cs;
   cs.ellipsoid(_ELLIPSOID);
@@ -103,10 +100,8 @@ spatialdata::geocoords::TestCSGeoProj::testFromProjForm(void)
 { // testFromProjForm
   Projector proj;
   proj.projection(_PROJECTION);
-  proj.falseEasting(_FALSEEASTING);
-  proj.falseNorthing(_FALSENORTHING);
-  proj.scaleFactor(_SCALEFACTOR);
   proj.units(_UNITS);
+  proj.projOptions(_PROJOPTIONS);
 
   CSGeoProj cs;
   cs.ellipsoid(_ELLIPSOID);
@@ -133,6 +128,36 @@ spatialdata::geocoords::TestCSGeoProj::testFromProjForm(void)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/_XYZ[i], tolerance);
   delete[] pVals; pVals = 0;
 } // testFromProjForm
+
+// ----------------------------------------------------------------------
+// Test pickle() and unpickle()
+void
+spatialdata::geocoords::TestCSGeoProj::testPickle(void)
+{ // testPickle
+  Projector projA;
+  projA.projection(_PROJECTION);
+  projA.units(_UNITS);
+  projA.projOptions(_PROJOPTIONS);
+
+  CSGeoProj csA;
+  csA.ellipsoid(_ELLIPSOID);
+  csA.datumHoriz(_DATUMHORIZ);
+  csA.datumVert(_DATUMVERT);
+  csA.projector(projA);
+
+  csA.initialize();
+
+  std::stringstream s;
+  csA.pickle(s);
+
+  CSGeoProj csB;
+  csB.unpickle(s);
+
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT(0 == strcasecmp(_ELLIPSOID, csB.ellipsoid()));
+  CPPUNIT_ASSERT(0 == strcasecmp(_DATUMHORIZ, csB.datumHoriz()));
+  CPPUNIT_ASSERT(0 == strcasecmp(_DATUMVERT, csB.datumVert()));
+} // testPickle
 
 // version
 // $Id$

@@ -24,6 +24,7 @@ libspatialdatageocoords_la_SOURCES = \
 	CSGeo.cc \
 	CSGeoLocalCart.cc \
 	CSGeoProj.cc \
+	CSPicklerAscii.cc \
 	Geoid.cc \
 	Projector.cc
 
@@ -47,6 +48,7 @@ subpkginclude_HEADERS = \
 	CSGeoLocalCart.h \
 	CSGeoLocalCart.icc \
 	CSGeoProj.h \
+	CSPicklerAscii.h \
 	Geoid.h \
 	Projector.h \
 	Projector.icc \

@@ -16,10 +16,9 @@
 const char* spatialdata::geocoords::TestProjector::_ELLIPSOID = "WGS84";
 const char* spatialdata::geocoords::TestProjector::_DATUMHORIZ = "WGS84";
 const char* spatialdata::geocoords::TestProjector::_PROJECTION = "tmerc";
-const double spatialdata::geocoords::TestProjector::_FALSEEASTING =  -1.000000000000e+02;
-const double spatialdata::geocoords::TestProjector::_FALSENORTHING =   3.000000000000e+01;
-const double spatialdata::geocoords::TestProjector::_SCALEFACTOR =   9.996000000000e-01;
 const char* spatialdata::geocoords::TestProjector::_UNITS = "km";
+const char* spatialdata::geocoords::TestProjector::_PROJOPTIONS =
+  "+lon_0=-100.0 +lat_0=30.0 +k=0.9996";
 const int spatialdata::geocoords::TestProjector::_NUMLOCS = 5;
 const double spatialdata::geocoords::TestProjector::_LONLAT[] = {
  -1.013425320000e+02,  3.223423000000e+01,
