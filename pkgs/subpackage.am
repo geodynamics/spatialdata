@@ -15,6 +15,7 @@ subpkgsysconfdir = $(pkgsysconfdir)/$(subpackage)
 subpkgincludedir = $(pkgincludedir)/$(subpackage)
 subpkgpythondir = $(pkgpythondir)/$(subpackage)
 subpkgpyexecdir = $(pkgpyexecdir)/$(subpackage)
+subpkgdatadir = $(pkgdatadir)/$(subpackage)
 
 # 'export' the project headers by performing a mock install
 export_incdir = $(top_builddir)/include/$(PACKAGE)

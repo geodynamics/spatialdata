@@ -13,6 +13,8 @@
 subpackage = geocoords
 include $(top_srcdir)/pkgs/subpackage.am
 
+SUBDIRS = data
+
 lib_LTLIBRARIES = libspatialdatageocoords.la
 
 libspatialdatageocoords_la_SOURCES = \
@@ -28,6 +30,8 @@ libspatialdatageocoords_la_SOURCES = \
 libspatialdatageocoords_la_LDFLAGS =
 
 INCLUDES +=
+
+CPPFLAGS += -DDATADIR="$(subpkgdatadir)"
 
 libspatialdatageocoords_la_LIBADD = \
 	-lproj

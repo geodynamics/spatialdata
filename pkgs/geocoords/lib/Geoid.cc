@@ -16,6 +16,11 @@
 
 #include <math.h> // USES sin(), cos(), atan(), sqrt(), M_PI_2
 
+#include <fstream> // USES std::ifstream
+
+#include <sstream> // USES std::ostringstream
+#include <stdexcept> // USES std::runtime_error
+
 #if defined(HAVE_PYTHIA)
 #include "journal/firewall.h" // USES FIREWALL
 #include "pythiautil/FireWallUtil.h" // USES FIREWALL
@@ -24,46 +29,31 @@
 #define FIREWALL assert
 #endif
 
-// ----------------------------------------------------------------------
-namespace spatialdata {
-  namespace geocoords {
-    class WGSConstants;
-  }; // geocoords
-}; // spatialdata
-
-class spatialdata::geocoords::WGSConstants {
-public:
-
-  static const double E2;
-  static const double AE;
-  static const double GEQT;
-  static const double K;
-  static const double GM;
-  static const double OMEGA;
-  static const double RF;
-}; // WGSConstants
-const double spatialdata::geocoords::WGSConstants::GM = 0.3986004418E+15;
-const double spatialdata::geocoords::WGSConstants::AE = 6378137.0;
-const double spatialdata::geocoords::WGSConstants::OMEGA = 7.292115E-05;
-const double spatialdata::geocoords::WGSConstants::RF = 298.257223563;
-const double spatialdata::geocoords::WGSConstants::E2 = 0.00669437999013;
-const double spatialdata::geocoords::WGSConstants::GEQT = 9.7803253359;
-const double spatialdata::geocoords::WGSConstants::K = 0.00193185265246;
+#define MAKEDATAFILE(file) #file
+#define SETDATAFILE(dir,file) MAKEDATAFILE(dir/file)
 
 // ----------------------------------------------------------------------
-const int spatialdata::geocoords::Geoid::_NUMMODES = 360;
-#include "data/egm96.dat"
-#include "data/corrcoef.dat"
+const double spatialdata::geocoords::Geoid::_south = -90.0 * M_PI / 180.0;
+const double spatialdata::geocoords::Geoid::_north = 90.0 * M_PI / 180.0;
+const double spatialdata::geocoords::Geoid::_west = 0.0 * M_PI / 180.0;
+const double spatialdata::geocoords::Geoid::_east = 360.0 * M_PI / 180.0;
+const double spatialdata::geocoords::Geoid::_dLat = 0.25 * M_PI / 180.0;
+const double spatialdata::geocoords::Geoid::_dLon = 0.25 * M_PI / 180.0;
+
+const int spatialdata::geocoords::Geoid::_numInterp = 4;
+const int spatialdata::geocoords::Geoid::_numExtraEdge = 
+  spatialdata::geocoords::Geoid::_numInterp;
+const int spatialdata::geocoords::Geoid::_numGridEW = 
+  1440 + 2 * spatialdata::geocoords::Geoid::_numExtraEdge;
+const int spatialdata::geocoords::Geoid::_numGridNS = 721;
+
+const char* spatialdata::geocoords::Geoid::_filename =
+  SETDATAFILE(DATADIR,ww15mgh.dac);
 
 // ----------------------------------------------------------------------
 // Default constructor.
 spatialdata::geocoords::Geoid::Geoid(void) :
-  _pHC(0),
-  _pHS(0),
-  _pCC(0),
-  _pCS(0),
-  _pRoots(0),
-  _pInvRoots(0),
+  _pGridVals(0),
   _initialized(false)
 { // constructor
 } // constructor
@@ -72,12 +62,7 @@ spatialdata::geocoords::Geoid::Geoid(void) :
 // Default destructor
 spatialdata::geocoords::Geoid::~Geoid(void)
 { // destructor
-  delete[] _pHC; _pHC = 0;
-  delete[] _pHS; _pHS = 0;
-  delete[] _pCC; _pCC = 0;
-  delete[] _pCS; _pCS = 0;
-  delete[] _pRoots; _pRoots = 0;
-  delete[] _pInvRoots; _pInvRoots = 0;
+  delete[] _pGridVals; _pGridVals = 0;
 } // destructor
 
 // ----------------------------------------------------------------------
@@ -86,9 +71,7 @@ void
 spatialdata::geocoords::Geoid::initialize(void)
 { // initialize
   if (!_initialized) {
-    _setHCHS();
-    _setCCCS();
-    _calcRoots();
+    _readGrid();
     _initialized = true;
   } // if
 } // initialize
@@ -98,270 +81,165 @@ spatialdata::geocoords::Geoid::initialize(void)
 //  elevation with respect to MSL.
 double
 spatialdata::geocoords::Geoid::elevation(const double lon,
-					const double lat) const
+					 const double lat) const
 { // elevation
-  // compute the geocentric latitude, geocentric radius, and normal gravity
-  double latGeocent = 0.0;
-  double radiusGeocent = 0.0;
-  double normalGrav = 0.0;
-  _geocentricLat(&latGeocent, &radiusGeocent, &normalGrav, lon, lat);
-  latGeocent = M_PI_2 - latGeocent;
+  const double lon360 = (lon > 0.0) ? lon : lon + 2*M_PI;
 
-  const int coefSize = (_NUMMODES+1)*(_NUMMODES+2)/2;
-  double* pLegCoef = new double[coefSize];
-  for (int i=0; i < coefSize; ++i)
-    pLegCoef[i] = 0.0;
+  const double xLon = (lon360 - _west + _numExtraEdge*_dLon) / _dLon;
+  const double xLat = (lat - _south) / _dLat;
 
-  const int legSize = _NUMMODES+1;
-  double* pLegFn = new double[legSize];
-  for (int j=0; j < legSize; ++j) {
-    const int order = j;
-    _calcLegFn(&pLegFn, order, latGeocent);
-    for (int i=j; i < legSize; ++i) {
-      const int iCoef = i*(i+1)/2 + order;
-      pLegCoef[iCoef] = pLegFn[i];
+  const int iLon = int(xLon);
+  const int iLat = int(xLat);
+  const int oLon = iLon - _numInterp / 2 + 1;
+  const int oLat = iLat - _numInterp / 2 + 1;
+
+  double valsNS[_numInterp];
+  double valsEW[_numInterp];
+  double moments[_numInterp];
+  for (int iNS=0; iNS < _numInterp; ++iNS) {
+    const int jNS = oLat + iNS;
+    const int offset = _numGridEW * jNS;
+    for (int iEW=0; iEW < _numInterp; ++iEW) {
+      const int jEW = oLon + iEW;
+      valsEW[iEW] = _pGridVals[offset+jEW];
     } // for
+    _splineMoments(moments, valsEW);
+    const double coord = xLon - oLon + 1;
+    valsNS[iNS] = _splineInterp(coord, valsEW, moments);
   } // for
-  delete[] pLegFn; pLegFn = 0;
-
-  double* pCosML = new double[_NUMMODES+1];
-  double* pSinML = new double[_NUMMODES+1];
-  _calcML(&pCosML, &pSinML, lon);
-
-  const double elev = 
-    _calcElev(pLegCoef, pCosML, pSinML, radiusGeocent, normalGrav);
-
-  delete[] pCosML; pCosML = 0;
-  delete[] pSinML; pSinML = 0;
-  delete[] pLegCoef; pLegCoef = 0;
-  delete[] pLegFn; pLegFn = 0;
-
+  _splineMoments(moments, valsNS);
+  const double coord = xLat - oLat + 1;
+  const double elev = _splineInterp(coord, valsNS, moments);
   return elev;
 } // elevation
 
 // ----------------------------------------------------------------------
-// 
+// Read grid values.
+void
+spatialdata::geocoords::Geoid::_readGrid(void)
+{ // _readGrid
+  std::ifstream filein(_filename);
+  if (!filein.is_open() || !filein.good()) {
+    std::ostringstream msg;
+    msg << "Could not open geoid grid file '" << _filename << "'.";
+    throw std::runtime_error(msg.str().c_str());
+  } // if
+
+  const int numBufferEW = _numGridEW - 2 * _numExtraEdge;
+  const int numBufferNS = _numGridNS;
+  const int bufferSize = numBufferEW * numBufferNS;
+  int16_t* buffer = (bufferSize > 0) ? new int16_t[bufferSize] : 0;
+
+  filein.read((char*) buffer, bufferSize*sizeof(int16_t));
+  _endianBigToNative(&buffer, bufferSize);
+  
+  const int gridSize = _numGridNS * _numGridEW;
+  delete[] _pGridVals; 
+  _pGridVals = (gridSize > 0) ? new double[gridSize] : 0;
+
+  for (int i=0; i < _numGridNS; ++i) {
+    const int gNS = _numGridNS - i - 1;
+    const int bNS = i;
+    for (int j=0; j < numBufferEW; ++j) {
+      const int gEW = _numExtraEdge + j;
+      const int bEW = j;
+      _pGridVals[_numGridEW*gNS+gEW] = 
+	double(buffer[numBufferEW*bNS+bEW]) / 100.0;
+    } // for
+    for (int j=0; j < _numExtraEdge; ++j) {
+      const int gEW = j;
+      const int bEW = numBufferEW - _numExtraEdge + j;
+      _pGridVals[_numGridEW*gNS+gEW] = 
+	double(buffer[numBufferEW*bNS+bEW]) / 100.0;
+    } // for    
+    for (int j=0; j < _numExtraEdge; ++j) {
+      const int gEW = _numGridEW - _numExtraEdge + j;
+      const int bEW = j;
+      _pGridVals[_numGridEW*gNS+gEW] = 
+	double(buffer[numBufferEW*bNS+bEW]) / 100.0;
+    } // for
+  } // for
+
+  delete[] buffer; buffer = 0;
+} // _readGrid
+
+// ----------------------------------------------------------------------
+// Interpolate using spline.
 double
-spatialdata::geocoords::Geoid::_calcElev(const double* pLegCoef,
-					const double* pCosML,
-					const double* pSinML,
-					const double radiusGeocent,
-					const double normalGrav) const
-{ // _calcElev
-  FIREWALL(0 != _pHC);
-  FIREWALL(0 != _pHS);
-  FIREWALL(0 != _pCC);
-  FIREWALL(0 != _pCS);
+spatialdata::geocoords::Geoid::_splineInterp(const double coord,
+					     const double* pVals,
+					     const double* pMoments) const
+{ // _splineInterp
+  const int size = _numInterp;
+  const double min = 1.0;
+  const double max = size;
+  double value = 0;
+  if (coord < min) 
+    value = pVals[0] + (coord-min)*(pVals[1]-pVals[0]-pMoments[1]/6.0);
+  else if (coord > max) {
+    const int iMax = size-1;
+    value = pVals[iMax] + 
+      (coord-max)*(pVals[iMax]-pVals[iMax-1]+pMoments[iMax]/6.0);
+  } else {
+    const int i = _splineFrac(coord) - 1;
+    const double min = i + 1;
+    const double coef = coord - min;
+    value = pVals[i] +
+      coef * ((pVals[i+1]-pVals[i]-pMoments[i]/3.0-pMoments[i+1]/6.0) +
+	      coef * (pMoments[i]/2.0 +
+		      coef * (pMoments[i+1]-pMoments[i])/6.0));
+  } // else
+  return value;
+} // _splineInterp
 
-  const double ar = WGSConstants::AE / radiusGeocent;
-  double arCoef = ar;
-  double ac = 0.0;
-  double a = 0.0;
+// ----------------------------------------------------------------------
+// Compute the spline moments.
+void
+spatialdata::geocoords::Geoid::_splineMoments(double* pMom,
+					      const double* pVals) const
+{ // _splineMoments
+  double tmp[_numInterp];
 
-  int k = 2;
-  const int numModes = _NUMMODES;
-  for (int iMode=1; iMode < numModes; ++iMode) {
-    arCoef *= ar;
-    ++k;
-    double sum = pLegCoef[k]*_pHC[k];
-    double sumc = pLegCoef[k]*_pCC[k];
-    for (int m=0; m <= iMode; ++m) {
-      ++k;
-      const double tmpc = _pCC[k]*pCosML[m] + _pCS[k]*pSinML[m];
-      const double tmp = _pHC[k]*pCosML[m] + _pHS[k]*pSinML[m];
-      sumc += pLegCoef[k]*tmpc;
-      sum += pLegCoef[k]*tmp;
-    } // for
-    ac += sumc;
-    a += sum*arCoef;
+  tmp[0] = 0.0;
+  pMom[0] = 0.0;
+  const int size = _numInterp;
+  const int iMax = size-1;
+  for (int i=1; i < iMax; ++i) {
+    const double v = tmp[i-1]/2.0 + 2.0;
+    tmp[i] = -0.5/v;
+    pMom[i] = (3.0*(pVals[i+1]-2.0*pVals[i]+pVals[i-1]) - pMom[i-1]/2.0) / v;
   } // for
-  ac += _pCC[0] + pLegCoef[1]*_pCC[1] + 
-    pLegCoef[2]*(_pCC[2]*pCosML[0]+_pCS[2]*pSinML[0]);
-  const double haco = ac / 100.0;
-  const double elev = a*WGSConstants::GM / (normalGrav*radiusGeocent) +
-    haco - 0.53;
-
-  return elev;
-} // _calcElev
+  pMom[iMax] = 0.0;
+  for (int i=size-2; i > 0; --i)
+    pMom[i] += tmp[i]*pMom[i+1];
+} // _splineMoments
 
 // ----------------------------------------------------------------------
-// Compute geocentric latitude, geocentric radius and normal gravity
-void
-spatialdata::geocoords::Geoid::_geocentricLat(double* pLatGeocent,
-					     double* pRadiusGeocent,
-					     double* pNormalGrav,
-					     const double lon,
-					     const double lat) const
-{ // _geocentricLat
-  FIREWALL(0 != pLatGeocent);
-  FIREWALL(0 != pRadiusGeocent);
-  FIREWALL(0 != pNormalGrav);
-
-  const double elevRef = 0.0;
-
-  const double e2 = WGSConstants::E2;
-  const double ae = WGSConstants::AE;
-  const double geqt = WGSConstants::GEQT;
-  const double k = WGSConstants::K;
-
-  const double sinlat2 = sin(lat)*sin(lat);
-  const double f1 = sqrt(1.0-e2*sinlat2);
-
-  const double n = ae / f1;
-  const double t2 = (n + elevRef) * cos(lat);
-  const double x = t2 * cos(lon);
-  const double y = t2 * sin(lon);
-  const double z = (n*(1-e2)+elevRef)*sin(lat);
-
-  *pLatGeocent = atan(z/sqrt(x*x+y*y));
-  *pRadiusGeocent = sqrt(x*x + y*y + z*z);
-  *pNormalGrav = geqt*(1.0 + k*sinlat2) / f1;
-} // _geocentricLat
+// Use spline interpolation to compute elevation at point from grid.
+int
+spatialdata::geocoords::Geoid::_splineFrac(const double value) const
+{ // _splineFrac
+  int valueInt = int(value);
+  if (value < 0 && value != double(valueInt))
+    --valueInt;
+  return valueInt;
+} // _splinefrac
 
 // ----------------------------------------------------------------------
-// ????
+// Convert array of int16_t values from big endian to native int16_t type.
 void
-spatialdata::geocoords::Geoid::_calcML(double** ppCosML,
-				      double** ppSinML,
-				      const double lon) const
-{ // _calcML
-  FIREWALL(0 != *ppSinML);
-  FIREWALL(0 != *ppCosML);
-
-  const double sinLon = sin(lon);
-  const double cosLon = cos(lon);
-
-  const int size = _NUMMODES + 1;
-
-  double* pVals = *ppSinML;
-  pVals[0] = sinLon;
-  pVals[1] = 2.0*sinLon*cosLon;
-  for (int i=2; i < size; ++i)
-    pVals[i] = 2.0*cosLon * pVals[i-1] - pVals[i-2];
-
-  pVals = *ppCosML;
-  pVals[0] = cosLon;
-  pVals[1] = 2.0*cosLon*cosLon - 1.0;
-  for (int i=2; i < size; ++i)
-    pVals[i] = 2.0*cosLon * pVals[i-1] - pVals[i-2];  
-} // _calcML
-
-// ----------------------------------------------------------------------
-// ????
-void
-spatialdata::geocoords::Geoid::_setCCCS(void)
-{ // _setCCCS
-  const int ccSize = _NUMMODES*(_NUMMODES+1)/2 + _NUMMODES+1;
-
-  delete[] _pCC; _pCC = new double[ccSize];
-  for (int i=0, j=0; i < ccSize; ++i, j+=2) {
-    FIREWALL(j < 2*65341);
-    _pCC[i] = _CORRCOEF[j];
-    }
-  
-  const int csSize = ccSize;
-  delete[] _pCS; _pCS = new double[csSize];
-  for (int i=0, j=1; i < csSize; ++i, j+=2) {
-    FIREWALL(j < 2*65341);
-    _pCS[i] = _CORRCOEF[j];
-  }
-} // _setCCCS
-  
-// ----------------------------------------------------------------------
-// ????
-void
-spatialdata::geocoords::Geoid::_setHCHS(void)
-{ // _setHCHS
-  const int hcSize = _NUMMODES*(_NUMMODES+1)/2 + _NUMMODES+1;
-  delete[] _pHC; _pHC = new double[hcSize];
-  for (int i=3, j=0; i < hcSize; ++i, j+=2)
-    _pHC[i] = _EGM96[j];
-
-  const int hsSize = hcSize;
-  delete[] _pHS; _pHS = new double[hsSize];
-  for (int i=3, j=1; i < hsSize; ++i, j+=2)
-    _pHS[i] = _EGM96[j];
-  
-  const double j2 = 0.108262982131E-02;
-  const double j4 = -.237091120053E-05;
-  const double j6 = 0.608346498882E-08;
-  const double j8 = -0.142681087920E-10;
-  const double j10 = 0.121439275882E-13;
-
-  _pHC[3] += j2/sqrt(5.0);
-  _pHC[10] += j4/3.0;
-  _pHC[21] += j6/sqrt(13.0);
-  _pHC[36] += j8/sqrt(17.0);
-  _pHC[55] += j10/sqrt(21.0);
-} // _setHCHS
-
-// ----------------------------------------------------------------------
-// ????
-void
-spatialdata::geocoords::Geoid::_calcRoots(void)
-{ // _calcRoots
-  const int size = 2 * _NUMMODES + 1;
-  
-  delete[] _pRoots; _pRoots = new double[size];
-  delete[] _pInvRoots; _pInvRoots = new double[size];
-  for (int i=0; i < size; ++i) {
-    const double val = sqrt(i+1);
-    _pRoots[i] = val;
-    _pInvRoots[i] = 1.0 / val;
+spatialdata::geocoords::Geoid::_endianBigToNative(int16_t** ppVals,
+						  const int numVals)
+{ // _endianBigToNative
+#if 0
+  for (int i=0; i < numVals; ++i) {
+    char* buf = (char*) (*ppVals + i);
+    char tmp = buf[1];
+    buf[1] = buf[0];
+    buf[0] = tmp;
   } // for
-} // _calcRoots
-
-// ----------------------------------------------------------------------
-// Compute normalized legendre function.
-void
-spatialdata::geocoords::Geoid::_calcLegFn(double** ppLegFn,
-					 const int order,
-					 const double latGeocent) const
-{ // _calcLegFn
-  FIREWALL(0 != ppLegFn);
-  FIREWALL(0 != *ppLegFn);
-
-  double* pLegFn = *ppLegFn;
-  const int legSize = _NUMMODES+1;
-
-  const int order1 = order + 1;
-  const int order2 = order + 2;
-  const int order3 = order + 3;
-
-  const double cosLat = cos(latGeocent);
-  const double sinLat = sin(latGeocent);
-
-  double* pRlnn = new double[legSize];
-  pRlnn[0] = 1.0;
-  pRlnn[1] = sinLat*_pRoots[2];
-  for (int i=2; i < order1; ++i) {
-    const int i2 = 2*i;
-    pRlnn[i] = _pRoots[i2] * _pInvRoots[i2-1] * sinLat * pRlnn[i-1];
-  } // for
-  
-  if (0 == order) {
-    pLegFn[0] = 1.0;
-    pLegFn[1] = cosLat*_pRoots[2];
-  } else if (1 == order) {
-    pLegFn[1] = pRlnn[1];
-    pLegFn[2] = _pRoots[4]*cosLat*pLegFn[1];
-  } // if
-  
-  pLegFn[order1-1] = pRlnn[order1-1];
-  delete[] pRlnn; pRlnn = 0;
-  if (order2-1 < legSize) {
-    pLegFn[order2-1] = _pRoots[order1*2] * cosLat * pLegFn[order1-1];
-    for (int i=order2; i < legSize; ++i) {
-      if (order > 1 || i > order+1) {
-	const int i2 = 2*i;
-	pLegFn[i] = _pRoots[i2] * _pInvRoots[i+order-1] * _pInvRoots[i-order-1] *
-	  (_pRoots[i2-2] * cosLat*pLegFn[i-1] - 
-	   _pRoots[i+order-2] * _pRoots[i-order-2] * 
-	   _pInvRoots[i2-4] * pLegFn[i-2]);
-      } // if
-    } // for
-  } // if
-} // _calcLegFn
+#endif
+} // _endianBigToNative
 
 // version
 // $Id: Geoid.cc,v 1.2 2005/06/21 18:34:02 baagaard Exp $

@@ -121,6 +121,7 @@ AC_CONFIG_FILES([Makefile
 	pkgs/pyre/Makefile
 	pkgs/geocoords/Makefile
 	pkgs/geocoords/lib/Makefile
+	pkgs/geocoords/lib/data/Makefile
 	pkgs/geocoords/module/Makefile
 	pkgs/geocoords/pyre/Makefile
 	pkgs/geocoords/tests/Makefile

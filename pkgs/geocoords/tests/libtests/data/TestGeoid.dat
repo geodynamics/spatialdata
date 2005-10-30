@@ -20,12 +20,12 @@ const double spatialdata::geocoords::TestGeoid::_LONLAT[] = {
      0.0023000,   -0.4667440
 };
 const double spatialdata::geocoords::TestGeoid::_GEOIDHT[] = {
-  -31.62920759,
-  -2.96600457,
-  -43.57201637,
-  15.86775855,
-  50.06503036,
-  17.32953996
+  -31.623904,
+   -2.970470,
+  -43.578464,
+   15.871315,
+   50.066623,
+   17.330813
 };
 
 
