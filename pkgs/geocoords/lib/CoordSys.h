@@ -49,6 +49,12 @@ public :
   /// Default destructor
   virtual ~CoordSys(void);
 
+  /** Clone coordinate system.
+   *
+   * @returns Copy of *this
+   */
+  virtual CoordSys* clone(void) const = 0;
+
   /// Initialize the coordinate system.
   virtual void initialize(void) = 0;
 
@@ -69,6 +75,12 @@ public :
 
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////
+
+  /** Copy destructor.
+   *
+   * @param cs Coordinate system to copy
+   */
+  CoordSys(const CoordSys& cs);
 
   /** Set type of coordinate system.
    *

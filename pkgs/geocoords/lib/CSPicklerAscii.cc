@@ -35,7 +35,7 @@
 // Pickle coordinate system.
 void
 spatialdata::geocoords::CSPicklerAscii::pickle(std::ostream& s,
-					       CoordSys* pCS)
+					       const CoordSys* pCS)
 { // pickle
   pCS->pickle(s);
 } // pickle

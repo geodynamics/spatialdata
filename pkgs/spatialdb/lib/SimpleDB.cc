@@ -101,13 +101,8 @@ spatialdata::spatialdb::SimpleDB::close(void)
 void
 spatialdata::spatialdb::SimpleDB::queryType(const SimpleDB::QueryEnum queryType)
 { // queryType
-  if (0 == _pQuery) {
-    std::ostringstream msg;
-    msg
-      << "Spatial database " << label() << " has not been opened.\n"
-      << "Please call Open() before calling QueryType().";
-    throw std::runtime_error(msg.str());
-  } // if
+  if (0 == _pQuery)
+    _pQuery = new SimpleDBQuery(*this);
   _pQuery->queryType(queryType);
 } // QueryType
 

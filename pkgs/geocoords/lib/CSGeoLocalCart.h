@@ -44,6 +44,12 @@ class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
   /// Default destructor
   ~CSGeoLocalCart(void);
 
+  /** Clone coordinate system.
+   *
+   * @returns Pointer to copy
+   */
+  virtual CoordSys* clone(void) const;
+
   /// Initialize the coordinate system.
   void initialize(void);
 
@@ -99,7 +105,13 @@ class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
   virtual void unpickle(std::istream& s);
 
 protected :
-  // PROTECTED METHODS /////////////////////////////////////////////////
+  // PROTECTED METHODS //////////////////////////////////////////////////
+
+  /** Copy constructor
+   *
+   * @param cs Coordinate system to copy
+   */
+  CSGeoLocalCart(const CSGeoLocalCart& cs);
 
   /** Get the PROJ4 string associated with the coordinate system.
    *

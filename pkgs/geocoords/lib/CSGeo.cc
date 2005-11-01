@@ -60,6 +60,19 @@ spatialdata::geocoords::CSGeo::~CSGeo(void)
 } // destructor
 
 // ----------------------------------------------------------------------
+// Copy constructor
+spatialdata::geocoords::CSGeo::CSGeo(const CSGeo& cs) :
+  CoordSys(cs),
+  _toMeters(cs._toMeters),
+  _ellipsoid(cs._ellipsoid),
+  _datumHoriz(cs._datumHoriz),
+  _datumVert(cs._datumVert),
+  _pCS(0),
+  _isGeocentric(cs._isGeocentric)
+{ // copy constructor
+} // copy constructor
+
+// ----------------------------------------------------------------------
 // Initialize coordinate system.
 void 
 spatialdata::geocoords::CSGeo::initialize(void)

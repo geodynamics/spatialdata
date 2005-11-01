@@ -35,6 +35,14 @@ spatialdata::geocoords::CSCart::~CSCart(void)
 } // destructor
 
 // ----------------------------------------------------------------------
+// Copy constructor
+spatialdata::geocoords::CSCart::CSCart(const CSCart& cs) :
+  CoordSys(cs),
+  _toMeters(cs._toMeters)
+{ // copy constructor
+} // copy constructor
+
+// ----------------------------------------------------------------------
 // Initialize coordinate system.
 void 
 spatialdata::geocoords::CSCart::initialize(void)

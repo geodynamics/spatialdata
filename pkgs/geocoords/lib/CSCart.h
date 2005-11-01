@@ -41,6 +41,12 @@ class spatialdata::geocoords::CSCart : public CoordSys
   /// Default destructor
   virtual ~CSCart(void);
 
+  /** Clone coordinate system.
+   *
+   * @returns Pointer to copy
+   */
+  virtual CoordSys* clone(void) const;
+
   /// Initialize the coordinate system.
   virtual void initialize(void);
 
@@ -68,8 +74,17 @@ class spatialdata::geocoords::CSCart : public CoordSys
    */
   virtual void unpickle(std::istream& s);
 
+protected :
+  // PROTECTED METHODS //////////////////////////////////////////////////
+
+  /** Copy constructor
+   *
+   * @param cs Coordinate system to copy
+   */
+  CSCart(const CSCart& cs);
+
 private :
-  // PRIVATE METHODS ////////////////////////////////////////////////////
+  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   double _toMeters; ///< Scale factor to convert coordinates to meters
 

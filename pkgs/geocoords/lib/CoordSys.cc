@@ -22,6 +22,13 @@ spatialdata::geocoords::CoordSys::CoordSys(void) :
 } // constructor
 
 // ----------------------------------------------------------------------
+// Copy destructor
+spatialdata::geocoords::CoordSys::CoordSys(const CoordSys& cs) :
+  _csType(cs._csType)
+{ // copy constructor
+} // copy constructor
+
+// ----------------------------------------------------------------------
 // Default destructor
 spatialdata::geocoords::CoordSys::~CoordSys(void)
 { // destructor

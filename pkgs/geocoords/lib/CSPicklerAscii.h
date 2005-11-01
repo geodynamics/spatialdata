@@ -41,7 +41,7 @@ public :
    * @param pCS Pointer to coordinate system
    */
   static void pickle(std::ostream& s,
-		      CoordSys* pCS);
+		     const CoordSys* pCS);
 
   /** Unpickle coordinate system.
    *

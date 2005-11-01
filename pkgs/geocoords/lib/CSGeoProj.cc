@@ -46,6 +46,16 @@ spatialdata::geocoords::CSGeoProj::~CSGeoProj(void)
 } // destructor
 
 // ----------------------------------------------------------------------
+// Copy constructor
+spatialdata::geocoords::CSGeoProj::CSGeoProj(const CSGeoProj& cs) :
+  CSGeo(cs),
+  _pProjector(0)
+{ // copy constructor
+  if (0 != cs._pProjector)
+    _pProjector = new Projector(*cs._pProjector);
+} // copy constructor
+
+// ----------------------------------------------------------------------
 // Set projector.
 void
 spatialdata::geocoords::CSGeoProj::projector(const Projector& projector)

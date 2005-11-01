@@ -58,6 +58,20 @@ spatialdata::geocoords::CSGeoLocalCart::~CSGeoLocalCart(void)
 } // destructor
 
 // ----------------------------------------------------------------------
+// Copy constructor
+spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(const CSGeoLocalCart& cs) :
+  CSGeo(cs),
+  _originLon(cs._originLon),
+  _originLat(cs._originLat),
+  _originElev(cs._originElev),
+  _originX(cs._originX),
+  _originY(cs._originY),
+  _originZ(cs._originZ),
+  _localOrientation(0)
+{ // copy constructor
+} // copy constructor
+
+// ----------------------------------------------------------------------
 // Set origin of local cartesian coordinate system.
 void
 spatialdata::geocoords::CSGeoLocalCart::origin(const double lon,

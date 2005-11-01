@@ -45,6 +45,12 @@ class spatialdata::geocoords::CSGeo : public CoordSys
   /// Default destructor
   virtual ~CSGeo(void);
 
+  /** Clone coordinate system.
+   *
+   * @returns Pointer to copy
+   */
+  virtual CoordSys* clone(void) const;
+
   /// Initialize the coordinate system.
   virtual void initialize(void);
 
@@ -156,6 +162,15 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    * @param s Input stream
    */
   virtual void unpickle(std::istream& s);
+
+protected :
+  // PROTECTED METHODS //////////////////////////////////////////////////
+
+  /** Copy constructor
+   *
+   * @param cs Coordinate system to copy
+   */
+  CSGeo(const CSGeo& cs);
 
 protected :
   // PROTECTED MEMBERS /////////////////////////////////////////////////

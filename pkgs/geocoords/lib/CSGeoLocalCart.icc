@@ -14,11 +14,19 @@
 #error "CSGeoLocalCart.icc must only be included from CSGeoLocalCart.h"
 #endif
 
+// Clone coordinate system.
+inline
+spatialdata::geocoords::CoordSys*
+spatialdata::geocoords::CSGeoLocalCart::clone(void) const {
+  return new CSGeoLocalCart(*this);
+}
+
 // Get proj form vertical datum.
 inline
 const char*
-spatialdata::geocoords::CSGeoLocalCart::projDatumVert(void) const
-{ return "ellipsoid"; }
+spatialdata::geocoords::CSGeoLocalCart::projDatumVert(void) const {
+  return "ellipsoid";
+}
 
 // version
 // $Id$

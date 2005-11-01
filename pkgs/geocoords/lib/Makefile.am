@@ -48,6 +48,7 @@ subpkginclude_HEADERS = \
 	CSGeoLocalCart.h \
 	CSGeoLocalCart.icc \
 	CSGeoProj.h \
+	CSGeoProj.icc \
 	CSPicklerAscii.h \
 	Geoid.h \
 	Projector.h \

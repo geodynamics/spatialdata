@@ -45,6 +45,12 @@ class spatialdata::geocoords::CSGeoProj : public CSGeo
   /// Default destructor
   ~CSGeoProj(void);
 
+  /** Clone coordinate system.
+   *
+   * @returns Pointer to copy
+   */
+  virtual CoordSys* clone(void) const;
+
   /// Initialize the coordinate system.
   void initialize(void);
 
@@ -86,12 +92,23 @@ class spatialdata::geocoords::CSGeoProj : public CSGeo
    */
   virtual void unpickle(std::istream& s);
 
+protected :
+  // PROTECTED METHODS //////////////////////////////////////////////////
+
+  /** Copy constructor
+   *
+   * @param cs Coordinate system to copy
+   */
+  CSGeoProj(const CSGeoProj& cs);
+
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   Projector* _pProjector; ///< Pointer to Projector
 
 }; // class CSGeoProj
+
+#include "CSGeoProj.icc" // inline methods
 
 #endif // spatialdata_geocoords_csgeoproj_h
 

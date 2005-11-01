@@ -14,6 +14,13 @@
 #error "CSGeo.icc must only be included from CSGeo.h"
 #endif
 
+// Clone coordinate system.
+inline
+spatialdata::geocoords::CoordSys*
+spatialdata::geocoords::CSGeo::clone(void) const {
+  return new CSGeo(*this);
+}
+
 // Set reference ellipsoid.
 inline
 void
