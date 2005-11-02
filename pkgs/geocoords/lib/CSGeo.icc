@@ -93,12 +93,6 @@ const projPJ
 spatialdata::geocoords::CSGeo::projCoordSys(void) const
 { return _pCS; }
 
-// Get geoid.
-inline
-spatialdata::geocoords::Geoid&
-spatialdata::geocoords::CSGeo::geoid(void)
-{ return _geoid; }
-
 // version
 // $Id$
 

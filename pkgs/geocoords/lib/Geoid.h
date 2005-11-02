@@ -18,8 +18,8 @@
  * mean seal level (MSL) and elevation relative to WGS ellipsoid.
  */
 
-#if !defined(spatialdata_geoid_h)
-#define spatialdata_geoid_h
+#if !defined(spatialdata_geocoords_geoid_h)
+#define spatialdata_geocoords_geoid_h
 
 #include <inttypes.h>
 
@@ -123,6 +123,8 @@ private :
   static const char* _filename; ///< Filename holding grid values
 
 }; // class Geoid
+
+#include "Geoid.icc" // inline methods
 
 #endif // spatialdata_geocoords_geoid_h
 

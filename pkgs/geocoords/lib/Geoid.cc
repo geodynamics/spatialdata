@@ -85,17 +85,6 @@ spatialdata::geocoords::Geoid::~Geoid(void)
 } // destructor
 
 // ----------------------------------------------------------------------
-// Initialize
-void
-spatialdata::geocoords::Geoid::initialize(void)
-{ // initialize
-  if (!_initialized) {
-    _readGrid();
-    _initialized = true;
-  } // if
-} // initialize
-
-// ----------------------------------------------------------------------
 // Compute elevation with respect to WGS ellipsoid relative to
 //  elevation with respect to MSL.
 double

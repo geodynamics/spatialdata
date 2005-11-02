@@ -36,9 +36,6 @@ extern "C" {
 #endif
 
 // ----------------------------------------------------------------------
-spatialdata::geocoords::Geoid spatialdata::geocoords::CSGeo::_geoid = Geoid();
-
-// ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSGeo::CSGeo(void) :
   _toMeters(1.0),
@@ -87,7 +84,6 @@ spatialdata::geocoords::CSGeo::initialize(void)
 	<< "  proj string: " << csString << "\n";
     throw std::runtime_error(msg.str());
   } // if
-  _geoid.initialize();
 } // initialize
 
 // ----------------------------------------------------------------------
@@ -218,6 +214,16 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s)
   if (!s.good())
     throw std::runtime_error("I/O error while parsing CSGeo settings.");
 } // unpickle
+
+// ----------------------------------------------------------------------
+// Get geoid.
+spatialdata::geocoords::Geoid&
+spatialdata::geocoords::CSGeo::geoid(void)
+{ // geoid
+  static Geoid geoid;
+  geoid.initialize();
+  return geoid;
+} // geoid
 
 // version
 // $Id$

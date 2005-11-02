@@ -89,7 +89,7 @@ spatialdata::geocoords::Converter::_convert(double** ppCoords,
   FIREWALL(0 != *ppCoords);
 
   csSrc.toProjForm(ppCoords, numLocs, is2D);
-  
+
   const int numCoords = is2D ? 2 : 3;
   double* pX = (*ppCoords) + 0; // lon
   double* pY = (*ppCoords) + 1; // lat
@@ -146,6 +146,8 @@ spatialdata::geocoords::Converter::_convert(double** ppCoords,
 	  << "  " << pj_strerrno(pjerrno) << "\n";
       throw std::runtime_error(msg.str());
     } // if
+
+    pj_free(csWGS84);
   } else {
     const int pjerrno = 
       pj_transform(csSrc.projCoordSys(), csDest.projCoordSys(),

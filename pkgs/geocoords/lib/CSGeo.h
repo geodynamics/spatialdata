@@ -192,9 +192,6 @@ private :
   projPJ _pCS; ///< Pointer to coordinate system
   
   bool _isGeocentric; ///< True if geocentric, false if lat/lon
-  
-  static Geoid _geoid; ///< Geoid for mean sea level <-> ellipsoid ht
-
 }; // class CSGeo
 
 #include "CSGeo.icc" // inline methods

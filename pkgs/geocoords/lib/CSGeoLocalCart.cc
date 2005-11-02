@@ -283,6 +283,8 @@ spatialdata::geocoords::CSGeoLocalCart::_geoToWGS84(double* pLonWGS84,
     const int pjerrno = pj_transform(csSrc, csWGS84,
 				     numLocs, numCoords, 
 				     pLonWGS84, pLatWGS84, 0);
+    pj_free(csSrc);
+    pj_free(csWGS84);
     if (0 != pjerrno) {
       std::ostringstream msg;
       msg << "Error while converting coordinates:\n"
@@ -334,6 +336,8 @@ spatialdata::geocoords::CSGeoLocalCart::_wgs84ToECEF(double* pECEFX,
   const int pjerrno = pj_transform(csWGS84, csECEF,
 				   numLocs, numCoords, 
 				   pECEFX, pECEFY, pECEFZ);
+  pj_free(csWGS84);
+  pj_free(csECEF);
   if (0 != pjerrno) {
     std::ostringstream msg;
     msg << "Error while converting coordinates:\n"

@@ -51,6 +51,7 @@ subpkginclude_HEADERS = \
 	CSGeoProj.icc \
 	CSPicklerAscii.h \
 	Geoid.h \
+	Geoid.icc \
 	Projector.h \
 	Projector.icc \
 	proj4fwd.h
