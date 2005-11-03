@@ -1,0 +1,27 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_geocoords_csgeoproj_h)
+#error "CSGeoProj.icc must only be included from CSGeoProj.h"
+#endif
+
+// Clone coordinate system.
+inline
+spatialdata::geocoords::CoordSys*
+spatialdata::geocoords::CSGeoProj::clone(void) const {
+  return new CSGeoProj(*this);
+}
+
+// version
+// $Id$
+
+// End of file 

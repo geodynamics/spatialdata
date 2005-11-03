@@ -16,7 +16,7 @@ include $(top_srcdir)/pkgs/subpackage.am
 lib_LTLIBRARIES = libf77testspatialdata.la
 
 libf77testspatialdata_la_SOURCES = \
-	f77testspatialdb.c
+	f77testspatialdb.f
 
 libf77testspatialdata_la_LDFLAGS =
 
