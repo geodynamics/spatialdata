@@ -13,14 +13,14 @@
 subpackage = geocoords
 include $(top_srcdir)/pkgs/subpackage.am
 
-pkgdata_DATA = \
+subpkgdata_DATA = \
 	ww15mgh.dac
 
 # 'export' the input files by performing a mock install
 export_datadir = $(subpkgdatadir)
-export-data: $(pkgdata_DATA)
+export-data: $(subpkgdata_DATA)
 	$(mkinstalldirs) $(subpkgdatadir)
-	for f in $(pkgdata_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
+	for f in $(subpkgdata_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
 
 # export
 BUILT_SOURCES = export-data

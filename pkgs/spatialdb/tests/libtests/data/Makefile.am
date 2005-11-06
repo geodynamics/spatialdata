@@ -10,7 +10,7 @@
 # ----------------------------------------------------------------------
 #
 
-data_DATA = \
+noinst_DATA = \
 	spatialdb.dat
 
 noinst_HEADERS = \
@@ -22,13 +22,13 @@ noinst_HEADERS = \
 
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/pkgs/spatialdb/tests/libtests/data
-export-data: $(data_DATA)
-	for f in $(data_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
+export-data: $(noinst_DATA)
+	for f in $(noinst_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
 
 BUILT_SOURCES = export-data
 
 CLEANFILES = \
-	$(export_datadir)/$(data_DATA)
+	$(export_datadir)/$(noinst_DATA)
 
 datfiles: \
 	TestSimpleDBQuery \

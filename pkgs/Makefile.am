@@ -17,6 +17,7 @@ SUBDIRS = \
 if ENABLE_PYTHIA
   SUBDIRS += pyre
 endif
+
 # version
 # $Id$
 

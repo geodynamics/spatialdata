@@ -49,6 +49,10 @@ testspatial_LDADD = \
 	$(top_builddir)/pkgs/spatialdb/lib/libspatialdata.la \
 	$(top_builddir)/pkgs/geocoords/lib/libspatialdatageocoords.la
 
+if ENABLE_PYTHIA
+  testspatial_LDADD += -lpythiautil
+endif
+
 # version
 # $Id$
 

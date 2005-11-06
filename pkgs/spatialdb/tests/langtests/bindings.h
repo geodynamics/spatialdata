@@ -24,6 +24,6 @@ extern struct PyMethodDef pytestlangspatialdb_methods[];
 #endif
 
 // version
-// $Id: bindings.h,v 1.1 2005/05/25 18:43:03 baagaard Exp $
+// $Id$
 
 // End of file

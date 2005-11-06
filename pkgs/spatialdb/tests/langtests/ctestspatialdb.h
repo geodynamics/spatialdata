@@ -25,6 +25,6 @@ int ctest_query(void* db,
 #endif /* spatialdata_ctestspatialdb_h */
 
 /* version */
-/* $Id: ctestspatialdb.h,v 1.1 2005/05/25 18:43:02 baagaard Exp $ */
+/* $Id$ */
 
 /* End of file  */

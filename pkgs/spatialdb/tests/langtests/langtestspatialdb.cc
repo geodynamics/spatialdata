@@ -15,9 +15,9 @@
 
 #include "langtestspatialdb.h"
 extern "C" {
-#include "../libc/ctestspatialdb.h"
+#include "ctestspatialdb.h"
 }
-#include "../libf77/f77testspatialdb.h"
+#include "f77testspatialdb.h"
 
 #include <stdexcept> // USES std::exception
 
@@ -130,6 +130,6 @@ pytestlangspatialdb_f77TestQuery(PyObject*, PyObject* args)
 } // f77TestQuery
 
 // version
-// $Id: langtestspatialdb.cc,v 1.1 2005/05/25 18:43:03 baagaard Exp $
+// $Id$
 
 // End of file

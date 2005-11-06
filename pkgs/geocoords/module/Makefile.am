@@ -13,9 +13,9 @@
 subpackage = geocoords
 include $(top_srcdir)/pkgs/subpackage.am
 
-pkgpyexec_LTLIBRARIES = spatialdatageocoordsmodule.la
+subpkgpyexec_LTLIBRARIES = geocoordsmodule.la
 
-spatialdatageocoordsmodule_la_SOURCES = \
+geocoordsmodule_la_SOURCES = \
 	bindings.cc \
 	exceptions.cc \
 	misc.cc \
@@ -25,14 +25,16 @@ spatialdatageocoordsmodule_la_SOURCES = \
 	csgeo.cc \
 	csgeolocalcart.cc \
 	csgeoproj.cc \
-	projector.cc
+	projector.cc \
+	geocoordsmodule.cc
 
 INCLUDES += -I$(PYTHON_INCDIR)
 
-spatialdatageocoordsmodule_la_LDFLAGS = -module
+geocoordsmodule_la_LDFLAGS = -module
 
-spatialdatageocoordsmodule_la_LIBADD = \
-	$(top_builddir)/pkgs/geocoords/lib/libspatialdatageocoords.la
+geocoordsmodule_la_LIBADD = \
+	$(top_builddir)/pkgs/geocoords/lib/libspatialdatageocoords.la \
+	-lpythiautil
 
 # version
 # $Id$

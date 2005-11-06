@@ -10,7 +10,10 @@
 # ----------------------------------------------------------------------
 #
 
-python_PYTHON = \
+subpackage = geocoords
+include $(top_srcdir)/pkgs/subpackage.am
+
+subpkgpython_PYTHON = \
 	CoordSys.py \
 	CSCart.py \
 	CSGeo.py \

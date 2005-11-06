@@ -13,7 +13,7 @@
 subpackage = spatialdb
 include $(top_srcdir)/pkgs/subpackage.am
 
-pkgpyexec_LTLIBRARIES = langtestspatialdatamodule.la
+noinst_LTLIBRARIES = langtestspatialdatamodule.la
 
 langtestspatialdatamodule_la_SOURCES = \
 	bindings.cc \

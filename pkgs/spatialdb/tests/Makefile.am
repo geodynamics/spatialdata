@@ -14,13 +14,13 @@ SUBDIRS =
 
 if ENABLE_TESTING
   SUBDIRS += libtests
-endif
-
 if ENABLE_PYTHIA
   SUBDIRS += \
 	langtests \
 	pytests
 endif
+endif
+
 
 # version
 # $Id$

@@ -28,6 +28,6 @@ extern char pytestlangspatialdb_copyright__doc__[];
 #endif // pytestlangspatialdb_misc_h
 
 // version
-// $Id: misc.h,v 1.1 2005/05/25 18:43:04 baagaard Exp $
+// $Id$
 
 // End of file

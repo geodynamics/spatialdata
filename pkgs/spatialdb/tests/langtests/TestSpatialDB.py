@@ -52,16 +52,16 @@ class TestSpatialDB(unittest.TestCase):
     return
 
   def _cquery(self):
-    import spatialdata.spatialdb.tests.langtestspatialdb as bindings
+    import langtestspatialdb as bindings
     bindings.cTestQuery(self._db.handle(), self._cs.handle())
     return
 
   def _f77query(self):
-    import spatialdata.spatialdb.tests.langtestspatialdb as bindings
+    import langtestspatialdb as bindings
     bindings.f77TestQuery(self._db.handle(), self._cs.handle())
     return
 
 # version
-__id__ = "$Id: TestSpatialDB.py,v 1.1 2005/05/25 18:43:04 baagaard Exp $"
+__id__ = "$Id$"
 
 # End of file 

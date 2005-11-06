@@ -13,7 +13,7 @@
 subpackage = spatialdb
 include $(top_srcdir)/pkgs/subpackage.am
 
-lib_LTLIBRARIES = libctestspatialdata.la
+noinst_LTLIBRARIES = libctestspatialdata.la
 
 libctestspatialdata_la_SOURCES = \
 	ctestspatialdb.c
@@ -23,8 +23,8 @@ libctestspatialdata_la_LDFLAGS =
 INCLUDES +=
 
 libctestspatialdata_la_LIBADD = \
-	$(top_builddir)/pkgs/geocoords/lib/libspatialdatalang.la \
-	$(top_builddir)/pkgs/geocoords/lib/libspatialdata.la
+	$(top_builddir)/pkgs/spatialdb/liblang/libspatialdatalang.la \
+	$(top_builddir)/pkgs/spatialdb/lib/libspatialdata.la
 
 subpkginclude_HEADERS =
 

@@ -84,10 +84,12 @@ if test "$enable_testing" = "yes" ; then
   ])
 fi
 
-# PYTHIA
-AM_CONDITIONAL([ENABLE_PYTHIA], [test "$enable_pythia" = yes])
-if test "$enable_pythia" = "yes" ; then
+# PYRE
+AM_CONDITIONAL([ENABLE_PYTHIA], [test "$enable_pyre" = yes])
+if test "$enable_pyre" = "yes" ; then
   AC_LANG(C++)
+
+  # PYTHIA
   AC_CHECK_HEADER([journal/debug.h], [], [
     AC_MSG_ERROR([Journal header not found; try CPPFLAGS="-I<pythia include dir>"])
   ])
@@ -95,11 +97,26 @@ if test "$enable_pythia" = "yes" ; then
   AC_REQUIRE_CPP
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM([[#include <journal/debug.h>]],
-	             [[journal::debug_t d;]])],
+	             [[journal::debug_t d("debug");]])],
     [AC_MSG_RESULT(yes)
      export CPPFLAGS="-DHAVE_PYTHIA $CPPFLAGS"],
     [AC_MSG_RESULT(no)
      AC_MSG_ERROR([Pythia library not found; try LDFLAGS="-L<pythia lib dir>"])
+  ])
+
+  # PYTHIAUTIL
+  AC_CHECK_HEADER([pythiautil/BindingsUtil.h], [], [
+    AC_MSG_ERROR([BindingsUtil header not found; try CPPFLAGS="-I<pythiautil include dir>"])
+  ])
+  AC_MSG_CHECKING([for pythiautil::BindingsUtil::GetAttribute() -lpythiautil])
+  AC_REQUIRE_CPP
+  AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([[#include <pythiautil/BindingsUtil.h>]],
+	             [[PyObject* pyObj;]],
+	             [[pythiautil::BindingsUtil::GetAttribute(pyObj, "a", "b");]])],
+    [AC_MSG_RESULT(yes)],
+    [AC_MSG_RESULT(no)
+     AC_MSG_ERROR([Pythiautil library not found; try LDFLAGS="-L<pythiautil lib dir>"])
   ])
 fi
 
@@ -137,12 +154,7 @@ AC_CONFIG_FILES([Makefile
 	pkgs/spatialdb/tests/libtests/Makefile
 	pkgs/spatialdb/tests/libtests/data/Makefile
 	pkgs/spatialdb/tests/langtests/Makefile
-	pkgs/spatialdb/tests/langtests/libc/Makefile
-	pkgs/spatialdb/tests/langtests/libf77/Makefile
-	pkgs/spatialdb/tests/langtests/module/Makefile
-	pkgs/spatialdb/tests/langtests/pyre/Makefile
-	pkgs/spatialdb/tests/langtests/driver/Makefile
-	pkgs/spatialdb/tests/langtests/driver/data/Makefile
+	pkgs/spatialdb/tests/langtests/data/Makefile
 	pkgs/spatialdb/tests/pytests/Makefile
 	pkgs/spatialdb/tests/pytests/data/Makefile
 	doc/Makefile])

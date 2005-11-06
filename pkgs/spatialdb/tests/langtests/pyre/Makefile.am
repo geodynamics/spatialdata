@@ -10,7 +10,7 @@
 # ----------------------------------------------------------------------
 #
 
-python_PYTHON = \
+noinst_PYTHON = \
 	TestSpatialDB.py \
 	__init__.py
 

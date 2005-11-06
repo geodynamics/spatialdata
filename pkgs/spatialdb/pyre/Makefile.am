@@ -10,7 +10,10 @@
 # ----------------------------------------------------------------------
 #
 
-python_PYTHON = \
+subpackage = spatialdb
+include $(top_srcdir)/pkgs/subpackage.am
+
+subpkgpython_PYTHON = \
 	SpatialDB.py \
 	SimpleDB.py \
 	SimpleIO.py \

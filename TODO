@@ -1,3 +1,8 @@
+CONFIGURE
+
+  Add version number to libraries
+  Put python stuff in correct dirs (pythia-0.8/common.am)
+
 GEOCOORDS
 
   Add tests that flex unit capabilities

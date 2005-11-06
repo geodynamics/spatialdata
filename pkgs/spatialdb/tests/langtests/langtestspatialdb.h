@@ -31,6 +31,6 @@ extern char pytestlangspatialdb_f77TestQuery__doc__[];
 #endif // pytestlangspatialdb_ctestspatialdb_h
 
 // version
-// $Id: langtestspatialdb.h,v 1.1 2005/05/25 18:43:03 baagaard Exp $
+// $Id$
 
 // End of file

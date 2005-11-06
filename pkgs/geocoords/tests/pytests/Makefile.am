@@ -12,6 +12,8 @@
 
 TESTS = testgeocoords.py
 
+check_SCRIPTS = testgeocoords.py
+
 noinst_PYTHON = \
 	TestConverter.py \
 	TestCSCart.py \
@@ -19,7 +21,6 @@ noinst_PYTHON = \
 	TestCSGeoProj.py \
 	TestCSGeo.py \
 	TestProjector.py
-
 
 # version
 # $Id$

@@ -162,7 +162,7 @@ pyspatialdata_geocoords_CppProjector_projOptions(PyObject*, PyObject* args)
 
     const char* options = PyString_AsString(pyOptions);
 
-    pProjector->projOptions(Options);
+    pProjector->projOptions(options);
   } // try
   catch (const std::exception& err) {
     PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));

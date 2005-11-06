@@ -12,11 +12,14 @@
 
 import unittest
 
+import sys
+sys.path.append('.libs')
+
 def suite():
 
   suite = unittest.TestSuite()
 
-  from spatialdata.spatialdb.tests.TestSpatialDB import TestSpatialDB
+  from TestSpatialDB import TestSpatialDB
   suite.addTest(unittest.makeSuite(TestSpatialDB))
 
   return suite
@@ -29,6 +32,6 @@ if __name__ == '__main__':
   main()
   
 # version
-__id__ = "$Id: testcspatial.py,v 1.1 2005/05/25 18:43:01 baagaard Exp $"
+__id__ = "$Id$"
 
 # End of file 
