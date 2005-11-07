@@ -27,10 +27,15 @@
 struct PyMethodDef pyspatialdata_geocoords_methods[] = {
 
   // Converter
-  {pyspatialdata_geocoords_CppConverter_convert__name__,
-   pyspatialdata_geocoords_CppConverter_convert,
+  {pyspatialdata_geocoords_CppConverter_convertpy__name__,
+   pyspatialdata_geocoords_CppConverter_convertpy,
    METH_VARARGS,
-   pyspatialdata_geocoords_CppConverter_convert__doc__},
+   pyspatialdata_geocoords_CppConverter_convertpy__doc__},
+  
+  {pyspatialdata_geocoords_CppConverter_convertcpp__name__,
+   pyspatialdata_geocoords_CppConverter_convertcpp,
+   METH_VARARGS,
+   pyspatialdata_geocoords_CppConverter_convertcpp__doc__},
   
   // CoordSys
   {pyspatialdata_geocoords_CppCoordSys_initialize__name__,

@@ -23,21 +23,21 @@
 #include "pythiautil/bindings.h" // USES BindingsTUtil
 
 // ----------------------------------------------------------------------
-// CppConverter_convert
-char pyspatialdata_geocoords_CppConverter_convert__doc__[] = "";
-char pyspatialdata_geocoords_CppConverter_convert__name__[] = "CppConverter_convert";
+// CppConverter_convertpy
+char pyspatialdata_geocoords_CppConverter_convertpy__doc__[] = "";
+char pyspatialdata_geocoords_CppConverter_convertpy__name__[] = "CppConverter_convertpy";
 
-static char pyspatialdata_geocoords_CppConverter_convert_note[] = 
+static char pyspatialdata_geocoords_CppConverter_convertpy_note[] = 
   "spatialdata geocoords python module: U.S. Geological Survey";
 
 PyObject*
-pyspatialdata_geocoords_CppConverter_convert(PyObject*, PyObject* args)
-{ // CppConverter_convert
+pyspatialdata_geocoords_CppConverter_convertpy(PyObject*, PyObject* args)
+{ // CppConverter_convertpy
   PyObject* pyCoordsSrcList = 0;
   PyObject* pyCSDest = 0;
   PyObject* pyCSSrc = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OOO:CppConverter_convert",
+			    "OOO:CppConverter_convertpy",
 			    &pyCoordsSrcList, &pyCSDest, &pyCSSrc);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
@@ -100,7 +100,70 @@ pyspatialdata_geocoords_CppConverter_convert(PyObject*, PyObject* args)
 
   Py_INCREF(pyCoordsDestList);
   return pyCoordsDestList;
-} // CppConverter_convert
+} // CppConverter_convertpy
+
+// ----------------------------------------------------------------------
+// CppConverter_convertcpp
+char pyspatialdata_geocoords_CppConverter_convertcpp__doc__[] = "";
+char pyspatialdata_geocoords_CppConverter_convertcpp__name__[] = "CppConverter_convertcpp";
+
+static char pyspatialdata_geocoords_CppConverter_convertcpp_note[] = 
+  "spatialdata geocoords python module: U.S. Geological Survey";
+
+PyObject*
+pyspatialdata_geocoords_CppConverter_convertcpp(PyObject*, PyObject* args)
+{ // CppConverter_convertcpp
+  PyObject* pyCoords = 0;
+  int numLocs = 0;
+  int numCoords = 0;
+  PyObject* pyCSDest = 0;
+  PyObject* pyCSSrc = 0;
+  int ok = PyArg_ParseTuple(args,
+			    "OiiOO:CppConverter_convertcpp",
+			    &pyCoords, &numLocs, &numCoords,
+			    &pyCSDest, &pyCSSrc);
+  if (!ok) {
+    PyErr_SetString(PyExc_TypeError,
+		    "C++ bindings error: "
+		    "Could not parse tuple for arguments.");
+    return 0;
+  } // if
+  
+  try {
+    double* pCoords = 
+      pythiautil::BindingsTUtil<double*>::GetCObj(pyCoords, 
+						      "double*",
+				     "Python handle to double*");
+    FIREWALL(0 != pCoords);
+
+    spatialdata::geocoords::CoordSys* pCSDest = 
+      pythiautil::BindingsTUtil<spatialdata::geocoords::CoordSys*>::GetCObj(pyCSDest, 
+						      "CoordSys*",
+				     "Python handle to CoordSys*");
+    FIREWALL(0 != pCSDest);
+
+    spatialdata::geocoords::CoordSys* pCSSrc = 
+      pythiautil::BindingsTUtil<spatialdata::geocoords::CoordSys*>::GetCObj(pyCSSrc, 
+						      "CoordSys*",
+				     "Python handle to CoordSys*");
+    FIREWALL(0 != pCSSrc);
+
+    const bool is2D = (2 == numCoords) ? true : false;
+    spatialdata::geocoords::Converter::convert(&pCoords, 
+					       numLocs, pCSDest, pCSSrc,
+					       is2D);
+  } // try
+  catch (const std::exception& err) {
+    PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(err.what()));
+    return 0;
+  } catch (...) {
+    PyErr_SetString(PyExc_RuntimeError, "Caught unknown C++ exception.");
+    return 0;
+  } // catch
+
+  Py_INCREF(Py_None);
+  return Py_None;
+} // CppConverter_convertcpp
 
 // version
 // $Id$
