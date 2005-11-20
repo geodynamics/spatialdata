@@ -37,13 +37,14 @@ class CSGeoLocalCart(CSGeo):
 
     import pyre.inventory
 
-    originLon = pyre.inventory.str("origin-lon", default="0.0")
+    originLon = pyre.inventory.float("origin-lon", default=0.0)
     originLon.meta['tip'] = "Longitude of origin in degrees."
 
-    originLat = pyre.inventory.str("origin-lat", default="0.0")
+    originLat = pyre.inventory.float("origin-lat", default=0.0)
     originLat.meta['tip'] = "Latitude of origin in degrees."
 
-    originElev = pyre.inventory.str("origin-elev", default="0.0")
+    from pyre.units.length import m
+    originElev = pyre.inventory.dimensional("origin-elev", default=0.0*m)
     originElev.meta['tip'] = "Elevation of origin."
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -54,9 +55,9 @@ class CSGeoLocalCart(CSGeo):
     bindings.CppCSGeoLocalCart_origin(self._cppCoordSys,
                                       self.originLon,
                                       self.originLat,
-                                      self.originElev)
-
+                                      self.originElev.value)
     CSGeo.initialize(self)
+
     return
 
 
