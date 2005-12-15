@@ -28,6 +28,7 @@ class VolumeData(SimpleDBQueryData):
     """Initialize."""
 
     self._names = [ "One", "Two" ]
+    self._units = [ "m", "m" ]
     self._tdata = [ {'r': 1.0, 's':-1.0, 't':-1.0, 'one': 0.1, 'two': 1.1},
                     {'r':-1.0, 's':-1.0, 't':-1.0, 'one': 0.3, 'two': 3.3},
                     {'r': 1.0, 's': 1.0, 't':-1.0, 'one': 0.2, 'two': 2.2},
@@ -36,7 +37,7 @@ class VolumeData(SimpleDBQueryData):
                     {'r':-1.0, 's':-1.0, 't': 1.0, 'one': 0.3, 'two': 3.2},
                     {'r': 1.0, 's': 1.0, 't': 1.0, 'one': 0.7, 'two': 5.2},
                     {'r':-1.0, 's': 1.0, 't': 1.0, 'one': 0.5, 'two': 4.6}]
-    self._topology = "spatialdata::SimpleDB::VOLUME"
+    self._topology = "spatialdata::spatialdb::SimpleDB::VOLUME"
 
     self._qtdata = [ {'r': 0.9, 's':-0.8, 't':-0.9, 'ni': 0,
                       'wts': [{'i': 0, 'w': 0.80},

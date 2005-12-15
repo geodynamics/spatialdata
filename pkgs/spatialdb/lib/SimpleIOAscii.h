@@ -51,10 +51,10 @@ public :
   /** Write the database.
    *
    * @param data Database data
-   * @param cs Coordinate system
+   * @param pCS Pointer to coordinate system
    */
   void write(const SimpleDB::DataStruct& data,
-	     const spatialdata::geocoords::CoordSys& cs);
+	     const spatialdata::geocoords::CoordSys* pCS);
 
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////

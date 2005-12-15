@@ -26,6 +26,10 @@ const char* spatialdata::spatialdb::TestSimpleDBQuery::NAMES[] = {
   "One",
   "Two",
 };
+const char* spatialdata::spatialdb::TestSimpleDBQuery::UNITS[] = {
+  "m",
+  "m",
+};
 const spatialdata::spatialdb::SimpleDB::TopoEnum spatialdata::spatialdb::TestSimpleDBQuery::TOPOLOGY = spatialdata::spatialdb::SimpleDB::VOLUME;
 const double spatialdata::spatialdb::TestSimpleDBQuery::COORDS[] = {
   2.950000000000e+00,  4.480000000000e+00,  3.440000000000e+00,
@@ -42,6 +46,6 @@ const double spatialdata::spatialdb::TestSimpleDBQuery::AREADIR[] = {
 const double spatialdata::spatialdb::TestSimpleDBQuery::VOLUME =   2.954580000000e+00;
 
 // version
-// $Id: TestSimpleDBQuery.dat,v 1.1 2005/05/25 18:43:07 baagaard Exp $
+// $Id$
 
 // End of file

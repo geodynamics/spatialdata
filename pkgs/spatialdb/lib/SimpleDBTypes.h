@@ -23,6 +23,7 @@
 struct spatialdata::spatialdb::SimpleDB::DataStruct {
   double* data;
   std::string* valNames;
+  std::string* valUnits;
   int numLocs;
   int numVals;
   TopoEnum topology;

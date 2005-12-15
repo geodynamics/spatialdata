@@ -82,6 +82,12 @@ protected :
    */
   virtual const char** _names(void) const = 0;
 
+  /** Get units of values in database.
+   *
+   * @returns Pointer to units
+   */
+  virtual const char** _units(void) const = 0;
+
   /** Get number of locations in database.
    *
    * @returns Number of locations

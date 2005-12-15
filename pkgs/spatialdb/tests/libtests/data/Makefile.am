@@ -13,6 +13,9 @@
 noinst_DATA = \
 	spatialdb.dat
 
+noinst_TMP = \
+	spatial.dat
+
 noinst_HEADERS = \
 	TestSimpleDBArea.dat \
 	TestSimpleDBLine.dat \
@@ -28,7 +31,8 @@ export-data: $(noinst_DATA)
 BUILT_SOURCES = export-data
 
 CLEANFILES = \
-	$(export_datadir)/$(noinst_DATA)
+	$(export_datadir)/$(noinst_DATA) \
+	$(export_datadir)/$(noinst_TMP)
 
 datfiles: \
 	TestSimpleDBQuery \

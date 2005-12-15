@@ -24,7 +24,7 @@ spatialdata::spatialdb::SimpleIO::filename(const char* filename)
 inline
 const char*
 spatialdata::spatialdb::SimpleIO::filename(void) const
-{ return _filename; }
+{ return _filename.c_str(); }
 
 // version
 // $Id: SimpleIO.icc,v 1.1 2005/05/25 18:42:56 baagaard Exp $

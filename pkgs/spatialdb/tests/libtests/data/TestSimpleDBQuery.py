@@ -37,7 +37,8 @@ class TestSimpleDBQuery(Script):
                     3.0, 0.3, 0.1, 4.4, 8.8,
                     4.0, 0.4, 0.9, 4.5, 9.9 ]
     self._names = [ "One", "Two" ]
-    self._topology = "spatialdata::SimpleDB::VOLUME"
+    self._units = [ "m", "m" ]
+    self._topology = "spatialdata::spatialdb::SimpleDB::VOLUME"
 
     self._pqr = [ [0.1, 0.0, 0.0],
                   [0.4, 0.0, 0.0],
@@ -68,7 +69,8 @@ class TestSimpleDBQuery(Script):
     dumper.writeVal("int", "NUMVALS", self._numVals, "%d")
     dumper.writeArray("double", "DATA", self._data, "%12.4e,", 5)
     dumper.writeArray("char*", "NAMES", self._names, "  \"%s\",", 1)
-    dumper.writeVal("spatialdata::SimpleDB::TopoEnum", "TOPOLOGY",
+    dumper.writeArray("char*", "UNITS", self._units, "  \"%s\",", 1)
+    dumper.writeVal("spatialdata::spatialdb::SimpleDB::TopoEnum", "TOPOLOGY",
                     self._topology, "%s")
     
     dumper.writeArray("double", "COORDS", ravel(self._xyz), "%20.12e,", 3)

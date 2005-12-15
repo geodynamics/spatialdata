@@ -68,14 +68,16 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
   FIREWALL(0 != _pDB);
 
   const char* names[] = {"two", "one"};
+  const char* units[] = {"m", "m"};
   const int numVals = 2;
-  const double queryLoc[] = {1.0, 2.0, 3.0};
+  const double queryLoc[] = { 1.0, 2.0, 3.0 };
   const double pVals[] = { 6.3, 4.7 };
 
   _pDB->queryVals(names, numVals);
 
   double* pValsQ = (0 < numVals) ? new double[numVals] : 0;
   spatialdata::geocoords::CSCart csCart;
+  csCart.initialize();
   _pDB->query(&pValsQ, numVals, queryLoc[0], queryLoc[1], queryLoc[2],
 	      &csCart);
   const double tolerance = 1.0e-06;

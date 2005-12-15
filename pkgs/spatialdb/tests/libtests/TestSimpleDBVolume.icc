@@ -26,6 +26,12 @@ const char**
 spatialdata::spatialdb::TestSimpleDBVolume::_names(void) const
 { return NAMES; }
 
+// Get units of values in database.
+inline
+const char**
+spatialdata::spatialdb::TestSimpleDBVolume::_units(void) const
+{ return UNITS; }
+
 // Get number of locations in database.
 inline
 int 

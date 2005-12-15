@@ -51,6 +51,10 @@ spatialdata::spatialdb::TestSimpleDB::setUp(void)
   for (int i=0; i < numVals; ++i)
     pData->valNames[i] = _names()[i];
 
+  pData->valUnits = new std::string[numVals];
+  for (int i=0; i < numVals; ++i)
+    pData->valUnits[i] = _units()[i];
+
   pData->numLocs = numLocs;
   pData->numVals = numVals;
   pData->topology = _topology();

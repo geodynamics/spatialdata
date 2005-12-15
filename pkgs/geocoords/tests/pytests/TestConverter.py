@@ -42,14 +42,15 @@ class TestConverter(unittest.TestCase):
     csLocal = CSGeoLocalCart()
     csLocal.originLon = -100.0
     csLocal.originLat = 39.0
-    csLocal.originElev = 0.01
+    from pyre.units.length import m
+    csLocal.originElev = 0.01*m
     csLocal.ellipsoid = "clrk66"
     csLocal.datumHoriz = "NAD27"
     csLocal.datumVert = "mean sea level"
     csLocal.initialize()
 
-    from spatialdata.geocoords.Converter import convert
-    xyzLocalValsT = convert(lonlatNAD27ElevVals, csLocal, csNAD27)
+    from spatialdata.geocoords.Converter import convertpy
+    xyzLocalValsT = convertpy(lonlatNAD27ElevVals, csLocal, csNAD27)
 
     self.assertEqual(len(xyzLocalVals), len(xyzLocalValsT))
     for (xyz, xyzT) in zip(xyzLocalVals, xyzLocalValsT):

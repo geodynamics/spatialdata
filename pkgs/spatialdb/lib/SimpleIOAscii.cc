@@ -21,6 +21,7 @@
 #include "SimpleDBTypes.h" // USES SimpleDBTypes
 #include "spatialdata/geocoords/CoordSys.h" // USES CSCart
 #include "spatialdata/geocoords/CSCart.h" // USES CSCart
+#include "spatialdata/geocoords/CSPicklerAscii.h" // USES CSPicklerAscii
 
 #include <fstream> // USES std::ofstream, std::ifstream
 #include <stdexcept> // USES std::runtime_error, std::exception
@@ -118,28 +119,84 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDB::DataStruct* pData,
   FIREWALL(0 != pData);
   FIREWALL(0 != ppCS);
 
-  // Set coordinate system to Cartesian by default
-  *ppCS = new spatialdata::geocoords::CSCart();
+  // Clear memory and set default values
+  delete[] pData->valNames; pData->valNames = 0;
+  delete[] pData->valUnits; pData->valUnits = 0;
+  delete[] pData->data; pData->data = 0;
+  delete *ppCS; *ppCS = new spatialdata::geocoords::CSCart();
 
-  const int maxLineLen = 256;
-  filein.ignore(maxLineLen, ':');
-  filein >> pData->numVals;
-  delete[] pData->valNames; 
-  const int numVals = pData->numVals;
-  pData->valNames = (numVals > 0) ? new std::string[numVals] : 0;
-  filein.ignore(maxLineLen, ':');
-  for (int iVal=0; iVal < numVals; ++iVal)
-    filein >> pData->valNames[iVal];
-  filein.ignore(maxLineLen, ':');
-  filein >> pData->numLocs;
+  std::string name;
 
-  std::string topoString;
-  filein.ignore(maxLineLen, ':');
-  filein >> topoString;
-  pData->topology = parseTopoString(topoString.c_str());
-  
+  filein >> name;
+  if (0 == strcasecmp(name.c_str(), "SimpleDB")) {
+    int numVals = 0;
+    std::string token;
+    const int maxIgnore = 256;
+    filein.ignore(maxIgnore, '{');
+    filein >> token;
+    while (filein.good() && token != "}") {
+      if (0 == strcasecmp(token.c_str(), "num-values")) {
+	filein.ignore(maxIgnore, '=');
+	filein >> numVals;
+	pData->numVals = numVals;
+      } else if (0 == strcasecmp(token.c_str(), "num-locs")) {
+	filein.ignore(maxIgnore, '=');
+	filein >> pData->numLocs;
+      } else if (0 == strcasecmp(token.c_str(), "value-names")) {
+	if (numVals > 0)
+	  pData->valNames = new std::string[numVals];
+	else {
+	  const char* msg = "Number of values must be specified BEFORE "
+	    "names of values in SimpleDB file.";
+	  throw std::runtime_error(msg);
+	} // else
+	filein.ignore(maxIgnore, '=');
+	for (int iVal=0; iVal < numVals; ++iVal)
+	  filein >> pData->valNames[iVal];
+      } else if (0 == strcasecmp(token.c_str(), "value-units")) {
+	if (numVals > 0)
+	  pData->valUnits = new std::string[numVals];
+	else {
+	  const char* msg = "Number of values must be specified BEFORE "
+	    "units of values in SimpleDB file.";
+	  throw std::runtime_error(msg);
+	} // else
+	filein.ignore(maxIgnore, '=');
+	for (int iVal=0; iVal < numVals; ++iVal)
+	  filein >> pData->valUnits[iVal];
+      } else if (0 == strcasecmp(token.c_str(), "topology")) {
+	filein.ignore(maxIgnore, '=');
+	std::string topoString;
+	filein >> topoString;
+	pData->topology = parseTopoString(topoString.c_str());
+      } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
+	spatialdata::geocoords::CSPicklerAscii::unpickle(filein, ppCS);
+      } else {
+	std::ostringstream msg;
+	msg << "Could not parse '" << token << "' into a SimpleDB setting.";
+	throw std::runtime_error(msg.str().c_str());
+      } // else
+      filein >> token;
+    } // while
+    if (!filein.good())
+      throw std::runtime_error("I/O error while parsing SimpleDB settings.");
+
+    if (0 == pData->numVals)
+      throw std::runtime_error("SimpleDB settings must include 'num-values'");
+    if (0 == pData->numLocs)
+      throw std::runtime_error("SimpleDB settings must include 'num-locs'");
+    if (0 == pData->valNames)
+      throw std::runtime_error("SimpleDB settings must include 'value-names'");
+    if (0 == pData->valUnits)
+      throw std::runtime_error("SimpleDB settings must include 'value-units'");
+  } else {
+    std::ostringstream msg;
+    msg << "Could not parse '" << name << "' into 'SimpleDB'.";
+    throw std::runtime_error(msg.str().c_str());
+  } // else
+
   const int numCoords = 3;
-  const int dataSize = pData->numLocs * (numCoords + numVals);
+  const int dataSize = pData->numLocs * (numCoords + pData->numVals);
   delete[] pData->data; 
   pData->data = (dataSize > 0) ? new double[dataSize] : 0;
   for (int i=0; i < dataSize; ++i)
@@ -148,13 +205,14 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDB::DataStruct* pData,
   // Check compatibility of topology and number of points
   checkCompatibility(*pData);
 
+  (*ppCS)->initialize();
 } // ReadV1
 
 // ----------------------------------------------------------------------
 // Write ascii database file.
 void
 spatialdata::spatialdb::SimpleIOAscii::write(const SimpleDB::DataStruct& data,
-				    const spatialdata::geocoords::CoordSys& cs)
+				    const spatialdata::geocoords::CoordSys* pCS)
 { // write
   std::ofstream fileout(filename());
   if (!fileout.is_open() || !fileout.good()) {
@@ -170,14 +228,22 @@ spatialdata::spatialdb::SimpleIOAscii::write(const SimpleDB::DataStruct& data,
 
   fileout
     << HEADER << " " << version << "\n"
-    << "Number of values: " << std::setw(6) << numVals << "\n";
-  fileout << "Names of values: ";
+    << "SimpleDB {\n"
+    << "  num-values = " << std::setw(6) << numVals << "\n"
+    << "  value-names =";
   for (int iVal=0; iVal < numVals; ++iVal)
     fileout << "  " << data.valNames[iVal];
+  fileout << "\n";
+  fileout << "  value-units =";
+  for (int iVal=0; iVal < numVals; ++iVal)
+    fileout << "  " << data.valUnits[iVal];
+  fileout << "\n";
   fileout
-    << "\n"
-    << "Number of locations: " << std::setw(6) << numLocs << "\n"
-    << "Topology: " << topoString(data.topology) << "\n";
+    << "  num-locs = " << std::setw(6) << numLocs << "\n"
+    << "  topology = " << topoString(data.topology) << "\n"
+    << "  cs-data = ";
+  spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
+  fileout << "}\n";
 
   fileout
     << std::resetiosflags(std::ios::fixed)

@@ -27,6 +27,10 @@ const char* spatialdata::spatialdb::TestSimpleDBArea::NAMES[] = {
   "One",
   "Two",
 };
+const char* spatialdata::spatialdb::TestSimpleDBArea::UNITS[] = {
+  "m",
+  "m",
+};
 const spatialdata::spatialdb::SimpleDB::TopoEnum spatialdata::spatialdb::TestSimpleDBArea::TOPOLOGY = spatialdata::spatialdb::SimpleDB::AREA;
 const int spatialdata::spatialdb::TestSimpleDBArea::NUMQUERIES = 3;
 const double spatialdata::spatialdb::TestSimpleDBArea::QUERYLINEAR[] = {
@@ -41,6 +45,6 @@ const double spatialdata::spatialdb::TestSimpleDBArea::QUERYNEAREST[] = {
 };
 
 // version
-// $Id: TestSimpleDBArea.dat,v 1.1 2005/05/25 18:43:07 baagaard Exp $
+// $Id$
 
 // End of file

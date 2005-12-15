@@ -29,7 +29,8 @@ class PointData(SimpleDBQueryData):
     self._numLocs = 1
     self._numVals = 2
     self._names = [ "One", "Two" ]
-    self._topology = "spatialdata::SimpleDB::POINT"
+    self._units = [ "m", "m" ]
+    self._topology = "spatialdata::spatialdb::SimpleDB::POINT"
     self._data = [0.1, 0.2, 0.3, 6.3, 7.4]
     self._numQueries = 3
     self._qndata = [4.5, 2.3, 4.0, 6.3, 7.4,

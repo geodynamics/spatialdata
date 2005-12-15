@@ -49,6 +49,10 @@ testgeocoords_LDADD = \
 	-lproj \
 	$(top_builddir)/pkgs/geocoords/lib/libspatialdatageocoords.la
 
+if ENABLE_PYTHIA
+testgeocoords_LDADD += -lpythiautil
+endif
+
 # version
 # $Id$
 

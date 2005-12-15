@@ -1,6 +1,12 @@
 #SPATIAL.ascii 1
-Number of values:     2
-Names of values:  One  Two
-Number of locations:     1
-Topology: point
+SimpleDB {
+  num-values = 2
+  value-names =  One  Two
+  value-units =  m  m
+  num-locs = 1
+  topology = point
+  cs-data = cartesian {
+    to-meters = 1.0
+  }
+}
   6.000000e-01  1.000000e-01  2.000000e-01  6.300000e+00  4.700000e+00

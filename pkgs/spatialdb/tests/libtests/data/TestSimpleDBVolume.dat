@@ -29,6 +29,10 @@ const char* spatialdata::spatialdb::TestSimpleDBVolume::NAMES[] = {
   "One",
   "Two",
 };
+const char* spatialdata::spatialdb::TestSimpleDBVolume::UNITS[] = {
+  "m",
+  "m",
+};
 const spatialdata::spatialdb::SimpleDB::TopoEnum spatialdata::spatialdb::TestSimpleDBVolume::TOPOLOGY = spatialdata::spatialdb::SimpleDB::VOLUME;
 const int spatialdata::spatialdb::TestSimpleDBVolume::NUMQUERIES = 4;
 const double spatialdata::spatialdb::TestSimpleDBVolume::QUERYLINEAR[] = {
@@ -45,6 +49,6 @@ const double spatialdata::spatialdb::TestSimpleDBVolume::QUERYNEAREST[] = {
 };
 
 // version
-// $Id: TestSimpleDBVolume.dat,v 1.1 2005/05/25 18:43:07 baagaard Exp $
+// $Id$
 
 // End of file

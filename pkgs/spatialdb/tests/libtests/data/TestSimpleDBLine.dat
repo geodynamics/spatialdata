@@ -26,6 +26,10 @@ const char* spatialdata::spatialdb::TestSimpleDBLine::NAMES[] = {
   "One",
   "Two",
 };
+const char* spatialdata::spatialdb::TestSimpleDBLine::UNITS[] = {
+  "m",
+  "m",
+};
 const spatialdata::spatialdb::SimpleDB::TopoEnum spatialdata::spatialdb::TestSimpleDBLine::TOPOLOGY = spatialdata::spatialdb::SimpleDB::LINE;
 const int spatialdata::spatialdb::TestSimpleDBLine::NUMQUERIES = 3;
 const double spatialdata::spatialdb::TestSimpleDBLine::QUERYLINEAR[] = {
@@ -40,6 +44,6 @@ const double spatialdata::spatialdb::TestSimpleDBLine::QUERYNEAREST[] = {
 };
 
 // version
-// $Id: TestSimpleDBLine.dat,v 1.1 2005/05/25 18:43:07 baagaard Exp $
+// $Id$
 
 // End of file

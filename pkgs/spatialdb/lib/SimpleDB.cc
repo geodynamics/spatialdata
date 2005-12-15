@@ -61,8 +61,10 @@ spatialdata::spatialdb::SimpleDB::~SimpleDB(void)
   if (0 != _pData) {
     delete[] _pData->data; _pData->data = 0;
     delete[] _pData->valNames; _pData->valNames = 0;
+    delete[] _pData->valUnits; _pData->valUnits = 0;
   } // if
   delete _pData; _pData = 0;
+  delete _pIOHandler; _pIOHandler = 0;
 
   delete _pCS; _pCS = 0;
 } // destructor
@@ -79,8 +81,9 @@ spatialdata::spatialdb::SimpleDB::open(void)
     _pData = new DataStruct;
     _pData->data = 0;
     _pData->valNames = 0;
+    _pData->valUnits = 0;
+    _pIOHandler->read(_pData, &_pCS);
   } // if
-  _pIOHandler->read(_pData, &_pCS);
 
   // Create query object
   if (0 == _pQuery)

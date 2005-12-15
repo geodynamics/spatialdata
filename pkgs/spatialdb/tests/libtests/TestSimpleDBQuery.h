@@ -80,6 +80,7 @@ private :
 
   static const double DATA[]; ///< Data for database
   static const char* NAMES[]; ///< Names of values in database
+  static const char* UNITS[]; ///< Units of values in database
   static const int NUMLOCS; ///< Number of locations in database
   static const int NUMVALS; ///< Number of values in database
   static const SimpleDB::TopoEnum TOPOLOGY; ///< Topology of data in database

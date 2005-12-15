@@ -19,7 +19,8 @@ class TestCSGeoLocalCart(unittest.TestCase):
     cs = CSGeoLocalCart()
     cs.originLon = -120.0
     cs.originLat = 38.0
-    cs.originElev = 12.0
+    from pyre.units.length import m
+    cs.originElev = 12.0*m
     cs.ellipsoid = "clrk66"
     cs.datumHoriz = "NAD27"
     cs.datumVert = "mean sea level"

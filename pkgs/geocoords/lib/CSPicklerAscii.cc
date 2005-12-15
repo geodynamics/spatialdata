@@ -48,6 +48,8 @@ spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
 { // unpickle
   FIREWALL(0 != ppCS);
 
+  delete *ppCS; *ppCS = 0;
+
   const int maxIgnore = 128;
   std::string objname;
   s.ignore(maxIgnore, '=');

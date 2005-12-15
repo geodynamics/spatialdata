@@ -18,6 +18,8 @@
 #if !defined(spatialdata_spatialdb_simpleio_h)
 #define spatialdata_spatialdb_simpleio_h
 
+#include <string> // HASA std::string
+
 namespace spatialdata {
   namespace spatialdb {
     class SimpleIO;
@@ -69,10 +71,10 @@ public :
   /** Write the database.
    *
    * @param data Database data
-   * @param cs Coordinate system
+   * @param pCS Pointer to coordinate system
    */
   virtual void write(const SimpleDB::DataStruct& data,
-		     const spatialdata::geocoords::CoordSys& cs) = 0;
+		     const spatialdata::geocoords::CoordSys* pCS) = 0;
 
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////
@@ -97,7 +99,7 @@ private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
   
   /** Filename of database */
-  const char* _filename;
+  std::string _filename;
 
 }; // class SimpleIO
 
