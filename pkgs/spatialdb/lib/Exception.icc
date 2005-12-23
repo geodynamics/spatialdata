@@ -10,10 +10,16 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_spatialdb_simpledb_h)
-#error "SimpleDB.icc must only be included from SimpleDB.h"
+#if !defined(spatialdata_spatialdb_exception_h)
+#error "Exception.icc must only be included from Exception.h"
 #endif
 
+// Constructor.
+inline
+spatialdata::spatialdb::OutOfBounds::OutOfBounds(const std::string& msg) :
+  std::runtime_error(msg)
+{}
+  
 // version
 // $Id$
 

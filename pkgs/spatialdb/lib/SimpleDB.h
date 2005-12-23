@@ -107,8 +107,10 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
    * @param pCSQuery Coordinate system of coordinates
+   *
+   * @returns 0 on success, 1 on failure (i.e., values not set)
    */
-  void query(double** pVals,
+  int query(double** pVals,
 	     const int numVals,
 	     const double x,
 	     const double y,

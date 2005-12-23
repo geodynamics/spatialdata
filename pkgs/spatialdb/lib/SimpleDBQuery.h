@@ -16,7 +16,7 @@
 namespace spatialdata {
   namespace spatialdb {
     class SimpleDBQuery;
-    class TestSimpleDBQuery; // regression testing
+    class TestSimpleDBQuery; // unit testing
   } // spatialdb
 } // spatialdata
 
@@ -30,7 +30,10 @@ class spatialdata::spatialdb::SimpleDBQuery
  public :
   // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /// Default constructor.
+  /** Default constructor.
+   *
+   * @param db Database
+   */
   SimpleDBQuery(const SimpleDB& db);
   
   /// Default destructor.

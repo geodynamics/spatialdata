@@ -20,9 +20,9 @@
 
 #include "spatialdata/geocoords/Converter.h" // USES Converter
 
-#include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 #include <algorithm> // USES std::fill(), std::lower_bound(), std::distance
+#include "Exception.h" // USES OutOfBounds
 
 #include <math.h> // USES MAXFLOAT
 #if !defined(MAXFLOAT)
@@ -74,7 +74,7 @@ spatialdata::spatialdb::SimpleDBQuery::queryVals(const char** names,
     std::ostringstream msg;
     msg
       << "Number of values for query in spatial database " << _db.label()
-      << "\n must be positive.";
+      << "\n must be positive.\n";
     throw std::runtime_error(msg.str());
   } // if
   FIREWALL(0 != names && 0 < numVals);
@@ -89,13 +89,14 @@ spatialdata::spatialdb::SimpleDBQuery::queryVals(const char** names,
 	break;
       ++iName;
     } // while
-    if (iName == numNames) {
+    if (iName >= numNames) {
       std::ostringstream msg;
       msg
 	<< "Could not find value " << names[iVal] << " in spatial database\n"
 	<< _db.label() << ". Available values are:";
       for (int iName=0; iName < numNames; ++iName)
 	msg << "\n  " << _db._pData->valNames[iName];
+      msg << "\n";
       throw std::runtime_error(msg.str());
     } // if
     _queryVals[iVal] = iName;
@@ -116,7 +117,7 @@ spatialdata::spatialdb::SimpleDBQuery::query(double** pVals,
     std::ostringstream msg;
     msg
       << "Values to be returned by spatial database " << _db.label() << "\n"
-      << "have not been set. Please call QueryVals() before Query().";
+      << "have not been set. Please call QueryVals() before Query().\n";
     throw std::runtime_error(msg.str());
   } // if
   else if (numVals != _querySize) {
@@ -125,7 +126,7 @@ spatialdata::spatialdb::SimpleDBQuery::query(double** pVals,
       << "Number of values to be returned by spatial database "
       << _db.label() << "\n"
       << "(" << _querySize << ") does not match size of array provided ("
-      << numVals << ").";
+      << numVals << ").\n";
     throw std::runtime_error(msg.str());
   } // if
 
@@ -313,8 +314,8 @@ spatialdata::spatialdb::SimpleDBQuery::_getWeights(std::vector<WtStruct>* pWeigh
       break;
     } // VOLUME
     default :
-      throw std::runtime_error("Could not set weights for unknown "
-			       "topology type.");
+      throw std::runtime_error("Could not set weights for unknown topology "
+			       "type.");
     } // switch
 } // _getWeights
 
@@ -373,14 +374,8 @@ spatialdata::spatialdb::SimpleDBQuery::_findLinePt(std::vector<WtStruct>* pWeigh
       break;
     ++nearIndexB;
   } // while
-  if (nearSize == nearIndexB) { // if
-    // if couldn't find points for interpolation
-    std::ostringstream msg;
-    msg
-      << "Could not find points to use linear interpolation for point:\n("
-      << _q[0] << ", " << _q[1] << ", " << _q[2] << ").";
-    throw std::runtime_error(msg.str());
-  } // if
+  if (nearIndexB >= nearSize)
+    throw OutOfBounds("Could not find points for linear interpolation.");
   (*pWeights)[0].wt = wtA;
   (*pWeights)[1].wt = wtB;
   (*pWeights)[1].nearIndex = nearIndexB;
@@ -469,14 +464,8 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
     } // if
     ++nearIndexC;
   } // while
-  if (nearSize == nearIndexC) { // if
-    // if couldn't find points for interpolation
-    std::ostringstream msg;
-    msg
-      << "Could not find points to use areal interpolation for point:\n("
-      << _q[0] << ", " << _q[1] << ", " << _q[2] << ").";
-    throw std::runtime_error(msg.str());
-  } // if
+  if (nearIndexC >= nearSize)
+    throw OutOfBounds("Could not find points for areal interpolation.");
   (*pWeights)[0].wt = wtA;
   (*pWeights)[1].wt = wtB;
   (*pWeights)[2].wt = wtC;
@@ -563,14 +552,8 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
     } // if
     ++nearIndexD;
   } // while
-  if (nearSize == nearIndexD) { // if
-    // if couldn't find points for interpolation
-    std::ostringstream msg;
-    msg
-      << "Could not find points to use volumetric interpolation for point:\n("
-      << _q[0] << ", " << _q[1] << ", " << _q[2] << ").";
-    throw std::runtime_error(msg.str());
-  } // if
+  if (nearIndexD >= nearSize)
+    throw OutOfBounds("Could not find points for volumetric interpolation.");
   (*pWeights)[0].wt = wtA;
   (*pWeights)[1].wt = wtB;
   (*pWeights)[2].wt = wtC;

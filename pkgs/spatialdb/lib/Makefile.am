@@ -30,6 +30,8 @@ libspatialdata_la_LIBADD = \
 	$(top_builddir)/pkgs/geocoords/lib/libspatialdatageocoords.la
 
 subpkginclude_HEADERS = \
+	Exception.h \
+	Exception.icc \
 	SpatialDB.h \
 	SpatialDB.icc \
 	SimpleDB.h \

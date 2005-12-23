@@ -60,7 +60,7 @@ class spatialdata::spatialdb::SpatialDB
 
   /** Set values to be returned by queries.
    *
-   * @pre Must call Open() before QueryVals()
+   * @pre Must call open() before queryVals()
    *
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
@@ -70,7 +70,7 @@ class spatialdata::spatialdb::SpatialDB
 
   /** Query the database.
    *
-   * @pre Must call Open() before Query()
+   * @pre Must call open() before query()
    *
    * @param pVals Pointer to computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
@@ -78,13 +78,15 @@ class spatialdata::spatialdb::SpatialDB
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
    * @param pCSQuery Coordinate system of coordinates
+   *
+   * @returns 0 on success, 1 on failure (i.e., values not set)
    */
-  virtual void query(double** pVals,
-		     const int numVals,
-		     const double x,
-		     const double y,
-		     const double z,
-		     const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
+  virtual int query(double** pVals,
+		    const int numVals,
+		    const double x,
+		    const double y,
+		    const double z,
+		    const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
 
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////

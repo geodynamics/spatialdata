@@ -21,7 +21,8 @@
 
 #include "spatialdata/geocoords/CoordSys.h" // USES CoordSys
 
-#include <stdexcept> // USES std::runtime_error, std::exception
+#include <stdexcept> // USES std::runtime_error
+#include "Exception.h" // USES OutOfBounds
 #include <sstream> // USES std::ostringsgream
 
 #if defined(HAVE_PYTHIA)
@@ -135,7 +136,7 @@ spatialdata::spatialdb::SimpleDB::ioHandler(const SimpleIO* iohandler)
 
 // ----------------------------------------------------------------------
 // Query the database.
-void
+int
 spatialdata::spatialdb::SimpleDB::query(double** pVals,
 					const int numVals,
 					const double x,
@@ -143,21 +144,26 @@ spatialdata::spatialdb::SimpleDB::query(double** pVals,
 					const double z,
 			      const spatialdata::geocoords::CoordSys* pCSQuery)
 { // query
-  if (0 == _pQuery) {
-    std::ostringstream msg;
-    msg
-      << "Spatial database " << label() << " has not been opened.\n"
-      << "Please call Open() before calling Query().";
-    throw std::runtime_error(msg.str());
-  } // if
-  else if (0 == _pData) {
-    std::ostringstream msg;
-    msg
-      << "Spatial database " << label() << " does not contain any data.\n"
-      << "Database query aborted.";
-    throw std::runtime_error(msg.str());
-  } // if
-  _pQuery->query(pVals, numVals, x, y, z, pCSQuery);
+  try {
+    if (0 == _pQuery) {
+      std::ostringstream msg;
+      msg
+	<< "Spatial database " << label() << " has not been opened.\n"
+	<< "Please call open() before calling query().";
+      throw std::runtime_error(msg.str());
+    } // if
+    else if (0 == _pData) {
+      std::ostringstream msg;
+      msg
+	<< "Spatial database " << label() << " does not contain any data.\n"
+	<< "Database query aborted.";
+      throw std::runtime_error(msg.str());
+    } // if
+    _pQuery->query(pVals, numVals, x, y, z, pCSQuery);
+  } catch(const OutOfBounds& err) {
+    return 1;
+  } // catch
+  return 0;
 } // query
 
 // version
