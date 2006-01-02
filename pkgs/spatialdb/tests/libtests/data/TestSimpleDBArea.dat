@@ -23,6 +23,11 @@ const double spatialdata::spatialdb::TestSimpleDBArea::DATA[] = {
   3.8364357805e+00,  1.1245743122e+01,  7.8271284391e+00, -4.0000000000e-01, -4.4000000000e+00,
   4.0546536707e+00,  1.2118614683e+01,  7.3906926586e+00, -3.0000000000e-01, -3.2000000000e+00,
 };
+const int spatialdata::spatialdb::TestSimpleDBArea::ERRFLAGS[] = {
+ 0,
+ 0,
+ 0,
+};
 const char* spatialdata::spatialdb::TestSimpleDBArea::NAMES[] = {
   "One",
   "Two",

@@ -22,14 +22,16 @@
  * @param y Y coordinate of location for query
  * @param z Z coordinate of location for query
  * @param cs Pointer to CoordSys
+ *
+ * @returns 0 on success, 1 on failure (i.e., values not set)
  */
-void spatialdb_query(void* db, 
-		     double** pVals,
-		     const int numVals,
-		     const double x,
-		     const double y,
-		     const double z,
-		     const void* cs);
+int spatialdb_query(void* db, 
+		    double** pVals,
+		    const int numVals,
+		    const double x,
+		    const double y,
+		    const double z,
+		    const void* cs);
 
 #endif /* spatialdata_cspatialdb_h */
 

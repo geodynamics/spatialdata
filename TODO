@@ -5,13 +5,8 @@ CONFIGURE
 
 GEOCOORDS
 
-  Add tests that flex unit capabilities
-
 SPATIALDB
 
-  Add reading/writing coordinate systems to SimpleIOAscii
-
-  Give units for each value in database.
   Get units by parsing header with Python
 
   Cleanup SimpleDB::DataStruct, SimpleDBTypes

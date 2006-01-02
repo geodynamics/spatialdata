@@ -48,6 +48,12 @@ protected :
    */
   const double* _data(void) const;
 
+  /** Get expected return values for queries.
+   *
+   * @returns Pointer to head of array
+   */
+  const int* _errFlags(void) const;
+
   /** Get names of values in database.
    *
    * @returns Pointer to names
@@ -108,6 +114,7 @@ private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   static const double DATA[]; ///< Data for database
+  static const int ERRFLAGS[]; ///< Expected query return values
   static const char* NAMES[]; ///< Names of values in database
   static const char* UNITS[]; ///< Units of values in database
   static const int NUMLOCS; ///< Number of locations in database

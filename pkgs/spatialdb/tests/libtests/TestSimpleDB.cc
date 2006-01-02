@@ -111,7 +111,7 @@ spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void)
   FIREWALL(0 != pDB);
 
   pDB->queryType(SimpleDB::NEAREST);
-  _checkQuery(_queryNearest());
+  _checkQuery(_queryNearest(), _errFlags());
 } // testQueryNearest
 
 // ----------------------------------------------------------------------
@@ -122,13 +122,14 @@ spatialdata::spatialdb::TestSimpleDB::testQueryLinear(void)
   FIREWALL(0 != _pDB);
 
   _pDB->queryType(SimpleDB::LINEAR);
-  _checkQuery(_queryLinear());
+  _checkQuery(_queryLinear(), _errFlags());
 } // testQueryLinear
 
 // ----------------------------------------------------------------------
 // Check query values.
 void
-spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData) const
+spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
+						  const int* queryErrFlags) const
 { // _checkQuery
   FIREWALL(0 != queryData);
   FIREWALL(0 != _pDB);
@@ -150,7 +151,9 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData) const
   for (int iQuery=0; iQuery < numQueries; ++iQuery) {
     const double* qCoords = &queryData[iQuery*locSize];
     const double* qVals = &queryData[iQuery*locSize+3];
-    _pDB->query(&pVals, numVals, qCoords[0], qCoords[1], qCoords[2], &csCart);
+    const int err = _pDB->query(&pVals, numVals, 
+				qCoords[0], qCoords[1], qCoords[2], &csCart);
+    CPPUNIT_ASSERT(err == queryErrFlags[iQuery]);
     for (int iVal=0; iVal < numVals; ++iVal)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(pVals[iVal]/qVals[numVals-iVal-1], 1.0,
 				   tolerance);

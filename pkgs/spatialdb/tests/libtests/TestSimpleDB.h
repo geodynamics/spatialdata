@@ -76,6 +76,12 @@ protected :
    */
   virtual const double* _data(void) const = 0;
 
+  /** Get expected return values for queries.
+   *
+   * @returns Pointer to head of array
+   */
+  virtual const int* _errFlags(void) const = 0;
+
   /** Get names of values in database.
    *
    * @returns Pointer to names
@@ -140,8 +146,10 @@ private :
    * Do query and check values returned.
    * 
    * @param queryData Query locations and expected values
+   * @param queryErrFlags Array of exepcted return values
    */
-  void _checkQuery(const double* queryData) const;
+  void _checkQuery(const double* queryData,
+		   const int* queryErrFlags) const;
 
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 private :

@@ -36,7 +36,8 @@ void spatialdb_query_f(void* db,
 		       const double* x,
 		       const double* y,
 		       const double* z,
-		       const void* cs)
+		       const void* cs,
+		       int* ok)
 { // spatialdb_query_f
   spatialdata::spatialdb::SpatialDB* pDB = 
     (spatialdata::spatialdb::SpatialDB*) db;
@@ -47,7 +48,8 @@ void spatialdb_query_f(void* db,
   FIREWALL(0 != x);
   FIREWALL(0 != y);
   FIREWALL(0 != z);
-  pDB->query(&pVals, *numVals, *x, *y, *z, pCS);
+  FIREWALL(0 != ok);
+  *ok = pDB->query(&pVals, *numVals, *x, *y, *z, pCS);
 } // spatialdb_query_f
 
 // version

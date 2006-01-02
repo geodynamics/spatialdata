@@ -18,6 +18,11 @@ const int spatialdata::spatialdb::TestSimpleDBPoint::NUMVALS = 2;
 const double spatialdata::spatialdb::TestSimpleDBPoint::DATA[] = {
   1.0000000000e-01,  2.0000000000e-01,  3.0000000000e-01,  6.3000000000e+00,  7.4000000000e+00,
 };
+const int spatialdata::spatialdb::TestSimpleDBPoint::ERRFLAGS[] = {
+ 0,
+ 0,
+ 0,
+};
 const char* spatialdata::spatialdb::TestSimpleDBPoint::NAMES[] = {
   "One",
   "Two",

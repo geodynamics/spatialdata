@@ -29,13 +29,14 @@ extern "C" {
 // ----------------------------------------------------------------------
 // Call SpatialDB:Query().
 extern "C"
-void spatialdb_query(void* db, 
-		     double** pVals,
-		     const int numVals,
-		     const double x,
-		     const double y,
-		     const double z,
-		     const void* cs)
+int
+spatialdb_query(void* db, 
+		double** pVals,
+		const int numVals,
+		const double x,
+		const double y,
+		const double z,
+		const void* cs)
 { // spatialdb_query
   spatialdata::spatialdb::SpatialDB* pDB = 
     (spatialdata::spatialdb::SpatialDB*) db;
@@ -43,7 +44,7 @@ void spatialdb_query(void* db,
     (const spatialdata::geocoords::CoordSys*) cs;
   FIREWALL(0 != pDB);
   FIREWALL(0 != pCS);
-  pDB->query(pVals, numVals, x, y, z, pCS);
+  return pDB->query(pVals, numVals, x, y, z, pCS);
 } // spatialdb_query
 
 // version

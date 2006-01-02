@@ -28,6 +28,7 @@
  * @param y Pointer to y coordinate of location for query
  * @param z Pointer to z coordinate of location for query
  * @param cs Pointer to CS
+ * @param ok Set to 0 on success, 1 on failure (i.e., values not set)
  */
 extern "C"
 void spatialdb_query_f(void* db,
@@ -36,7 +37,8 @@ void spatialdb_query_f(void* db,
 		       const double* x,
 		       const double* y,
 		       const double* z,
-		       const void* cs);
+		       const void* cs,
+		       int* ok);
 
 #endif /* spatialdata_spatialdb_f77spatialdb_h */
 

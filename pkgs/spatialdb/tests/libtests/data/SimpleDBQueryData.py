@@ -41,6 +41,7 @@ class SimpleDBQueryData(Component):
     dumper.writeVal("int", "NUMLOCS", numLocs, "%d")
     dumper.writeVal("int", "NUMVALS", numVals, "%d")
     dumper.writeArray("double", "DATA", self._data, "%18.10e,", 3+numVals)
+    dumper.writeArray("int", "ERRFLAGS", self._errFlags, "%2d,", 1)
     dumper.writeArray("char*", "NAMES", self._names, "  \"%s\",", 1)
     dumper.writeArray("char*", "UNITS", self._units, "  \"%s\",", 1)
     dumper.writeVal("spatialdata::spatialdb::SimpleDB::TopoEnum", "TOPOLOGY",

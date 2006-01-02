@@ -41,6 +41,7 @@ class LineData(SimpleDBQueryData):
                                                  {'i': 4, 'w': 2.0/3.0} ] },
                      {'t': 1.2, 'ni': 1, 'wts': [{'i': 1, 'w': 0.6},
                                                  {'i': 2, 'w': 0.4}]} ]
+    self._errFlags = [ 0, 0, 0 ]
     self._numLocs = len(self._tdata)
     self._numVals = len(self._names)
     self._numQueries = len(self._qtdata)

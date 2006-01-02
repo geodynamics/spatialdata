@@ -59,6 +59,7 @@ class VolumeData(SimpleDBQueryData):
                               {'i': 5, 'w': 0.45},
                               {'i': 0, 'w': 0.35},
                               {'i': 3, 'w': 0.15}]} ]
+    self._errFlags = [ 0, 0, 0, 0 ]
     self._numLocs = len(self._tdata)
     self._numVals = len(self._names)
     self._numQueries = len(self._qtdata)

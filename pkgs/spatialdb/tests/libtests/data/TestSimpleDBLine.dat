@@ -22,6 +22,11 @@ const double spatialdata::spatialdb::TestSimpleDBLine::DATA[] = {
   8.0000000000e+00,  1.0300000000e+01,  2.8300000000e+01,  1.0000000000e-01,  1.1000000000e+00,
   1.4900000000e+01,  1.1500000000e+01,  5.7700000000e+01, -4.0000000000e-01, -4.4000000000e+00,
 };
+const int spatialdata::spatialdb::TestSimpleDBLine::ERRFLAGS[] = {
+ 0,
+ 0,
+ 0,
+};
 const char* spatialdata::spatialdb::TestSimpleDBLine::NAMES[] = {
   "One",
   "Two",

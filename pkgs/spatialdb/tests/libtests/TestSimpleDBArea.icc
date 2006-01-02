@@ -20,6 +20,12 @@ const double*
 spatialdata::spatialdb::TestSimpleDBArea::_data(void) const
 { return DATA; }
 
+// Get expected return values for queries.
+inline
+const int*
+spatialdata::spatialdb::TestSimpleDBArea::_errFlags(void) const
+{ return ERRFLAGS; }
+
 // Get names of values in database.
 inline
 const char**

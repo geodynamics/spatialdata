@@ -25,6 +25,12 @@ const double spatialdata::spatialdb::TestSimpleDBVolume::DATA[] = {
   4.1222850521e+00,  1.0860821597e+01,  9.4914978734e+00,  7.0000000000e-01,  5.2000000000e+00,
   2.3334306701e+00,  1.0860821597e+01,  8.5970706824e+00,  5.0000000000e-01,  4.6000000000e+00,
 };
+const int spatialdata::spatialdb::TestSimpleDBVolume::ERRFLAGS[] = {
+ 0,
+ 0,
+ 0,
+ 0,
+};
 const char* spatialdata::spatialdb::TestSimpleDBVolume::NAMES[] = {
   "One",
   "Two",

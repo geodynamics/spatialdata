@@ -37,7 +37,8 @@ c
 
       err = 0
       call spatialdb_query_f(db, valsQ, numVals, loc(1), loc(2), 
-     *     loc(3), cs)
+     *     loc(3), cs, err)
+      if (err .eq. 1) goto 10
       do iVal=1,numVals
          error = 1.0-valsQ(iVal)/vals(1+numVals-iVal)
          if (error .gt. tolerance) then
