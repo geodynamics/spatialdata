@@ -79,8 +79,7 @@ class spatialdata::spatialdb::SpatialDB
    * @param z Z coordinate of location for query
    * @param pCSQuery Coordinate system of coordinates
    *
-   * @returns 0 on success, 1 on failure (i.e., could not interpolate
-   *   so values set to 0)
+   * @returns 0 on success, 1 on failure (i.e., could not interpolate)
    */
   virtual int query(double** pVals,
 		    const int numVals,
