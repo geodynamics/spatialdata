@@ -28,6 +28,7 @@ const double spatialdata::spatialdb::TestSimpleDBVolume::DATA[] = {
 const int spatialdata::spatialdb::TestSimpleDBVolume::ERRFLAGS[] = {
  0,
  0,
+ 1,
  0,
  0,
 };
@@ -40,16 +41,18 @@ const char* spatialdata::spatialdb::TestSimpleDBVolume::UNITS[] = {
   "m",
 };
 const spatialdata::spatialdb::SimpleDB::TopoEnum spatialdata::spatialdb::TestSimpleDBVolume::TOPOLOGY = spatialdata::spatialdb::SimpleDB::VOLUME;
-const int spatialdata::spatialdb::TestSimpleDBVolume::NUMQUERIES = 4;
+const int spatialdata::spatialdb::TestSimpleDBVolume::NUMQUERIES = 5;
 const double spatialdata::spatialdb::TestSimpleDBVolume::QUERYLINEAR[] = {
   4.38173419e+00,  8.36254772e+00,  8.74899281e+00,  1.35000000e-01,  1.49500000e+00,
   2.35495601e+00,  1.00264422e+01,  9.00123360e+00,  4.10000000e-01,  3.85500000e+00,
+  3.91112675e+00,  1.07838373e+01,  9.69020768e+00,  0.00000000e+00,  0.00000000e+00,
   3.87701461e+00,  1.04910673e+01,  9.08761157e+00,  5.30000000e-01,  4.42000000e+00,
   3.01795532e+00,  8.84019490e+00,  8.79326896e+00,  2.00000000e-01,  2.15500000e+00,
 };
 const double spatialdata::spatialdb::TestSimpleDBVolume::QUERYNEAREST[] = {
   4.38173419e+00,  8.36254772e+00,  8.74899281e+00,  1.00000000e-01,  1.10000000e+00,
   2.35495601e+00,  1.00264422e+01,  9.00123360e+00,  5.00000000e-01,  4.60000000e+00,
+  3.91112675e+00,  1.07838373e+01,  9.69020768e+00,  7.00000000e-01,  5.20000000e+00,
   3.87701461e+00,  1.04910673e+01,  9.08761157e+00,  7.00000000e-01,  5.20000000e+00,
   3.01795532e+00,  8.84019490e+00,  8.79326896e+00,  3.00000000e-01,  3.30000000e+00,
 };

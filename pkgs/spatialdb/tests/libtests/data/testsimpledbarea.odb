@@ -45,11 +45,15 @@ class AreaData(SimpleDBQueryData):
                       'wts': [{'i': 0, 'w': 0.375},
                               {'i': 1, 'w': 0.250},
                               {'i': 4, 'w': 0.375}] },
+                     {'s': 3.0, 't': 4.0, 'ni': 3,
+                      'wts': [{'i': 3, 'w': 0.0},
+                              {'i': 5, 'w': 0.0},
+                              {'i': 4, 'w': 0.0}] },
                      {'s': 1.0, 't': 2.75, 'ni': 5,
                       'wts': [{'i': 5, 'w': 0.50},
                               {'i': 4, 'w': 0.25},
                               {'i': 3, 'w': 0.25}]} ]
-    self._errFlags = [ 0, 0, 0 ]
+    self._errFlags = [ 0, 0, 1, 0 ]
     self._numLocs = len(self._tdata)
     self._numVals = len(self._names)
     self._numQueries = len(self._qtdata)

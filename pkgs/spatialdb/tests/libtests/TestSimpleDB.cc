@@ -111,7 +111,7 @@ spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void)
   FIREWALL(0 != pDB);
 
   pDB->queryType(SimpleDB::NEAREST);
-  _checkQuery(_queryNearest(), _errFlags());
+  _checkQuery(_queryNearest(), 0);
 } // testQueryNearest
 
 // ----------------------------------------------------------------------
@@ -153,9 +153,12 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
     const double* qVals = &queryData[iQuery*locSize+3];
     const int err = _pDB->query(&pVals, numVals, 
 				qCoords[0], qCoords[1], qCoords[2], &csCart);
-    CPPUNIT_ASSERT(err == queryErrFlags[iQuery]);
+    if (0 != queryErrFlags)
+      CPPUNIT_ASSERT(err == queryErrFlags[iQuery]);
+    else
+      CPPUNIT_ASSERT(0 == err);
     for (int iVal=0; iVal < numVals; ++iVal)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(pVals[iVal]/qVals[numVals-iVal-1], 1.0,
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[iVal]/qVals[numVals-iVal-1],
 				   tolerance);
   } // for
   delete[] pVals; pVals = 0;

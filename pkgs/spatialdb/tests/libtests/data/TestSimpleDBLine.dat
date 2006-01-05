@@ -25,6 +25,7 @@ const double spatialdata::spatialdb::TestSimpleDBLine::DATA[] = {
 const int spatialdata::spatialdb::TestSimpleDBLine::ERRFLAGS[] = {
  0,
  0,
+ 1,
  0,
 };
 const char* spatialdata::spatialdb::TestSimpleDBLine::NAMES[] = {
@@ -36,15 +37,17 @@ const char* spatialdata::spatialdb::TestSimpleDBLine::UNITS[] = {
   "m",
 };
 const spatialdata::spatialdb::SimpleDB::TopoEnum spatialdata::spatialdb::TestSimpleDBLine::TOPOLOGY = spatialdata::spatialdb::SimpleDB::LINE;
-const int spatialdata::spatialdb::TestSimpleDBLine::NUMQUERIES = 3;
+const int spatialdata::spatialdb::TestSimpleDBLine::NUMQUERIES = 4;
 const double spatialdata::spatialdb::TestSimpleDBLine::QUERYLINEAR[] = {
   5.70000000e+00,  9.90000000e+00,  1.85000000e+01,  3.00000000e-01,  3.30000000e+00,
   1.26000000e+01,  1.11000000e+01,  4.79000000e+01, -2.33333333e-01, -2.56666667e+00,
+  1.72000000e+01,  1.19000000e+01,  6.75000000e+01,  0.00000000e+00,  0.00000000e+00,
   6.16000000e+00,  9.98000000e+00,  2.04600000e+01,  2.60000000e-01,  2.86000000e+00,
 };
 const double spatialdata::spatialdb::TestSimpleDBLine::QUERYNEAREST[] = {
   5.70000000e+00,  9.90000000e+00,  1.85000000e+01,  3.00000000e-01,  3.30000000e+00,
   1.26000000e+01,  1.11000000e+01,  4.79000000e+01, -4.00000000e-01, -4.40000000e+00,
+  1.72000000e+01,  1.19000000e+01,  6.75000000e+01, -4.00000000e-01, -4.40000000e+00,
   6.16000000e+00,  9.98000000e+00,  2.04600000e+01,  3.00000000e-01,  3.30000000e+00,
 };
 

@@ -161,6 +161,7 @@ spatialdata::spatialdb::SimpleDB::query(double** pVals,
     } // if
     _pQuery->query(pVals, numVals, x, y, z, pCSQuery);
   } catch(const OutOfBounds& err) {
+    std::fill(*pVals, *pVals+numVals, 0);
     return 1;
   } // catch
   return 0;
