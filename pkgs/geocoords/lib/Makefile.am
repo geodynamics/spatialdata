@@ -37,6 +37,10 @@ CPPFLAGS += -DDATADIR="$(subpkgdatadir)"
 libspatialdatageocoords_la_LIBADD = \
 	-lproj
 
+if ENABLE_PYTHIA
+libspatialdatageocoords_la_LIBADD += -lpythiautil
+endif
+
 subpkginclude_HEADERS = \
 	Converter.h \
 	CoordSys.h \
