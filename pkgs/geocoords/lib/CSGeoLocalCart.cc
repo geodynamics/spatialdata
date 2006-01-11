@@ -184,6 +184,9 @@ spatialdata::geocoords::CSGeoLocalCart::toProjForm(double** ppCoords,
 						   const int numLocs,
 						   bool is2D) const
 { // toProjForm
+  FIREWALL(0 != ppCoords);
+  FIREWALL(0 != _localOrientation);
+
   const double scale = toMeters();
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     // add origin to old to invert
@@ -213,6 +216,9 @@ spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double** ppCoords,
 						     const int numLocs,
 						     bool is2D) const
 { // fromProjForm
+  FIREWALL(0 != ppCoords);
+  FIREWALL(0 != _localOrientation);
+
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     const double xOld = (*ppCoords)[index  ];
     const double yOld = (*ppCoords)[index+1];
