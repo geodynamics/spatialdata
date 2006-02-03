@@ -18,6 +18,7 @@ subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
 spatialdbmodule_la_SOURCES = \
 	bindings.cc \
 	exceptions.cc \
+	gensimpledb.cc \
 	misc.cc \
 	spatialdb.cc \
 	simpledb.cc \
@@ -25,7 +26,9 @@ spatialdbmodule_la_SOURCES = \
 	simpleioascii.cc \
 	spatialdbmodule.cc 
 
-INCLUDES += -I$(PYTHON_INCDIR)
+INCLUDES += \
+	-I$(PYTHON_INCDIR) \
+	-I$(top_srcdir)
 
 spatialdbmodule_la_LDFLAGS = -module
 

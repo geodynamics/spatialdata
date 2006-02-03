@@ -10,16 +10,19 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = spatialdb
+subpackage = spatialdb/generator
 include $(top_srcdir)/pkgs/subpackage.am
 
-SUBDIRS = generator
+dist_bin_SCRIPTS = \
+	gensimpledb.py
 
 subpkgpython_PYTHON = \
-	SpatialDB.py \
-	SimpleDB.py \
-	SimpleIO.py \
-	SimpleIOAscii.py \
+	Geometry.py \
+	Filter.py \
+	Filters.py \
+	GenSimpleDBApp.py \
+	Value.py \
+	Values.py \
 	__init__.py
 
 # version

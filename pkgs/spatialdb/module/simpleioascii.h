@@ -25,6 +25,13 @@ PyObject* pyspatialdb_CppSimpleIOAscii(PyObject*, PyObject*);
 extern char pyspatialdb_CppSimpleIOAscii__name__[];
 extern char pyspatialdb_CppSimpleIOAscii__doc__[];
 
+// CppSimpleIOAscii_write
+/// Call C++ SimpleIOAscii::write()
+extern "C"
+PyObject* pyspatialdb_CppSimpleIOAscii_write(PyObject*, PyObject*);
+extern char pyspatialdb_CppSimpleIOAscii_write__name__[];
+extern char pyspatialdb_CppSimpleIOAscii_write__doc__[];
+
 #endif // pyspatialdb_simpleioascii_h
 
 // version

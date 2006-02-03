@@ -21,6 +21,12 @@ class SimpleIOAscii(SimpleIO):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
+  def write(self, cppDB, cs):
+    import spatialdb as bindings
+    bindings.CppSimpleIOAscii_write(self._cppSimpleIO, cppDB, cs.handle())
+    return
+
+
   def __init__(self, name="simpleioascii"):
     """Constructor."""
     SimpleIO.__init__(self, name)

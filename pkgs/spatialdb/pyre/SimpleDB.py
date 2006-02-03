@@ -48,14 +48,14 @@ class SimpleDB(SpatialDB):
   def initialize(self):
     """Initialize database."""
 
-    iohandler = self.inventory.iohandler
-    iohandler.initialize()
+    self.iohandler.initialize()
 
     SpatialDB.initialize(self)
     bindings.CppSimpleDB_ioHandler(self._cppSpatialDB,
-                                   iohandler.handle())
+                                   self.iohandler.handle())
     return
   
+
   def open(self):
     """Open database and prepare for querying."""
     SpatialDB.open(self)
@@ -63,10 +63,16 @@ class SimpleDB(SpatialDB):
                                    self.inventory.queryType)
     return
 
+
   def __init__(self, name="simpledb"):
     """Constructor."""
     SpatialDB.__init__(self, name)
     self._cppSpatialDB = bindings.CppSimpleDB()
+    return
+
+
+  def _configure(self):
+    self.iohandler = self.inventory.iohandler
     return
 
 # version

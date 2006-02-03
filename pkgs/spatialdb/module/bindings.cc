@@ -19,6 +19,7 @@
 #include "simpledb.h"  // SimpleDB bindings
 #include "simpleio.h"  // SimpleIO bindings
 #include "simpleioascii.h"  // SimpleIOAscii bindings
+#include "gensimpledb.h"  // SimpleIOAscii bindings
 
 // the method table
 struct PyMethodDef pyspatialdb_methods[] = {
@@ -71,6 +72,32 @@ struct PyMethodDef pyspatialdb_methods[] = {
    pyspatialdb_CppSimpleIOAscii,
    METH_VARARGS,
    pyspatialdb_CppSimpleIOAscii__doc__},
+
+  {pyspatialdb_CppSimpleIOAscii_write__name__,
+   pyspatialdb_CppSimpleIOAscii_write,
+   METH_VARARGS,
+   pyspatialdb_CppSimpleIOAscii_write__doc__},
+
+  // GenSimpleDB
+  {pyspatialdb_CppGenSimpleDB_create__name__,
+   pyspatialdb_CppGenSimpleDB_create,
+   METH_VARARGS,
+   pyspatialdb_CppGenSimpleDB_create__doc__},
+
+  {pyspatialdb_CppGenSimpleDB_initializeValue__name__,
+   pyspatialdb_CppGenSimpleDB_initializeValue,
+   METH_VARARGS,
+   pyspatialdb_CppGenSimpleDB_initializeValue__doc__},
+
+  {pyspatialdb_CppGenSimpleDB_setValue__name__,
+   pyspatialdb_CppGenSimpleDB_setValue,
+   METH_VARARGS,
+   pyspatialdb_CppGenSimpleDB_setValue__doc__},
+
+  {pyspatialdb_CppGenSimpleDB_applyFilter__name__,
+   pyspatialdb_CppGenSimpleDB_applyFilter,
+   METH_VARARGS,
+   pyspatialdb_CppGenSimpleDB_applyFilter__doc__},
 
   // misc
   {pyspatialdb_copyright__name__,

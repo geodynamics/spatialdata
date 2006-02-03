@@ -367,7 +367,7 @@ spatialdata::geocoords::CSGeoLocalCart::_projCSString(void) const
 void
 spatialdata::geocoords::CSGeoLocalCart::pickle(std::ostream& s) const
 { // pickle
-  s << "geo-local-cart {\n"
+  s << "geo-local-cartesian {\n"
     << "  to-meters = " << toMeters() << "\n"
     << "  ellipsoid = " << ellipsoid() << "\n"
     << "  datum-horiz = " << datumHoriz() << "\n"

@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+#!/usr/bin/env python
 #
 # ----------------------------------------------------------------------
 #
@@ -10,19 +10,10 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = spatialdb
-include $(top_srcdir)/pkgs/subpackage.am
-
-SUBDIRS = generator
-
-subpkgpython_PYTHON = \
-	SpatialDB.py \
-	SimpleDB.py \
-	SimpleIO.py \
-	SimpleIOAscii.py \
-	__init__.py
+## @file pyre/generator/__init__.py
+## @brief Python spatialdata generator module initialization.
 
 # version
-# $Id$
+__id__ = "$Id$"
 
-# End of file 
+# End of file

@@ -150,6 +150,7 @@ AC_CONFIG_FILES([Makefile
 	pkgs/spatialdb/liblang/Makefile
 	pkgs/spatialdb/module/Makefile
 	pkgs/spatialdb/pyre/Makefile
+	pkgs/spatialdb/pyre/generator/Makefile
 	pkgs/spatialdb/tests/Makefile
 	pkgs/spatialdb/tests/libtests/Makefile
 	pkgs/spatialdb/tests/libtests/data/Makefile

@@ -20,6 +20,9 @@ rm `find . -name Makefile.in`
 # Remove emacs backup stuff
 rm `find . -name "*~"`
 
+# Remove compiled python
+rm `find . -name "*.pyc"`
+
 # version
 # $Id: tidy.sh,v 1.1 2005/10/10 17:21:19 brad Exp $
 
