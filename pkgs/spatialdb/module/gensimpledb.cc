@@ -231,11 +231,12 @@ pyspatialdb_CppGenSimpleDB_applyFilter(PyObject*, PyObject* args)
   PyObject* pyCS = 0;
   PyObject* pyDB = 0;
   PyObject* pyOperand = 0;
+  double defaultValue = 0;
   int ok = PyArg_ParseTuple(args,
-			    "OiOiOOO:CppGenSimpleDB_applyFilter", 
+			    "OiOiOOOd:CppGenSimpleDB_applyFilter", 
 			    &pyValue, &valueCount, 
 			    &pyLocs, &locCount,
-			    &pyCS, &pyDB, &pyOperand);
+			    &pyCS, &pyDB, &pyOperand, &defaultValue);
   if (!ok) {
     PyErr_SetString(PyExc_TypeError,
 		    "C++ bindings error: "
@@ -271,8 +272,11 @@ pyspatialdb_CppGenSimpleDB_applyFilter(PyObject*, PyObject* args)
     double* pFilterData = (locCount > 0) ? new double[locCount] : 0;
     double* pVal = new double;
     for (int iLoc=0, index=0; iLoc < locCount; ++iLoc, index += 3) {
-      pDB->query(&pVal, 1, 
-		 pLocs[index], pLocs[index+1], pLocs[index+2], pCS);
+      const int err = pDB->query(&pVal, 1, 
+				 pLocs[index], pLocs[index+1], pLocs[index+2],
+				 pCS);
+      if (0 != err)
+	*pVal = defaultValue;
       pFilterData[iLoc] = *pVal;
     } // for
     delete pVal; pVal = 0;

@@ -30,7 +30,7 @@ class Filter(Component):
     ## Python object for managing Filter facilities and properties.
     ##
     ## \b Properties
-    ## @li \b name Name of value in supplied in filter spatial database
+    ## @li \b db_value Name of value in supplied in filter spatial database
     ## @li \b operand Operand to use in applying filter
     ##
     ## \b Facilities
@@ -38,8 +38,11 @@ class Filter(Component):
 
     import pyre.inventory
 
-    name = pyre.inventory.str("name", default="")
-    name.meta['tip'] = "Name of value supplied in filter spatial database."
+    default = pyre.inventory.float("default", default=0.0)
+    default.meta['tip'] = "Default value for filter."
+
+    dbValue = pyre.inventory.str("db_value", default="")
+    dbValue.meta['tip'] = "Name of value supplied in filter spatial database."
     
     operand = pyre.inventory.str("operand", default="multiply")
     operand.validator = pyre.inventory.choice(["add", "subtract", 
@@ -69,10 +72,10 @@ class Filter(Component):
   def apply(self, cppVals, valueCount, locs, locCount, cs):
     """Apply filter to data."""
     import spatialdata.spatialdb.spatialdb as bindings
-    self.db.queryVals([self.name])
+    self.db.queryVals([self.dbValue])
     bindings.CppGenSimpleDB_applyFilter(cppVals, valueCount, locs, locCount,
                                         cs.handle(), self.db.handle(),
-                                        self.operand)
+                                        self.operand, self.defaultValue)
     return
 
   def __init__(self, name="filter"):
@@ -83,9 +86,14 @@ class Filter(Component):
 
   def _configure(self):
     Component._configure(self)
-    self.name = self.inventory.name
+    if self.inventory.dbValue == "":
+      raise ValueError, \
+            "Name of value in spatial database must be set for Filter '%s'." %\
+            self.name
+    self.dbValue = self.inventory.dbValue
     self.operand = self.inventory.operand
     self.db = self.inventory.db
+    self.defaultValue = self.inventory.default
     return
 
 
