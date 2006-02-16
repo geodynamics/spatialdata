@@ -58,7 +58,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(SimpleDB::DataStruct* pData,
   if (!filein.is_open() || !filein.good()) {
     std::ostringstream msg;
     msg << "Could not open spatial database file '" << filename()
-	<< "' for earding.\n";
+	<< "' for reading.\n";
     throw std::runtime_error(msg.str());
   } // if
 
