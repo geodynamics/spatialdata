@@ -37,11 +37,13 @@ class SimpleDB(SpatialDB):
 
     import pyre.inventory
 
-    queryType = pyre.inventory.str("query-type", default="Nearest")
-    queryType.validator = pyre.inventory.choice(["Nearest", "Linear"])
+    queryType = pyre.inventory.str("query-type", default="nearest")
+    queryType.validator = pyre.inventory.choice(["nearest", "linear"])
+    queryType.meta['tip'] = "Type of query to perform."
 
     from SimpleIOAscii import SimpleIOAscii
     iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
+    iohandler.meta['tip'] = "I/O handler for database."
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
