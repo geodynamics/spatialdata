@@ -43,7 +43,7 @@ class Projector(Component):
     units = pyre.inventory.str("units", default="m")
     units.meta['tip'] = "Units of coordinates."
 
-    projOptions = pyre.inventory.str("proj-options", default="m")
+    projOptions = pyre.inventory.str("proj-options", default="")
     projOptions.meta['tip'] = "Additional proj options."
 
   # PUBLIC METHODS /////////////////////////////////////////////////////

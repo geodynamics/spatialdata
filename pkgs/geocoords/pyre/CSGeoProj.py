@@ -44,11 +44,12 @@ class CSGeoProj(CSGeo):
   def initialize(self):
     """Initialize coordinate system."""
 
+    self.projector.initialize(self)
     import spatialdata.geocoords.geocoords as bindings
     bindings.CppCSGeoProj_projector(self._cppCoordSys,
                                     self.projector.handle())
 
-    CoordSys.initialize()
+    CSGeo.initialize(self)
     return
 
 
