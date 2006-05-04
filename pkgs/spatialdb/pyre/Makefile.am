@@ -15,7 +15,7 @@ include $(top_srcdir)/pkgs/subpackage.am
 
 SUBDIRS = generator
 
-subpkgpython_PYTHON = \
+subpkgpyexec_PYTHON = \
 	SpatialDB.py \
 	SimpleDB.py \
 	SimpleIO.py \

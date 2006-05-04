@@ -23,8 +23,8 @@ class TestSpatialDB(unittest.TestCase):
 
     from spatialdata.spatialdb.SimpleDB import SimpleDB
     db = SimpleDB()
-    db.inventory.query_type = "Nearest"
-    db.inventory.iohandler = iohandler
+    db.query_type = "Nearest"
+    db.iohandler = iohandler
     db.initialize()
 
     self._db = db

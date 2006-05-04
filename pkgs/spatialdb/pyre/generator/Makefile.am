@@ -16,7 +16,7 @@ include $(top_srcdir)/pkgs/subpackage.am
 dist_bin_SCRIPTS = \
 	gensimpledb.py
 
-subpkgpython_PYTHON = \
+subpkgpyexec_PYTHON = \
 	Geometry.py \
 	Filter.py \
 	Filters.py \

@@ -13,6 +13,8 @@
 subpackage = spatialdb
 include $(top_srcdir)/pkgs/subpackage.am
 
+SUBDIRS = data
+
 TESTS = testlangspatial.py
 
 check_SCRIPTS = testlangspatial.py
