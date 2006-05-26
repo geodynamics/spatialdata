@@ -45,7 +45,7 @@ cdef class SpatialDB:
     """Constructor."""
     self.handle = None
     self.thisptr = NULL
-    self.name = "spatialdata_spatialdb_SpatiabDB"
+    self.name = "spatialdata_spatialdb_SpatialDB"
     return
 
 
@@ -238,7 +238,10 @@ cdef class SimpleIOAscii(SimpleIO):
     ((spatialdata::spatialdb::SimpleIOAscii*) pObj)->write(*pData, pCS);
     #}embed
 
-    SimpleIOAscii_write(self.thisptr, ptrFromHandle(data), ptrFromHandle(cs))
+    cdef void* pDataObj
+    pDataObj = PyCObject_AsVoidPtr(data)
+
+    SimpleIOAscii_write(self.thisptr, pDataObj, ptrFromHandle(cs))
     return
 
 

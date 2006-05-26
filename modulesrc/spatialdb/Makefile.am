@@ -13,6 +13,8 @@
 subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
+SUBDIRS = generator
+
 subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
 
 spatialdbmodule_la_LDFLAGS = -module

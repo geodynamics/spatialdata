@@ -52,10 +52,11 @@ class Value(Component):
   def handle(self):
     return self._cppVal
 
-  def applyFilters(self, locs, locCount, cs):
+  def applyFilters(self, locs, locCount, locDim, cs):
     self.locCount = locCount
-    import spatialdata.spatialdb.spatialdb as bindings
-    self._cppVal = bindings.CppGenSimpleDB_initializeValue(locCount)    
+    self.locDim = locDim
+    import spatialdata.spatialdb.generator.generator as bindings
+    self._cppVal = bindings.createValue(locCount)    
     for filter in self.filters.filters:
       filter.initialize()
       filter.apply(self._cppVal, locCount, locs, locCount, cs)
@@ -64,10 +65,10 @@ class Value(Component):
 
 
   def setDB(self, cppDB, index):
-    import spatialdata.spatialdb.spatialdb as bindings
-    bindings.CppGenSimpleDB_setValue(cppDB, index,
-                                     self._cppVal, self.locCount,
-                                     self.name, self.units)
+    import spatialdata.spatialdb.generator.generator as bindings
+    bindings.setValue(cppDB, index,
+                                  self._cppVal, self.locCount,
+                                  self.name, self.units)
     return
 
   

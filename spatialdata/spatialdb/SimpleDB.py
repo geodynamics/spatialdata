@@ -71,6 +71,7 @@ class SimpleDB(SpatialDB):
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
+    SpatialDB._configure(self)
     self.iohandler = self.inventory.iohandler
     self.queryType = self.inventory.queryType
     return

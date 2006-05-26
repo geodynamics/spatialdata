@@ -57,7 +57,8 @@ class GenSimpleDBApp(Script):
     vertices = self.geometry.vertices
     coordsys = self.geometry.coordsys
     for value in self.values.values:
-      value.applyFilters(vertices.handle(), vertices.vertexCount, coordsys)
+      value.applyFilters(vertices.handle(), vertices.vertexCount, vertices.dim,
+                         coordsys)
     cppDB = self._assembleDB()
     self.iohandler.initialize()
     self.iohandler.write(cppDB, coordsys)
@@ -72,13 +73,13 @@ class GenSimpleDBApp(Script):
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _assembleDB(self):
-    import spatialdata.spatialdb.spatialdb as bindings
+    import spatialdata.spatialdb.generator.generator as bindings
     vertices = self.geometry.vertices
     numValues = len(self.values.values)
-    cppDB = bindings.CppGenSimpleDB_create(vertices.handle(),
-                                           vertices.vertexCount, vertices.dim,
-                                           numValues,
-                                           self.geometry.topology)
+    cppDB = bindings.create(vertices.handle(),
+                            vertices.vertexCount, vertices.dim,
+                            numValues,
+                            self.geometry.topology)
     for i in range(numValues):
       self.values.values[i].setDB(cppDB, i)
     return cppDB
@@ -92,10 +93,7 @@ class GenSimpleDBApp(Script):
   def _configure(self):
     Script._configure(self)
     self.geometry = self.inventory.geometry
-    if not self.inventory.values.name == "dummy":
-      self.values = self.inventory.values
-    else:
-      self.values = []
+    self.values = self.inventory.values
     self.iohandler = self.inventory.iohandler
     return
 

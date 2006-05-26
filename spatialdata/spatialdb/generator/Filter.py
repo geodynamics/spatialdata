@@ -71,11 +71,11 @@ class Filter(Component):
 
   def apply(self, cppVals, valueCount, locs, locCount, cs):
     """Apply filter to data."""
-    import spatialdata.spatialdb.spatialdb as bindings
+    import spatialdata.spatialdb.generator.generator as bindings
     self.db.queryVals([self.dbValue])
-    bindings.CppGenSimpleDB_applyFilter(cppVals, valueCount, locs, locCount,
-                                        cs.handle(), self.db.handle(),
-                                        self.operand, self.defaultValue)
+    bindings.applyFilter(cppVals, valueCount, locs, locCount,
+                         cs.cppHandle, self.db.cppHandle,
+                         self.operand, self.defaultValue)
     return
 
   def __init__(self, name="filter"):
