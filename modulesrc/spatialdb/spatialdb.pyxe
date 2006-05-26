@@ -1,0 +1,248 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+
+#header{
+#include "spatialdata/spatialdb/SpatialDB.hh"
+#include "spatialdata/spatialdb/SimpleDB.hh"
+#include "spatialdata/spatialdb/SimpleIO.hh"
+#include "spatialdata/spatialdb/SimpleIOAscii.hh"
+#}header
+
+# ----------------------------------------------------------------------
+cdef extern from "Python.h":
+  object PyCObject_FromVoidPtr(void*, void (*destruct)(void*))
+  void* PyCObject_AsVoidPtr(object)
+
+
+cdef void* ptrFromHandle(obj):
+  """Extract pointer from PyCObject."""
+  return PyCObject_AsVoidPtr(obj.handle)
+
+
+cdef extern from "stdlib.h":
+    ctypedef unsigned long size_t
+    void* malloc(size_t size)
+    void free(void* mem)
+    void strcpy(char*, char*)
+
+# ----------------------------------------------------------------------
+cdef class SpatialDB:
+
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for type of object
+
+  def __init__(self):
+    """Constructor."""
+    self.handle = None
+    self.thisptr = NULL
+    self.name = "spatialdata_spatialdb_SpatiabDB"
+    return
+
+
+  def label(self, name):
+    """Set label of spatial database."""
+    # create shim for method 'label'
+    #embed{ void SpatialDB_label(void* pObj, char* name)
+    ((spatialdata::spatialdb::SpatialDB*) pObj)->label(name);
+    #}embed
+
+    SpatialDB_label(self.thisptr, name)
+    return
+
+
+  def open(self):
+    """Open database and prepare for querying."""
+    # create shim for method 'open'
+    #embed{ void SpatialDB_open(void* pObj)
+    ((spatialdata::spatialdb::SpatialDB*) pObj)->open();
+    #}embed
+
+    SpatialDB_open(self.thisptr)
+    return
+
+
+  def close(self):
+    """Close the database."""
+    # create shim for method 'close'
+    #embed{ void SpatialDB_close(void* pObj)
+    ((spatialdata::spatialdb::SpatialDB*) pObj)->close();
+    #}embed
+
+    SpatialDB_close(self.thisptr)
+    return
+
+
+  def queryVals(self, names):
+    """Set values to be returned by queries."""
+    # create shim for method 'queryVals'
+    #embed{ void SpatialDB_queryVals(void* pObj, char** names, int numVals)
+    ((spatialdata::spatialdb::SpatialDB*) pObj)->queryVals((const char**) names, numVals);
+    #}embed
+
+    cdef char** pNames
+    numVals = len(names)
+    pNames = <char**> malloc(numVals*sizeof(char*))
+    for i from 0 <= i < numVals:
+      strsize = len(names[i])
+      pNames[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = names[i]
+      strcpy(pNames[i], tmp)
+
+    SpatialDB_queryVals(self.thisptr, pNames, numVals)
+
+    # memory cleanup
+    for i from 0 <= i < numVals:
+      free(<void*> pNames[i])
+    free(<void*> pNames)
+    
+    return
+
+
+  def _createHandle(self):
+    """Wrap pointer to C++ object in PyCObject."""
+    # create shim for destructor
+    #embed{ void SpatialDB_destructor(void* pObj)
+    spatialdata::spatialdb::SpatialDB* pDB =
+      (spatialdata::spatialdb::SpatialDB*) pObj;
+    delete pDB;
+    #}embed
+    return PyCObject_FromVoidPtr(self.thisptr, SpatialDB_destructor)
+
+
+# ----------------------------------------------------------------------
+cdef class SimpleDB(SpatialDB):
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* SimpleDB_constructor()
+      return (void*)(new spatialdata::spatialdb::SimpleDB);
+    #}embed
+
+    SpatialDB.__init__(self)
+    self.thisptr = SimpleDB_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def queryType(self, name):
+    """Set query type"""
+    # create shim for method 'queryType'
+    #embed{ void SimpleDB_queryType(void* pObj, char* name)
+    spatialdata::spatialdb::SimpleDB::QueryEnum queryType =
+      spatialdata::spatialdb::SimpleDB::NEAREST;
+    if (0 == strcasecmp(name, "nearest"))
+      queryType = spatialdata::spatialdb::SimpleDB::NEAREST;
+    else if (0 == strcasecmp(name, "linear"))
+      queryType = spatialdata::spatialdb::SimpleDB::LINEAR;
+    ((spatialdata::spatialdb::SimpleDB*) pObj)->queryType(queryType);
+    #}embed
+
+    if not (name.lower() == "nearest" or name.lower() == "linear"):
+      raise ValueError, "Couldn't parse query type '%s' into a known type" \
+            "type of query. Accepted values are 'nearest' and 'linear'." \
+            % name
+
+    SimpleDB_queryType(self.thisptr, name)
+    return
+
+
+  def ioHandler(self, handle):
+    """Set the I/O handler."""
+    # create shim for method 'ioHandler'
+    #embed{ void SimpleDB_ioHandler(void* pObj, void* pHandlerObj)
+    spatialdata::spatialdb::SimpleIO* pHandler =
+      (spatialdata::spatialdb::SimpleIO*) pHandlerObj;
+    ((spatialdata::spatialdb::SimpleDB*) pObj)->ioHandler(pHandler);
+    #}embed
+
+    if not handle.name == "spatialdata_spatialdb_SimpleIO":
+      raise TypeError, \
+            "Argument 'handle' must be extension module type 'SimpleIO'."
+
+    SimpleDB_ioHandler(self.thisptr, ptrFromHandle(handle))
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class SimpleIO:
+
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for type of object
+
+  def __init__(self):
+    """Constructor."""
+    self.handle = None
+    self.thisptr = NULL
+    self.name = "spatialdata_spatialdb_SimpleIO"
+    return
+
+
+  def filename(self, name):
+    """Set filename for database"""
+    # create shim for method 'filename'
+    #embed{ void SimpleIO_filename(void* pObj, char* name)
+    ((spatialdata::spatialdb::SimpleIO*) pObj)->filename(name);
+    #}embed
+
+    SimpleIO_filename(self.thisptr, name)
+    return
+
+
+  def _createHandle(self):
+    """Wrap pointer to C++ object in PyCObject."""
+    # create shim for destructor
+    #embed{ void SimpleIO_destructor(void* pObj)
+    spatialdata::spatialdb::SimpleIO* pIO =
+      (spatialdata::spatialdb::SimpleIO*) pObj;
+    delete pIO;
+    #}embed
+    return PyCObject_FromVoidPtr(self.thisptr, SimpleIO_destructor)
+
+
+# ----------------------------------------------------------------------
+cdef class SimpleIOAscii(SimpleIO):
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* SimpleIOAscii_constructor()
+      return (void*)(new spatialdata::spatialdb::SimpleIOAscii);
+    #}embed
+
+    SimpleIO.__init__(self)
+    self.thisptr = SimpleIOAscii_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def write(self, data, cs):
+    """Write the database."""
+    # create shim for method 'write'
+    #embed{ void SimpleIOAscii_write(void* pObj, void* pDataObj, void* pCSObj)
+    spatialdata::spatialdb::SimpleDB::DataStruct* pData =
+      (spatialdata::spatialdb::SimpleDB::DataStruct*) pDataObj;  
+    spatialdata::geocoords::CoordSys* pCS =
+      (spatialdata::geocoords::CoordSys*) pCSObj;  
+    ((spatialdata::spatialdb::SimpleIOAscii*) pObj)->write(*pData, pCS);
+    #}embed
+
+    SimpleIOAscii_write(self.thisptr, ptrFromHandle(data), ptrFromHandle(cs))
+    return
+
+
+# version
+__id__ = "$Id$"
+
+# End of file 

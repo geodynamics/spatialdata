@@ -1,0 +1,80 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_spatialdb_testsimpledbarea_hh)
+#error "TestSimpleDBArea.icc must only be included from TestSimpleDBArea.hh"
+#endif
+
+// Get data for database.
+inline
+const double*
+spatialdata::spatialdb::TestSimpleDBArea::_data(void) const
+{ return DATA; }
+
+// Get expected return values for queries.
+inline
+const int*
+spatialdata::spatialdb::TestSimpleDBArea::_errFlags(void) const
+{ return ERRFLAGS; }
+
+// Get names of values in database.
+inline
+const char**
+spatialdata::spatialdb::TestSimpleDBArea::_names(void) const
+{ return NAMES; }
+
+// Get units of values in database.
+inline
+const char**
+spatialdata::spatialdb::TestSimpleDBArea::_units(void) const
+{ return UNITS; }
+
+// Get number of locations in database.
+inline
+int 
+spatialdata::spatialdb::TestSimpleDBArea::_numLocs(void) const
+{ return NUMLOCS; }
+
+// Get number of values at each location in database.
+inline
+int
+spatialdata::spatialdb::TestSimpleDBArea::_numVals(void) const
+{ return NUMVALS; }
+
+// Get topology of data in database.
+inline
+spatialdata::spatialdb::SimpleDB::TopoEnum
+spatialdata::spatialdb::TestSimpleDBArea::_topology(void) const
+{ return TOPOLOGY; }
+
+// Get number of queries.
+inline
+int
+spatialdata::spatialdb::TestSimpleDBArea::_numQueries(void) const
+{ return NUMQUERIES; }
+
+// Get query data for nearest neighbor algorithm.
+inline
+const double*
+spatialdata::spatialdb::TestSimpleDBArea::_queryNearest(void) const
+{ return QUERYNEAREST; }
+
+// Get query data for linear interpolation algorithm.
+inline
+const double*
+spatialdata::spatialdb::TestSimpleDBArea::_queryLinear(void) const
+{ return QUERYLINEAR; }
+
+// version
+// $Id$
+
+// End of file 

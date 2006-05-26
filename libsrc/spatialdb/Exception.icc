@@ -1,0 +1,26 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_exception_hh)
+#error "Exception.icc must only be included from Exception.hh"
+#endif
+
+// Constructor.
+inline
+spatialdata::spatialdb::OutOfBounds::OutOfBounds(const std::string& msg) :
+  std::runtime_error(msg)
+{}
+  
+// version
+// $Id$
+
+// End of file 

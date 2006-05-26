@@ -13,42 +13,46 @@
 /** @mainpage
  *
  * @author Brad Aagaard
- * @date 2005/03/26
- * @version 0.1
+ * @date 2006/05/24
+ * @version 0.2
  *
  * @section summary Summary
  *
- * This directory tree contains SpatialData version 0.1. This package
- * provides a simple interface for specifying data in a domain of
- * dimension 0 (point) through 3 (volume) and querying it to set
- * values at desired locations.
+ * This directory tree contains SpatialData version 0.2. This package
+ * provides an interface to Proj.4 (cartographic projections library)
+ * for converting coordinates among a variety of geographic projects
+ * and local Cartesian coordinates and defines an interface for
+ * querying data specified over some spatial domain. An implementation
+ * for simple fields specified in zero through three dimensions is
+ * included.
  *
- * The package provides one realization of this interface that allows
- * querying using data at the nearest location in the database or
- * using linear interpolation.
- *
- * The software is built using the Pyre build procedure and makes use
- * of pythia-0.8.
+ * The software is built using the GNU build procedure. It is possible
+ * to build only the C++ library with C and Fortran 77 bindings for
+ * the routines. Building the complete package with the Pyre framework
+ * requires pythia-0.8.
  *
  * @section dirs Directories
  * @li \b doc Documentation
- * @li \b lib C++ code for querying (generates library)
+ * @li \b libsrc C++ code (and bindings) for 
  * @li \b pyre Python code
  * @li \b tests Regression tests of library
  *
  * @section reqs Required software
- * @li Pyre (with pythia-0.8)
- * @li pythiautil-0.6
+ * @li GNU build tools w/C++, C, and Fortran 77 compilers
+ * @li Proj.4 cartographic projections library (http://proj.maptools.org)
+ *
+ * @section ops Optional software
+ * @li pythia-0.8
  * @li CppUnit (for regression testing)
  *
  * @section notes Notes
  *
  * If libraries or header files for Pythia or CppUnit are not in the
  * default path, you can use environment variables to point to their
- * locations. See the local.def files to see which variables to set.
+ * locations.
  */
 
 // version
-// $Id: README,v 1.2 2005/03/27 01:06:29 baagaard Exp $
+// $Id$
 
 // End of file 

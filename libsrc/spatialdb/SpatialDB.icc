@@ -1,0 +1,32 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_spatialdb_hh)
+#error "SpatialDB.icc must only be included from SpatialDB.hh"
+#endif
+
+// Set label of spatial database.
+inline
+void
+spatialdata::spatialdb::SpatialDB::label(const char* label)
+{ _label = label; }
+  
+// Get label of spatial database.
+inline
+const char*
+spatialdata::spatialdb::SpatialDB::label(void) const
+{ return _label; }
+
+// version
+// $Id$
+
+// End of file 

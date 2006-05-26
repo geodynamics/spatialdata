@@ -1,0 +1,36 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_simpledbtypes_hh)
+#error "SimpleDBTypes.icc must only be included from SimpleDBTypes.hh"
+#endif
+
+// Get coordinates of location in database.
+inline
+double*
+spatialdata::spatialdb::SimpleDBTypes::dataCoords(
+					  const SimpleDB::DataStruct& data,
+					  const int index)
+{ return data.data+(index*(3+data.numVals)); }
+
+// Get values of location in database.
+inline
+double* 
+spatialdata::spatialdb::SimpleDBTypes::dataVals(
+					  const SimpleDB::DataStruct& data,
+					  const int index)
+{ return data.data+(index*(3+data.numVals)+3); }
+
+// version
+// $Id$
+
+// End of file 

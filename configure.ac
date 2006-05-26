@@ -104,20 +104,6 @@ if test "$enable_pyre" = "yes" ; then
      AC_MSG_ERROR([Pythia library not found; try LDFLAGS="-L<pythia lib dir>"])
   ])
 
-  # PYTHIAUTIL
-  AC_CHECK_HEADER([pythiautil/BindingsUtil.h], [], [
-    AC_MSG_ERROR([BindingsUtil header not found; try CPPFLAGS="-I<pythiautil include dir>"])
-  ])
-  AC_MSG_CHECKING([for pythiautil::BindingsUtil::GetAttribute() -lpythiautil])
-  AC_REQUIRE_CPP
-  AC_COMPILE_IFELSE(
-    [AC_LANG_PROGRAM([[#include <pythiautil/BindingsUtil.h>]],
-	             [[PyObject* pyObj;]],
-	             [[pythiautil::BindingsUtil::GetAttribute(pyObj, "a", "b");]])],
-    [AC_MSG_RESULT(yes)],
-    [AC_MSG_RESULT(no)
-     AC_MSG_ERROR([Pythiautil library not found; try LDFLAGS="-L<pythiautil lib dir>"])
-  ])
 fi
 
 # DOXYGEN
@@ -134,30 +120,25 @@ fi
 
 # ----------------------------------------------------------------------
 AC_CONFIG_FILES([Makefile
-	pkgs/Makefile
-	pkgs/pyre/Makefile
-	pkgs/geocoords/Makefile
-	pkgs/geocoords/lib/Makefile
-	pkgs/geocoords/lib/data/Makefile
-	pkgs/geocoords/module/Makefile
-	pkgs/geocoords/pyre/Makefile
-	pkgs/geocoords/tests/Makefile
-	pkgs/geocoords/tests/libtests/Makefile
-	pkgs/geocoords/tests/libtests/data/Makefile
-	pkgs/geocoords/tests/pytests/Makefile
-	pkgs/spatialdb/Makefile
-	pkgs/spatialdb/lib/Makefile
-	pkgs/spatialdb/liblang/Makefile
-	pkgs/spatialdb/module/Makefile
-	pkgs/spatialdb/pyre/Makefile
-	pkgs/spatialdb/pyre/generator/Makefile
-	pkgs/spatialdb/tests/Makefile
-	pkgs/spatialdb/tests/libtests/Makefile
-	pkgs/spatialdb/tests/libtests/data/Makefile
-	pkgs/spatialdb/tests/langtests/Makefile
-	pkgs/spatialdb/tests/langtests/data/Makefile
-	pkgs/spatialdb/tests/pytests/Makefile
-	pkgs/spatialdb/tests/pytests/data/Makefile
+	libsrc/Makefile
+	libsrc/geocoords/Makefile
+	libsrc/geocoords/data/Makefile
+	libsrc/spatialdb/Makefile
+	modulesrc/Makefile
+	modulesrc/geocoords/Makefile
+	modulesrc/spatialdb/Makefile
+	modulesrc/spatialdb/generator/Makefile
+	spatialdata/Makefile
+	spatialdata/geocoords/Makefile
+	spatialdata/spatialdb/Makefile
+	spatialdata/spatialdb/generator/Makefile
+	tests/libtests/geocoords/Makefile
+	tests/libtests/geocoords/data/Makefile
+	tests/libtests/spatialdb/Makefile
+	tests/libtests/spatialdb/data/Makefile
+	tests/pytests/geocoords/Makefile
+	tests/pytests/spatialdb/Makefile
+	tests/pytests/spatialdb/data/Makefile
 	doc/Makefile])
 
 AC_OUTPUT

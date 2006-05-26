@@ -1,0 +1,448 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+
+#header{
+#include "spatialdata/geocoords/CoordSys.hh"
+#include "spatialdata/geocoords/CSCart.hh"
+#include "spatialdata/geocoords/CSGeo.hh"
+#include "spatialdata/geocoords/CSGeoLocalCart.hh"
+#include "spatialdata/geocoords/CSGeoProj.hh"
+#include "spatialdata/geocoords/Projector.hh"
+#include "spatialdata/geocoords/Converter.hh"
+#}header
+
+# ----------------------------------------------------------------------
+cdef extern from "Python.h":
+  object PyCObject_FromVoidPtr(void*, void (*destruct)(void*))
+  void* PyCObject_AsVoidPtr(object)
+  object PyList_GetItem(object, int)
+
+cdef void* ptrFromHandle(obj):
+  """Extract pointer from PyCObject."""
+  return PyCObject_AsVoidPtr(obj.handle)
+
+cdef extern from "stdlib.h":
+    ctypedef unsigned long size_t
+    void* malloc(size_t size)
+    void free(void* mem)
+
+cdef double* pylistDoublePtr(values):
+    size = len(values)
+    cdef double* pVals
+    pVals = <double*> malloc(size*sizeof(double));
+    for i from 0 <= i < size:
+        pVals[i] = PyList_GetItem(values, i)
+    return pVals
+    
+# ----------------------------------------------------------------------
+cdef class CoordSys:
+
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for type of object
+
+  def __init__(self):
+    """Constructor."""
+    self.handle = None
+    self.thisptr = NULL
+    self.name = "spatialdata_geocoords_CoordSys"
+    return
+
+
+  def initialize(self):
+    """Initialize the coordinate system."""
+    # create shim for method 'initialize'
+    #embed{ void CoordSys_initialize(void* pObj)
+    ((spatialdata::geocoords::CoordSys*) pObj)->initialize();
+    #}embed
+    
+    CoordSys_initialize(self.thisptr)
+    return
+
+
+  def _createHandle(self):
+    """Wrap pointer to C++ object in PyCObject."""
+    # create shim for destructor
+    #embed{ void CoordSys_destructor(void* pObj)
+    spatialdata::geocoords::CoordSys* pCS =
+      (spatialdata::geocoords::CoordSys*) pObj;
+    delete pCS;
+    #}embed
+    return PyCObject_FromVoidPtr(self.thisptr, CoordSys_destructor)
+
+
+# ----------------------------------------------------------------------
+cdef class CSCart(CoordSys):
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* CSCart_constructor()
+      return (void*)(new spatialdata::geocoords::CSCart);
+    #}embed
+
+    CoordSys.__init__(self)
+    self.thisptr = CSCart_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def toMeters(self, scale):
+    """Set scale factor for converting coordinates to SI units (meters)."""
+    # create shim for method 'toMeters'
+    #embed{ void CSCart_toMeters(void* pObj, double scale)
+      ((spatialdata::geocoords::CSCart*) pObj)->toMeters(scale);
+    #}embed
+
+    CSCart_toMeters(self.thisptr, scale)
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class CSGeo(CoordSys):
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* CSGeo_constructor()
+      return (void*)(new spatialdata::geocoords::CSGeo);
+    #}embed
+
+    CoordSys.__init__(self)
+    self.thisptr = CSGeo_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def ellipsoid(self, name):
+    """Set reference ellipsoid."""
+    # create shim for method 'ellipsoid'
+    #embed{ void CSGeo_ellipsoid(void* pObj, char* name)
+      ((spatialdata::geocoords::CSGeo*) pObj)->ellipsoid(name);
+    #}embed
+
+    CSGeo_ellipsoid(self.thisptr, name)
+    return
+
+
+  def datumHoriz(self, name):
+    """Set horizontal datum."""
+    # create shim for method 'datumHoriz'
+    #embed{ void CSGeo_datumHoriz(void* pObj, char* name)
+      ((spatialdata::geocoords::CSGeo*) pObj)->datumHoriz(name);
+    #}embed
+
+    CSGeo_datumHoriz(self.thisptr, name)
+    return
+
+
+  def datumVert(self, name):
+    """Set vertical datum."""
+    # create shim for method 'datumVert'
+    #embed{ void CSGeo_datumVert(void* pObj, char* name)
+      ((spatialdata::geocoords::CSGeo*) pObj)->datumVert(name);
+    #}embed
+
+    CSGeo_datumVert(self.thisptr, name)
+    return
+
+
+  def isGeocentric(self, flag):
+    """Set geocentric flag."""
+    # create shim for method 'isGeocentric'
+    #embed{ void CSGeo_isGeocentric(void* pObj, int flag)
+      ((spatialdata::geocoords::CSGeo*) pObj)->isGeocentric(flag);
+    #}embed
+
+    CSGeo_isGeocentric(self.thisptr, flag)
+    return
+
+
+  def toMeters(self, scale):
+    """Set factor to convert Cartesian coordinates to meters."""
+    # create shim for method 'toMeters'
+    #embed{ void CSGeo_toMeters(void* pObj, double scale)
+      ((spatialdata::geocoords::CSGeo*) pObj)->toMeters(scale);
+    #}embed
+
+    CSGeo_toMeters(self.thisptr, scale)
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class CSGeoLocalCart(CSGeo):
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* CSGeoLocalCart_constructor()
+      return (void*)(new spatialdata::geocoords::CSGeoLocalCart);
+    #}embed
+
+    CSGeo.__init__(self)
+    self.thisptr = CSGeoLocalCart_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def origin(self, lon, lat, elev):
+    """Set origin of local cartesian coordinate system."""
+    # create shim for method 'origin'
+    #embed{ void CSGeoLocalCart_origin(void* pObj, double lon, double lat, double elev)
+      ((spatialdata::geocoords::CSGeoLocalCart*) pObj)->origin(lon, lat, elev);
+    #}embed
+
+    CSGeoLocalCart_origin(self.thisptr, lon, lat, elev)
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class CSGeoProj(CSGeo):
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* CSGeoProj_constructor()
+      return (void*)(new spatialdata::geocoords::CSGeoProj);
+    #}embed
+
+    CSGeo.__init__(self)
+    self.thisptr = CSGeoProj_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def projector(self, proj):
+    """Set projector."""
+    # create shim for method 'projector'
+    #embed{ void CSGeoProj_projector(void* pObj, void* pProjObj)
+    const spatialdata::geocoords::Projector* pProj =
+      (spatialdata::geocoords::Projector*) pProjObj;
+      ((spatialdata::geocoords::CSGeoProj*) pObj)->projector(*pProj);
+    #}embed
+
+    CSGeoProj_projector(self.thisptr, ptrFromHandle(proj))
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class Projector:
+
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for type of object
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* Projector_constructor()
+    return (void*)(new spatialdata::geocoords::Projector);
+    #}embed
+
+    self.thisptr = Projector_constructor()
+    self.handle = self._createHandle()
+    self.name = "spatialdata_geocoords_Projector"
+    return
+
+
+  def projection(self, name):
+    """Set projection."""
+    # create shim for method 'projection'
+    #embed{ void Projector_projection(void* pObj, char* name)
+    ((spatialdata::geocoords::Projector*) pObj)->projection(name);
+    #}embed
+
+    Projector_projection(self.thisptr, name)
+    return
+
+
+  def units(self, name):
+    """Set units of projection."""
+    # create shim for method 'units'
+    #embed{ void Projector_units(void* pObj, char* name)
+    ((spatialdata::geocoords::Projector*) pObj)->units(name);
+    #}embed
+
+    Projector_units(self.thisptr, name)
+    return
+
+
+  def projOptions(self, options):
+    """Set proj.4 options for projector."""
+    # create shim for method 'projOptions'
+    #embed{ void Projector_projOptions(void* pObj, char* options)
+    ((spatialdata::geocoords::Projector*) pObj)->projOptions(options);
+    #}embed
+
+    Projector_projOptions(self.thisptr, options)
+    return
+
+
+  def initialize(self, csGeo):
+    """Initialize projector."""
+    # create shim for method 'initialize'
+    #embed{ void Projector_initialize(void* pObj, void* pCSObj)
+    const spatialdata::geocoords::CoordSys* pCS =
+      (spatialdata::geocoords::CoordSys*) pCSObj;
+    const spatialdata::geocoords::CSGeo* pCSGeo =
+      dynamic_cast<const spatialdata::geocoords::CSGeo*>(pCS);
+    ((spatialdata::geocoords::Projector*) pObj)->initialize(*pCSGeo);
+    #}embed
+
+    if not csGeo.name == "spatialdata_geocoords_CoordSys":
+      raise TypeError, \
+            "Argument 'csGeo' must be extension module type 'CSGeo'."
+
+    Projector_initialize(self.thisptr, ptrFromHandle(csGeo))
+    return
+  
+
+  def project(self, lonlat):
+    """Project geographic coordinates."""
+    # create shim for method 'project'
+    #embed{ void Projector_project(void* pObj, double* pX, double* pY, double lon, double lat)
+    ((spatialdata::geocoords::Projector*) pObj)->project(pX, pY, lon, lat);
+    #}embed
+
+    cdef double x
+    cdef double y
+    npts = len(lonlat)
+    xy = []
+    for i from 0 <= i < npts:
+      lon = lonlat[i][0]
+      lat = lonlat[i][1]
+      Projector_project(self.thisptr, &x, &y, lon, lat)
+      xy.append([x, y])
+    return xy
+  
+
+  def invproject(self, xy):
+    """Get geographics coordinates for projected location."""
+    # create shim for method 'invproject'
+    #embed{ void Projector_invproject(void* pObj, double* pLon, double* pLat, double x, double y)
+    ((spatialdata::geocoords::Projector*) pObj)->invproject(pLon, pLat, x, y);
+    #}embed
+
+    cdef double lon
+    cdef double lat
+    npts = len(xy)
+    lonlat = []
+    for i from 0 <= i < npts:
+      x = xy[i][0]
+      y = xy[i][1]
+      Projector_invproject(self.thisptr, &lon, &lat, x, y)
+      lonlat.append([lon, lat])
+    return lonlat
+  
+
+  def _createHandle(self):
+    """Wrap pointer to C++ object in PyCObject."""
+    # create shim for destructor
+    #embed{ void Projector_destructor(void* pObj)
+    spatialdata::geocoords::Projector* pProj =
+      (spatialdata::geocoords::Projector*) pObj;
+    delete pProj;
+    #}embed
+    return PyCObject_FromVoidPtr(self.thisptr, Projector_destructor)
+
+
+# ----------------------------------------------------------------------
+# create shim for Converter method 'convert'
+#embed{ void Converter_convert(double** ppCoords, int numLocs, void* pCSDestObj, void* pCSSrcObj, int is2D)
+spatialdata::geocoords::CoordSys* pCSDest =
+  (spatialdata::geocoords::CoordSys*) pCSDestObj;
+spatialdata::geocoords::CoordSys* pCSSrc =
+  (spatialdata::geocoords::CoordSys*) pCSSrcObj;
+spatialdata::geocoords::Converter::convert(ppCoords, numLocs,
+                                           pCSDest, pCSSrc, is2D);
+#}embed
+
+def Converter_convertpy(coordsSrc, csDest, csSrc):
+  """Convert coordinates in Python list 'coordsSrc' from source
+  coordinate system 'csSrc' to destination coordinate system 'csDest'."""
+
+  if not csDest.name == "spatialdata_geocoords_CoordSys":
+    raise TypeError, \
+          "Argument 'csDest' must be extension module type 'CSGeo'."
+  if not csSrc.name == "spatialdata_geocoords_CoordSys":
+    raise TypeError, \
+          "Argument 'csSrc' must be extension module type 'CSGeo'."
+
+  numLocs = len(coordsSrc)
+  numCoords = 0
+  is2D = 0
+  if numLocs > 0:
+    numCoords = len(coordsSrc[0])
+    if numCoords < 2 or numCoords > 3:
+      raise TypeError, "Number of coordinates must be at 2 or 3."
+    elif 2 == numCoords:
+      is2D = 1
+  size = numLocs*numCoords
+
+  cdef double* pVals
+  pVals = <double*> malloc(size*sizeof(double));
+
+  index = 0
+  for iLoc from 0 <= iLoc < numLocs:
+    pItem = PyList_GetItem(coordsSrc, iLoc)
+    for iCoord from 0 <= iCoord < numCoords:
+      pVals[index] = PyList_GetItem(pItem, iCoord)
+      index = index + 1
+
+  Converter_convert(&pVals, numLocs,
+                    ptrFromHandle(csDest), ptrFromHandle(csSrc),
+                    is2D)
+
+  coordsDest = []
+  index = 0
+  for iLoc from 0 <= iLoc < numLocs:
+    coordsLoc = []
+    for iCoord from 0 <= iCoord < numCoords:
+      coordsLoc.append(pVals[index])
+      index = index + 1
+    coordsDest.append(coordsLoc)
+
+  free(<void*> pVals)
+  return coordsDest
+
+
+def Converter_convertcpp(object coordsHandle, int numLocs, int numCoords,
+                         object csDest, object csSrc):
+  """Convert coordinates in C++ array 'coordsSrc' from source
+  coordinate system 'csSrc' to destination coordinate system 'csDest'."""
+
+  if not csDest.name == "spatialdata_geocoords_CoordSys":
+    raise TypeError, \
+          "Argument 'csDest' must be extension module type 'CSGeo'."
+  if not csSrc.name == "spatialdata_geocoords_CoordSys":
+    raise TypeError, \
+          "Argument 'csSrc' must be extension module type 'CSGeo'."
+
+  cdef double* pVals
+  pVals = <double*> ptrFromHandle(coordsHandle)
+
+  is2D = 0
+  if numCoords < 2 or numCoords > 3:
+    raise TypeError, "Number of coordinates must be at 2 or 3."
+  elif 2 == numCoords:
+    is2D = 1
+
+  Converter_convert(&pVals, numLocs,
+                    ptrFromHandle(csDest), ptrFromHandle(csSrc),
+                    is2D)
+  return
+
+
+# version
+__id__ = "$Id$"
+
+# End of file 

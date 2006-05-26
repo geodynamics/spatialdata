@@ -1,0 +1,32 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_simpleio_hh)
+#error "SimpleIO.icc must only be included from SimpleIO.hh"
+#endif
+
+// Set filename for database.
+inline
+void
+spatialdata::spatialdb::SimpleIO::filename(const char* filename)
+{ _filename = filename; }
+
+// Get filename for database.
+inline
+const char*
+spatialdata::spatialdb::SimpleIO::filename(void) const
+{ return _filename.c_str(); }
+
+// version
+// $Id$
+
+// End of file 

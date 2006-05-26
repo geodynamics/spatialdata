@@ -1,0 +1,30 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_geocoords_geoid_hh)
+#error "Geoid.icc must only be included from Geoid.hh"
+#endif
+
+// Initialize
+inline
+void
+spatialdata::geocoords::Geoid::initialize(void) {
+  if (!_initialized) {	
+    _readGrid();	
+    _initialized = true;	
+  } // if	
+}
+
+// version
+// $Id$
+
+// End of file 

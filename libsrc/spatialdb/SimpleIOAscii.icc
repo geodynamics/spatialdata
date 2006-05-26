@@ -1,0 +1,27 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_simpleioascii_hh)
+#error "SimpleIOAscii.icc must only be included from SimpleIOAscii.hh"
+#endif
+
+// ----------------------------------------------------------------------
+// Clone object.
+inline
+spatialdata::spatialdb::SimpleIO*
+spatialdata::spatialdb::SimpleIOAscii::clone(void) const
+{ return new SimpleIOAscii(*this); }
+  
+// version
+// $Id$
+
+// End of file 
