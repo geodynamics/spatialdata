@@ -10,16 +10,10 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/geocoords/__init__.py
-## @brief Python spatialdata geocoords module initialization.
+## @file spatialdata/utils/__init__.py
+## @brief Python spatialdata utils module initialization.
 
-__all__ = ['Converter',
-           'CoordSys',
-           'CSCart',
-           'CSGeoLocalCart',
-           'CSGeoProj',
-           'CSGeo',
-           'Projector']
+__all__ = []
 
 # version
 __id__ = "$Id$"

@@ -13,10 +13,10 @@
 ## @file spatialdata/spatialdb/__init__.py
 ## @brief Python spatialdata spatialdb module initialization.
 
-all = ['SimpleDB',
-       'SimpleIOAscii',
-       'SimpleIO',
-       'SpatialDB']
+__all__ = ['SimpleDB',
+           'SimpleIOAscii',
+           'SimpleIO',
+           'SpatialDB']
 
 # version
 __id__ = "$Id$"

@@ -10,15 +10,10 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = geocoords
+subpackage = utils
 include $(top_srcdir)/subpackage.am
 
-SUBDIRS = \
-	geocoords \
-	spatialdb \
-	utils
-
-pkgpyexec_PYTHON = \
+subpkgpyexec_PYTHON = \
 	__init__.py
 
 # version

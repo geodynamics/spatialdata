@@ -10,16 +10,9 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = geocoords
-include $(top_srcdir)/subpackage.am
-
 SUBDIRS = \
-	geocoords \
-	spatialdb \
-	utils
-
-pkgpyexec_PYTHON = \
-	__init__.py
+	libtests \
+	pytests
 
 # version
 # $Id$

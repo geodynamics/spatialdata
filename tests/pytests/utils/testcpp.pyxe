@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+
+cdef extern from "math.h":
+  double fabs(double)
+
+cdef extern from "Python.h":
+  void* PyCObject_AsVoidPtr(object)
+
+import spatialdata.utils.utils as simplearray
+
+def cpparray():
+  # create shim to create array
+  #embed{ void cpparray_create(double** ppData, int* pSize)
+    const double pVals[] = { 1.1, 2.1, 3.1, 1.2, 2.2, 3.2 };
+    const int size = 6;
+    delete[] *ppData; *ppData = new double[size];
+    for (int i=0; i < size; ++i)
+      (*ppData)[i] = pVals[i];
+  #}embed
+
+  cdef double* pData
+  cdef int size
+  pData = NULL
+  cpparray_create(&pData, &size)
+  dims = [3, 2]
+  return simplearray.SimpleCppArray(<object> pData, dims, "double")
+
+
+def test(sarray):
+
+  valsE = [1.1, 2.1, 1.2, 2.2, 1.3, 2.3]
+  shapeE = [3, 2]
+
+  if not sarray.name == "spatialdata_utils_SimpleArray":
+    raise TypeError("Argument 'values' must be of type "
+                    "'spatialdata_utils_SimpleArray'.")
+
+  if not sarray.isCompatible(nd=2,
+                             simpletype="double",
+                             writeable=True,
+                             contiguous=True,
+                             notswapped=True):
+    raise TypeError("Argument must be a contiguous, writeable, "
+                    "2-D array of type double.")
+
+  cdef double* pVals
+  pVals = <double*> PyCObject_AsVoidPtr(sarray.data)
+
+  if len(shapeE) != len(sarray.shape):
+    raise ValueError("Mismatch in shape.")
+  for dE,d in zip(shapeE, sarray.shape):
+    if dE != d:
+      raise ValueError("Mismatch in dimensions.")
+  size = len(valsE)
+  tolerance = 1.0e-6
+  for i from 0 <= i < size:
+    if fabs(1.0 - valsE[i]/pVals[i]) > tolerance:
+      raise ValueError("Mismatch in values.")
+  return
+
+
+# version
+__id__ = "$Id$"
+
+# End of file 
