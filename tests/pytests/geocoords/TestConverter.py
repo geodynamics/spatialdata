@@ -49,7 +49,7 @@ class TestConverter(unittest.TestCase):
     csLocal.datumVert = "mean sea level"
     csLocal.initialize()
 
-    from spatialdata.geocoords.Converter import convertpy
+    from spatialdata.geocoords.Converter import convert as convertpy
     xyzLocalValsT = convertpy(lonlatNAD27ElevVals, csLocal, csNAD27)
 
     self.assertEqual(len(xyzLocalVals), len(xyzLocalValsT))

@@ -46,7 +46,7 @@ class CSCart(CoordSys):
     import pyre.units
     uparser = pyre.units.parser()
     coordUnits = uparser.parse(self.units)
-    self.cppHandle.toMeters(coordUnits.value)
+    self.cppHandle.toMeters = coordUnits.value
 
     CoordSys.initialize(self)
     return
