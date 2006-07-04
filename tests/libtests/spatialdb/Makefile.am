@@ -46,7 +46,7 @@ INCLUDES +=
 
 testspatial_LDADD = \
 	-lcppunit -ldl \
-	$(top_builddir)/libsrc/spatialdb/libspatialdata.la \
+	$(top_builddir)/libsrc/spatialdb/libspatialdataspatialdb.la \
 	$(top_builddir)/libsrc/geocoords/libspatialdatageocoords.la
 
 # version

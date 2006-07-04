@@ -10,6 +10,9 @@
 # ----------------------------------------------------------------------
 #
 
+subpackage = utils
+include $(top_srcdir)/subpackage.am
+
 TESTS = testutils.py
 
 check_SCRIPTS = testutils.py
@@ -18,7 +21,7 @@ noinst_PYTHON = \
 	TestSimpleArray.py
 
 # module
-pyexec_LTLIBRARIES = testcppmodule.la
+subpkgpyexec_LTLIBRARIES = testcppmodule.la
 
 testcppmodule_la_LDFLAGS = -module
 
@@ -27,7 +30,7 @@ testcppmodule_la_SOURCES = testcpp.pyxe
 nodist_testcppmodule_la_SOURCES = \
 	testcpp.c testcpp_embed.cpp testcpp_embed.h
 
-INCLUDES = -I$(PYTHON_INCDIR)
+INCLUDES += -I$(PYTHON_INCDIR)
 
 testcpp.pyx testcpp_embed.cpp  testcpp_embed.h: testcpp.pyxe
 	cp $< . && pyrexembed.py testcpp.pyxe && rm -f testcpp.pyxe

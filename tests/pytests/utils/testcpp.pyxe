@@ -16,8 +16,6 @@ cdef extern from "math.h":
 cdef extern from "Python.h":
   void* PyCObject_AsVoidPtr(object)
 
-import spatialdata.utils.utils as simplearray
-
 def cpparray():
   # create shim to create array
   #embed{ void cpparray_create(double** ppData, int* pSize)
@@ -28,11 +26,14 @@ def cpparray():
       (*ppData)[i] = pVals[i];
   #}embed
 
+  #import spatialdata.utils.utils as simplearray
+  import utils as simplearray
+
   cdef double* pData
   cdef int size
   pData = NULL
   cpparray_create(&pData, &size)
-  dims = [3, 2]
+  dims = [2, 3]
   return simplearray.SimpleCppArray(<object> pData, dims, "double")
 
 

@@ -58,15 +58,15 @@ class CSGeo(CoordSys):
 
   def initialize(self):
     """Initialize coordinate system."""
-    self.cppHandle.ellipsoid(self.ellipsoid)
-    self.cppHandle.datumHoriz(self.datumHoriz)
-    self.cppHandle.datumVert(self.datumVert)
-    self.cppHandle.isGeocentric(self.isGeocentric)
+    self.cppHandle.ellipsoid = self.ellipsoid
+    self.cppHandle.datumHoriz = self.datumHoriz
+    self.cppHandle.datumVert = self.datumVert
+    self.cppHandle.isGeocentric = self.isGeocentric
 
     import pyre.units
     uparser = pyre.units.parser()
     coordUnits = uparser.parse(self.units)
-    self.cppHandle.toMeters(coordUnits.value)
+    self.cppHandle.toMeters = coordUnits.value
 
     CoordSys.initialize(self)
     return

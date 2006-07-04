@@ -45,7 +45,7 @@ class CSGeoProj(CSGeo):
     """Initialize coordinate system."""
 
     self.projector.initialize(self)
-    self.cppHandle.projector(self.projector.cppHandle.handle)
+    self.cppHandle.projector = self.projector.cppHandle.handle
 
     CSGeo.initialize(self)
     return

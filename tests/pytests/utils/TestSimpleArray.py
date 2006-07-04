@@ -60,7 +60,7 @@ class TestSimpleArray(unittest.TestCase):
     vals = [ [1.1, 2.1, 3.1],
              [1.2, 2.2, 3.2] ]
     x = numeric.array(vals, numeric.Float64)
-    import testcpp
+    import spatialdata.utils.testcpp as testcpp
     y = testcpp.cpparray()
     self.assertEqual(len(x.shape), y.nd)
     self.assertEqual(len(x.shape), len(y.shape))
@@ -77,7 +77,7 @@ class TestSimpleArray(unittest.TestCase):
              [1.2, 2.2],
              [1.3, 2.3] ]
     x = numeric.array(vals, numeric.Float64)
-    import testcpp
+    import spatialdata.utils.testcpp as testcpp
     try:
       testcpp.test(simplearray.SimplePyArray(x))
     except ValueError, er:

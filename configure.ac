@@ -29,7 +29,7 @@ AC_ARG_ENABLE([testing],
 
 # PYTHIA w/pythia
 AC_ARG_ENABLE([pythia],
-	[  --enable-pythia        Enable use of pythia package (requires pythia) [[default=no]]],
+	[  --enable-pythia        Enable use of Pythia (requires pythia) [[default=no]]],
 	[enable_pythia=yes],
 	[enable_pythia=no])
 
@@ -84,9 +84,9 @@ if test "$enable_testing" = "yes" ; then
   ])
 fi
 
-# PYRE
-AM_CONDITIONAL([ENABLE_PYTHIA], [test "$enable_pyre" = yes])
-if test "$enable_pyre" = "yes" ; then
+# PYTHIA
+AM_CONDITIONAL([ENABLE_PYTHIA], [test "$enable_pythia" = yes])
+if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
   # PYTHIA

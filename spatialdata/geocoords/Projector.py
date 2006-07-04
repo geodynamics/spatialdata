@@ -51,9 +51,9 @@ class Projector(Component):
   def initialize(self, coordSys):
     """Initialize projector."""
 
-    self.cppHandle.projection(self.projection)
-    self.cppHandle.units(self.units)
-    self.cppHandle.projOptions(self.projOptions)
+    self.cppHandle.projection = self.projection
+    self.cppHandle.units = self.units
+    self.cppHandle.projOptions = self.projOptions
     self.cppHandle.initialize(coordSys.cppHandle)
     return
 

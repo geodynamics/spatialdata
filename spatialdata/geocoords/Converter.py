@@ -13,25 +13,15 @@
 ## @file spatialdata/geocoords/Converter.py
 ## @brief Python function to convert b/t coordinate systems.
 
-def convertpy(coordsSrc, csDest, csSrc):
+def convert(coordsSrc, csDest, csSrc):
   """Convert coordinates from source coordinate system to destination
-  coordinate system. Coordinates are stored in a Python array."""
+  coordinate system. Transformation is done in place."""
+
+  import spatialdata.utils.utils as simplearray
+  coordsSrcArray = simplearray.SimplePyArray(coordsSrc)
 
   import spatialdata.geocoords.geocoords as bindings
-  coordsDest = bindings.Converter_convertpy(coordsSrc,
-                                            csDest.cppHandle, csSrc.cppHandle)
-
-  return coordsDest
-
-
-def convertcpp(handle, numLocs, numCoords, csDest, csSrc):
-  """Convert coordinates from source coordinate system to destination
-  coordinate system. Coordinates are stored in a PyCObject. """
-
-  import spatialdata.geocoords.geocoords as bindings
-  bindings.pConverter_convertcpp(handle, numLocs, numCoords,
-                                 csDest.cppHandle, csSrc.cppHandle)
-  
+  bindings.Converter_convert(coordsSrcArray, csDest.cppHandle, csSrc.cppHandle)
   return
 
 
