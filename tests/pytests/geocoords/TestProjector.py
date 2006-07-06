@@ -46,6 +46,12 @@ class TestProjector(unittest.TestCase):
 
   def test_initialize(self):
     self.projector.initialize(self.cs)
+
+    proj = self.projector
+    self.assertEqual(proj.projection, proj.cppHandle.projection)
+    self.assertEqual(proj.units, proj.cppHandle.units)
+    self.assertEqual(proj.projOptions, proj.cppHandle.projOptions)
+
     return
 
 

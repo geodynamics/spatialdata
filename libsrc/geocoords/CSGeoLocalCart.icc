@@ -28,6 +28,17 @@ spatialdata::geocoords::CSGeoLocalCart::projDatumVert(void) const {
   return "ellipsoid";
 }
 
+// Set origin of local cartesian coordinate system.
+inline
+void
+spatialdata::geocoords::CSGeoLocalCart::origin(const double lon,
+					       const double lat,
+					       const double elev) {
+  _originLon = lon;
+  _originLat = lat;
+  _originElev = elev;
+}
+
 // version
 // $Id$
 

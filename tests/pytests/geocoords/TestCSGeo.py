@@ -22,6 +22,13 @@ class TestCSGeo(unittest.TestCase):
     cs.datumVert = "mean sea level"
     cs.units = "km"
     cs.initialize()
+
+    self.assertEqual(cs.ellipsoid, cs.cppHandle.ellipsoid)
+    self.assertEqual(cs.datumHoriz, cs.cppHandle.datumHoriz)
+    self.assertEqual(cs.datumVert, cs.cppHandle.datumVert)
+    self.assertEqual(cs.isGeocentric, cs.isGeocentric)
+    self.assertEqual(1.0e+3, cs.cppHandle.toMeters)
+
     return
 
 # version

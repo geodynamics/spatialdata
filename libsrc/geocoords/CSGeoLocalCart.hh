@@ -66,6 +66,16 @@ class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
 	      const double lat,
 	      const double elev);
 
+  /** Get origin of local cartesian coordinate system.
+   *
+   * @param pLon Pointer to longitude of origin (degrees)
+   * @param pLat Pointer to latitude of origin (degrees)
+   * @param pElev Pointer to elevation (wrt vertical datum) of origin
+   */
+  void origin(double* pLon,
+	      double* pLat,
+	      double* pElev);
+
   /** Get proj form vertical datum.
    *
    * @returns Name of datum

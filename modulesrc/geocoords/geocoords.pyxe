@@ -245,6 +245,17 @@ cdef class CSGeoLocalCart(CSGeo):
     CSGeoLocalCart_origin(self.thisptr, lon, lat, elev)
 
 
+  def getOrigin(self):
+    """Get origin of local cartesian coordinate system."""
+    # create shim for method 'origin'
+    #embed{ void CSGeoLocalCart_getOrigin(void* pObj, double* pLon, double* pLat, double* pElev)
+    ((spatialdata::geocoords::CSGeoLocalCart*) pObj)->origin(pLon, pLat, pElev);
+    #}embed
+    cdef double lon, lat, elev
+    CSGeoLocalCart_getOrigin(self.thisptr, &lon, &lat, &elev)
+    return (lon, lat, elev)
+
+
 # ----------------------------------------------------------------------
 cdef class CSGeoProj(CSGeo):
 

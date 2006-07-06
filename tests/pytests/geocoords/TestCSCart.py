@@ -19,6 +19,9 @@ class TestCSCart(unittest.TestCase):
     cs = CSCart()
     cs.units = "km"
     cs.initialize()
+
+    self.assertEqual(1.0e+3, cs.cppHandle.toMeters)
+
     return
 
 # version

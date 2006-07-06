@@ -65,16 +65,20 @@ spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(const CSGeoLocalCart& cs)
 } // copy constructor
 
 // ----------------------------------------------------------------------
-// Set origin of local cartesian coordinate system.
+// Get origin of local cartesian coordinate system.
 void
-spatialdata::geocoords::CSGeoLocalCart::origin(const double lon,
-					       const double lat,
-					       const double elev)
+spatialdata::geocoords::CSGeoLocalCart::origin(double* pLon,
+					       double* pLat,
+					       double* pElev)
 { // origin
-  _originLon = lon;
-  _originLat = lat;
-  _originElev = elev;
+  assert(0 != pLon);
+  assert(0 != pLat);
+  assert(0 != pElev);
+  *pLon = _originLon;
+  *pLat = _originLat;
+  *pElev = _originElev;
 } // origin
+
 
 // ----------------------------------------------------------------------
 // Initialize the coordinate system.
