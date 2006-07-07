@@ -21,8 +21,7 @@ libspatialdataspatialdb_la_SOURCES = \
 	SimpleDBQuery.cc \
 	SimpleIO.cc \
 	SimpleIOAscii.cc \
-	cspatialdb.cc \
-	f77spatialdb.cc
+	cspatialdb.cc
 
 libspatialdataspatialdb_la_LDFLAGS =
 
@@ -43,7 +42,6 @@ subpkginclude_HEADERS = \
 	SimpleIOAscii.hh \
 	SimpleIOAscii.icc \
 	cspatialdb.h \
-	f77spatialdb.h \
 	SimpleDBQuery.hh \
 	SimpleDBTypes.hh \
 	SimpleDBTypes.icc

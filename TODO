@@ -7,9 +7,6 @@ GEOCOORDS
 SPATIALDB
 
   Testing
-    Test C and Fortran wrappers (use in combination with C++ to get
-    around passing array of strings)
-
     Test generator code.
 
   Get units by parsing header with Python

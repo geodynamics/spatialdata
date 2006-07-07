@@ -37,6 +37,7 @@ class spatialdata::spatialdb::TestSpatialDB : public CppUnit::TestFixture
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestSpatialDB );
   CPPUNIT_TEST( testDB );
+  CPPUNIT_TEST( testDB_c );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -50,6 +51,9 @@ public :
 
   /// Test SpatialDB
   void testDB(void);
+
+  /// Test SpatialDB w/C query
+  void testDB_c(void);
 
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 private :

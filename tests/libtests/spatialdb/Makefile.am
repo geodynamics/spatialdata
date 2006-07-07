@@ -28,6 +28,7 @@ testspatial_SOURCES = \
 	TestSimpleDBVolume.cc \
 	TestSimpleIOAscii.cc \
 	TestSpatialDB.cc \
+	testcquery.c \
 	testspatial.cc
 
 noinst_HEADERS = \
@@ -38,6 +39,7 @@ noinst_HEADERS = \
 	TestSimpleDBQuery.hh \
 	TestSimpleDBVolume.hh \
 	TestSimpleIOAscii.hh \
+	testcquery.h \
 	TestSpatialDB.hh
 
 testspatial_LDFLAGS =
