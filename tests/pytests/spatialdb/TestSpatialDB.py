@@ -12,6 +12,10 @@
 
 import unittest
 
+import numpy as numeric
+import spatialdata.utils.utils as simplearray
+from spatialdata.geocoords.CSCart import CSCart
+
 class TestSpatialDB(unittest.TestCase):
 
   def setUp(self):
@@ -31,10 +35,23 @@ class TestSpatialDB(unittest.TestCase):
   def test_database(self):
     self._db.open()
     self._db.queryVals(["two", "one"])
+
+    locs = numeric.array( [[1.0, 2.0, 3.0],
+                           [5.6, 4.2, 8.6]], numeric.Float64)
+    cs = CSCart()
+    cs.toMeters = 1.0
+    
+    valsE = numeric.array( [[4.7, 6.3]]*2, numeric.Float64)
+    vals = numeric.array(self._db.query(simplearray.SimplePyArray(locs),
+                                        cs, 2))
+    self.assertEqual(2, len(vals.shape))
+    for dE, d in zip(valsE.shape, vals.shape):
+      self.assertEqual(dE, d)
+    for vE, v in zip(numeric.reshape(valsE, -1), numeric.reshape(vals, -1)):
+      self.assertAlmostEqual(vE, v, 6)
+
     self._db.close()    
     return
 
-# version
-__id__ = "$Id: TestSpatialDB.py,v 1.1 2005/05/25 18:43:08 baagaard Exp $"
 
 # End of file 

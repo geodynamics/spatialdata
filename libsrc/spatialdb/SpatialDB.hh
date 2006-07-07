@@ -52,6 +52,12 @@ class spatialdata::spatialdb::SpatialDB
    */
   void label(const char* label);
   
+  /** Get label of spatial database.
+   *
+   * @returns Label for database
+   */
+  const char* label(void) const;
+
   /// Open the database and prepare for querying.
   virtual void open(void) = 0;
 
@@ -69,6 +75,8 @@ class spatialdata::spatialdb::SpatialDB
 			 const int numVals) = 0;
 
   /** Query the database.
+   *
+   * @note pVals should be preallocated to accommodate numVals values.
    *
    * @pre Must call open() before query()
    *
@@ -88,15 +96,6 @@ class spatialdata::spatialdb::SpatialDB
 		    const double z,
 		    const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
 
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
-
-  /** Get label of spatial database.
-   *
-   * @returns Label of spatial database
-   */
-  const char* label(void) const;
-  
  private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
   

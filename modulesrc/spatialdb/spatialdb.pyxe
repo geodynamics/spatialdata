@@ -15,6 +15,8 @@
 #include "spatialdata/spatialdb/SimpleDB.hh"
 #include "spatialdata/spatialdb/SimpleIO.hh"
 #include "spatialdata/spatialdb/SimpleIOAscii.hh"
+
+#include "spatialdata/geocoords/CoordSys.hh"
 #}header
 
 # ----------------------------------------------------------------------
@@ -49,17 +51,26 @@ cdef class SpatialDB:
     return
 
 
-  def label(self, name):
-    """Set label of spatial database."""
-    # create shim for method 'label'
-    #embed{ void SpatialDB_label(void* pObj, char* name)
-    ((spatialdata::spatialdb::SpatialDB*) pObj)->label(name);
-    #}embed
+  property label:
+    def __set__(self, name):
+      """Set label of spatial database."""
+      # create shim for method 'label'
+      #embed{ void SpatialDB_label_set(void* pObj, char* name)
+      ((spatialdata::spatialdb::SpatialDB*) pObj)->label(name);
+      #}embed
 
-    SpatialDB_label(self.thisptr, name)
-    return
+      SpatialDB_label_set(self.thisptr, name)
 
+    def __get__(self):
+      """Get label of spatial database."""
+      # create shim for method 'label'
+      #embed{ char* SpatialDB_label_get(void* pObj)
+      return (char*) ((spatialdata::spatialdb::SpatialDB*) pObj)->label();
+      #}embed
 
+      return SpatialDB_label_get(self.thisptr)
+
+      
   def open(self):
     """Open database and prepare for querying."""
     # create shim for method 'open'
@@ -106,6 +117,61 @@ cdef class SpatialDB:
     free(<void*> pNames)
     
     return
+
+
+  def query(self, locs, cs, nvals):
+    """Query db to get values at locations."""
+    # create shim for method 'query'
+    #embed{ void SpatialDB_query(void* pObj, double** pVals, int nvals, double x, double y, double z, void* csObj)
+    spatialdata::geocoords::CoordSys* pCS =
+      (spatialdata::geocoords::CoordSys*) csObj;
+    ((spatialdata::spatialdb::SpatialDB*) pObj)->query(pVals, nvals, x, y, z,
+                                                       pCS);
+    #}embed
+
+    if not locs.name == "spatialdata_utils_SimpleArray":
+      raise TypeError, \
+            "Argument 'locs' must be of type 'SimpleArray'."
+    if not locs.isCompatible(nd=2,
+                             simpletype="double",
+                             contiguous=True,
+                             notswapped=True):
+      raise TypeError, \
+            "Argument 'locs' must be a contiguous, 2-D array of type double."
+
+    if not cs.name == "spatialdata_geocoords_CoordSys":
+      raise TypeError, \
+            "Argument 'cs' must be extension module type 'CoordSys'."
+    if nvals < 1:
+      raise TypeError, \
+              "Argument 'nvals' must be a positive integer."
+
+    (nlocs, ncoords) = locs.shape
+    if not ncoords == 3:
+      raise ValueError, \
+            "Argument 'locs' must have 3 coordinates per location."
+    
+    cdef double* pLocs
+    pLocs = <double*> PyCObject_AsVoidPtr(locs.data)
+
+    cdef double* pVals
+    pVals = <double*> malloc(nlocs*nvals*sizeof(double))
+
+    cdef double* valbuffer
+    valbuffer = <double*> malloc(nvals*sizeof(double))
+
+    for iloc from 0 <= iloc < nlocs:
+      SpatialDB_query(self.thisptr, &valbuffer, nvals,
+                      pLocs[ncoords*iloc  ],
+                      pLocs[ncoords*iloc+1],
+                      pLocs[ncoords*iloc+2], ptrFromHandle(cs))
+      for ival from 0 <= ival < nvals:
+        pVals[nvals*iloc+ival] = valbuffer[ival]
+    free(<void*> valbuffer)
+
+    dims = [nlocs, nvals]
+    import spatialdata.utils.utils
+    return spatialdata.utils.utils.SimpleCppArray(<object> pVals, dims, "double")
 
 
   def _createHandle(self):

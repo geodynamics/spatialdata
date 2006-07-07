@@ -45,7 +45,7 @@ class SpatialDB(Component):
 
   def initialize(self):
     """Initialize database."""
-    self.cppHandle.label(self.label)
+    self.cppHandle.label = self.label
     return
 
 
@@ -65,6 +65,11 @@ class SpatialDB(Component):
     """Set values to return in queries."""
     self.cppHandle.queryVals(names)
     return
+
+
+  def query(self, locs, cs, numvals):
+    """Perform query of db to get values at locations."""
+    return self.cppHandle.query(locs, cs.cppHandle, numvals)
 
 
   def __init__(self, name="spatialdb"):

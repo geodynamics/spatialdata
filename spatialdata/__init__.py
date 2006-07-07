@@ -10,10 +10,9 @@
 # ----------------------------------------------------------------------
 #
 
-## @file pkgs/pyre/__init__.py
+## @file spatialdata/__init__.py
 ## @brief Python top-level SpatialData module initialization
 
-# version
-__id__ = "$Id: __init__.py,v 1.1 2005/05/25 18:40:19 baagaard Exp $"
+__all__ = []
 
 # End of file

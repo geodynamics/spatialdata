@@ -1,11 +1,16 @@
-CONFIGURE
-
-  Add version number to libraries
-  Put python stuff in correct dirs (pythia-0.8/common.am)
-
 GEOCOORDS
 
+  Make it possible to pickle/unpickle to/from file like in C++?
+
+  Clean up number of coordinates issues. Use numbers instead of is2D flag?
+
 SPATIALDB
+
+  Testing
+    Test C and Fortran wrappers (use in combination with C++ to get
+    around passing array of strings)
+
+    Test generator code.
 
   Get units by parsing header with Python
 
