@@ -44,7 +44,7 @@ class PointsStream(Component):
     import pyre.inventory
 
     commentFlag = pyre.inventory.str("comment_flag", default="#")
-    commentFlags.meta['tip'] = "String identifying comment."
+    commentFlag.meta['tip'] = "String identifying comment."
 
     fieldWidth = pyre.inventory.int("field_width", default=14)
     fieldWidth.meta['tip'] = "Width of field for coordinates."

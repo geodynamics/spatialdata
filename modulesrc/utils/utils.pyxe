@@ -39,10 +39,32 @@ cdef class PointsStream:
     """
     Constructor.
     """
-    self._handle = self._createHandle()
+    self.handle = self._createHandle()
     self.thisptr = NULL
     self.name = "spatialdata_utils_PointsStream"
     return
+
+  property filename:
+    def __set__(self, filename):
+      """
+      Set name of file.
+      """
+      # create shim for method 'filename'
+      #embed{ void PointsStream_filename_set(void* pObj, char* filename)
+      ((spatialdata::utils::PointsStream*) pObj)->filename(filename);
+      #}embed
+      PointsStream_filename_set(self.thisptr, filename)
+
+    def __get__(self):
+      """
+      Get name of file.
+      """
+      # create shim for method 'filename'
+      #embed{ char* PointsStream_filename_get(void* pObj)
+      return (char*) ((spatialdata::utils::PointsStream*) pObj)->filename();
+      #}embed
+      return PointsStream_filename_get(self.thisptr)
+
 
   property commentFlag:
     def __set__(self, flag):
