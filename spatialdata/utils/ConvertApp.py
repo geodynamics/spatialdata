@@ -41,9 +41,9 @@ class ConvertApp(Script):
     ## @li None
     ##
     ## \b Facilities
-    ## @li \b unpickler Unpickler to load data
+    ## @li \b reader Reader to load data
     ## @li \b converter Converter to convert data
-    ## @li \b pickler Pickler to dump data
+    ## @li \b writer Writer to dump data
 
     import pyre.inventory
 
@@ -83,7 +83,6 @@ class ConvertApp(Script):
     """
     Set members using inventory.
     """
-    
     Script._configure(self)
     if self.inventory.reader.name == "dummy":
       raise UnboundLocalError, "convert needs a reader to load the data.\n" \

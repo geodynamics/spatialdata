@@ -25,6 +25,9 @@ def suite():
   from TestPointsStream import TestPointsStream
   suite.addTest(unittest.makeSuite(TestPointsStream))
 
+  from TestConvertApp import TestConvertApp
+  suite.addTest(unittest.makeSuite(TestConvertApp))
+
   return suite
 
 def main():

@@ -16,6 +16,7 @@ include $(top_srcdir)/subpackage.am
 subpkgpyexec_PYTHON = \
 	__init__.py \
 	ChangeCoordSys.py \
+	ConvertApp.py \
 	PointsStream.py
 
 # version
