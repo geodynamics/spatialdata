@@ -19,6 +19,7 @@ cdef extern from "Python.h":
   object PyCObject_FromVoidPtr(void*, void (*func)(void*))
   object PyCObject_FromVoidPtrAndDesc(void* cobj, void* desc,
                                       void (*func)(void*, void*))
+  void* PyCObject_AsVoidPtr(object)
 
 cdef extern from "stdlib.h":
   ctypedef int size_t
@@ -207,9 +208,8 @@ cdef class SimpleCppArray(SimpleArray):
     """Constructor."""
     SimpleArray.__init__(self)
 
-
     nd = len(shape)
-    self.arrayptr = <void*> data
+    self.arrayptr = PyCObject_AsVoidPtr(data)
     self.nd = nd
     self._typeinfo = self._sizeandtype(valuetype)
   
@@ -358,6 +358,19 @@ cdef class SimplePyArray(SimpleArray):
       raise ValueError("Unknown C type '%s' in setting up SimplePyArray." \
                        % typestring)
     return info[typestring]
+
+# ----------------------------------------------------------------------
+def objAsSimpleArray(obj):
+  """
+  Test if object is a SimpleArray. If not try to convert it to a
+  SimpleArray. If can't convert throw ValueError exception.
+  """
+  try:
+    if not obj.name == "spatialdata_utils_SimpleArray":
+      obj = SimplePyArray(obj)
+  except AttributeError:
+    obj = SimplePyArray(obj)
+  return obj
 
 
 # version
