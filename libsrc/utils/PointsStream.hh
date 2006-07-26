@@ -28,7 +28,6 @@ namespace spatialdata {
 } // spatialdata
 
 #include <string> // HASA std::string
-#include <iosfwd> // USES std::istream, std::ostream
 
 /// C++ object for reading/writing points to/from stdin/stdout.
 class spatialdata::utils::PointsStream
@@ -80,17 +79,21 @@ class spatialdata::utils::PointsStream
    */
   int precision(void) const;
 
-  /** Set input stream.
+  /** Set name of file.
    *
-   * @param pIn Pointer to input stream
+   * If no filename is supplied, stdin/stdout is used.
+   *
+   * @param filename Name of file
    */
-  void input(std::istream* pIn);
+  void filename(const char* filename);
 
-  /** Set output stream.
+  /** Get name of fle.
    *
-   * @param pOut Pointer to output stream
+   * If no filename is supplied, stdin/stdout is used.
+   *
+   * @returns Name of file
    */
-  void output(std::ostream* pOut);
+  const char* filename(void) const;
 
   /** Read points from stdin.
    *
@@ -121,12 +124,10 @@ private :
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
+  std::string _filename; ///< Name of file for input/output
   std::string _commentFlag; ///< String identifying comments in input
   int _fieldWidth; ///< Width of field in output
   int _precision; ///< Precision in floating point output
-
-  std::istream* _pIn; ///< Pointer to input stream
-  std::ostream* _pOut; ///< Pointer to output stream
 
 }; // class PointsStream
 

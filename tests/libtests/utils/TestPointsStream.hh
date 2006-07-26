@@ -38,8 +38,7 @@ class spatialdata::utils::TestPointsStream : public CppUnit::TestFixture
   CPPUNIT_TEST( testCommentFlag );
   CPPUNIT_TEST( testFieldWidth );
   CPPUNIT_TEST( testPrecision );
-  CPPUNIT_TEST( testRead );
-  CPPUNIT_TEST( testWrite );
+  CPPUNIT_TEST( testWriteRead );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -54,11 +53,8 @@ public :
   /// Test precision()
   void testPrecision(void);
 
-  /// Test read()
-  void testRead(void);
-
-  /// Test write()
-  void testWrite(void);
+  /// Test write()/read()
+  void testWriteRead(void);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :

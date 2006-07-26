@@ -28,8 +28,6 @@ noinst_HEADERS = \
 
 testutils_LDFLAGS =
 
-INCLUDES +=
-
 testutils_LDADD = \
 	-lcppunit -ldl \
 	$(top_builddir)/libsrc/utils/libspatialdatautils.la

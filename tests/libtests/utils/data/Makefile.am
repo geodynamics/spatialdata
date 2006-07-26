@@ -16,4 +16,6 @@ noinst_HEADERS = \
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/tests/libtests/utils/data
 
+CLEANFILES = tmp.txt
+
 # End of file 

@@ -13,6 +13,7 @@
 #include "PointsStream.hh" // Implementation of class methods
 
 #include <iostream> // USES std::cout, std::cin
+#include <fstream> // USES std::ifstream, std::ofstream
 #include <iomanip> // USES std::setprecision(), std::width()
 #include <vector> // USES std::vector
 #include <assert.h> // USES assert()
@@ -21,10 +22,9 @@
 // Default constructor
 spatialdata::utils::PointsStream::PointsStream(void) :
   _commentFlag("#"),
+  _filename(""),
   _fieldWidth(14),
-  _precision(5),
-  _pIn(&std::cin),
-  _pOut(&std::cout)
+  _precision(5)
 { // constructor
 } // constructor
 
@@ -35,29 +35,15 @@ spatialdata::utils::PointsStream::~PointsStream(void)
 } // destructor
 
 // ----------------------------------------------------------------------
-// Set input stream.
-void
-spatialdata::utils::PointsStream::input(std::istream* pIn)
-{ // input
-  _pIn = pIn;
-} // input
-
-// ----------------------------------------------------------------------
-// Set output stream.
-void
-spatialdata::utils::PointsStream::output(std::ostream* pOut)
-{ // output
-  _pOut = pOut;
-} // output
-
-// ----------------------------------------------------------------------
 // Read points from stdin.
 void
 spatialdata::utils::PointsStream::read(double** ppPoints,
 				       int* pNumPts,
 				       int* pNumDims) const
 { // read
-  assert(0 != _pIn);
+  std::istream* pIn = (0 != _filename.length()) ?
+    new std::ifstream(_filename.c_str()) :
+    &std::cin;
 
   size_t numPts = 0;
   size_t numDims = 3;
@@ -67,14 +53,14 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
 
   size_t capacity = initialCapacity;
   size_t index = 0;
-  while(!_pIn->eof() && _pIn->good()) {
+  while(!pIn->eof() && pIn->good()) {
     if (numPts*numDims >= capacity) {
       capacity *= 2;
       buffer.resize(capacity);
     } // if
     for (size_t iDim=0; iDim < numDims; ++iDim)
-      *_pIn >> buffer[index++];
-    if (_pIn->good())
+      *pIn >> buffer[index++];
+    if (pIn->good())
       ++numPts;
   } // while
 
@@ -89,6 +75,8 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     *pNumPts = numPts;
   if (0 != pNumDims)
     *pNumDims = numDims;
+  if (&std::cin != pIn)
+    delete pIn;
 } // read
 
 // ----------------------------------------------------------------------
@@ -98,19 +86,23 @@ spatialdata::utils::PointsStream::write(const double* pPoints,
 					const int numPts,
 					const int numDims) const
 { // write
-  assert(0 != _pOut);
+  std::ostream* pOut = (0 != _filename.length()) ?
+    new std::ofstream(_filename.c_str()) :
+    &std::cout;
 
-  *_pOut
+  *pOut
     << std::resetiosflags(std::ios::fixed)
     << std::setiosflags(std::ios::scientific)
     << std::setprecision(_precision);
 
   for (size_t iPoint=0, index=0; iPoint < numPts; ++iPoint) {
     for (size_t iDim=0; iDim < numDims; ++iDim)
-      *_pOut << std::setw(_fieldWidth) << pPoints[index++];
-    *_pOut << "\n";
+      *pOut << std::setw(_fieldWidth) << pPoints[index++];
+    *pOut << "\n";
   } // for
 
+  if (&std::cout != pOut)
+    delete pOut;
 } // write
 
 // End of file

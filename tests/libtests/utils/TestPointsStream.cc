@@ -58,20 +58,16 @@ spatialdata::utils::TestPointsStream::testPrecision(void)
 } // testPrecision
 
 // ----------------------------------------------------------------------
-// Test read()
+// Test write() and read()
 void
-spatialdata::utils::TestPointsStream::testRead(void)
-{ // testRead
-  std::stringstream buffer;
-
-  //buffer << "# This is a comment\n";
-  const int size = _NUMPTS * _NUMDIMS;
-  for (int i=0; i < size; ++i)
-    buffer << "  " << _POINTS[i];
-  buffer << "\n";
+spatialdata::utils::TestPointsStream::testWriteRead(void)
+{ // testWriteRead
+  const char* filename = "data/tmp.txt";
 
   PointsStream s;
-  s.input(&buffer);
+  s.filename(filename);
+  s.write(_POINTS, _NUMPTS, _NUMDIMS);
+
   double* points = 0;
   int numPts = 0;
   int numDims = 0;
@@ -79,27 +75,10 @@ spatialdata::utils::TestPointsStream::testRead(void)
 
   CPPUNIT_ASSERT_EQUAL(_NUMPTS, numPts);
   CPPUNIT_ASSERT_EQUAL(_NUMDIMS, numDims);
-  for (int i=0; i < size; ++i)
-    CPPUNIT_ASSERT_EQUAL(_POINTS[i], points[i]);
-} // testRead
-
-// ----------------------------------------------------------------------
-// Test write()
-void
-spatialdata::utils::TestPointsStream::testWrite(void)
-{ // testWrite
-  std::stringstream buffer;
-
-  PointsStream s;
-  s.output(&buffer);
-  s.write(_POINTS, _NUMPTS, _NUMDIMS);
 
   const int size = _NUMPTS * _NUMDIMS;
-  for (int i=0; i < size; ++i) {
-    double value;
-    buffer >> value;
-    CPPUNIT_ASSERT_EQUAL(_POINTS[i], value);
-  } // for
-} // testWrite
+  for (int i=0; i < size; ++i)
+    CPPUNIT_ASSERT_EQUAL(_POINTS[i], points[i]);
+} // testWriteRead
 
 // End of file 

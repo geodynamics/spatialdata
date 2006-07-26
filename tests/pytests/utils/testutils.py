@@ -19,6 +19,9 @@ def suite():
   from TestSimpleArray import TestSimpleArray
   suite.addTest(unittest.makeSuite(TestSimpleArray))
 
+  from TestPointsStream import TestPointsStream
+  suite.addTest(unittest.makeSuite(TestPointsStream))
+
   return suite
 
 def main():

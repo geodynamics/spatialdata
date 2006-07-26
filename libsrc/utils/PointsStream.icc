@@ -14,6 +14,18 @@
 #error "PointsSTream.icc must only be included from PointsStream.hh"
 #else
 
+// Set name of file for input/output.
+void
+spatialdata::utils::PointsStream::filename(const char* filename) {
+  _filename = filename;
+}
+
+// Get name of file for input/output.
+const char*
+spatialdata::utils::PointsStream::filename(void) const {
+  return _filename.c_str();
+}
+
 // Set comment flag.
 void
 spatialdata::utils::PointsStream::commentFlag(const char* flag) {
