@@ -1,0 +1,23 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ----------------------------------------------------------------------
+//
+
+const double spatialdata::utils::TestPointsStream::_POINTS[] = {
+  1.0, 2.0, 3.0,
+  1.1, 2.1, 3.1,
+  1.2, 2.2, 3.2,
+  1.3, 2.3, 3.3
+};
+
+const int spatialdata::utils::TestPointsStream::_NUMPTS = 4;
+const int spatialdata::utils::TestPointsStream::_NUMDIMS = 3;
+
+// End of file

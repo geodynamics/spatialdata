@@ -10,12 +10,8 @@
 # ----------------------------------------------------------------------
 #
 
-SUBDIRS = \
-	geocoords \
-	spatialdb \
-	utils
-
-# version
-# $Id$
+dist_bin_SCRIPTS = \
+	gensimpledb.py \
+	pyconvert.py
 
 # End of file 

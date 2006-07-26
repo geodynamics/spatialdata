@@ -9,358 +9,163 @@
 #
 # ======================================================================
 
+#header{
+#include "spatialdata/utils/PointsStream.hh"
+#}header
 
 # ----------------------------------------------------------------------
 cdef extern from "Python.h":
-  ctypedef int Py_intptr_t
-  void Py_INCREF(object)
-  void Py_DECREF(object)
-  long PyInt_AsLong(object)
-  object PyCObject_FromVoidPtr(void*, void (*func)(void*))
-  object PyCObject_FromVoidPtrAndDesc(void* cobj, void* desc,
-                                      void (*func)(void*, void*))
+  object PyCObject_FromVoidPtr(void*, void (*destruct)(void*))
+  void* PyCObject_AsVoidPtr(object)
+
+cdef void* ptrFromHandle(obj):
+  """Extract pointer from PyCObject."""
+  return PyCObject_AsVoidPtr(obj.handle)
 
 cdef extern from "stdlib.h":
-  ctypedef int size_t
-  ctypedef long intptr_t
-  void* malloc(size_t size)
-  void free(void* ptr)
-
-ctypedef struct PyArrayInterface:
-  int version
-  int nd
-  char typekind
-  int itemsize
-  int flags
-  Py_intptr_t* shape
-  Py_intptr_t* strides
-  void* data
-
-CONTIGUOUS = 0x01
-FORTRAN = 0x02
-ALIGNED = 0x100
-NOTSWAPPED = 0x200
-WRITEABLE = 0x400
-
-# Byte order used in PyArrayInterface
-byteorder = {'<': "little",
-             '>': "big"}
-import sys
+    ctypedef unsigned long size_t
 
 # ----------------------------------------------------------------------
-cdef void interface_destructor(void* ptr, void* array):
-  Py_DECREF(<object> array)
+cdef class PointsStream:
+  """
+  Wrapper for C++ PointsStream object.
+  """
 
-# ----------------------------------------------------------------------
-cdef int _sanitylevel
-_sanitylevel = 2
-def sanitylevel(int level):
-  _sanitylevel = level
-  return
-
-# ----------------------------------------------------------------------
-cdef class SimpleArray:
-  """Abstract base class for generic multi-dimensional array holding
-  simple C/C++ datatypes that is compatible with NumPy, Numeric, and
-  numarray."""
-
-  cdef readonly object name # Identifier for type of object
-  cdef readonly int nd # Number of dimensions in array
-  cdef readonly object shape # Dimensions of array
-  cdef readonly object strides # Strides for array
-  cdef readonly object data # PyCObject holding pointer to data
-
-  cdef object _typeinfo # Dictionary containing information about type in array
-  cdef PyArrayInterface* _interface # Array interface
-  cdef Py_intptr_t* _cshape # C array for shape information
-  cdef Py_intptr_t* _cstrides # C array for strides information
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for object base type
 
   def __init__(self):
-    """Constructor."""
-    self.name = "spatialdata_utils_SimpleArray"
-    self.nd = 0
-    self.shape = None
-    self.strides = None
-    self._typeinfo = None
-    self._interface = NULL
-    self._cshape = NULL
-    self._cstrides = NULL
+    """
+    Constructor.
+    """
+    self._handle = self._createHandle()
+    self.thisptr = NULL
+    self.name = "spatialdata_utils_PointsStream"
     return
 
+  property commentFlag:
+    def __set__(self, flag):
+      """
+      Set flag for comment lines.
+      """
+      # create shim for method 'commentFlag'
+      #embed{ void PointsStream_commentFlag_set(void* pObj, char* flag)
+      ((spatialdata::utils::PointsStream*) pObj)->commentFlag(flag);
+      #}embed
+      PointsStream_commentFlag_set(self.thisptr, flag)
 
-  def __dealloc__(self):
-    """Destructor."""
-    free(self._interface)
-    free(self._cshape)
-    free(self._cstrides)
-    return
-  
-
-  def isCompatible(self, nd=None, simpletype=None,
-                   writeable=None, contiguous=None, notswapped=None):
-    """Check compatibility with requested traits. Return True if
-    compatible, False if not."""
-
-    # Skip checks if sanity level < 1
-    if _sanitylevel < 1:
-      return True
-
-    if not nd is None:
-      if not nd == self.nd:
-        return False
-    if not simpletype is None:
-      if not simpletype == self._typeinfo['type']:
-        return False
-    flags = 0
-    if not writeable is None:
-      flags = flags | WRITEABLE
-    if not contiguous is None:
-      flags = flags | CONTIGUOUS
-    if not notswapped is None:
-      flags = flags | NOTSWAPPED
-    if not self._interface.flags & flags:
-      return False
-
-    if _sanitylevel > 1:
-      # make sure strides are compatible with
-      ndims = len(self.strides)
-      stride = self._typeinfo['size']
-      for i from 0 <= i < ndims:
-        j = ndims-i-1
-        if not self.strides[j] == stride:
-          return False
-        stride = stride * self.shape[j]
-    
-    return True  
-
-
-  cdef _setupInterface(self, void* data, int flags):
-    """Create array interface."""
-    self._syncCShape()
-    self._syncCStrides()
-    
-    cdef PyArrayInterface* interface
-    interface = <PyArrayInterface*> malloc(sizeof(PyArrayInterface))
-    if interface is NULL:
-      raise MemoryError("Could not allocate array interface.")
-    interface.version = 2
-    interface.nd = self.nd
-    interface.typekind = ord(self._typeinfo['kind'])
-    interface.itemsize = self._typeinfo['size']
-    interface.flags = flags
-    interface.strides = self._cstrides
-    interface.shape = self._cshape
-    interface.data = data
-    self._interface = interface
-    self.data = PyCObject_FromVoidPtr(data, NULL)
-    return
-
-
-  cdef _calcStrides(self):
-    """Calculate strides for contiguous storage in row major (C/C++) order."""
-    nd = self.nd
-    self.strides = [0]*nd
-    stride = self._typeinfo['size']
-    for i from 0 <= i < nd:
-      j = nd-i-1
-      self.strides[j] = stride
-      stride = stride * self.shape[j]
-    return
-
-
-  cdef _syncCShape(self):
-    """Synchronize C shape array with Python shape array."""
-    free(self._cshape)
-    self._cshape = NULL
-    nd = len(self.shape)
-    if nd > 0:
-      self._cshape = <Py_intptr_t*> malloc(nd*sizeof(Py_intptr_t))
-      if self._cshape is NULL:
-        raise MemoryError("Could not allocate shape array.")
-      for i from 0 <= i < nd:
-        self._cshape[i] = self.shape[i]
-    return
-
-
-  cdef _syncCStrides(self):
-    """Synchronize C strides array with Python strides array."""
-    free(self._cstrides)
-    self._cstrides = NULL
-    nd = len(self.strides)
-    if nd > 0:
-      self._cstrides = <Py_intptr_t*> malloc(nd*sizeof(Py_intptr_t))
-      if self._cstrides is NULL:
-        raise MemoryError("Could not allocate strides array.")
-      for i from 0 <= i < nd:
-        self._cstrides[i] = self.strides[i]
-    return
-
-
-# ----------------------------------------------------------------------
-cdef class SimpleCppArray(SimpleArray):
-  """Implementation of generic multi-dimensional array created from C++
-  array."""
-  
-  cdef void* arrayptr # Pointer to head of array
-
-  def __init__(self, data, shape, valuetype):
-    """Constructor."""
-    SimpleArray.__init__(self)
-
-
-    nd = len(shape)
-    self.arrayptr = <void*> data
-    self.nd = nd
-    self._typeinfo = self._sizeandtype(valuetype)
-  
-    self.shape = [0]*nd
-    for i in range(nd):
-      self.shape[i] = shape[i]
-
-    self._calcStrides()
-    
-    flags = NOTSWAPPED | ALIGNED | CONTIGUOUS | WRITEABLE
-    self._setupInterface(self.arrayptr, flags)
-    return
-
-
-  def __dealloc__(self):
-    """Destructor."""
-    # create shim for 'delete'
-    #embed{ void PyCppArray_deletedouble(void* pData)
-      double* pArray = (double*) pData;
-      delete[] pArray;
-    #}embed
-    #embed{ void PyCppArray_deletefloat(void* pData)
-      float* pArray = (float*) pData;
-      delete[] pArray;
-    #}embed
-    #embed{ void PyCppArray_deleteint(void* pData)
-      int* pArray = (int*) pData;
-      delete[] pArray;
-    #}embed
-    if self._typeinfo['type'] == "double":
-      PyCppArray_deletedouble(self.arrayptr)
-    elif self._typeinfo['type'] == "float":
-      PyCppArray_deletefloat(self.arrayptr)
-    elif self._typeinfo['type'] == "int":
-      PyCppArray_deleteint(self.arrayptr)
-    return
-    
-
-  property __array_struct__:
-    """Generic array structure property compatible with NumPy, Numeric,
-    and numarray."""
     def __get__(self):
-      Py_INCREF(self)
-      obj = PyCObject_FromVoidPtrAndDesc(<void*> self._interface, <void*> self,
-                                         interface_destructor)
-      return obj
+      """
+      Get flag for comment lines.
+      """
+      # create shim for method 'commentFlag'
+      #embed{ char* PointsStream_commentFlag_get(void* pObj)
+      return (char*) ((spatialdata::utils::PointsStream*) pObj)->commentFlag();
+      #}embed
+      return PointsStream_commentFlag_get(self.thisptr)
 
 
-  cdef _sizeandtype(self, valuetype):
-    """Get size and type information associated with C++ datatype."""
-    info = {'double': {'size': sizeof(double),
-                       'kind': 'f',
-                       'type': "double"},
-            'float': {'size': sizeof(float),
-                      'kind': 'f',
-                      'type': "float"},
-            'int': {'size': sizeof(int),
-                    'kind': 'i',
-                    'type': "int"}}
-    if not valuetype in info.keys():
-      raise ValueError("Unknown C type in setting up SimpleArray.")
-    return info[valuetype]
+  property fieldWidth:
+    def __set__(self, flag):
+      """
+      Set field width.
+      """
+      # create shim for method 'fieldWidth'
+      #embed{ void PointsStream_fieldWidth_set(void* pObj, int width)
+      ((spatialdata::utils::PointsStream*) pObj)->fieldWidth(width);
+      #}embed
+      PointsStream_fieldWidth_set(self.thisptr, width)
 
-
-# ----------------------------------------------------------------------
-cdef class SimplePyArray(SimpleArray):
-  """Implementation of generic multi-dimensional array created from Python
-  object with __array_struct__ property."""
-
-  cdef object _pyarray # Python object holding array data
-
-  def __init__(self, pyarray):
-    """Constuctor."""
-    SimpleArray.__init__(self)
-
-    shape = pyarray.__array_shape__
-    nd = len(shape)
-    self.nd = nd
-
-    self.shape = [0]*nd
-    for i in range(nd):
-      self.shape[i] = shape[i]
-
-    typestring = pyarray.__array_typestr__
-    self._typeinfo = self._sizeandtype(typestring[1:])
-
-    strides = pyarray.__array_strides__
-    if strides:
-      self.strides = [0]*nd
-      for i from 0 <= i < nd:
-        self.strides[i] = strides[i]
-    else:
-      self._calcStrides()
-
-    cdef void* data
-    address = int(pyarray.__array_data__[0], 16)
-    data = <void*> PyInt_AsLong(address)
-
-    readonly = pyarray.__array_data__[1]
-    flags = 0
-    if '|' == typestring[0]:
-      flags = flags | NOTSWAPPED
-    elif byteorder[typestring[0]] == sys.byteorder:
-      flags = flags | NOTSWAPPED
-    if not readonly:
-      flags = flags | WRITEABLE
-    self._setupInterface(data, flags)
-    self._pyarray = pyarray
-    return
-
-
-  def __dealloc__(self):
-    """Destructor."""
-    return
-    
-
-  property __array_struct__:
-    """Generic array structure property compatible with NumPy, Numeric,
-    and numarray."""
     def __get__(self):
-      if hasattr(self._pyarray, '__array_struct__'):
-        return self._pyarray.__array_struct__
-      else:
-        Py_INCREF(self)
-        obj = PyCObject_FromVoidPtrAndDesc(<void*> self._interface,
-                                           <void*> self,
-                                           interface_destructor)
-      return obj
+      """
+      Get field width.
+      """
+      # create shim for method 'fieldWidth'
+      #embed{ int PointsStream_fieldWidth_get(void* pObj)
+      return ((spatialdata::utils::PointsStream*) pObj)->fieldWidth();
+      #}embed
+      return PointsStream_fieldWidth_get(self.thisptr)
 
 
-  def _sizeandtype(self, typestring):
-    """Parse typestring into size and type information."""
-    assert(8 == sizeof(double))
-    assert(4 == sizeof(float))
-    assert(4 == sizeof(int))
-    info = {'f8': {'size': sizeof(double),
-                   'kind': 'f',
-                   'type': "double"},
-            'f4': {'size': sizeof(float),
-                      'kind': 'f',
-                      'type': "float"},
-            'i4': {'size': sizeof(int),
-                   'kind': 'i',
-                   'type': "int"}}
-    if not typestring in info.keys():
-      raise ValueError("Unknown C type '%s' in setting up SimplePyArray." \
-                       % typestring)
-    return info[typestring]
+  property precision:
+    def __set__(self, flag):
+      """
+      Set precision.
+      """
+      # create shim for method 'precision'
+      #embed{ void PointsStream_precision_set(void* pObj, int precision)
+      ((spatialdata::utils::PointsStream*) pObj)->precision(precision);
+      #}embed
+      PointsStream_precision_set(self.thisptr, precision)
+
+    def __get__(self):
+      """
+      Get flag for comment lines.
+      """
+      # create shim for method 'precision'
+      #embed{ int PointsStream_precision_get(void* pObj)
+      return ((spatialdata::utils::PointsStream*) pObj)->precision();
+      #}embed
+      return PointsStream_precision_get(self.thisptr)
 
 
-# version
-__id__ = "$Id$"
+  def read(self):
+    """
+    Read points from stdin.
+    """
+    # create shim for method 'read'
+    #embed{ void PointsStream_read(void* pObj, double** ppVals, int* pNumPts, int* pNumDims)
+    ((spatialdata::utils::PointsStream*) pObj)->read(ppVals,
+                                                     pNumPts, pNumDims);
+    #}embed
+    cdef double* pVals
+    cdef int numPts
+    cdef int numDims
+    pVals = NULL
+    numPts = 0
+    numDims = 0
+    PointsStream_read(self.thisptr, &pVals, &numPts, &numDims)
+    import spatialdata.utils.simplearray
+    dims = [numPts, numDims]
+    return spatialdata.utils.simplearray.SimpleCppArray(<object> pVals,
+                                                        dims, "double")
+
+
+  def write(self, points):
+    """
+    Write points to stdout.
+    """
+    # create shim for method 'write'
+    #embed{ void PointsStream_write(void* pObj, double* pVals, int numPts, int numDims)
+    ((spatialdata::utils::PointsStream*) pObj)->write(pVals, numPts, numDims);
+    #}embed
+    if not points.name == "spatialdata_utils_SimpleArray":
+      raise TypeError, \
+            "Argument 'coordsSrc' must be of type 'SimpleArray'."
+    if not coordsSrc.isCompatible(nd=2,
+                                  simpletype="double",
+                                  contiguous=True,
+                                  notswapped=True):
+      raise TypeError, \
+            "Argument 'points' must be a contiguous, 2-D array of type double."
+    
+    (numPts, numDims) = points.shape
+    cdef double* pVals
+    pVals = <double*> PyCObject_AsVoidPtr(points.data)
+    PointsStream_write(self.thisptr, pVals, numPts, numDims)
+    return
+      
+
+  def _createHandle(self):
+    """Wrap pointer to C++ object in PyCObject."""
+    # create shim for destructor
+    #embed{ void PointsStream_destructor(void* pObj)
+    spatialdata::utils::PointsStream* pStream =
+      (spatialdata::utils::PointsStream*) pObj;
+    delete pStream;
+    #}embed
+    return PyCObject_FromVoidPtr(self.thisptr, PointsStream_destructor)
+
 
 # End of file

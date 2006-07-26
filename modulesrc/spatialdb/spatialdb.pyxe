@@ -170,8 +170,8 @@ cdef class SpatialDB:
     free(<void*> valbuffer)
 
     dims = [nlocs, nvals]
-    import spatialdata.utils.utils
-    return spatialdata.utils.utils.SimpleCppArray(<object> pVals, dims, "double")
+    import spatialdata.utils.simplearray
+    return spatialdata.utils.simplearray.SimpleCppArray(<object> pVals, dims, "double")
 
 
   def _createHandle(self):

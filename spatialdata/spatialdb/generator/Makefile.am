@@ -13,9 +13,6 @@
 subpackage = spatialdb/generator
 include $(top_srcdir)/subpackage.am
 
-dist_bin_SCRIPTS = \
-	gensimpledb.py
-
 subpkgpyexec_PYTHON = \
 	Geometry.py \
 	Filter.py \

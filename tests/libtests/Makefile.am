@@ -12,7 +12,8 @@
 
 SUBDIRS = \
 	geocoords \
-	spatialdb
+	spatialdb \
+	utils
 
 # version
 # $Id$

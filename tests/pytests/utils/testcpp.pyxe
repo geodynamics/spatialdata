@@ -26,15 +26,14 @@ def cpparray():
       (*ppData)[i] = pVals[i];
   #}embed
 
-  #import spatialdata.utils.utils as simplearray
-  import utils as simplearray
+  import spatialdata.utils.simplearray
 
   cdef double* pData
   cdef int size
   pData = NULL
   cpparray_create(&pData, &size)
   dims = [2, 3]
-  return simplearray.SimpleCppArray(<object> pData, dims, "double")
+  return spatialdata.utils.simplearray.SimpleCppArray(<object> pData, dims, "double")
 
 
 def test(sarray):

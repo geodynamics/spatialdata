@@ -13,7 +13,7 @@
 import unittest
 
 import numpy as numeric
-import spatialdata.utils.utils as simplearray
+import spatialdata.utils.simplearray as simplearray
 
 class TestSimpleArray(unittest.TestCase):
 

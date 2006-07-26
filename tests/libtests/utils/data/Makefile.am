@@ -10,12 +10,10 @@
 # ----------------------------------------------------------------------
 #
 
-SUBDIRS = \
-	geocoords \
-	spatialdb \
-	utils
+noinst_HEADERS = \
+	TestPointsStream.dat
 
-# version
-# $Id$
+# 'export' the input files by performing a mock install
+export_datadir = $(top_builddir)/tests/libtests/utils/data
 
 # End of file 

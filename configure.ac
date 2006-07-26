@@ -124,6 +124,7 @@ AC_CONFIG_FILES([Makefile
 	libsrc/geocoords/Makefile
 	libsrc/geocoords/data/Makefile
 	libsrc/spatialdb/Makefile
+	libsrc/utils/Makefile
 	modulesrc/Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
@@ -140,11 +141,14 @@ AC_CONFIG_FILES([Makefile
 	tests/libtests/geocoords/data/Makefile
 	tests/libtests/spatialdb/Makefile
 	tests/libtests/spatialdb/data/Makefile
+	tests/libtests/utils/Makefile
+	tests/libtests/utils/data/Makefile
 	tests/pytests/Makefile
 	tests/pytests/geocoords/Makefile
 	tests/pytests/spatialdb/Makefile
 	tests/pytests/spatialdb/data/Makefile
 	tests/pytests/utils/Makefile
+	applications/Makefile
 	doc/Makefile])
 
 AC_OUTPUT

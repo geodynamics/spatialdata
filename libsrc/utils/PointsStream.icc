@@ -1,0 +1,55 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_utils_pointsstream_hh)
+#error "PointsSTream.icc must only be included from PointsStream.hh"
+#else
+
+// Set comment flag.
+void
+spatialdata::utils::PointsStream::commentFlag(const char* flag) {
+  _commentFlag = flag;
+}
+
+// Get comment flag.
+const char*
+spatialdata::utils::PointsStream::commentFlag(void) const {
+  return _commentFlag.c_str();
+}
+
+// Set field width.
+void
+spatialdata::utils::PointsStream::fieldWidth(const int width) {
+  _fieldWidth = width;
+}
+
+// Get field width.
+int
+spatialdata::utils::PointsStream::fieldWidth(void) const {
+  return _fieldWidth;
+}
+
+// Set precision.
+void
+spatialdata::utils::PointsStream::precision(const int value) {
+  _precision = value;
+}
+
+// Get precision.
+int
+spatialdata::utils::PointsStream::precision(void) const {
+  return _precision;
+}
+
+#endif
+
+// End of file 

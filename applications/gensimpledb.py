@@ -10,18 +10,15 @@
 # ======================================================================
 #
 
-## @file spatialdata/spatialdb/generator/gensimpledb.py
+## @file spatialdata/applications/gensimpledb.py
 ## @brief Generic use of GenSimpleDBApp.
 
 # ----------------------------------------------------------------------
-# main
 if __name__ == '__main__':
   from spatialdata.spatialdb.generator.GenSimpleDBApp import GenSimpleDBApp
 
   app = GenSimpleDBApp()
   app.run()
 
-# version
-__id__ = "$Id$"
 
 # End of file 

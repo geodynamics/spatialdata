@@ -13,10 +13,26 @@
 subpackage = utils
 include $(top_srcdir)/subpackage.am
 
-subpkgpyexec_PYTHON = \
-	__init__.py \
-	ChangeCoordSys.py \
-	PointsStream.py
+SUBDIRS = data
+
+TESTS = testutils
+
+check_PROGRAMS = testutils
+
+testutils_SOURCES = \
+	TestPointsStream.cc \
+	testutils.cc
+
+noinst_HEADERS = \
+	TestPointsStream.hh
+
+testutils_LDFLAGS =
+
+INCLUDES +=
+
+testutils_LDADD = \
+	-lcppunit -ldl \
+	$(top_builddir)/libsrc/utils/libspatialdatautils.la
 
 # version
 # $Id$
