@@ -31,17 +31,20 @@ class PointsStream(Component):
     ## @class Inventory
     ## Python object for managing PointsStream facilities and properties.
     ##
-    ## \b Properties (input)
-    ## @li \b commentFlag String identifying comment.
-    ##
-    ## \b Properties (output)
-    ## @li \b field_width Width of field for coordinates
-    ## @li \b precision Decimnal precision of coordinates
+    ## \b Properties
+    ## @li \b filename Name of file for input/output
+    ##          (default is to use stdin/stdout).
+    ## @li \b commentFlag String identifying comment (input).
+    ## @li \b field_width Width of field for coordinates (output).
+    ## @li \b precision Decimnal precision of coordinates (output).
     ##
     ## \b Facilities
     ## @li None
 
     import pyre.inventory
+
+    filename = pyre.inventory.str("filename", default="")
+    filename.meta['tip'] = "Name of file for input/output."
 
     commentFlag = pyre.inventory.str("comment_flag", default="#")
     commentFlag.meta['tip'] = "String identifying comment."
@@ -82,6 +85,7 @@ class PointsStream(Component):
     Component.__init__(self, name, facility="pointsstream")
     import spatialdata.utils.utils as bindings
     self.cppHandle = bindings.PointsStream()
+    self.filename = ""
     self.commentFlag = "#"
     self.fieldWidth = 14
     self.precision = 5
@@ -104,6 +108,7 @@ class PointsStream(Component):
     """
     Synchronize with C++ object.
     """
+    self.cppHandle.filename = self.filename
     self.cppHandle.commentFlag = self.commentFlag
     self.cppHandle.fieldWidth = self.fieldWidth
     self.cppHandle.precision = self.precision

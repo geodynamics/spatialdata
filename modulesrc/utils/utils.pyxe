@@ -39,8 +39,12 @@ cdef class PointsStream:
     """
     Constructor.
     """
+    # create shim for constructor
+    #embed{ void* PointsStream_constructor()
+      return (void*)(new spatialdata::utils::PointsStream);
+    #}embed
+    self.thisptr = PointsStream_constructor()
     self.handle = self._createHandle()
-    self.thisptr = NULL
     self.name = "spatialdata_utils_PointsStream"
     return
 
@@ -89,7 +93,7 @@ cdef class PointsStream:
 
 
   property fieldWidth:
-    def __set__(self, flag):
+    def __set__(self, width):
       """
       Set field width.
       """
@@ -111,7 +115,7 @@ cdef class PointsStream:
 
 
   property precision:
-    def __set__(self, flag):
+    def __set__(self, precision):
       """
       Set precision.
       """
@@ -148,9 +152,10 @@ cdef class PointsStream:
     numPts = 0
     numDims = 0
     PointsStream_read(self.thisptr, &pVals, &numPts, &numDims)
-    import spatialdata.utils.simplearray
     dims = [numPts, numDims]
-    return spatialdata.utils.simplearray.SimpleCppArray(<object> pVals,
+    import spatialdata.utils.simplearray
+    pValsObj = PyCObject_FromVoidPtr(pVals, NULL);
+    return spatialdata.utils.simplearray.SimpleCppArray(pValsObj,
                                                         dims, "double")
 
 
@@ -162,13 +167,13 @@ cdef class PointsStream:
     #embed{ void PointsStream_write(void* pObj, double* pVals, int numPts, int numDims)
     ((spatialdata::utils::PointsStream*) pObj)->write(pVals, numPts, numDims);
     #}embed
-    if not points.name == "spatialdata_utils_SimpleArray":
-      raise TypeError, \
-            "Argument 'coordsSrc' must be of type 'SimpleArray'."
-    if not coordsSrc.isCompatible(nd=2,
-                                  simpletype="double",
-                                  contiguous=True,
-                                  notswapped=True):
+    
+    import spatialdata.utils.simplearray
+    points = spatialdata.utils.simplearray.objAsSimpleArray(points)
+    if not points.isCompatible(nd=2,
+                               simpletype="double",
+                               contiguous=True,
+                               notswapped=True):
       raise TypeError, \
             "Argument 'points' must be a contiguous, 2-D array of type double."
     

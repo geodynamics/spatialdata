@@ -29,7 +29,7 @@ class ChangeCoordSys(Component):
     """
 
     ## @class Inventory
-    ## Python object for managing ConvertMeshVertices facilities
+    ## Python object for managing ChangeCoordSys facilities
     ## and properties.
     ##
     ## \b Properties
@@ -52,32 +52,21 @@ class ChangeCoordSys(Component):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def initialize(self):
-    """
-    Initialize converter.
-    """
-    self.csSrc.initialize()
-    self.csDest.initialize()
-    return
-
-
   def convert(self, points):
     """
-    Convert coordinates of vertices.
+    Transform coordinates of points from one coordinate system to another.
     """
-
-    self.initialize()
-    
+    self._initialize()
     from spatialdata.geocoords.Converter import convert
     convert(points, self.csDest, self.csSrc)
     return
 
 
-  def __init__(self, name="convertcs"):
+  def __init__(self, name="changecoordsys"):
     """
     Constructor.
     """
-    Converter.__init__(self, name)
+    Component.__init__(self, name, facility="converter")
     return
 
 
@@ -87,9 +76,17 @@ class ChangeCoordSys(Component):
     """
     Set members from inventory.
     """
-    
     self.csDest = self.inventory.csDest
     self.csSrc = self.inventory.csSrc
+    return
+
+
+  def _initialize(self):
+    """
+    Initialize converter.
+    """
+    self.csSrc.initialize()
+    self.csDest.initialize()
     return
 
 

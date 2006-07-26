@@ -431,9 +431,8 @@ def Converter_convert(coordsSrc, csDest, csSrc):
   """Convert coordinates from source coordinate system 'csSrc' to
   destination coordinate system 'csDest'."""
 
-  if not coordsSrc.name == "spatialdata_utils_SimpleArray":
-    raise TypeError, \
-          "Argument 'coordsSrc' must be of type 'SimpleArray'."
+  import spatialdata.utils.simplearray
+  coordsSrc = spatialdata.utils.simplearray.objAsSimpleArray(coordsSrc)
   if not coordsSrc.isCompatible(nd=2,
                                 simpletype="double",
                                 writeable=True,

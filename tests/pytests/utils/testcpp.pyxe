@@ -14,6 +14,7 @@ cdef extern from "math.h":
   double fabs(double)
 
 cdef extern from "Python.h":
+  object PyCObject_FromVoidPtr(void*, void (*func)(void*))
   void* PyCObject_AsVoidPtr(object)
 
 def cpparray():
@@ -33,7 +34,8 @@ def cpparray():
   pData = NULL
   cpparray_create(&pData, &size)
   dims = [2, 3]
-  return spatialdata.utils.simplearray.SimpleCppArray(<object> pData, dims, "double")
+  pDataObj = PyCObject_FromVoidPtr(pData, NULL);
+  return spatialdata.utils.simplearray.SimpleCppArray(pDataObj, dims, "double")
 
 
 def test(sarray):

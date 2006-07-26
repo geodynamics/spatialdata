@@ -19,6 +19,9 @@ def suite():
   from TestSimpleArray import TestSimpleArray
   suite.addTest(unittest.makeSuite(TestSimpleArray))
 
+  from TestChangeCoordSys import TestChangeCoordSys
+  suite.addTest(unittest.makeSuite(TestChangeCoordSys))
+
   from TestPointsStream import TestPointsStream
   suite.addTest(unittest.makeSuite(TestPointsStream))
 

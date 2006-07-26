@@ -129,9 +129,8 @@ cdef class SpatialDB:
                                                        pCS);
     #}embed
 
-    if not locs.name == "spatialdata_utils_SimpleArray":
-      raise TypeError, \
-            "Argument 'locs' must be of type 'SimpleArray'."
+    import spatialdata.utils.simplearray
+    locs = spatialdata.utils.simplearray.objAsSimpleArray(locs)
     if not locs.isCompatible(nd=2,
                              simpletype="double",
                              contiguous=True,
@@ -171,7 +170,9 @@ cdef class SpatialDB:
 
     dims = [nlocs, nvals]
     import spatialdata.utils.simplearray
-    return spatialdata.utils.simplearray.SimpleCppArray(<object> pVals, dims, "double")
+    pValsObj = PyCObject_FromVoidPtr(pVals, NULL);
+    return spatialdata.utils.simplearray.SimpleCppArray(pValsObj,
+                                                        dims, "double")
 
 
   def _createHandle(self):

@@ -63,6 +63,8 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     if (pIn->good())
       ++numPts;
   } // while
+  if (&std::cin != pIn)
+    delete pIn;
 
   if (0 != ppPoints) {
     const size_t size = numPts * numDims;
@@ -75,8 +77,6 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     *pNumPts = numPts;
   if (0 != pNumDims)
     *pNumDims = numDims;
-  if (&std::cin != pIn)
-    delete pIn;
 } // read
 
 // ----------------------------------------------------------------------

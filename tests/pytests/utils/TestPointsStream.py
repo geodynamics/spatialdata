@@ -55,15 +55,12 @@ class TestPointsStream(unittest.TestCase):
                             [1.1, 2.1, 3.1],
                             [1.2, 2.2, 3.2] ],
                           numpy.Float64)
-
     filename = "tmp.txt"
     s = PointsStream()
-    print "AA"
+    s.filename = filename
     s.write(pointsE)
-    print "BB"
     
     points = s.read()
-    print "CC"
     self.assertEqual(len(pointsE.shape), len(points.shape))
     for dE,d in zip(pointsE.shape, points.shape):
       self.assertEqual(dE, d)
