@@ -69,11 +69,11 @@ class ConvertApp(Script):
     return
 
 
-  def __init__(self):
+  def __init__(self, name="convertapp"):
     """
     Constructor.
     """
-    Script.__init__(self, 'pyconvert')
+    Script.__init__(self, name)
     return
 
 

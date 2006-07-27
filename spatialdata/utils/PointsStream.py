@@ -98,6 +98,7 @@ class PointsStream(Component):
     """
     Set members based on inventory.
     """
+    self.filename = self.inventory.filename
     self.commentFlag = self.inventory.commentFlag
     self.fieldWidth = self.inventory.fieldWidth
     self.precision = self.inventory.precision

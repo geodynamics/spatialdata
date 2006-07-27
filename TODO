@@ -1,3 +1,7 @@
+UTILS
+
+  Ignore comment lines in PointsStream.
+
 GEOCOORDS
 
   Make it possible to pickle/unpickle to/from file like in C++?

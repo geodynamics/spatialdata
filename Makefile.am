@@ -14,7 +14,7 @@ SUBDIRS = \
 	libsrc
 
 if ENABLE_PYTHIA
-  SUBDIRS += modulesrc spatialdata
+  SUBDIRS += modulesrc spatialdata applications
 endif
 
 if ENABLE_DOCUMENTATION
