@@ -17,6 +17,8 @@
 #include <iomanip> // USES std::setprecision(), std::width()
 #include <vector> // USES std::vector
 #include <assert.h> // USES assert()
+#include <sstream> // USES std::ostringstream
+#include <stdexcept> // USES std::runtime_error
 
 // ----------------------------------------------------------------------
 // Default constructor
@@ -45,6 +47,13 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     new std::ifstream(_filename.c_str()) :
     &std::cin;
 
+  if (0 == pIn || !pIn->good()) {
+    std::string name = (0 != _filename.length()) ? _filename : "std::cin";
+    std::ostringstream msg;
+    msg << "Could not open intput stream '" << name << "' for reading points.";
+    throw std::runtime_error(msg.str());
+  } // if
+
   size_t numPts = 0;
   size_t numDims = 3;
 
@@ -63,6 +72,14 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     if (pIn->good())
       ++numPts;
   } // while
+  if (!pIn->eof() && !pIn->good()) {
+    std::string name = (0 != _filename.length()) ? _filename : "std::cin";
+    std::ostringstream msg;
+    msg << "Error occurred while reading points from input stream '"
+	<< name << "'.";
+    throw std::runtime_error(msg.str());
+  } // if
+
   if (&std::cin != pIn)
     delete pIn;
 
@@ -90,6 +107,13 @@ spatialdata::utils::PointsStream::write(const double* pPoints,
     new std::ofstream(_filename.c_str()) :
     &std::cout;
 
+  if (0 == pOut || !pOut->good()) {
+    std::string name = (0 != _filename.length()) ? _filename : "std::cout";
+    std::ostringstream msg;
+    msg << "Could not open output stream '" << name << "' for writing points.";
+    throw std::runtime_error(msg.str());
+  } // if
+
   *pOut
     << std::resetiosflags(std::ios::fixed)
     << std::setiosflags(std::ios::scientific)
@@ -100,6 +124,14 @@ spatialdata::utils::PointsStream::write(const double* pPoints,
       *pOut << std::setw(_fieldWidth) << pPoints[index++];
     *pOut << "\n";
   } // for
+
+  if (!pOut->good()) {
+    std::string name = (0 != _filename.length()) ? _filename : "std::cout";
+    std::ostringstream msg;
+    msg << "Error occurred while writing points to output stream '"
+	<< name << "'.";
+    throw std::runtime_error(msg.str());
+  } // if
 
   if (&std::cout != pOut)
     delete pOut;
