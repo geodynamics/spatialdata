@@ -124,12 +124,16 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
   SimpleDB(const SimpleDB& data); ///< Not implemented
   const SimpleDB& operator=(const SimpleDB& data); ///< Not implemented
   
-private :
- // PRIVATE MEMBERS ////////////////////////////////////////////////////
+protected :
+// PROTECTED MEMBERS ////////////////////////////////////////////////////
   
-  SimpleIO* _pIOHandler; ///< I/O handler
+  DataStruct* _pData; ///< Pointer to data  
+
+private :
+ // PRIVATE MEMBERS /////////////////////////////////////////////////////
+   
+ SimpleIO* _pIOHandler; ///< I/O handler
   SimpleDBQuery* _pQuery; ///< Query handler
-  DataStruct* _pData; ///< Pointer to data
   spatialdata::geocoords::CoordSys* _pCS; ///< Coordinate system
 
 }; // class SimpleDB
