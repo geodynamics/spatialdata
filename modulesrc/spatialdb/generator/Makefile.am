@@ -28,7 +28,7 @@ generatormodule_la_LIBADD = \
 INCLUDES += -I$(PYTHON_INCDIR)
 
 generator.pyx generator_embed.cpp  generator_embed.h: generator.pyxe
-	cp $< . && pyrexembed.py generator.pyxe && rm -f generator.pyxe
+	cp $< . && pyrexembed generator.pyxe && rm -f generator.pyxe
 generator_embed.cpp: generator_embed.h
 generator_embed.h: generator.pyx
 

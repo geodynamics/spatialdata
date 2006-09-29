@@ -28,7 +28,7 @@ geocoordsmodule_la_LIBADD = \
 INCLUDES += -I$(PYTHON_INCDIR)
 
 geocoords.pyx geocoords_embed.cpp  geocoords_embed.h: geocoords.pyxe
-	cp $< . && pyrexembed.py geocoords.pyxe && rm -f geocoords.pyxe
+	cp $< . && pyrexembed geocoords.pyxe && rm -f geocoords.pyxe
 geocoords_embed.cpp: geocoords_embed.h
 geocoords_embed.h: geocoords.pyx
 

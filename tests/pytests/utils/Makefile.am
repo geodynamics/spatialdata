@@ -33,7 +33,7 @@ nodist_testcppmodule_la_SOURCES = \
 INCLUDES += -I$(PYTHON_INCDIR)
 
 testcpp.pyx testcpp_embed.cpp  testcpp_embed.h: testcpp.pyxe
-	cp $< . && pyrexembed.py testcpp.pyxe && rm -f testcpp.pyxe
+	cp $< . && pyrexembed testcpp.pyxe && rm -f testcpp.pyxe
 testcpp_embed.cpp: testcpp_embed.h
 testcpp_embed.h: testcpp.pyx
 
