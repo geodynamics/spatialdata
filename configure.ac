@@ -104,6 +104,21 @@ if test "$enable_pythia" = "yes" ; then
      AC_MSG_ERROR([Pythia library not found; try LDFLAGS="-L<pythia lib dir>"])
   ])
 
+  # PYREX/PYREXEMBED
+  AC_CHECK_PROG([have_pyrex],
+    [pyrexc],
+    [yes],
+    [no])
+  if test "$have_pyrex" = "no"; then
+    AC_MSG_ERROR([Pyrex not found in current path.])
+  fi
+  AC_CHECK_PROG([have_pyrexembed],
+    [pyrexembed],
+    [yes],
+    [no])
+  if test "$have_pyrexembed" = "no"; then
+    AC_MSG_ERROR([Pyrexembed not found in current path.])
+  fi
 fi
 
 # DOXYGEN
