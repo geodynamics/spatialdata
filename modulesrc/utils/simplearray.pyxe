@@ -148,8 +148,6 @@ cdef class SimpleArray:
       stride = self._typeinfo['size']
       for i from 0 <= i < ndims:
         j = ndims-i-1
-        print "j: %d, self.strides[j]: %d, stride: %d" % \
-              (j, self.strides[j], stride)
         if not self.strides[j] == stride:
           if _debuglevel > 0:
             print "Expected stride '%d' but have stride '%d'." % \
