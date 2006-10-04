@@ -285,7 +285,6 @@ cdef class SimpleCppArray(SimpleArray):
     """
     Get size and type information associated with C++ datatype.
     """
-    print 
     info = {'double': {'size': sizeof(double),
                        'kind': 'f',
                        'type': "double"},
