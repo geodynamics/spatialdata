@@ -56,8 +56,18 @@ cdef void interface_destructor(void* ptr, void* array):
 cdef int _sanitylevel
 _sanitylevel = 2
 def sanitylevel(int level):
+  global _sanitylevel
   _sanitylevel = level
   return
+
+
+cdef int _debuglevel
+_debuglevel = 1
+def debuglevel(int level):
+  global _debuglevel
+  _debuglevel = level
+  return
+
 
 # ----------------------------------------------------------------------
 cdef class SimpleArray:
@@ -101,6 +111,8 @@ cdef class SimpleArray:
                    writeable=None, contiguous=None, notswapped=None):
     """Check compatibility with requested traits. Return True if
     compatible, False if not."""
+    global _sanitylevel
+    global _debuglevel
 
     # Skip checks if sanity level < 1
     if _sanitylevel < 1:
@@ -108,9 +120,15 @@ cdef class SimpleArray:
 
     if not nd is None:
       if not nd == self.nd:
+        if _debuglevel > 0:
+          print "Expected nd '%d' but have nd '%d'." % \
+                (nd, self.nd)
         return False
     if not simpletype is None:
       if not simpletype == self._typeinfo['type']:
+        if _debuglevel > 0:
+          print "Expected type '%s' but have type '%s'." % \
+                (simpletype, self._typeinfo['type'])
         return False
     flags = 0
     if not writeable is None:
@@ -120,15 +138,22 @@ cdef class SimpleArray:
     if not notswapped is None:
       flags = flags | NOTSWAPPED
     if not self._interface.flags & flags:
+      if _debuglevel > 0:
+        print "Incorrect attribute flags."
       return False
 
     if _sanitylevel > 1:
-      # make sure strides are compatible with
+      # make sure strides are compatible
       ndims = len(self.strides)
       stride = self._typeinfo['size']
       for i from 0 <= i < ndims:
         j = ndims-i-1
+        print "j: %d, self.strides[j]: %d, stride: %d" % \
+              (j, self.strides[j], stride)
         if not self.strides[j] == stride:
+          if _debuglevel > 0:
+            print "Expected stride '%d' but have stride '%d'." % \
+                  (stride, self.strides[j])
           return False
         stride = stride * self.shape[j]
     
@@ -259,7 +284,10 @@ cdef class SimpleCppArray(SimpleArray):
 
 
   cdef _sizeandtype(self, valuetype):
-    """Get size and type information associated with C++ datatype."""
+    """
+    Get size and type information associated with C++ datatype.
+    """
+    print 
     info = {'double': {'size': sizeof(double),
                        'kind': 'f',
                        'type': "double"},
