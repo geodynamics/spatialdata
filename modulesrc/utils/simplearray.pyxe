@@ -310,7 +310,22 @@ cdef class SimplePyArray(SimpleArray):
     """Constuctor."""
     SimpleArray.__init__(self)
 
-    shape = pyarray.__array_shape__
+
+    # Array interface version 2 (numpy < 1.0?)
+    #shape = pyarray.__array_shape__ # Array interface version 2
+    #typestring = pyarray.__array_typestr__
+    #strides = pyarray.__array_strides__
+    #address = int(pyarray.__array_data__[0], 16)
+    #readonly = pyarray.__array_data__[1]
+
+    # Array interface version ? (numpy >= 1.0)
+    pyarrayInfo = pyarray.__array_interface__
+    shape = pyarrayInfo['shape']
+    typestring = pyarrayInfo['typestr']
+    strides = pyarrayInfo['strides']
+    address = int(pyarrayInfo['data'][0])
+    readonly = pyarrayInfo['data'][1]
+
     nd = len(shape)
     self.nd = nd
 
@@ -318,10 +333,8 @@ cdef class SimplePyArray(SimpleArray):
     for i in range(nd):
       self.shape[i] = shape[i]
 
-    typestring = pyarray.__array_typestr__
     self._typeinfo = self._sizeandtype(typestring[1:])
 
-    strides = pyarray.__array_strides__
     if strides:
       self.strides = [0]*nd
       for i from 0 <= i < nd:
@@ -330,10 +343,8 @@ cdef class SimplePyArray(SimpleArray):
       self._calcStrides()
 
     cdef void* data
-    address = int(pyarray.__array_data__[0], 16)
     data = <void*> PyInt_AsLong(address)
 
-    readonly = pyarray.__array_data__[1]
     flags = 0
     if '|' == typestring[0]:
       flags = flags | NOTSWAPPED

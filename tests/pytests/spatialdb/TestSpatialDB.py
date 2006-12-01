@@ -38,11 +38,11 @@ class TestSpatialDB(unittest.TestCase):
 
     locs = numpy.array( [[1.0, 2.0, 3.0],
                          [5.6, 4.2, 8.6]],
-                        numpy.Float64)
+                        numpy.float64)
     cs = CSCart()
     cs.toMeters = 1.0
     
-    valsE = numpy.array( [[4.7, 6.3]]*2, numpy.Float64)
+    valsE = numpy.array( [[4.7, 6.3]]*2, numpy.float64)
     vals = numpy.array(self._db.query(locs, cs, 2))
     self.assertEqual(2, len(vals.shape))
     for dE, d in zip(valsE.shape, vals.shape):
