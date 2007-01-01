@@ -20,6 +20,8 @@
 #if !defined(spatialdata_geocoords_csgeo_hh)
 #define spatialdata_geocoords_csgeo_hh
 
+#include "CoordSys.hh" // ISA CoordSys
+
 namespace spatialdata {
   namespace geocoords {
     class CSGeo;
@@ -128,21 +130,21 @@ class spatialdata::geocoords::CSGeo : public CoordSys
 
   /** Convert coordinates to PROJ4 useable form.
    *
-   * @param ppCoords Pointer to array of coordinates [#locs*3]
+   * @param coords Array of coordinates [#locs*3]
    * @param numLocs Number of locations
    * @param is2D True if coordinates are 2D, false if 3D
    */
-  virtual void toProjForm(double** ppCoords,
+  virtual void toProjForm(double* coords,
 			  const int numLocs,
 			  bool is2D) const;
   
   /** Convert coordinates from PROJ4 form to form associated w/coordsys.
    *
-   * @param ppCoords Pointer to array of coordinates [#locs*3]
+   * @param coords Array of coordinates [#locs*3]
    * @param numLocs Number of locations
    * @param is2D True if coordinates are 2D, false if 3D
    */
-  virtual void fromProjForm(double** ppCoords,
+  virtual void fromProjForm(double* coords,
 			    const int numLocs,
 			    bool is2D) const;
   /** Get geoid.
@@ -172,15 +174,12 @@ protected :
    */
   CSGeo(const CSGeo& cs);
 
-protected :
-  // PROTECTED MEMBERS /////////////////////////////////////////////////
-
   /** Get the PROJ4 string associated with the coordinate system.
    *
    * @returns string
    */
   virtual std::string _projCSString(void) const;
-  
+
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 

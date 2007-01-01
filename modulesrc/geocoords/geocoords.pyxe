@@ -55,7 +55,7 @@ cdef class CoordSys:
     #embed{ void CoordSys_initialize(void* pObj)
     ((spatialdata::geocoords::CoordSys*) pObj)->initialize();
     #}embed
-    
+
     CoordSys_initialize(self.thisptr)
     return
 
@@ -272,6 +272,9 @@ cdef class CSGeoProj(CSGeo):
         (spatialdata::geocoords::Projector*) pProjObj;
         ((spatialdata::geocoords::CSGeoProj*) pObj)->projector(*pProj);
       #}embed
+      if not proj.name == "spatialdata_geocoords_Projector":
+        raise TypeError, \
+              "Argument must be extension module type 'Projector'."
       CSGeoProj_projector(self.thisptr, ptrFromHandle(proj))
 
 
@@ -418,12 +421,12 @@ cdef class Projector:
 
 # ----------------------------------------------------------------------
 # create shim for Converter method 'convert'
-#embed{ void CppConverter_convert(double** ppCoords, int numLocs, void* pCSDestObj, void* pCSSrcObj, int is2D)
+#embed{ void CppConverter_convert(double* coords, int numLocs, void* pCSDestObj, void* pCSSrcObj, int is2D)
 spatialdata::geocoords::CoordSys* pCSDest =
   (spatialdata::geocoords::CoordSys*) pCSDestObj;
 spatialdata::geocoords::CoordSys* pCSSrc =
   (spatialdata::geocoords::CoordSys*) pCSSrcObj;
-spatialdata::geocoords::Converter::convert(ppCoords, numLocs,
+spatialdata::geocoords::Converter::convert(coords, numLocs,
                                            pCSDest, pCSSrc, is2D);
 #}embed
 
@@ -456,10 +459,9 @@ def Converter_convert(coordsSrc, csDest, csSrc):
   elif 2 == numCoords:
     is2D = 1
 
-  cdef double* pVals
-  pVals = <double*> PyCObject_AsVoidPtr(coordsSrc.data)
-
-  CppConverter_convert(&pVals, numLocs,
+  cdef double* vals
+  vals = <double*> PyCObject_AsVoidPtr(coordsSrc.data)
+  CppConverter_convert(vals, numLocs,
                        ptrFromHandle(csDest), ptrFromHandle(csSrc),
                        is2D)
   return

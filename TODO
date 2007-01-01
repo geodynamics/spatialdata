@@ -1,3 +1,8 @@
+pytests are failing on Brad's Mac with numpy-0.9.8. Try updating to
+numpy-1.0 (simplearray was made compatible? with 1.0 on Brad's linux
+machine).
+
+
 UTILS
 
   Ignore comment lines in PointsStream.

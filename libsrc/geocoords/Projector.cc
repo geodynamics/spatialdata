@@ -24,7 +24,7 @@ extern "C" {
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
-#include <sstream> // USES std::ostringsgream
+#include <sstream> // USES std::ostringstream
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------

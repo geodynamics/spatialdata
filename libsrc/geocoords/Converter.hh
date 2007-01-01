@@ -38,13 +38,13 @@ class spatialdata::geocoords::Converter
   /** Convert coordinates from source coordinate system to destination
    * coordinate system.
    *
-   * @param ppCoords Pointer to array of coordinates
+   * @param coords Array of coordinates
    * @param numLocs Number of location
    * @param pCSDest Pointer to destination coordinate system
    * @param pCSSrc Pointer to source coordinate system
    * @param is2D True if 2D, false if 3D
    */
-  static void convert(double** ppCoords,
+  static void convert(double* coords,
 		      const int numLocs,
 		      const CoordSys* pCSDest,
 		      const CoordSys* pCSSrc,
@@ -56,13 +56,13 @@ private :
   /** Convert coordinates from source geographic coordinate system to
    * destination geographic coordinate system.
    *
-   * @param ppCoords Pointer to array of coordinates
+   * @param coords Array of coordinates
    * @param numLocs Number of location
    * @param csDest Destination coordinate system
    * @param csSrc Source coordinate system
    * @param is2D True if 2D, false if 3D
    */
-  static void _convert(double** ppCoords,
+  static void _convert(double* coords,
 		       const int numLocs,
 		       const CSGeo& csDest,
 		       const CSGeo& csSrc,
@@ -71,13 +71,13 @@ private :
   /** Convert coordinates from source Cartesian coordinate system to
    * destination Cartesian coordinate system.
    *
-   * @param ppCoords Pointer to array of coordinates
+   * @param coords Array of coordinates
    * @param numLocs Number of location
    * @param csDest Destination coordinate system
    * @param csSrc Source coordinate system
    * @param is2D True if 2D, false if 3D
    */
-  static void _convert(double** ppCoords,
+  static void _convert(double* coords,
 		       const int numLocs,
 		       const CSCart& csDest,
 		       const CSCart& csSrc,

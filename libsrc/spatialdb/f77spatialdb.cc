@@ -25,7 +25,7 @@ extern "C" {
 // Call SpatialDB:Query().
 extern "C"
 void spatialdb_query_f(void* db, 
-		       double* pVals,
+		       double* vals,
 		       const int* numVals,
 		       const double* x,
 		       const double* y,
@@ -43,7 +43,7 @@ void spatialdb_query_f(void* db,
   assert(0 != y);
   assert(0 != z);
   assert(0 != ok);
-  *ok = pDB->query(&pVals, *numVals, *x, *y, *z, pCS);
+  *ok = pDB->query(vals, *numVals, *x, *y, *z, pCS);
 } // spatialdb_query_f
 
 // version

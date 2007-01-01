@@ -156,17 +156,16 @@ def applyFilter(value, valueCount, locs, locCount, cs, db,
     (spatialdata::geocoords::CoordSys*) pCSObj;
     
   double* pFilterData = (locCount > 0) ? new double[locCount] : 0;
-  double* pVal = new double;
+  double val = 0;
   int err = 0;
   for (int iLoc=0, index=0; iLoc < locCount; ++iLoc, index += 3) {
-    err = pDB->query(&pVal, 1, 
+    err = pDB->query(&val, 1, 
                      pLocs[index], pLocs[index+1], pLocs[index+2],
                      pCS);
     if (0 != err)
-    *pVal = defaultValue;
-    pFilterData[iLoc] = *pVal;
+      val = defaultValue;
+    pFilterData[iLoc] = val;
   } // for
-  delete pVal; pVal = 0;
   if (0 == strcasecmp("add", operand))
     for (int iLoc=0; iLoc < locCount; ++iLoc)
       pValue[iLoc] += pFilterData[iLoc];

@@ -16,7 +16,8 @@
 /** Call SpatialDB:Query().
  *
  * @param db Pointer to SpatialDB
- * @param pVals Pointer to computed values (output from query)
+ * @param vals Array for computed values (output from query), must be
+ *   allocated BEFORE calling spatialdb_query*()
  * @param numVals Number of values expected (size of pVals array)
  * @param x C coordinate of location for query
  * @param y Y coordinate of location for query
@@ -26,7 +27,7 @@
  * @returns 0 on success, 1 on failure (i.e., values not set)
  */
 int spatialdb_query(void* db, 
-		    double** pVals,
+		    double* vals,
 		    const int numVals,
 		    const double x,
 		    const double y,
@@ -34,8 +35,5 @@ int spatialdb_query(void* db,
 		    const void* cs);
 
 #endif /* spatialdata_cspatialdb_h */
-
-/* version */
-/* $Id$ */
 
 /* End of file  */

@@ -20,6 +20,8 @@
 #if !defined(spatialdata_geocoords_cscart_hh)
 #define spatialdata_geocoords_cscart_hh
 
+#include "CoordSys.hh" // ISA CoordSys
+
 namespace spatialdata {
   namespace geocoords {
     class CSCart;

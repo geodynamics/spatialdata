@@ -12,8 +12,6 @@
 
 #include <portinfo>
 
-#include "CoordSys.hh" // ISA CoordSysGeo
-#include "CSGeo.hh" // implementation of class methods
 #include "CSGeoProj.hh" // implementation of class methods
 
 #include "Projector.hh" // USES Projector
@@ -70,10 +68,12 @@ spatialdata::geocoords::CSGeoProj::initialize(void)
 // ----------------------------------------------------------------------
 // Convert coordinates to PROJ4 useable form.
 void
-spatialdata::geocoords::CSGeoProj::toProjForm(double** ppCoords,
+spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
 					      const int numLocs,
 					      bool is2D) const
 { // toProjForm
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords));
   assert(0 != _pProjector);
 
   const int numCoords = (is2D) ? 2 : 3;
@@ -81,33 +81,35 @@ spatialdata::geocoords::CSGeoProj::toProjForm(double** ppCoords,
   for (int i=0; i < size; i += numCoords) {
     double lon = 0;
     double lat = 0;
-    _pProjector->invproject(&lon, &lat, (*ppCoords)[i  ], (*ppCoords)[i+1]);
-    (*ppCoords)[i  ] = lon;
-    (*ppCoords)[i+1] = lat;
+    _pProjector->invproject(&lon, &lat, coords[i  ], coords[i+1]);
+    coords[i  ] = lon;
+    coords[i+1] = lat;
   } // for
 
-  CSGeo::toProjForm(ppCoords, numLocs, is2D);
+  CSGeo::toProjForm(coords, numLocs, is2D);
 } // toProjForm
   
 // ----------------------------------------------------------------------
 // Convert coordinates from PROJ4 form to form associated w/coordsys.
 void
-spatialdata::geocoords::CSGeoProj::fromProjForm(double** ppCoords,
+spatialdata::geocoords::CSGeoProj::fromProjForm(double* coords,
 						const int numLocs,
 						bool is2D) const
 { // fromProjForm
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords));
   assert(0 != _pProjector);
 
-  CSGeo::fromProjForm(ppCoords, numLocs, is2D);
+  CSGeo::fromProjForm(coords, numLocs, is2D);
 
   const int numCoords = (is2D) ? 2 : 3;
   const int size = numCoords * numLocs;
   for (int i=0; i < size; i += numCoords) {
     double x = 0;
     double y = 0;
-    _pProjector->project(&x, &y, (*ppCoords)[i  ], (*ppCoords)[i+1]);
-    (*ppCoords)[i  ] = x;
-    (*ppCoords)[i+1] = y;
+    _pProjector->project(&x, &y, coords[i  ], coords[i+1]);
+    coords[i  ] = x;
+    coords[i+1] = y;
   } // for
 } // fromProjForm
   

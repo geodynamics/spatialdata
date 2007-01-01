@@ -12,16 +12,15 @@
 
 #include <portinfo>
 
-#include "CoordSys.hh" // ISA Coordsys
 #include "CSGeo.hh" // implementation of class methods
 
 #include "Geoid.hh" // USES Geoid
 
 #include <math.h> // USES M_PI
+#include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
-#include <sstream> // USES std::ostringsgream
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
@@ -44,7 +43,8 @@ spatialdata::geocoords::CSGeo::CSGeo(void) :
 // Default destructor
 spatialdata::geocoords::CSGeo::~CSGeo(void)
 { // destructor
-  pj_free(_pCS);
+  if (0 != _pCS)
+    pj_free(_pCS);
   _pCS = 0;
 } // destructor
 
@@ -66,14 +66,18 @@ spatialdata::geocoords::CSGeo::CSGeo(const CSGeo& cs) :
 void 
 spatialdata::geocoords::CSGeo::initialize(void)
 { // initialize
-  pj_free(_pCS);
-  std::string csString = _projCSString();
-  _pCS = pj_init_plus(csString.c_str());
+  if (0 != _pCS) {
+    pj_free(_pCS);
+    _pCS = 0;
+  } // if
+  assert(0 == _pCS);
+  const std::string& projString = _projCSString();
+  _pCS = pj_init_plus(projString.c_str());
   if (0 == _pCS) {
     std::ostringstream msg;
     msg << "Error while initializing coordinate system:\n"
 	<< "  " << pj_strerrno(pj_errno) << "\n"
-	<< "  proj string: " << csString << "\n";
+	<< "  proj string: " << _projCSString() << "\n";
     throw std::runtime_error(msg.str());
   } // if
 } // initialize
@@ -81,10 +85,12 @@ spatialdata::geocoords::CSGeo::initialize(void)
 // ----------------------------------------------------------------------
 // Convert coordinates to PROJ4 useable form.
 void
-spatialdata::geocoords::CSGeo::toProjForm(double** ppCoords,
+spatialdata::geocoords::CSGeo::toProjForm(double* coords,
 					  const int numLocs,
 					  bool is2D) const
 { // toProjForm
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords) );
   if (!_isGeocentric) {
     // convert deg to rad
     const int numCoords = (is2D) ? 2 : 3;
@@ -92,28 +98,30 @@ spatialdata::geocoords::CSGeo::toProjForm(double** ppCoords,
 
     const double degToRad = M_PI / 180.0;
     for (int i=0; i < size; i += numCoords) {
-      (*ppCoords)[i  ] *= degToRad;
-      (*ppCoords)[i+1] *= degToRad;
+      coords[i  ] *= degToRad;
+      coords[i+1] *= degToRad;
     } // for
 
     if (!is2D && _toMeters != 1.0)
       for (int i=2; i < size; i += numCoords)
-	(*ppCoords)[i] *= _toMeters;
+	coords[i] *= _toMeters;
   } else {
     const int numCoords = (is2D) ? 2 : 3;
     const int size = numCoords * numLocs;
     for (int i=0; i < size; ++i)
-      (*ppCoords)[i] *= _toMeters;
+      coords[i] *= _toMeters;
   } // else
 } // toProjForm
 
 // ----------------------------------------------------------------------
 // Convert coordinates from PROJ4 form to form associated w/coordsys.
 void
-spatialdata::geocoords::CSGeo::fromProjForm(double** ppCoords,
+spatialdata::geocoords::CSGeo::fromProjForm(double* coords,
 					    const int numLocs,
 					    bool is2D) const
 { // fromProjForm
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords) );
   if (!_isGeocentric) {
     // convert rad to deg
     const int numCoords = (is2D) ? 2 : 3;
@@ -121,24 +129,24 @@ spatialdata::geocoords::CSGeo::fromProjForm(double** ppCoords,
 
     const double radToDeg = 180.0 / M_PI;
     for (int i=0; i < size; i += numCoords) {
-      (*ppCoords)[i  ] *= radToDeg;
-      (*ppCoords)[i+1] *= radToDeg;
+      coords[i  ] *= radToDeg;
+      coords[i+1] *= radToDeg;
     } // for
 
     if (!is2D && _toMeters != 1.0)
       for (int i=2; i < size; i += numCoords)
-	(*ppCoords)[i] /= _toMeters;
+	coords[i] /= _toMeters;
   } else {
     const int numCoords = (is2D) ? 2 : 3;
     const int size = numCoords * numLocs;
     for (int i=0; i < size; ++i)
-      (*ppCoords)[i] /= _toMeters;
+      coords[i] /= _toMeters;
   } // else
 } // fromProjForm
 
 // ----------------------------------------------------------------------
 // Get the PROJ4 string associated with the coordinate system.
-std::string 
+std::string
 spatialdata::geocoords::CSGeo::_projCSString(void) const
 { // _projCSString
   // The common proj form uses meters so proj units are meters

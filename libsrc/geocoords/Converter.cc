@@ -32,14 +32,14 @@ extern "C" {
 // Convert coordinates from source coordinate system to destination
 // coordinate system.
 void
-spatialdata::geocoords::Converter::convert(double** ppCoords,
+spatialdata::geocoords::Converter::convert(double* coords,
 					   const int numLocs,
 					   const CoordSys* pCSDest,
 					   const CoordSys* pCSSrc,
 					   bool is2D)
 { // convert
-  assert(0 != ppCoords);
-  assert(0 != *ppCoords);
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords));
   assert(0 != pCSDest);
   assert(0 != pCSSrc);
 
@@ -53,14 +53,14 @@ spatialdata::geocoords::Converter::convert(double** ppCoords,
       { // GEOGRAPHIC
 	const CSGeo* pGeoDest = dynamic_cast<const CSGeo*>(pCSDest);
 	const CSGeo* pGeoSrc = dynamic_cast<const CSGeo*>(pCSSrc);
-	_convert(ppCoords, numLocs, *pGeoDest, *pGeoSrc, is2D);
+	_convert(coords, numLocs, *pGeoDest, *pGeoSrc, is2D);
 	break;
       } // GEOGRAPHIC
     case spatialdata::geocoords::CoordSys::CARTESIAN :
       { // GEOGRAPHIC
 	const CSCart* pCartDest = dynamic_cast<const CSCart*>(pCSDest);
 	const CSCart* pCartSrc = dynamic_cast<const CSCart*>(pCSSrc);
-	_convert(ppCoords, numLocs, *pCartDest, *pCartSrc, is2D);
+	_convert(coords, numLocs, *pCartDest, *pCartSrc, is2D);
 	break;
       } // GEOGRAPHIC
     default :
@@ -72,21 +72,21 @@ spatialdata::geocoords::Converter::convert(double** ppCoords,
 // Convert coordinates from source geographic coordinate system to
 // destination geographic coordinate system.
 void
-spatialdata::geocoords::Converter::_convert(double** ppCoords,
+spatialdata::geocoords::Converter::_convert(double* coords,
 					    const int numLocs,
 					    const CSGeo& csDest,
 					    const CSGeo& csSrc,
 					    bool is2D)
 { // convert
-  assert(0 != ppCoords);
-  assert(0 != *ppCoords);
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords));
 
-  csSrc.toProjForm(ppCoords, numLocs, is2D);
+  csSrc.toProjForm(coords, numLocs, is2D);
 
   const int numCoords = is2D ? 2 : 3;
-  double* pX = (*ppCoords) + 0; // lon
-  double* pY = (*ppCoords) + 1; // lat
-  double* pZ = (is2D) ? 0 : (*ppCoords) + 2;
+  double* pX = coords + 0; // lon
+  double* pY = coords + 1; // lat
+  double* pZ = (is2D) ? 0 : coords + 2;
 
   const char* srcDatumVert = csSrc.projDatumVert();
   const char* destDatumVert = csDest.projDatumVert();
@@ -127,8 +127,8 @@ spatialdata::geocoords::Converter::_convert(double** ppCoords,
     const int size = numLocs * numCoords;
     for (int i=0; i < size; i+=3) {
       const double geoidHt = 
-	CSGeo::geoid().elevation((*ppCoords)[i], (*ppCoords)[i+1]);
-      (*ppCoords)[i+2] += (isMSLToWGS84) ? geoidHt : -geoidHt;
+	CSGeo::geoid().elevation(coords[i], coords[i+1]);
+      coords[i+2] += (isMSLToWGS84) ? geoidHt : -geoidHt;
     } // for
 
     pjerrno = pj_transform(csWGS84, csDest.projCoordSys(), 
@@ -153,27 +153,27 @@ spatialdata::geocoords::Converter::_convert(double** ppCoords,
     } // if
   } // else
 
-  csDest.fromProjForm(ppCoords, numLocs, is2D);
+  csDest.fromProjForm(coords, numLocs, is2D);
 } // convert
 
 // ----------------------------------------------------------------------
 // Convert coordinates from source Cartesian coordinate system to
 // destination Cartesian coordinate system.
 void
-spatialdata::geocoords::Converter::_convert(double** ppCoords,
+spatialdata::geocoords::Converter::_convert(double* coords,
 					    const int numLocs,
 					    const CSCart& csDest,
 					    const CSCart& csSrc,
 					    bool is2D)
 { // convert
-  assert(0 != ppCoords);
-  assert(0 != *ppCoords);
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords));
 
   const int numCoords = is2D ? 2 : 3;
   const int size = numLocs*numCoords;
   const double scale = csSrc.toMeters() / csDest.toMeters();
   for (int i=0; i < size; ++i)
-    (*ppCoords)[i] *= scale;
+    coords[i] *= scale;
 } // convert
 
 // version

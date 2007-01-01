@@ -60,14 +60,14 @@ class spatialdata::spatialdb::SimpleDBQuery
 
   /** Query the database.
    *
-   * @param pValues Pointer to computed values (output from query)
+   * @param vals Array for computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
    * @param z Z coordinate of location for query
    * @param pCSQuery Coordinate system of coordinates
    */
-  void query(double** pVals,
+  void query(double* vals,
 	     const int numVals,
 	     const double x,
 	     const double y,
@@ -91,20 +91,20 @@ class spatialdata::spatialdb::SimpleDBQuery
    * Values at location are equal to values at nearest location in
    * database.
    *
-   * @param pValues Pointer to computed values (output from query)
+   * @param values Array for computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
    */
-  void _queryNearest(double** pVals,
+  void _queryNearest(double* vals,
 		     const int numVals);
 
   /** Query database using linear interpolation algorithm.
    *
    * Values at location are interpolation from locations in database.
    *
-   * @param pValues Pointer to computed values (output from query)
+   * @param vals Array for computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
    */
-  void _queryLinear(double** pVals,
+  void _queryLinear(double* vals,
 		    const int numVals);
 
   /// Find locations in database nearest query location.

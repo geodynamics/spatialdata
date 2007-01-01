@@ -100,7 +100,7 @@ spatialdata::spatialdb::SimpleDBQuery::queryVals(const char** names,
 // ----------------------------------------------------------------------
 // Query the database.
 void
-spatialdata::spatialdb::SimpleDBQuery::query(double** pVals,
+spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
 					     const int numVals,
 					     const double x,
 					     const double y,
@@ -125,23 +125,22 @@ spatialdata::spatialdb::SimpleDBQuery::query(double** pVals,
   } // if
 
   const int numLocs = 1;
-  double* pCoords = new double[3];
-  pCoords[0] = x;
-  pCoords[1] = y;
-  pCoords[2] = z;
-  spatialdata::geocoords::Converter::convert(&pCoords, numLocs, _db._pCS, pCSQuery);
-  _q[0] = pCoords[0];
-  _q[1] = pCoords[1];
-  _q[2] = pCoords[2];
-  delete[] pCoords; pCoords = 0;
+  double coords[3];
+  coords[0] = x;
+  coords[1] = y;
+  coords[2] = z;
+  spatialdata::geocoords::Converter::convert(coords, numLocs, _db._pCS, pCSQuery);
+  _q[0] = coords[0];
+  _q[1] = coords[1];
+  _q[2] = coords[2];
 
   switch (_queryType)
     { // switch
     case SimpleDB::LINEAR :
-      _queryLinear(pVals, numVals);
+      _queryLinear(vals, numVals);
       break;
     case SimpleDB::NEAREST :
-      _queryNearest(pVals, numVals);
+      _queryNearest(vals, numVals);
       break;
     default :
       throw std::runtime_error("Could not find requested query type.");
@@ -151,10 +150,11 @@ spatialdata::spatialdb::SimpleDBQuery::query(double** pVals,
 // ----------------------------------------------------------------------
 // Query database using nearest neighbor algorithm.
 void
-spatialdata::spatialdb::SimpleDBQuery::_queryNearest(double** pVals,
+spatialdata::spatialdb::SimpleDBQuery::_queryNearest(double* vals,
 						     const int numVals)
 { // _queryNearest
-  assert(0 != pVals);
+  assert( (0 < numVals && 0 != vals) ||
+	  (0 == numVals && 0 == vals) );
   assert(0 != _db._pData);
   assert(numVals == _querySize);
 
@@ -173,16 +173,17 @@ spatialdata::spatialdb::SimpleDBQuery::_queryNearest(double** pVals,
   const double* nearVals = SimpleDBTypes::dataVals(*_db._pData, iNear);
   const int querySize = _querySize;
   for (int iVal=0; iVal < querySize; ++iVal)
-    (*pVals)[iVal] = nearVals[_queryVals[iVal]];
+    vals[iVal] = nearVals[_queryVals[iVal]];
 } // _queryNearest
 
 // ----------------------------------------------------------------------
 // Query database using linear interpolation algorithm.
 void
-spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double** pVals,
+spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double* vals,
 						    const int numVals)
 { // _queryLinear
-  assert(0 != pVals);
+  assert( (0 < numVals && 0 != vals) ||
+	  (0 == numVals && 0 == vals) );
   assert(0 != _db._pData);
   assert(numVals == _querySize);
 
@@ -191,7 +192,7 @@ spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double** pVals,
     const double* nearVals = SimpleDBTypes::dataVals(*_db._pData, index);
     const int querySize = _querySize;
     for (int iVal=0; iVal < querySize; ++iVal)
-      (*pVals)[iVal] = nearVals[_queryVals[iVal]];
+      vals[iVal] = nearVals[_queryVals[iVal]];
   } else { // else
     // Find nearest locations in database
     _findNearest();
@@ -210,7 +211,7 @@ spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double** pVals,
 	const double* locVals = SimpleDBTypes::dataVals(*_db._pData, iLoc);
 	val += weights[iWt].wt * locVals[_queryVals[iVal]];
       } // for
-      (*pVals)[iVal] = val;
+      vals[iVal] = val;
     } // for
   } // else
 } // _queryLinear

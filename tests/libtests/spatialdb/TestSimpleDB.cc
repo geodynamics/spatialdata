@@ -134,7 +134,7 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
     valNames[numVals-i-1] = _names()[i];
   _pDB->queryVals(valNames, numVals);
   
-  double* pVals = (0 < numVals) ? new double[numVals] : 0;
+  double* vals = (0 < numVals) ? new double[numVals] : 0;
   const double tolerance = 1.0e-06;
   
   const int numQueries = _numQueries();
@@ -143,17 +143,17 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
   for (int iQuery=0; iQuery < numQueries; ++iQuery) {
     const double* qCoords = &queryData[iQuery*locSize];
     const double* qVals = &queryData[iQuery*locSize+3];
-    const int err = _pDB->query(&pVals, numVals, 
+    const int err = _pDB->query(vals, numVals, 
 				qCoords[0], qCoords[1], qCoords[2], &csCart);
     if (0 != queryErrFlags)
       CPPUNIT_ASSERT(err == queryErrFlags[iQuery]);
     else
       CPPUNIT_ASSERT(0 == err);
     for (int iVal=0; iVal < numVals; ++iVal)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[iVal]/qVals[numVals-iVal-1],
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/qVals[numVals-iVal-1],
 				   tolerance);
   } // for
-  delete[] pVals; pVals = 0;
+  delete[] vals; vals = 0;
 } // CheckQuery
 
 // version

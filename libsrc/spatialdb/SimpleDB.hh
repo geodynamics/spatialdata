@@ -83,7 +83,7 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
 
   /** Set values to be returned by queries.
    *
-   * @pre Must call Open() before QueryVals()
+   * @pre Must call open() before queryVals()
    *
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
@@ -99,9 +99,10 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
 
   /** Query the database.
    *
-   * @pre Must call Open() before Query()
+   * @pre Must call open() before query()
    *
-   * @param pVals Pointer to computed values (output from query)
+   * @param vals Array for computed values (output from query), vals
+   *   must be allocated BEFORE calling query().
    * @param numVals Number of values expected (size of pVals array)
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
@@ -111,7 +112,7 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
    * @returns 0 on success, 1 on failure (i.e., could not interpolate
    *   so values set to 0)
    */
-  int query(double** pVals,
+  int query(double* vals,
 	     const int numVals,
 	     const double x,
 	     const double y,

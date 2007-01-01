@@ -131,7 +131,7 @@ spatialdata::spatialdb::SimpleDB::ioHandler(const SimpleIO* iohandler)
 // ----------------------------------------------------------------------
 // Query the database.
 int
-spatialdata::spatialdb::SimpleDB::query(double** pVals,
+spatialdata::spatialdb::SimpleDB::query(double* vals,
 					const int numVals,
 					const double x,
 					const double y,
@@ -153,9 +153,9 @@ spatialdata::spatialdb::SimpleDB::query(double** pVals,
 	<< "Database query aborted.";
       throw std::runtime_error(msg.str());
     } // if
-    _pQuery->query(pVals, numVals, x, y, z, pCSQuery);
+    _pQuery->query(vals, numVals, x, y, z, pCSQuery);
   } catch(const OutOfBounds& err) {
-    std::fill(*pVals, *pVals+numVals, 0);
+    std::fill(vals, vals+numVals, 0);
     return 1;
   } catch(std::exception& err) {
     throw std::runtime_error(err.what());

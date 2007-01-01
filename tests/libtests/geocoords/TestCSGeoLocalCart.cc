@@ -82,13 +82,13 @@ spatialdata::geocoords::TestCSGeoLocalCart::testToProjForm(void)
 
   const int numCoords = 3;
   const int size = _NUMLOCS * numCoords;
-  double* pVals = new double[size];
-  memcpy(pVals, _XYZLOCAL, size*sizeof(double));
-  cs.toProjForm(&pVals, _NUMLOCS);
+  double* vals = new double[size];
+  memcpy(vals, _XYZLOCAL, size*sizeof(double));
+  cs.toProjForm(vals, _NUMLOCS);
   const double tolerance = 1.0e-6;
   for (int i=0; i < size; ++i)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/_XYZECEF[i], tolerance);
-  delete[] pVals; pVals = 0;
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/_XYZECEF[i], tolerance);
+  delete[] vals; vals = 0;
 } // testToProjForm
 
 // ----------------------------------------------------------------------
@@ -106,13 +106,13 @@ spatialdata::geocoords::TestCSGeoLocalCart::testFromProjForm(void)
 
   const int numCoords = 3;
   const int size = _NUMLOCS * numCoords;
-  double* pVals = new double[size];
-  memcpy(pVals, _XYZECEF, size*sizeof(double));
-  cs.fromProjForm(&pVals, _NUMLOCS);
+  double* vals = new double[size];
+  memcpy(vals, _XYZECEF, size*sizeof(double));
+  cs.fromProjForm(vals, _NUMLOCS);
   const double tolerance = 1.0e-6;
   for (int i=0; i < size; ++i)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/_XYZLOCAL[i], tolerance);
-  delete[] pVals; pVals = 0;
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/_XYZLOCAL[i], tolerance);
+  delete[] vals; vals = 0;
 } // testFromProjForm
 
 // ----------------------------------------------------------------------

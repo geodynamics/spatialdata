@@ -20,6 +20,8 @@
 #if !defined(spatialdata_geocoords_csgeolocalcart_hh)
 #define spatialdata_geocoords_csgeolocalcart_hh
 
+#include "CSGeo.hh" // ISA CSGeo
+
 namespace spatialdata {
   namespace geocoords {
     class CSGeoLocalCart;
@@ -84,21 +86,21 @@ class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
 
   /** Convert coordinates to PROJ4 useable form.
    *
-   * @param ppCoords Pointer to array of coordinates [#locs*3]
+   * @param coords Array of coordinates [#locs*3]
    * @param numLocs Number of locations
    * @param is2D True if coordinates are 2D, false if 3D
    */
-  void toProjForm(double** ppCoords,
+  void toProjForm(double* coords,
 		  const int numLocs,
 		  bool is2D =false) const;
   
   /** Convert coordinates from PROJ4 form to form associated w/coordsys.
    *
-   * @param ppCoords Pointer to array of coordinates [#locs*3]
+   * @param coords Array of coordinates [#locs*3]
    * @param numLocs Number of locations
    * @param is2D True if coordinates are 2D, false if 3D
    */
-  void fromProjForm(double** ppCoords,
+  void fromProjForm(double* coords,
 		    const int numLocs,
 		    bool is2D =false) const;
   
@@ -128,7 +130,7 @@ protected :
    * @returns string
    */
   std::string _projCSString(void) const;
-  
+
 private :
   // PRIVATE METHODS ///////////////////////////////////////////////////
 

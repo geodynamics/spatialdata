@@ -12,8 +12,6 @@
 
 #include <portinfo>
 
-#include "CoordSys.hh" // ISA CoordSysGeo
-#include "CSGeo.hh" // implementation of class methods
 #include "CSGeoLocalCart.hh" // implementation of class methods
 
 extern "C" {
@@ -177,29 +175,30 @@ spatialdata::geocoords::CSGeoLocalCart::initialize(void)
 // ----------------------------------------------------------------------
 // Convert coordinates to PROJ4 useable form.
 void
-spatialdata::geocoords::CSGeoLocalCart::toProjForm(double** ppCoords,
+spatialdata::geocoords::CSGeoLocalCart::toProjForm(double* coords,
 						   const int numLocs,
 						   bool is2D) const
 { // toProjForm
-  assert(0 != ppCoords);
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords));
   assert(0 != _localOrientation);
 
   const double scale = toMeters();
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     // add origin to old to invert
-    const double xOld = (*ppCoords)[index  ]*scale + _originX;
-    const double yOld = (*ppCoords)[index+1]*scale + _originY;
-    const double zOld = (*ppCoords)[index+2]*scale + _originZ;
+    const double xOld = coords[index  ]*scale + _originX;
+    const double yOld = coords[index+1]*scale + _originY;
+    const double zOld = coords[index+2]*scale + _originZ;
     // multiply by transpose of direction cosines to invert
-    (*ppCoords)[index++] = 
+    coords[index++] = 
       _localOrientation[0]*xOld +
       _localOrientation[3]*yOld +
       _localOrientation[6]*zOld;
-    (*ppCoords)[index++] = 
+    coords[index++] = 
       _localOrientation[1]*xOld +
       _localOrientation[4]*yOld +
       _localOrientation[7]*zOld;
-    (*ppCoords)[index++] = 
+    coords[index++] = 
       _localOrientation[2]*xOld +
 	_localOrientation[5]*yOld +
       _localOrientation[8]*zOld;
@@ -209,26 +208,27 @@ spatialdata::geocoords::CSGeoLocalCart::toProjForm(double** ppCoords,
 // ----------------------------------------------------------------------
 // Convert coordinates from PROJ4 form to form associated w/coordsys.
 void
-spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double** ppCoords,
+spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double* coords,
 						     const int numLocs,
 						     bool is2D) const
 { // fromProjForm
-  assert(0 != ppCoords);
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords) );
   assert(0 != _localOrientation);
 
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
-    const double xOld = (*ppCoords)[index  ];
-    const double yOld = (*ppCoords)[index+1];
-    const double zOld = (*ppCoords)[index+2];
-    (*ppCoords)[index++] = 
+    const double xOld = coords[index  ];
+    const double yOld = coords[index+1];
+    const double zOld = coords[index+2];
+    coords[index++] = 
       _localOrientation[0]*xOld +
       _localOrientation[1]*yOld +
       _localOrientation[2]*zOld - _originX;
-    (*ppCoords)[index++] = 
+    coords[index++] = 
       _localOrientation[3]*xOld +
       _localOrientation[4]*yOld +
       _localOrientation[5]*zOld - _originY;
-    (*ppCoords)[index++] = 
+    coords[index++] = 
       _localOrientation[6]*xOld +
       _localOrientation[7]*yOld +
       _localOrientation[8]*zOld - _originZ;
@@ -238,7 +238,7 @@ spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double** ppCoords,
   const int size = numLocs * numCoords;
   const double scale = toMeters();
   for (int i=0; i < size; ++i)
-    (*ppCoords)[i] /= scale;
+    coords[i] /= scale;
 } // fromProjForm
   
 // ----------------------------------------------------------------------
@@ -253,10 +253,12 @@ spatialdata::geocoords::CSGeoLocalCart::_geoToWGS84(double* pLonWGS84,
 { // _geoToWGS84
   assert(0 != pLonWGS84);
   assert(0 != pLatWGS84);
+  assert(0 != ellipsoid);
+  assert(0 != datumHoriz);
 
   // convert lon/lat in rad to lon/lat in rad in WGS84
   if (0 != strcasecmp(datumHoriz, "WGS84") ||
-      0 != strcasecmp(ellipsoid, "WGS84")) {      
+      0 != strcasecmp(ellipsoid, "WGS84")) {
     std::ostringstream projString;
     projString
       << "+proj=latlong"
@@ -354,10 +356,9 @@ spatialdata::geocoords::CSGeoLocalCart::_wgs84ToECEF(double* pECEFX,
 std::string 
 spatialdata::geocoords::CSGeoLocalCart::_projCSString(void) const
 { // _projCSString
-  const char* projString =
-    "+proj=geocent +ellps=WGS84 +datum=WGS84 +units=m";
-  return std::string(projString);
-} // initialize
+  const char* args = "+proj=geocent +ellps=WGS84 +datum=WGS84 +units=m";
+  return std::string(args);
+} // _projCSString
 
 // ----------------------------------------------------------------------
 // Pickle coordinate system to ascii stream.

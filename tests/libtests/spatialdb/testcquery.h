@@ -16,7 +16,7 @@
 /** Call spatialdb_query().
  *
  * @param db Pointer to SpatialDB
- * @param pVals Pointer to computed values (output from query)
+ * @param vals Array for computed values (output from query)
  * @param numVals Number of values expected (size of pVals array)
  * @param x C coordinate of location for query
  * @param y Y coordinate of location for query
@@ -26,7 +26,7 @@
  * @returns 0 on success, 1 on failure (i.e., values not set)
  */
 int testcquery(void* db,
-	       double** pVals,
+	       double* vals,
 	       int numVals,
 	       double x,
 	       double y,

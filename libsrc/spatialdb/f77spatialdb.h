@@ -21,7 +21,7 @@
 /** Call SpatialDB:Query().
  *
  * @param db Pointer to SpatialDB
- * @param pVals Pointer to computed values (output from query)
+ * @param vals Array for computed values (output from query)
  * @param addrF Fortran address used to access values
  * @param addrOffset Offset used to access values from Fortran
  * @param x Pointer to x coordinate of location for query
@@ -32,7 +32,7 @@
  */
 extern "C"
 void spatialdb_query_f(void* db,
-		       double* pVals,
+		       double* vals,
 		       const int* numVals,
 		       const double* x,
 		       const double* y,
@@ -41,8 +41,5 @@ void spatialdb_query_f(void* db,
 		       int* ok);
 
 #endif /* spatialdata_spatialdb_f77spatialdb_h */
-
-// version
-// $Id$
 
 // End of file

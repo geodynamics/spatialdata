@@ -1,0 +1,8 @@
+2007/01/01
+
+  Changed interface so that it no longer uses pointers to pointers
+  when passing arrays as arugments. You now pass just a pointer to
+  where the values are to be stored. This makes the user interface
+  cleaner.
+
+  Numpy version >= 1.0 is now required (previous changeset).

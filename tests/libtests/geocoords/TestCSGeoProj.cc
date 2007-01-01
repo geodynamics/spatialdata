@@ -75,22 +75,22 @@ spatialdata::geocoords::TestCSGeoProj::testToProjForm(void)
 
   const int numCoords = 3;
   const int size = _NUMLOCS * numCoords;
-  double* pVals = new double[size];
-  memcpy(pVals, _XYZ, size*sizeof(double));
-  cs.toProjForm(&pVals, _NUMLOCS);
+  double* vals = new double[size];
+  memcpy(vals, _XYZ, size*sizeof(double));
+  cs.toProjForm(vals, _NUMLOCS);
   const double degToRad = M_PI / 180.0;
   const double tolerance = 1.0e-5;
   for (int i=0; i < size; i+=3) {
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, 
-				 pVals[i  ]/(_LONLATNAD27ELEV[i  ]*degToRad),
+				 vals[i  ]/(_LONLATNAD27ELEV[i  ]*degToRad),
 				 tolerance);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, 
-				 pVals[i+1]/(_LONLATNAD27ELEV[i+1]*degToRad),
+				 vals[i+1]/(_LONLATNAD27ELEV[i+1]*degToRad),
 				 tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+2]/_LONLATNAD27ELEV[i+2],
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i+2]/_LONLATNAD27ELEV[i+2],
 				 tolerance);
   } // for
-  delete[] pVals; pVals = 0;
+  delete[] vals; vals = 0;
 } // testToProjForm
 
 // ----------------------------------------------------------------------
@@ -113,20 +113,20 @@ spatialdata::geocoords::TestCSGeoProj::testFromProjForm(void)
 
   const int numCoords = 3;
   const int size = _NUMLOCS * numCoords;
-  double* pVals = new double[size];
-  memcpy(pVals, _LONLATNAD27ELEV, size*sizeof(double));
+  double* vals = new double[size];
+  memcpy(vals, _LONLATNAD27ELEV, size*sizeof(double));
   const double degToRad = M_PI / 180.0;
   for (int i=0; i < size; i+=3) {
-    pVals[i  ] *= degToRad;
-    pVals[i+1] *= degToRad;
+    vals[i  ] *= degToRad;
+    vals[i+1] *= degToRad;
   } // for
   
-  cs.fromProjForm(&pVals, _NUMLOCS);
+  cs.fromProjForm(vals, _NUMLOCS);
 
   const double tolerance = 1.0e-6;
   for (int i=0; i < size; ++i)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/_XYZ[i], tolerance);
-  delete[] pVals; pVals = 0;
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/_XYZ[i], tolerance);
+  delete[] vals; vals = 0;
 } // testFromProjForm
 
 // ----------------------------------------------------------------------

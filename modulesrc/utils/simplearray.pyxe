@@ -310,7 +310,6 @@ cdef class SimplePyArray(SimpleArray):
     """Constuctor."""
     SimpleArray.__init__(self)
 
-
     # Array interface version 2 (numpy < 1.0?)
     #shape = pyarray.__array_shape__ # Array interface version 2
     #typestring = pyarray.__array_typestr__

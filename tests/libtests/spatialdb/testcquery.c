@@ -16,14 +16,14 @@
 /* ------------------------------------------------------------------- */
 int
 testcquery(void* db,
-	   double** pVals,
+	   double* vals,
 	   int numVals,
 	   double x,
 	   double y,
 	   double z,
 	   void* cs)
 { // testcquery
-  return spatialdb_query(db, pVals, numVals, x, y, z, cs);
+  return spatialdb_query(db, vals, numVals, x, y, z, cs);
 } // testcquery
 
 /* End of file  */

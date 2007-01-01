@@ -12,7 +12,6 @@
 
 #include <portinfo>
 
-#include "CoordSys.hh" // ISA Coordsys
 #include "CSCart.hh" // implementation of class methods
 
 #include <iostream> // USES std::istream, std::ostream

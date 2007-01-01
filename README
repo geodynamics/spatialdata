@@ -42,7 +42,7 @@
  * @li Proj.4 cartographic projections library (http://proj.maptools.org)
  *
  * @section ops Optional software
- * @li pythia-0.8
+ * @li pythia-0.8 and NumPy (>= 1.0)
  * @li CppUnit (for regression testing)
  *
  * @section notes Notes

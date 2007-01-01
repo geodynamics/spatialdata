@@ -113,57 +113,57 @@ spatialdata::geocoords::TestCSGeo::testToProjForm(void)
     const bool is2D = true;
     const int numLocs = 4;
     const int numCoords = 2;
-    const double pCoords[] = { 28.0, 23.0,
+    const double coords[] = { 28.0, 23.0,
 			       42.0, 34.0,
 			       -12.0, 65.7,
 			       64.3, -163.0 };
     cs.isGeocentric(true);
     const int size = numLocs * numCoords;
-    double* pVals = new double[size];
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.toProjForm(&pVals, numLocs, is2D);
+    double* vals = new double[size];
+    memcpy(vals, coords, size*sizeof(double));
+    cs.toProjForm(vals, numLocs, is2D);
     for (int i=0; i < size; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/pCoords[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.toProjForm(&pVals, numLocs, is2D);
+    memcpy(vals, coords, size*sizeof(double));
+    cs.toProjForm(vals, numLocs, is2D);
     const double degToRad = M_PI / 180.0;
     for (int i=0; i < size; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/(pCoords[i]*degToRad),
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*degToRad),
 				   tolerance);
-    delete[] pVals; pVals = 0;
+    delete[] vals; vals = 0;
   } // 2D
 
   { // 3D
     const bool is2D = false;
     const int numLocs = 4;
     const int numCoords = 3;
-    const double pCoords[] = { 28.0, 23.0, 3.4,
+    const double coords[] = { 28.0, 23.0, 3.4,
 			       42.0, 34.0, 3.5,
 			       -12.0, 65.7, 12.6,
 			       64.3, -163.0, -1.5 };
     cs.isGeocentric(true);
     const int size = numLocs * numCoords;
-    double* pVals = new double[size];
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.toProjForm(&pVals, numLocs, is2D);
+    double* vals = new double[size];
+    memcpy(vals, coords, size*sizeof(double));
+    cs.toProjForm(vals, numLocs, is2D);
     for (int i=0; i < size; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/pCoords[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.toProjForm(&pVals, numLocs, is2D);
+    memcpy(vals, coords, size*sizeof(double));
+    cs.toProjForm(vals, numLocs, is2D);
     const double degToRad = M_PI / 180.0;
     for (int i=0; i < size; i += 3) {
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/(pCoords[i]*degToRad),
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*degToRad),
 				   tolerance);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+1]/(pCoords[i+1]*degToRad),
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i+1]/(coords[i+1]*degToRad),
 				   tolerance);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+2]/pCoords[i+2],
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i+2]/coords[i+2],
 				   tolerance);
     } // for
-    delete[] pVals; pVals = 0;
+    delete[] vals; vals = 0;
   } // 3D
 } // testToProjForm
 
@@ -180,57 +180,57 @@ spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
     const bool is2D = true;
     const int numLocs = 4;
     const int numCoords = 2;
-    const double pCoords[] = { 28.0, 23.0,
+    const double coords[] = { 28.0, 23.0,
 			       42.0, 34.0,
 			       -12.0, 65.7,
 			       64.3, -163.0 };
     cs.isGeocentric(true);
     const int size = numLocs * numCoords;
-    double* pVals = new double[size];
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.fromProjForm(&pVals, numLocs, is2D);
+    double* vals = new double[size];
+    memcpy(vals, coords, size*sizeof(double));
+    cs.fromProjForm(vals, numLocs, is2D);
     for (int i=0; i < size; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/pCoords[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.fromProjForm(&pVals, numLocs, is2D);
+    memcpy(vals, coords, size*sizeof(double));
+    cs.fromProjForm(vals, numLocs, is2D);
     const double radToDeg = 180.0 / M_PI;
     for (int i=0; i < size; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/(pCoords[i]*radToDeg),
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*radToDeg),
 				   tolerance);
-    delete[] pVals; pVals = 0;
+    delete[] vals; vals = 0;
   } // 2D
 
   { // 3D
     const bool is2D = false;
     const int numLocs = 4;
     const int numCoords = 3;
-    const double pCoords[] = { 28.0, 23.0, 3.4,
+    const double coords[] = { 28.0, 23.0, 3.4,
 			       42.0, 34.0, 3.5,
 			       -12.0, 65.7, 12.6,
 			       64.3, -163.0, -1.5 };
     cs.isGeocentric(true);
     const int size = numLocs * numCoords;
-    double* pVals = new double[size];
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.fromProjForm(&pVals, numLocs, is2D);
+    double* vals = new double[size];
+    memcpy(vals, coords, size*sizeof(double));
+    cs.fromProjForm(vals, numLocs, is2D);
     for (int i=0; i < size; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/pCoords[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
-    memcpy(pVals, pCoords, size*sizeof(double));
-    cs.fromProjForm(&pVals, numLocs, is2D);
+    memcpy(vals, coords, size*sizeof(double));
+    cs.fromProjForm(vals, numLocs, is2D);
     const double radToDeg = 180.0 / M_PI;
     for (int i=0; i < size; i += 3) {
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i]/(pCoords[i]*radToDeg),
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*radToDeg),
 				   tolerance);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+1]/(pCoords[i+1]*radToDeg),
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i+1]/(coords[i+1]*radToDeg),
 				   tolerance);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, pVals[i+2]/pCoords[i+2],
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i+2]/coords[i+2],
 				   tolerance);
     } // for
-    delete[] pVals; pVals = 0;
+    delete[] vals; vals = 0;
   } // 3D
 } // testFromProjForm
 

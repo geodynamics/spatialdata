@@ -80,7 +80,8 @@ class spatialdata::spatialdb::SpatialDB
    *
    * @pre Must call open() before query()
    *
-   * @param pVals Pointer to computed values (output from query)
+   * @param vals Array for computed values (output from query), must be
+   *   allocated BEFORE calling query().
    * @param numVals Number of values expected (size of pVals array)
    * @param x X coordinate of location for query
    * @param y Y coordinate of location for query
@@ -89,7 +90,7 @@ class spatialdata::spatialdb::SpatialDB
    *
    * @returns 0 on success, 1 on failure (i.e., could not interpolate)
    */
-  virtual int query(double** pVals,
+  virtual int query(double* vals,
 		    const int numVals,
 		    const double x,
 		    const double y,
