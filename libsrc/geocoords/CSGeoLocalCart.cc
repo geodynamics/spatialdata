@@ -39,7 +39,7 @@ spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(void) :
   _localOrientation(0)
 { // constructor
   CSGeo::isGeocentric(true);
-  CSGeo::spaceDim(3);
+  CSGeo::setSpaceDim(3);
 } // constructor
 
 // ----------------------------------------------------------------------
@@ -183,12 +183,12 @@ spatialdata::geocoords::CSGeoLocalCart::toProjForm(double* coords,
 	  (0 == numLocs && 0 == coords));
   assert(0 != _localOrientation);
 
-  if (numDims != CSGeo::spaceDim()) {
+  if (numDims != spaceDim()) {
     std::ostringstream msg;
     msg
       << "Number of spatial dimensions of coordinates ("
       << numDims << ") does not match number of spatial dimensions ("
-      << CSGeo::spaceDim() << ") of coordinate system.";
+      << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
 
@@ -225,12 +225,12 @@ spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double* coords,
 	  (0 == numLocs && 0 == coords) );
   assert(0 != _localOrientation);
 
-  if (numDims != CSGeo::spaceDim()) {
+  if (numDims != spaceDim()) {
     std::ostringstream msg;
     msg
       << "Number of spatial dimensions of coordinates ("
       << numDims << ") does not match number of spatial dimensions ("
-      << CSGeo::spaceDim() << ") of coordinate system.";
+      << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
 

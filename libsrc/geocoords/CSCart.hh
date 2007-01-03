@@ -64,18 +64,6 @@ class spatialdata::geocoords::CSCart : public CoordSys
    */
   double toMeters(void) const;
 
-  /** Set number of spatial dimensions in coordinate system.
-   *
-   * @param ndims Number of dimensions
-   */
-  void spaceDim(const int ndims);
-
-  /** Get number of spatial dimensions in coordinate system.
-   *
-   * @returns Number of dimensions
-   */
-  int spaceDim(void) const;
-
   /** Pickle coordinate system to ascii stream.
    *
    * @param s Output stream
@@ -101,7 +89,6 @@ private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   double _toMeters; ///< Scale factor to convert coordinates to meters
-  int _spaceDim; ///< Number of spatial dimensions in coordinate system
 
 }; // class CSCart
 

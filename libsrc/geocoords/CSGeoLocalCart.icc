@@ -42,7 +42,7 @@ spatialdata::geocoords::CSGeoLocalCart::origin(const double lon,
 // Not implemented
 inline
 void
-spatialdata::geocoords::CSGeoLocalCart::spaceDim(const int ndims) {}
+spatialdata::geocoords::CSGeoLocalCart::setSpaceDim(const int ndims) {}
 
 
 // End of file 

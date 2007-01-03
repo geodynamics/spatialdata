@@ -55,6 +55,18 @@ public :
    */
   virtual CoordSys* clone(void) const = 0;
 
+  /** Set number of spatial dimensions in coordinate system.
+   *
+   * @param ndims Number of dimensions
+   */
+  virtual void setSpaceDim(const int ndims);
+
+  /** Get number of spatial dimensions in coordinate system.
+   *
+   * @returns Number of dimensions
+   */
+  int spaceDim(void) const;
+
   /// Initialize the coordinate system.
   virtual void initialize(void) = 0;
 
@@ -91,6 +103,7 @@ protected :
 private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
+  int _spaceDim; ///< Number of spatial dimensions in coordinate system
   CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
@@ -99,7 +112,5 @@ private :
 
 #endif // spatialdata_geocoords_coordsys_hh
 
-// version
-// $Id$
 
 // End of file 

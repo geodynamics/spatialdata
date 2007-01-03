@@ -75,12 +75,12 @@ spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
   assert(0 != _pProjector);
-  if (numDims != CSGeo::spaceDim()) {
+  if (numDims != spaceDim()) {
     std::ostringstream msg;
     msg
       << "Number of spatial dimensions of coordinates ("
       << numDims << ") does not match number of spatial dimensions ("
-      << CSGeo::spaceDim() << ") of coordinate system.";
+      << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
 
@@ -106,12 +106,12 @@ spatialdata::geocoords::CSGeoProj::fromProjForm(double* coords,
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
   assert(0 != _pProjector);
-  if (numDims != CSGeo::spaceDim()) {
+  if (numDims != spaceDim()) {
     std::ostringstream msg;
     msg
       << "Number of spatial dimensions of coordinates ("
       << numDims << ") does not match number of spatial dimensions ("
-      << CSGeo::spaceDim() << ") of coordinate system.";
+      << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
 

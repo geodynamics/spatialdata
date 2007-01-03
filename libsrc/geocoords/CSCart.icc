@@ -28,12 +28,5 @@ spatialdata::geocoords::CSCart::toMeters(void) const {
   return _toMeters;
 }
 
-// Get number of spatial dimensions in coordinate system.
-inline
-int
-spatialdata::geocoords::CSCart::spaceDim(void) const {
-  return _spaceDim;
-}
-
 
 // End of file 

@@ -30,13 +30,13 @@ extern "C" {
 // Default constructor
 spatialdata::geocoords::CSGeo::CSGeo(void) :
   _toMeters(1.0),
-  _spaceDim(3),
   _ellipsoid("WGS84"),
   _datumHoriz("WGS84"),
   _datumVert("ellipsoid"),
   _pCS(0),
   _isGeocentric(false)
 { // constructor
+  setSpaceDim(3);
   csType(GEOGRAPHIC);
 } // constructor
 
@@ -54,7 +54,6 @@ spatialdata::geocoords::CSGeo::~CSGeo(void)
 spatialdata::geocoords::CSGeo::CSGeo(const CSGeo& cs) :
   CoordSys(cs),
   _toMeters(cs._toMeters),
-  _spaceDim(cs._spaceDim),
   _ellipsoid(cs._ellipsoid),
   _datumHoriz(cs._datumHoriz),
   _datumVert(cs._datumVert),
@@ -66,8 +65,8 @@ spatialdata::geocoords::CSGeo::CSGeo(const CSGeo& cs) :
 // ----------------------------------------------------------------------
 // Set number of spatial dimensions in coordinate system.
 void
-spatialdata::geocoords::CSGeo::spaceDim(const int ndims)
-{ // spaceDim
+spatialdata::geocoords::CSGeo::setSpaceDim(const int ndims)
+{ // setSpaceDim
   if (ndims < 2 || ndims > 3) {
     std::ostringstream msg;
     msg
@@ -75,8 +74,8 @@ spatialdata::geocoords::CSGeo::spaceDim(const int ndims)
       << ") must be >= 2 and <= 3.";
     throw std::runtime_error(msg.str());
   } // if
-  _spaceDim = ndims;
-} // spaceDim
+  CoordSys::setSpaceDim(ndims);
+} // setSpaceDim
 
 // ----------------------------------------------------------------------
 // Initialize coordinate system.
@@ -108,12 +107,12 @@ spatialdata::geocoords::CSGeo::toProjForm(double* coords,
 { // toProjForm
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords) );
-  if (numDims != _spaceDim) {
+  if (numDims != spaceDim()) {
     std::ostringstream msg;
     msg
       << "Number of spatial dimensions of coordinates ("
       << numDims << ") does not match number of spatial dimensions ("
-      << _spaceDim << ") of coordinate system.";
+      << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
   if (!_isGeocentric) {
@@ -145,12 +144,12 @@ spatialdata::geocoords::CSGeo::fromProjForm(double* coords,
 { // fromProjForm
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords) );
-  if (numDims != _spaceDim) {
+  if (numDims != spaceDim()) {
     std::ostringstream msg;
     msg
       << "Number of spatial dimensions of coordinates ("
       << numDims << ") does not match number of spatial dimensions ("
-      << _spaceDim << ") of coordinate system.";
+      << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
   if (!_isGeocentric) {
@@ -197,7 +196,7 @@ spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const
 { // pickle
   s << "geographic {\n"
     << "  to-meters = " << _toMeters << "\n"
-    << "  space-dim = " << _spaceDim << "\n"
+    << "  space-dim = " << spaceDim() << "\n"
     << "  ellipsoid = " << _ellipsoid << "\n"
     << "  datum-horiz = " << _datumHoriz << "\n"
     << "  datum-vert = " << _datumVert << "\n"
@@ -221,7 +220,9 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s)
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
       s >> _toMeters;
     } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
-      s >> _spaceDim;
+      int ndims;
+      s >> ndims;
+      setSpaceDim(ndims);
     } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
       s >> _ellipsoid;
     } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {

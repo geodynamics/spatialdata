@@ -170,7 +170,7 @@ private :
   // PRIVATE METHODS ///////////////////////////////////////////////////
 
   void isGecentric(const bool isGeocentric); ///< Not implemented
-  void spaceDim(const int ndims); ///< Not implemented
+  void setSpaceDim(const int dim); ///< Not implemented
 
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////

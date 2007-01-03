@@ -14,6 +14,13 @@
 #error "CoordSys.icc must only be included from CoordSys.hh"
 #endif
 
+// Get number of spatial dimensions in coordinate system.
+inline
+int
+spatialdata::geocoords::CoordSys::spaceDim(void) const {
+  return _spaceDim;
+}
+
 // Get type of coordinate system
 inline
 spatialdata::geocoords::CoordSys::CSTypeEnum

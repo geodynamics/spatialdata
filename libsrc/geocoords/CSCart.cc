@@ -22,8 +22,7 @@
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSCart::CSCart(void) :
-  _toMeters(1.0),
-  _spaceDim(3)
+  _toMeters(1.0)
 { // constructor
   csType(CARTESIAN);
 } // constructor
@@ -38,8 +37,7 @@ spatialdata::geocoords::CSCart::~CSCart(void)
 // Copy constructor
 spatialdata::geocoords::CSCart::CSCart(const CSCart& cs) :
   CoordSys(cs),
-  _toMeters(cs._toMeters),
-  _spaceDim(cs._spaceDim)
+  _toMeters(cs._toMeters)
 { // copy constructor
 } // copy constructor
 
@@ -66,28 +64,13 @@ spatialdata::geocoords::CSCart::toMeters(const double scale)
 } // toMeters
 
 // ----------------------------------------------------------------------
-// Set number of spatial dimensions in coordinate system.
-void
-spatialdata::geocoords::CSCart::spaceDim(const int ndims)
-{ // spaceDim
-  if (ndims < 1 || ndims > 3) {
-    std::ostringstream msg;
-    msg
-      << "Number of spatial dimensions (" << ndims
-      << ") must be >= 1 and <= 3.";
-    throw std::runtime_error(msg.str());
-  } // if
-  _spaceDim = ndims;
-} // spaceDim
-
-// ----------------------------------------------------------------------
 // Pickle coordinate system to ascii stream.
 void
 spatialdata::geocoords::CSCart::pickle(std::ostream& s) const
 { // pickle
   s << "cartesian {\n"
     << "  to-meters = " << _toMeters << "\n"
-    << "  space-dim = " << _spaceDim << "\n"
+    << "  space-dim = " << spaceDim() << "\n"
     << "}\n";
 } // pickle
 
@@ -106,7 +89,9 @@ spatialdata::geocoords::CSCart::unpickle(std::istream& s)
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
       s >> _toMeters;
     } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
-      s >> _spaceDim;
+      int dim;
+      s >> dim;
+      setSpaceDim(dim);
     } else {
       std::ostringstream msg;
       msg << "Could not parse '" << token << "' into a CSCart token.\n"

@@ -14,9 +14,13 @@
 
 #include "CoordSys.hh" // implementation of class methods
 
+#include <sstream> // USES std::ostringstream
+#include <stdexcept> // USES std::runtime_error
+
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CoordSys::CoordSys(void) :
+  _spaceDim(3),
   _csType(CARTESIAN)
 { // constructor
 } // constructor
@@ -24,6 +28,7 @@ spatialdata::geocoords::CoordSys::CoordSys(void) :
 // ----------------------------------------------------------------------
 // Copy destructor
 spatialdata::geocoords::CoordSys::CoordSys(const CoordSys& cs) :
+  _spaceDim(cs._spaceDim),
   _csType(cs._csType)
 { // copy constructor
 } // copy constructor
@@ -34,7 +39,20 @@ spatialdata::geocoords::CoordSys::~CoordSys(void)
 { // destructor
 } // destructor
 
-// version
-// $Id$
+// ----------------------------------------------------------------------
+// Set number of spatial dimensions in coordinate system.
+void
+spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims)
+{ // setSpaceDim
+  if (ndims < 1) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions (" << ndims
+      << ") must be >= 1.";
+    throw std::runtime_error(msg.str());
+  } // if
+  _spaceDim = ndims;
+} // setSpaceDim
+
 
 // End of file 

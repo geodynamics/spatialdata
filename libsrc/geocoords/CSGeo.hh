@@ -120,13 +120,7 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    *
    * @param ndims Number of dimensions
    */
-  virtual void spaceDim(const int ndims);
-
-  /** Get number of spatial dimensions in coordinate system.
-   *
-   * @returns Number of dimensions
-   */
-  int spaceDim(void) const;
+  virtual void setSpaceDim(const int ndims);
 
   /** Get proj form vertical datum.
    *
