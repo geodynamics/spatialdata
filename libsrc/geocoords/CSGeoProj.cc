@@ -70,15 +70,22 @@ spatialdata::geocoords::CSGeoProj::initialize(void)
 void
 spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
 					      const int numLocs,
-					      bool is2D) const
+					      const int numDims) const
 { // toProjForm
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
   assert(0 != _pProjector);
+  if (numDims != CSGeo::spaceDim()) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions of coordinates ("
+      << numDims << ") does not match number of spatial dimensions ("
+      << CSGeo::spaceDim() << ") of coordinate system.";
+    throw std::runtime_error(msg.str());
+  } // if
 
-  const int numCoords = (is2D) ? 2 : 3;
-  const int size = numCoords * numLocs;
-  for (int i=0; i < size; i += numCoords) {
+  const int size = numLocs * numDims;
+  for (int i=0; i < size; i += numDims) {
     double lon = 0;
     double lat = 0;
     _pProjector->invproject(&lon, &lat, coords[i  ], coords[i+1]);
@@ -86,7 +93,7 @@ spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
     coords[i+1] = lat;
   } // for
 
-  CSGeo::toProjForm(coords, numLocs, is2D);
+  CSGeo::toProjForm(coords, numLocs, numDims);
 } // toProjForm
   
 // ----------------------------------------------------------------------
@@ -94,17 +101,24 @@ spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
 void
 spatialdata::geocoords::CSGeoProj::fromProjForm(double* coords,
 						const int numLocs,
-						bool is2D) const
+						const int numDims) const
 { // fromProjForm
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
   assert(0 != _pProjector);
+  if (numDims != CSGeo::spaceDim()) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions of coordinates ("
+      << numDims << ") does not match number of spatial dimensions ("
+      << CSGeo::spaceDim() << ") of coordinate system.";
+    throw std::runtime_error(msg.str());
+  } // if
 
-  CSGeo::fromProjForm(coords, numLocs, is2D);
+  CSGeo::fromProjForm(coords, numLocs, numDims);
 
-  const int numCoords = (is2D) ? 2 : 3;
-  const int size = numCoords * numLocs;
-  for (int i=0; i < size; i += numCoords) {
+  const int size = numLocs * numDims;
+  for (int i=0; i < size; i += numDims) {
     double x = 0;
     double y = 0;
     _pProjector->project(&x, &y, coords[i  ], coords[i+1]);

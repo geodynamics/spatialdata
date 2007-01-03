@@ -40,15 +40,15 @@ class spatialdata::geocoords::Converter
    *
    * @param coords Array of coordinates
    * @param numLocs Number of location
+   * @param numDims Number of spatial dimensions in coordinates
    * @param pCSDest Pointer to destination coordinate system
    * @param pCSSrc Pointer to source coordinate system
-   * @param is2D True if 2D, false if 3D
    */
   static void convert(double* coords,
 		      const int numLocs,
+		      const int numDims,
 		      const CoordSys* pCSDest,
-		      const CoordSys* pCSSrc,
-		      bool is2D =false);
+		      const CoordSys* pCSSrc);
 
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -58,30 +58,30 @@ private :
    *
    * @param coords Array of coordinates
    * @param numLocs Number of location
+   * @param numDims Number of spatial dimensions in coordinates
    * @param csDest Destination coordinate system
    * @param csSrc Source coordinate system
-   * @param is2D True if 2D, false if 3D
    */
   static void _convert(double* coords,
 		       const int numLocs,
+		       const int numDims,
 		       const CSGeo& csDest,
-		       const CSGeo& csSrc,
-		       bool is2D =false);
+		       const CSGeo& csSrc);
 
   /** Convert coordinates from source Cartesian coordinate system to
    * destination Cartesian coordinate system.
    *
    * @param coords Array of coordinates
    * @param numLocs Number of location
+   * @param numDims Number of spatial dimensions in coordinates
    * @param csDest Destination coordinate system
    * @param csSrc Source coordinate system
-   * @param is2D True if 2D, false if 3D
    */
   static void _convert(double* coords,
 		       const int numLocs,
+		       const int numDims,
 		       const CSCart& csDest,
-		       const CSCart& csSrc,
-		       bool is2D =false);
+		       const CSCart& csSrc);
 
 }; // class Converter
 

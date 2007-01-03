@@ -31,7 +31,7 @@ spatialdata::geocoords::TestCSCart::testConstructor(void)
 } // testConstructor
 
 // ----------------------------------------------------------------------
-// Test toMeters
+// Test toMeters()
 void
 spatialdata::geocoords::TestCSCart::testToMeters(void)
 { // testToMeters
@@ -41,6 +41,17 @@ spatialdata::geocoords::TestCSCart::testToMeters(void)
   const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, cs.toMeters(), tolerance);
 } // testToMeters
+
+// ----------------------------------------------------------------------
+// Test spaceDim()
+void
+spatialdata::geocoords::TestCSCart::testSpaceDim(void)
+{ // testSpaceDim
+  CSCart cs;
+  const int spaceDim = 2;
+  cs.spaceDim(spaceDim);
+  CPPUNIT_ASSERT_EQUAL(spaceDim, cs.spaceDim());
+} // testSpaceDim
 
 // ----------------------------------------------------------------------
 // Test initialize()
@@ -58,7 +69,9 @@ spatialdata::geocoords::TestCSCart::testPickle(void)
 { // testPickle
   CSCart csA;
   const double toMeters = 5.4;
+  const int spaceDim = 2;
   csA.toMeters(toMeters);
+  csA.spaceDim(spaceDim);
 
   std::stringstream s;
   csA.pickle(s);
@@ -68,9 +81,8 @@ spatialdata::geocoords::TestCSCart::testPickle(void)
 
   const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, csB.toMeters(), tolerance);
+  CPPUNIT_ASSERT_EQUAL(spaceDim, csB.spaceDim());
 } // testPickle
 
-// version
-// $Id$
 
 // End of file 

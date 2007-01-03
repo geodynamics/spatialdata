@@ -37,6 +37,7 @@ class spatialdata::geocoords::TestCSCart : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE( TestCSCart );
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testToMeters );
+  CPPUNIT_TEST( testSpaceDim );
   CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testPickle );
   CPPUNIT_TEST_SUITE_END();
@@ -49,6 +50,9 @@ public :
 
   /// Test toMeters()
   void testToMeters(void);
+
+  /// Test spaceDim()
+  void testSpaceDim(void);
 
   /// Test initialize()
   void testInitialize(void);

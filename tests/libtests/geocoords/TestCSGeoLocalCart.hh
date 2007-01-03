@@ -84,7 +84,5 @@ public :
 
 #endif // spatialdata_geocoords_testcsgeolocalcart_hh
 
-// version
-// $Id$
 
 // End of file 

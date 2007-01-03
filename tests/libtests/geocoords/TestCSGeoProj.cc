@@ -73,11 +73,11 @@ spatialdata::geocoords::TestCSGeoProj::testToProjForm(void)
 
   cs.initialize();
 
-  const int numCoords = 3;
-  const int size = _NUMLOCS * numCoords;
+  const int numDims = 3;
+  const int size = _NUMLOCS * numDims;
   double* vals = new double[size];
   memcpy(vals, _XYZ, size*sizeof(double));
-  cs.toProjForm(vals, _NUMLOCS);
+  cs.toProjForm(vals, _NUMLOCS, numDims);
   const double degToRad = M_PI / 180.0;
   const double tolerance = 1.0e-5;
   for (int i=0; i < size; i+=3) {
@@ -111,8 +111,8 @@ spatialdata::geocoords::TestCSGeoProj::testFromProjForm(void)
 
   cs.initialize();
 
-  const int numCoords = 3;
-  const int size = _NUMLOCS * numCoords;
+  const int numDims = 3;
+  const int size = _NUMLOCS * numDims;
   double* vals = new double[size];
   memcpy(vals, _LONLATNAD27ELEV, size*sizeof(double));
   const double degToRad = M_PI / 180.0;
@@ -121,7 +121,7 @@ spatialdata::geocoords::TestCSGeoProj::testFromProjForm(void)
     vals[i+1] *= degToRad;
   } // for
   
-  cs.fromProjForm(vals, _NUMLOCS);
+  cs.fromProjForm(vals, _NUMLOCS, numDims);
 
   const double tolerance = 1.0e-6;
   for (int i=0; i < size; ++i)
@@ -159,7 +159,5 @@ spatialdata::geocoords::TestCSGeoProj::testPickle(void)
   CPPUNIT_ASSERT(0 == strcasecmp(_DATUMVERT, csB.datumVert()));
 } // testPickle
 
-// version
-// $Id$
 
 // End of file 

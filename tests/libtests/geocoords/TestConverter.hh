@@ -87,7 +87,5 @@ private :
 
 #endif // spatialdata_geocoords_testconverter_hh
 
-// version
-// $Id$
 
 // End of file 

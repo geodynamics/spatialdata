@@ -39,6 +39,7 @@ spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(void) :
   _localOrientation(0)
 { // constructor
   CSGeo::isGeocentric(true);
+  CSGeo::spaceDim(3);
 } // constructor
 
 // ----------------------------------------------------------------------
@@ -76,7 +77,6 @@ spatialdata::geocoords::CSGeoLocalCart::origin(double* pLon,
   *pLat = _originLat;
   *pElev = _originElev;
 } // origin
-
 
 // ----------------------------------------------------------------------
 // Initialize the coordinate system.
@@ -177,11 +177,20 @@ spatialdata::geocoords::CSGeoLocalCart::initialize(void)
 void
 spatialdata::geocoords::CSGeoLocalCart::toProjForm(double* coords,
 						   const int numLocs,
-						   bool is2D) const
+						   const int numDims) const
 { // toProjForm
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
   assert(0 != _localOrientation);
+
+  if (numDims != CSGeo::spaceDim()) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions of coordinates ("
+      << numDims << ") does not match number of spatial dimensions ("
+      << CSGeo::spaceDim() << ") of coordinate system.";
+    throw std::runtime_error(msg.str());
+  } // if
 
   const double scale = toMeters();
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
@@ -210,11 +219,20 @@ spatialdata::geocoords::CSGeoLocalCart::toProjForm(double* coords,
 void
 spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double* coords,
 						     const int numLocs,
-						     bool is2D) const
+						     const int numDims) const
 { // fromProjForm
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords) );
   assert(0 != _localOrientation);
+
+  if (numDims != CSGeo::spaceDim()) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions of coordinates ("
+      << numDims << ") does not match number of spatial dimensions ("
+      << CSGeo::spaceDim() << ") of coordinate system.";
+    throw std::runtime_error(msg.str());
+  } // if
 
   for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc) {
     const double xOld = coords[index  ];
@@ -234,8 +252,7 @@ spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double* coords,
       _localOrientation[8]*zOld - _originZ;
   } // for
 
-  const int numCoords = (is2D) ? 2 : 3;
-  const int size = numLocs * numCoords;
+  const int size = numLocs * numDims;
   const double scale = toMeters();
   for (int i=0; i < size; ++i)
     coords[i] /= scale;
@@ -427,7 +444,5 @@ spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
 			     "settings.");
 } // unpickle
 
-// version
-// $Id$
 
 // End of file 

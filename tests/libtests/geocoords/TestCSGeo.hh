@@ -41,6 +41,7 @@ class spatialdata::geocoords::TestCSGeo : public CppUnit::TestFixture
   CPPUNIT_TEST( testDatumVert );
   CPPUNIT_TEST( testGeocentric );
   CPPUNIT_TEST( testToMeters );
+  CPPUNIT_TEST( testSpaceDim );
   CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testToProjForm );
   CPPUNIT_TEST( testFromProjForm );
@@ -67,6 +68,9 @@ public :
 
   /// Test toMeters()
   void testToMeters(void);
+
+  /// Test spaceDim()
+  void testSpaceDim(void);
 
   /// Test initialize()
   void testInitialize(void);

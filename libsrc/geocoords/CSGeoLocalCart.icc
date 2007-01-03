@@ -39,7 +39,10 @@ spatialdata::geocoords::CSGeoLocalCart::origin(const double lon,
   _originElev = elev;
 }
 
-// version
-// $Id$
+// Not implemented
+inline
+void
+spatialdata::geocoords::CSGeoLocalCart::spaceDim(const int ndims) {}
+
 
 // End of file 

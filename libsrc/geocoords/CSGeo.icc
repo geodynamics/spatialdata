@@ -81,6 +81,13 @@ double
 spatialdata::geocoords::CSGeo::toMeters(void) const
 { return _toMeters; }
 
+// Get number of spatial dimensions in coordinate system.
+inline
+int
+spatialdata::geocoords::CSGeo::spaceDim(void) const {
+  return _spaceDim;
+}
+
 // Get proj form vertical datum.
 inline
 const char*
@@ -93,7 +100,5 @@ const projPJ
 spatialdata::geocoords::CSGeo::projCoordSys(void) const
 { return _pCS; }
 
-// version
-// $Id$
 
 // End of file 

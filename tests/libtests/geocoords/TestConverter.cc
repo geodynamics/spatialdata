@@ -47,12 +47,12 @@ spatialdata::geocoords::TestConverter::testNAD27ToWGS84(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double [size];
   memcpy(coords, _LONLATNAD27ELEV, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _LONLATWGS84GEOID;
   const double tolerance = 1.0e-06;
@@ -80,12 +80,12 @@ spatialdata::geocoords::TestConverter::testWGS84ToNAD27(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double [size];
   memcpy(coords, _LONLATWGS84GEOID, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _LONLATNAD27ELEV;
   const double tolerance = 1.0e-06;
@@ -114,12 +114,12 @@ spatialdata::geocoords::TestConverter::testWGS84ToECEF(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double[size];
   memcpy(coords, _LONLATWGS84GEOID, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _XYZECEF;
   const double tolerance = 1.0e-06;
@@ -148,12 +148,12 @@ spatialdata::geocoords::TestConverter::testECEFToWGS84(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double[size];
   memcpy(coords, _XYZECEF, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _LONLATWGS84GEOID;
   const double tolerance = 1.0e-06;
@@ -182,12 +182,12 @@ spatialdata::geocoords::TestConverter::testNAD27ToLocal(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double [size];
   memcpy(coords, _LONLATNAD27ELEV, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _XYZLOCAL;
   const double tolerance = 1.0e-06;
@@ -219,12 +219,12 @@ spatialdata::geocoords::TestConverter::testLocalToNAD27(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double [size];
   memcpy(coords, _XYZLOCAL, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _LONLATNAD27ELEV;
   const double tolerance = 1.0e-06;
@@ -254,12 +254,12 @@ spatialdata::geocoords::TestConverter::testCartToCart(void)
   csDest.initialize();
 
   const int numLocs = _NUMLOCS;
-  const int numCoords = 3;
-  const int size = numLocs*numCoords;
+  const int numDims = 3;
+  const int size = numLocs*numDims;
   double* coords = new double [size];
   memcpy(coords, _XYZLOCAL, size*sizeof(double));
   
-  Converter::convert(coords, numLocs, &csDest, &csSrc);
+  Converter::convert(coords, numLocs, numDims, &csDest, &csSrc);
   
   const double* valsE = _XYZLOCAL;
   const double tolerance = 1.0e-06;
@@ -274,7 +274,5 @@ spatialdata::geocoords::TestConverter::testCartToCart(void)
   delete[] coords; coords = 0;
 } // TestCartToCart
 
-// version
-// $Id$
 
 // End of file 

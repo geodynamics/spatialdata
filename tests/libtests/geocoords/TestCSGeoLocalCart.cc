@@ -80,11 +80,11 @@ spatialdata::geocoords::TestCSGeoLocalCart::testToProjForm(void)
   cs.datumVert(_DATUMVERT);
   cs.initialize();
 
-  const int numCoords = 3;
-  const int size = _NUMLOCS * numCoords;
+  const int numDims = 3;
+  const int size = _NUMLOCS * numDims;
   double* vals = new double[size];
   memcpy(vals, _XYZLOCAL, size*sizeof(double));
-  cs.toProjForm(vals, _NUMLOCS);
+  cs.toProjForm(vals, _NUMLOCS, numDims);
   const double tolerance = 1.0e-6;
   for (int i=0; i < size; ++i)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/_XYZECEF[i], tolerance);
@@ -104,11 +104,11 @@ spatialdata::geocoords::TestCSGeoLocalCart::testFromProjForm(void)
   cs.datumVert(_DATUMVERT);
   cs.initialize();
 
-  const int numCoords = 3;
-  const int size = _NUMLOCS * numCoords;
+  const int numDims = 3;
+  const int size = _NUMLOCS * numDims;
   double* vals = new double[size];
   memcpy(vals, _XYZECEF, size*sizeof(double));
-  cs.fromProjForm(vals, _NUMLOCS);
+  cs.fromProjForm(vals, _NUMLOCS, numDims);
   const double tolerance = 1.0e-6;
   for (int i=0; i < size; ++i)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/_XYZLOCAL[i], tolerance);
@@ -145,7 +145,5 @@ spatialdata::geocoords::TestCSGeoLocalCart::testPickle(void)
   CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, csB.toMeters(), tolerance);
 } // testPickle
 
-// version
-// $Id$
 
 // End of file 

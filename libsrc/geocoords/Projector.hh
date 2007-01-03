@@ -140,7 +140,5 @@ private :
 
 #endif // spatialdata_geocoords_projector_hh
 
-// version
-// $Id$
 
 // End of file 

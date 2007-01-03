@@ -86,23 +86,23 @@ class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
 
   /** Convert coordinates to PROJ4 useable form.
    *
-   * @param coords Array of coordinates [#locs*3]
+   * @param coords Array of coordinates [numLocs*numDims]
    * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2D, false if 3D
+   * @param numDims Number of spatial dimensions
    */
   void toProjForm(double* coords,
 		  const int numLocs,
-		  bool is2D =false) const;
+		  const int numDims) const;
   
   /** Convert coordinates from PROJ4 form to form associated w/coordsys.
    *
-   * @param coords Array of coordinates [#locs*3]
+   * @param coords Array of coordinates [numLocs*numDims]
    * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2D, false if 3D
+   * @param numDims Number of spatial dimensions
    */
   void fromProjForm(double* coords,
 		    const int numLocs,
-		    bool is2D =false) const;
+		    const int numDims) const;
   
   /** Pickle coordinate system to ascii stream.
    *
@@ -170,6 +170,7 @@ private :
   // PRIVATE METHODS ///////////////////////////////////////////////////
 
   void isGecentric(const bool isGeocentric); ///< Not implemented
+  void spaceDim(const int ndims); ///< Not implemented
 
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////

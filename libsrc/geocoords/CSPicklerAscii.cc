@@ -67,7 +67,4 @@ spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
   (*ppCS)->unpickle(s);
 } // unpickle
 
-// version
-// $Id$
-
 // End of file 

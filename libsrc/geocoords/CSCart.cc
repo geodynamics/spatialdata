@@ -22,7 +22,8 @@
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSCart::CSCart(void) :
-  _toMeters(1.0)
+  _toMeters(1.0),
+  _spaceDim(3)
 { // constructor
   csType(CARTESIAN);
 } // constructor
@@ -37,7 +38,8 @@ spatialdata::geocoords::CSCart::~CSCart(void)
 // Copy constructor
 spatialdata::geocoords::CSCart::CSCart(const CSCart& cs) :
   CoordSys(cs),
-  _toMeters(cs._toMeters)
+  _toMeters(cs._toMeters),
+  _spaceDim(cs._spaceDim)
 { // copy constructor
 } // copy constructor
 
@@ -49,12 +51,43 @@ spatialdata::geocoords::CSCart::initialize(void)
 } // initialize
 
 // ----------------------------------------------------------------------
+// Set factor to convert coordinates to meters.
+void
+spatialdata::geocoords::CSCart::toMeters(const double scale)
+{ // toMeters
+  if (scale <= 0.0) {
+    std::ostringstream msg;
+    msg
+      << "Factor to convert coordinates to meters (" << scale
+      << ") must be positive.";
+    throw std::runtime_error(msg.str());
+  } // if
+  _toMeters = scale;
+} // toMeters
+
+// ----------------------------------------------------------------------
+// Set number of spatial dimensions in coordinate system.
+void
+spatialdata::geocoords::CSCart::spaceDim(const int ndims)
+{ // spaceDim
+  if (ndims < 1 || ndims > 3) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions (" << ndims
+      << ") must be >= 1 and <= 3.";
+    throw std::runtime_error(msg.str());
+  } // if
+  _spaceDim = ndims;
+} // spaceDim
+
+// ----------------------------------------------------------------------
 // Pickle coordinate system to ascii stream.
 void
 spatialdata::geocoords::CSCart::pickle(std::ostream& s) const
 { // pickle
   s << "cartesian {\n"
     << "  to-meters = " << _toMeters << "\n"
+    << "  space-dim = " << _spaceDim << "\n"
     << "}\n";
 } // pickle
 
@@ -72,11 +105,14 @@ spatialdata::geocoords::CSCart::unpickle(std::istream& s)
     s.ignore(maxIgnore, '=');
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
       s >> _toMeters;
+    } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
+      s >> _spaceDim;
     } else {
       std::ostringstream msg;
       msg << "Could not parse '" << token << "' into a CSCart token.\n"
-	  << "Known CSCart token:\n"
-	  << "  to-meters";
+	  << "Known CSCart tokens:\n"
+	  << "  to-meters"
+	  << "  space-dim";
       throw std::runtime_error(msg.str().c_str());
     } // else
     s >> token;
@@ -85,7 +121,5 @@ spatialdata::geocoords::CSCart::unpickle(std::istream& s)
     throw std::runtime_error("I/O error while parsing CSCart settings.");
 } // unpickle
 
-// version
-// $Id$
 
 // End of file 

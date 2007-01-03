@@ -88,7 +88,19 @@ spatialdata::geocoords::TestCSGeo::testToMeters(void)
   const double toMeters = 5.53;
   cs.toMeters(toMeters);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, cs.toMeters(), tolerance);
-} // testElevToMeters
+} // testToMeters
+
+// ----------------------------------------------------------------------
+// Test spaceDim()
+void
+spatialdata::geocoords::TestCSGeo::testSpaceDim(void)
+{ // testSpaceDim
+  CSGeo cs;
+  CPPUNIT_ASSERT_EQUAL(3, cs.spaceDim());
+  const int spaceDim = 2;
+  cs.spaceDim(spaceDim);
+  CPPUNIT_ASSERT_EQUAL(spaceDim, cs.spaceDim());
+} // testSpaceDim
 
 // ----------------------------------------------------------------------
 // Test initialize()
@@ -110,24 +122,24 @@ spatialdata::geocoords::TestCSGeo::testToProjForm(void)
   const double tolerance = 1.0e-6;
 
   { // 2D
-    const bool is2D = true;
     const int numLocs = 4;
-    const int numCoords = 2;
+    const int numDims = 2;
     const double coords[] = { 28.0, 23.0,
-			       42.0, 34.0,
-			       -12.0, 65.7,
-			       64.3, -163.0 };
+			      42.0, 34.0,
+			      -12.0, 65.7,
+			      64.3, -163.0 };
     cs.isGeocentric(true);
-    const int size = numLocs * numCoords;
+    cs.spaceDim(numDims);
+    const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
-    cs.toProjForm(vals, numLocs, is2D);
+    cs.toProjForm(vals, numLocs, numDims);
     for (int i=0; i < size; ++i)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
     memcpy(vals, coords, size*sizeof(double));
-    cs.toProjForm(vals, numLocs, is2D);
+    cs.toProjForm(vals, numLocs, numDims);
     const double degToRad = M_PI / 180.0;
     for (int i=0; i < size; ++i)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*degToRad),
@@ -136,24 +148,24 @@ spatialdata::geocoords::TestCSGeo::testToProjForm(void)
   } // 2D
 
   { // 3D
-    const bool is2D = false;
     const int numLocs = 4;
-    const int numCoords = 3;
+    const int numDims = 3;
     const double coords[] = { 28.0, 23.0, 3.4,
-			       42.0, 34.0, 3.5,
-			       -12.0, 65.7, 12.6,
-			       64.3, -163.0, -1.5 };
+			      42.0, 34.0, 3.5,
+			      -12.0, 65.7, 12.6,
+			      64.3, -163.0, -1.5 };
     cs.isGeocentric(true);
-    const int size = numLocs * numCoords;
+    cs.spaceDim(numDims);
+    const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
-    cs.toProjForm(vals, numLocs, is2D);
+    cs.toProjForm(vals, numLocs, numDims);
     for (int i=0; i < size; ++i)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
     memcpy(vals, coords, size*sizeof(double));
-    cs.toProjForm(vals, numLocs, is2D);
+    cs.toProjForm(vals, numLocs, numDims);
     const double degToRad = M_PI / 180.0;
     for (int i=0; i < size; i += 3) {
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*degToRad),
@@ -177,24 +189,24 @@ spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
   const double tolerance = 1.0e-6;
 
   { // 2D
-    const bool is2D = true;
     const int numLocs = 4;
-    const int numCoords = 2;
+    const int numDims = 2;
     const double coords[] = { 28.0, 23.0,
 			       42.0, 34.0,
 			       -12.0, 65.7,
 			       64.3, -163.0 };
     cs.isGeocentric(true);
-    const int size = numLocs * numCoords;
+    cs.spaceDim(numDims);
+    const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
-    cs.fromProjForm(vals, numLocs, is2D);
+    cs.fromProjForm(vals, numLocs, numDims);
     for (int i=0; i < size; ++i)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
     memcpy(vals, coords, size*sizeof(double));
-    cs.fromProjForm(vals, numLocs, is2D);
+    cs.fromProjForm(vals, numLocs, numDims);
     const double radToDeg = 180.0 / M_PI;
     for (int i=0; i < size; ++i)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*radToDeg),
@@ -203,24 +215,24 @@ spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
   } // 2D
 
   { // 3D
-    const bool is2D = false;
     const int numLocs = 4;
-    const int numCoords = 3;
+    const int numDims = 3;
     const double coords[] = { 28.0, 23.0, 3.4,
 			       42.0, 34.0, 3.5,
 			       -12.0, 65.7, 12.6,
 			       64.3, -163.0, -1.5 };
     cs.isGeocentric(true);
-    const int size = numLocs * numCoords;
+    cs.spaceDim(numDims);
+    const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
-    cs.fromProjForm(vals, numLocs, is2D);
+    cs.fromProjForm(vals, numLocs, numDims);
     for (int i=0; i < size; ++i)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/coords[i], tolerance);
 
     cs.isGeocentric(false);
     memcpy(vals, coords, size*sizeof(double));
-    cs.fromProjForm(vals, numLocs, is2D);
+    cs.fromProjForm(vals, numLocs, numDims);
     const double radToDeg = 180.0 / M_PI;
     for (int i=0; i < size; i += 3) {
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/(coords[i]*radToDeg),
@@ -244,6 +256,7 @@ spatialdata::geocoords::TestCSGeo::testPickle(void)
   const char* datumVert = "mean sea level";
   const bool isGeocentric = true;
   const double toMeters = 7.3;
+  const int spaceDim = 2;
 
   CSGeo csA;
   csA.ellipsoid(ellipsoid);
@@ -251,6 +264,7 @@ spatialdata::geocoords::TestCSGeo::testPickle(void)
   csA.datumVert(datumVert);
   csA.isGeocentric(isGeocentric);
   csA.toMeters(toMeters);
+  csA.spaceDim(spaceDim);
 
   std::stringstream s;
   csA.pickle(s);
@@ -264,9 +278,8 @@ spatialdata::geocoords::TestCSGeo::testPickle(void)
   CPPUNIT_ASSERT(0 == strcasecmp(datumVert, csB.datumVert()));
   CPPUNIT_ASSERT(isGeocentric == csB.isGeocentric());
   CPPUNIT_ASSERT_DOUBLES_EQUAL(toMeters, csB.toMeters(), tolerance);
+  CPPUNIT_ASSERT_EQUAL(spaceDim, csB.spaceDim());
 } // testPickle
 
-// version
-// $Id$
 
 // End of file 

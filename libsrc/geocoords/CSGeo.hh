@@ -116,6 +116,18 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    */
   double toMeters(void) const;
 
+  /** Set number of spatial dimensions in coordinate system.
+   *
+   * @param ndims Number of dimensions
+   */
+  virtual void spaceDim(const int ndims);
+
+  /** Get number of spatial dimensions in coordinate system.
+   *
+   * @returns Number of dimensions
+   */
+  int spaceDim(void) const;
+
   /** Get proj form vertical datum.
    *
    * @returns Name of datum
@@ -130,23 +142,23 @@ class spatialdata::geocoords::CSGeo : public CoordSys
 
   /** Convert coordinates to PROJ4 useable form.
    *
-   * @param coords Array of coordinates [#locs*3]
+   * @param coords Array of coordinates [numLocs*numDims]
    * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2D, false if 3D
+   * @param numDims Number of dimensions in coordinates
    */
   virtual void toProjForm(double* coords,
 			  const int numLocs,
-			  bool is2D) const;
+			  const int numDims) const;
   
   /** Convert coordinates from PROJ4 form to form associated w/coordsys.
    *
-   * @param coords Array of coordinates [#locs*3]
+   * @param coords Array of coordinates [numLocs*numDims]
    * @param numLocs Number of locations
-   * @param is2D True if coordinates are 2D, false if 3D
+   * @param numDims Number of dimensions in coordinates
    */
   virtual void fromProjForm(double* coords,
 			    const int numLocs,
-			    bool is2D) const;
+			    const int numDims) const;
   /** Get geoid.
    *
    * @returns Geoid
@@ -184,6 +196,7 @@ private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   double _toMeters; ///< Factor to convert Cartesian coordinates to meters
+  int _spaceDim; ///< Number of spatial dimensions in coordinate system
   std::string _ellipsoid; ///< Name of reference ellipsoid
   std::string _datumHoriz; ///< Name of horizontal geographic datum
   std::string _datumVert; ///< Name of vertical datum
@@ -197,7 +210,5 @@ private :
 
 #endif // spatialdata_geocoodrs_csgeo_hh
 
-// version
-// $Id$
 
 // End of file 
