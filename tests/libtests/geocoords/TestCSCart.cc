@@ -49,7 +49,7 @@ spatialdata::geocoords::TestCSCart::testSpaceDim(void)
 { // testSpaceDim
   CSCart cs;
   const int spaceDim = 2;
-  cs.spaceDim(spaceDim);
+  cs.setSpaceDim(spaceDim);
   CPPUNIT_ASSERT_EQUAL(spaceDim, cs.spaceDim());
 } // testSpaceDim
 
@@ -71,7 +71,7 @@ spatialdata::geocoords::TestCSCart::testPickle(void)
   const double toMeters = 5.4;
   const int spaceDim = 2;
   csA.toMeters(toMeters);
-  csA.spaceDim(spaceDim);
+  csA.setSpaceDim(spaceDim);
 
   std::stringstream s;
   csA.pickle(s);

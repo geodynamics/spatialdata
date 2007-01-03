@@ -98,7 +98,7 @@ spatialdata::geocoords::TestCSGeo::testSpaceDim(void)
   CSGeo cs;
   CPPUNIT_ASSERT_EQUAL(3, cs.spaceDim());
   const int spaceDim = 2;
-  cs.spaceDim(spaceDim);
+  cs.setSpaceDim(spaceDim);
   CPPUNIT_ASSERT_EQUAL(spaceDim, cs.spaceDim());
 } // testSpaceDim
 
@@ -129,7 +129,7 @@ spatialdata::geocoords::TestCSGeo::testToProjForm(void)
 			      -12.0, 65.7,
 			      64.3, -163.0 };
     cs.isGeocentric(true);
-    cs.spaceDim(numDims);
+    cs.setSpaceDim(numDims);
     const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
@@ -155,7 +155,7 @@ spatialdata::geocoords::TestCSGeo::testToProjForm(void)
 			      -12.0, 65.7, 12.6,
 			      64.3, -163.0, -1.5 };
     cs.isGeocentric(true);
-    cs.spaceDim(numDims);
+    cs.setSpaceDim(numDims);
     const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
@@ -196,7 +196,7 @@ spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
 			       -12.0, 65.7,
 			       64.3, -163.0 };
     cs.isGeocentric(true);
-    cs.spaceDim(numDims);
+    cs.setSpaceDim(numDims);
     const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
@@ -222,7 +222,7 @@ spatialdata::geocoords::TestCSGeo::testFromProjForm(void)
 			       -12.0, 65.7, 12.6,
 			       64.3, -163.0, -1.5 };
     cs.isGeocentric(true);
-    cs.spaceDim(numDims);
+    cs.setSpaceDim(numDims);
     const int size = numLocs * numDims;
     double* vals = new double[size];
     memcpy(vals, coords, size*sizeof(double));
@@ -264,7 +264,7 @@ spatialdata::geocoords::TestCSGeo::testPickle(void)
   csA.datumVert(datumVert);
   csA.isGeocentric(isGeocentric);
   csA.toMeters(toMeters);
-  csA.spaceDim(spaceDim);
+  csA.setSpaceDim(spaceDim);
 
   std::stringstream s;
   csA.pickle(s);
