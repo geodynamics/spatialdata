@@ -32,6 +32,7 @@ class TestCSGeoLocalCart(unittest.TestCase):
     self.assertEqual(cs.datumVert, cs.cppHandle.datumVert)
     self.assertEqual(True, cs.isGeocentric)
     self.assertEqual(1.0e+3, cs.cppHandle.toMeters)
+    self.assertEqual(3, cs.cppHandle.spaceDim)
 
     (lon, lat, elev) = cs.cppHandle.getOrigin()
     self.assertAlmostEqual(cs.originLon, lon, 6)

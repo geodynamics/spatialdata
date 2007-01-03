@@ -29,6 +29,7 @@ class CSCart(CoordSys):
     ##
     ## \b Properties
     ## @li \b units Name of units
+    ## @li \b space_dim Number of dimensions for coordinate system
     ##
     ## \b Facilities
     ## @li None
@@ -37,6 +38,9 @@ class CSCart(CoordSys):
 
     units = pyre.inventory.str("units", default="m")
     units.meta['tip'] = "Units of coordinates."
+
+    spaceDim = pyre.inventory.int("space_dim", default=3)
+    spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -47,6 +51,8 @@ class CSCart(CoordSys):
     uparser = pyre.units.parser()
     coordUnits = uparser.parse(self.units)
     self.cppHandle.toMeters = coordUnits.value
+
+    self.cppHandle.spaceDim = self.spaceDim
 
     CoordSys.initialize(self)
     return
@@ -59,6 +65,7 @@ class CSCart(CoordSys):
     import spatialdata.geocoords.geocoords as bindings
     self.cppHandle = bindings.CSCart()
     self.units = "m"
+    self.spaceDim = 3
     return
 
 
@@ -68,10 +75,8 @@ class CSCart(CoordSys):
     """Setup members using inventory."""
 
     self.units = self.inventory.units
+    self.spaceDim = self.inventory.spaceDim
     return
 
-
-# version
-__id__ = "$Id$"
 
 # End of file 
