@@ -97,7 +97,4 @@ class Filter(Component):
     return
 
 
-# version
-__id__ = "$Id$"
-
 # End of file 

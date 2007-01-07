@@ -46,6 +46,9 @@ spatialdata::geocoords::Converter::convert(double* coords,
   if (pCSSrc->csType() != pCSDest->csType())
     throw std::runtime_error("Cannot convert between coordinate systems "
 			     "of different types.");
+  if (pCSSrc->spaceDim() != pCSDest->spaceDim())
+    throw std::runtime_error("Cannot convert between coordinate systems "
+			     "with different spatial dimensions.");
 
   switch (pCSSrc->csType())
     { // switch 

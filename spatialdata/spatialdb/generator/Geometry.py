@@ -35,7 +35,7 @@ class Geometry(Component):
     ## Python object for managing Geometry facilities and properties.
     ##
     ## \b Properties
-    ## @li \b topology Topology of the database
+    ## @li \b data_dim Spatial dimension of database locations.
     ##
     ## \b Facilities
     ## @li \b unpickler Object to unpickle geometry
@@ -43,10 +43,9 @@ class Geometry(Component):
 
     import pyre.inventory
 
-    topology = pyre.inventory.str("topology", default="area")
-    topology.validator = pyre.inventory.choice(["point", "line",
-                                                "area", "volume"])
-    topology.meta['tip'] = "Topology of the database."
+    dataDim = pyre.inventory.str("data_dim", default=2)
+    dataDim.validator = pyre.inventory.choice([0, 1, 2, 3])
+    dataDim.meta['tip'] = "Spatial dimension of database locations."
 
     unpickler = pyre.inventory.facility("unpickler", factory=Dummy)
     unpickler.meta['tip'] = "Object to unpickle geometry."
@@ -74,13 +73,10 @@ class Geometry(Component):
 
   def _configure(self):
     Component._configure(self)
-    self.topology = self.inventory.topology
+    self.dataDim = self.inventory.dataDim
     self.unpickler = self.inventory.unpickler
     self.coordsys = self.inventory.coordsys
     return
 
-
-# version
-__id__ = "$Id$"
 
 # End of file 

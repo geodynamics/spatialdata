@@ -6,3 +6,10 @@
   cleaner.
 
   Numpy version >= 1.0 is now required (previous changeset).
+
+2007/01/07
+
+  Changed interfaces to allow spatial dimension of coordinate systems
+  to be 1-D and 2-D instead of just 3-D.
+
+
