@@ -27,9 +27,8 @@ int
 spatialdb_query(void* db, 
 		double* vals,
 		const int numVals,
-		const double x,
-		const double y,
-		const double z,
+		const double* coords,
+		const int numDims,
 		const void* cs)
 { // spatialdb_query
   spatialdata::spatialdb::SpatialDB* pDB = 
@@ -38,10 +37,8 @@ spatialdb_query(void* db,
     (const spatialdata::geocoords::CoordSys*) cs;
   assert(0 != pDB);
   assert(0 != pCS);
-  return pDB->query(vals, numVals, x, y, z, pCS);
+  return pDB->query(vals, numVals, coords, numDims, pCS);
 } // spatialdb_query
 
-// version
-// $Id$
 
 // End of file

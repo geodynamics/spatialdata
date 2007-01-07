@@ -14,13 +14,16 @@
 #error "SimpleDBTypes.icc must only be included from SimpleDBTypes.hh"
 #endif
 
+#include <assert.h>
+
 // Get coordinates of location in database.
 inline
 double*
 spatialdata::spatialdb::SimpleDBTypes::dataCoords(
 					  const SimpleDB::DataStruct& data,
-					  const int index)
-{ return data.data+(index*(3+data.numVals)); }
+					  const int index) {
+  return data.data+(index*(data.spaceDim+data.numVals));
+}
 
 // Get values of location in database.
 inline
@@ -28,9 +31,21 @@ double*
 spatialdata::spatialdb::SimpleDBTypes::dataVals(
 					  const SimpleDB::DataStruct& data,
 					  const int index)
-{ return data.data+(index*(3+data.numVals)+3); }
+{ return data.data+(index*(data.spaceDim+data.numVals)+data.spaceDim); }
 
-// version
-// $Id$
+
+// Get coordinates of location in database.
+inline
+void
+spatialdata::spatialdb::SimpleDBTypes::dataCoords(
+					  double* const coords,
+					  const int spaceDim,
+					  const SimpleDB::DataStruct& data,
+					  const int index) {
+  assert(spaceDim >= data.spaceDim);
+  const int offset = data.spaceDim+data.numVals;
+  for (int i=0; i < data.spaceDim; ++i)
+    coords[i] = data.data[index*offset+i];
+}
 
 // End of file 

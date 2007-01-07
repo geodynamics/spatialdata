@@ -4,7 +4,7 @@ SimpleDB {
   value-names =  One  Two
   value-units =  m  m
   num-locs = 1
-  topology = point
+  data-dim = 0
   cs-data = cartesian {
     to-meters = 1.0
   }

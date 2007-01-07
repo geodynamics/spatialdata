@@ -83,18 +83,16 @@ class spatialdata::spatialdb::SpatialDB
    * @param vals Array for computed values (output from query), must be
    *   allocated BEFORE calling query().
    * @param numVals Number of values expected (size of pVals array)
-   * @param x X coordinate of location for query
-   * @param y Y coordinate of location for query
-   * @param z Z coordinate of location for query
+   * @param coords Coordinates of point for query
+   * @param numDims Number of dimensions for coordinates
    * @param pCSQuery Coordinate system of coordinates
    *
    * @returns 0 on success, 1 on failure (i.e., could not interpolate)
    */
   virtual int query(double* vals,
 		    const int numVals,
-		    const double x,
-		    const double y,
-		    const double z,
+		    const double* coords,
+		    const int numDims,
 		    const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
 
  private :
@@ -115,7 +113,5 @@ private :
 
 #endif // spatialdata_spatialdb_spatialdb_hh
 
-// version
-// $Id$
 
 // End of file 

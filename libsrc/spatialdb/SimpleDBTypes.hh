@@ -26,7 +26,8 @@ struct spatialdata::spatialdb::SimpleDB::DataStruct {
   std::string* valUnits;
   int numLocs;
   int numVals;
-  TopoEnum topology;
+  int dataDim;
+  int spaceDim;
 }; // DataStruct
 
 namespace spatialdata {
@@ -49,6 +50,18 @@ public :
   static double* dataCoords(const SimpleDB::DataStruct& data,
 			    const int index);
 
+  /** Get coordinates of location in database.
+   *
+   * @param coords Array for coordinates of location
+   * @param spaceDim Number of dimensions for coordinates
+   * @param data Datain database
+   * @param index Index of location in database
+   */
+  static void dataCoords(double* const coords,
+			 const int spaceDim,
+			 const SimpleDB::DataStruct& data,
+			 const int index);
+
   /** Get values of location in database.
    *
    * @param data Datain database
@@ -63,7 +76,5 @@ public :
 
 #endif // spatialdata_spatialdb_simpledbtypes_hh
 
-// version
-// $Id$
 
 // End of file 

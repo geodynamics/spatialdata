@@ -22,11 +22,9 @@
  *
  * @param db Pointer to SpatialDB
  * @param vals Array for computed values (output from query)
- * @param addrF Fortran address used to access values
- * @param addrOffset Offset used to access values from Fortran
- * @param x Pointer to x coordinate of location for query
- * @param y Pointer to y coordinate of location for query
- * @param z Pointer to z coordinate of location for query
+ * @param numVals Number of values expected (size of pVals array)
+ * @param coords Coordinates of point for query
+ * @param numDims Number of dimensions for coordinates
  * @param cs Pointer to CS
  * @param ok Set to 0 on success, 1 on failure (i.e., values not set)
  */
@@ -34,9 +32,8 @@ extern "C"
 void spatialdb_query_f(void* db,
 		       double* vals,
 		       const int* numVals,
-		       const double* x,
-		       const double* y,
-		       const double* z,
+		       const double* coords,
+		       const int* numDims,
 		       const void* cs,
 		       int* ok);
 

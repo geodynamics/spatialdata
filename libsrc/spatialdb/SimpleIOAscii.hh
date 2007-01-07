@@ -75,36 +75,8 @@ private :
 		      spatialdata::geocoords::CoordSys** ppCS,
 		      std::istream& filein);
 
-  /** Parse string into topology type.
-   *
-   * @param str String associated with topology
-   *
-   * @returns Topology type
-   */
-  static SimpleDB::TopoEnum parseTopoString(const char* str);
-  
-  /** Get string associated with topology type.
-   *
-   * @param topoType Topology type
-   *
-   * @returns String associated with topology
-   */
-  static const char* topoString(const SimpleDB::TopoEnum topoType);
-
  private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
-
-  /** String associated with 0-D distribution of data */
-  static const char* POINTSTRING;
-
-  /** String associated with 1-D distribution of data */
-  static const char* LINESTRING;
-
-  /** String associated with 2-D distribution of data */
-  static const char* AREASTRING;
-
-  /** String associated with 3-D distribution of data */
-  static const char* VOLSTRING;
 
   /** Magic header in ascii files */
   static const char* HEADER;

@@ -17,6 +17,7 @@ subpkgpyexec_PYTHON = \
 	__init__.py \
 	ChangeCoordSys.py \
 	ConvertApp.py \
+	CppData.py \
 	PointsStream.py
 
 # version

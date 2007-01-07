@@ -20,6 +20,8 @@
 #include <string> // USES std::string
 #include "SimpleDBTypes.hh" // USES SimpleDBTypes
 
+#include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
+
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 
@@ -38,50 +40,36 @@ spatialdata::spatialdb::SimpleIO::~SimpleIO(void)
 // ----------------------------------------------------------------------
 void
 spatialdata::spatialdb::SimpleIO::checkCompatibility(
-					    const SimpleDB::DataStruct& data)
+			      const SimpleDB::DataStruct& data,
+			      const spatialdata::geocoords::CoordSys* pCS)
 { // checkCompatibility
+  assert(0 != pCS);
+
   const int numLocs = data.numLocs;
-  switch (data.topology)
-    { // switch
-    case SimpleDB::POINT :
-      if (numLocs > 1) {
-	std::ostringstream msg;
-	msg << "Point spatial distribution must have only 1 point. "
-	    << "Found " << numLocs << " points in distribution.";
-	throw std::runtime_error(msg.str());
-      } // if
-      break;
-    case SimpleDB::LINE :
-      if (numLocs < 2) {
-	std::ostringstream msg;
-	msg << "Linear spatial distribution must have at least 2 points. "
-	    << "Found " << numLocs << " points in distribution.";
-	throw std::runtime_error(msg.str());
-      } // if
-      break;
-    case SimpleDB::AREA :
-      if (numLocs < 3) {
-	std::ostringstream msg;
-	msg << "Areal spatial distribution must have at least 3 points. "
-	    << "Found " << numLocs << " points in distribution.";
-	throw std::runtime_error(msg.str());
-      } // if
-      break;
-    case SimpleDB::VOLUME :
-      if (numLocs < 4) {
-	std::ostringstream msg;
-	msg << "Volumetric spatial distribution must have at least 4 points. "
-	    << "Found " << numLocs << " points in distribution.";
-	throw std::runtime_error(msg.str());
-      } // if
-      break;
-    default :
-      throw std::runtime_error("Could not check compatiblity for unrecognized "
-			       "topology type.");
-    } // switch
+  const int spaceDim = data.spaceDim;
+  const int dataDim = data.dataDim;
+  if (numLocs < 1 + dataDim) {
+    std::ostringstream msg;
+    msg << "Spatial distribution with data dimensions of " << dataDim 
+	<< " must have at least " << 1+dataDim << " points. "
+	<< "Found " << numLocs << " points in distribution.";
+    throw std::runtime_error(msg.str());
+  } // if
+  if (dataDim > spaceDim) {
+    std::ostringstream msg;
+    msg << "Dimension of data in spatial distribution (" << dataDim
+	<< ") exceeds the number of dimensions of the coordinates ("
+	<< spaceDim << ").";
+    throw std::runtime_error(msg.str());
+  } // if
+  if (spaceDim != pCS->spaceDim()) {
+    std::ostringstream msg;
+    msg << "Number of dimensions in coordinates of spatial distribution ("
+	<< spaceDim << ") does not match number of dimensions in coordinate "
+	<< "system (" << pCS->spaceDim() << ")";
+    throw std::runtime_error(msg.str());
+  } // if
 } // checkCompatibility
 
-// version
-// $Id$
 
 // End of file 

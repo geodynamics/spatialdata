@@ -62,16 +62,14 @@ class spatialdata::spatialdb::SimpleDBQuery
    *
    * @param vals Array for computed values (output from query)
    * @param numVals Number of values expected (size of pVals array)
-   * @param x X coordinate of location for query
-   * @param y Y coordinate of location for query
-   * @param z Z coordinate of location for query
+   * @param coords Coordinates of point to query
+   * @param numDims Number of dimensions for coordinates
    * @param pCSQuery Coordinate system of coordinates
    */
   void query(double* vals,
 	     const int numVals,
-	     const double x,
-	     const double y,
-	     const double z,
+	     const double* coords,
+	     const int numDims,
 	     const spatialdata::geocoords::CoordSys* pCSQuery);
 
  private :
@@ -150,7 +148,7 @@ class spatialdata::spatialdb::SimpleDBQuery
    * @param b Coordinates of point B
    */
   static double _distSquared(const double a[3],
-			    const double b[3]);
+			     const double b[3]);
 
   /** Compute area and "direction" of triangle abc. Direction is vector
    * normal to triangular surface.
@@ -202,7 +200,5 @@ private :
 
 #endif // spatialdata_spatialdb_spatialdbquery_hh
 
-// version
-// $Id$
 
 // End of file 

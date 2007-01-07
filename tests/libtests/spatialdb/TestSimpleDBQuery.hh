@@ -27,7 +27,7 @@ namespace spatialdata {
   namespace spatialdb {
     class TestSimpleDBQuery;
     class SimpleDB; // USES SimpleDB
-    class SimpleDBQuery; // USES SimpleDBQuery
+    class SimpleDBQueryData; // USES TestSimpleDBQueryData
   } // spatialdb
 } // spatialdata
 
@@ -38,65 +38,59 @@ class spatialdata::spatialdb::TestSimpleDBQuery : public CppUnit::TestFixture
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestSimpleDBQuery );
   CPPUNIT_TEST( testConstructor );
-  CPPUNIT_TEST( testDistSquared );
-  CPPUNIT_TEST( testArea );
-  CPPUNIT_TEST( testVolume );
   CPPUNIT_TEST( testQueryType );
-  CPPUNIT_TEST( testQueryVals );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Setup test subject
-  void setUp(void);
-
-  /// Cleanup test subject
-  void tearDown(void);
-
   /// Test constructor
   void testConstructor(void);
 
-  /// Test DistSquared()
-  void testDistSquared(void);
-
-  /// Test Area()
-  void testArea(void);
-
-  /// Test Volume()
-  void testVolume(void);
-
-  /// Test QueryType()
+  /// Test queryType()
   void testQueryType(void);
 
-  /// Test QueryVals()
-  void testQueryVals(void);
+protected :
+  // PROTECTED METHODS //////////////////////////////////////////////////
 
-  // PRIVATE MEMBERS ////////////////////////////////////////////////////
+  /* Test queryVals()
+   *
+   * @param data Data for database
+   */
+  void _testQueryVals(const SimpleDBQueryData& data);
+
+  /** Test distSquared()
+   *
+   * @param data Data for database
+   */
+  void _testDistSquared(const SimpleDBQueryData& data);
+
+  /** Test area().
+   *
+   * @param data Data for database
+   */
+  void _testArea(const SimpleDBQueryData& data);
+
+  /* Test volume()
+   *
+   * @param data Data for database
+   */
+  void _testVolume(const SimpleDBQueryData& data);
+
+  // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
 
-  SimpleDB* _pDB; ///< Database for test subject
-  SimpleDBQuery* _pQuery; ///< Test subject
-
-  static const double DATA[]; ///< Data for database
-  static const char* NAMES[]; ///< Names of values in database
-  static const char* UNITS[]; ///< Units of values in database
-  static const int NUMLOCS; ///< Number of locations in database
-  static const int NUMVALS; ///< Number of values in database
-  static const SimpleDB::TopoEnum TOPOLOGY; ///< Topology of data in database
-
-  static const double COORDS[]; ///< Coordinates for points
-  static const double AREADIR[]; ///< Direction associated with area
-  static const int NUMPTS; ///< Number of points
-  static const double DIST2; ///< Square of distance b/t points 0 and 1
-  static const double AREA; ///< Area of triangle formed by pts 0, 1, 2
-  static const double VOLUME; ///< Volume of tetrahedron formed by pts 0,1,2,3
+  /** Populate database with data.
+   *
+   * @param db Database
+   * @param data Data for database
+   */
+  void _setupDB(SimpleDB* const db,
+		const SimpleDBQueryData& data);
 
 }; // class TestSimpleDBQuery
 
 #endif // spatialdata_spatialdb_testsimpledbquery_hh
 
-// version
-// $Id$
 
 // End of file 

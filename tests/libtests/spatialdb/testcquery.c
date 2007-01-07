@@ -18,12 +18,11 @@ int
 testcquery(void* db,
 	   double* vals,
 	   int numVals,
-	   double x,
-	   double y,
-	   double z,
+	   const double* coords,
+	   const int numDims,
 	   void* cs)
 { // testcquery
-  return spatialdb_query(db, vals, numVals, x, y, z, cs);
+  return spatialdb_query(db, vals, numVals, coords, numDims, cs);
 } // testcquery
 
 /* End of file  */

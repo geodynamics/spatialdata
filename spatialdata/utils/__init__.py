@@ -14,9 +14,9 @@
 ## @brief Python spatialdata utils module initialization.
 
 __all__ = ['ChangeCoordSys',
+           'ConvertApp',
+           'CppData',
            'PointsStream']
 
-# version
-__id__ = "$Id$"
 
 # End of file

@@ -122,10 +122,11 @@ cdef class SpatialDB:
   def query(self, locs, cs, nvals):
     """Query db to get values at locations."""
     # create shim for method 'query'
-    #embed{ void SpatialDB_query(void* pObj, double* vals, int nvals, double x, double y, double z, void* csObj)
+    #embed{ void SpatialDB_query(void* pObj, double* vals, int nvals, double* coords, int spaceDim, void* csObj)
     spatialdata::geocoords::CoordSys* pCS =
       (spatialdata::geocoords::CoordSys*) csObj;
-    ((spatialdata::spatialdb::SpatialDB*) pObj)->query(vals, nvals, x, y, z,
+    ((spatialdata::spatialdb::SpatialDB*) pObj)->query(vals, nvals,
+                                                       coords, spaceDim,
                                                        pCS);
     #}embed
 
@@ -145,10 +146,7 @@ cdef class SpatialDB:
       raise TypeError, \
               "Argument 'nvals' must be a positive integer."
 
-    (nlocs, ncoords) = locs.shape
-    if not ncoords == 3:
-      raise ValueError, \
-            "Argument 'locs' must have 3 coordinates per location."
+    (nlocs, spaceDim) = locs.shape
     
     cdef double* pLocs
     pLocs = <double*> PyCObject_AsVoidPtr(locs.data)
@@ -161,9 +159,8 @@ cdef class SpatialDB:
 
     for iloc from 0 <= iloc < nlocs:
       SpatialDB_query(self.thisptr, valbuffer, nvals,
-                      pLocs[ncoords*iloc  ],
-                      pLocs[ncoords*iloc+1],
-                      pLocs[ncoords*iloc+2], ptrFromHandle(cs))
+                      &pLocs[spaceDim*iloc], spaceDim,
+                      ptrFromHandle(cs))
       for ival from 0 <= ival < nvals:
         pVals[nvals*iloc+ival] = valbuffer[ival]
     free(<void*> valbuffer)

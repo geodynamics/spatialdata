@@ -43,7 +43,7 @@ cdef extern from "stdlib.h":
 
 
 # ----------------------------------------------------------------------
-def create(coords, locCount, locDim, numValues, topology):
+def create(coords, locCount, locDim, numValues, spaceDim, dataDim):
   """Create structure for simple database."""
   # create C++ shim
   #embed{ void GenSimpleDB_tearDownData(void* pDataObj)
@@ -58,7 +58,7 @@ def create(coords, locCount, locDim, numValues, topology):
   #}embed
   
   # create C++ shim
-  #embed{ void* GenSimpleDB_create(void* pCoordsObj, int locCount, int locDim, int numValues, char* topology)
+  #embed{ void* GenSimpleDB_create(void* pCoordsObj, int locCount, int locDim, int numValues, int spaceDim, int dataDim)
   spatialdata::spatialdb::SimpleDB::DataStruct* pData =
   new spatialdata::spatialdb::SimpleDB::DataStruct;
   const int totalNumValues = locDim + numValues;
@@ -70,14 +70,8 @@ def create(coords, locCount, locDim, numValues, topology):
     pData->numVals = numValues;
     pData->valNames = (numValues > 0) ? new std::string[numValues] : 0;
     pData->valUnits = (numValues > 0) ? new std::string[numValues] : 0;
-    if (0 == strcasecmp("point", topology))
-      pData->topology = spatialdata::spatialdb::SimpleDB::POINT;
-    else if (0 == strcasecmp("line", topology))
-      pData->topology = spatialdata::spatialdb::SimpleDB::LINE;
-    else if (0 == strcasecmp("area", topology))
-      pData->topology = spatialdata::spatialdb::SimpleDB::AREA;
-    else if (0 == strcasecmp("volume", topology))
-      pData->topology = spatialdata::spatialdb::SimpleDB::VOLUME;
+    pData->spaceDim = spaceDim;
+    pData->dataDim = dataDim;
   } // if
   double* pCoords = (double*) pCoordsObj;
   for (int iLoc=0; iLoc < locCount; ++iLoc) {
@@ -89,18 +83,12 @@ def create(coords, locCount, locDim, numValues, topology):
   return (void*) pData;
   #}embed
 
-  if not (topology == "point" or
-          topology == "line" or
-          topology == "area" or
-          topology == "volume"):
-    raise ValueError, "Argument 'topology' must be 'point', 'line', " \
-          "'area', or 'volume'."
-          
   cdef void* pCoordsObj
   pCoordsObj = PyCObject_AsVoidPtr(coords)
 
   return PyCObject_FromVoidPtr(
-    GenSimpleDB_create(pCoordsObj, locCount, locDim, numValues, topology),
+    GenSimpleDB_create(pCoordsObj,
+                       locCount, locDim, numValues, spaceDim, dataDim),
     GenSimpleDB_tearDownData)
 
 
@@ -159,9 +147,7 @@ def applyFilter(value, valueCount, locs, locCount, cs, db,
   double val = 0;
   int err = 0;
   for (int iLoc=0, index=0; iLoc < locCount; ++iLoc, index += 3) {
-    err = pDB->query(&val, 1, 
-                     pLocs[index], pLocs[index+1], pLocs[index+2],
-                     pCS);
+    err = pDB->query(&val, 1, &pLocs[index], 3, pCS);
     if (0 != err)
       val = defaultValue;
     pFilterData[iLoc] = val;

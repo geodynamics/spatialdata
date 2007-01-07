@@ -33,11 +33,6 @@
 // ----------------------------------------------------------------------
 const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =  "#SPATIAL.ascii";
 
-const char* spatialdata::spatialdb::SimpleIOAscii::POINTSTRING = "point";
-const char* spatialdata::spatialdb::SimpleIOAscii::LINESTRING = "line";
-const char* spatialdata::spatialdb::SimpleIOAscii::AREASTRING = "area";
-const char* spatialdata::spatialdb::SimpleIOAscii::VOLSTRING = "volume";
-
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
@@ -101,6 +96,8 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   delete[] pData->valUnits; pData->valUnits = 0;
   delete[] pData->data; pData->data = 0;
   delete *ppCS; *ppCS = new spatialdata::geocoords::CSCart();
+  pData->dataDim = 0;
+  pData->spaceDim = 3;
 
   std::string name;
 
@@ -137,11 +134,12 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
 	filein.ignore(maxIgnore, '=');
 	for (int iVal=0; iVal < numVals; ++iVal)
 	  filein >> pData->valUnits[iVal];
-      } else if (0 == strcasecmp(token.c_str(), "topology")) {
+      } else if (0 == strcasecmp(token.c_str(), "data-dim")) {
 	filein.ignore(maxIgnore, '=');
-	std::string topoString;
-	filein >> topoString;
-	pData->topology = parseTopoString(topoString.c_str());
+	filein >> pData->dataDim;
+      } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
+	filein.ignore(maxIgnore, '=');
+	filein >> pData->spaceDim;
       } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
 	spatialdata::geocoords::CSPicklerAscii::unpickle(filein, ppCS);
       } else {
@@ -180,15 +178,15 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
     throw std::runtime_error(msg.str());
   } // else
 
-  const int numCoords = 3;
-  const int dataSize = pData->numLocs * (numCoords + pData->numVals);
+  const int dataSize = pData->numLocs * (pData->spaceDim + pData->numVals);
   delete[] pData->data; 
   pData->data = (dataSize > 0) ? new double[dataSize] : 0;
   for (int i=0; i < dataSize; ++i)
     filein >> pData->data[i];
   
-  // Check compatibility of topology and number of points
-  checkCompatibility(*pData);
+  // Check compatibility of dimension of data, spatial dimension and
+  // number of points
+  checkCompatibility(*pData, *ppCS);
   
   (*ppCS)->initialize();
 } // ReadV1
@@ -226,7 +224,8 @@ spatialdata::spatialdb::SimpleIOAscii::write(
   fileout << "\n";
   fileout
     << "  num-locs = " << std::setw(6) << numLocs << "\n"
-    << "  topology = " << topoString(data.topology) << "\n"
+    << "  data-dim = " << std::setw(4) << data.dataDim << "\n"
+    << "  space-dim = " << std::setw(4) << data.spaceDim << "\n"
     << "  cs-data = ";
   spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
   fileout << "}\n";
@@ -235,7 +234,7 @@ spatialdata::spatialdb::SimpleIOAscii::write(
     << std::resetiosflags(std::ios::fixed)
     << std::setiosflags(std::ios::scientific)
     << std::setprecision(6);
-  const int numCoords = 3;
+  const int numCoords = data.spaceDim;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     const double* pCoords = SimpleDBTypes::dataCoords(data, iLoc);
     for (int iCoord=0; iCoord < numCoords; ++iCoord)
@@ -247,57 +246,5 @@ spatialdata::spatialdb::SimpleIOAscii::write(
   } // for
 } // write
 
-// ----------------------------------------------------------------------
-// Parse string into topology type.
-spatialdata::spatialdb::SimpleDB::TopoEnum
-spatialdata::spatialdb::SimpleIOAscii::parseTopoString(const char* str)
-{ // parseTopoString
-  SimpleDB::TopoEnum topoType = SimpleDB::POINT;
-  if (strcasecmp(str, POINTSTRING) == 0)
-    topoType = SimpleDB::POINT;
-  else if (strcasecmp(str, LINESTRING) == 0)
-    topoType = SimpleDB::LINE;
-  else if (strcasecmp(str, AREASTRING) == 0)
-    topoType = SimpleDB::AREA;
-  else if (strcasecmp(str, VOLSTRING) == 0)
-    topoType = SimpleDB::VOLUME;
-  else {
-    std::ostringstream msg;
-    msg << "Could not parse topology string '" << str << "' into a known "
-	<< "topology.";
-    throw std::runtime_error(msg.str());
-  } // else
-  return topoType;
-} // parseTopoString
-
-// ----------------------------------------------------------------------
-// Get string associated with topology type.
-const char*
-spatialdata::spatialdb::SimpleIOAscii::topoString(SimpleDB::TopoEnum topoType)
-{ // topoString
-  const char* str = POINTSTRING;
-  switch (topoType)
-    { // switch
-    case SimpleDB::POINT :
-      str = POINTSTRING;
-      break;
-    case SimpleDB::LINE :
-      str = LINESTRING;
-      break;
-    case SimpleDB::AREA :
-      str = AREASTRING;
-      break;
-    case SimpleDB::VOLUME :
-      str = VOLSTRING;
-      break;
-    default :
-      throw std::runtime_error("Could not find string associated with "
-			       "topology type.");
-    } // switch
-  return str;
-} // topoString
-
-// version
-// $Id$
 
 // End of file 

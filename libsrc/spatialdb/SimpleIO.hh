@@ -87,8 +87,10 @@ protected :
    * does not check the actual topology of the distribution.
    *
    * @param data Database data
+   * @param pCS Pointer to coordinate system
    */
-  static void checkCompatibility(const SimpleDB::DataStruct& data);
+  static void checkCompatibility(const SimpleDB::DataStruct& data,
+				 const spatialdata::geocoords::CoordSys* pCS);
 
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -107,7 +109,5 @@ private :
 
 #endif // spatialdata_spatialdb_simpleio_hh
 
-// version
-// $Id$
 
 // End of file 

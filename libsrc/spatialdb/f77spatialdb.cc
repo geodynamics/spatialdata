@@ -27,9 +27,8 @@ extern "C"
 void spatialdb_query_f(void* db, 
 		       double* vals,
 		       const int* numVals,
-		       const double* x,
-		       const double* y,
-		       const double* z,
+		       const double* coords,
+		       const int* numDims,
 		       const void* cs,
 		       int* ok)
 { // spatialdb_query_f
@@ -39,11 +38,11 @@ void spatialdb_query_f(void* db,
     (const spatialdata::geocoords::CoordSys*) cs;
   assert(0 != pDB);
   assert(0 != pCS);
-  assert(0 != x);
-  assert(0 != y);
-  assert(0 != z);
+  assert(0 != numVals);
+  assert(0 != coords);
+  assert(0 != numDims);
   assert(0 != ok);
-  *ok = pDB->query(vals, *numVals, *x, *y, *z, pCS);
+  *ok = pDB->query(vals, *numVals, coords, *numDims, pCS);
 } // spatialdb_query_f
 
 // version

@@ -15,9 +15,7 @@
  * @brief C++ TestSimpleDB object
  *
  * C++ unit testing for SimpleDB. This object is an abstract base
- * class. The actual testing is done in objects derived from this one
- * (TestSimpleDBPoint, TestSimpleDBLine, TestSimpleDBArea,
- * TestSimpleDBVolume).
+ * class with children classes specific to the type of data in the database.
  */
 
 #if !defined(spatialdata_spatialdb_testsimpledb_hh)
@@ -30,6 +28,7 @@ namespace spatialdata {
   namespace spatialdb {
     class TestSimpleDB;
     class SimpleDB; // USES SimpleDB
+    class SimpleDBData; // USES SimpleDBData
   } // spatialdb
 } // spatialdata
 
@@ -37,14 +36,15 @@ namespace spatialdata {
 class spatialdata::spatialdb::TestSimpleDB : public CppUnit::TestFixture
 { // class TestSimpleDB
 
+  // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+  CPPUNIT_TEST_SUITE( TestSimpleDB );
+  CPPUNIT_TEST( testConstructorA );
+  CPPUNIT_TEST( testConstructorB );
+  CPPUNIT_TEST( testLabel );
+  CPPUNIT_TEST_SUITE_END();
+
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
-
-  /// Setup test subject
-  void setUp(void);
-
-  /// Cleanup test subject
-  void tearDown(void);
 
   /// Test constructor
   void testConstructorA(void);
@@ -52,117 +52,56 @@ public :
   /// Test constructor with label
   void testConstructorB(void);
 
-  /// Test Label()
+  /// Test label()
   void testLabel(void);
-
-  /// Test Query() using nearest neighbor
-  void testQueryNearest(void);
-
-  /// Test Query() using linear interpolation
-  void testQueryLinear(void);
 
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////
 
-  /** Get database.
+  /** Test query() using nearest neighbor
    *
-   * @returns Pointer to database
+   * @param data Data for database
    */
-  SimpleDB* _database(void);
+  void _testQueryNearest(const SimpleDBData& data);
 
-  /** Get data for database.
+  /** Test query() using linear interpolation
    *
-   * @returns Pointer to data
+   * @param data Data for database
    */
-  virtual const double* _data(void) const = 0;
-
-  /** Get expected return values for queries.
-   *
-   * @returns Pointer to head of array
-   */
-  virtual const int* _errFlags(void) const = 0;
-
-  /** Get names of values in database.
-   *
-   * @returns Pointer to names
-   */
-  virtual const char** _names(void) const = 0;
-
-  /** Get units of values in database.
-   *
-   * @returns Pointer to units
-   */
-  virtual const char** _units(void) const = 0;
-
-  /** Get number of locations in database.
-   *
-   * @returns Number of locations
-   */
-  virtual int _numLocs(void) const = 0;
-
-  /** Get number of values at each location in database.
-   *
-   * @returns Number of values
-   */
-  virtual int _numVals(void) const = 0;
-
-  /** Get topology of data in database.
-   *
-   * @returns Topology of data
-   */
-  virtual SimpleDB::TopoEnum _topology(void) const = 0;
-
-  /** Get number of queries.
-   *
-   * @returns Number of queries
-   */
-  virtual int _numQueries(void) const = 0;
-
-  /** Get query data for nearest neighbor algorithm.
-   *
-   * numCoords = 3
-   * Coordinates for iQuery begin at iQuery*(numCoords+numVals)
-   * Expected values for iQuery begin at iQuery*(numCoords+numVals)+numCoords
-   *
-   * @returns Pointer to data
-   */
-  virtual const double* _queryNearest(void) const = 0;
-
-  /** Get query data for linear interpolation algorithm.
-   *
-   * numCoords = 3
-   * Coordinates for iQuery begin at iQuery*(numCoords+numVals)
-   * Expected values for iQuery begin at iQuery*(numCoords+numVals)+numCoords
-   *
-   * @returns Pointer to data
-   */
-  virtual const double* _queryLinear(void) const = 0;
+  void _testQueryLinear(const SimpleDBData& data);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
 
-  /** Check query values.
+  /** Populate database with data.
    *
-   * Do query and check values returned.
-   * 
-   * @param queryData Query locations and expected values
-   * @param queryErrFlags Array of exepcted return values
+   * @param db Database
+   * @param data Data for database
    */
-  void _checkQuery(const double* queryData,
-		   const int* queryErrFlags) const;
+  void _setupDB(SimpleDB* const db,
+		const SimpleDBData& data);
 
-  // PRIVATE MEMBERS ////////////////////////////////////////////////////
-private :
-
-  SimpleDB* _pDB; ///< Test subject
+  /** Test query method by doing query and checking values returned.
+   * 
+   * @param db Database to query
+   * @param names Names of values in database
+   * @param queryData Query locations and expected values
+   * @param flagsE Array of expected return values
+   * @param numQueries Number of queries
+   * @param spaceDim Number of coordinates per location
+   * @param numVals Number of values in database
+   */
+  void _checkQuery(SimpleDB& db,
+		   char** const names,
+		   const double* queryData,
+		   const int* flagsE,
+		   const int numQueries,
+		   const int spaceDim,
+		   const int numVals);
 
 }; // class TestSimpleDB
 
-#include "TestSimpleDB.icc" // inline methods
-
 #endif // spatialdata_spatialdb_testsimpledb_hh
 
-// version
-// $Id$
 
 // End of file 

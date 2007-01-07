@@ -18,6 +18,8 @@
 #if !defined(spatialdata_spatialdb_simpledb_hh)
 #define spatialdata_spatialdb_simpledb_hh
 
+#include "SpatialDB.hh"
+
 namespace spatialdata {
   namespace spatialdb {
   class SpatialDB; // ISA SpatialDB
@@ -25,8 +27,8 @@ namespace spatialdata {
   class SimpleIO; // USES SimpleIO
   class SimpleDBTypes; // helper
   class SimpleDBQuery; // helper
-  class TestSimpleDB; // regression testing
-  class TestSimpleDBQuery; // regression testing
+  class TestSimpleDB; // unit testing
+  class TestSimpleDBQuery; // unit testing
   } // spatialdb
 } // spatialdata
 
@@ -35,8 +37,8 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
 { // class SimpleDB
   friend class SimpleDBQuery; // helper
   friend class SimpleDBTypes; // helper
-  friend class TestSimpleDB; // regression testing
-  friend class TestSimpleDBQuery; // regression testing
+  friend class TestSimpleDB; // unit testing
+  friend class TestSimpleDBQuery; // unit testing
 
  public :
   // PUBLIC ENUM ////////////////////////////////////////////////////////
@@ -104,20 +106,18 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
    * @param vals Array for computed values (output from query), vals
    *   must be allocated BEFORE calling query().
    * @param numVals Number of values expected (size of pVals array)
-   * @param x X coordinate of location for query
-   * @param y Y coordinate of location for query
-   * @param z Z coordinate of location for query
+   * @param coords Coordinates of point for query
+   * @param numDims Number of dimensions for coordinates
    * @param pCSQuery Coordinate system of coordinates
    *
    * @returns 0 on success, 1 on failure (i.e., could not interpolate
    *   so values set to 0)
    */
   int query(double* vals,
-	     const int numVals,
-	     const double x,
-	     const double y,
-	     const double z,
-	     const spatialdata::geocoords::CoordSys* pCSQuery);
+	    const int numVals,
+	    const double* coords,
+	    const int numDims,
+	    const spatialdata::geocoords::CoordSys* pCSQuery);
 
  private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
@@ -128,14 +128,14 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
 protected :
 // PROTECTED MEMBERS ////////////////////////////////////////////////////
   
-  DataStruct* _pData; ///< Pointer to data  
+  DataStruct* _data; ///< Pointer to data  
 
 private :
  // PRIVATE MEMBERS /////////////////////////////////////////////////////
    
- SimpleIO* _pIOHandler; ///< I/O handler
-  SimpleDBQuery* _pQuery; ///< Query handler
-  spatialdata::geocoords::CoordSys* _pCS; ///< Coordinate system
+ SimpleIO* _iohandler; ///< I/O handler
+  SimpleDBQuery* _query; ///< Query handler
+  spatialdata::geocoords::CoordSys* _cs; ///< Coordinate system
 
 }; // class SimpleDB
 
@@ -143,7 +143,5 @@ private :
 
 #endif // spatialdata_spatialdb_simpledb_hh
 
-// version
-// $Id$
 
 // End of file 

@@ -64,7 +64,5 @@ private :
 
 #endif // spatialdata_spatialdb_testspatialdb_hh
 
-// version
-// $Id$
 
 // End of file 

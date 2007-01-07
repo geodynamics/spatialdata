@@ -71,6 +71,24 @@ cdef class CoordSys:
     return PyCObject_FromVoidPtr(self.thisptr, CoordSys_destructor)
 
 
+  property spaceDim:
+    def __set__(self, ndims):
+      """Set number of dimensions for coordinates."""
+      # create shim for method 'spaceDim'
+      #embed{ void CoordSys_spaceDim_set(void* pObj, int ndims)
+      ((spatialdata::geocoords::CoordSys*) pObj)->setSpaceDim(ndims);
+      #}embed
+      CoordSys_spaceDim_set(self.thisptr, ndims)
+
+    def __get__(self):
+      """Get number of dimensions for coordinates."""
+      # create shim for method 'spaceDim'
+      #embed{ int CoordSys_spaceDim_get(void* pObj)
+      return ((spatialdata::geocoords::CoordSys*) pObj)->spaceDim();
+      #}embed
+      return CoordSys_spaceDim_get(self.thisptr)
+
+
 # ----------------------------------------------------------------------
 cdef class CSCart(CoordSys):
 
@@ -103,24 +121,6 @@ cdef class CSCart(CoordSys):
       return ((spatialdata::geocoords::CSCart*) pObj)->toMeters();
       #}embed
       return CSCart_toMeters_get(self.thisptr)
-
-
-  property spaceDim:
-    def __set__(self, ndims):
-      """Set number of dimensions for coordinates."""
-      # create shim for method 'spaceDim'
-      #embed{ void CSCart_spaceDim_set(void* pObj, int ndims)
-      ((spatialdata::geocoords::CSCart*) pObj)->spaceDim(ndims);
-      #}embed
-      CSCart_spaceDim_set(self.thisptr, ndims)
-
-    def __get__(self):
-      """Get number of dimensions for coordinates."""
-      # create shim for method 'spaceDim'
-      #embed{ int CSCart_spaceDim_get(void* pObj)
-      return ((spatialdata::geocoords::CSCart*) pObj)->spaceDim();
-      #}embed
-      return CSCart_spaceDim_get(self.thisptr)
 
 
 # ----------------------------------------------------------------------
@@ -227,24 +227,6 @@ cdef class CSGeo(CoordSys):
         return ((spatialdata::geocoords::CSGeo*) pObj)->toMeters();
       #}embed
       return CSGeo_toMeters_get(self.thisptr)
-
-
-  property spaceDim:
-    def __set__(self, ndims):
-      """Set number of dimensions for coordinates."""
-      # create shim for method 'spaceDim'
-      #embed{ void CSGeo_spaceDim_set(void* pObj, int ndims)
-        ((spatialdata::geocoords::CSGeo*) pObj)->spaceDim(ndims);
-      #}embed
-      CSGeo_spaceDim_set(self.thisptr, ndims)
-
-    def __get__(self):
-      """Get number of dimensions for coodinates."""
-      # create shim for method 'spaceDim'
-      #embed{ int CSGeo_spaceDim_get(void* pObj)
-        return ((spatialdata::geocoords::CSGeo*) pObj)->spaceDim();
-      #}embed
-      return CSGeo_spaceDim_get(self.thisptr)
 
 
 # ----------------------------------------------------------------------

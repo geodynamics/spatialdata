@@ -1,7 +1,5 @@
-pytests are failing on Brad's Mac with numpy-0.9.8. Try updating to
-numpy-1.0 (simplearray was made compatible? with 1.0 on Brad's linux
-machine).
-
+Update generator code to allow generating 0-D, 1-D, and 2-D spatial
+distributions in addition to 3-D.
 
 UTILS
 
@@ -10,8 +8,6 @@ UTILS
 GEOCOORDS
 
   Make it possible to pickle/unpickle to/from file like in C++?
-
-  Clean up number of coordinates issues. Use numbers instead of is2D flag?
 
 SPATIALDB
 

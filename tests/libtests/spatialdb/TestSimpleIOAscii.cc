@@ -39,12 +39,12 @@ spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
 			  4.7, 9.5, 8.7,  2.3, 4.1,
 			  3.4, 0.7, 9.8,  5.7, 2.0,
 			  3.4, 9.8, 5.7,  6.3, 6.7};
-  const int numCoords = 3;
+  const int spaceDim = 3;
   const int numLocs = 5;
   const int numVals = 2;
+  const int dataDim = 3;
   const char* names[] = { "One", "Two" };
   const char* units[] = { "m", "m" };
-  const SimpleDB::TopoEnum topology = SimpleDB::VOLUME;
 
   SimpleDB::DataStruct dbOut;
   dbOut.data = (double*) data;
@@ -56,7 +56,8 @@ spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
     dbOut.valUnits[iVal] = units[iVal];
   dbOut.numLocs = numLocs;
   dbOut.numVals = numVals;
-  dbOut.topology = topology;
+  dbOut.dataDim = dataDim;
+  dbOut.spaceDim = dataDim;
 
   geocoords::CSCart csOut;
 
@@ -74,12 +75,13 @@ spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
 
   CPPUNIT_ASSERT(numLocs == dbIn.numLocs);
   CPPUNIT_ASSERT(numVals == dbIn.numVals);
-  CPPUNIT_ASSERT(topology == dbIn.topology);
+  CPPUNIT_ASSERT(dataDim == dbIn.dataDim);
+  CPPUNIT_ASSERT(spaceDim == dbIn.spaceDim);
   for (int iVal=0; iVal < numVals; ++iVal) {
     CPPUNIT_ASSERT(0 == strcmp(names[iVal], dbIn.valNames[iVal].c_str()));
     CPPUNIT_ASSERT(0 == strcmp(units[iVal], dbIn.valUnits[iVal].c_str()));
   } // for
-  const int dataSize = numLocs*(numCoords+numVals);
+  const int dataSize = numLocs*(spaceDim+numVals);
   const double tolerance = 1.0e-06;
   for (int i=0; i < dataSize; ++i)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(dbIn.data[i]/data[i], 1.0, tolerance);
@@ -92,7 +94,5 @@ spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
   delete pCSIn; pCSIn = 0;
 } // testIO
 
-// version
-// $Id$
 
 // End of file 
