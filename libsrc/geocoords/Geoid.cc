@@ -83,6 +83,17 @@ double
 spatialdata::geocoords::Geoid::elevation(const double lon,
 					 const double lat) const
 { // elevation
+  /* Use EGM96 to get difference between MSL and geoid.
+   *
+   * Lemoine, F.G., S.C. Kenyon, J.K. Factor, R.G. Trimmer,
+   * N.K. Pavlis, D.S. Chinn, C.M. Cox, S.M. Klosko, S.B. Luthcke,
+   * M.H. Torrence, Y.M. Wang, R.G. Williamson, E.C. Pavlis, R.H. Rapp
+   * and T.R. Olson, The Development of the Joint NASA GSFC and the
+   * National Imagery and Mapping Agency (NIMA) Geopotential Model
+   * EGM96, NASA Technical Report NASA/TP-1998-206861, NASA Goddard
+   * Space Flight Center, Greenbelt, Maryland, 20771 USA.
+   */
+
   const double lon360 = (lon > 0.0) ? lon : lon + 2*M_PI;
 
   const double xLon = (lon360 - _west + _numExtraEdge*_dLon) / _dLon;
