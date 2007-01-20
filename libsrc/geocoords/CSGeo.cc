@@ -21,6 +21,7 @@
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
+#include <assert.h> // USES assert()
 
 extern "C" {
 #include "proj_api.h" // USES PROJ4
