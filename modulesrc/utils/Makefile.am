@@ -35,13 +35,17 @@ utilsmodule_la_LIBADD = \
 
 # simple array targets
 simplearray.pyx simplearray_embed.cpp  simplearray_embed.h: simplearray.pyxe
-	cp $< . && pyrexembed simplearray.pyxe && rm -f simplearray.pyxe
+	pyrexembed simplearray.pyxe
+simplearray.pyxe: $(srcdir)/simplearray.pyxe
+	cp $(srcdir)/simplearray.pyxe $@
 simplearray_embed.cpp: simplearray_embed.h
 simplearray_embed.h: simplearray.pyx
 
 # utils targets
 utils.pyx utils_embed.cpp  utils_embed.h: utils.pyxe
-	cp $< . && pyrexembed utils.pyxe && rm -f utils.pyxe
+	pyrexembed utils.pyxe
+utils.pyxe: $(srcdir)/utils.pyxe
+	cp $(srcdir)/utils.pyxe $@
 utils_embed.cpp: utils_embed.h
 utils_embed.h: utils.pyx
 

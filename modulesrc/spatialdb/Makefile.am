@@ -30,7 +30,9 @@ spatialdbmodule_la_LIBADD = \
 INCLUDES += -I$(PYTHON_INCDIR)
 
 spatialdb.pyx spatialdb_embed.cpp  spatialdb_embed.h: spatialdb.pyxe
-	cp $< . && pyrexembed spatialdb.pyxe && rm -f spatialdb.pyxe
+	pyrexembed spatialdb.pyxe
+spacialdb.pyxe: $(srcdir)/spacialdb.pyxe
+	cp $(srcdir)/spacialdb.pyxe $@
 spatialdb_embed.cpp: spatialdb_embed.h
 spatialdb_embed.h: spatialdb.pyx
 

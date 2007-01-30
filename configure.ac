@@ -51,11 +51,7 @@ AM_PATH_PYTHON([2.3])
 
 # ----------------------------------------------------------------------
 # PYTHON
-AC_CACHE_CHECK([for $am_display_PYTHON include directory],
-    [PYTHON_INCDIR],
-    [PYTHON_INCDIR=`$PYTHON -c "from distutils import sysconfig; print sysconfig.get_python_inc()" 2>/dev/null ||
-     echo "$PYTHON_PREFIX/include/python$PYTHON_VERSION"`])
-AC_SUBST([PYTHON_INCDIR], [$PYTHON_INCDIR])
+CIT_PYTHON_INCDIR
 
 # PROJ4
 AC_CHECK_LIB(proj, pj_init_plus, [
@@ -89,20 +85,8 @@ AM_CONDITIONAL([ENABLE_PYTHIA], [test "$enable_pythia" = yes])
 if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
-  # PYTHIA
-  AC_CHECK_HEADER([journal/debug.h], [], [
-    AC_MSG_ERROR([Journal header not found; try CPPFLAGS="-I<pythia include dir>"])
-  ])
-  AC_MSG_CHECKING([for journal::debug_t in -ljournal])
-  AC_REQUIRE_CPP
-  AC_COMPILE_IFELSE(
-    [AC_LANG_PROGRAM([[#include <journal/debug.h>]],
-	             [[journal::debug_t d("debug");]])],
-    [AC_MSG_RESULT(yes)
-     export CPPFLAGS="-DHAVE_PYTHIA $CPPFLAGS"],
-    [AC_MSG_RESULT(no)
-     AC_MSG_ERROR([Pythia library not found; try LDFLAGS="-L<pythia lib dir>"])
-  ])
+  # Check for Python modules and packages.
+  CIT_PYTHON_EGG_SETUP
 
   # PYREX/PYREXEMBED
   AC_CHECK_PROG([have_pyrex],
