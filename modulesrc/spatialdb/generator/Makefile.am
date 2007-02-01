@@ -29,8 +29,8 @@ INCLUDES += -I$(PYTHON_INCDIR)
 
 generator.pyx generator_embed.cpp  generator_embed.h: generator.pyxe
 	pyrexembed generator.pyxe
-generator.pyxe: $(srcdir)/generator.pyxe
-	cp $(srcdir)/generator.pyxe $@
+generator.pyxe: $(srcdir)/generator.pyxe.src
+	cp $(srcdir)/generator.pyxe.src $@
 generator_embed.cpp: generator_embed.h
 generator_embed.h: generator.pyx
 

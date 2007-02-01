@@ -31,8 +31,8 @@ INCLUDES += -I$(PYTHON_INCDIR)
 
 spatialdb.pyx spatialdb_embed.cpp  spatialdb_embed.h: spatialdb.pyxe
 	pyrexembed spatialdb.pyxe
-spacialdb.pyxe: $(srcdir)/spacialdb.pyxe
-	cp $(srcdir)/spacialdb.pyxe $@
+spatialdb.pyxe: $(srcdir)/spatialdb.pyxe.src
+	cp $(srcdir)/spatialdb.pyxe.src $@
 spatialdb_embed.cpp: spatialdb_embed.h
 spatialdb_embed.h: spatialdb.pyx
 

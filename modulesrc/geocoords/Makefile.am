@@ -29,8 +29,8 @@ INCLUDES += -I$(PYTHON_INCDIR)
 
 geocoords.pyx geocoords_embed.cpp  geocoords_embed.h: geocoords.pyxe
 	pyrexembed geocoords.pyxe
-geocoords.pyxe: $(srcdir)/geocoords.pyxe
-	cp $(srcdir)/geocoords.pyxe $@
+geocoords.pyxe: $(srcdir)/geocoords.pyxe.src
+	cp $(srcdir)/geocoords.pyxe.src $@
 geocoords_embed.cpp: geocoords_embed.h
 geocoords_embed.h: geocoords.pyx
 
