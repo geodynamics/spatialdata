@@ -13,6 +13,9 @@
 ## @file spatialdata/geocoords/Projector.py
 ## @brief Python manager for projector.
 
+from pkg_resources import require
+require("pythia>=0.8")
+
 from pyre.components.Component import Component
 
 # Projector class

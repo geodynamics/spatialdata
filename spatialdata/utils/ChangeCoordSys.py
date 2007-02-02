@@ -13,6 +13,9 @@
 ## @file spatialdata/utils/ChangeCoordSys.py
 ## @brief Python object for changing coordinate system of points.
 
+from pkg_resources import require
+require("pythia>=0.8")
+
 from pyre.components.Component import Component
 
 # ChangeCoordSys class

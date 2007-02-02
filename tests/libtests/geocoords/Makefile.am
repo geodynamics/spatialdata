@@ -47,7 +47,7 @@ INCLUDES +=
 testgeocoords_LDADD = \
 	-lcppunit -ldl \
 	-lproj \
-	$(top_builddir)/libsrc/geocoords/libspatialdatageocoords.la
+	$(top_builddir)/libsrc/libspatialdata.la
 
 # version
 # $Id$

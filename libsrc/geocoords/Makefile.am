@@ -15,28 +15,6 @@ include $(top_srcdir)/subpackage.am
 
 SUBDIRS = data
 
-lib_LTLIBRARIES = libspatialdatageocoords.la
-
-libspatialdatageocoords_la_SOURCES = \
-	Converter.cc \
-	CoordSys.cc \
-	CSCart.cc \
-	CSGeo.cc \
-	CSGeoLocalCart.cc \
-	CSGeoProj.cc \
-	CSPicklerAscii.cc \
-	Geoid.cc \
-	Projector.cc
-
-libspatialdatageocoords_la_LDFLAGS =
-
-INCLUDES +=
-
-CPPFLAGS += -DDATADIR="$(subpkgdatadir)"
-
-libspatialdatageocoords_la_LIBADD = \
-	-lproj
-
 subpkginclude_HEADERS = \
 	Converter.hh \
 	CoordSys.hh \
@@ -62,8 +40,5 @@ noinst_HEADERS =
 clean-local: clean-subpkgincludeHEADERS
 BUILT_SOURCES = export-subpkgincludeHEADERS
 CLEANFILES = export-subpkgincludeHEADERS
-
-# version
-# $Id$
 
 # End of file 

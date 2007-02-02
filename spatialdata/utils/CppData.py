@@ -21,6 +21,9 @@
 ## data, so data is private and object needs a constructor and
 ## destructor. Otherwise, object just has public data and no methods.
 
+from pkg_resources import require
+require("pythia>=0.8")
+
 from pyre.components.Component import Component
 
 import string

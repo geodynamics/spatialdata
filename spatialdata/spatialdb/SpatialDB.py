@@ -13,6 +13,9 @@
 ## @file spatialdata/spatialdb/SpatialDB.py
 ## @brief Python abstract base class for spatial database.
 
+from pkg_resources import require
+require("pythia>=0.8")
+
 from pyre.components.Component import Component
 
 import spatialdb as bindings

@@ -13,23 +13,6 @@
 subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
-lib_LTLIBRARIES = libspatialdataspatialdb.la
-
-libspatialdataspatialdb_la_SOURCES = \
-	SimpleDB.cc \
-	SpatialDB.cc \
-	SimpleDBQuery.cc \
-	SimpleIO.cc \
-	SimpleIOAscii.cc \
-	cspatialdb.cc
-
-libspatialdataspatialdb_la_LDFLAGS =
-
-INCLUDES +=
-
-libspatialdataspatialdb_la_LIBADD = \
-	$(top_builddir)/libsrc/geocoords/libspatialdatageocoords.la
-
 subpkginclude_HEADERS = \
 	Exception.hh \
 	Exception.icc \
@@ -53,7 +36,5 @@ clean-local: clean-subpkgincludeHEADERS
 BUILT_SOURCES = export-subpkgincludeHEADERS
 CLEANFILES = export-subpkgincludeHEADERS
 
-# version
-# $Id$
 
 # End of file 

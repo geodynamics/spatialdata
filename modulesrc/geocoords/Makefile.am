@@ -23,7 +23,7 @@ nodist_geocoordsmodule_la_SOURCES = \
 	geocoords.c geocoords_embed.cpp geocoords_embed.h
 
 geocoordsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/geocoords/libspatialdatageocoords.la
+	$(top_builddir)/libsrc/libspatialdata.la
 
 INCLUDES += -I$(PYTHON_INCDIR)
 

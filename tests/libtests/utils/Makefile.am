@@ -30,7 +30,7 @@ testutils_LDFLAGS =
 
 testutils_LDADD = \
 	-lcppunit -ldl \
-	$(top_builddir)/libsrc/utils/libspatialdatautils.la
+	$(top_builddir)/libsrc/libspatialdata.la
 
 # version
 # $Id$

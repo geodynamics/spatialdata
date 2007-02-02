@@ -25,7 +25,7 @@ nodist_spatialdbmodule_la_SOURCES = \
 	spatialdb.c spatialdb_embed.cpp spatialdb_embed.h
 
 spatialdbmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/spatialdb/libspatialdataspatialdb.la
+	$(top_builddir)/libsrc/libspatialdata.la
 
 INCLUDES += -I$(PYTHON_INCDIR)
 

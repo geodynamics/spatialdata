@@ -31,7 +31,7 @@ utilsmodule_la_SOURCES = utils.pyxe
 nodist_utilsmodule_la_SOURCES = \
 	utils.c utils_embed.cpp utils_embed.h
 utilsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/utils/libspatialdatautils.la
+	$(top_builddir)/libsrc/libspatialdata.la
 
 # simple array targets
 simplearray.pyx simplearray_embed.cpp  simplearray_embed.h: simplearray.pyxe

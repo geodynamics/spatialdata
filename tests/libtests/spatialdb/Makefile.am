@@ -51,8 +51,7 @@ INCLUDES +=
 
 testspatial_LDADD = \
 	-lcppunit -ldl \
-	$(top_builddir)/libsrc/spatialdb/libspatialdataspatialdb.la \
-	$(top_builddir)/libsrc/geocoords/libspatialdatageocoords.la
+	$(top_builddir)/libsrc/libspatialdata.la 
 
 
 # Source files associated with testing data

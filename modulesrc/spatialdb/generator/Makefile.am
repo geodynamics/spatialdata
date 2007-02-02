@@ -23,7 +23,7 @@ nodist_generatormodule_la_SOURCES = \
 	generator.c generator_embed.cpp generator_embed.h
 
 generatormodule_la_LIBADD = \
-	$(top_builddir)/libsrc/spatialdb/libspatialdataspatialdb.la
+	$(top_builddir)/libsrc/libspatialdata.la
 
 INCLUDES += -I$(PYTHON_INCDIR)
 

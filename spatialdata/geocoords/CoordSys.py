@@ -13,6 +13,9 @@
 ## @file spatialdata/geocoords/CoordSys.py
 ## @brief Python manager for coordinate systems.
 
+from pkg_resources import require
+require("pythia>=0.8")
+
 from pyre.components.Component import Component
 
 # CoordSys class
