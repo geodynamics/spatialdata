@@ -33,14 +33,16 @@ nodist_testcppmodule_la_SOURCES = \
 INCLUDES += -I$(PYTHON_INCDIR)
 
 testcpp.pyx testcpp_embed.cpp  testcpp_embed.h: testcpp.pyxe
-	cp $< . && pyrexembed testcpp.pyxe && rm -f testcpp.pyxe
+	pyrexembed testcpp.pyxe
+testcpp.pyxe: $(srcdir)/testcpp.pyxe.src
+	cp $(srcdir)/testcpp.pyxe.src $@
 testcpp_embed.cpp: testcpp_embed.h
 testcpp_embed.h: testcpp.pyx
 
 .pyx.c:
 	pyrexc $<
 
-CLEANFILES = testcpp.pyx testcpp.c *_embed.*
+CLEANFILES = testcpp.pyxe testcpp.pyx testcpp.c *_embed.*
 
 
 # version
