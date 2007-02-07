@@ -13,9 +13,6 @@
 ## @file spatialdata/utils/PointsStream.py
 ## @brief Python object for reading/writing points from stdin/stdout.
 
-from pkg_resources import require
-require("pythia>=0.8")
-
 from pyre.components.Component import Component
 
 # PointsStream class

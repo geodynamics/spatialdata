@@ -13,9 +13,6 @@
 ## @file spatialdata/spatialdb/SimpleIO.py
 ## @brief Python I/O manager for simple spatial database (SimpleDB).
 
-from pkg_resources import require
-require("pythia>=0.8")
-
 from pyre.components.Component import Component
 
 # SimpleIO class
