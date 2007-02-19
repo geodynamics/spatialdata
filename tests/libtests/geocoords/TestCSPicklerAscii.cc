@@ -42,6 +42,8 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart(void)
   CSPicklerAscii::unpickle(s, &pCS);
 
   CPPUNIT_ASSERT(0 != dynamic_cast<CSCart*>(pCS));
+
+  delete pCS; pCS = 0;
 } // testPickleCSCart
 
 // ----------------------------------------------------------------------
@@ -59,6 +61,8 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void)
   CSPicklerAscii::unpickle(s, &pCS);
 
   CPPUNIT_ASSERT(0 != dynamic_cast<CSGeo*>(pCS));
+
+  delete pCS; pCS = 0;
 } // testPickleCSGeo
 
 // ----------------------------------------------------------------------
@@ -78,9 +82,9 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeoProj(void)
   CSPicklerAscii::unpickle(s, &pCS);
 
   CPPUNIT_ASSERT(0 != dynamic_cast<CSGeoProj*>(pCS));
+
+  delete pCS; pCS = 0;
 } // testPickleCSGeoProj
 
-// version
-// $Id$
 
 // End of file 

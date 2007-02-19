@@ -79,6 +79,8 @@ spatialdata::utils::TestPointsStream::testWriteRead(void)
   const int size = _NUMPTS * _NUMDIMS;
   for (int i=0; i < size; ++i)
     CPPUNIT_ASSERT_EQUAL(_POINTS[i], points[i]);
+
+  delete[] points; points = 0;
 } // testWriteRead
 
 // End of file 
