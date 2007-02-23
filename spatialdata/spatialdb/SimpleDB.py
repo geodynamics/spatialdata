@@ -76,7 +76,5 @@ class SimpleDB(SpatialDB):
     self.queryType = self.inventory.queryType
     return
 
-# version
-__id__ = "$Id$"
 
 # End of file 

@@ -25,16 +25,19 @@ cdef extern from "Python.h":
   void* PyCObject_AsVoidPtr(object)
 
 
+cdef extern from "stdlib.h":
+  ctypedef unsigned long size_t
+  void* malloc(size_t size)
+  void free(void* mem)
+  void strcpy(char*, char*)
+
+
 cdef void* ptrFromHandle(obj):
-  """Extract pointer from PyCObject."""
+  """
+  Extract pointer from PyCObject.
+  """
   return PyCObject_AsVoidPtr(obj.handle)
 
-
-cdef extern from "stdlib.h":
-    ctypedef unsigned long size_t
-    void* malloc(size_t size)
-    void free(void* mem)
-    void strcpy(char*, char*)
 
 # ----------------------------------------------------------------------
 cdef class SpatialDB:
@@ -44,7 +47,9 @@ cdef class SpatialDB:
   cdef readonly object name # Identifier for type of object
 
   def __init__(self):
-    """Constructor."""
+    """
+    Constructor.
+    """
     self.handle = None
     self.thisptr = NULL
     self.name = "spatialdata_spatialdb_SpatialDB"
@@ -53,7 +58,9 @@ cdef class SpatialDB:
 
   property label:
     def __set__(self, name):
-      """Set label of spatial database."""
+      """
+      Set label of spatial database.
+      """
       # create shim for method 'label'
       #embed{ void SpatialDB_label_set(void* pObj, char* name)
       ((spatialdata::spatialdb::SpatialDB*) pObj)->label(name);
@@ -62,7 +69,9 @@ cdef class SpatialDB:
       SpatialDB_label_set(self.thisptr, name)
 
     def __get__(self):
-      """Get label of spatial database."""
+      """
+      Get label of spatial database.
+      """
       # create shim for method 'label'
       #embed{ char* SpatialDB_label_get(void* pObj)
       return (char*) ((spatialdata::spatialdb::SpatialDB*) pObj)->label();
@@ -72,7 +81,9 @@ cdef class SpatialDB:
 
       
   def open(self):
-    """Open database and prepare for querying."""
+    """
+    Open database and prepare for querying.
+    """
     # create shim for method 'open'
     #embed{ void SpatialDB_open(void* pObj)
     ((spatialdata::spatialdb::SpatialDB*) pObj)->open();
@@ -83,7 +94,9 @@ cdef class SpatialDB:
 
 
   def close(self):
-    """Close the database."""
+    """
+    Close the database.
+    """
     # create shim for method 'close'
     #embed{ void SpatialDB_close(void* pObj)
     ((spatialdata::spatialdb::SpatialDB*) pObj)->close();
@@ -94,7 +107,9 @@ cdef class SpatialDB:
 
 
   def queryVals(self, names):
-    """Set values to be returned by queries."""
+    """
+    Set values to be returned by queries.
+    """
     # create shim for method 'queryVals'
     #embed{ void SpatialDB_queryVals(void* pObj, char** names, int numVals)
     ((spatialdata::spatialdb::SpatialDB*) pObj)->queryVals((const char**) names, numVals);
@@ -120,7 +135,9 @@ cdef class SpatialDB:
 
 
   def query(self, locs, cs, nvals):
-    """Query db to get values at locations."""
+    """
+    Query db to get values at locations.
+    """
     # create shim for method 'query'
     #embed{ void SpatialDB_query(void* pObj, double* vals, int nvals, double* coords, int spaceDim, void* csObj)
     spatialdata::geocoords::CoordSys* pCS =
@@ -173,7 +190,9 @@ cdef class SpatialDB:
 
 
   def _createHandle(self):
-    """Wrap pointer to C++ object in PyCObject."""
+    """
+    Wrap pointer to C++ object in PyCObject.
+    """
     # create shim for destructor
     #embed{ void SpatialDB_destructor(void* pObj)
     spatialdata::spatialdb::SpatialDB* pDB =
@@ -187,7 +206,9 @@ cdef class SpatialDB:
 cdef class SimpleDB(SpatialDB):
 
   def __init__(self):
-    """Constructor."""
+    """
+    Constructor.
+    """
     # create shim for constructor
     #embed{ void* SimpleDB_constructor()
       return (void*)(new spatialdata::spatialdb::SimpleDB);
@@ -200,7 +221,9 @@ cdef class SimpleDB(SpatialDB):
 
 
   def queryType(self, name):
-    """Set query type"""
+    """
+    Set query type.
+    """
     # create shim for method 'queryType'
     #embed{ void SimpleDB_queryType(void* pObj, char* name)
     spatialdata::spatialdb::SimpleDB::QueryEnum queryType =
@@ -222,7 +245,9 @@ cdef class SimpleDB(SpatialDB):
 
 
   def ioHandler(self, handle):
-    """Set the I/O handler."""
+    """
+    Set the I/O handler.
+    """
     # create shim for method 'ioHandler'
     #embed{ void SimpleDB_ioHandler(void* pObj, void* pHandlerObj)
     spatialdata::spatialdb::SimpleIO* pHandler =
@@ -246,7 +271,9 @@ cdef class SimpleIO:
   cdef readonly object name # Identifier for type of object
 
   def __init__(self):
-    """Constructor."""
+    """
+    Constructor.
+    """
     self.handle = None
     self.thisptr = NULL
     self.name = "spatialdata_spatialdb_SimpleIO"
@@ -254,7 +281,9 @@ cdef class SimpleIO:
 
 
   def filename(self, name):
-    """Set filename for database"""
+    """
+    Set filename for database.
+    """
     # create shim for method 'filename'
     #embed{ void SimpleIO_filename(void* pObj, char* name)
     ((spatialdata::spatialdb::SimpleIO*) pObj)->filename(name);
@@ -265,7 +294,9 @@ cdef class SimpleIO:
 
 
   def _createHandle(self):
-    """Wrap pointer to C++ object in PyCObject."""
+    """
+    Wrap pointer to C++ object in PyCObject.
+    """
     # create shim for destructor
     #embed{ void SimpleIO_destructor(void* pObj)
     spatialdata::spatialdb::SimpleIO* pIO =
@@ -279,7 +310,9 @@ cdef class SimpleIO:
 cdef class SimpleIOAscii(SimpleIO):
 
   def __init__(self):
-    """Constructor."""
+    """
+    Constructor.
+    """
     # create shim for constructor
     #embed{ void* SimpleIOAscii_constructor()
       return (void*)(new spatialdata::spatialdb::SimpleIOAscii);
@@ -292,7 +325,9 @@ cdef class SimpleIOAscii(SimpleIO):
 
 
   def write(self, data, cs):
-    """Write the database."""
+    """
+    Write database to file.
+    """
     # create shim for method 'write'
     #embed{ void SimpleIOAscii_write(void* pObj, void* pDataObj, void* pCSObj)
     spatialdata::spatialdb::SimpleDB::DataStruct* pData =
@@ -308,8 +343,5 @@ cdef class SimpleIOAscii(SimpleIO):
     SimpleIOAscii_write(self.thisptr, pDataObj, ptrFromHandle(cs))
     return
 
-
-# version
-__id__ = "$Id$"
 
 # End of file 

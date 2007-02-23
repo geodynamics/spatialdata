@@ -17,11 +17,16 @@ from SimpleIO import SimpleIO
 
 # SimpleIOAscii class
 class SimpleIOAscii(SimpleIO):
-  """Python ascii I/O manager for simple spatial database (SimpleDB)."""
+  """
+  Python ascii I/O manager for simple spatial database (SimpleDB).
+  """
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   def write(self, cppDB, cs):
+    """
+    Write database data to file.
+    """
     self.cppHandle.write(cppDB, cs.cppHandle)
     return
 
@@ -33,8 +38,5 @@ class SimpleIOAscii(SimpleIO):
     self.cppHandle = bindings.SimpleIOAscii()
     return
 
-
-# version
-__id__ = "$Id$"
 
 # End of file 
