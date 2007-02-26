@@ -1,0 +1,89 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+
+from pyre.components.Component import Component
+
+# ----------------------------------------------------------------------
+# OneFilters class
+from spatialdata.spatialdb.generator.Filters import Filters
+class OneFilters(Filters):
+  """
+  Python object acting as Filters component for value 'one' in testing
+  GenSimpleDBApp.
+  """
+
+  # INVENTORY //////////////////////////////////////////////////////////
+
+  class Inventory(Component.Inventory):
+    """
+    Python object for managing Filters facilities and properties.
+    """
+
+    ## @class Inventory
+    ## Python object for managing Filter facilities and properties.
+    ##
+    ## \b Properties
+    ## @li None
+    ##
+    ## \b Facilities
+    ## @li \b bg Background filter
+    ## @li \b add Addition filter
+    ## @li \b multiply Multiplication filter
+
+    import pyre.inventory
+
+    from spatialdata.spatialdb.generator.Filter import Filter
+
+    bg = pyre.inventory.facility("bg", factory=Filter)
+    bg.meta['tip'] = "Background filter."
+
+    add = pyre.inventory.facility("add", factory=Filter)
+    add.meta['tip'] = "Addition filter."
+    
+    multiply = pyre.inventory.facility("multiply", factory=Filter)
+    multiply.meta['tip'] = "Addition filter."
+    
+
+  # PUBLIC METHODS /////////////////////////////////////////////////////
+
+  def __init__(self):
+    """
+    Constructor.
+    """
+    Filters.__init__(self, name="onefilters")
+    return
+
+
+  # PRIVATE METHODS ////////////////////////////////////////////////////
+
+  def _configure(self):
+    """
+    Setup members based on inventory.
+    """
+    Filters._configure(self)
+    self.filters = [self.inventory.bg,
+                    self.inventory.add,
+                    self.inventory.multiply]
+    return
+
+
+# ======================================================================
+# Factories
+
+def filters():
+  """
+  Factory for filters.
+  """
+  return OneFilters()
+
+
+# End of file

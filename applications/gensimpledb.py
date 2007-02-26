@@ -11,6 +11,7 @@
 #
 
 ## @file spatialdata/applications/gensimpledb.py
+
 ## @brief Generic use of GenSimpleDBApp.
 
 # ----------------------------------------------------------------------

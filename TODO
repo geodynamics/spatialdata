@@ -1,6 +1,3 @@
-Update generator code to allow generating 0-D, 1-D, and 2-D spatial
-distributions in addition to 3-D.
-
 UTILS
 
   Ignore comment lines in PointsStream.
@@ -10,9 +7,6 @@ GEOCOORDS
   Make it possible to pickle/unpickle to/from file like in C++?
 
 SPATIALDB
-
-  Testing
-    Test generator code.
 
   Get units by parsing header with Python
 

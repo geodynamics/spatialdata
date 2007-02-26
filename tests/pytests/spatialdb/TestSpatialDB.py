@@ -43,8 +43,19 @@ class TestSpatialDB(unittest.TestCase):
     cs.toMeters = 1.0
     
     valsE = numpy.array( [[4.7, 6.3]]*2, numpy.float64)
-    vals = numpy.array(self._db.query(locs, cs, 2))
-    self.assertEqual(2, len(vals.shape))
+    errE = numpy.array( [0]*2, numpy.int32)
+
+    (vals, err) = self._db.query(locs, cs, 2)
+    vals = numpy.array(vals)
+    err = numpy.array(err)
+
+    self.assertEqual(len(errE.shape), len(err.shape))
+    for dE, d in zip(errE.shape, err.shape):
+      self.assertEqual(dE, d)
+    for vE, v in zip(numpy.reshape(errE, -1), numpy.reshape(err, -1)):
+      self.assertEqual(vE, v)
+
+    self.assertEqual(len(valsE.shape), len(vals.shape))
     for dE, d in zip(valsE.shape, vals.shape):
       self.assertEqual(dE, d)
     for vE, v in zip(numpy.reshape(valsE, -1), numpy.reshape(vals, -1)):

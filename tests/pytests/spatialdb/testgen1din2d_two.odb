@@ -1,0 +1,89 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+
+from pyre.components.Component import Component
+
+# ----------------------------------------------------------------------
+# TwoFilters class
+from spatialdata.spatialdb.generator.Filters import Filters
+class TwoFilters(Filters):
+  """
+  Python object acting as Filters component for value 'one' in testing
+  GenSimpleDBApp.
+  """
+
+  # INVENTORY //////////////////////////////////////////////////////////
+
+  class Inventory(Component.Inventory):
+    """
+    Python object for managing Filters facilities and properties.
+    """
+
+    ## @class Inventory
+    ## Python object for managing Filter facilities and properties.
+    ##
+    ## \b Properties
+    ## @li None
+    ##
+    ## \b Facilities
+    ## @li \b bg Background filter
+    ## @li \b subtract Subtraction filter
+    ## @li \b divide Division filter
+
+    import pyre.inventory
+
+    from spatialdata.spatialdb.generator.Filter import Filter
+
+    bg = pyre.inventory.facility("bg", factory=Filter)
+    bg.meta['tip'] = "Background filter."
+
+    subtract = pyre.inventory.facility("subtract", factory=Filter)
+    subtract.meta['tip'] = "Subtraction filter."
+    
+    divide = pyre.inventory.facility("divide", factory=Filter)
+    divide.meta['tip'] = "Division filter."
+    
+
+  # PUBLIC METHODS /////////////////////////////////////////////////////
+
+  def __init__(self):
+    """
+    Constructor.
+    """
+    Filters.__init__(self, name="onefilters")
+    return
+
+
+  # PRIVATE METHODS ////////////////////////////////////////////////////
+
+  def _configure(self):
+    """
+    Setup members based on inventory.
+    """
+    Filters._configure(self)
+    self.filters = [self.inventory.bg,
+                    self.inventory.subtract,
+                    self.inventory.divide]
+    return
+
+
+# ======================================================================
+# Factories
+
+def filters():
+  """
+  Factory for filters.
+  """
+  return TwoFilters()
+
+
+# End of file

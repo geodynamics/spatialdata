@@ -15,7 +15,5 @@ SUBDIRS = \
 	spatialdb \
 	utils
 
-# version
-# $Id$
 
 # End of file 

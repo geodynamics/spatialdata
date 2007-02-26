@@ -11,7 +11,17 @@
 #
 
 data_DATA = \
-	spatialdb.dat
+	spatialdb.dat \
+	gen1Din2D_one_bg.spatialdb \
+	gen1Din2D_one_add.spatialdb \
+	gen1Din2D_one_multiply.spatialdb \
+	gen1Din2D_two_bg.spatialdb \
+	gen1Din2D_two_subtract.spatialdb \
+	gen1Din2D_two_divide.spatialdb
+
+data_CLEAN = \
+	test.spatialdb \
+	gen1Din2D.spatialdb
 
 noinst_HEADERS = \
 	$(data_DATA)
@@ -24,9 +34,8 @@ export-data: $(data_DATA)
 BUILT_SOURCES = export-data
 
 CLEANFILES = \
-	$(export_datadir)/$(data_DATA)
+	$(export_datadir)/$(data_DATA) \
+	$(export_datadir)/$(data_CLEAN)
 
-# version
-# $Id$
 
 # End of file 

@@ -11,6 +11,7 @@
 #
 
 ## @file spatialdata/spatialdb/generator/Geometry.py
+
 ## @brief Python manager for geometry used in generating database.
 
 from pyre.components.Component import Component
@@ -24,12 +25,16 @@ class Dummy(Component):
 
 # Geometry class
 class Geometry(Component):
-  """Python manager for geometry used in generating database."""
+  """
+  Python manager for geometry used in generating database.
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
-    """Python object for managing Geometry facilities and properties."""
+    """
+    Python object for managing Geometry facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing Geometry facilities and properties.
@@ -38,43 +43,53 @@ class Geometry(Component):
     ## @li \b data_dim Spatial dimension of database locations.
     ##
     ## \b Facilities
-    ## @li \b unpickler Object to unpickle geometry
+    ## @li \b reader Object to read geometry
     ## @li \b coordsys Coordinate system of geometry
 
     import pyre.inventory
 
-    dataDim = pyre.inventory.str("data_dim", default=2)
+    dataDim = pyre.inventory.int("data_dim", default=2)
     dataDim.validator = pyre.inventory.choice([0, 1, 2, 3])
     dataDim.meta['tip'] = "Spatial dimension of database locations."
 
-    unpickler = pyre.inventory.facility("unpickler", factory=Dummy)
-    unpickler.meta['tip'] = "Object to unpickle geometry."
+    reader = pyre.inventory.facility("reader", factory=Dummy)
+    reader.meta['tip'] = "Object to read geometry."
 
-    from spatialdata.geocoords.CoordSys import CoordSys
-    coordsys = pyre.inventory.facility("coordsys", factory=CoordSys)
+    from spatialdata.geocoords.CSCart import CSCart
+    coordsys = pyre.inventory.facility("coordsys", factory=CSCart)
     coordsys.meta['tip'] = "Coordinate system for database."
     
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def load(self):
-    mesh = self.unpickler.load()
-    self.vertices = mesh.vertices()
-    self.coordsys.initialize()
-    return
-
-
   def __init__(self, name="geometry"):
-    """Constructor."""
+    """
+    Constructor.
+    """
     Component.__init__(self, name, facility="geometry")
     self.vertices = None
     return
 
 
+  def read(self):
+    """
+    Read geometry.
+    """
+    mesh = self.reader.unpickle()
+    self.vertices = mesh.vertices
+    self.coordsys.initialize()
+    return
+
+
+  # PRIVATE METHODS ////////////////////////////////////////////////////
+
   def _configure(self):
+    """
+    Setup members using inventory.
+    """
     Component._configure(self)
     self.dataDim = self.inventory.dataDim
-    self.unpickler = self.inventory.unpickler
+    self.reader = self.inventory.reader
     self.coordsys = self.inventory.coordsys
     return
 

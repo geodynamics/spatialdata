@@ -19,6 +19,12 @@ def suite():
   from TestSpatialDB import TestSpatialDB
   suite.addTest(unittest.makeSuite(TestSpatialDB))
 
+  from TestSimpleIOAscii import TestSimpleIOAscii
+  suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
+
+  from TestGenSimpleDBApp import TestGenSimpleDBApp
+  suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
+
   return suite
 
 def main():
@@ -28,7 +34,5 @@ def main():
 if __name__ == '__main__':
   main()
   
-# version
-__id__ = "$Id: testspatial.py,v 1.1 2005/05/25 18:43:08 baagaard Exp $"
 
 # End of file 

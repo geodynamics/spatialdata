@@ -15,6 +15,7 @@
 #include "spatialdata/spatialdb/SimpleDB.hh"
 #include "spatialdata/spatialdb/SimpleIO.hh"
 #include "spatialdata/spatialdb/SimpleIOAscii.hh"
+#include "spatialdata/spatialdb/SimpleDBTypes.hh"
 
 #include "spatialdata/geocoords/CoordSys.hh"
 #}header
@@ -116,8 +117,10 @@ cdef class SpatialDB:
     #}embed
 
     cdef char** pNames
+    pNames = NULL
     numVals = len(names)
-    pNames = <char**> malloc(numVals*sizeof(char*))
+    if numVals > 0:
+      pNames = <char**> malloc(numVals*sizeof(char*))
     for i from 0 <= i < numVals:
       strsize = len(names[i])
       pNames[i] = <char*> malloc(1+strsize*sizeof(char))
@@ -139,12 +142,12 @@ cdef class SpatialDB:
     Query db to get values at locations.
     """
     # create shim for method 'query'
-    #embed{ void SpatialDB_query(void* pObj, double* vals, int nvals, double* coords, int spaceDim, void* csObj)
+    #embed{ int SpatialDB_query(void* pObj, double* vals, int nvals, double* coords, int spaceDim, void* csObj)
     spatialdata::geocoords::CoordSys* pCS =
       (spatialdata::geocoords::CoordSys*) csObj;
-    ((spatialdata::spatialdb::SpatialDB*) pObj)->query(vals, nvals,
-                                                       coords, spaceDim,
-                                                       pCS);
+      return ((spatialdata::spatialdb::SpatialDB*) pObj)->query(vals, nvals,
+                                                          coords, spaceDim,
+                                                          pCS);
     #}embed
 
     import spatialdata.utils.simplearray
@@ -171,13 +174,16 @@ cdef class SpatialDB:
     cdef double* pVals
     pVals = <double*> malloc(nlocs*nvals*sizeof(double))
 
+    cdef int* pErr
+    pErr = <int*> malloc(nlocs*sizeof(int))
+
     cdef double* valbuffer
     valbuffer = <double*> malloc(nvals*sizeof(double))
 
     for iloc from 0 <= iloc < nlocs:
-      SpatialDB_query(self.thisptr, valbuffer, nvals,
-                      &pLocs[spaceDim*iloc], spaceDim,
-                      ptrFromHandle(cs))
+      pErr[iloc] = SpatialDB_query(self.thisptr, valbuffer, nvals,
+                                  &pLocs[spaceDim*iloc], spaceDim,
+                                  ptrFromHandle(cs))
       for ival from 0 <= ival < nvals:
         pVals[nvals*iloc+ival] = valbuffer[ival]
     free(<void*> valbuffer)
@@ -185,8 +191,9 @@ cdef class SpatialDB:
     dims = [nlocs, nvals]
     import spatialdata.utils.simplearray
     pValsObj = PyCObject_FromVoidPtr(pVals, NULL);
-    return spatialdata.utils.simplearray.SimpleCppArray(pValsObj,
-                                                        dims, "double")
+    pErrObj = PyCObject_FromVoidPtr(pErr, NULL);
+    return (spatialdata.utils.simplearray.SimpleCppArray(pValsObj, dims, "double"),
+            spatialdata.utils.simplearray.SimpleCppArray(pErrObj, [nlocs], "int"))
 
 
   def _createHandle(self):
@@ -324,23 +331,84 @@ cdef class SimpleIOAscii(SimpleIO):
     return
 
 
-  def write(self, data, cs):
+  def write(self, names, units, dataObj, spaceDim, dataDim, cs):
     """
     Write database to file.
     """
     # create shim for method 'write'
-    #embed{ void SimpleIOAscii_write(void* pObj, void* pDataObj, void* pCSObj)
+    #embed{ void SimpleIOAscii_write(void* pObj, char** names, char** units, double* data, int numLocs, int spaceDim, int numValues, int dataDim, void* pCSObj)
     spatialdata::spatialdb::SimpleDB::DataStruct* pData =
-      (spatialdata::spatialdb::SimpleDB::DataStruct*) pDataObj;  
+      new spatialdata::spatialdb::SimpleDB::DataStruct;
+    pData->data = data;
+
+    pData->valNames = new std::string[numValues];
+    pData->valUnits = new std::string[numValues];
+    for (int iValue=0; iValue < numValues; ++iValue) {
+      pData->valNames[iValue] = names[iValue];
+      pData->valUnits[iValue] = units[iValue];
+    } // for
+    pData->numLocs = numLocs;
+    pData->numVals = numValues;
+    pData->dataDim = dataDim;
+    pData->spaceDim = spaceDim;
+
     spatialdata::geocoords::CoordSys* pCS =
       (spatialdata::geocoords::CoordSys*) pCSObj;  
     ((spatialdata::spatialdb::SimpleIOAscii*) pObj)->write(*pData, pCS);
+    delete pData; pData = 0;
     #}embed
 
-    cdef void* pDataObj
-    pDataObj = PyCObject_AsVoidPtr(data)
+    
+    import spatialdata.utils.simplearray
+    data = spatialdata.utils.simplearray.objAsSimpleArray(dataObj)
+    if not data.isCompatible(nd=2,
+                             simpletype="double",
+                             contiguous=True,
+                             notswapped=True):
+      raise TypeError, \
+            "Argument 'dataObj' must be a contiguous, 2-D array of type double."
+    numValues = len(names)
+    if not (numValues == len(units)):
+      raise ValueError, \
+            "Arguments 'names' and 'values' must have the same length."
+    (numLocs, totalDim) = data.shape
+    if totalDim != numValues + spaceDim:
+      raise ValueError, \
+            "'dataObj' not compatible with number of values and spaceDim."
+    if not cs.name == "spatialdata_geocoords_CoordSys":
+      raise TypeError, \
+            "Argument 'cs' must be extension module type 'CoordSys'."
 
-    SimpleIOAscii_write(self.thisptr, pDataObj, ptrFromHandle(cs))
+    cdef double* dataArray
+    dataArray = <double*> PyCObject_AsVoidPtr(data.data)
+
+    cdef char** namesArray
+    cdef char** unitsArray
+    namesArray = NULL
+    unitsArray = NULL
+    if numValues > 0:
+      namesArray = <char**> malloc(numValues*sizeof(char))
+      unitsArray = <char**> malloc(numValues*sizeof(char))
+    for i from 0 <= i < numValues:
+      strsize = len(names[i])
+      namesArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = names[i] # KLUDGE??
+      strcpy(namesArray[i], tmp)
+
+      strsize = len(units[i])
+      unitsArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = units[i] # KLUDGE??
+      strcpy(unitsArray[i], tmp)
+      
+    SimpleIOAscii_write(self.thisptr,
+                        namesArray, unitsArray, dataArray,
+                        numLocs, spaceDim, numValues, dataDim,
+                        ptrFromHandle(cs))
+    for i from 0 <= i < numValues:
+      free(<void*> namesArray[i])
+      free(<void*> unitsArray[i])
+    free(<void*> namesArray)
+    free(<void*> unitsArray)
     return
 
 

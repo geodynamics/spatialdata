@@ -11,18 +11,25 @@
 #
 
 ## @file spatialdata/spatialdb/generator/Value.py
+
 ## @brief Python manager for generating value in database.
 
 from pyre.components.Component import Component
 
+import numpy
+
 # Value class
 class Value(Component):
-  """Python manager for generating value in database."""
+  """
+  Python manager for generating value in database.
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
-    """Python object for managing Value facilities and properties."""
+    """
+    Python object for managing Value facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing Value facilities and properties.
@@ -49,45 +56,38 @@ class Value(Component):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def handle(self):
-    return self._cppVal
+  def __init__(self, name="value"):
+    """
+    Constructor.
+    """
+    Component.__init__(self, name, facility="value")
+    return
 
-  def applyFilters(self, locs, locCount, locDim, cs):
-    self.locCount = locCount
-    self.locDim = locDim
-    import spatialdata.spatialdb.generator.generator as bindings
-    self._cppVal = bindings.createValue(locCount)    
+
+  def calculate(self, locs, cs):
+    """
+    Calculate spatial distribution for value using filters.
+    """
+    (numLocs, spaceDim) = locs.shape
+    value = numpy.zeros( (numLocs,), dtype=numpy.float64)
     for filter in self.filters.filters:
       filter.initialize()
-      filter.apply(self._cppVal, locCount, locs, locCount, cs)
-      filter.cleanup()
-    return
+      filter.apply(value, locs, cs)
+      filter.finalize()
+    return value
 
 
-  def setDB(self, cppDB, index):
-    import spatialdata.spatialdb.generator.generator as bindings
-    bindings.setValue(cppDB, index,
-                                  self._cppVal, self.locCount,
-                                  self.name, self.units)
-    return
-
-  
-  def __init__(self, name="value"):
-    """Constructor."""
-    Component.__init__(self, name, facility="value")
-    self._cppVal = None
-    return
-
+  # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
+    """
+    Setup members using inventory.
+    """
     Component._configure(self)
     self.name = self.inventory.name
     self.units = self.inventory.units
     self.filters = self.inventory.filters
     return
 
-
-# version
-__id__ = "$Id$"
 
 # End of file 

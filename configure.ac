@@ -127,13 +127,8 @@ AC_CONFIG_FILES([Makefile
 	modulesrc/Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
-	modulesrc/spatialdb/generator/Makefile
 	modulesrc/utils/Makefile
 	spatialdata/Makefile
-	spatialdata/geocoords/Makefile
-	spatialdata/spatialdb/Makefile
-	spatialdata/spatialdb/generator/Makefile
-	spatialdata/utils/Makefile
 	tests/Makefile
 	tests/libtests/Makefile
 	tests/libtests/geocoords/Makefile

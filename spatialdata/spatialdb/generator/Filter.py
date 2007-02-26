@@ -11,26 +11,33 @@
 #
 
 ## @file spatialdata/spatialdb/generator/Filter.py
+
 ## @brief Python manager for shaping spatial distribution of data
-##   while generating database.
+## while generating database.
 
 from pyre.components.Component import Component
 
+import numpy
+
 # Filter class
 class Filter(Component):
-  """Python manager for shaping spatial distribution of data while
-  generating database."""
+  """
+  Python manager for shaping spatial distribution of data while
+  generating database.
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
-    """Python object for managing Filter facilities and properties."""
+    """
+    Python object for managing Filter facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing Filter facilities and properties.
     ##
     ## \b Properties
-    ## @li \b db_value Name of value in supplied in filter spatial database
+    ## @li \b db_value Name of value in supplied spatial database filter
     ## @li \b operand Operand to use in applying filter
     ##
     ## \b Facilities
@@ -56,35 +63,64 @@ class Filter(Component):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
+  def __init__(self, name="filter"):
+    """
+    Constructor.
+    """
+    Component.__init__(self, name, facility="filter")
+    return
+
+
   def initialize(self):
-    """Initialize filter."""
+    """
+    Initialize filter.
+    """
     self.db.initialize()
     self.db.open()
     return
 
 
-  def cleanup(self):
-    """Cleanup."""
+  def finalize(self):
+    """
+    Cleanup.
+    """
     self.db.close()
     return
 
 
-  def apply(self, cppVals, valueCount, locs, locCount, cs):
-    """Apply filter to data."""
-    import spatialdata.spatialdb.generator.generator as bindings
+  def apply(self, value, locs, cs):
+    """
+    Apply filter to data.
+    """
     self.db.queryVals([self.dbValue])
-    bindings.applyFilter(cppVals, valueCount, locs, locCount,
-                         cs.cppHandle, self.db.cppHandle,
-                         self.operand, self.defaultValue)
+    (vals, err) = self.db.query(locs, cs, numvals=1)
+    vals = numpy.reshape(numpy.array(vals), -1)
+    err = numpy.array(err)
+    default = self.defaultValue*numpy.ones( vals.shape, dtype=numpy.float64)
+    mask = numpy.zeros( vals.shape, dtype=numpy.float64)
+    mask[err[:] != 0] = 1.0
+    vals[:] += default[:]*mask[:]
+
+    if self.operand == "add":
+      value[:] += vals[:]
+    elif self.operand == "subtract":
+      value[:] -= vals[:]
+    elif self.operand == "multiply":
+      value[:] *= vals[:]
+    elif self.operand == "divide":
+      value[:] /= vals[:]
+    else:
+      raise ValueError, \
+            "Unknown operand setting '%s'." % self.operand
     return
 
-  def __init__(self, name="filter"):
-    """Constructor."""
-    Component.__init__(self, name, facility="filter")
-    return
 
+  # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
+    """
+    Setup members using inventory.
+    """
     Component._configure(self)
     if self.inventory.dbValue == "":
       raise ValueError, \

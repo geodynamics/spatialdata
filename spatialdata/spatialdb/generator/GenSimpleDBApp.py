@@ -11,18 +11,24 @@
 #
 
 ## @file spatialdata/spatialdb/generator/GenSimpleDBApp.py
-## @brief Python application to generate simple spatial database.
+
+## @brief Python application to generate simple spatial database from
+## other simple spatial databases.
 
 from pyre.applications.Script import Script
 
 # GenSimpleDBApp class
 class GenSimpleDBApp(Script):
-  """Python object to generate simple spatial database."""
+  """
+  Python object to generate simple spatial database.
+  """
   
   # INVENTORY //////////////////////////////////////////////////////////
   
   class Inventory(Script.Inventory):
-    """Python object for managing GenSimpleDBApp facilities and properties."""
+    """
+    Python object for managing GenSimpleDBApp facilities and properties.
+    """
     
     ## @class Inventory
     ## Python object for managing GenSimpleDBApp facilities and properties.
@@ -52,41 +58,43 @@ class GenSimpleDBApp(Script):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def main(self, *args, **kwds):
-    self.geometry.load()
-    vertices = self.geometry.vertices
-    coordsys = self.geometry.coordsys
-    for value in self.values.values:
-      value.applyFilters(vertices.handle(), vertices.vertexCount, vertices.dim,
-                         coordsys)
-    cppDB = self._assembleDB()
-    self.iohandler.initialize()
-    self.iohandler.write(cppDB, coordsys)
+  def __init__(self, name='gensimpledb'):
+    """
+    Constructor.
+    """
+    Script.__init__(self, name)
     return
 
 
-  def __init__(self, name='gensimpledb'):
-    Script.__init__(self, name)
+  def main(self, *args, **kwds):
+    """
+    Application driver.
+    """
+    self._info.log("Reading geometry.")
+    self.geometry.read()
+    locs = self.geometry.vertices
+    coordsys = self.geometry.coordsys
+    data = {'locs': locs,
+            'coordsys': coordsys,
+            'data_dim': self.geometry.dataDim,
+            'values': []}
+    for value in self.values.values:
+      self._info.log("Creating value '%s'" % value.name)
+      data['values'].append({'name': value.name,
+                             'units': value.units,
+                             'data': value.calculate(locs, coordsys)})
+    self._info.log("Writing database.")
+    self.iohandler.initialize()
+    self.iohandler.write(data)
     return
 
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
-  def _assembleDB(self):
-    import spatialdata.spatialdb.generator.generator as bindings
-    vertices = self.geometry.vertices
-    coordsys = self.geometry.coordsys
-    numValues = len(self.values.values)
-    cppDB = bindings.create(vertices.handle(),
-                            vertices.vertexCount, vertices.dim,
-                            numValues, coordsys.spaceDim,
-                            self.geometry.dataDim)
-    for i in range(numValues):
-      self.values.values[i].setDB(cppDB, i)
-    return cppDB
-
-
   def _configure(self):
+    """
+    Setup members based on inventory.
+    """
     Script._configure(self)
     self.geometry = self.inventory.geometry
     self.values = self.inventory.values

@@ -19,12 +19,16 @@ import spatialdb as bindings
 
 # SpatialDB class
 class SpatialDB(Component):
-  """Python abstract base class for spatial database."""
+  """
+  Python abstract base class for spatial database.
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
-    """Python object for managing SpatialDB facilities and properties."""
+    """
+    Python object for managing SpatialDB facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing SpatialDB facilities and properties.
@@ -43,46 +47,60 @@ class SpatialDB(Component):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def initialize(self):
-    """Initialize database."""
-    self.cppHandle.label = self.label
-    return
-
-
-  def open(self):
-    """Open database and prepare for querying."""
-    self.cppHandle.open()
-    return
-
-
-  def close(self):
-    """Close database."""
-    self.cppHandle.close()
-    return
-
-
-  def queryVals(self, names):
-    """Set values to return in queries."""
-    self.cppHandle.queryVals(names)
-    return
-
-
-  def query(self, locs, cs, numvals):
-    """Perform query of db to get values at locations."""
-    return self.cppHandle.query(locs, cs.cppHandle, numvals)
-
-
   def __init__(self, name="spatialdb"):
-    """Constructor."""
+    """
+    Constructor.
+    """
     Component.__init__(self, name, facility="spatialdb")
     self.cppHandle = None
     return
 
 
+  def initialize(self):
+    """
+    Initialize database.
+    """
+    self.cppHandle.label = self.label
+    return
+
+
+  def open(self):
+    """
+    Open database and prepare for querying.
+    """
+    self.cppHandle.open()
+    return
+
+
+  def close(self):
+    """
+    Close database.
+    """
+    self.cppHandle.close()
+    return
+
+
+  def queryVals(self, names):
+    """
+    Set values to return in queries.
+    """
+    self.cppHandle.queryVals(names)
+    return
+
+
+  def query(self, locs, cs, numvals):
+    """
+    Perform query of db to get values at locations.
+    """
+    return self.cppHandle.query(locs, cs.cppHandle, numvals)
+
+
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
-    """Set attributes based on inventory."""
+    """
+    Set attributes based on inventory.
+    """
     self.label = self.inventory.label
     return
   
