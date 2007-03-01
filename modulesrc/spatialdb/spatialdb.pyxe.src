@@ -412,4 +412,75 @@ cdef class SimpleIOAscii(SimpleIO):
     return
 
 
+  def writeNew(self, namesObj, unitsObj, dataObj, spaceDim, dataDim, cs):
+    """
+    Write database to file.
+    """
+    # create shim for method 'write'
+    #embed{ void SimpleIOAscii_writeNew(void* pObj, char** names, char** units, double* data, int numLocs, int spaceDim, int numValues, int dataDim, void* pCSObj)
+    spatialdata::spatialdb::SimpleDB::DataStruct* pData =
+      new spatialdata::spatialdb::SimpleDB::DataStruct;
+    pData->data = data;
+    
+
+    spatialdata::geocoords::CoordSys* pCS =
+      (spatialdata::geocoords::CoordSys*) pCSObj;  
+    ((spatialdata::spatialdb::SimpleIOAscii*) pObj)->write(*pData, pCS);
+    delete pData; pData = 0;
+    #}embed
+
+    
+    import spatialdata.utils.simplearray
+    data = spatialdata.utils.simplearray.objAsSimpleArray(dataObj)
+    if not dataA.isCompatible(nd=2,
+                              simpletype="double",
+                              contiguous=True,
+                              notswapped=True):
+      raise TypeError, \
+            "Argument 'dataObj' must be a contiguous, 2-D array of type double."
+    numValues = len(names)
+    if not (numValues == len(units)):
+      raise ValueError, \
+            "Arguments 'names' and 'values' must have the same length."
+    (numLocs, totalDim) = data.shape
+    if totalDim != numValues + spaceDim:
+      raise ValueError, \
+            "'dataObj' not compatible with number of values and spaceDim."
+    if not cs.name == "spatialdata_geocoords_CoordSys":
+      raise TypeError, \
+            "Argument 'cs' must be extension module type 'CoordSys'."
+
+    cdef double* dataArray
+    dataArray = <double*> PyCObject_AsVoidPtr(data.data)
+
+    cdef char** namesArray
+    cdef char** unitsArray
+    namesArray = NULL
+    unitsArray = NULL
+    if numValues > 0:
+      namesArray = <char**> malloc(numValues*sizeof(char))
+      unitsArray = <char**> malloc(numValues*sizeof(char))
+    for i from 0 <= i < numValues:
+      strsize = len(names[i])
+      namesArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = names[i] # KLUDGE??
+      strcpy(namesArray[i], tmp)
+
+      strsize = len(units[i])
+      unitsArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = units[i] # KLUDGE??
+      strcpy(unitsArray[i], tmp)
+      
+    SimpleIOAscii_writeNew(self.thisptr,
+                           namesArray, unitsArray, dataArray,
+                           numLocs, spaceDim, numValues, dataDim,
+                           ptrFromHandle(cs))
+    for i from 0 <= i < numValues:
+      free(<void*> namesArray[i])
+      free(<void*> unitsArray[i])
+    free(<void*> namesArray)
+    free(<void*> unitsArray)
+    return
+
+
 # End of file 
