@@ -10,40 +10,40 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/generator/Values.py
+## @file spatialdata/spatialdb/generator/Shapers.py
 ##
-## @brief Python manager for values in database.
+## @brief Python manager for shapers controlling spatial distribution.
 ##
-## Factory: database_values
+## Factory: shapers
 
 from pyre.components.Component import Component
 
-# Values class
-class Values(Component):
+# Shapers class
+class Shapers(Component):
   """
-  Python manager for values in database.
+  Python manager for shapers controlling spatial distribution.
 
-  Factory: database_values
+  Factory: shapers
   """
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="values"):
+  def __init__(self, name="shapers"):
     """
     Constructor.
     """
-    Component.__init__(self, name, facility="database_values")
-    self.values = []
+    Component.__init__(self, name, facility="shapers")
+    self.shapers = []
     return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
-def database_values():
+def shapers():
   """
-  Factory associated with Values.
+  Factory associated with Shapers.
   """
-  return Values()
+  return Shapers()
 
 
 # End of file 

@@ -11,8 +11,10 @@
 #
 
 ## @file spatialdata/spatialdb/SimpleIOAscii.py
-
+##
 ## @brief Python ascii I/O manager for simple spatial database (SimpleDB).
+##
+## Factory: simpledb_io
 
 from SimpleIO import SimpleIO
 
@@ -22,6 +24,8 @@ import numpy
 class SimpleIOAscii(SimpleIO):
   """
   Python ascii I/O manager for simple spatial database (SimpleDB).
+
+  Factory: simpledb_io
   """
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -64,6 +68,15 @@ class SimpleIOAscii(SimpleIO):
     cs = data['coordsys']
     self.cppHandle.write(names, units, dbData, spaceDim, dataDim, cs.cppHandle)
     return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def simpledb_io():
+  """
+  Factory associated with SimpleIOAscii.
+  """
+  return SimpleIOAscii()
 
 
 # End of file 

@@ -11,6 +11,7 @@
 #
 
 ## @file spatialdata/spatialdb/generator/__init__.py
+##
 ## @brief Python spatialdata generator module initialization.
 
 __all__ = ['Filter',
@@ -20,8 +21,5 @@ __all__ = ['Filter',
            'Value',
            'Values']
 
-
-# version
-__id__ = "$Id$"
 
 # End of file

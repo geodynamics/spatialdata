@@ -11,18 +11,27 @@
 #
 
 ## @file spatialdata/spatialdb/SimpleIO.py
+##
 ## @brief Python I/O manager for simple spatial database (SimpleDB).
+##
+## Factory: simpledb_io
 
 from pyre.components.Component import Component
 
 # SimpleIO class
 class SimpleIO(Component):
-  """Python I/O manager for simple database (SimpleDB)."""
+  """
+  Python I/O manager for simple database (SimpleDB).
+
+  Factory: simpledb_io
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
-    """Python object for managing SimpleIO facilities and properties."""
+    """
+    Python object for managing SimpleIO facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing SimpleIO facilities and properties.
@@ -41,28 +50,41 @@ class SimpleIO(Component):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def initialize(self):
-    """Initialize the database."""
-    self.cppHandle.filename(self.filename)
-    return
-    
-
   def __init__(self, name="simpleio"):
-    """Constructor."""
-    Component.__init__(self, name, facility="simpleio")
+    """
+    Constructor.
+    """
+    Component.__init__(self, name, facility="simpledb_io")
     self.cppHandle = None
     return
 
 
+  def initialize(self):
+    """
+    Initialize the database.
+    """
+    self.cppHandle.filename(self.filename)
+    return
+    
+
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
-    """Set attributes using inventory."""
+    """
+    Set members using inventory.
+    """
+    Component._configure(self)
     self.filename = self.inventory.filename
     return
 
 
-# version
-__id__ = "$Id$"
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def simpledb_io():
+  """
+  Factory associated with SimpleIO.
+  """
+  return SimpleIO()
+
 
 # End of file 

@@ -11,7 +11,7 @@
 #
 
 ## @file spatialdata/spatialdb/generator/GenSimpleDBApp.py
-
+##
 ## @brief Python application to generate simple spatial database from
 ## other simple spatial databases.
 
@@ -44,15 +44,18 @@ class GenSimpleDBApp(Script):
     import pyre.inventory
 
     from Geometry import Geometry
-    geometry = pyre.inventory.facility("geometry", factory=Geometry)
+    geometry = pyre.inventory.facility("geometry", family="geometry",
+                                       factory=Geometry)
     geometry.meta['tip'] = "Object defining geometry of database."
 
     from Values import Values
-    values = pyre.inventory.facility("values", factory=Values)
+    values = pyre.inventory.facility("values", family="database_values",
+                                     factory=Values)
     values.meta['tip'] = "Values in database."
 
     from spatialdata.spatialdb.SimpleIOAscii import SimpleIOAscii
-    iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
+    iohandler = pyre.inventory.facility("iohandler", family="simpledb_io",
+                                        factory=SimpleIOAscii)
     iohandler.meta['tip'] = "Object for writing database."
 
 

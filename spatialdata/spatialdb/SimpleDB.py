@@ -11,18 +11,27 @@
 #
 
 ## @file spatialdata/spatialdb/SimpleDB.py
+##
 ## @brief Python manager for simple spatial database.
+##
+## Factory: spatial_database
 
 from SpatialDB import SpatialDB
 
 # SimpleDB class
 class SimpleDB(SpatialDB):
-  """Python manager for simple spatial database."""
+  """
+  Python manager for simple spatial database.
+
+  Factory: spatial_database
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(SpatialDB.Inventory):
-    """Python object for managing SimpleDB facilities and properties."""
+    """
+    Python object for managing SimpleDB facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing SimpleDB facilities and properties.
@@ -40,13 +49,27 @@ class SimpleDB(SpatialDB):
     queryType.meta['tip'] = "Type of query to perform."
 
     from SimpleIOAscii import SimpleIOAscii
-    iohandler = pyre.inventory.facility("iohandler", factory=SimpleIOAscii)
+    iohandler = pyre.inventory.facility("iohandler", family="simpledb_io",
+                                        factory=SimpleIOAscii)
     iohandler.meta['tip'] = "I/O handler for database."
+
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
+  def __init__(self, name="simpledb"):
+    """
+    Constructor.
+    """
+    SpatialDB.__init__(self, name)
+    import spatialdb as bindings
+    self.cppHandle = bindings.SimpleDB()
+    return
+
+
   def initialize(self):
-    """Initialize database."""
+    """
+    Initialize database.
+    """
     self.iohandler.initialize()
     SpatialDB.initialize(self)
     self.cppHandle.ioHandler(self.iohandler.cppHandle)
@@ -54,27 +77,33 @@ class SimpleDB(SpatialDB):
   
 
   def open(self):
-    """Open database and prepare for querying."""
+    """
+    Open database and prepare for querying.
+    """
     SpatialDB.open(self)
     self.cppHandle.queryType(self.queryType)
-    return
-
-
-  def __init__(self, name="simpledb"):
-    """Constructor."""
-    SpatialDB.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.SimpleDB()
     return
 
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
+    """
+    Set members based on inventory.
+    """
     SpatialDB._configure(self)
     self.iohandler = self.inventory.iohandler
     self.queryType = self.inventory.queryType
     return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def spatial_database():
+  """
+  Factory associated with SimpleDB.
+  """
+  return SimpleDB()
 
 
 # End of file 

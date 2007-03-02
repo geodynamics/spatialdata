@@ -11,7 +11,10 @@
 #
 
 ## @file spatialdata/spatialdb/SpatialDB.py
+##
 ## @brief Python abstract base class for spatial database.
+##
+## Factory: spatial_database
 
 from pyre.components.Component import Component
 
@@ -21,6 +24,8 @@ import spatialdb as bindings
 class SpatialDB(Component):
   """
   Python abstract base class for spatial database.
+
+  Factory: spatial_database
   """
 
   # INVENTORY //////////////////////////////////////////////////////////
@@ -51,7 +56,7 @@ class SpatialDB(Component):
     """
     Constructor.
     """
-    Component.__init__(self, name, facility="spatialdb")
+    Component.__init__(self, name, facility="spatial_database")
     self.cppHandle = None
     return
 
@@ -101,8 +106,18 @@ class SpatialDB(Component):
     """
     Set attributes based on inventory.
     """
+    Component._configure(self)
     self.label = self.inventory.label
     return
   
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def spatial_database():
+  """
+  Factory associated with SimpleDB.
+  """
+  return SpatialDB()
+
 
 # End of file 

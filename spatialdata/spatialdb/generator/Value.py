@@ -11,8 +11,10 @@
 #
 
 ## @file spatialdata/spatialdb/generator/Value.py
-
+##
 ## @brief Python manager for generating value in database.
+##
+## Factory: database_value
 
 from pyre.components.Component import Component
 
@@ -22,6 +24,8 @@ import numpy
 class Value(Component):
   """
   Python manager for generating value in database.
+
+  Factory: database_value
   """
 
   # INVENTORY //////////////////////////////////////////////////////////
@@ -39,7 +43,7 @@ class Value(Component):
     ## @li \b units Units for value
     ##
     ## \b Facilities
-    ## @li \b filters Filters used to construct spatial distribution
+    ## @li \b shapers Shapers used to construct spatial distribution
 
     import pyre.inventory
 
@@ -49,9 +53,10 @@ class Value(Component):
     units = pyre.inventory.str("units", default="none")
     units.meta['tip'] = "Units associated with value."
 
-    from Filters import Filters
-    filters = pyre.inventory.facility("filters", factory=Filters)
-    filters.meta['tip'] = "Filter used to construct spatial distribution"
+    from Shapers import Shapers
+    shapers = pyre.inventory.facility("shapers", family="shapers",
+                                      factory=Shapers)
+    shapers.meta['tip'] = "Filter used to construct spatial distribution"
     
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -60,17 +65,17 @@ class Value(Component):
     """
     Constructor.
     """
-    Component.__init__(self, name, facility="value")
+    Component.__init__(self, name, facility="database_value")
     return
 
 
   def calculate(self, locs, cs):
     """
-    Calculate spatial distribution for value using filters.
+    Calculate spatial distribution for value using shapers.
     """
     (numLocs, spaceDim) = locs.shape
     value = numpy.zeros( (numLocs,), dtype=numpy.float64)
-    for filter in self.filters.filters:
+    for filter in self.shapers.shapers:
       filter.initialize()
       filter.apply(value, locs, cs)
       filter.finalize()
@@ -86,8 +91,17 @@ class Value(Component):
     Component._configure(self)
     self.name = self.inventory.name
     self.units = self.inventory.units
-    self.filters = self.inventory.filters
+    self.shapers = self.inventory.shapers
     return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def database_value():
+  """
+  Factory associated with Value.
+  """
+  return Value()
 
 
 # End of file 

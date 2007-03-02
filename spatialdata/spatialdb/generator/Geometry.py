@@ -11,8 +11,10 @@
 #
 
 ## @file spatialdata/spatialdb/generator/Geometry.py
-
+##
 ## @brief Python manager for geometry used in generating database.
+##
+## Factory: geometry.
 
 from pyre.components.Component import Component
 
@@ -27,6 +29,8 @@ class Dummy(Component):
 class Geometry(Component):
   """
   Python manager for geometry used in generating database.
+
+  Factory: geometry.
   """
 
   # INVENTORY //////////////////////////////////////////////////////////
@@ -52,11 +56,13 @@ class Geometry(Component):
     dataDim.validator = pyre.inventory.choice([0, 1, 2, 3])
     dataDim.meta['tip'] = "Spatial dimension of database locations."
 
-    reader = pyre.inventory.facility("reader", factory=Dummy)
+    reader = pyre.inventory.facility("reader", family="reader",
+                                     factory=Dummy)
     reader.meta['tip'] = "Object to read geometry."
 
     from spatialdata.geocoords.CSCart import CSCart
-    coordsys = pyre.inventory.facility("coordsys", factory=CSCart)
+    coordsys = pyre.inventory.facility("coordsys", family="coordsys",
+                                       factory=CSCart)
     coordsys.meta['tip'] = "Coordinate system for database."
     
 
@@ -94,4 +100,13 @@ class Geometry(Component):
     return
 
 
-# End of file 
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def geometry():
+  """
+  Factory associated with Geometry.
+  """
+  return Geometry()
+
+
+# End of file
