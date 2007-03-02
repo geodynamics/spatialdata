@@ -15,7 +15,7 @@
 ## @brief Python top-level SpatialData module initialization
 
 __all__ = ['geocoords',
-           'spatialdata',
+           'spatialdb',
            'utils']
 
 
