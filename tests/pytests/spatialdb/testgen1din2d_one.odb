@@ -13,11 +13,11 @@
 from pyre.components.Component import Component
 
 # ----------------------------------------------------------------------
-# OneFilters class
-from spatialdata.spatialdb.generator.Filters import Filters
-class OneFilters(Filters):
+# OneShapers class
+from spatialdata.spatialdb.generator.Shapers import Shapers
+class OneShapers(Shapers):
   """
-  Python object acting as Filters component for value 'one' in testing
+  Python object acting as Shapers component for value 'one' in testing
   GenSimpleDBApp.
   """
 
@@ -25,32 +25,32 @@ class OneFilters(Filters):
 
   class Inventory(Component.Inventory):
     """
-    Python object for managing Filters facilities and properties.
+    Python object for managing Shapers facilities and properties.
     """
 
     ## @class Inventory
-    ## Python object for managing Filter facilities and properties.
+    ## Python object for managing Shaper facilities and properties.
     ##
     ## \b Properties
     ## @li None
     ##
     ## \b Facilities
-    ## @li \b bg Background filter
-    ## @li \b add Addition filter
-    ## @li \b multiply Multiplication filter
+    ## @li \b bg Background shaper
+    ## @li \b add Addition shaper
+    ## @li \b multiply Multiplication shaper
 
     import pyre.inventory
 
-    from spatialdata.spatialdb.generator.Filter import Filter
+    from spatialdata.spatialdb.generator.Shaper import Shaper
 
-    bg = pyre.inventory.facility("bg", factory=Filter)
-    bg.meta['tip'] = "Background filter."
+    bg = pyre.inventory.facility("bg", factory=Shaper)
+    bg.meta['tip'] = "Background shaper."
 
-    add = pyre.inventory.facility("add", factory=Filter)
-    add.meta['tip'] = "Addition filter."
+    add = pyre.inventory.facility("add", factory=Shaper)
+    add.meta['tip'] = "Addition shaper."
     
-    multiply = pyre.inventory.facility("multiply", factory=Filter)
-    multiply.meta['tip'] = "Addition filter."
+    multiply = pyre.inventory.facility("multiply", factory=Shaper)
+    multiply.meta['tip'] = "Addition shaper."
     
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ class OneFilters(Filters):
     """
     Constructor.
     """
-    Filters.__init__(self, name="onefilters")
+    Shapers.__init__(self, name="oneshapers")
     return
 
 
@@ -69,8 +69,8 @@ class OneFilters(Filters):
     """
     Setup members based on inventory.
     """
-    Filters._configure(self)
-    self.filters = [self.inventory.bg,
+    Shapers._configure(self)
+    self.shapers = [self.inventory.bg,
                     self.inventory.add,
                     self.inventory.multiply]
     return
@@ -79,11 +79,11 @@ class OneFilters(Filters):
 # ======================================================================
 # Factories
 
-def filters():
+def shapers():
   """
-  Factory for filters.
+  Factory for shapers.
   """
-  return OneFilters()
+  return OneShapers()
 
 
 # End of file

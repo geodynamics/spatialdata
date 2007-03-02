@@ -11,11 +11,14 @@
 #
 
 ## @file spatialdata/geocoords/Converter.py
+##
 ## @brief Python function to convert b/t coordinate systems.
 
 def convert(coordsSrc, csDest, csSrc):
-  """Convert coordinates from source coordinate system to destination
-  coordinate system. Transformation is done in place."""
+  """
+  Convert coordinates from source coordinate system to destination
+  coordinate system. Transformation is done in place.
+  """
 
   if not csDest.spaceDim == csSrc.spaceDim:
     msg = "Spatial dimensions of source (%d) and destination (%d) " \

@@ -11,6 +11,7 @@
 #
 
 ## @file spatialdata/geocoords/__init__.py
+##
 ## @brief Python spatialdata geocoords module initialization.
 
 __all__ = ['Converter',
@@ -21,7 +22,5 @@ __all__ = ['Converter',
            'CSGeo',
            'Projector']
 
-# version
-__id__ = "$Id$"
 
 # End of file

@@ -11,13 +11,20 @@
 #
 
 ## @file spatialdata/geocoords/CoordSys.py
+##
 ## @brief Python manager for coordinate systems.
+##
+## Factory: coordsys
 
 from pyre.components.Component import Component
 
 # CoordSys class
 class CoordSys(Component):
-  """Python manager for coordinate systems."""
+  """
+  Python manager for coordinate systems.
+
+  Factory: coordsys
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
@@ -35,28 +42,40 @@ class CoordSys(Component):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def initialize(self):
-    """Initialize coordinate system."""
-    self.cppHandle.initialize()
-    return
-
-
   def __init__(self, name="coordsys"):
-    """Constructor."""
+    """
+    Constructor.
+    """
     Component.__init__(self, name, facility="coordsys")
 
     self.cppHandle = None
     return
 
 
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """Setup members using inventory."""
+  def initialize(self):
+    """
+    Initialize coordinate system.
+    """
+    self.cppHandle.initialize()
     return
 
 
-# version
-__id__ = "$Id$"
+  # PRIVATE METHODS ////////////////////////////////////////////////////
+
+  def _configure(self):
+    """
+    Setup members using inventory.
+    """
+    return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def coordsys():
+  """
+  Factory associated with CoordSys.
+  """
+  return CoordSys()
+
 
 # End of file 

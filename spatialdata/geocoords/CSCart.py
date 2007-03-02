@@ -11,18 +11,27 @@
 #
 
 ## @file spatialdata/geocoords/CSCart.py
+##
 ## @brief Python manager for Cartesian coordinate systems.
+##
+## Factory: coordsys.
 
 from CoordSys import CoordSys
 
 # CSCart class
 class CSCart(CoordSys):
-  """Python manager for Cartesian coordinate systems."""
+  """
+  Python manager for Cartesian coordinate systems.
+
+  Factory: coordsys.
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(CoordSys.Inventory):
-    """Python object for managing CSCart facilities and properties."""
+    """
+    Python object for managing CSCart facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing CSCart facilities and properties.
@@ -44,20 +53,6 @@ class CSCart(CoordSys):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def initialize(self):
-    """Initialize coordinate system."""
-
-    import pyre.units
-    uparser = pyre.units.parser()
-    coordUnits = uparser.parse(self.units)
-    self.cppHandle.toMeters = coordUnits.value
-
-    self.cppHandle.spaceDim = self.spaceDim
-
-    CoordSys.initialize(self)
-    return
-
-
   def __init__(self, name="cscart"):
     """Constructor."""
     CoordSys.__init__(self, name)
@@ -69,14 +64,40 @@ class CSCart(CoordSys):
     return
 
 
+  def initialize(self):
+    """
+    Initialize coordinate system.
+    """
+    import pyre.units
+    uparser = pyre.units.parser()
+    coordUnits = uparser.parse(self.units)
+    self.cppHandle.toMeters = coordUnits.value
+
+    self.cppHandle.spaceDim = self.spaceDim
+
+    CoordSys.initialize(self)
+    return
+
+
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
-    """Setup members using inventory."""
-
+    """
+    Setup members using inventory.
+    """
+    CoordSys._configure(self)
     self.units = self.inventory.units
     self.spaceDim = self.inventory.spaceDim
     return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def coordsys():
+  """
+  Factory associated with CoordSys.
+  """
+  return CSCart()
 
 
 # End of file 

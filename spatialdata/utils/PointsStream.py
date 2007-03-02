@@ -11,7 +11,10 @@
 #
 
 ## @file spatialdata/utils/PointsStream.py
+##
 ## @brief Python object for reading/writing points from stdin/stdout.
+##
+## Factories: reader, writer
 
 from pyre.components.Component import Component
 
@@ -26,6 +29,8 @@ class PointsStream(Component):
   class Inventory(Component.Inventory):
     """
     Python object for managing PointsStream facilities and properties.
+
+    Factories: reader, writer
     """
 
     ## @class Inventory
@@ -114,6 +119,22 @@ class PointsStream(Component):
     self.cppHandle.fieldWidth = self.fieldWidth
     self.cppHandle.precision = self.precision
     return
-  
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def writer():
+  """
+  Factory associated with PointsStream.
+  """
+  return PointsStream()
+
+
+def reader():
+  """
+  Factory associated with PointsStream.
+  """
+  return PointsStream()
+
 
 # End of file 

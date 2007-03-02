@@ -11,6 +11,7 @@
 #
 
 ## @file spatialdata/utils/pyconvert.py
+##
 ## @brief Python convert application driver
 
 from pyre.components.Component import Component
@@ -19,6 +20,7 @@ class Dummy(Component):
   def __init__(self):
     Component.__init__(self, name="dummy", facility="dummy")
     return
+
 
 from pyre.applications.Script import Script
 # ConvertApp class
@@ -47,14 +49,18 @@ class ConvertApp(Script):
 
     import pyre.inventory
 
-    reader = pyre.inventory.facility("reader", factory=Dummy)
+    reader = pyre.inventory.facility("reader", family="reader",
+                                     factory=Dummy)
     reader.meta['tip'] = "Reader to load data."
 
-    converter = pyre.inventory.facility("converter", factory=Dummy)
+    converter = pyre.inventory.facility("converter", family="converter",
+                                        factory=Dummy)
     converter.meta['tip'] = "Converter to convert data."
 
-    writer = pyre.inventory.facility("writer", factory=Dummy)
+    writer = pyre.inventory.facility("writer", family="writer",
+                                     factory=Dummy)
     writer.meta['tip'] = "Writer to dump data."
+
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 

@@ -148,7 +148,4 @@ AC_CONFIG_FILES([Makefile
 AC_OUTPUT
 
 
-# version
-# $Id$
-
 # End of file 

@@ -11,18 +11,27 @@
 #
 
 ## @file spatialdata/geocoords/CSGeo.py
+##
 ## @brief Python manager for geographic coordinate systems.
+##
+## Factory: coordsys.
 
 from CoordSys import CoordSys
 
 # CSGeo class
 class CSGeo(CoordSys):
-  """Python manager for geographic coordinate systems."""
+  """
+  Python manager for geographic coordinate systems.
+
+  Factory: coordsys.
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(CoordSys.Inventory):
-    """Python object for managing CSGeo facilities and properties."""
+    """
+    Python object for managing CSGeo facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing CSGeo facilities and properties.
@@ -58,10 +67,30 @@ class CSGeo(CoordSys):
     spaceDim = pyre.inventory.int("space_dim", default=3)
     spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
 
+
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
+  def __init__(self, name="csgeo"):
+    """
+    Constructor.
+    """
+    CoordSys.__init__(self, name)
+
+    import spatialdata.geocoords.geocoords as bindings
+    self.cppHandle = bindings.CSGeo()
+    self.ellipsoid = "WGS84"
+    self.datumHoriz = "WGS84"
+    self.datumVert = "ellipsoid"
+    self.isGeocentric = False
+    self.units = "m"
+    self.spaceDim = 3
+    return
+
+
   def initialize(self):
-    """Initialize coordinate system."""
+    """
+    Initialize coordinate system.
+    """
     self.cppHandle.ellipsoid = self.ellipsoid
     self.cppHandle.datumHoriz = self.datumHoriz
     self.cppHandle.datumVert = self.datumVert
@@ -78,33 +107,29 @@ class CSGeo(CoordSys):
     return
 
 
-  def __init__(self, name="csgeo"):
-    """Constructor."""
-    CoordSys.__init__(self, name)
-
-    import spatialdata.geocoords.geocoords as bindings
-    self.cppHandle = bindings.CSGeo()
-    self.ellipsoid = "WGS84"
-    self.datumHoriz = "WGS84"
-    self.datumVert = "ellipsoid"
-    self.isGeocentric = False
-    self.units = "m"
-    self.spaceDim = 3
-    return
-
-
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
-    """Setup members using inventory."""
-
-    self.ellipsoid = self.inventory.ellipsoid
+    """
+    Setup members using inventory.
+    """
+    CoordSys._configure(self)
+    self.ellipsoid = self.inventory.ellipsoidsys
     self.datumHoriz = self.inventory.datumHoriz
     self.datumVert = self.inventory.datumVert
     self.isGeocentric = self.inventory.isGeocentric
     self.units = self.inventory.units
     self.spaceDim = self.inventory.spaceDim
     return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def coordsys():
+  """
+  Factory associated with CoordSys.
+  """
+  return CSGeo()
 
 
 # End of file 

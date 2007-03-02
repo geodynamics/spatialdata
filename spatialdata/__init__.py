@@ -11,8 +11,12 @@
 #
 
 ## @file spatialdata/__init__.py
+##
 ## @brief Python top-level SpatialData module initialization
 
-__all__ = []
+__all__ = ['geocoords',
+           'spatialdata',
+           'utils']
+
 
 # End of file

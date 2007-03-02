@@ -13,11 +13,11 @@
 from pyre.components.Component import Component
 
 # ----------------------------------------------------------------------
-# TwoFilters class
-from spatialdata.spatialdb.generator.Filters import Filters
-class TwoFilters(Filters):
+# TwoShapers class
+from spatialdata.spatialdb.generator.Shapers import Shapers
+class TwoShapers(Shapers):
   """
-  Python object acting as Filters component for value 'one' in testing
+  Python object acting as Shapers component for value 'one' in testing
   GenSimpleDBApp.
   """
 
@@ -25,32 +25,32 @@ class TwoFilters(Filters):
 
   class Inventory(Component.Inventory):
     """
-    Python object for managing Filters facilities and properties.
+    Python object for managing Shapers facilities and properties.
     """
 
     ## @class Inventory
-    ## Python object for managing Filter facilities and properties.
+    ## Python object for managing Shaper facilities and properties.
     ##
     ## \b Properties
     ## @li None
     ##
     ## \b Facilities
-    ## @li \b bg Background filter
-    ## @li \b subtract Subtraction filter
-    ## @li \b divide Division filter
+    ## @li \b bg Background shaper
+    ## @li \b subtract Subtraction shaper
+    ## @li \b divide Division shaper
 
     import pyre.inventory
 
-    from spatialdata.spatialdb.generator.Filter import Filter
+    from spatialdata.spatialdb.generator.Shaper import Shaper
 
-    bg = pyre.inventory.facility("bg", factory=Filter)
-    bg.meta['tip'] = "Background filter."
+    bg = pyre.inventory.facility("bg", factory=Shaper)
+    bg.meta['tip'] = "Background shaper."
 
-    subtract = pyre.inventory.facility("subtract", factory=Filter)
-    subtract.meta['tip'] = "Subtraction filter."
+    subtract = pyre.inventory.facility("subtract", factory=Shaper)
+    subtract.meta['tip'] = "Subtraction shaper."
     
-    divide = pyre.inventory.facility("divide", factory=Filter)
-    divide.meta['tip'] = "Division filter."
+    divide = pyre.inventory.facility("divide", factory=Shaper)
+    divide.meta['tip'] = "Division shaper."
     
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ class TwoFilters(Filters):
     """
     Constructor.
     """
-    Filters.__init__(self, name="onefilters")
+    Shapers.__init__(self, name="oneshapers")
     return
 
 
@@ -69,8 +69,8 @@ class TwoFilters(Filters):
     """
     Setup members based on inventory.
     """
-    Filters._configure(self)
-    self.filters = [self.inventory.bg,
+    Shapers._configure(self)
+    self.shapers = [self.inventory.bg,
                     self.inventory.subtract,
                     self.inventory.divide]
     return
@@ -79,11 +79,11 @@ class TwoFilters(Filters):
 # ======================================================================
 # Factories
 
-def filters():
+def shapers():
   """
-  Factory for filters.
+  Factory for shapers.
   """
-  return TwoFilters()
+  return TwoShapers()
 
 
 # End of file

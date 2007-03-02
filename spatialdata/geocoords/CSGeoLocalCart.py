@@ -11,18 +11,27 @@
 #
 
 ## @file spatialdata/geocoords/CSGeoLocalCart.py
+##
 ## @brief Python manager for local coordinate systems.
+##
+## Factory: coordsys
 
 from CSGeo import CSGeo
 
 # CSGeoLocalCart class
 class CSGeoLocalCart(CSGeo):
-  """Python manager for local coordinate systems."""
+  """
+  Python manager for local coordinate systems.
+
+  Factory: coordsys
+  """
 
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(CSGeo.Inventory):
-    """Python object for managing CSGeoLocalCart facilities and properties."""
+    """
+    Python object for managing CSGeoLocalCart facilities and properties.
+    """
 
     ## @class Inventory
     ## Python object for managing CSGeoLocalCart facilities and properties.
@@ -47,19 +56,13 @@ class CSGeoLocalCart(CSGeo):
     originElev = pyre.inventory.dimensional("origin-elev", default=0.0*m)
     originElev.meta['tip'] = "Elevation of origin."
 
+
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def initialize(self):
-    """Initialize coordinate system."""
-    self.cppHandle.origin(self.originLon, self.originLat,
-                          self.originElev.value)
-    CSGeo.initialize(self)
-
-    return
-
-
   def __init__(self, name="csgeolocalcart"):
-    """Constructor."""
+    """
+    Constructor.
+    """
     CSGeo.__init__(self, name)
 
     import spatialdata.geocoords.geocoords as bindings
@@ -72,11 +75,24 @@ class CSGeoLocalCart(CSGeo):
     return
 
 
+  def initialize(self):
+    """
+    Initialize coordinate system.
+    """
+    self.cppHandle.origin(self.originLon, self.originLat,
+                          self.originElev.value)
+    CSGeo.initialize(self)
+
+    return
+
+
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
   def _configure(self):
-    """Setup members using inventory."""
-
+    """
+    Setup members using inventory.
+    """
+    CSGeo._configure(self)
     self.originLon = self.inventory.originLon
     self.originLat = self.inventory.originLat
     self.originElev = self.inventory.originElev
@@ -84,7 +100,13 @@ class CSGeoLocalCart(CSGeo):
     return
 
 
-# version
-__id__ = "$Id$"
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def coordsys():
+  """
+  Factory associated with CoordSys.
+  """
+  return CSGeoLocalCart()
+
 
 # End of file 

@@ -22,8 +22,6 @@ class TestGenSimpleDBApp(unittest.TestCase):
     Test GenSimpleDBApp with 1-D data in 2-D space.
     """
     from spatialdata.spatialdb.generator.GenSimpleDBApp import GenSimpleDBApp
-    from spatialdata.spatialdb.generator.Value import Value
-    from spatialdata.spatialdb.generator.Filter import Filter
     from spatialdata.geocoords.CSCart import CSCart
     from spatialdata.spatialdb.SimpleDB import SimpleDB
     from spatialdata.spatialdb.SimpleIOAscii import SimpleIOAscii

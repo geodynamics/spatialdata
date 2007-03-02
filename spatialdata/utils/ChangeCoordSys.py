@@ -11,7 +11,10 @@
 #
 
 ## @file spatialdata/utils/ChangeCoordSys.py
+##
 ## @brief Python object for changing coordinate system of points.
+##
+## Factory: converter.
 
 from pyre.components.Component import Component
 
@@ -19,6 +22,8 @@ from pyre.components.Component import Component
 class ChangeCoordSys(Component):
   """
   Python object for changing coordinate system of points.
+
+  Factory: converter.
   """
 
   # INVENTORY //////////////////////////////////////////////////////////
@@ -43,10 +48,12 @@ class ChangeCoordSys(Component):
 
     from spatialdata.geocoords.CSCart import CSCart
 
-    csSrc = pyre.inventory.facility("cs_src", factory=CSCart)
+    csSrc = pyre.inventory.facility("cs_src", family="coordsys",
+                                    factory=CSCart)
     csSrc.meta['tip'] = "Source coordinate system."
 
-    csDest = pyre.inventory.facility("cs_dest", factory=CSCart)
+    csDest = pyre.inventory.facility("cs_dest", family="coordsys",
+                                     factory=CSCart)
     csDest.meta['tip'] = "Destination coordinate system."    
 
 
@@ -76,6 +83,7 @@ class ChangeCoordSys(Component):
     """
     Set members from inventory.
     """
+    Component._configure(self)
     self.csDest = self.inventory.csDest
     self.csSrc = self.inventory.csSrc
     return
@@ -88,6 +96,15 @@ class ChangeCoordSys(Component):
     self.csSrc.initialize()
     self.csDest.initialize()
     return
+
+
+# FACTORIES ////////////////////////////////////////////////////////////
+
+def converter():
+  """
+  Factory associated with ChangeCoordSys.
+  """
+  return ChangeCoordSys()
 
 
 # End of file 

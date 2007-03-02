@@ -124,13 +124,11 @@ def reader():
   return GeometryTestGen()
 
 
-def values():
+def database_values():
   """
   Factory for geometry reader.
   """
   return TwoValues()
-
-
 
 
 # End of file
