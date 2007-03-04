@@ -18,6 +18,9 @@
 #include "spatialdata/geocoords/CSGeoProj.hh"
 #include "spatialdata/geocoords/Projector.hh"
 #include "spatialdata/geocoords/Converter.hh"
+
+#include <stdexcept>
+#include <Python.h>
 #}header
 
 # ----------------------------------------------------------------------
@@ -53,7 +56,15 @@ cdef class CoordSys:
     """Initialize the coordinate system."""
     # create shim for method 'initialize'
     #embed{ void CoordSys_initialize(void* pObj)
-    ((spatialdata::geocoords::CoordSys*) pObj)->initialize();
+    try {
+      ((spatialdata::geocoords::CoordSys*) pObj)->initialize();
+    } catch (const std::exception& err) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      const_cast<char*>(err.what()));
+    } catch (...) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      "Caught unknown C++ exception.");
+    } // try/catch
     #}embed
 
     CoordSys_initialize(self.thisptr)
@@ -76,7 +87,15 @@ cdef class CoordSys:
       """Set number of dimensions for coordinates."""
       # create shim for method 'spaceDim'
       #embed{ void CoordSys_spaceDim_set(void* pObj, int ndims)
-      ((spatialdata::geocoords::CoordSys*) pObj)->setSpaceDim(ndims);
+      try {
+        ((spatialdata::geocoords::CoordSys*) pObj)->setSpaceDim(ndims);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CoordSys_spaceDim_set(self.thisptr, ndims)
 
@@ -84,7 +103,17 @@ cdef class CoordSys:
       """Get number of dimensions for coordinates."""
       # create shim for method 'spaceDim'
       #embed{ int CoordSys_spaceDim_get(void* pObj)
-      return ((spatialdata::geocoords::CoordSys*) pObj)->spaceDim();
+      int dim = 0;
+      try {
+        dim = ((spatialdata::geocoords::CoordSys*) pObj)->spaceDim();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return dim;
       #}embed
       return CoordSys_spaceDim_get(self.thisptr)
 
@@ -110,7 +139,15 @@ cdef class CSCart(CoordSys):
       """Set scale factor for converting coordinates to SI units (meters)."""
       # create shim for method 'toMeters'
       #embed{ void CSCart_toMeters_set(void* pObj, double scale)
-      ((spatialdata::geocoords::CSCart*) pObj)->toMeters(scale);
+      try {
+        ((spatialdata::geocoords::CSCart*) pObj)->toMeters(scale);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CSCart_toMeters_set(self.thisptr, scale)
 
@@ -118,7 +155,17 @@ cdef class CSCart(CoordSys):
       """Get scale factor for converting coordinates to SI units (meters)."""
       # create shim for method 'toMeters'
       #embed{ double CSCart_toMeters_get(void* pObj)
-      return ((spatialdata::geocoords::CSCart*) pObj)->toMeters();
+      double value = 0;
+      try {
+        value = ((spatialdata::geocoords::CSCart*) pObj)->toMeters();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return value;
       #}embed
       return CSCart_toMeters_get(self.thisptr)
 
@@ -144,7 +191,15 @@ cdef class CSGeo(CoordSys):
       """Set reference ellipsoid."""
       # create shim for method 'ellipsoid'
       #embed{ void CSGeo_ellipsoid_set(void* pObj, char* name)
+      try {
         ((spatialdata::geocoords::CSGeo*) pObj)->ellipsoid(name);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CSGeo_ellipsoid_set(self.thisptr, name)
 
@@ -152,7 +207,17 @@ cdef class CSGeo(CoordSys):
       """Fet reference ellipsoid."""
       # create shim for method 'ellipsoid'
       #embed{ char* CSGeo_ellipsoid_get(void* pObj)
-        return (char*) ((spatialdata::geocoords::CSGeo*) pObj)->ellipsoid();
+      char* name = 0;
+      try {      
+        name = (char*) ((spatialdata::geocoords::CSGeo*) pObj)->ellipsoid();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return name;
       #}embed
       return CSGeo_ellipsoid_get(self.thisptr)
 
@@ -162,7 +227,15 @@ cdef class CSGeo(CoordSys):
       """Set horizontal datum."""
       # create shim for method 'datumHoriz'
       #embed{ void CSGeo_datumHoriz_set(void* pObj, char* name)
-      ((spatialdata::geocoords::CSGeo*) pObj)->datumHoriz(name);
+      try {
+        ((spatialdata::geocoords::CSGeo*) pObj)->datumHoriz(name);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CSGeo_datumHoriz_set(self.thisptr, name)
       
@@ -170,7 +243,17 @@ cdef class CSGeo(CoordSys):
       """Get horizontal datum."""
       # create shim for method 'datumHoriz'
       #embed{ char* CSGeo_datumHoriz_get(void* pObj)
-        return (char*) ((spatialdata::geocoords::CSGeo*) pObj)->datumHoriz();
+      char* name = 0;
+      try {
+        name = (char*) ((spatialdata::geocoords::CSGeo*) pObj)->datumHoriz();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return name;
       #}embed
       return CSGeo_datumHoriz_get(self.thisptr)
 
@@ -180,7 +263,15 @@ cdef class CSGeo(CoordSys):
       """Set vertical datum."""
       # create shim for method 'datumVert'
       #embed{ void CSGeo_datumVert_set(void* pObj, char* name)
+      try {
         ((spatialdata::geocoords::CSGeo*) pObj)->datumVert(name);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CSGeo_datumVert_set(self.thisptr, name)
 
@@ -188,7 +279,17 @@ cdef class CSGeo(CoordSys):
       """Get vertical datum."""
       # create shim for method 'datumVert'
       #embed{ char* CSGeo_datumVert_get(void* pObj)
-        return (char*) ((spatialdata::geocoords::CSGeo*) pObj)->datumVert();
+      char* name = 0;
+      try {
+        name = (char*) ((spatialdata::geocoords::CSGeo*) pObj)->datumVert();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return name;
       #}embed
       return CSGeo_datumVert_get(self.thisptr)
 
@@ -198,7 +299,15 @@ cdef class CSGeo(CoordSys):
       """Set geocentric flag."""
       # create shim for method 'isGeocentric'
       #embed{ void CSGeo_isGeocentric_set(void* pObj, int flag)
+      try {
         ((spatialdata::geocoords::CSGeo*) pObj)->isGeocentric(flag);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CSGeo_isGeocentric_set(self.thisptr, flag)
 
@@ -206,7 +315,17 @@ cdef class CSGeo(CoordSys):
       """Get geocentric flag."""
       # create shim for method 'isGeocentric'
       #embed{ int CSGeo_isGeocentric_get(void* pObj)
-        return ((spatialdata::geocoords::CSGeo*) pObj)->isGeocentric();
+      int value = 0;
+      try {
+        value = ((spatialdata::geocoords::CSGeo*) pObj)->isGeocentric();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return value;
       #}embed
       return CSGeo_isGeocentric_get(self.thisptr)
       
@@ -216,7 +335,15 @@ cdef class CSGeo(CoordSys):
       """Set factor to convert Cartesian coordinates to meters."""
       # create shim for method 'toMeters'
       #embed{ void CSGeo_toMeters_set(void* pObj, double scale)
+      try {
         ((spatialdata::geocoords::CSGeo*) pObj)->toMeters(scale);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       CSGeo_toMeters_set(self.thisptr, scale)
 
@@ -224,7 +351,17 @@ cdef class CSGeo(CoordSys):
       """Get factor to convert Cartesian coordinates to meters."""
       # create shim for method 'toMeters'
       #embed{ double CSGeo_toMeters_get(void* pObj)
-        return ((spatialdata::geocoords::CSGeo*) pObj)->toMeters();
+      double value = 0.0;
+      try {
+        value = ((spatialdata::geocoords::CSGeo*) pObj)->toMeters();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return value;
       #}embed
       return CSGeo_toMeters_get(self.thisptr)
 
@@ -249,7 +386,15 @@ cdef class CSGeoLocalCart(CSGeo):
     """Set origin of local cartesian coordinate system."""
     # create shim for method 'origin'
     #embed{ void CSGeoLocalCart_origin(void* pObj, double lon, double lat, double elev)
-    ((spatialdata::geocoords::CSGeoLocalCart*) pObj)->origin(lon, lat, elev);
+    try {
+      ((spatialdata::geocoords::CSGeoLocalCart*) pObj)->origin(lon, lat, elev);
+    } catch (const std::exception& err) {
+    PyErr_SetString(PyExc_RuntimeError,
+                    const_cast<char*>(err.what()));
+    } catch (...) {
+    PyErr_SetString(PyExc_RuntimeError,
+                    "Caught unknown C++ exception.");
+    } // try/catch
     #}embed
     CSGeoLocalCart_origin(self.thisptr, lon, lat, elev)
 
@@ -258,7 +403,15 @@ cdef class CSGeoLocalCart(CSGeo):
     """Get origin of local cartesian coordinate system."""
     # create shim for method 'origin'
     #embed{ void CSGeoLocalCart_getOrigin(void* pObj, double* pLon, double* pLat, double* pElev)
-    ((spatialdata::geocoords::CSGeoLocalCart*) pObj)->origin(pLon, pLat, pElev);
+    try {
+      ((spatialdata::geocoords::CSGeoLocalCart*) pObj)->origin(pLon, pLat, pElev);
+    } catch (const std::exception& err) {
+    PyErr_SetString(PyExc_RuntimeError,
+                    const_cast<char*>(err.what()));
+    } catch (...) {
+    PyErr_SetString(PyExc_RuntimeError,
+                    "Caught unknown C++ exception.");
+    } // try/catch
     #}embed
     cdef double lon, lat, elev
     CSGeoLocalCart_getOrigin(self.thisptr, &lon, &lat, &elev)
@@ -286,9 +439,17 @@ cdef class CSGeoProj(CSGeo):
       """Set projector."""
       # create shim for method 'projector'
       #embed{ void CSGeoProj_projector(void* pObj, void* pProjObj)
-      const spatialdata::geocoords::Projector* pProj =
+      try {
+        const spatialdata::geocoords::Projector* pProj =
         (spatialdata::geocoords::Projector*) pProjObj;
         ((spatialdata::geocoords::CSGeoProj*) pObj)->projector(*pProj);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       if not proj.name == "spatialdata_geocoords_Projector":
         raise TypeError, \
@@ -321,7 +482,15 @@ cdef class Projector:
       """Set projection."""
       # create shim for method 'projection'
       #embed{ void Projector_projection_set(void* pObj, char* name)
-      ((spatialdata::geocoords::Projector*) pObj)->projection(name);
+      try {
+        ((spatialdata::geocoords::Projector*) pObj)->projection(name);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       Projector_projection_set(self.thisptr, name)
 
@@ -329,7 +498,17 @@ cdef class Projector:
       """Get projection."""
       # create shim for method 'projection'
       #embed{ char* Projector_projection_get(void* pObj)
-        return (char*) ((spatialdata::geocoords::Projector*) pObj)->projection();
+      char* name = 0;
+      try {
+        name = (char*) ((spatialdata::geocoords::Projector*) pObj)->projection();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return name;
       #}embed
       return Projector_projection_get(self.thisptr)
 
@@ -339,7 +518,15 @@ cdef class Projector:
       """Set units of projection."""
       # create shim for method 'units'
       #embed{ void Projector_units_set(void* pObj, char* name)
-      ((spatialdata::geocoords::Projector*) pObj)->units(name);
+      try {
+        ((spatialdata::geocoords::Projector*) pObj)->units(name);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       Projector_units_set(self.thisptr, name)
 
@@ -347,7 +534,17 @@ cdef class Projector:
       """Get units of projection."""
       # create shim for method 'units'
       #embed{ char* Projector_units_get(void* pObj)
-        return (char*) ((spatialdata::geocoords::Projector*) pObj)->units();
+      char* name = 0;
+      try {
+        name = (char*) ((spatialdata::geocoords::Projector*) pObj)->units();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return name;
       #}embed
       return Projector_units_get(self.thisptr)
 
@@ -356,7 +553,15 @@ cdef class Projector:
       """Set proj.4 options for projector."""
       # create shim for method 'projOptions'
       #embed{ void Projector_projOptions_set(void* pObj, char* options)
+      try {
         ((spatialdata::geocoords::Projector*) pObj)->projOptions(options);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
       #}embed
       Projector_projOptions_set(self.thisptr, options)
 
@@ -364,7 +569,17 @@ cdef class Projector:
       """Set proj.4 options for projector."""
       # create shim for method 'projOptions'
       #embed{ char* Projector_projOptions_get(void* pObj)
-        return (char*) ((spatialdata::geocoords::Projector*) pObj)->projOptions();
+      char* name = 0;
+      try {
+        name = (char*) ((spatialdata::geocoords::Projector*) pObj)->projOptions();
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      return name;
       #}embed
       return Projector_projOptions_get(self.thisptr)
 
@@ -373,11 +588,19 @@ cdef class Projector:
     """Initialize projector."""
     # create shim for method 'initialize'
     #embed{ void Projector_initialize(void* pObj, void* pCSObj)
-    const spatialdata::geocoords::CoordSys* pCS =
-      (spatialdata::geocoords::CoordSys*) pCSObj;
-    const spatialdata::geocoords::CSGeo* pCSGeo =
-      dynamic_cast<const spatialdata::geocoords::CSGeo*>(pCS);
-    ((spatialdata::geocoords::Projector*) pObj)->initialize(*pCSGeo);
+    try {
+      const spatialdata::geocoords::CoordSys* pCS =
+        (spatialdata::geocoords::CoordSys*) pCSObj;
+      const spatialdata::geocoords::CSGeo* pCSGeo =
+        dynamic_cast<const spatialdata::geocoords::CSGeo*>(pCS);
+      ((spatialdata::geocoords::Projector*) pObj)->initialize(*pCSGeo);
+    } catch (const std::exception& err) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      const_cast<char*>(err.what()));
+    } catch (...) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      "Caught unknown C++ exception.");
+    } // try/catch      
     #}embed
 
     if not csGeo.name == "spatialdata_geocoords_CoordSys":
@@ -392,7 +615,15 @@ cdef class Projector:
     """Project geographic coordinates."""
     # create shim for method 'project'
     #embed{ void Projector_project(void* pObj, double* pX, double* pY, double lon, double lat)
-    ((spatialdata::geocoords::Projector*) pObj)->project(pX, pY, lon, lat);
+    try {
+      ((spatialdata::geocoords::Projector*) pObj)->project(pX, pY, lon, lat);
+    } catch (const std::exception& err) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      const_cast<char*>(err.what()));
+    } catch (...) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      "Caught unknown C++ exception.");
+    } // try/catch      
     #}embed
 
     cdef double x
@@ -411,7 +642,15 @@ cdef class Projector:
     """Get geographics coordinates for projected location."""
     # create shim for method 'invproject'
     #embed{ void Projector_invproject(void* pObj, double* pLon, double* pLat, double x, double y)
-    ((spatialdata::geocoords::Projector*) pObj)->invproject(pLon, pLat, x, y);
+    try {
+      ((spatialdata::geocoords::Projector*) pObj)->invproject(pLon, pLat, x, y);
+    } catch (const std::exception& err) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      const_cast<char*>(err.what()));
+    } catch (...) {
+      PyErr_SetString(PyExc_RuntimeError,
+                      "Caught unknown C++ exception.");
+    } // try/catch      
     #}embed
 
     cdef double lon
@@ -440,12 +679,20 @@ cdef class Projector:
 # ----------------------------------------------------------------------
 # create shim for Converter method 'convert'
 #embed{ void CppConverter_convert(double* coords, int numLocs, int numDims, void* pCSDestObj, void* pCSSrcObj)
-spatialdata::geocoords::CoordSys* pCSDest =
-  (spatialdata::geocoords::CoordSys*) pCSDestObj;
-spatialdata::geocoords::CoordSys* pCSSrc =
-  (spatialdata::geocoords::CoordSys*) pCSSrcObj;
-spatialdata::geocoords::Converter::convert(coords, numLocs, numDims,
-                                           pCSDest, pCSSrc);
+try {
+  spatialdata::geocoords::CoordSys* pCSDest =
+    (spatialdata::geocoords::CoordSys*) pCSDestObj;
+  spatialdata::geocoords::CoordSys* pCSSrc =
+    (spatialdata::geocoords::CoordSys*) pCSSrcObj;
+  spatialdata::geocoords::Converter::convert(coords, numLocs, numDims,
+                                             pCSDest, pCSSrc);
+} catch (const std::exception& err) {
+  PyErr_SetString(PyExc_RuntimeError,
+                  const_cast<char*>(err.what()));
+} catch (...) {
+  PyErr_SetString(PyExc_RuntimeError,
+                  "Caught unknown C++ exception.");
+} // try/catch  
 #}embed
 
 def Converter_convert(coordsSrc, csDest, csSrc):

@@ -122,7 +122,7 @@ cdef class SimpleArray:
       if not nd == self.nd:
         if _debuglevel > 0:
           print "Expected nd '%d' but have nd '%d'." % \
-                (nd, self.nd)
+                    (nd, self.nd)
         return False
     if not simpletype is None:
       if not simpletype == self._typeinfo['type']:
