@@ -80,6 +80,10 @@ class Shaper(Component):
     """
     Initialize shaper.
     """
+    if self.dbValue == "":
+      raise ValueError, \
+            "Name of value in spatial database must be set for shaper '%s'." %\
+            self.name
     self.db.initialize()
     self.db.open()
     return
@@ -127,10 +131,6 @@ class Shaper(Component):
     Setup members using inventory.
     """
     Component._configure(self)
-    if self.inventory.dbValue == "":
-      raise ValueError, \
-            "Name of value in spatial database must be set for shaper '%s'." %\
-            self.name
     self.dbValue = self.inventory.dbValue
     self.operand = self.inventory.operand
     self.db = self.inventory.db
