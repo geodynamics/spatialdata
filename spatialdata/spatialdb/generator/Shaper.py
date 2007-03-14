@@ -142,7 +142,7 @@ class Shaper(Component):
 
 def shaper():
   """
-  Factory associated with SimpleDB.
+  Factory associated with Shaper.
   """
   return Shaper()
 

@@ -114,7 +114,7 @@ class CSGeo(CoordSys):
     Setup members using inventory.
     """
     CoordSys._configure(self)
-    self.ellipsoid = self.inventory.ellipsoidsys
+    self.ellipsoid = self.inventory.ellipsoid
     self.datumHoriz = self.inventory.datumHoriz
     self.datumVert = self.inventory.datumVert
     self.isGeocentric = self.inventory.isGeocentric
