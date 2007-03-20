@@ -91,7 +91,12 @@ void
 spatialdata::spatialdb::SimpleDB::close(void)
 { // close
   delete _query; _query = 0;
-  delete[] _data; _data = 0;
+  if (0 != _data) {
+    delete[] _data->data; _data->data = 0;
+    delete[] _data->valNames; _data->valNames = 0;
+    delete[] _data->valUnits; _data->valUnits = 0;
+  } // if
+  delete _data; _data = 0;
 } // close
 
 // ----------------------------------------------------------------------
