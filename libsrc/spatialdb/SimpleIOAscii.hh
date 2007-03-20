@@ -18,12 +18,13 @@
 #if !defined(spatialdata_spatialdb_simpleioascii_hh)
 #define spatialdata_spatialdb_simpleioascii_hh
 
+#include "SimpleIO.hh"
+
 #include <iosfwd> // USES std::istream
 
 namespace spatialdata {
   namespace spatialdb {
     class SimpleIOAscii;
-    class SimpleIO;
   } // spatialdb
 } // spatialdata
 
