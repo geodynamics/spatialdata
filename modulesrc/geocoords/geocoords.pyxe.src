@@ -33,10 +33,37 @@ cdef void* ptrFromHandle(obj):
   return PyCObject_AsVoidPtr(obj.handle)
 
 cdef extern from "stdlib.h":
-    ctypedef unsigned long size_t
-    void* malloc(size_t size)
-    void free(void* mem)
+  ctypedef unsigned long size_t
+  void* malloc(size_t size)
+  void free(void* mem)
 
+cdef void CoordSys_destructor(void* obj):
+  """
+  Destroy CoordSys object.
+  """
+  # create shim for destructor
+  #embed{ void CoordSys_destructor_cpp(void* pObj)
+  spatialdata::geocoords::CoordSys* pCS =
+  (spatialdata::geocoords::CoordSys*) pObj;
+  delete pCS;
+  #}embed
+  CoordSys_destructor_cpp(obj)
+  return
+
+cdef void Projector_destructor(void* obj):
+  """
+  Destroy Projector object.
+  """
+  # create shim for destructor
+  #embed{ void Projector_destructor_cpp(void* pObj)
+  spatialdata::geocoords::Projector* pProj =
+    (spatialdata::geocoords::Projector*) pObj;
+  delete pProj;
+  #}embed
+  Projector_destructor_cpp(obj)
+  return
+
+  
 # ----------------------------------------------------------------------
 cdef class CoordSys:
 
@@ -73,12 +100,6 @@ cdef class CoordSys:
 
   def _createHandle(self):
     """Wrap pointer to C++ object in PyCObject."""
-    # create shim for destructor
-    #embed{ void CoordSys_destructor(void* pObj)
-    spatialdata::geocoords::CoordSys* pCS =
-      (spatialdata::geocoords::CoordSys*) pObj;
-    delete pCS;
-    #}embed
     return PyCObject_FromVoidPtr(self.thisptr, CoordSys_destructor)
 
 
@@ -667,12 +688,6 @@ cdef class Projector:
 
   def _createHandle(self):
     """Wrap pointer to C++ object in PyCObject."""
-    # create shim for destructor
-    #embed{ void Projector_destructor(void* pObj)
-    spatialdata::geocoords::Projector* pProj =
-      (spatialdata::geocoords::Projector*) pObj;
-    delete pProj;
-    #}embed
     return PyCObject_FromVoidPtr(self.thisptr, Projector_destructor)
 
 

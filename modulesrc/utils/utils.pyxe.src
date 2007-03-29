@@ -28,6 +28,19 @@ cdef void* ptrFromHandle(obj):
 cdef extern from "stdlib.h":
     ctypedef unsigned long size_t
 
+cdef void PointStream_destructor(void* obj):
+  """
+  Destroy PointsStream object.
+  """
+  #embed{ void PointsStream_destructor_cpp(void* pObj)
+  spatialdata::utils::PointsStream* pStream =
+  (spatialdata::utils::PointsStream*) pObj;
+  delete pStream;
+  #}embed
+  PointsStream_destructor_cpp(obj)
+  return
+  
+
 # ----------------------------------------------------------------------
 cdef class PointsStream:
   """
@@ -277,12 +290,7 @@ cdef class PointsStream:
   def _createHandle(self):
     """Wrap pointer to C++ object in PyCObject."""
     # create shim for destructor
-    #embed{ void PointsStream_destructor(void* pObj)
-    spatialdata::utils::PointsStream* pStream =
-      (spatialdata::utils::PointsStream*) pObj;
-    delete pStream;
-    #}embed
-    return PyCObject_FromVoidPtr(self.thisptr, PointsStream_destructor)
+    return PyCObject_FromVoidPtr(self.thisptr, PointStream_destructor)
 
 
 # End of file

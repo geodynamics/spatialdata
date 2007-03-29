@@ -42,6 +42,32 @@ cdef void* ptrFromHandle(obj):
   """
   return PyCObject_AsVoidPtr(obj.handle)
 
+cdef void SpatialDB_destructor(void* obj):
+  """
+  Destroy SpatialDB object.
+  """
+  # create shim for destructor
+  #embed{ void SpatialDB_destructor_cpp(void* pObj)
+  spatialdata::spatialdb::SpatialDB* pDB =
+    (spatialdata::spatialdb::SpatialDB*) pObj;
+  delete pDB;
+  #}embed
+  SpatialDB_destructor_cpp(obj)
+  return
+
+cdef void SimpleIO_destructor(void* obj):
+  """
+  Destructor SimplIO object.
+  """
+  # create shim for destructor
+  #embed{ void SimpleIO_destructor_cpp(void* pObj)
+  spatialdata::spatialdb::SimpleIO* pIO =
+    (spatialdata::spatialdb::SimpleIO*) pObj;
+  delete pIO;
+  #}embed
+  SimpleIO_destructor_cpp(obj)
+  return
+
 
 # ----------------------------------------------------------------------
 cdef class SpatialDB:
@@ -255,12 +281,6 @@ cdef class SpatialDB:
     """
     Wrap pointer to C++ object in PyCObject.
     """
-    # create shim for destructor
-    #embed{ void SpatialDB_destructor(void* pObj)
-    spatialdata::spatialdb::SpatialDB* pDB =
-      (spatialdata::spatialdb::SpatialDB*) pObj;
-    delete pDB;
-    #}embed
     return PyCObject_FromVoidPtr(self.thisptr, SpatialDB_destructor)
 
 
@@ -359,12 +379,6 @@ cdef class SimpleIO:
     """
     Wrap pointer to C++ object in PyCObject.
     """
-    # create shim for destructor
-    #embed{ void SimpleIO_destructor(void* pObj)
-    spatialdata::spatialdb::SimpleIO* pIO =
-      (spatialdata::spatialdb::SimpleIO*) pObj;
-    delete pIO;
-    #}embed
     return PyCObject_FromVoidPtr(self.thisptr, SimpleIO_destructor)
 
 
