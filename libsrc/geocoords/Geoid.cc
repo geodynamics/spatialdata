@@ -27,26 +27,6 @@
 #define NATIVE_LITTLE_ENDIAN
 #endif
 
-#if 0
-#if defined(__BYTE_ORDER)
-#if __BYTE_ORDER == __BIG_ENDIAN || __BYTE_ORDER == _BIG_ENDIAN
-#define NATIVE_BIG_ENDIAN
-#elif __BYTE_ORDER == _LITTLE_ENDIAN || __BYTE_ORDER == __LITTLE_ENDIAN
-#define NATIVE_LITTLE_ENDIAN
-#else
-#error Unable to determine endian type
-#endif // BYTE_ORDER cases
-#else // __BYTE_ORDER not defined
-#if defined(BIG_ENDIAN) || defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN)
-#define NATIVE_BIG_ENDIAN
-#elif defined(LITTLE_ENDIAN) || defined(_LITTLE_ENDIAN) || defined(__LITTLE_ENDIAN)
-#define NATIVE_LITTLE_ENDIAN
-#else
-#error Unable to determine endian type
-#endif // ENDIAN cases
-#endif // __BYTE_ORDER defined
-#endif
-
 
 #define MAKEDATAFILE(file) #file
 #define SETDATAFILE(dir,file) MAKEDATAFILE(dir/file)
