@@ -154,88 +154,15 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(SimpleDB& db,
     else
       CPPUNIT_ASSERT(0 == err);
     for (int iVal=0; iVal < numVals; ++iVal)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/valsE[numVals-iVal-1],
-				   tolerance);
+      if (valsE[numVals-iVal-1] > tolerance)
+	CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/valsE[numVals-iVal-1],
+				     tolerance);
+      else
+	CPPUNIT_ASSERT_DOUBLES_EQUAL(valsE[numVals-iVal-1], vals[iVal],
+				     tolerance);
   } // for
   delete[] vals; vals = 0;
 } // _checkQuery
-
-#if 0
-// ----------------------------------------------------------------------
-// Setup test subject
-void
-spatialdata::spatialdb::TestSimpleDB::setUp(void)
-{ // setUp
-  SimpleDB::DataStruct* pData = new SimpleDB::DataStruct;
-
-  const int numLocs = _numLocs();
-  const int spaceDim = _spaceDim();
-  const int numVals = _numVals();
-  const int dataDim = _dataDim();
-
-  const int dataSize = numLocs*(spaceDim+numVals);
-  CPPUNIT_ASSERT(0 < dataSize);
-  pData->data = new double[dataSize];
-  memcpy(pData->data, _data(), dataSize*sizeof(double));
-
-  pData->valNames = new std::string[numVals];
-  for (int i=0; i < numVals; ++i)
-    pData->valNames[i] = _names()[i];
-
-  pData->valUnits = new std::string[numVals];
-  for (int i=0; i < numVals; ++i)
-    pData->valUnits[i] = _units()[i];
-
-  pData->numLocs = numLocs;
-  pData->spaceDim = spaceDim;
-  pData->numVals = numVals;
-  pData->dataDim = _dataDim;
-
-  _pDB = new SimpleDB;
-  _pDB->_pData = pData;
-  _pDB->_pQuery = new SimpleDBQuery(*_pDB);
-  _pDB->_pCS = new spatialdata::geocoords::CSCart();
-} // setUp
-
-// ----------------------------------------------------------------------
-// Check query values.
-void
-spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
-						  const int* queryErrFlags) const
-{ // _checkQuery
-  CPPUNIT_ASSERT(0 != queryData);
-  CPPUNIT_ASSERT(0 != _pDB);
-
-  const int numVals = _numVals();
-  const int spaceDim = _spaceDim();
-  
-  // reverse order of vals in queries
-  const char* valNames[numVals];
-  for (int i=0; i < numVals; ++i)
-    valNames[numVals-i-1] = _names()[i];
-  _pDB->queryVals(valNames, numVals);
-  
-  double* vals = (0 < numVals) ? new double[numVals] : 0;
-  const double tolerance = 1.0e-06;
-  
-  const int numQueries = _numQueries();
-  const int locSize = spaceDim+numVals;
-  spatialdata::geocoords::CSCart csCart;
-  for (int iQuery=0; iQuery < numQueries; ++iQuery) {
-    const double* qCoords = &queryData[iQuery*locSize];
-    const double* qVals = &queryData[iQuery*locSize+spaceDim];
-    const int err = _pDB->query(vals, numVals, qCoords, spaceDim, &csCart);
-    if (0 != queryErrFlags)
-      CPPUNIT_ASSERT(err == queryErrFlags[iQuery]);
-    else
-      CPPUNIT_ASSERT(0 == err);
-    for (int iVal=0; iVal < numVals; ++iVal)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/qVals[numVals-iVal-1],
-				   tolerance);
-  } // for
-  delete[] vals; vals = 0;
-} // CheckQuery
-#endif
 
 
 // End of file 

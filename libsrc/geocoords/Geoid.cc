@@ -21,6 +21,13 @@
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
 
+#if defined(WORDS_BIGENDIAN)
+#define NATIVE_BIG_ENDIAN
+#else
+#define NATIVE_LITTLE_ENDIAN
+#endif
+
+#if 0
 #if defined(__BYTE_ORDER)
 #if __BYTE_ORDER == __BIG_ENDIAN || __BYTE_ORDER == _BIG_ENDIAN
 #define NATIVE_BIG_ENDIAN
@@ -38,6 +45,7 @@
 #error Unable to determine endian type
 #endif // ENDIAN cases
 #endif // __BYTE_ORDER defined
+#endif
 
 
 #define MAKEDATAFILE(file) #file
