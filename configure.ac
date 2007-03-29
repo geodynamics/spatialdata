@@ -118,7 +118,7 @@ if test "$enable_documentation" = "yes" ; then
 fi
 
 # ENDIANNESS
-AC_C_BIGENDIAN([],[])
+AC_C_BIGENDIAN
 
 # ----------------------------------------------------------------------
 AC_CONFIG_FILES([Makefile
