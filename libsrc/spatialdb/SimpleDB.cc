@@ -130,7 +130,7 @@ spatialdata::spatialdb::SimpleDB::queryVals(const char** names,
 void
 spatialdata::spatialdb::SimpleDB::ioHandler(const SimpleIO* iohandler)
 { // ioHandler
-  _iohandler = iohandler->clone();
+  delete _iohandler; _iohandler = (0 != iohandler) ? iohandler->clone() : 0;
 } // ioHandler
 
 // ----------------------------------------------------------------------
