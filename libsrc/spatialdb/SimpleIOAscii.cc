@@ -39,46 +39,59 @@ void
 spatialdata::spatialdb::SimpleIOAscii::read(
 				   SimpleDB::DataStruct* pData,
 				   spatialdata::geocoords::CoordSys** ppCS)
-{ // Read
+{ // read
   assert(0 != pData);
 
-  std::ifstream filein(filename());
-  if (!filein.is_open() || !filein.good()) {
-    std::ostringstream msg;
-    msg << "Could not open spatial database file '" << filename()
-	<< "' for reading.\n";
-    throw std::runtime_error(msg.str());
-  } // if
+  try {
+    std::ifstream filein(filename());
+    if (!filein.is_open() || !filein.good()) {
+      std::ostringstream msg;
+      msg << "Could not open spatial database file '" << filename()
+	  << "' for reading.\n";
+      throw std::runtime_error(msg.str());
+    } // if
 
-  const int headerLen = strlen(HEADER);
-  std::string buffer;
-  buffer.resize(headerLen+1);
-  filein.read((char*) buffer.c_str(), sizeof(char)*headerLen);
-  buffer[headerLen] = '\0';
-  if (0 != strcasecmp(HEADER, buffer.c_str())) {
+    const int headerLen = strlen(HEADER);
+    std::string buffer;
+    buffer.resize(headerLen+1);
+    filein.read((char*) buffer.c_str(), sizeof(char)*headerLen);
+    buffer[headerLen] = '\0';
+    if (0 != strcasecmp(HEADER, buffer.c_str())) {
+      std::ostringstream msg;
+      msg
+	<< "Magic header '" << buffer << "' does not match expected header '"
+	<< HEADER << "' in spatial database file '" << filename() << "'.\n";
+      throw std::runtime_error(msg.str());
+    } // if
+    int version = 0;
+    filein >> version;
+    switch (version)
+      { // switch
+      case 1 :
+	_readV1(pData, ppCS, filein);
+	break;
+      default :
+	{ // default
+	  std::ostringstream msg;
+	  msg
+	    << "Did not recognize format version " << version
+	    << " of spatial database file '" << filename() << "'.\n";
+	  throw std::runtime_error(msg.str());
+	} // default
+      } // switch
+  } catch (const std::exception& err) {
     std::ostringstream msg;
-    msg
-      << "Magic header '" << buffer << "' does not match expected header '"
-      << HEADER << "' in spatial database file '" << filename() << "'.\n";
+    msg << "Error occurred while reading spatial database file '"
+	<< filename() << "'.\n"
+	<< err.what();
     throw std::runtime_error(msg.str());
-  } // if
-  int version = 0;
-  filein >> version;
-  switch (version)
-    { // switch
-    case 1 :
-      _readV1(pData, ppCS, filein);
-      break;
-    default :
-      { // default
-	std::ostringstream msg;
-	msg
-	  << "Did not recognize format version " << version
-	  << " of spatial database file '" << filename() << "'.\n";
-	throw std::runtime_error(msg.str());
-      } // default
-    } // switch
-} // Read
+  } catch (...) {
+    std::ostringstream msg;
+    msg << "Unknown error occurred while reading spatial database file '"
+	<< filename() << "'.\n";
+    throw std::runtime_error(msg.str());
+  } // try/catch
+} // read
 
 // ----------------------------------------------------------------------
 // Read ascii database file.
@@ -183,6 +196,8 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   pData->data = (dataSize > 0) ? new double[dataSize] : 0;
   for (int i=0; i < dataSize; ++i)
     filein >> pData->data[i];
+  if (!filein.good())
+    throw std::runtime_error("I/O error while reading SimpleDB data.");
   
   // Check compatibility of dimension of data, spatial dimension and
   // number of points
@@ -198,52 +213,69 @@ spatialdata::spatialdb::SimpleIOAscii::write(
 				const SimpleDB::DataStruct& data,
 				const spatialdata::geocoords::CoordSys* pCS)
 { // write
-  std::ofstream fileout(filename());
-  if (!fileout.is_open() || !fileout.good()) {
-    std::ostringstream msg;
-    msg << "Could not open spatial database file " << filename()
-	<< "for writing.\n";
-    throw std::runtime_error(msg.str());
-  } // if
-
-  const int version = 1;
-  const int numLocs = data.numLocs;
-  const int numVals = data.numVals;
-
-  fileout
-    << HEADER << " " << version << "\n"
-    << "SimpleDB {\n"
-    << "  num-values = " << std::setw(6) << numVals << "\n"
-    << "  value-names =";
-  for (int iVal=0; iVal < numVals; ++iVal)
-    fileout << "  " << data.valNames[iVal];
-  fileout << "\n";
-  fileout << "  value-units =";
-  for (int iVal=0; iVal < numVals; ++iVal)
-    fileout << "  " << data.valUnits[iVal];
-  fileout << "\n";
-  fileout
-    << "  num-locs = " << std::setw(6) << numLocs << "\n"
-    << "  data-dim = " << std::setw(4) << data.dataDim << "\n"
-    << "  space-dim = " << std::setw(4) << data.spaceDim << "\n"
-    << "  cs-data = ";
-  spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
-  fileout << "}\n";
-
-  fileout
-    << std::resetiosflags(std::ios::fixed)
-    << std::setiosflags(std::ios::scientific)
-    << std::setprecision(6);
-  const int numCoords = data.spaceDim;
-  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    const double* pCoords = SimpleDBTypes::dataCoords(data, iLoc);
-    for (int iCoord=0; iCoord < numCoords; ++iCoord)
-      fileout << std::setw(14) << pCoords[iCoord];
-    const double* pVals = SimpleDBTypes::dataVals(data, iLoc);
+  try {
+    std::ofstream fileout(filename());
+    if (!fileout.is_open() || !fileout.good()) {
+      std::ostringstream msg;
+      msg << "Could not open spatial database file " << filename()
+	  << "for writing.\n";
+      throw std::runtime_error(msg.str());
+    } // if
+    
+    const int version = 1;
+    const int numLocs = data.numLocs;
+    const int numVals = data.numVals;
+    
+    fileout
+      << HEADER << " " << version << "\n"
+      << "SimpleDB {\n"
+      << "  num-values = " << std::setw(6) << numVals << "\n"
+      << "  value-names =";
     for (int iVal=0; iVal < numVals; ++iVal)
-      fileout << std::setw(14) << pVals[iVal];
+      fileout << "  " << data.valNames[iVal];
     fileout << "\n";
-  } // for
+    fileout << "  value-units =";
+    for (int iVal=0; iVal < numVals; ++iVal)
+      fileout << "  " << data.valUnits[iVal];
+    fileout << "\n";
+    fileout
+      << "  num-locs = " << std::setw(6) << numLocs << "\n"
+      << "  data-dim = " << std::setw(4) << data.dataDim << "\n"
+      << "  space-dim = " << std::setw(4) << data.spaceDim << "\n"
+      << "  cs-data = ";
+    spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
+    fileout << "}\n";
+    if (!fileout.good())
+      throw std::runtime_error("I/O error while writing SimpleDB settings.");
+
+    fileout
+      << std::resetiosflags(std::ios::fixed)
+      << std::setiosflags(std::ios::scientific)
+      << std::setprecision(6);
+    const int numCoords = data.spaceDim;
+    for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+      const double* pCoords = SimpleDBTypes::dataCoords(data, iLoc);
+      for (int iCoord=0; iCoord < numCoords; ++iCoord)
+	fileout << std::setw(14) << pCoords[iCoord];
+      const double* pVals = SimpleDBTypes::dataVals(data, iLoc);
+      for (int iVal=0; iVal < numVals; ++iVal)
+	fileout << std::setw(14) << pVals[iVal];
+      fileout << "\n";
+    } // for
+    if (!fileout.good())
+      throw std::runtime_error("I/O error while writing SimpleDB data.");
+  } catch (const std::exception& err) {
+    std::ostringstream msg;
+    msg << "Error occurred while writing spatial database file '"
+	<< filename() << "'.\n" 
+	<< err.what();
+    throw std::runtime_error(msg.str());
+  } catch (...) {
+    std::ostringstream msg;
+    msg << "Unknown error occurred while writing spatial database file '"
+	<< filename() << "'.";
+    throw std::runtime_error(msg.str());
+  } // try/catch
 } // write
 
 
