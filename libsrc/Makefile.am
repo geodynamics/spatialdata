@@ -35,14 +35,15 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleIOAscii.cc \
 	spatialdb/cspatialdb.cc	
 
-libspatialdata_la_LDFLAGS =
+libspatialdata_la_LDFLAGS = -no-undefined
 
 CPPFLAGS += -DDATADIR="$(pkgdatadir)/geocoords"
 
 INCLUDES = -I$(top_builddir)/include
 
 libspatialdata_la_LIBADD = \
-	-lproj
+	-lproj \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
 # End of file 

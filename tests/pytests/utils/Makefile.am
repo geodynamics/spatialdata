@@ -23,7 +23,10 @@ noinst_PYTHON = \
 # module
 subpkgpyexec_LTLIBRARIES = testcppmodule.la
 
-testcppmodule_la_LDFLAGS = -module
+testcppmodule_la_LDFLAGS = -module -no-undefined -avoid-version
+testcppmodule_la_LIBADD = \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
+
 
 testcppmodule_la_SOURCES = testcpp.pyxe
 

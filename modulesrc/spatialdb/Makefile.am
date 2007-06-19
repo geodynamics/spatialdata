@@ -15,7 +15,7 @@ include $(top_srcdir)/subpackage.am
 
 subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
 
-spatialdbmodule_la_LDFLAGS = -module
+spatialdbmodule_la_LDFLAGS = -module -no-undefined -avoid-version
 
 spatialdbmodule_la_SOURCES = spatialdb.pyxe
 
@@ -23,7 +23,8 @@ nodist_spatialdbmodule_la_SOURCES = \
 	spatialdb.c spatialdb_embed.cpp spatialdb_embed.h
 
 spatialdbmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/libspatialdata.la
+	$(top_builddir)/libsrc/libspatialdata.la \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 INCLUDES += -I$(PYTHON_INCDIR)
 

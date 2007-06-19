@@ -47,7 +47,7 @@ AM_PATH_PYTHON([2.3])
 
 # ----------------------------------------------------------------------
 # PYTHON
-CIT_PYTHON_INCDIR
+CIT_PYTHON_SYSCONFIG
 
 # PROJ4
 AC_CHECK_LIB(proj, pj_init_plus, [
