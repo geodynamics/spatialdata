@@ -42,11 +42,7 @@ AC_ARG_ENABLE([documentation],
 
 AC_PROG_CXX
 AC_PROG_CC
-AC_PROG_FC
-AC_FC_WRAPPERS
-AC_FC_LIBRARY_LDFLAGS
 AC_PROG_LIBTOOL
-AC_PROG_INSTALL
 AM_PATH_PYTHON([2.3])
 
 # ----------------------------------------------------------------------
