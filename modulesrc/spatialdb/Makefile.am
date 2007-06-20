@@ -16,7 +16,7 @@ include $(top_srcdir)/subpackage.am
 subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
 
 spatialdbmodule_la_LDFLAGS = -module -no-undefined -avoid-version \
-	$(PYTHON_LINKFORSHARED)
+	$(PYTHON_LA_LDFLAGS)
 
 spatialdbmodule_la_SOURCES = spatialdb.pyxe
 

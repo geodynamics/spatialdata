@@ -16,7 +16,7 @@ include $(top_srcdir)/subpackage.am
 subpkgpyexec_LTLIBRARIES = geocoordsmodule.la
 
 geocoordsmodule_la_LDFLAGS = -module -no-undefined -avoid-version \
-	$(PYTHON_LINKFORSHARED)
+	$(PYTHON_LA_LDFLAGS)
 
 geocoordsmodule_la_SOURCES = geocoords.pyxe
 
