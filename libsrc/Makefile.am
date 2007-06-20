@@ -35,7 +35,8 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleIOAscii.cc \
 	spatialdb/cspatialdb.cc	
 
-libspatialdata_la_LDFLAGS = -no-undefined
+libspatialdata_la_LDFLAGS = -no-undefined \
+	$(PYTHON_LINKFORSHARED)
 
 CPPFLAGS += -DDATADIR="$(pkgdatadir)/geocoords"
 
