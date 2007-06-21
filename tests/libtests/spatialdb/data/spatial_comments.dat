@@ -1,0 +1,26 @@
+#SPATIAL.ascii 1
+// Comment after header
+SimpleDB {
+  num-values = 2 // comment for value
+    // indented comment on separate line
+  value-names =  One  Two // comment after
+  value-units =  m  m
+  // a comment here
+  // a comment there
+  num-locs = 5 // annotate here
+  // annotate there
+  data-dim = 3
+  cs-data = cartesian {
+    // annotation within cs
+    to-meters = 1.0 // highlight units
+    // comment here
+  } // cs-data
+} // SimpleDB
+// here is the data
+0.6 0.1 0.2  6.6 3.4
+// comment within data
+1.0 1.1 1.2  5.5 6.7
+4.7 9.5 8.7  2.3 4.1 // comment at end of data
+3.4 0.7 9.8  5.7 2.0
+3.4 9.8 5.7  6.3 6.7
+// comment after data

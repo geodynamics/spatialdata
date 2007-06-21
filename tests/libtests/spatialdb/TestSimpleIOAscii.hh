@@ -37,13 +37,18 @@ class spatialdata::spatialdb::TestSimpleIOAscii : public CppUnit::TestFixture
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestSimpleIOAscii );
   CPPUNIT_TEST( testIO );
+  CPPUNIT_TEST( testReadComments );
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test Filename(), Read(), Write()
+  /// Test filename(), read(), write().
   void testIO(void);
+
+  /// Test filename(), read() with spatial database file that contains
+  /// comments.
+  void testReadComments(void);
 
 }; // class TestSimpleIOAscii
 

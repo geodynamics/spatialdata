@@ -30,7 +30,7 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleIOAscii );
 
 // ----------------------------------------------------------------------
-// Test Filename(), Write(), Read()
+// Test filename(), write(), read().
 void
 spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
 { // testIO
@@ -93,6 +93,56 @@ spatialdata::spatialdb::TestSimpleIOAscii::testIO(void)
   delete[] dbIn.valUnits; dbIn.valUnits = 0;
   delete pCSIn; pCSIn = 0;
 } // testIO
+
+// ----------------------------------------------------------------------
+// Test filename(), read() with spatial database file that contains
+// comments.
+void
+spatialdata::spatialdb::TestSimpleIOAscii::testReadComments(void)
+{ // testReadComments
+  const double data[] = { 0.6, 0.1, 0.2,  6.6, 3.4,
+			  1.0, 1.1, 1.2,  5.5, 6.7,
+			  4.7, 9.5, 8.7,  2.3, 4.1,
+			  3.4, 0.7, 9.8,  5.7, 2.0,
+			  3.4, 9.8, 5.7,  6.3, 6.7};
+  const int spaceDim = 3;
+  const int numLocs = 5;
+  const int numVals = 2;
+  const int dataDim = 3;
+  const char* names[] = { "One", "Two" };
+  const char* units[] = { "m", "m" };
+
+  const char* filename = "data/spatial_comments.dat";
+  SimpleIOAscii dbIO;
+  dbIO.filename(filename);
+
+  SimpleDB::DataStruct dbIn;
+  geocoords::CoordSys* pCSIn = 0;
+  dbIn.data = 0;
+  dbIn.valNames = 0;
+  dbIn.valUnits = 0;
+  dbIO.read(&dbIn, &pCSIn);
+
+  CPPUNIT_ASSERT_EQUAL(numLocs, dbIn.numLocs);
+  CPPUNIT_ASSERT_EQUAL(numVals, dbIn.numVals);
+  CPPUNIT_ASSERT_EQUAL(dataDim, dbIn.dataDim);
+  CPPUNIT_ASSERT_EQUAL(spaceDim, dbIn.spaceDim);
+  for (int iVal=0; iVal < numVals; ++iVal) {
+    CPPUNIT_ASSERT_EQUAL(std::string(names[iVal]),
+			 std::string(dbIn.valNames[iVal].c_str()));
+    CPPUNIT_ASSERT_EQUAL(std::string(units[iVal]),
+			 std::string(dbIn.valUnits[iVal].c_str()));
+  } // for
+  const int dataSize = numLocs*(spaceDim+numVals);
+  const double tolerance = 1.0e-06;
+  for (int i=0; i < dataSize; ++i)
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(dbIn.data[i]/data[i], 1.0, tolerance);
+
+  delete[] dbIn.data; dbIn.data = 0;
+  delete[] dbIn.valNames; dbIn.valNames = 0;
+  delete[] dbIn.valUnits; dbIn.valUnits = 0;
+  delete pCSIn; pCSIn = 0;
+} // testReadComments
 
 
 // End of file 

@@ -11,7 +11,8 @@
 #
 
 noinst_DATA = \
-	spatialdb.dat
+	spatialdb.dat \
+	spatial_comments.dat
 
 noinst_TMP = \
 	spatial.dat
