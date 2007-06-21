@@ -82,13 +82,13 @@ void
 spatialdata::geocoords::CSCart::unpickle(std::istream& s)
 { // unpickle
   utils::LineParser parser(s, "//");
+  parser.eatwhitespace(true);
 
   std::string token;
   std::istringstream buffer;
   const int maxIgnore = 256;
 
   parser.ignore('{');
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -108,7 +108,6 @@ spatialdata::geocoords::CSCart::unpickle(std::istream& s)
 	  << "  space-dim";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    parser.eatws();
     buffer.str(parser.next());
     buffer.clear();
     buffer >> token;

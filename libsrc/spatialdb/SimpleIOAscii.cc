@@ -116,12 +116,12 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   pData->spaceDim = 3;
 
   utils::LineParser parser(filein, "//");
+  parser.eatwhitespace(true);
 
   std::string token;
   std::istringstream buffer;
   const int maxIgnore = 256;
 
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -132,7 +132,6 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   } // else
 
   int numVals = 0;
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -185,7 +184,6 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
       throw std::runtime_error(msg.str());
     } // else
 
-    parser.eatws();
     buffer.str(parser.next());
     buffer.clear();
     buffer >> token;
@@ -220,7 +218,6 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   delete[] pData->data; 
   pData->data = (dataTotalSize > 0) ? new double[dataTotalSize] : 0;
   for (int iLoc=0, i=0; iLoc < pData->numLocs; ++iLoc) {
-    parser.eatws();
     buffer.str(parser.next());
     buffer.clear();
     for (int iVal=0; iVal < dataLocSize; ++iVal)

@@ -172,6 +172,7 @@ void
 spatialdata::geocoords::Projector::unpickle(std::istream& s)
 { // unpickle
   utils::LineParser parser(s, "//");
+  parser.eatwhitespace(true);
 
   std::string token;
   std::istringstream buffer;
@@ -179,7 +180,6 @@ spatialdata::geocoords::Projector::unpickle(std::istream& s)
   char cbuffer[maxIgnore];
 
   parser.ignore('{');
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -201,7 +201,6 @@ spatialdata::geocoords::Projector::unpickle(std::istream& s)
 	  << "  projection, units, proj-options";
       throw std::runtime_error(msg.str().c_str());
     } // else
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -210,7 +209,5 @@ spatialdata::geocoords::Projector::unpickle(std::istream& s)
     throw std::runtime_error("I/O error while parsing Projector settings.");
 } // unpickle
 
-// version
-// $Id$
 
 // End of file 

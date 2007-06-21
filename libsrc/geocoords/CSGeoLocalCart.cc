@@ -401,6 +401,7 @@ void
 spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
 { // unpickle
   utils::LineParser parser(s, "//");
+  parser.eatwhitespace(true);
 
   std::string token;
   std::istringstream buffer;
@@ -410,7 +411,6 @@ spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
   std::string name;
 
   parser.ignore('{');
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -444,7 +444,6 @@ spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
 	  << "  origin-lon, origin-lat, origin-elev\n";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    parser.eatws();
     buffer.str(parser.next());
     buffer.clear();
     buffer >> token;

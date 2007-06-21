@@ -150,6 +150,7 @@ void
 spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
 { // unpickle
   utils::LineParser parser(s, "//");
+  parser.eatwhitespace(true);
 
   std::string token;
   std::istringstream buffer;
@@ -159,7 +160,6 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
   std::string name;
 
   parser.ignore('{');
-  parser.eatws();
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
@@ -197,7 +197,6 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
 	  << "  to-meters, ellipsoid, datum-horiz, datum-vert, projector\n";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    parser.eatws();
     buffer.str(parser.next());
     buffer.clear();
     buffer >> token;
