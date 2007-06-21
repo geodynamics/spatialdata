@@ -23,6 +23,8 @@
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSPicklerAscii.hh" // USES CSPicklerAscii
 
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
+
 #include <fstream> // USES std::ofstream, std::ifstream
 #include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 
@@ -93,6 +95,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
   } // try/catch
 } // read
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
@@ -112,90 +115,116 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   pData->dataDim = 0;
   pData->spaceDim = 3;
 
-  std::string name;
+  utils::LineParser parser(filein, "//");
 
-  filein >> name;
-  if (0 == strcasecmp(name.c_str(), "SimpleDB")) {
-    int numVals = 0;
-    std::string token;
-    const int maxIgnore = 256;
-    filein.ignore(maxIgnore, '{');
-    filein >> token;
-    while (filein.good() && token != "}") {
-      if (0 == strcasecmp(token.c_str(), "num-values")) {
-	filein.ignore(maxIgnore, '=');
-	filein >> numVals;
-	pData->numVals = numVals;
-      } else if (0 == strcasecmp(token.c_str(), "num-locs")) {
-	filein.ignore(maxIgnore, '=');
-	filein >> pData->numLocs;
-      } else if (0 == strcasecmp(token.c_str(), "value-names")) {
-	if (numVals > 0)
-	  pData->valNames = new std::string[numVals];
-	else
-	  throw std::runtime_error("Number of values must be specified BEFORE "
-				   "names of values in SimpleDB file.");
-	filein.ignore(maxIgnore, '=');
-	for (int iVal=0; iVal < numVals; ++iVal)
-	  filein >> pData->valNames[iVal];
-      } else if (0 == strcasecmp(token.c_str(), "value-units")) {
-	if (numVals > 0)
-	  pData->valUnits = new std::string[numVals];
-	else
-	  throw std::runtime_error("Number of values must be specified BEFORE "
-				   "units of values in SimpleDB file.");
-	filein.ignore(maxIgnore, '=');
-	for (int iVal=0; iVal < numVals; ++iVal)
-	  filein >> pData->valUnits[iVal];
-      } else if (0 == strcasecmp(token.c_str(), "data-dim")) {
-	filein.ignore(maxIgnore, '=');
-	filein >> pData->dataDim;
-      } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
-	filein.ignore(maxIgnore, '=');
-	filein >> pData->spaceDim;
-      } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
-	spatialdata::geocoords::CSPicklerAscii::unpickle(filein, ppCS);
-      } else {
-	std::ostringstream msg;
-	msg << "Could not parse '" << token << "' into a SimpleDB setting.";
-	throw std::runtime_error(msg.str());
-      } // else
-      filein >> token;
-    } // while
-    if (!filein.good())
-      throw std::runtime_error("I/O error while parsing SimpleDB settings.");
+  std::string token;
+  std::istringstream buffer;
+  const int maxIgnore = 256;
 
-    bool ok = true;
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  if (0 != strcasecmp(token.c_str(), "SimpleDB")) {
     std::ostringstream msg;
-    if (0 == pData->numVals) {
-      ok = false;
-      msg << "SimpleDB settings must include 'num-values'.\n";
-    } // if
-    if (0 == pData->numLocs) {
-      ok = false;
-      msg << "SimpleDB settings must include 'num-locs'.\n";
-    } // if
-    if (0 == pData->valNames) {
-      ok = false;
-      msg << "SimpleDB settings must include 'value-names'.\n";
-    } // if
-    if (0 == pData->valUnits) {
-      ok = false;
-      msg << "SimpleDB settings must include 'value-units'.\n";
-    } // if
-    if (!ok)
-      throw std::runtime_error(msg.str());
-  } else {
-    std::ostringstream msg;
-    msg << "Could not parse '" << name << "' into 'SimpleDB'.\n";
+    msg << "Could not parse '" << token << "' into 'SimpleDB'.\n";
     throw std::runtime_error(msg.str());
   } // else
 
-  const int dataSize = pData->numLocs * (pData->spaceDim + pData->numVals);
+  int numVals = 0;
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  while (buffer.good() && token != "}") {
+    if (0 == strcasecmp(token.c_str(), "num-values")) {
+      buffer.ignore(maxIgnore, '=');
+      buffer >> numVals;
+      pData->numVals = numVals;
+    } else if (0 == strcasecmp(token.c_str(), "num-locs")) {
+      buffer.ignore(maxIgnore, '=');
+      buffer >> pData->numLocs;
+    } else if (0 == strcasecmp(token.c_str(), "value-names")) {
+      if (numVals > 0)
+	pData->valNames = new std::string[numVals];
+      else
+	throw std::runtime_error("Number of values must be specified BEFORE "
+				 "names of values in SimpleDB file.");
+      buffer.ignore(maxIgnore, '=');
+      for (int iVal=0; iVal < numVals; ++iVal)
+	buffer >> pData->valNames[iVal];
+    } else if (0 == strcasecmp(token.c_str(), "value-units")) {
+      if (numVals > 0)
+	pData->valUnits = new std::string[numVals];
+      else
+	throw std::runtime_error("Number of values must be specified BEFORE "
+				 "units of values in SimpleDB file.");
+      buffer.ignore(maxIgnore, '=');
+      for (int iVal=0; iVal < numVals; ++iVal)
+	buffer >> pData->valUnits[iVal];
+    } else if (0 == strcasecmp(token.c_str(), "data-dim")) {
+      buffer.ignore(maxIgnore, '=');
+      buffer >> pData->dataDim;
+    } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
+      buffer.ignore(maxIgnore, '=');
+      buffer >> pData->spaceDim;
+    } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
+      buffer.ignore(maxIgnore, '=');
+      std::string rbuffer(buffer.str());
+      int i = rbuffer.length();
+      while (i >= 0) {
+	filein.putback(rbuffer[i]);
+	if ('=' == rbuffer[i--])
+	  break;
+      } // while
+      spatialdata::geocoords::CSPicklerAscii::unpickle(filein, ppCS);
+    } else {
+      std::ostringstream msg;
+      msg << "Could not parse '" << token << "' into a SimpleDB setting.";
+      throw std::runtime_error(msg.str());
+    } // else
+
+    parser.eatws();
+    buffer.str(parser.next());
+    buffer.clear();
+    buffer >> token;
+  } // while
+  if (token != "}")
+    throw std::runtime_error("I/O error while parsing SimpleDB settings.");
+
+  bool ok = true;
+  std::ostringstream msg;
+  if (0 == pData->numVals) {
+    ok = false;
+    msg << "SimpleDB settings must include 'num-values'.\n";
+  } // if
+  if (0 == pData->numLocs) {
+    ok = false;
+    msg << "SimpleDB settings must include 'num-locs'.\n";
+  } // if
+  if (0 == pData->valNames) {
+    ok = false;
+      msg << "SimpleDB settings must include 'value-names'.\n";
+  } // if
+  if (0 == pData->valUnits) {
+    ok = false;
+    msg << "SimpleDB settings must include 'value-units'.\n";
+  } // if
+  if (!ok)
+    throw std::runtime_error(msg.str());
+  
+  
+  const int dataLocSize = pData->spaceDim + pData->numVals;
+  const int dataTotalSize = pData->numLocs * dataLocSize;
   delete[] pData->data; 
-  pData->data = (dataSize > 0) ? new double[dataSize] : 0;
-  for (int i=0; i < dataSize; ++i)
-    filein >> pData->data[i];
+  pData->data = (dataTotalSize > 0) ? new double[dataTotalSize] : 0;
+  for (int iLoc=0, i=0; iLoc < pData->numLocs; ++iLoc) {
+    parser.eatws();
+    buffer.str(parser.next());
+    buffer.clear();
+    for (int iVal=0; iVal < dataLocSize; ++iVal)
+      buffer >> pData->data[i++];
+  } // for
   if (!filein.good())
     throw std::runtime_error("I/O error while reading SimpleDB data.");
   

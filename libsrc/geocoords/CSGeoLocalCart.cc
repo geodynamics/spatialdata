@@ -20,6 +20,8 @@ extern "C" {
 
 #include "Geoid.hh" // USES Geoid
 
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
+
 #include <math.h> // USES M_PI, sin(), cos()
 #include <iostream> // USES std::istream, std::ostream
 
@@ -398,37 +400,42 @@ spatialdata::geocoords::CSGeoLocalCart::pickle(std::ostream& s) const
 void 
 spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
 { // unpickle
-  std::string token;
-  const int maxIgnore = 128;
+  utils::LineParser parser(s, "//");
 
-  char buffer[maxIgnore];
+  std::string token;
+  std::istringstream buffer;
+  const int maxIgnore = 256;
+  char cbuffer[maxIgnore];
   double val;
   std::string name;
 
-  s.ignore(maxIgnore, '{');
-  s >> token;
-  while (s.good() && token != "}") {
-    s.ignore(maxIgnore, '=');
+  parser.ignore('{');
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  while (buffer.good() && token != "}") {
+    buffer.ignore(maxIgnore, '=');
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
-      s >> val;
+      buffer >> val;
       toMeters(val);
     } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
-      s >> name;
+      buffer >> name;
       ellipsoid(name);
     } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      datumHoriz(buffer);
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      datumHoriz(cbuffer);
     } else if (0 == strcasecmp(token.c_str(), "datum-vert")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      datumVert(buffer);
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      datumVert(cbuffer);
     } else if (0 == strcasecmp(token.c_str(), "origin-lon")) {
-      s >> _originLon;
+      buffer >> _originLon;
     } else if (0 == strcasecmp(token.c_str(), "origin-lat")) {
-      s >> _originLat;
+      buffer >> _originLat;
     } else if (0 == strcasecmp(token.c_str(), "origin-elev")) {
-      s >> _originElev;
+      buffer >> _originElev;
     } else {
       std::ostringstream msg;
       msg << "Could not parse '" << token << "' into a CSGeoLocalCart token.\n"
@@ -437,9 +444,12 @@ spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
 	  << "  origin-lon, origin-lat, origin-elev\n";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    s >> token;
+    parser.eatws();
+    buffer.str(parser.next());
+    buffer.clear();
+    buffer >> token;
   } // while
-  if (!s.good())
+  if (token != "}")
     throw std::runtime_error("I/O error while parsing CSGeoLocalCart "
 			     "settings.");
 } // unpickle

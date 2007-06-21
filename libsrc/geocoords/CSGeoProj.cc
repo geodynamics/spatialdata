@@ -16,6 +16,8 @@
 
 #include "Projector.hh" // USES Projector
 
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
+
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
@@ -147,33 +149,44 @@ spatialdata::geocoords::CSGeoProj::pickle(std::ostream& s) const
 void 
 spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
 { // unpickle
-  std::string token;
-  const int maxIgnore = 128;
+  utils::LineParser parser(s, "//");
 
-  char buffer[maxIgnore];
+  std::string token;
+  std::istringstream buffer;
+  const int maxIgnore = 256;
+  char cbuffer[maxIgnore];
   double val;
   std::string name;
 
-  s.ignore(maxIgnore, '{');
-  s >> token;
-  while (s.good() && token != "}") {
-    s.ignore(maxIgnore, '=');
+  parser.ignore('{');
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  while (buffer.good() && token != "}") {
+    buffer.ignore(maxIgnore, '=');
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
-      s >> val;
+      buffer >> val;
       toMeters(val);
     } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
-      s >> name;
+      buffer >> name;
       ellipsoid(name);
     } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      datumHoriz(buffer);
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      datumHoriz(cbuffer);
     } else if (0 == strcasecmp(token.c_str(), "datum-vert")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      datumVert(buffer);
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      datumVert(cbuffer);
     } else if (0 == strcasecmp(token.c_str(), "projector")) {
-      s >> name;
+      std::string rbuffer(buffer.str());
+      int i = rbuffer.length()-1;
+      while (i >= 0) {
+	if ('=' == rbuffer[i])
+	  break;
+	s.putback(rbuffer[i--]);
+      } // while
       if (0 == _pProjector)
 	_pProjector = new Projector;
       _pProjector->unpickle(s);
@@ -184,9 +197,12 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
 	  << "  to-meters, ellipsoid, datum-horiz, datum-vert, projector\n";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    s >> token;
+    parser.eatws();
+    buffer.str(parser.next());
+    buffer.clear();
+    buffer >> token;
   } // while
-  if (!s.good())
+  if (token != "}")
     throw std::runtime_error("I/O error while parsing CSGeoProj "
 			     "settings.");
 } // unpickle

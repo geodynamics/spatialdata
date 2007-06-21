@@ -16,6 +16,8 @@
 
 #include "Geoid.hh" // USES Geoid
 
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
+
 #include <math.h> // USES M_PI
 #include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
@@ -210,32 +212,38 @@ spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const
 void 
 spatialdata::geocoords::CSGeo::unpickle(std::istream& s)
 { // unpickle
-  std::string token;
-  const int maxIgnore = 128;
-  char buffer[maxIgnore];
+  utils::LineParser parser(s, "//");
 
-  s.ignore(maxIgnore, '{');
-  s >> token;
-  while (s.good() && token != "}") {
-    s.ignore(maxIgnore, '=');
+  std::string token;
+  std::istringstream buffer;
+  const int maxIgnore = 256;
+  char cbuffer[maxIgnore];
+
+  parser.ignore('{');
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  while (buffer.good() && token != "}") {
+    buffer.ignore(maxIgnore, '=');
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
-      s >> _toMeters;
+      buffer >> _toMeters;
     } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
       int ndims;
-      s >> ndims;
+      buffer >> ndims;
       setSpaceDim(ndims);
     } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
-      s >> _ellipsoid;
+      buffer >> _ellipsoid;
     } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      _datumHoriz = buffer;
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      _datumHoriz = cbuffer;
     } else if (0 == strcasecmp(token.c_str(), "datum-vert")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      _datumVert = buffer;
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      _datumVert = cbuffer;
     } else if (0 == strcasecmp(token.c_str(), "is-geocentric")) {
-      s >> _isGeocentric;
+      buffer >> _isGeocentric;
     } else {
       std::ostringstream msg;
       msg << "Could not parse '" << token << "' into a CSGeo token.\n"
@@ -243,9 +251,12 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s)
 	  << "  to-meters, ellipsoid, datum-horiz, datum-vert";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    s >> token;
+    parser.eatws();
+    buffer.str(parser.next());
+    buffer.clear();
+    buffer >> token;
   } // while
-  if (!s.good())
+  if (token != "}")
     throw std::runtime_error("I/O error while parsing CSGeo settings.");
 } // unpickle
 

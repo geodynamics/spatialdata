@@ -18,6 +18,7 @@ SUBDIRS = \
 lib_LTLIBRARIES = libspatialdata.la
 
 libspatialdata_la_SOURCES = \
+	utils/LineParser.cc \
 	utils/PointsStream.cc \
 	geocoords/Converter.cc \
 	geocoords/CoordSys.cc \

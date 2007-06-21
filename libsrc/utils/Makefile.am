@@ -14,6 +14,7 @@ subpackage = utils
 include $(top_srcdir)/subpackage.am
 
 subpkginclude_HEADERS = \
+	LineParser.hh \
 	PointsStream.hh \
 	PointsStream.icc
 

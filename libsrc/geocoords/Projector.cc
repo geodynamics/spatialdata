@@ -21,6 +21,8 @@ extern "C" {
 #include "proj_api.h" // USES PROJ4
 };
 
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
+
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
@@ -169,23 +171,29 @@ spatialdata::geocoords::Projector::pickle(std::ostream& s) const
 void 
 spatialdata::geocoords::Projector::unpickle(std::istream& s)
 { // unpickle
-  std::string token;
-  const int maxIgnore = 128;
-  char buffer[maxIgnore];
+  utils::LineParser parser(s, "//");
 
-  s.ignore(maxIgnore, '{');
-  s >> token;
-  while (s.good() && token != "}") {
-    s.ignore(maxIgnore, '=');
+  std::string token;
+  std::istringstream buffer;
+  const int maxIgnore = 256;
+  char cbuffer[maxIgnore];
+
+  parser.ignore('{');
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  while (buffer.good() && token != "}") {
+    buffer.ignore(maxIgnore, '=');
     if (0 == strcasecmp(token.c_str(), "projection")) {
-      s >> _projection;
+      buffer >> _projection;
     } else if (0 == strcasecmp(token.c_str(), "units")) {
-      s >> _units;
+      buffer >> _units;
     } else if (0 == strcasecmp(token.c_str(), "proj-options")) {
-      s >> std::ws;
-      s.get(buffer, maxIgnore, '\n');
-      if (0 != strcasecmp("none", buffer))
-	_projOptions = buffer;
+      buffer >> std::ws;
+      buffer.get(cbuffer, maxIgnore, '\n');
+      if (0 != strcasecmp("none", cbuffer))
+	_projOptions = cbuffer;
     } else {
       std::ostringstream msg;
       msg << "Could not parse '" << token << "' into a Projector token.\n"
@@ -193,9 +201,12 @@ spatialdata::geocoords::Projector::unpickle(std::istream& s)
 	  << "  projection, units, proj-options";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    s >> token;
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
   } // while
-  if (!s.good())
+  if (token != "}")
     throw std::runtime_error("I/O error while parsing Projector settings.");
 } // unpickle
 

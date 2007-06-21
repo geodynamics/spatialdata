@@ -14,6 +14,8 @@
 
 #include "CSCart.hh" // implementation of class methods
 
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
+
 #include <iostream> // USES std::istream, std::ostream
 
 #include <sstream> // USES std::ostringstream
@@ -79,18 +81,24 @@ spatialdata::geocoords::CSCart::pickle(std::ostream& s) const
 void 
 spatialdata::geocoords::CSCart::unpickle(std::istream& s)
 { // unpickle
-  std::string token;
-  const int maxIgnore = 128;
+  utils::LineParser parser(s, "//");
 
-  s.ignore(maxIgnore, '{');
-  s >> token;
-  while (s.good() && token != "}") {
-    s.ignore(maxIgnore, '=');
+  std::string token;
+  std::istringstream buffer;
+  const int maxIgnore = 256;
+
+  parser.ignore('{');
+  parser.eatws();
+  buffer.str(parser.next());
+  buffer.clear();
+  buffer >> token;
+  while (buffer.good() && token != "}") {
+    buffer.ignore(maxIgnore, '=');
     if (0 == strcasecmp(token.c_str(), "to-meters")) {
-      s >> _toMeters;
+      buffer >> _toMeters;
     } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
       int dim;
-      s >> dim;
+      buffer >> dim;
       setSpaceDim(dim);
     } else {
       std::ostringstream msg;
@@ -100,9 +108,12 @@ spatialdata::geocoords::CSCart::unpickle(std::istream& s)
 	  << "  space-dim";
       throw std::runtime_error(msg.str().c_str());
     } // else
-    s >> token;
+    parser.eatws();
+    buffer.str(parser.next());
+    buffer.clear();
+    buffer >> token;
   } // while
-  if (!s.good())
+  if (token != "}")
     throw std::runtime_error("I/O error while parsing CSCart settings.");
 } // unpickle
 
