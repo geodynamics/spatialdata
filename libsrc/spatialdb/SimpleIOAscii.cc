@@ -171,7 +171,8 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
     } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
       buffer.ignore(maxIgnore, '=');
       std::string rbuffer(buffer.str());
-      int i = rbuffer.length();
+      filein.putback('\n');
+      int i = rbuffer.length()-1;
       while (i >= 0) {
 	filein.putback(rbuffer[i]);
 	if ('=' == rbuffer[i--])
