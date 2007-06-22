@@ -20,7 +20,7 @@ from pyre.components.Component import Component
 
 def validateFilename(value):
   if 0 == len(value):
-    raise ValueError("Empty filename given.")
+    raise ValueError("No filename given for spatial database.")
   return value
 
 
