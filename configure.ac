@@ -42,7 +42,14 @@ AC_ARG_ENABLE([documentation],
 
 AC_PROG_CXX
 AC_PROG_CC
+
 AC_PROG_LIBTOOL
+if test "$allow_undefined_flag" = unsupported; then
+    # See issueXXX.
+    AM_LDFLAGS="-no-undefined $AM_LDFLAGS"
+fi
+AC_SUBST(AM_LDFLAGS)
+
 AM_PATH_PYTHON([2.3])
 
 # ----------------------------------------------------------------------

@@ -20,8 +20,8 @@ subpkgpyexec_LTLIBRARIES = \
 INCLUDES += -I$(PYTHON_INCDIR)
 
 # simple array
-simplearraymodule_la_LDFLAGS = -module -no-undefined -avoid-version \
-	$(PYTHON_LA_LDFLAGS)
+simplearraymodule_la_LDFLAGS = -module -avoid-version \
+	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 simplearraymodule_la_SOURCES = simplearray.pyxe
 nodist_simplearraymodule_la_SOURCES = \
 	simplearray.c simplearray_embed.cpp simplearray_embed.h
@@ -29,8 +29,8 @@ simplearraymodule_la_LIBADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 # utils
-utilsmodule_la_LDFLAGS = -module -no-undefined -avoid-version \
-	$(PYTHON_LA_LDFLAGS)
+utilsmodule_la_LDFLAGS = -module -avoid-version \
+	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 utilsmodule_la_SOURCES = utils.pyxe
 nodist_utilsmodule_la_SOURCES = \
 	utils.c utils_embed.cpp utils_embed.h

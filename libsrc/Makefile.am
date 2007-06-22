@@ -36,7 +36,7 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleIOAscii.cc \
 	spatialdb/cspatialdb.cc	
 
-libspatialdata_la_LDFLAGS = -no-undefined
+libspatialdata_la_LDFLAGS = $(AM_LDFLAGS)
 
 CPPFLAGS += -DDATADIR="$(pkgdatadir)/geocoords"
 

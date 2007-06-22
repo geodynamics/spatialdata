@@ -23,8 +23,8 @@ noinst_PYTHON = \
 # module
 subpkgpyexec_LTLIBRARIES = testcppmodule.la
 
-testcppmodule_la_LDFLAGS = -module -no-undefined -avoid-version \
-	$(PYTHON_LA_LDFLAGS)
+testcppmodule_la_LDFLAGS = -module -avoid-version \
+	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 testcppmodule_la_LIBADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
