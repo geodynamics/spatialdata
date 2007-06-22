@@ -18,6 +18,12 @@
 
 from pyre.components.Component import Component
 
+def validateFilename(value):
+  if 0 == len(value):
+    raise ValueError("Empty filename given.")
+  return value
+
+
 # SimpleIO class
 class SimpleIO(Component):
   """
@@ -44,7 +50,8 @@ class SimpleIO(Component):
 
     import pyre.inventory
 
-    filename = pyre.inventory.str("filename", default="")
+    filename = pyre.inventory.str("filename", default="",
+                                  validator=validateFilename)
     filename.meta['tip'] = "Name of database file."
 
 
