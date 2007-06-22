@@ -45,7 +45,7 @@ AC_PROG_CC
 
 AC_PROG_LIBTOOL
 if test "$allow_undefined_flag" = unsupported; then
-    # See issueXXX.
+    # See issue119.
     AM_LDFLAGS="-no-undefined $AM_LDFLAGS"
 fi
 AC_SUBST(AM_LDFLAGS)
