@@ -53,12 +53,20 @@ spatialdata::spatialdb::SimpleIOAscii::read(
       throw std::runtime_error(msg.str());
     } // if
 
+    utils::LineParser parser(filein, "//");
+    parser.eatwhitespace(true);
+
+    std::istringstream buffer;
+
+    buffer.str(parser.next());
+    buffer.clear();
+
     const int headerLen = strlen(HEADER);
-    std::string buffer;
-    buffer.resize(headerLen+1);
-    filein.read((char*) buffer.c_str(), sizeof(char)*headerLen);
-    buffer[headerLen] = '\0';
-    if (0 != strcasecmp(HEADER, buffer.c_str())) {
+    std::string hbuffer;
+    hbuffer.resize(headerLen+1);
+    buffer.read((char*) hbuffer.c_str(), sizeof(char)*headerLen);
+    hbuffer[headerLen] = '\0';
+    if (0 != strcasecmp(HEADER, hbuffer.c_str())) {
       std::ostringstream msg;
       msg
 	<< "Magic header '" << buffer << "' does not match expected header '"
@@ -66,7 +74,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
       throw std::runtime_error(msg.str());
     } // if
     int version = 0;
-    filein >> version;
+    buffer >> version;
     switch (version)
       { // switch
       case 1 :

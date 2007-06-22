@@ -1,4 +1,6 @@
-#SPATIAL.ascii 1
+// comments at top
+   // a little whitespace
+#SPATIAL.ascii 1 // comments at end
 // Comment after header
 SimpleDB {
   num-values = 2 // comment for value
