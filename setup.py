@@ -13,7 +13,7 @@ setup(
     packages = find_packages(),
     
     install_requires = [
-    'pythia[mpi] >= 0.8.1.0, < 0.8.2a',
+    'pythia[mpi] >= 0.8.1.4, < 0.8.2a',
     ],
 
     author = 'Brad T. Aagaard',
