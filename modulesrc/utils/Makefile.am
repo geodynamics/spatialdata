@@ -25,8 +25,11 @@ simplearraymodule_la_LDFLAGS = -module -avoid-version \
 simplearraymodule_la_SOURCES = simplearray.pyxe
 nodist_simplearraymodule_la_SOURCES = \
 	simplearray.c simplearray_embed.cpp simplearray_embed.h
-simplearraymodule_la_LIBADD = \
+simplearraymodule_la_LIBADD =
+if NO_UNDEFINED
+simplearraymodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
+endif
 
 # utils
 utilsmodule_la_LDFLAGS = -module -avoid-version \
@@ -35,8 +38,11 @@ utilsmodule_la_SOURCES = utils.pyxe
 nodist_utilsmodule_la_SOURCES = \
 	utils.c utils_embed.cpp utils_embed.h
 utilsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/libspatialdata.la \
+	$(top_builddir)/libsrc/libspatialdata.la
+if NO_UNDEFINED
+utilsmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
+endif
 
 # simple array targets
 simplearray.pyx simplearray_embed.cpp  simplearray_embed.h: simplearray.pyxe

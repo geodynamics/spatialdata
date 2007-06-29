@@ -24,8 +24,11 @@ nodist_geocoordsmodule_la_SOURCES = \
 	geocoords.c geocoords_embed.cpp geocoords_embed.h
 
 geocoordsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/libspatialdata.la \
+	$(top_builddir)/libsrc/libspatialdata.la
+if NO_UNDEFINED
+geocoordsmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
+endif
 
 INCLUDES += -I$(PYTHON_INCDIR)
 

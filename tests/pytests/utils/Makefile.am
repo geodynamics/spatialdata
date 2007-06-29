@@ -25,9 +25,11 @@ subpkgpyexec_LTLIBRARIES = testcppmodule.la
 
 testcppmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
-testcppmodule_la_LIBADD = \
+testcppmodule_la_LIBADD =
+if NO_UNDEFINED
+testcppmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-
+endif
 
 testcppmodule_la_SOURCES = testcpp.pyxe
 
