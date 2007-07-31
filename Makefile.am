@@ -34,6 +34,10 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	CPPFLAGS="-I${PROJ4_INCDIR} -I${CPPUNIT_INCDIR} -I${PYTHIA_INCDIR} -I${CIG_INCDIR}" \
 	LDFLAGS="-L${PROJ4_LIBDIR} -L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
 
+EXTRA_DIST = \
+	setup.py \
+	archimedes/__init__.py
+
 install-data-hook:
 	top_builddir=`$(am__cd) $(top_builddir) && pwd` && \
 		cd $(top_srcdir) && \
