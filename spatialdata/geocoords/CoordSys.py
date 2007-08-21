@@ -66,6 +66,7 @@ class CoordSys(Component):
     """
     Setup members using inventory.
     """
+    Component._configure(self)
     return
 
 
