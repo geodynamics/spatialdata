@@ -425,18 +425,44 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
     const int locIndexC = _nearest[nearIndexC];
     SimpleDBTypes::dataCoords(ptC, 3, *_db._data, locIndexC);
 
-    // make sure A,B,C are not collinear by checking if area of
-    // triangle ABC is not a tiny fraction of the distance AB
-
     double areaABC = 0;
     double dirABC[numCoords];
     _area(&areaABC, dirABC, ptA, ptB, ptC);
+
+    // Alternate method of determining collinearity.
+    // Compute unit vectors AB and AC, then compute the dot product.
+    // If the absolute value of the dot product is somewhat less than 1,
+    // the points are not collinear.
+    double vecAB[numCoords];
+    double vecAC[numCoords];
+    double magAB = 0.0;
+    double magAC = 0.0;
+    for (int iDir=0; iDir < numCoords; ++iDir) {
+      vecAB[iDir] = ptA[iDir] - ptB[iDir];
+      vecAC[iDir] = ptA[iDir] - ptC[iDir];
+      magAB += vecAB[iDir] * vecAB[iDir];
+      magAC += vecAC[iDir] * vecAC[iDir];
+    } // for
+    magAB = sqrt(magAB);
+    magAC = sqrt(magAC);
+    double abdotac = 0.0;
+    for (int iDir=0; iDir < numCoords; ++iDir) {
+      abdotac += (vecAB[iDir]/magAB) * (vecAC[iDir]/magAC);
+    }
+
+    const double tolerance = 0.98;
+
+    /* *** comment this out for now
+    // make sure A,B,C are not collinear by checking if area of
+    // triangle ABC is not a tiny fraction of the distance AB
 
     // length(ab)^2
     const double ab2 = ptA[0]*ptB[0] + ptA[1]*ptB[1] + ptA[2]*ptB[2];
 
     const double tolerance = 1.0e-06;
     if (areaABC > tolerance*ab2) {
+    */
+    if (fabs(abdotac) < tolerance) {
       // project P onto abc plane
       double qProj[numCoords];
       const double qmod = 
