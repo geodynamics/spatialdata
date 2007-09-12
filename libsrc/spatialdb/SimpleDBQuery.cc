@@ -429,6 +429,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
     double dirABC[numCoords];
     _area(&areaABC, dirABC, ptA, ptB, ptC);
 
+#if 0
     // Alternate method of determining collinearity.
     // Compute unit vectors AB and AC, then compute the dot product.
     // If the absolute value of the dot product is somewhat less than 1,
@@ -448,21 +449,23 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
     double abdotac = 0.0;
     for (int iDir=0; iDir < numCoords; ++iDir) {
       abdotac += (vecAB[iDir]/magAB) * (vecAC[iDir]/magAC);
-    }
-
+    } // for
+    
     const double tolerance = 0.98;
-
-    /* *** comment this out for now
+    if (fabs(abdotac) < tolerance) {
+#else
     // make sure A,B,C are not collinear by checking if area of
     // triangle ABC is not a tiny fraction of the distance AB
-
+    
     // length(ab)^2
-    const double ab2 = ptA[0]*ptB[0] + ptA[1]*ptB[1] + ptA[2]*ptB[2];
+    const double ab2 = 
+      pow(ptA[0]-ptB[0], 2) +
+      pow(ptA[1]-ptB[1], 2) +
+      pow(ptA[2]-ptB[2], 2);
 
     const double tolerance = 1.0e-06;
     if (areaABC > tolerance*ab2) {
-    */
-    if (fabs(abdotac) < tolerance) {
+#endif
       // project P onto abc plane
       double qProj[numCoords];
       const double qmod = 
