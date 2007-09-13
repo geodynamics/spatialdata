@@ -73,17 +73,9 @@ class SimpleDB(SpatialDB):
     self.iohandler.initialize()
     SpatialDB.initialize(self)
     self.cppHandle.ioHandler(self.iohandler.cppHandle)
-    return
-  
-
-  def open(self):
-    """
-    Open database and prepare for querying.
-    """
-    SpatialDB.open(self)
     self.cppHandle.queryType(self.queryType)
     return
-
+  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
