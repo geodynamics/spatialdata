@@ -63,6 +63,7 @@ class SimpleDB(SpatialDB):
     SpatialDB.__init__(self, name)
     import spatialdb as bindings
     self.cppHandle = bindings.SimpleDB()
+    self.queryType = "nearest"
     return
 
 
