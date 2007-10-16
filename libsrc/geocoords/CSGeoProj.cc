@@ -181,12 +181,15 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
       datumVert(cbuffer);
     } else if (0 == strcasecmp(token.c_str(), "projector")) {
       std::string rbuffer(buffer.str());
-      int i = rbuffer.length()-1;
-      while (i >= 0) {
+      int start = token.length();
+      int end = rbuffer.length();
+      for (int i=start; i < end; ++i)
 	if ('=' == rbuffer[i])
-	  break;
-	s.putback(rbuffer[i--]);
-      } // while
+	  start = i+1;
+      for (int i=start; i < end; ++i) {
+	s.putback(rbuffer[i]);
+      } // for
+      s.clear();
       if (0 == _pProjector)
 	_pProjector = new Projector;
       _pProjector->unpickle(s);
@@ -206,7 +209,5 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
 			     "settings.");
 } // unpickle
 
-// version
-// $Id$
 
 // End of file 
