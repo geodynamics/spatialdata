@@ -80,6 +80,7 @@ spatialdata::utils::LineParser::putback(const std::string& buffer)
   const size_t size = buffer.length();
   for (int i=size-1; i >= 0; --i)
     _in.putback(buffer[i]);
+  _in.clear();
 } // putback
 
 

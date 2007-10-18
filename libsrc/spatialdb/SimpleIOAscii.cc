@@ -89,6 +89,8 @@ spatialdata::spatialdb::SimpleIOAscii::read(
 	  throw std::runtime_error(msg.str());
 	} // default
       } // switch
+    if (!filein.good())
+      throw std::runtime_error("Unknown error while reading.");
   } catch (const std::exception& err) {
     std::ostringstream msg;
     msg << "Error occurred while reading spatial database file '"
@@ -101,9 +103,9 @@ spatialdata::spatialdb::SimpleIOAscii::read(
 	<< filename() << "'.\n";
     throw std::runtime_error(msg.str());
   } // try/catch
+
 } // read
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
@@ -179,12 +181,14 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
       buffer.ignore(maxIgnore, '=');
       std::string rbuffer(buffer.str());
       filein.putback('\n');
+      filein.clear();
       int i = rbuffer.length()-1;
       while (i >= 0) {
 	filein.putback(rbuffer[i]);
 	if ('=' == rbuffer[i--])
 	  break;
       } // while
+      filein.clear();
       spatialdata::geocoords::CSPicklerAscii::unpickle(filein, ppCS);
     } else {
       std::ostringstream msg;
@@ -196,7 +200,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
     buffer.clear();
     buffer >> token;
   } // while
-  if (token != "}")
+  if (token != "}" || !filein.good())
     throw std::runtime_error("I/O error while parsing SimpleDB settings.");
 
   bool ok = true;
