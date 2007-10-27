@@ -44,7 +44,8 @@ class spatialdata::spatialdb::SpatialDB
   SpatialDB(const char* label);
   
   /// Default destructor.
-  virtual ~SpatialDB(void);
+  virtual
+  ~SpatialDB(void);
 
   /** Set label of spatial database.
    *
@@ -59,10 +60,12 @@ class spatialdata::spatialdb::SpatialDB
   const char* label(void) const;
 
   /// Open the database and prepare for querying.
-  virtual void open(void) = 0;
+  virtual
+  void open(void) = 0;
 
   /// Close the database.
-  virtual void close(void) = 0;
+  virtual
+  void close(void) = 0;
 
   /** Set values to be returned by queries.
    *
@@ -71,8 +74,9 @@ class spatialdata::spatialdb::SpatialDB
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
    */
-  virtual void queryVals(const char** names,
-			 const int numVals) = 0;
+  virtual
+  void queryVals(const char** names,
+		 const int numVals) = 0;
 
   /** Query the database.
    *
@@ -89,11 +93,12 @@ class spatialdata::spatialdb::SpatialDB
    *
    * @returns 0 on success, 1 on failure (i.e., could not interpolate)
    */
-  virtual int query(double* vals,
-		    const int numVals,
-		    const double* coords,
-		    const int numDims,
-		    const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
+  virtual
+  int query(double* vals,
+	    const int numVals,
+	    const double* coords,
+	    const int numDims,
+	    const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
 
  private :
   // PRIVATE METHODS ////////////////////////////////////////////////////

@@ -1,0 +1,28 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_uniformdb_hh)
+#error "UniformDB.icc must only be included from UniformDB.hh"
+#endif
+
+// Open the database and prepare for querying.
+void
+spatialdata::spatialdb::UniformDB::open(void) {
+}
+
+// Close the database.
+void
+spatialdata::spatialdb::UniformDB::close(void) {
+}
+
+
+// End of file 

@@ -27,7 +27,8 @@ subpkginclude_HEADERS = \
 	cspatialdb.h \
 	SimpleDBQuery.hh \
 	SimpleDBTypes.hh \
-	SimpleDBTypes.icc
+	SimpleDBTypes.icc \
+	UniformDB.hh
 
 noinst_HEADERS =
 

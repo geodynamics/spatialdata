@@ -34,6 +34,7 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleDBQuery.cc \
 	spatialdb/SimpleIO.cc \
 	spatialdb/SimpleIOAscii.cc \
+	spatialdb/UniformDB.cc \
 	spatialdb/cspatialdb.cc	
 
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS)
