@@ -55,6 +55,32 @@ spatialdata::spatialdb::UniformDB::~UniformDB(void)
 } // destructor
 
 // ----------------------------------------------------------------------
+// Set values in database.
+void
+spatialdata::spatialdb::UniformDB::setData(const char** names,
+					   const double* values,
+					   const int numValues)
+{ // setData
+  assert( (0 > numValues && 0 != names && 0 != values) ||
+	  (0 == numValues && 0 == names && 0 == values) );
+
+  // clear out old data
+  delete[] _names; _names = 0;
+  delete[] _values; _values = 0;
+  _numValues = numValues;
+
+  if (0 < numValues) {
+    _names = new std::string[numValues];
+    for (int i=0; i < numValues; ++i)
+      _names[i] = names[i];
+
+    _values = new double[numValues];
+    for (int i=0; i < numValues; ++i)
+      _values[i] = values[i];
+  } // if
+} // setData
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::UniformDB::queryVals(const char** names,

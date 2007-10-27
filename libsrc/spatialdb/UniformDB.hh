@@ -20,7 +20,7 @@
 
 #include "SpatialDB.hh"
 
-#include <string> // USES std::string
+#include <string> // HASA std::string
 
 namespace spatialdata {
   namespace spatialdb {
@@ -50,6 +50,16 @@ class spatialdata::spatialdb::UniformDB : public SpatialDB
   /// Default destructor.
   ~UniformDB(void);
   
+  /** Set values in database.
+   *
+   * @param names Array of names of values in database.
+   * @param values Array of values in database.
+   * @param numValues Number of values in database.
+   */
+  void setData(const char** names,
+	       const double* values,
+	       const int numValues);
+
   /// Open the database and prepare for querying.
   void open(void);
 
