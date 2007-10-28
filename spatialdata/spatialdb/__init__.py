@@ -18,6 +18,7 @@ __all__ = ['SimpleDB',
            'SimpleIOAscii',
            'SimpleIO',
            'SpatialDB',
+           'UniformDB',
            'generator']
 
 

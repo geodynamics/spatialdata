@@ -16,6 +16,7 @@
 #include "spatialdata/spatialdb/SimpleIO.hh"
 #include "spatialdata/spatialdb/SimpleIOAscii.hh"
 #include "spatialdata/spatialdb/SimpleDBTypes.hh"
+#include "spatialdata/spatialdb/UniformDB.hh"
 
 #include "spatialdata/geocoords/CoordSys.hh"
 
@@ -456,8 +457,8 @@ cdef class SimpleIOAscii(SimpleIO):
     namesArray = NULL
     unitsArray = NULL
     if numValues > 0:
-      namesArray = <char**> malloc(numValues*sizeof(char))
-      unitsArray = <char**> malloc(numValues*sizeof(char))
+      namesArray = <char**> malloc(numValues*sizeof(char*))
+      unitsArray = <char**> malloc(numValues*sizeof(char*))
     for i from 0 <= i < numValues:
       strsize = len(names[i])
       namesArray[i] = <char*> malloc(1+strsize*sizeof(char))
@@ -479,6 +480,59 @@ cdef class SimpleIOAscii(SimpleIO):
     free(<void*> namesArray)
     free(<void*> unitsArray)
     return
+
+# ----------------------------------------------------------------------
+cdef class UniformDB(SpatialDB):
+
+  def __init__(self):
+    """
+    Constructor.
+    """
+    # create shim for constructor
+    #embed{ void* UniformDB_constructor()
+      return (void*)(new spatialdata::spatialdb::UniformDB);
+    #}embed
+
+    SpatialDB.__init__(self)
+    self.thisptr = UniformDB_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def setData(self, names, values):
+    """
+    Set the data in the spatial database.
+    """
+    # create shim for method 'setData'
+    #embed{ void UniformDB_setData(void* pObj, char** names, double* values, int size)
+    ((spatialdata::spatialdb::UniformDB*) pObj)->setData(
+      const_cast<const char**>(names), values, size);
+    #}embed
+
+    cdef char** namesArray
+    cdef double* valuesArray
+    namesArray = NULL
+    valuesArray = NULL
+    numValues = len(names)
+    if numValues > 0:
+      namesArray = <char**> malloc(numValues*sizeof(char*))
+      valuesArray = <double*> malloc(numValues*sizeof(double))
+    for i from 0 <= i < numValues:
+      strsize = len(names[i])
+      namesArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = names[i] # KLUDGE??
+      strcpy(namesArray[i], tmp)
+
+      valuesArray[i] = values[i]
+      
+    UniformDB_setData(self.thisptr, namesArray, valuesArray, numValues)
+
+    for i from 0 <= i < numValues:
+      free(<void*> namesArray[i])
+    free(<void*> namesArray)
+    free(<void*> valuesArray)
+    return
+
 
 
 # End of file 

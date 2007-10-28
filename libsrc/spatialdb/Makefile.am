@@ -28,7 +28,8 @@ subpkginclude_HEADERS = \
 	SimpleDBQuery.hh \
 	SimpleDBTypes.hh \
 	SimpleDBTypes.icc \
-	UniformDB.hh
+	UniformDB.hh \
+	UniformDB.icc
 
 noinst_HEADERS =
 

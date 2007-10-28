@@ -22,6 +22,9 @@ def suite():
   from TestSimpleIOAscii import TestSimpleIOAscii
   suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
 
+  from TestUniformDB import TestUniformDB
+  suite.addTest(unittest.makeSuite(TestUniformDB))
+
   from TestGenSimpleDBApp import TestGenSimpleDBApp
   suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
 

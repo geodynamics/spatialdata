@@ -24,6 +24,7 @@ nobase_pkgpyexec_PYTHON = \
 	spatialdb/SimpleIOAscii.py \
 	spatialdb/SimpleIO.py \
 	spatialdb/SpatialDB.py \
+	spatialdb/UniformDB.py \
 	spatialdb/__init__.py \
 	spatialdb/generator/Shaper.py \
 	spatialdb/generator/Shapers.py \

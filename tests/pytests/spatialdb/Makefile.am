@@ -18,6 +18,7 @@ noinst_PYTHON = \
 	TestGenSimpleDBApp.py \
 	TestSimpleIOAscii.py \
 	TestSpatialDB.py \
+	TestUniformDB.py \
 	testspatial.py
 
 

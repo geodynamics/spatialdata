@@ -61,7 +61,7 @@ spatialdata::spatialdb::UniformDB::setData(const char** names,
 					   const double* values,
 					   const int numValues)
 { // setData
-  assert( (0 > numValues && 0 != names && 0 != values) ||
+  assert( (0 < numValues && 0 != names && 0 != values) ||
 	  (0 == numValues && 0 == names && 0 == values) );
 
   // clear out old data

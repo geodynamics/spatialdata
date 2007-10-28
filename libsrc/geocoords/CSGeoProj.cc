@@ -186,7 +186,7 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
       for (int i=start; i < end; ++i)
 	if ('=' == rbuffer[i])
 	  start = i+1;
-      for (int i=start; i < end; ++i) {
+      for (int i=end-1; i >= start; --i) {
 	s.putback(rbuffer[i]);
       } // for
       s.clear();
