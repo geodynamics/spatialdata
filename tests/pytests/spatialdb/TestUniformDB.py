@@ -20,7 +20,8 @@ class TestUniformDB(unittest.TestCase):
   def setUp(self):
     from spatialdata.spatialdb.UniformDB import UniformDB
     db = UniformDB()
-    db.label = "test db"
+    db._configure()
+    db.label = "test"
     db.values = ["one", "two", "three"]
     db.data = [1.1, 2.2, 3.3]
     db.initialize()

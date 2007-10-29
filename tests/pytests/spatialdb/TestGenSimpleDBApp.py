@@ -24,19 +24,16 @@ class TestGenSimpleDBApp(unittest.TestCase):
     from spatialdata.spatialdb.generator.GenSimpleDBApp import GenSimpleDBApp
     from spatialdata.geocoords.CSCart import CSCart
     from spatialdata.spatialdb.SimpleDB import SimpleDB
-    from spatialdata.spatialdb.SimpleIOAscii import SimpleIOAscii
     
     app = GenSimpleDBApp()
     app.run()
 
     # Test write using query
-    from spatialdata.spatialdb.SimpleDB import SimpleDB
-    iohandler = SimpleIOAscii()
-    iohandler.filename = "data/gen1Din2D.spatialdb"
     db = SimpleDB()
+    db._configure()
+    db.iohandler.filename = "data/gen1Din2D.spatialdb"
     db.label = "test"
     db.queryType = "nearest"
-    db.iohandler = iohandler
     db.initialize()
 
     db.open()

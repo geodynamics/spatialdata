@@ -19,15 +19,12 @@ from spatialdata.geocoords.CSCart import CSCart
 class TestSpatialDB(unittest.TestCase):
 
   def setUp(self):
-    from spatialdata.spatialdb.SimpleIOAscii import SimpleIOAscii
-    iohandler = SimpleIOAscii()
-    iohandler.filename = "data/spatialdb.dat"
-
     from spatialdata.spatialdb.SimpleDB import SimpleDB
     db = SimpleDB()
+    db._configure()
     db.label = "test"
     db.queryType = "Nearest"
-    db.iohandler = iohandler
+    db.iohandler.filename = "data/spatialdb.dat"
     db.initialize()
     self._db = db
     return

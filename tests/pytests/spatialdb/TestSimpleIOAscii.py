@@ -48,12 +48,11 @@ class TestSimpleIOAscii(unittest.TestCase):
 
     # Test write using query
     from spatialdata.spatialdb.SimpleDB import SimpleDB
-    iohandler = SimpleIOAscii()
-    iohandler.filename = filename
     db = SimpleDB()
+    db._configure()
     db.label = "test"
     db.queryType = "Linear"
-    db.iohandler = iohandler
+    db.iohandler.filename = filename
     db.initialize()
 
     db.open()
