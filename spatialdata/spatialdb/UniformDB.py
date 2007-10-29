@@ -82,7 +82,7 @@ class UniformDB(SpatialDB):
     SpatialDB._configure(self)
     self._validate(self.inventory)
     self.values = self.inventory.values
-    self.data = self.inventory.data
+    self.data = map(float, self.inventory.data)
     return
 
 
