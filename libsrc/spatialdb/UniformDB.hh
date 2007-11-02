@@ -61,10 +61,10 @@ class spatialdata::spatialdb::UniformDB : public SpatialDB
 	       const int numValues);
 
   /// Open the database and prepare for querying.
-  void open(void);
+  inline void open(void);
 
   /// Close the database.
-  void close(void);
+  inline void close(void);
 
   /** Set values to be returned by queries.
    *
