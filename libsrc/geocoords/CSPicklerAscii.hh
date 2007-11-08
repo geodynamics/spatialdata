@@ -55,7 +55,5 @@ public :
 
 #endif // spatialdata_geocoords_cspicklerascii_hh
 
-// version
-// $Id$
 
 // End of file 

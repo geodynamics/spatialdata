@@ -128,7 +128,5 @@ private :
 
 #endif // spatialdata_geocoords_geoid_hh
 
-// version
-// $Id$
 
 // End of file 

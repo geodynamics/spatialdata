@@ -114,7 +114,5 @@ private :
 
 #endif // spatialdata_geocoords_csgeoproj_hh
 
-// version
-// $Id$
 
 // End of file 

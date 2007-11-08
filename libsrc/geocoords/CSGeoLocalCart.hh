@@ -190,7 +190,5 @@ private :
 
 #endif // spatialdata_geocoords_csgeolocalcart_hh
 
-// version
-// $Id$
 
 // End of file 

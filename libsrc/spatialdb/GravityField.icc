@@ -1,0 +1,45 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_gravityfield_hh)
+#error "GravityField.icc must only be included from GravityField.hh"
+#endif
+
+// Set up direction (direction opposite of gravity) in database.
+void
+spatialdata::spatialdb::GravityField::upDir(const double x,
+					    const double y,
+					    const double z) {
+  _upDir[0] = x;
+  _upDir[1] = y;
+  _upDir[2] = z;
+}
+
+// Set gravitational acceleration.
+void
+spatialdata::spatialdb::GravityField::gravAcceleration(
+					       const double acceleration) {
+  _acceleration = acceleration;
+}
+
+// Open the database and prepare for querying.
+void
+spatialdata::spatialdb::GravityField::open(void) {
+}
+
+// Close the database.
+void
+spatialdata::spatialdb::GravityField::close(void) {
+}
+
+
+// End of file 

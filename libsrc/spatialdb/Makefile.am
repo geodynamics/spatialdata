@@ -16,6 +16,8 @@ include $(top_srcdir)/subpackage.am
 subpkginclude_HEADERS = \
 	Exception.hh \
 	Exception.icc \
+	GravityField.hh \
+	GravityField.icc \
 	SpatialDB.hh \
 	SpatialDB.icc \
 	SimpleDB.hh \
