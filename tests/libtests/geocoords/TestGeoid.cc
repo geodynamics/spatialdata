@@ -52,7 +52,5 @@ spatialdata::geocoords::TestGeoid::testElevation(void)
   } // for
 } // testElevation
 
-// version
-// $Id$
 
 // End of file 

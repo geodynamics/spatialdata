@@ -104,6 +104,22 @@ class spatialdata::geocoords::CSGeoLocalCart : public CSGeo
 		    const int numLocs,
 		    const int numDims) const;
   
+  /** Get radial outward direction.
+   *
+   * dir and coords
+   *   size = numLocs * numDims
+   *   index = iLoc*numDims + iDim
+   *
+   * @param dir Array of direction cosines for outward radial direction.
+   * @param coords Array of coordinates for locations.
+   * @param numLocs Number of locations.
+   * @param numDims Number of dimensions in coordinates.
+   */
+  void radialDir(double* dir,
+		 const double* coords,
+		 const int numLocs,
+		 const int numDims) const;
+
   /** Pickle coordinate system to ascii stream.
    *
    * @param s Output stream
@@ -182,7 +198,7 @@ private :
   double _originX; ///< X coordinate of origin in rotated ECEF (meters)
   double _originY; ///< Y coordinate of origin in rotated ECEF (meters)
   double _originZ; ///< Z coordinate of origin in rotated ECEF (meters)
-  double* _localOrientation; ///< Direction cosines for local orientation
+  double _localOrientation[9]; ///< Direction cosines for local orientation
 
 }; // class CSGeoLocalCart
 

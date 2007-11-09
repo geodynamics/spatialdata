@@ -26,7 +26,5 @@ const char*
 spatialdata::spatialdb::SimpleIO::filename(void) const
 { return _filename.c_str(); }
 
-// version
-// $Id$
 
 // End of file 

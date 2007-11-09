@@ -176,6 +176,54 @@ spatialdata::geocoords::CSGeo::fromProjForm(double* coords,
 } // fromProjForm
 
 // ----------------------------------------------------------------------
+// Get outward radial direction.
+void
+spatialdata::geocoords::CSGeo::radialDir(double* dir,
+					 const double* coords,
+					 const int numLocs,
+					 const int numDims) const
+{ // radialDir
+  assert( (0 < numLocs && 0 != dir) ||
+	  (0 == numLocs && 0 == dir) );
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords) );
+
+  if (numDims != spaceDim()) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions of coordinates ("
+      << numDims << ") does not match number of spatial dimensions ("
+      << spaceDim() << ") of coordinate system.";
+    throw std::runtime_error(msg.str());
+  } // if
+
+  if (!isGeocentric())
+    if (numDims > 2)
+      for (int iLoc=0, i=0; iLoc < numLocs; ++iLoc) {
+	dir[i++] = 0.0;
+	dir[i++] = 0.0;
+	dir[i++] = 1.0;
+      } // for
+    else {
+      const int size = numLocs*numDims;
+      for (int i=0; i < size; ++i)
+	dir[i] = 0.0;
+    } // else
+  else { // else geocentric
+    assert(3 == numDims);
+    for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc, index+=numDims) {
+      const double x = coords[index  ];
+      const double y = coords[index+1];
+      const double z = coords[index+2];
+      const double mag = sqrt(x*x + y*y + z*z);
+      dir[index  ] = x / mag;
+      dir[index+1] = y / mag;
+      dir[index+2] = z / mag;
+    } // for
+  } // else geocentric
+} // radialDir
+
+// ----------------------------------------------------------------------
 // Get the PROJ4 string associated with the coordinate system.
 std::string
 spatialdata::geocoords::CSGeo::_projCSString(void) const

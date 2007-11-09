@@ -87,6 +87,8 @@ spatialdata::geocoords::Converter::_convert(double* coords,
 					    const CSGeo& csDest,
 					    const CSGeo& csSrc)
 { // convert
+  assert(0 != csSrc.projCoordSys());
+  assert(0 != csDest.projCoordSys());
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
 

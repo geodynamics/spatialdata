@@ -35,12 +35,15 @@ class spatialdata::geocoords::TestCSGeoLocalCart : public CppUnit::TestFixture
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestCSGeoLocalCart );
+
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testOrigin );
   CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testToProjForm );
   CPPUNIT_TEST( testFromProjForm );
+  CPPUNIT_TEST( testRadialDir );
   CPPUNIT_TEST( testPickle );
+
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -60,6 +63,9 @@ public :
 
   /// Test fromProjForm()
   void testFromProjForm(void);
+
+  /// Test radialDir()
+  void testRadialDir(void);
 
   /// Test pickle() and unpickle()
   void testPickle(void);

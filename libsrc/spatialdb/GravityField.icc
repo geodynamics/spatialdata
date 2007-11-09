@@ -14,17 +14,8 @@
 #error "GravityField.icc must only be included from GravityField.hh"
 #endif
 
-// Set up direction (direction opposite of gravity) in database.
-void
-spatialdata::spatialdb::GravityField::upDir(const double x,
-					    const double y,
-					    const double z) {
-  _upDir[0] = x;
-  _upDir[1] = y;
-  _upDir[2] = z;
-}
-
 // Set gravitational acceleration.
+inline
 void
 spatialdata::spatialdb::GravityField::gravAcceleration(
 					       const double acceleration) {
@@ -32,11 +23,13 @@ spatialdata::spatialdb::GravityField::gravAcceleration(
 }
 
 // Open the database and prepare for querying.
+inline
 void
 spatialdata::spatialdb::GravityField::open(void) {
 }
 
 // Close the database.
+inline
 void
 spatialdata::spatialdb::GravityField::close(void) {
 }

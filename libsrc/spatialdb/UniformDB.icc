@@ -15,11 +15,13 @@
 #endif
 
 // Open the database and prepare for querying.
+inline
 void
 spatialdata::spatialdb::UniformDB::open(void) {
 }
 
 // Close the database.
+inline
 void
 spatialdata::spatialdb::UniformDB::close(void) {
 }

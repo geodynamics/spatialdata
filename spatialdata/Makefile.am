@@ -20,6 +20,7 @@ nobase_pkgpyexec_PYTHON = \
 	geocoords/CSGeo.py \
 	geocoords/Projector.py \
 	geocoords/__init__.py \
+	spatialdb/GravityField.py \
 	spatialdb/SimpleDB.py \
 	spatialdb/SimpleIOAscii.py \
 	spatialdb/SimpleIO.py \

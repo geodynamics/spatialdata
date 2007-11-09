@@ -72,7 +72,7 @@ spatialdata::spatialdb::TestUniformDB::testSetData(void)
 } // testSetData
 
 // ----------------------------------------------------------------------
-// Test setData().
+// Test queryVals().
 void
 spatialdata::spatialdb::TestUniformDB::testQueryVals(void)
 { // testQueryVals

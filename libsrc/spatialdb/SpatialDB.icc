@@ -26,7 +26,5 @@ const char*
 spatialdata::spatialdb::SpatialDB::label(void) const
 { return _label; }
 
-// version
-// $Id$
 
 // End of file 

@@ -22,7 +22,7 @@ extern "C" {
 
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 
-#include <math.h> // USES M_PI, sin(), cos()
+#include <math.h> // USES M_PI, sin(), cos(), sqrt()
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
@@ -37,8 +37,7 @@ spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(void) :
   _originElev(0),
   _originX(0),
   _originY(0),
-  _originZ(0),
-  _localOrientation(0)
+  _originZ(0)
 { // constructor
   CSGeo::isGeocentric(true);
   CSGeo::setSpaceDim(3);
@@ -48,7 +47,6 @@ spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(void) :
 // Default destructor
 spatialdata::geocoords::CSGeoLocalCart::~CSGeoLocalCart(void)
 { // destructor
-  delete[] _localOrientation; _localOrientation = 0;
 } // destructor
 
 // ----------------------------------------------------------------------
@@ -60,8 +58,7 @@ spatialdata::geocoords::CSGeoLocalCart::CSGeoLocalCart(const CSGeoLocalCart& cs)
   _originElev(cs._originElev),
   _originX(cs._originX),
   _originY(cs._originY),
-  _originZ(cs._originZ),
-  _localOrientation(0)
+  _originZ(cs._originZ)
 { // copy constructor
 } // copy constructor
 
@@ -145,7 +142,6 @@ spatialdata::geocoords::CSGeoLocalCart::initialize(void)
   const double y1 = z2*x0 - x2*z0;
   const double y2 = z0*x1 - x0*z1;
 
-  delete[] _localOrientation; _localOrientation = new double[9];
   _localOrientation[0] = x0;
   _localOrientation[1] = x1;
   _localOrientation[2] = x2;
@@ -211,7 +207,7 @@ spatialdata::geocoords::CSGeoLocalCart::toProjForm(double* coords,
       _localOrientation[7]*zOld;
     coords[index++] = 
       _localOrientation[2]*xOld +
-	_localOrientation[5]*yOld +
+      _localOrientation[5]*yOld +
       _localOrientation[8]*zOld;
   } // for
 } // toProjForm
@@ -259,7 +255,71 @@ spatialdata::geocoords::CSGeoLocalCart::fromProjForm(double* coords,
   for (int i=0; i < size; ++i)
     coords[i] /= scale;
 } // fromProjForm
-  
+
+// ----------------------------------------------------------------------
+// Get outward radial direction.
+void
+spatialdata::geocoords::CSGeoLocalCart::radialDir(double* dir,
+						  const double* coords,
+						  const int numLocs,
+						  const int numDims) const
+{ // radialDir
+  assert( (0 < numLocs && 0 != dir) ||
+	  (0 == numLocs && 0 == dir) );
+  assert( (0 < numLocs && 0 != coords) ||
+	  (0 == numLocs && 0 == coords) );
+
+  if (numDims != spaceDim()) {
+    std::ostringstream msg;
+    msg
+      << "Number of spatial dimensions of coordinates ("
+      << numDims << ") does not match number of spatial dimensions ("
+      << spaceDim() << ") of coordinate system.";
+    throw std::runtime_error(msg.str());
+  } // if
+  assert(3 == spaceDim());
+
+  const double scale = toMeters();
+  for (int iLoc=0, index=0; iLoc < numLocs; ++iLoc, index+=numDims) {
+    // Convert to ECEF
+    // Get coordinates relative to origin
+    const double x = coords[index  ]*scale + _originX;
+    const double y = coords[index+1]*scale + _originY;
+    const double z = coords[index+2]*scale + _originZ;
+    // Rotate into ECEF
+    const double xECEF = 
+      _localOrientation[0]*x +
+      _localOrientation[3]*y +
+      _localOrientation[6]*z;
+    const double yECEF = 
+      _localOrientation[1]*x +
+      _localOrientation[4]*y +
+      _localOrientation[7]*z;
+    const double zECEF = 
+      _localOrientation[2]*x +
+      _localOrientation[5]*y +
+      _localOrientation[8]*z;
+
+    const double mag = sqrt(xECEF*xECEF + yECEF*yECEF + zECEF*zECEF);
+    const double dirX = xECEF / mag;
+    const double dirY = yECEF / mag;
+    const double dirZ = zECEF / mag;
+
+    dir[index  ] = 
+      _localOrientation[0]*dirX +
+      _localOrientation[1]*dirY +
+      _localOrientation[2]*dirZ;
+    dir[index+1] = 
+      _localOrientation[3]*dirX +
+      _localOrientation[4]*dirY +
+      _localOrientation[5]*dirZ;
+    dir[index+2] = 
+      _localOrientation[6]*dirX +
+      _localOrientation[7]*dirY +
+      _localOrientation[8]*dirZ;
+  } // for
+} // radialDir
+
 // ----------------------------------------------------------------------
 // Convert coordinates to WGS84.
 void

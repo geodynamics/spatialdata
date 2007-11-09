@@ -18,6 +18,7 @@
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeoLocalCart
 #include "spatialdata/geocoords/CSGeoLocalCart.hh" // USES CSGeoLocalCart
 
+#include <math.h> // USES fabs()
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------
@@ -114,6 +115,42 @@ spatialdata::geocoords::TestCSGeoLocalCart::testFromProjForm(void)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[i]/_XYZLOCAL[i], tolerance);
   delete[] vals; vals = 0;
 } // testFromProjForm
+
+// ----------------------------------------------------------------------
+// Test radialDir().
+void
+spatialdata::geocoords::TestCSGeoLocalCart::testRadialDir(void)
+{ // testRadialDir
+  CSGeoLocalCart cs;
+
+  cs.origin(-122.0, 37.75, 0.0);
+  cs.initialize();
+
+  const int numLocs = 3;
+  const int numDims = 3;
+  const double coords[] = {
+    0.0, 0.0, 0.0,
+    0.0, 0.0, -20e+3,
+    10.0e+3, -25e+3, -5e+3,
+  };
+  const double dirsE[] = {
+    0.0, -0.0032487084, 0.99999472,
+    0.0, -0.0032589402, 0.99999469,
+    0.0015710173, -0.0071787331, 0.999973,
+  };
+  
+  const int size = numLocs * numDims;
+  double* dirs = new double[size];
+  cs.radialDir(dirs, coords, numLocs, numDims);
+
+  const double tolerance = 1.0e-6;
+  for (int i=0; i < size; ++i)
+    if (fabs(dirsE[i]) > tolerance)
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, dirs[i]/dirsE[i], tolerance);
+    else
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(dirsE[i], dirs[i], tolerance);
+  delete[] dirs; dirs = 0;
+} // testRadialDir
 
 // ----------------------------------------------------------------------
 // Test pickle() and unpickle()

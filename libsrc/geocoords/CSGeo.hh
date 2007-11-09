@@ -153,6 +153,23 @@ class spatialdata::geocoords::CSGeo : public CoordSys
   virtual void fromProjForm(double* coords,
 			    const int numLocs,
 			    const int numDims) const;
+
+  /** Get radial outward direction.
+   *
+   * dir and coords
+   *   size = numLocs * numDims
+   *   index = iLoc*numDims + iDim
+   *
+   * @param dir Array of direction cosines for outward radial direction.
+   * @param coords Array of coordinates for locations.
+   * @param numLocs Number of locations.
+   * @param numDims Number of dimensions in coordinates.
+   */
+  virtual void radialDir(double* dir,
+			 const double* coords,
+			 const int numLocs,
+			 const int numDims) const;
+
   /** Get geoid.
    *
    * @returns Geoid

@@ -4,6 +4,10 @@ UTILS
 
 GEOCOORDS
 
+  Add local origin and rotation to coordinate systems.
+    Local origin should be straightforward.
+    Meaning of rotation (orientation) will depend upon coordinate system.
+
   Make it possible to pickle/unpickle to/from file like in C++?
 
 SPATIALDB

@@ -30,17 +30,23 @@ spatialdata::spatialdb::GravityField::GravityField(void) :
   SpatialDB("Gravity field"),
   _acceleration(9.80665), // m/s^2
   _csECEF(new geocoords::CSGeo),
-  _queryVals(0),
-  _querySize(0)
+  _queryVals(new int[3]),
+  _querySize(3)
 { // constructor
   _upDir[0] = 0.0;
   _upDir[1] = 0.0;
-  _upDir[2] = 0.0;
+  _upDir[2] = 1.0;
 
   if (0 == _csECEF)
     throw std::runtime_error("Error while initializing ECEF coordinate "
 			     "system.");
   _csECEF->isGeocentric(true);
+  _csECEF->initialize();
+
+  assert(0 != _queryVals);
+  _queryVals[0] = 0;
+  _queryVals[1] = 1;
+  _queryVals[2] = 2;
 } // constructor
 
 // ----------------------------------------------------------------------
@@ -51,6 +57,19 @@ spatialdata::spatialdb::GravityField::~GravityField(void)
   delete[] _queryVals; _queryVals = 0;
   _querySize = 0;
 } // destructor
+
+// ----------------------------------------------------------------------
+// Set up direction (direction opposite of gravity) in database.
+void
+spatialdata::spatialdb::GravityField::upDir(const double x,
+					    const double y,
+					    const double z)
+{ // upDir
+  const double mag = sqrt(x*x + y*y + z*z);
+  _upDir[0] = x / mag;
+  _upDir[1] = y / mag;
+  _upDir[2] = z / mag;
+} // upDir
 
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
@@ -120,29 +139,11 @@ spatialdata::spatialdb::GravityField::query(
       vals[i] = -_acceleration*_upDir[_queryVals[i]];
   else {
     const geocoords::CSGeo* csGeo = dynamic_cast<const geocoords::CSGeo*>(cs);
-    if (!csGeo->isGeocentric())
-      for (int i=0; i < _querySize; ++i)
-	vals[i] = -_acceleration*_upDir[_queryVals[i]];
-    else {
-      // cs is either CSGeo (geocentric) or CSGeoLocalCart
-      const int numLocs = 1;
-      const int spaceDim = 3;
-      assert(spaceDim == csGeo->spaceDim());
-
-      // Convert coordinates to Earth-centered/Earth-fixed (ECEF)
-      double xyzECEF[spaceDim];
-      for (int i=0; i < spaceDim; ++i)
-	xyzECEF[i] = coords[i];
-      geocoords::Converter::convert(xyzECEF, numLocs, spaceDim,
-				    _csECEF, csGeo);
-
-      // Compute outward radial direction by computing
-      const double mag = sqrt(xyzECEF[0]*xyzECEF[0] +
-			      xyzECEF[1]*xyzECEF[1] +
-			      xyzECEF[2]*xyzECEF[2]);
-      for (int i=0; i < _querySize; ++i)
-	vals[i] = -_acceleration*xyzECEF[i] / mag;
-    } // else
+    double upDir[3];
+    const int numLocs = 1;
+    csGeo->radialDir(upDir, coords, numLocs, numDims);
+    for (int i=0; i < _querySize; ++i)
+      vals[i] = -_acceleration*upDir[_queryVals[i]];
   } // if/else
 
   return 0;

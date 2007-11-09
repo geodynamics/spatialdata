@@ -16,6 +16,7 @@
 #include "spatialdata/spatialdb/SimpleIO.hh"
 #include "spatialdata/spatialdb/SimpleIOAscii.hh"
 #include "spatialdata/spatialdb/SimpleDBTypes.hh"
+#include "spatialdata/spatialdb/GravityField.hh"
 #include "spatialdata/spatialdb/UniformDB.hh"
 
 #include "spatialdata/geocoords/CoordSys.hh"
@@ -481,6 +482,56 @@ cdef class SimpleIOAscii(SimpleIO):
     free(<void*> unitsArray)
     return
 
+
+# ----------------------------------------------------------------------
+cdef class GravityField(SpatialDB):
+
+  def __init__(self):
+    """
+    Constructor.
+    """
+    # create shim for constructor
+    #embed{ void* GravityField_constructor()
+      return (void*)(new spatialdata::spatialdb::GravityField);
+    #}embed
+
+    SpatialDB.__init__(self)
+    self.thisptr = GravityField_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def upDir(self, up):
+    """
+    Set up direction (direction opposite of gravity).
+    """
+    # create shim for method 'upDir'
+    #embed{ void GravityField_upDir(void* pObj, double x, double y, double z)
+    assert(0 != pObj);
+    ((spatialdata::spatialdb::GravityField*) pObj)->upDir(x, y, z);
+    #}embed
+    if len(up) != 3:
+      raise ValueError("Up direction must be a 3 component list or tuple.")
+    (x, y, z) = map(float, up)
+
+    GravityField_upDir(self.thisptr, x, y, z)
+    return
+
+
+  def gravAcceleration(self, value):
+    """
+    Set gravitational acceleration.
+    """
+    # create shim for method 'gravAcceleration'
+    #embed{ void GravityField_gravAcceleration(void* pObj, double value)
+    assert(0 != pObj);
+    ((spatialdata::spatialdb::GravityField*) pObj)->gravAcceleration(value);
+    #}embed
+
+    GravityField_gravAcceleration(self.thisptr, value)
+    return
+
+
 # ----------------------------------------------------------------------
 cdef class UniformDB(SpatialDB):
 
@@ -505,6 +556,7 @@ cdef class UniformDB(SpatialDB):
     """
     # create shim for method 'setData'
     #embed{ void UniformDB_setData(void* pObj, char** names, double* values, int size)
+    assert(0 != pObj);
     ((spatialdata::spatialdb::UniformDB*) pObj)->setData(
       const_cast<const char**>(names), values, size);
     #}embed
@@ -532,7 +584,6 @@ cdef class UniformDB(SpatialDB):
     free(<void*> namesArray)
     free(<void*> valuesArray)
     return
-
 
 
 # End of file 

@@ -35,6 +35,7 @@ class spatialdata::geocoords::TestCSGeo : public CppUnit::TestFixture
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
   CPPUNIT_TEST_SUITE( TestCSGeo );
+
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testEllipsoid );
   CPPUNIT_TEST( testDatumHoriz );
@@ -45,7 +46,10 @@ class spatialdata::geocoords::TestCSGeo : public CppUnit::TestFixture
   CPPUNIT_TEST( testInitialize );
   CPPUNIT_TEST( testToProjForm );
   CPPUNIT_TEST( testFromProjForm );
+  CPPUNIT_TEST( testRadialDirGeographic );
+  CPPUNIT_TEST( testRadialDirGeocentric );
   CPPUNIT_TEST( testPickle );
+
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -80,6 +84,12 @@ public :
 
   /// Test fromProjForm()
   void testFromProjForm(void);
+
+  /// Test radialDir() with geographic coordinates.
+  void testRadialDirGeographic(void);
+
+  /// Test radialDir() with geocentric coordinates.
+  void testRadialDirGeocentric(void);
 
   /// Test pickle() & unpickle()
   void testPickle(void);

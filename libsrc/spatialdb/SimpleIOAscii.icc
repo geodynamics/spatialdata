@@ -21,7 +21,5 @@ spatialdata::spatialdb::SimpleIO*
 spatialdata::spatialdb::SimpleIOAscii::clone(void) const
 { return new SimpleIOAscii(*this); }
   
-// version
-// $Id$
 
 // End of file 
