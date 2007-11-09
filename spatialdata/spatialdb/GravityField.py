@@ -73,7 +73,7 @@ class GravityField(SpatialDB):
     """
     SpatialDB.initialize(self)
     self.cppHandle.upDir(self.upDir)
-    self.cppHandle.acceleration(self.acceleration.value)
+    self.cppHandle.gravAcceleration(self.acceleration.value)
     return
   
 

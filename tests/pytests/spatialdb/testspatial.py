@@ -25,6 +25,9 @@ def suite():
   from TestUniformDB import TestUniformDB
   suite.addTest(unittest.makeSuite(TestUniformDB))
 
+  from TestGravityField import TestGravityField
+  suite.addTest(unittest.makeSuite(TestGravityField))
+
   from TestGenSimpleDBApp import TestGenSimpleDBApp
   suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
 
