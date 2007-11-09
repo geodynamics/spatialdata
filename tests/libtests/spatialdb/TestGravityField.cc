@@ -46,28 +46,30 @@ spatialdata::spatialdb::TestGravityField::testLabel(void)
 } // testLabel
 
 // ----------------------------------------------------------------------
-// Test upDir().
+// Test gravityDir().
 void
-spatialdata::spatialdb::TestGravityField::testUpDir(void)
-{ // testUpDir
+spatialdata::spatialdb::TestGravityField::testGravityDir(void)
+{ // testGravityDir
   GravityField db;
 
   const double tolerance = 1.0e-06;
 
   { // Test default
-    const double upDir[] = { 0.0, 0.0, 1.0 };
+    const double gravityDir[] = { 0.0, 0.0, -1.0 };
     for (int i=0; i < 3; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(upDir[i], db._upDir[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(gravityDir[i], db._gravityDir[i], 
+				   tolerance);
   } // Test default
   
   { // Test user-specified
-    const double upDir[] = { 1.1, 2.2, 3.3 };
+    const double gravityDir[] = { 1.1, 2.2, 3.3 };
     const double mag = 1.1*sqrt(1 + 4 + 9);
-    db.upDir(upDir[0], upDir[1], upDir[2]);
+    db.gravityDir(gravityDir[0], gravityDir[1], gravityDir[2]);
     for (int i=0; i < 3; ++i)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(upDir[i]/mag, db._upDir[i], tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(gravityDir[i]/mag, db._gravityDir[i], 
+				   tolerance);
   } // Test user-specified
-} // testUpDir
+} // testGravityDir
 
 // ----------------------------------------------------------------------
 // Test acceleration().
@@ -110,13 +112,13 @@ spatialdata::spatialdb::TestGravityField::testQueryCart2(void)
 { // testQueryCart2
   const int spaceDim = 2;
   const double gacc = 2.0;
-  const double upDir[] = { 0.6, 0.8, 0.0 };
+  const double gravityDir[] = { -0.6, -0.8, 0.0 };
   const double gravityE[] = { -1.2, -1.6 };
   const int querySize = spaceDim;
   const char* queryNames[] = { "x", "y" };
   
   GravityField db;
-  db.upDir(upDir[0], upDir[1], upDir[2]);
+  db.gravityDir(gravityDir[0], gravityDir[1], gravityDir[2]);
   db.gravAcceleration(gacc);
   db.open();
   db.queryVals(queryNames, querySize);
@@ -142,12 +144,12 @@ spatialdata::spatialdb::TestGravityField::testQueryCart3(void)
 { // testQueryCart3
   const int spaceDim = 3;
   const double gacc = 2.0;
-  const double upDir[] = { 0.3, 0.4, -0.5 };
+  const double gravityDir[] = { 0.3, 0.4, -0.5 };
   const double sqrt2 = sqrt(2.0);
-  const double gravityE[] = { -0.6*sqrt2, -0.8*sqrt2, 1.0*sqrt2 };
+  const double gravityE[] = { 0.6*sqrt2, 0.8*sqrt2, -1.0*sqrt2 };
   
   GravityField db;
-  db.upDir(upDir[0], upDir[1], upDir[2]);
+  db.gravityDir(gravityDir[0], gravityDir[1], gravityDir[2]);
   db.gravAcceleration(gacc);
   db.open();
 

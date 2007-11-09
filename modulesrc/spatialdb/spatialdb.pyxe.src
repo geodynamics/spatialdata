@@ -501,20 +501,20 @@ cdef class GravityField(SpatialDB):
     return
 
 
-  def upDir(self, up):
+  def gravityDir(self, up):
     """
-    Set up direction (direction opposite of gravity).
+    Set direction of gravitational body force.
     """
-    # create shim for method 'upDir'
-    #embed{ void GravityField_upDir(void* pObj, double x, double y, double z)
+    # create shim for method 'gravityDir'
+    #embed{ void GravityField_gravityDir(void* pObj, double x, double y, double z)
     assert(0 != pObj);
-    ((spatialdata::spatialdb::GravityField*) pObj)->upDir(x, y, z);
+    ((spatialdata::spatialdb::GravityField*) pObj)->gravityDir(x, y, z);
     #}embed
     if len(up) != 3:
       raise ValueError("Up direction must be a 3 component list or tuple.")
     (x, y, z) = map(float, up)
 
-    GravityField_upDir(self.thisptr, x, y, z)
+    GravityField_gravityDir(self.thisptr, x, y, z)
     return
 
 

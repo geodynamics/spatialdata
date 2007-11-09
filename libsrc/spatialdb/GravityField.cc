@@ -33,9 +33,9 @@ spatialdata::spatialdb::GravityField::GravityField(void) :
   _queryVals(new int[3]),
   _querySize(3)
 { // constructor
-  _upDir[0] = 0.0;
-  _upDir[1] = 0.0;
-  _upDir[2] = 1.0;
+  _gravityDir[0] = 0.0;
+  _gravityDir[1] = 0.0;
+  _gravityDir[2] = -1.0;
 
   if (0 == _csECEF)
     throw std::runtime_error("Error while initializing ECEF coordinate "
@@ -59,17 +59,17 @@ spatialdata::spatialdb::GravityField::~GravityField(void)
 } // destructor
 
 // ----------------------------------------------------------------------
-// Set up direction (direction opposite of gravity) in database.
+// Set direction of gravitational body force.
 void
-spatialdata::spatialdb::GravityField::upDir(const double x,
-					    const double y,
-					    const double z)
-{ // upDir
+spatialdata::spatialdb::GravityField::gravityDir(const double x,
+						 const double y,
+						 const double z)
+{ // gravityDir
   const double mag = sqrt(x*x + y*y + z*z);
-  _upDir[0] = x / mag;
-  _upDir[1] = y / mag;
-  _upDir[2] = z / mag;
-} // upDir
+  _gravityDir[0] = x / mag;
+  _gravityDir[1] = y / mag;
+  _gravityDir[2] = z / mag;
+} // gravityDir
 
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
@@ -136,14 +136,14 @@ spatialdata::spatialdb::GravityField::query(
 
   if (geocoords::CoordSys::CARTESIAN == cs->csType())
     for (int i=0; i < _querySize; ++i)
-      vals[i] = -_acceleration*_upDir[_queryVals[i]];
+      vals[i] = _acceleration*_gravityDir[_queryVals[i]];
   else {
     const geocoords::CSGeo* csGeo = dynamic_cast<const geocoords::CSGeo*>(cs);
-    double upDir[3];
+    double radialDir[3];
     const int numLocs = 1;
-    csGeo->radialDir(upDir, coords, numLocs, numDims);
+    csGeo->radialDir(radialDir, coords, numLocs, numDims);
     for (int i=0; i < _querySize; ++i)
-      vals[i] = -_acceleration*upDir[_queryVals[i]];
+      vals[i] = -_acceleration*radialDir[_queryVals[i]];
   } // if/else
 
   return 0;

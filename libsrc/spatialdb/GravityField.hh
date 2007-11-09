@@ -46,15 +46,16 @@ class spatialdata::spatialdb::GravityField : public SpatialDB
   /// Default destructor.
   ~GravityField(void);
   
-  /** Set up direction (direction opposite of gravity) in database.
+  /** Set direction of gravitational body force. Used only with
+   * Cartesian coordinate system.
    *
-   * @param x X component of up direction
-   * @param y Y component of up direction
-   * @param z Z component of up direction
+   * @param x X component of direction
+   * @param y Y component of direction
+   * @param z Z component of direction
    */
-  void upDir(const double x,
-	     const double y,
-	     const double z);
+  void gravityDir(const double x,
+		  const double y,
+		  const double z);
 
   /** Set gravitational acceleration.
    *
@@ -109,7 +110,7 @@ class spatialdata::spatialdb::GravityField : public SpatialDB
 private :
  // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
-  double _upDir[3]; ///< Up direction for use with Cartesian coordinates.
+  double _gravityDir[3]; ///< Direction of gravitational body force.
   double _acceleration; ///< Acceleration due to gravity.
   geocoords::CSGeo* _csECEF; ///< Earth-centered/Earth-fixed coordinate system.
   int* _queryVals; ///< Indices of values to be returned in queries.

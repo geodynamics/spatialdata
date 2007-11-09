@@ -37,7 +37,8 @@ class GravityField(SpatialDB):
     ## Python object for managing GravityField facilities and properties.
     ##
     ## \b Properties
-    ## @li \b up_dir Direction opposite of gravity ("up").
+    ## @li \b up_dir Direction of gravitational body force
+    ##   (used only with a Cartesian coordinate system).
     ## @li \b acceleration Gravitational acceleration.
     ##
     ## \b Facilities
@@ -45,8 +46,9 @@ class GravityField(SpatialDB):
 
     import pyre.inventory
 
-    upDir = pyre.inventory.list("up_dir", default=[0,0,1])
-    upDir.meta['tip'] = "Direction opposite of gravity ('up')."
+    gravityDir = pyre.inventory.list("gravity_dir", default=[0,0,-1])
+    gravityDir.meta['tip'] = "Direction of gravitational body force. " \
+                             "(used only with a Cartesian coordinate system."
 
     from pyre.units.length import meter
     from pyre.units.time import second
@@ -72,7 +74,7 @@ class GravityField(SpatialDB):
     Initialize database.
     """
     SpatialDB.initialize(self)
-    self.cppHandle.upDir(self.upDir)
+    self.cppHandle.gravityDir(self.gravityDir)
     self.cppHandle.gravAcceleration(self.acceleration.value)
     return
   
@@ -85,7 +87,7 @@ class GravityField(SpatialDB):
     """
     SpatialDB._configure(self)
     self._validate(self.inventory)
-    self.upDir = self.inventory.upDir
+    self.gravityDir = self.inventory.gravityDir
     self.acceleration = self.inventory.acceleration
     return
 
@@ -94,13 +96,14 @@ class GravityField(SpatialDB):
     """
     Validate parameters.
     """
-    if (len(data.upDir) != 3):
-      raise ValueError("Up direction must be a 3 component list or tuple.")
+    if (len(data.gravityDir) != 3):
+      raise ValueError, \
+            "Gravity direction must be a 3 component list or tuple."
     try:
-      dataFloat = map(float, data.upDir)
+      dataFloat = map(float, data.gravityDir)
     except:
         raise ValueError, \
-              "'upDir' must contain floating point values."
+              "'gravityDir' must contain floating point values."
     return
   
 

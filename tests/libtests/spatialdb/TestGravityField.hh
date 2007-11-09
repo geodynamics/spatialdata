@@ -39,7 +39,7 @@ class spatialdata::spatialdb::TestGravityField : public CppUnit::TestFixture
 
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testLabel );
-  CPPUNIT_TEST( testUpDir );
+  CPPUNIT_TEST( testGravityDir );
   CPPUNIT_TEST( testAcceleration );
   CPPUNIT_TEST( testQueryVals );
   CPPUNIT_TEST( testQueryCart2 );
@@ -60,8 +60,8 @@ public :
   /// Test label()
   void testLabel(void);
 
-  /// Test upDir()
-  void testUpDir(void);
+  /// Test gravityDir()
+  void testGravityDir(void);
 
   /// Test acceleration()
   void testAcceleration(void);
