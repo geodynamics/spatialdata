@@ -29,7 +29,9 @@ libspatialdata_la_SOURCES = \
 	geocoords/CSPicklerAscii.cc \
 	geocoords/Geoid.cc \
 	geocoords/Projector.cc \
+	spatialdb/GocadVoxet.cc \
 	spatialdb/GravityField.cc \
+	spatialdb/SCECCVMH.cc \
 	spatialdb/SimpleDB.cc \
 	spatialdb/SpatialDB.cc \
 	spatialdb/SimpleDBQuery.cc \

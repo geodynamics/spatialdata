@@ -16,8 +16,10 @@ include $(top_srcdir)/subpackage.am
 subpkginclude_HEADERS = \
 	Exception.hh \
 	Exception.icc \
+	GocadVoxet.hh \
 	GravityField.hh \
 	GravityField.icc \
+	SCECCVMH.hh \
 	SpatialDB.hh \
 	SpatialDB.icc \
 	SimpleDB.hh \
