@@ -23,8 +23,6 @@
 #include <sstream> // USES std::ostringsgream
 #include <assert.h> // USES assert()
 
-#include <iostream> // TEMPORARY
-
 #if defined(WORDS_BIGENDIAN)
 #define NATIVE_BIG_ENDIAN
 #else
@@ -84,24 +82,6 @@ spatialdata::spatialdb::GocadVoxet::query(double* value,
       indexY >= 0 && indexY < numY &&
       indexZ >= 0 && indexZ < numZ) {
     int indexV = indexZ*numY*numX + indexY*numX + indexX;
-
-#if 0
-  std::cout << "pt[0]: " << pt[0]
-	    << ", pt[1]: " << pt[1]
-	    << ", pt[2]: " << pt[2]
-	    << ", numX: " << numX
-	    << ", numY: " << numY
-	    << ", numZ: " << numZ
-	    << ", scaleX: " << _geometry.scale[0]
-	    << ", scaleY: " << _geometry.scale[1]
-	    << ", scaleZ: " << _geometry.scale[2]
-	    << ", indexX: " << indexX
-	    << ", indexY: " << indexY
-	    << ", indexZ: " << indexZ
-	    << ", indexV: " << indexV
-	    << ", byteV: " << indexV*sizeof(float)
-	    << std::endl;
-#endif
     *value = _data[indexV];
   } else {
     *value = _property.noDataValue;
@@ -244,9 +224,9 @@ spatialdata::spatialdb::GocadVoxet::_readVoxetFile(const char* filename,
   const double lenX = _geometry.max[0]*_geometry.u[0] - _geometry.min[0];
   const double lenY = _geometry.max[1]*_geometry.v[1] - _geometry.min[1];
   const double lenZ = _geometry.max[2]*_geometry.w[2] - _geometry.min[2];
-  _geometry.scale[0] = (lenX > 0.0) ? (_geometry.n[0]-1) / lenX : 1.0e+30;
-  _geometry.scale[1] = (lenY > 0.0) ? (_geometry.n[1]-1) / lenY : 1.0e+30;
-  _geometry.scale[2] = (lenZ > 0.0) ? (_geometry.n[2]-1) / lenZ : 1.0e+30;
+  _geometry.scale[0] = (lenX != 0.0) ? (_geometry.n[0]-1) / lenX : 1.0e+30;
+  _geometry.scale[1] = (lenY != 0.0) ? (_geometry.n[1]-1) / lenY : 1.0e+30;
+  _geometry.scale[2] = (lenZ != 0.0) ? (_geometry.n[2]-1) / lenZ : 1.0e+30;
 } // _readVoxetFile
 
 // ----------------------------------------------------------------------

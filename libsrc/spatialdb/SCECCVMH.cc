@@ -49,8 +49,9 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
   proj.units("m");
   proj.projOptions("+zone=11");
 
-  _csUTM->datumHoriz("WGS84");
+  _csUTM->datumHoriz("NAD27");
   _csUTM->datumVert("mean sea level");
+  _csUTM->ellipsoid("clrk66");
   _csUTM->projector(proj);
   _csUTM->initialize();
 } // constructor
@@ -170,16 +171,16 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
   double vp = 0.0;
   double vs = 0.0;
   double density = 0.0;
+
   int outsideVoxet =_topoElev->query(&elev, _xyzUTM);
   outsideVoxet = _baseDepth->query(&baseDepth, _xyzUTM);
   outsideVoxet = _mohoDepth->query(&mohoDepth, _xyzUTM);
+
   outsideVoxet = _laLowResVp->query(&vp, _xyzUTM);
   if (!outsideVoxet) {
-    std::cout << "Using LR";
     double vpHR = 0.0;
     outsideVoxet = _laHighResVp->query(&vpHR, _xyzUTM);
     if (!outsideVoxet) {
-      std::cout << "Using HR";
       vp = vpHR;
     } // if
     if (vp != 1480.0) {
@@ -196,17 +197,21 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
       density = 1000.0;
   } else {
     outsideVoxet = _crustMantleVp->query(&vp, _xyzUTM);
-    if (!outsideVoxet)
+    if (!outsideVoxet) {
       outsideVoxet = _crustMantleVs->query(&vs, _xyzUTM);
-    density = vp / 3.0 + 1280.0;
+      density = vp / 3.0 + 1280.0;
+    } else {
+      vs = vp; // No data value
+      density = vp; // No data value
+    } // else
   } // if/else
 
-  std::cout << "elev: " << elev << std::endl;
-  std::cout << "basement depth: " << baseDepth << std::endl;
-  std::cout << "moho depth: " << mohoDepth << std::endl;
-  std::cout << "vp: " << vp << std::endl;
-  std::cout << "vs: " << vs << std::endl;
-  std::cout << "density: " << density << std::endl;
+  std::cout << "elev: " << elev
+	    << ", basement depth: " << baseDepth
+	    << ", moho depth: " << mohoDepth
+	    << ", vp: " << vp
+	    << ", vs: " << vs
+	    << ", density: " << density << std::endl;
 } // query
 
 
