@@ -10,7 +10,7 @@
 // ======================================================================
 //
 
-//#include <portinfo>
+#include <portinfo>
 
 #include "GocadVoxet.hh" // Implementation of class methods
 

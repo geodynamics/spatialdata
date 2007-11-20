@@ -10,7 +10,7 @@
 // ======================================================================
 //
 
-//#include <portinfo>
+#include <portinfo>
 
 #include "SCECCVMH.hh" // Implementation of class methods
 
