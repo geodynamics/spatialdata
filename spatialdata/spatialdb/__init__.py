@@ -14,7 +14,8 @@
 ##
 ## @brief Python spatialdata spatialdb module initialization.
 
-__all__ = ['SimpleDB',
+__all__ = ['SCECCVMH',
+           'SimpleDB',
            'SimpleIOAscii',
            'SimpleIO',
            'SpatialDB',

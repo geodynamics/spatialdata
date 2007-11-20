@@ -18,6 +18,7 @@
 #include "spatialdata/spatialdb/SimpleDBTypes.hh"
 #include "spatialdata/spatialdb/GravityField.hh"
 #include "spatialdata/spatialdb/UniformDB.hh"
+#include "spatialdata/spatialdb/SCECCVMH.hh"
 
 #include "spatialdata/geocoords/CoordSys.hh"
 
@@ -583,6 +584,38 @@ cdef class UniformDB(SpatialDB):
       free(<void*> namesArray[i])
     free(<void*> namesArray)
     free(<void*> valuesArray)
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class SCECCVMH(SpatialDB):
+
+  def __init__(self):
+    """
+    Constructor.
+    """
+    # create shim for constructor
+    #embed{ void* SCECCVMH_constructor()
+      return (void*)(new spatialdata::spatialdb::SCECCVMH);
+    #}embed
+
+    SpatialDB.__init__(self)
+    self.thisptr = SCECCVMH_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def dataDir(self, dir):
+    """
+    Set the data directory for SCEC CVM-H data files..
+    """
+    # create shim for method 'dataDir'
+    #embed{ void SCECCVMH_dataDir(void* pObj, char* dir)
+    assert(0 != pObj);
+    ((spatialdata::spatialdb::SCECCVMH*) pObj)->dataDir(dir);
+    #}embed
+
+    SCECCVMH_dataDir(self.thisptr, dir)
     return
 
 

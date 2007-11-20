@@ -14,12 +14,19 @@ SUBDIRS = data
 
 TESTS = testspatial.py
 
+check_SCRIPTS = testspatial.py
+
+if ENABLE_SCEC_CVM_H
+  TESTS += test_sceccvmh.py
+  check_SCRIPTS += test_sceccvmh.py
+endif
+
 noinst_PYTHON = \
 	TestGenSimpleDBApp.py \
+	TestSCECCVMH.py \
 	TestSimpleIOAscii.py \
 	TestSpatialDB.py \
-	TestUniformDB.py \
-	testspatial.py
+	TestUniformDB.py
 
 
 data_DATA = \
