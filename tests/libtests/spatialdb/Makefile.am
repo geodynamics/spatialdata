@@ -21,6 +21,7 @@ check_PROGRAMS = testspatial
 
 testspatial_SOURCES = \
 	TestGravityField.cc \
+	TestSCECCVMH.cc \
 	TestSimpleDBQuery.cc \
 	TestSimpleDBQuery3D.cc \
 	TestSimpleDB.cc \
@@ -35,9 +36,10 @@ testspatial_SOURCES = \
 	testspatial.cc
 
 noinst_HEADERS = \
-	TestGravityField.cc \
+	TestGravityField.hh \
+	TestSCECCVMH.hh \
 	TestSimpleDBQuery.hh \
-	TestSimpleDBQuery3D.cc \
+	TestSimpleDBQuery3D.hh \
 	TestSimpleDB.hh \
 	TestSimpleDBPoint3D.hh \
 	TestSimpleDBLine3D.hh \

@@ -15,7 +15,7 @@
 
 #include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
 
-#include <string>> // HASA std::string
+#include <string> // HASA std::string
 
 namespace spatialdata {
   namespace spatialdb {
@@ -33,28 +33,28 @@ namespace spatialdata {
 class spatialdata::spatialdb::SCECCVMH : SpatialDB
 { // SCECCVMH
   friend class TestSCECCVMH; // unit testing
-
+ 
 // PUBLIC MEMBERS ///////////////////////////////////////////////////////
 public :
-
+ 
   /// Constructor
   SCECCVMH(void);
-
+ 
   /// Destructor
   ~SCECCVMH(void);
-
+ 
   /** Set directory containing SCEC CVM-H data files.
    *
    * @param dir Directory containing data files.
    */
   void dataDir(const char* dir);
-
+ 
   /// Open the database and prepare for querying.
   void open(void);
-
+ 
   /// Close the database.
   void close(void);
-
+ 
   /** Set values to be returned by queries.
    *
    * @pre Must call open() before queryVals()
@@ -64,7 +64,7 @@ public :
    */
   void queryVals(const char** names,
 		 const int numVals);
-
+ 
   /** Query the database.
    *
    * @note pVals should be preallocated to accommodate numVals values.
@@ -85,13 +85,59 @@ public :
 	    const double* coords,
 	    const int numDims,
 	    const spatialdata::geocoords::CoordSys* pCSQuery);
-
-
+ 
+ 
 // NOT IMPLEMENTED //////////////////////////////////////////////////////
 private :
-
+ 
   SCECCVMH(const SCECCVMH&); ///< Not implemented
   const SCECCVMH& operator=(const SCECCVMH&); ///< Not implemented
+ 
+// PRIVATE ENUMS ////////////////////////////////////////////////////////
+private :
+ 
+  enum QueryValsEnum {
+    QUERY_VP=0, // vp
+    QUERY_VS=1, // vs
+    QUERY_DENSITY=2, // density
+    QUERY_TOPOELEV=3, // Elevation of topography
+    QUERY_BASEDEPTH=4, // Depth of basement
+    QUERY_MOHODEPTH=5, // Depth of Moho
+    QUERY_VPTAG=6 // Tag for Vp
+  }; // ValsEnum
+
+// PRIVATE METHODS //////////////////////////////////////////////////////
+private :
+
+  /** Perform query for Vp.
+   *
+   * @param vp Result of query
+   * @returns 0 if found location, 1 otherwise.
+   */
+  int _queryVp(double* vp);
+
+  /** Perform query for tag.
+   *
+   * @param tag Result of query
+   * @returns 0 if found location, 1 otherwise.
+   */
+  int _queryTag(double* tag);
+
+  /** Compute density from Vp.
+   *
+   * @param vp Vp in m/s.
+   * @returns density in kg/m^3.
+   */
+  static
+  double _calcDensity(const double vp);
+
+  /** Compute density from Vp.
+   *
+   * @param vp Vp in m/s.
+   * @returns Vs in m/s.
+   */
+  static
+  double _calcVs(const double vp);
 
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
@@ -109,6 +155,9 @@ private :
   GocadVoxet* _baseDepth;
   GocadVoxet* _mohoDepth;  
   geocoords::CSGeoProj* _csUTM;
+
+  int* _queryVals; ///< Indices of values to be returned in queries.
+  int _querySize; ///< Number of values requested to be returned in queries.
 
 }; // SCECCVMH
 

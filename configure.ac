@@ -35,9 +35,16 @@ AC_ARG_ENABLE([pythia],
 
 # DOCUMENTATION w/doxygen
 AC_ARG_ENABLE([documentation],
-	[  --enable-documentation  Enable buuilding html documentation (requires doxygen) [[default=no]]],
+	[  --enable-documentation  Enable building html documentation (requires doxygen) [[default=no]]],
 	[enable_documentation=yes],
 	[enable_documentation=no])
+
+# TESTING w/SCEC CVM-H
+AC_ARG_ENABLE([scec-cvm-h],
+	[  --enable-scec-cvm-h=DIR    Enable unit testing with SCEC CVM-H (requires cppunit and SCEC CVM-H data files) [[default=no]]],
+	[],
+	[enable_scec_cvm_h=no])
+
 # ----------------------------------------------------------------------
 
 AC_PROG_CXX
@@ -82,6 +89,23 @@ if test "$enable_testing" = "yes" ; then
     [AC_MSG_RESULT(no)
      AC_MSG_ERROR([CppUnit library not found; try LDFLAGS="-L<CppUnit lib dir>"])
   ])
+  AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
+  if test "x$enable_scec_cvm_h" != "xno" ; then
+    AC_CHECK_FILE([$enable_scec_cvm_h/topo.vo] [], [
+      AC_MSG_ERROR([SCEC CVM-H data file topo.vo not found])])
+    AC_CHECK_FILE([$enable_scec_cvm_h/moho.vo], [], [
+      AC_MSG_ERROR([SCEC CVM-H data file moho.vo not found])])
+    AC_CHECK_FILE([$enable_scec_cvm_h/base.vo], [], [
+      AC_MSG_ERROR([SCEC CVM-H data file base.vo not found])])
+    AC_CHECK_FILE([$enable_scec_cvm_h/LA_HR.vo], [], [
+      AC_MSG_ERROR([SCEC CVM-H data file LA_HR.vo not found])])
+    AC_CHECK_FILE([$enable_scec_cvm_h/LA_LR.vo], [], [
+      AC_MSG_ERROR([SCEC CVM-H data file LA_LR.vo not found])])
+    AC_CHECK_FILE([$enable_scec_cvm_h/CM.vo], [], [
+      AC_MSG_ERROR([SCEC CVM-H data file CM.vo not found])])
+    AC_DEFINE_UNQUOTED([SCECCVMH_DATADIR], ["$enable_scec_cvm_h"],
+               [Define to test SCEC CVM-H.])
+  fi
 fi
 
 # PYTHIA
