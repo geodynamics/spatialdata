@@ -35,6 +35,12 @@ data_DATA = \
 	testgen1din2d_two.odb \
 	gensimpledb.cfg
 
+do_build = sed -e s%[@]SCECCVMH_DATADIR[@]%${SCECCVMH_DATADIR}%g
+
+$(srcdir)/TestSCECCVMH.py: $(srcdir)/TestSCECCVMH.py.in Makefile
+	$(do_build) < $< > $@
+testspatial.py: $(srcdir)/TestSCECCVMH.py
+
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/tests/pytests/spatialdb
 export-data: $(data_DATA)
@@ -43,6 +49,7 @@ export-data: $(data_DATA)
 BUILT_SOURCES = export-data
 
 CLEANFILES = \
+	$(srcdir)/TestSCECCVMH.py \
 	$(export_datadir)/$(data_DATA)
 
 # End of file 

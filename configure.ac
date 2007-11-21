@@ -91,6 +91,7 @@ if test "$enable_testing" = "yes" ; then
   ])
   AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
   if test "x$enable_scec_cvm_h" != "xno" ; then
+    AC_SUBST([SCECCVMH_DATADIR], ["$enable_scec_cvm_h"])
     AC_CHECK_FILE([$enable_scec_cvm_h/topo.vo], [], [
       AC_MSG_ERROR([SCEC CVM-H data file topo.vo not found])])
     AC_CHECK_FILE([$enable_scec_cvm_h/moho.vo], [], [
