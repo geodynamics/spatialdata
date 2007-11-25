@@ -45,7 +45,7 @@ class SCECCVMH(SpatialDB):
 
     import pyre.inventory
 
-    dataDir = pyre.inventory.list("dataDir", default=".")
+    dataDir = pyre.inventory.str("data_dir", default=".")
     dataDir.meta['tip'] = "Directory containing SCEC CVM-H data files."
 
 
@@ -58,6 +58,7 @@ class SCECCVMH(SpatialDB):
     SpatialDB.__init__(self, name)
     import spatialdb as bindings
     self.cppHandle = bindings.SCECCVMH()
+    self.cppHandle.label = "SCEC CVM-H"
     return
 
 
