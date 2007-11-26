@@ -25,8 +25,6 @@
 #include <stdexcept> // USES std::logic_error
 #include <assert.h> // USES assert()
 
-#include <iostream> // TEMPORARY
-
 // ----------------------------------------------------------------------
 // Constructor
 spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
@@ -278,6 +276,8 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
       default:
 	assert(0);
       } // switch
+
+  return queryFlag;
 } // query
 
 // ----------------------------------------------------------------------
