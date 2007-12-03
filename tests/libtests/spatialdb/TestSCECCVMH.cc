@@ -125,7 +125,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
   cs.datumVert("mean sea level");
   cs.initialize();
 
-  const int numLocs = 14;
+  const int numLocs = 15;
   const int spaceDim = 3;
   const double lonlatelev[] = {
     -118.560000,  32.550000,  -2450.00,
@@ -144,6 +144,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
     -125.000000,  35.000000,  0.0,
 
     -117.989344,  34.034148,  5000.00, // above domain
+    -117.989344,  34.034148,  -500000.0, // below domain
   };
   const double tolerance = 1.0e-06;
 
@@ -177,11 +178,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       -99999.0, -99999.0, -99999.0, -99999.0, 5000.0, 2946.666667, 3011.300000,
 
       -28512.111328,    93.515053,  -99999.0, -2860.919189, -99999.0, -99999.0, -99999.0,
+      -28512.111328,    93.515053,  -99999.0, -2860.919189, 7800.0, 3880.0, 4459.294240,
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       1, 1, 1, 1, 1, 1,
-      1,
+      1, 1
     };
 
     db.queryVals(queryNames, querySize);
@@ -223,11 +225,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       3254.814814, -99999.00,    
       2946.666667, -99999.00,    
       -99999.0, -99999.00,    
+      3880.000000, -99999.00,    
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       1, 1, 1, 1, 1, 1,
-      1,
+      1, 1
     };
 
     db.queryVals(queryNames, querySize);
@@ -268,11 +271,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       3514.068087, 
       3011.300000, 
       -99999.0, 
+      4459.29424, 
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0,
-      1,
+      1, 0
     };
 
     db.queryVals(queryNames, querySize);
