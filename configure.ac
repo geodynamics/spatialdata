@@ -89,7 +89,6 @@ if test "$enable_testing" = "yes" ; then
     [AC_MSG_RESULT(no)
      AC_MSG_ERROR([CppUnit library not found; try LDFLAGS="-L<CppUnit lib dir>"])
   ])
-  AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
   if test "x$enable_scec_cvm_h" != "xno" ; then
     AC_SUBST([SCECCVMH_DATADIR], ["$enable_scec_cvm_h"])
     AC_CHECK_FILE([$enable_scec_cvm_h/topo.vo], [], [
@@ -108,6 +107,7 @@ if test "$enable_testing" = "yes" ; then
                [Define to test SCEC CVM-H.])
   fi
 fi
+AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
 
 # PYTHIA
 AM_CONDITIONAL([ENABLE_PYTHIA], [test "$enable_pythia" = yes])
