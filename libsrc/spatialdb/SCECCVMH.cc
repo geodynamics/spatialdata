@@ -299,9 +299,10 @@ spatialdata::spatialdb::SCECCVMH::_queryVp(double* vp)
     outsideVoxet = _crustMantleVp->query(vp, _xyzUTM);
     if (outsideVoxet) {
       const double vpBg = _backgroundVp();
-      if (vpBg > 0.0)
+      if (vpBg > 0.0) {
+	outsideVoxet = 0;
 	*vp = vpBg;
-      else
+      } else
 	outsideVoxet = 1;
     } // if
   } // else

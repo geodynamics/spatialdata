@@ -178,14 +178,20 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
 
       -28512.111328,    93.515053,  -99999.0, -2860.919189, -99999.0, -99999.0, -99999.0,
     };
+    const int flags[] = {
+      0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 1, 1, 1,
+      1,
+    };
 
     db.queryVals(queryNames, querySize);
 
     double data[querySize];
 
     for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-      db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
-      
+      int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
+      CPPUNIT_ASSERT_EQUAL(flags[iLoc], err);
+
       for (int iVal=0; iVal < querySize; ++iVal) {
 	const double dataE = values[iLoc*querySize+iVal];
 	if (fabs(dataE) > tolerance)
@@ -218,13 +224,19 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       2946.666667, -99999.00,    
       -99999.0, -99999.00,    
     };
+    const int flags[] = {
+      0, 0, 0, 0, 0, 0, 0,
+      1, 1, 1, 1, 1, 1,
+      1,
+    };
 
     db.queryVals(queryNames, querySize);
 
     double data[querySize];
 
     for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-      db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
+      int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
+      CPPUNIT_ASSERT_EQUAL(flags[iLoc], err);
       
       for (int iVal=0; iVal < querySize; ++iVal) {
 	const double dataE = values[iLoc*querySize+iVal];
@@ -257,13 +269,19 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       3011.300000, 
       -99999.0, 
     };
+    const int flags[] = {
+      0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0,
+      1,
+    };
 
     db.queryVals(queryNames, querySize);
 
     double data[querySize];
 
     for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-      db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
+      int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
+      CPPUNIT_ASSERT_EQUAL(flags[iLoc], err);
       
       for (int iVal=0; iVal < querySize; ++iVal) {
 	const double dataE = values[iLoc*querySize+iVal];
