@@ -380,7 +380,10 @@ spatialdata::spatialdb::SCECCVMH::_backgroundVp(void)
   assert(0 != _topoElev);
   double elev = 0.0;
   const int outsideVoxet = _topoElev->query(&elev, _xyzUTM);
-  if (outsideVoxet) {
+  if (outsideVoxet || z < -10000.0) {
+    // if outside horizontal extent of domain or deeper; assume domain
+    // is at leat 10km deep (z < -10000.0)
+
     if (z < -35000.0)
       vp = 7800.0;
     else if (z < -15000.0)
