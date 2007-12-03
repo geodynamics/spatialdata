@@ -139,6 +139,17 @@ private :
   static
   double _calcVs(const double vp);
 
+  /** Compute vp for background model.
+   *
+   * Distribution of Vp with depth that provides approximate match to
+   * distrbution of Vp on edges of SCEC CVM-H. This is similar to the
+   * starting model in Hauksson's tomographic model (Hauksson, JGR,
+   * 2000).
+   *
+   * @returns Vp in m/s.
+   */
+  double _backgroundVp(void);
+
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
 

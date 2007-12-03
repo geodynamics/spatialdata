@@ -286,17 +286,25 @@ int
 spatialdata::spatialdb::SCECCVMH::_queryVp(double* vp)
 { // _queryVp
   int outsideVoxet = 0;
-  double vpHR = 0.0;
 
   outsideVoxet = _laLowResVp->query(vp, _xyzUTM);
   if (!outsideVoxet) {
+    double vpHR = 0.0;
     outsideVoxet = _laHighResVp->query(&vpHR, _xyzUTM);
     if (!outsideVoxet)
       *vp = vpHR;
     else
       outsideVoxet = 0; // reset outsideVoxet flag to low-res value
-  } else
+  } else {
     outsideVoxet = _crustMantleVp->query(vp, _xyzUTM);
+    if (outsideVoxet) {
+      const double vpBg = _backgroundVp();
+      if (vpBg > 0.0)
+	*vp = vpBg;
+      else
+	outsideVoxet = 1;
+    } // if
+  } // else
 
   return outsideVoxet;
 } // _queryVp
@@ -359,6 +367,31 @@ spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp)
 
   return vs;
 } // _calcVs
+
+// ----------------------------------------------------------------------
+// Compute vp for background model.
+double
+spatialdata::spatialdb::SCECCVMH::_backgroundVp(void)
+{ // _backgroundVp
+  const double z = _xyzUTM[2];
+
+  double vp = -99999.0;
+  assert(0 != _topoElev);
+  double elev = 0.0;
+  const int outsideVoxet = _topoElev->query(&elev, _xyzUTM);
+  if (outsideVoxet) {
+    if (z < -35000.0)
+      vp = 7800.0;
+    else if (z < -15000.0)
+      vp = 7800.0 - (7800.0 - 7000.0) / 20000.0 * (z + 35000.0);
+    else if (z < 0.0)
+      vp = 7000.0-8.8888889e-06*(z+15000.0)*(z+15000.0);
+    else
+      vp = 5000.0;
+  } // if
+
+  return vp;
+} // _backgroundVp
 
 
 // End of file
