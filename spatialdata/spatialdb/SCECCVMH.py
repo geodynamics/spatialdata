@@ -39,6 +39,8 @@ class SCECCVMH(SpatialDB):
     ##
     ## \b Properties
     ## @li \b dataDir Directory containing SCEC CVM-H data files.
+    ## @li \b squash Squash topography/bathymetry to sea level.
+    ## @li \b squash_limit Elevation above which topography is squashed.
     ##
     ## \b Facilities
     ## @li none
@@ -47,6 +49,14 @@ class SCECCVMH(SpatialDB):
 
     dataDir = pyre.inventory.str("data_dir", default=".")
     dataDir.meta['tip'] = "Directory containing SCEC CVM-H data files."
+
+    squash = pyre.inventory.bool("squash", default=False)
+    squash.meta['tip'] = "Squash topography/bathymetry to sea level."
+
+    from pyre.units.length import km
+    squashLimit = pyre.inventory.dimensional("squash_limit",
+                                             default=-2.0*km)
+    squashLimit.meta['tip'] = "Elevation above which topography is squashed."
 
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -68,6 +78,7 @@ class SCECCVMH(SpatialDB):
     """
     SpatialDB.initialize(self)
     self.cppHandle.dataDir(self.dataDir)
+    self.cppHandle.squash(self.squash, self.squashLimit.value)
     return
   
 
@@ -79,6 +90,8 @@ class SCECCVMH(SpatialDB):
     """
     SpatialDB._configure(self)
     self.dataDir = self.inventory.dataDir
+    self.squash = self.inventory.squash
+    self.squashLimit = self.inventory.squashLimit
     return
 
 

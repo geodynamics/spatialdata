@@ -20,6 +20,7 @@ subpkginclude_HEADERS = \
 	GravityField.hh \
 	GravityField.icc \
 	SCECCVMH.hh \
+	SCECCVMH.icc \
 	SpatialDB.hh \
 	SpatialDB.icc \
 	SimpleDB.hh \

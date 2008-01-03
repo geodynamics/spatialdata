@@ -49,6 +49,15 @@ public :
    */
   void dataDir(const char* dir);
  
+  /** Set squashed topography/bathymetry flag and minimum elevation of
+   * squashing.
+   *
+   * @param flag True if squashing, false otherwise.
+   * @param limit Minimum elevation for squashing.
+   */
+  void squash(const bool flag,
+	      const double limit =-2000.0);
+
   /// Open the database and prepare for querying.
   void open(void);
  
@@ -139,17 +148,6 @@ private :
   static
   double _calcVs(const double vp);
 
-  /** Compute vp for background model.
-   *
-   * Distribution of Vp with depth that provides approximate match to
-   * distrbution of Vp on edges of SCEC CVM-H. This is similar to the
-   * starting model in Hauksson's tomographic model (Hauksson, JGR,
-   * 2000).
-   *
-   * @returns Vp in m/s.
-   */
-  double _backgroundVp(void);
-
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
 
@@ -167,10 +165,14 @@ private :
   GocadVoxet* _mohoDepth;  
   geocoords::CSGeoProj* _csUTM;
 
+  double _squashLimit; ///< Elevation above which topography is squashed.
   int* _queryVals; ///< Indices of values to be returned in queries.
   int _querySize; ///< Number of values requested to be returned in queries.
+  bool _squashTopo; ///< Squash topography/bathymetry to sea level.
 
 }; // SCECCVMH
+
+#include "SCECCVMH.icc" // inline methods
 
 #endif // spatialdata_spatialdb_sceccvmh_hh
 

@@ -619,4 +619,19 @@ cdef class SCECCVMH(SpatialDB):
     return
 
 
+  def squash(self, flag, limit):
+    """
+    Set squashed topography/bathymetry flag and minimum elevation of 
+    squashing.
+    """
+    # create shim for method 'squash'
+    #embed{ void SCECCVMH_squash(void* pObj, int flag, double limit)
+    assert(0 != pObj);
+    ((spatialdata::spatialdb::SCECCVMH*) pObj)->squash(flag, limit);
+    #}embed
+
+    SCECCVMH_squash(self.thisptr, flag, limit)
+    return
+
+
 # End of file 

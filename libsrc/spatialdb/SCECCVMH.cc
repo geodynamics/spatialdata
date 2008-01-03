@@ -41,8 +41,10 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
   _baseDepth(0),
   _mohoDepth(0),
   _csUTM(new geocoords::CSGeoProj),
+  _squashLimit(-2000.0),
   _queryVals(0),
-  _querySize(0)
+  _querySize(0),
+  _squashTopo(false)
 { // constructor
   geocoords::Projector proj;
   proj.projection("utm");
@@ -72,17 +74,11 @@ spatialdata::spatialdb::SCECCVMH::~SCECCVMH(void)
   delete _mohoDepth; _mohoDepth = 0;
   delete _csUTM; _csUTM = 0;
 
+  _squashLimit = 0.0;
   delete[] _queryVals; _queryVals = 0;
   _querySize = 0;
+  _squashTopo = 0;
 } // destructor
-
-// ----------------------------------------------------------------------
-// Set directory containing SCEC CVM-H data files.
-void
-spatialdata::spatialdb::SCECCVMH::dataDir(const char* dir)
-{ // dataDir
-  _dataDir = dir;
-} // dataDir
 
 // ----------------------------------------------------------------------
 // Open the database and prepare for querying.
@@ -187,6 +183,7 @@ spatialdata::spatialdb::SCECCVMH::queryVals(const char** names,
   } // for
 } // queryVals
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int
@@ -217,6 +214,15 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
   memcpy(_xyzUTM, coords, numDims*sizeof(double));
   spatialdata::geocoords::Converter::convert(_xyzUTM, 1, numDims, 
 					     _csUTM, csQuery);
+
+  bool haveTopo = false;
+  double topoElev = 0;
+  if (_squashTopo && _xyzUTM[2] > _squashLimit) {
+    double z = 0;
+    _topoElev->queryNearest(&topoElev, _xyzUTM);
+    haveTopo = true;
+    _xyzUTM[2] += topoElev;
+  } // if
 
   int outsideVoxet = 0;
   int queryFlag = 0;
@@ -256,20 +262,23 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	vals[iVal] = _calcVs(vp);
 	break;
       case QUERY_TOPOELEV :
-	assert(0 != _topoElev);
-	outsideVoxet = _topoElev->query(&vals[iVal], _xyzUTM);
-	if (outsideVoxet)
-	  queryFlag = outsideVoxet;
+	if (!haveTopo) {
+	  assert(0 != _topoElev);
+	  outsideVoxet = _topoElev->queryNearest(&vals[iVal], _xyzUTM);
+	  if (outsideVoxet)
+	    queryFlag = outsideVoxet;
+	} else
+	  vals[iVal] = topoElev;
 	break;
       case QUERY_BASEDEPTH :
 	assert(0 != _baseDepth);
-	outsideVoxet = _baseDepth->query(&vals[iVal], _xyzUTM);
+	outsideVoxet = _baseDepth->queryNearest(&vals[iVal], _xyzUTM);
 	if (outsideVoxet)
 	  queryFlag = outsideVoxet;
 	break;
       case QUERY_MOHODEPTH :
 	assert(0 != _mohoDepth);
-	outsideVoxet = _mohoDepth->query(&vals[iVal], _xyzUTM);
+	outsideVoxet = _mohoDepth->queryNearest(&vals[iVal], _xyzUTM);
 	if (outsideVoxet)
 	  queryFlag = outsideVoxet;
 	break;
@@ -294,18 +303,9 @@ spatialdata::spatialdb::SCECCVMH::_queryVp(double* vp)
     if (!outsideVoxet)
       *vp = vpHR;
     else
-      outsideVoxet = 0; // reset outsideVoxet flag to low-res value
-  } else {
-    outsideVoxet = _crustMantleVp->query(vp, _xyzUTM);
-    if (outsideVoxet) {
-      const double vpBg = _backgroundVp();
-      if (vpBg > 0.0) {
-	outsideVoxet = 0;
-	*vp = vpBg;
-      } else
-	outsideVoxet = 1;
-    } // if
-  } // else
+      outsideVoxet = 0; // use low-res value
+  } else
+    outsideVoxet = _crustMantleVp->queryNearest(vp, _xyzUTM);
 
   return outsideVoxet;
 } // _queryVp
@@ -324,9 +324,9 @@ spatialdata::spatialdb::SCECCVMH::_queryTag(double* tag)
     if (!outsideVoxet)
       *tag = tagHR;
     else
-      outsideVoxet = 0; // reset outsideVoxet flag to low-res value
+      outsideVoxet = 0; // use low-res value
   } else
-    outsideVoxet = _crustMantleTag->query(tag, _xyzUTM);
+    outsideVoxet = _crustMantleTag->queryNearest(tag, _xyzUTM);
 
   return outsideVoxet;
 } // _queryTag
@@ -368,34 +368,6 @@ spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp)
 
   return vs;
 } // _calcVs
-
-// ----------------------------------------------------------------------
-// Compute vp for background model.
-double
-spatialdata::spatialdb::SCECCVMH::_backgroundVp(void)
-{ // _backgroundVp
-  const double z = _xyzUTM[2];
-
-  double vp = -99999.0;
-  assert(0 != _topoElev);
-  double elev = 0.0;
-  const int outsideVoxet = _topoElev->query(&elev, _xyzUTM);
-  if (outsideVoxet || z < -10000.0) {
-    // if outside horizontal extent of domain or deeper; assume domain
-    // is at leat 10km deep (z < -10000.0)
-
-    if (z < -35000.0)
-      vp = 7800.0;
-    else if (z < -15000.0)
-      vp = 7800.0 - (7800.0 - 7000.0) / 20000.0 * (z + 35000.0);
-    else if (z < 0.0)
-      vp = 7000.0-8.8888889e-06*(z+15000.0)*(z+15000.0);
-    else
-      vp = 5000.0;
-  } // if
-
-  return vp;
-} // _backgroundVp
 
 
 // End of file

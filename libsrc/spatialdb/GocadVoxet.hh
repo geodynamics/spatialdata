@@ -59,6 +59,15 @@ public :
   int query(double* value,
 	    const double pt[3]) const;
 
+  /** Query voxet for value at nearest location.
+   *
+   * @param value Value for result.
+   * @param pt Location of query.
+   * @returns 0 if pt is inside voxet, 1 if outside voxet.
+   */
+  int queryNearest(double* value,
+		   const double pt[3]) const;
+
 // NOT IMPLEMENTED //////////////////////////////////////////////////////
 private :
 

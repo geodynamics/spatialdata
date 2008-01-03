@@ -92,6 +92,49 @@ spatialdata::spatialdb::GocadVoxet::query(double* value,
 } // query
 
 // ----------------------------------------------------------------------
+// Query voxet for value at nearest location.
+int
+spatialdata::spatialdb::GocadVoxet::queryNearest(double* value,
+						 const double pt[3]) const
+{ // queryNearest
+  // Compute indices of voxet containing pt
+  const int numX = _geometry.n[0];
+  const int numY = _geometry.n[1];
+  const int numZ = _geometry.n[2];
+  int indexX = 
+    round( (pt[0] - (_geometry.o[0]+_geometry.min[0]))*_geometry.scale[0]);
+  int indexY = 
+    round( (pt[1] - (_geometry.o[1]+_geometry.min[1]))*_geometry.scale[1]);
+  int indexZ = 
+    round( (pt[2] - (_geometry.o[2]+_geometry.min[2]))*_geometry.scale[2]);
+
+  // Correct to range of voxet, if necessary.
+  int flag = 0;
+  if (indexX < 0)
+    indexX = 0;
+  else if (indexX >= numX)
+    indexX = numX - 1;
+  if (indexY < 0)
+    indexY = 0;
+  else if (indexY >= numY)
+    indexY = numY - 1;
+  if (indexZ < 0)
+    indexZ = 0;
+  else if (indexZ >= numZ)
+    indexZ = numZ - 1;
+
+  // Make sure voxet is in range
+  assert(indexX >= 0 && indexX < numX);
+  assert(indexY >= 0 && indexY < numY);
+  assert(indexZ >= 0 && indexZ < numZ);
+
+  int indexV = indexZ*numY*numX + indexY*numX + indexX;
+  *value = _data[indexV];
+
+  return flag;
+} // queryNearest
+
+// ----------------------------------------------------------------------
 // Read voxet file.
 void
 spatialdata::spatialdb::GocadVoxet::_readVoxetFile(const char* filename,

@@ -20,7 +20,7 @@ class TestSCECCVMH(unittest.TestCase):
     from spatialdata.spatialdb.SCECCVMH import SCECCVMH
     db = SCECCVMH()
     db._configure()
-    db.dataDir = "@SCECCVMH_DATADIR@"
+    db.dataDir = "/Users/brad/data/sceccvm-h/vx52/bin"
     db.initialize()
     self._db = db
     return

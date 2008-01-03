@@ -40,11 +40,13 @@ class spatialdata::spatialdb::TestSCECCVMH : public CppUnit::TestFixture
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testLabel );
   CPPUNIT_TEST( testDataDir );
+  CPPUNIT_TEST( testSquashed );
   CPPUNIT_TEST( testQueryVals );
   CPPUNIT_TEST( testCalcDensity );
   CPPUNIT_TEST( testCalcVs );
 #if defined(SCECCVMH_DATADIR)
   CPPUNIT_TEST( testQuery );
+  CPPUNIT_TEST( testQuerySquashed );
 #endif
 
   CPPUNIT_TEST_SUITE_END();
@@ -61,11 +63,17 @@ public :
   /// Test dataDir()
   void testDataDir(void);
 
+  /// Test squashed()
+  void testSquashed(void);
+
   /// Test queryVals()
   void testQueryVals(void);
 
   /// Test query()
   void testQuery(void);
+
+  /// Test querySquashed()
+  void testQuerySquashed(void);
 
   /// Test calcDensity()
   void testCalcDensity(void);
