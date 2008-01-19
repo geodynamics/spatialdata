@@ -11,10 +11,11 @@
 #
 
 SUBDIRS = \
-	libtests \
-	pytests
+	libtests
 
-# version
-# $Id$
+if ENABLE_PYTHIA
+  SUBDIRS += pytests
+endif
+
 
 # End of file 

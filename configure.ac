@@ -17,10 +17,6 @@ AC_CONFIG_AUX_DIR([./aux-config])
 AM_INIT_AUTOMAKE([foreign])
 
 # ----------------------------------------------------------------------
-# PYTHON
-AC_ARG_VAR(PYTHON, [Python interpreter])
-AC_ARG_VAR(PYTHONPATH, [Python module search path])
-
 # TESTING w/cppunit
 AC_ARG_ENABLE([testing],
 	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
@@ -46,7 +42,6 @@ AC_ARG_ENABLE([scec-cvm-h],
 	[enable_scec_cvm_h=no])
 
 # ----------------------------------------------------------------------
-
 AC_PROG_CXX
 AC_PROG_CC
 
@@ -61,9 +56,6 @@ AC_SUBST(AM_LDFLAGS)
 AM_PATH_PYTHON([2.3])
 
 # ----------------------------------------------------------------------
-# PYTHON
-CIT_PYTHON_SYSCONFIG
-
 # PROJ4
 AC_CHECK_LIB(proj, pj_init_plus, [
   AC_CHECK_HEADER([proj_api.h], [], [
@@ -115,6 +107,9 @@ if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
   # Check for Python modules and packages.
+  AC_ARG_VAR(PYTHON, [Python interpreter])
+  AC_ARG_VAR(PYTHONPATH, [Python module search path])
+  CIT_PYTHON_SYSCONFIG
   CIT_PYTHON_EGG_SETUP
 
   # PYREX/PYREXEMBED
