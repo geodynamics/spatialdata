@@ -296,14 +296,16 @@ spatialdata::spatialdb::SCECCVMH::_queryVp(double* vp)
 { // _queryVp
   int outsideVoxet = 0;
 
+  // Try first querying low-res model
   outsideVoxet = _laLowResVp->query(vp, _xyzUTM);
   if (!outsideVoxet) {
+    // if inside low-res, try high-res model
     double vpHR = 0.0;
     outsideVoxet = _laHighResVp->query(&vpHR, _xyzUTM);
-    if (!outsideVoxet)
+    if (!outsideVoxet) // if inside high-res model, use it
       *vp = vpHR;
-    else
-      outsideVoxet = 0; // use low-res value
+    else // not in high-res model, so use low-res value
+      outsideVoxet = 0;
   } else
     outsideVoxet = _crustMantleVp->queryNearest(vp, _xyzUTM);
 
