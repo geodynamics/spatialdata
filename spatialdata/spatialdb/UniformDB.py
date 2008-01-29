@@ -80,13 +80,13 @@ class UniformDB(SpatialDB):
     Set members based on inventory.
     """
     SpatialDB._configure(self)
-    self._validate(self.inventory)
+    self._validateParameters(self.inventory)
     self.values = self.inventory.values
     self.data = map(float, self.inventory.data)
     return
 
 
-  def _validate(self, data):
+  def _validateParameters(self, data):
     """
     Validate parameters.
     """
@@ -95,7 +95,7 @@ class UniformDB(SpatialDB):
             "Incompatible settings for uniform spatial database '%s'.\n"\
             "'values' and 'data' must be lists of the same size.\n"\
             "'values' has size of %d but 'data' has size of %d." \
-            % (self.label, len(self.values), len(self.data))
+            % (self.label, len(data.values), len(data.data))
     try:
       dataFloat = map(float, data.data)
     except:
