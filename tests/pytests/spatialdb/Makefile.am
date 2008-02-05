@@ -14,6 +14,8 @@ SUBDIRS = data
 
 TESTS = testspatial.py
 
+TESTS_ENVIRONMENT = $(PYTHON)
+
 check_SCRIPTS = testspatial.py
 
 if ENABLE_SCEC_CVM_H

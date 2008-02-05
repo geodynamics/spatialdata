@@ -15,6 +15,8 @@ include $(top_srcdir)/subpackage.am
 
 TESTS = testutils.py
 
+TESTS_ENVIRONMENT = $(PYTHON)
+
 check_SCRIPTS = testutils.py
 
 noinst_PYTHON = \

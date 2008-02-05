@@ -12,6 +12,8 @@
 
 TESTS = testgeocoords.py
 
+TESTS_ENVIRONMENT = $(PYTHON)
+
 check_SCRIPTS = testgeocoords.py
 
 noinst_PYTHON = \
@@ -22,7 +24,5 @@ noinst_PYTHON = \
 	TestCSGeo.py \
 	TestProjector.py
 
-# version
-# $Id$
 
 # End of file 
