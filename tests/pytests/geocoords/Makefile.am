@@ -11,10 +11,9 @@
 #
 
 TESTS = testgeocoords.py
+check_SCRIPTS = testgeocoords.py
 
 TESTS_ENVIRONMENT = $(PYTHON)
-
-check_SCRIPTS = testgeocoords.py
 
 noinst_PYTHON = \
 	TestConverter.py \

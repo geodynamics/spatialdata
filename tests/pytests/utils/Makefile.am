@@ -14,10 +14,9 @@ subpackage = utils
 include $(top_srcdir)/subpackage.am
 
 TESTS = testutils.py
+check_SCRIPTS = testutils.py
 
 TESTS_ENVIRONMENT = $(PYTHON)
-
-check_SCRIPTS = testutils.py
 
 noinst_PYTHON = \
 	TestSimpleArray.py
@@ -52,8 +51,5 @@ testcpp_embed.h: testcpp.pyx
 
 CLEANFILES = testcpp.pyxe testcpp.pyx testcpp.c *_embed.*
 
-
-# version
-# $Id$
 
 # End of file 
