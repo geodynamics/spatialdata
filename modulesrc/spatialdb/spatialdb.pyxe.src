@@ -45,6 +45,43 @@ cdef void* ptrFromHandle(obj):
   """
   return PyCObject_AsVoidPtr(obj.handle)
 
+cdef double* doubleArray(size):
+  """
+  Allocate C++ double array.
+  """
+  # create shim
+  #embed{ double* doubleArray_cpp(int size)
+  double* result = (size > 0) ? new double[size] : 0;
+  return result;
+  #}embed
+  return doubleArray_cpp(size)
+
+
+cdef float* floatArray(size):
+  """
+  Allocate C++ float array.
+  """
+  # create shim
+  #embed{ float* floatArray_cpp(int size)
+  float* result = (size > 0) ? new float[size] : 0;
+  return result;
+  #}embed
+  return floatArray_cpp(size)
+
+
+cdef int* intArray(size):
+  """
+  Allocate C++ int array.
+  """
+  # create shim
+  #embed{ int* intArray_cpp(int size)
+  int* result = (size > 0) ? new int[size] : 0;
+  return result;
+  #}embed
+  return intArray_cpp(size)
+
+
+# ----------------------------------------------------------------------
 cdef void SpatialDB_destructor(void* obj):
   """
   Destroy SpatialDB object.
@@ -58,21 +95,6 @@ cdef void SpatialDB_destructor(void* obj):
   SpatialDB_destructor_cpp(obj)
   return
 
-cdef void SimpleIO_destructor(void* obj):
-  """
-  Destructor SimplIO object.
-  """
-  # create shim for destructor
-  #embed{ void SimpleIO_destructor_cpp(void* pObj)
-  spatialdata::spatialdb::SimpleIO* pIO =
-    (spatialdata::spatialdb::SimpleIO*) pObj;
-  delete pIO;
-  #}embed
-  SimpleIO_destructor_cpp(obj)
-  return
-
-
-# ----------------------------------------------------------------------
 cdef class SpatialDB:
 
   cdef void* thisptr # Pointer to C++ object
@@ -256,10 +278,10 @@ cdef class SpatialDB:
     pLocs = <double*> PyCObject_AsVoidPtr(locs.data)
 
     cdef double* pVals
-    pVals = <double*> malloc(nlocs*nvals*sizeof(double))
+    pVals = doubleArray(nlocs*nvals)
 
     cdef int* pErr
-    pErr = <int*> malloc(nlocs*sizeof(int))
+    pErr = <int*> intArray(nlocs)
 
     cdef double* valbuffer
     valbuffer = <double*> malloc(nvals*sizeof(double))
@@ -349,6 +371,20 @@ cdef class SimpleDB(SpatialDB):
 
 
 # ----------------------------------------------------------------------
+cdef void SimpleIO_destructor(void* obj):
+  """
+  Destructor SimplIO object.
+  """
+  # create shim for destructor
+  #embed{ void SimpleIO_destructor_cpp(void* pObj)
+  spatialdata::spatialdb::SimpleIO* pIO =
+    (spatialdata::spatialdb::SimpleIO*) pObj;
+  delete pIO;
+  #}embed
+  SimpleIO_destructor_cpp(obj)
+  return
+
+
 cdef class SimpleIO:
 
   cdef void* thisptr # Pointer to C++ object
@@ -427,6 +463,8 @@ cdef class SimpleIOAscii(SimpleIO):
     spatialdata::geocoords::CoordSys* pCS =
       (spatialdata::geocoords::CoordSys*) pCSObj;  
     ((spatialdata::spatialdb::SimpleIOAscii*) pObj)->write(*pData, pCS);
+    delete[] pData->valNames;
+    delete[] pData->valUnits;
     delete pData; pData = 0;
     #}embed
 

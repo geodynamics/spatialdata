@@ -53,8 +53,6 @@ fi
 AM_CONDITIONAL([NO_UNDEFINED], [test "$allow_undefined_flag" = unsupported])
 AC_SUBST(AM_LDFLAGS)
 
-AM_PATH_PYTHON([2.3])
-
 # ----------------------------------------------------------------------
 # PROJ4
 AC_CHECK_LIB(proj, pj_init_plus, [
@@ -111,6 +109,7 @@ if test "$enable_pythia" = "yes" ; then
   AC_ARG_VAR(PYTHONPATH, [Python module search path])
   CIT_PYTHON_SYSCONFIG
   CIT_PYTHON_EGG_SETUP
+  AM_PATH_PYTHON([2.3])
 
   # PYREX/PYREXEMBED
   AC_CHECK_PROG([have_pyrex],

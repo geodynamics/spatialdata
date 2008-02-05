@@ -222,8 +222,10 @@ cdef class SimpleArray:
 
 # ----------------------------------------------------------------------
 cdef class SimpleCppArray(SimpleArray):
-  """Implementation of generic multi-dimensional array created from C++
-  array."""
+  """
+  Implementation of generic multi-dimensional array created from C++
+  array.
+  """
   
   cdef void* arrayptr # Pointer to head of array
 
@@ -272,8 +274,10 @@ cdef class SimpleCppArray(SimpleArray):
     
 
   property __array_struct__:
-    """Generic array structure property compatible with NumPy, Numeric,
-    and numarray."""
+    """
+    Generic array structure property compatible with NumPy, Numeric,
+    and numarray.
+    """
     def __get__(self):
       Py_INCREF(self)
       obj = PyCObject_FromVoidPtrAndDesc(<void*> self._interface, <void*> self,
@@ -384,8 +388,8 @@ cdef class SimplePyArray(SimpleArray):
                    'kind': 'f',
                    'type': "double"},
             'f4': {'size': sizeof(float),
-                      'kind': 'f',
-                      'type': "float"},
+                   'kind': 'f',
+                   'type': "float"},
             'i4': {'size': sizeof(int),
                    'kind': 'i',
                    'type': "int"}}
@@ -407,8 +411,5 @@ def objAsSimpleArray(obj):
     obj = SimplePyArray(obj)
   return obj
 
-
-# version
-__id__ = "$Id$"
 
 # End of file
