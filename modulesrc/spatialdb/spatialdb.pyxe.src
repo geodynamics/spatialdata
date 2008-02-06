@@ -605,6 +605,7 @@ cdef class UniformDB(SpatialDB):
     namesArray = NULL
     valuesArray = NULL
     numValues = len(names)
+    assert(numValues == len(values))
     if numValues > 0:
       namesArray = <char**> malloc(numValues*sizeof(char*))
       valuesArray = <double*> malloc(numValues*sizeof(double))
