@@ -38,7 +38,7 @@ class SCECCVMH(SpatialDB):
     ## Python object for managing SCECCVMH facilities and properties.
     ##
     ## \b Properties
-    ## @li \b data-dir Directory containing SCEC CVM-H data files.
+    ## @li \b data_dir Directory containing SCEC CVM-H data files.
     ## @li \b squash Squash topography/bathymetry to sea level.
     ## @li \b squash_limit Elevation above which topography is squashed.
     ##
