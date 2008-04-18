@@ -86,13 +86,13 @@ class GravityField(SpatialDB):
     Set members based on inventory.
     """
     SpatialDB._configure(self)
-    self._validate(self.inventory)
+    self._validateParameters(self.inventory)
     self.gravityDir = self.inventory.gravityDir
     self.acceleration = self.inventory.acceleration
     return
 
 
-  def _validate(self, data):
+  def _validateParameters(self, data):
     """
     Validate parameters.
     """
