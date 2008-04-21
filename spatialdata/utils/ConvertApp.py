@@ -48,9 +48,10 @@ class ConvertApp(Script):
     ## @li \b writer Writer to dump data
 
     import pyre.inventory
+    from PointsStream import PointsStream
 
     reader = pyre.inventory.facility("reader", family="reader",
-                                     factory=Dummy)
+                                     factory=PointsStream)
     reader.meta['tip'] = "Reader to load data."
 
     converter = pyre.inventory.facility("converter", family="converter",
@@ -58,7 +59,7 @@ class ConvertApp(Script):
     converter.meta['tip'] = "Converter to convert data."
 
     writer = pyre.inventory.facility("writer", family="writer",
-                                     factory=Dummy)
+                                     factory=PointsStream)
     writer.meta['tip'] = "Writer to dump data."
 
 
@@ -68,6 +69,10 @@ class ConvertApp(Script):
     """
     Main entry point for application.
     """
+    if None == self.reader:
+      raise UnboundLocalError, "convert needs a reader to load the data.\n" \
+            "Please specify an unpickler with --reader=myreader"
+    
     data = self.reader.read()
     if not self.converter is None:
       self.converter.convert(data)
@@ -91,8 +96,7 @@ class ConvertApp(Script):
     """
     Script._configure(self)
     if self.inventory.reader.name == "dummy":
-      raise UnboundLocalError, "convert needs a reader to load the data.\n" \
-            "Please specify an unpickler with --reader=myreader"
+      self.reader = None
     else:
       self.reader = self.inventory.reader
 
