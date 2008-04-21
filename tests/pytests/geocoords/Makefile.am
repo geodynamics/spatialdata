@@ -11,7 +11,7 @@
 #
 
 TESTS = testgeocoords.py
-check_SCRIPTS = testgeocoords.py
+dist_check_SCRIPTS = testgeocoords.py
 
 TESTS_ENVIRONMENT = $(PYTHON)
 

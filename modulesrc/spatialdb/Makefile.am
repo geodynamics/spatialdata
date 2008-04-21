@@ -18,9 +18,9 @@ subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
 spatialdbmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-spatialdbmodule_la_SOURCES = spatialdb.pyxe
-
+dist_spatialdbmodule_la_SOURCES = spatialdb.pyxe.src
 nodist_spatialdbmodule_la_SOURCES = \
+	spatialdb.pyxe \
 	spatialdb.c spatialdb_embed.cpp spatialdb_embed.h
 
 spatialdbmodule_la_LIBADD = \

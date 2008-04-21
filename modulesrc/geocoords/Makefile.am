@@ -13,14 +13,16 @@
 subpackage = geocoords
 include $(top_srcdir)/subpackage.am
 
+
 subpkgpyexec_LTLIBRARIES = geocoordsmodule.la
 
 geocoordsmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-geocoordsmodule_la_SOURCES = geocoords.pyxe
+dist_geocoordsmodule_la_SOURCES = geocoords.pyxe.src
 
 nodist_geocoordsmodule_la_SOURCES = \
+	geocoords.pyxe \
 	geocoords.c geocoords_embed.cpp geocoords_embed.h
 
 geocoordsmodule_la_LIBADD = \

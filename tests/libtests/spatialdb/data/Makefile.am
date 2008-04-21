@@ -10,7 +10,7 @@
 # ----------------------------------------------------------------------
 #
 
-noinst_DATA = \
+dist_noinst_DATA = \
 	spatialdb.dat \
 	spatial_comments.dat
 
@@ -22,8 +22,8 @@ noinst_HEADERS = \
 
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/tests/libtests/spatialdb/data
-export-data: $(noinst_DATA)
-	for f in $(noinst_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
+export-data: $(dist_noinst_DATA)
+	for f in $(dist_noinst_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
 
 BUILT_SOURCES = export-data
 

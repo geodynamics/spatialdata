@@ -22,8 +22,9 @@ INCLUDES += -I$(PYTHON_INCDIR)
 # simple array
 simplearraymodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
-simplearraymodule_la_SOURCES = simplearray.pyxe
+dist_simplearraymodule_la_SOURCES = simplearray.pyxe.src
 nodist_simplearraymodule_la_SOURCES = \
+	simplearray.pyxe \
 	simplearray.c simplearray_embed.cpp simplearray_embed.h
 simplearraymodule_la_LIBADD =
 if NO_UNDEFINED
@@ -34,8 +35,9 @@ endif
 # utils
 utilsmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
-utilsmodule_la_SOURCES = utils.pyxe
+dist_utilsmodule_la_SOURCES = utils.pyxe.src
 nodist_utilsmodule_la_SOURCES = \
+	utils.pyxe \
 	utils.c utils_embed.cpp utils_embed.h
 utilsmodule_la_LIBADD = \
 	$(top_builddir)/libsrc/libspatialdata.la

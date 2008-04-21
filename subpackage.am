@@ -35,7 +35,5 @@ clean-nobase_subpkgincludeHEADERS:
 
 INCLUDES = -I$(top_builddir)/include
 
-# version
-# $Id$
 
 # End of file 

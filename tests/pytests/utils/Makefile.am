@@ -14,11 +14,14 @@ subpackage = utils
 include $(top_srcdir)/subpackage.am
 
 TESTS = testutils.py
-check_SCRIPTS = testutils.py
+dist_check_SCRIPTS = testutils.py
 
 TESTS_ENVIRONMENT = $(PYTHON)
 
 noinst_PYTHON = \
+	TestChangeCoordSys.py \
+	TestConvertApp.py \
+	TestPointsStream.py \
 	TestSimpleArray.py
 
 # module
@@ -32,9 +35,10 @@ testcppmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
-testcppmodule_la_SOURCES = testcpp.pyxe
+dist_testcppmodule_la_SOURCES = testcpp.pyxe.src
 
 nodist_testcppmodule_la_SOURCES = \
+	testcpp.pyxe \
 	testcpp.c testcpp_embed.cpp testcpp_embed.h
 
 INCLUDES += -I$(PYTHON_INCDIR)
