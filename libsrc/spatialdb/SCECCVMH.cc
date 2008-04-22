@@ -183,7 +183,6 @@ spatialdata::spatialdb::SCECCVMH::queryVals(const char** names,
   } // for
 } // queryVals
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int
@@ -234,21 +233,21 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
       case QUERY_VP :
 	outsideVoxet = _queryVp(&vals[iVal]);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet;
+	  queryFlag = outsideVoxet || queryFlag;
 	haveVp = true;
 	vp = vals[iVal];
 	break;
       case QUERY_VPTAG :
 	outsideVoxet = _queryTag(&vals[iVal]);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet;
+	  queryFlag = outsideVoxet || queryFlag;
 	break;
       case QUERY_DENSITY :
 	if (!haveVp) {
 	  outsideVoxet = _queryVp(&vp);
 	  haveVp = true;
 	  if (outsideVoxet)
-	    queryFlag = outsideVoxet;
+	    queryFlag = outsideVoxet || queryFlag;
 	} // if
 	vals[iVal] = _calcDensity(vp);
 	break;
@@ -257,7 +256,7 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	  outsideVoxet = _queryVp(&vp);
 	  haveVp = true;
 	  if (outsideVoxet)
-	    queryFlag = outsideVoxet;
+	    queryFlag = outsideVoxet || queryFlag;
 	} // if
 	vals[iVal] = _calcVs(vp);
 	break;
@@ -266,7 +265,7 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	  assert(0 != _topoElev);
 	  outsideVoxet = _topoElev->queryNearest(&vals[iVal], _xyzUTM);
 	  if (outsideVoxet)
-	    queryFlag = outsideVoxet;
+	    queryFlag = outsideVoxet || queryFlag;
 	} else
 	  vals[iVal] = topoElev;
 	break;
@@ -274,13 +273,13 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	assert(0 != _baseDepth);
 	outsideVoxet = _baseDepth->queryNearest(&vals[iVal], _xyzUTM);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet;
+	  queryFlag = outsideVoxet || queryFlag;
 	break;
       case QUERY_MOHODEPTH :
 	assert(0 != _mohoDepth);
 	outsideVoxet = _mohoDepth->queryNearest(&vals[iVal], _xyzUTM);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet;
+	  queryFlag = outsideVoxet || queryFlag;
 	break;
       default:
 	assert(0);
@@ -340,12 +339,10 @@ spatialdata::spatialdb::SCECCVMH::_calcDensity(const double vp)
 { // _calcDensity
   double density = vp / 3.0 + 1280.0;
   if (vp < 2160.0) {
-    if (vp > 1480.0)
+    if (vp != 1480.0) // if not water
       density = 2000.0;
-    else if (1480.0 == vp)
-      density = 1000.0;
     else
-      density = -99999.0;
+      density = 1000.0; // water
   } // if
 
   return density;
@@ -361,12 +358,10 @@ spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp)
     785.8 - 1.2344*vp + 794.9 * pow(vp/1000.0,2) 
     - 123.8 * pow(vp/1000.0,3) + 6.4 * pow(vp/1000.0,4);
   if (vp < 1500.0)
-    if (vp > 1480.0) 
+    if (vp != 1480.0) // if not water
       vs = (1500.0-1360.0)/1.16;
-    else if (1480.0 == vp)
-      vs = 0.0;
-    else
-      vs = -99999.0;
+    else 
+      vs = 0.0; // water
 
   return vs;
 } // _calcVs

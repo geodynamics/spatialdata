@@ -462,7 +462,7 @@ spatialdata::spatialdb::TestSCECCVMH::testCalcDensity(void)
     1860.0,
   };
   const double densityE[] = {
-    -99999.00,
+    2000.00,
     3126.848633,
     2741.375488,
     2660.851074,
@@ -501,7 +501,7 @@ spatialdata::spatialdb::TestSCECCVMH::testCalcVs(void)
     1860.0,
   };
   const double vsE[] = {
-    -99999.00,
+    (1500.0-1360.0)/1.16,
     3323.004705,
     2584.759846,
     2398.752778,
