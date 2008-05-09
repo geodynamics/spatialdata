@@ -21,6 +21,7 @@
 #include "spatialdata/geocoords/CSGeoProj.hh" // USES CSGeoProj
 #include "spatialdata/geocoords/CSGeoLocalCart.hh" // USES CSGeoLocalCart
 
+#include <string.h> // USES strcmp()
 #include <math.h> // USES sqrt()
 
 // ----------------------------------------------------------------------

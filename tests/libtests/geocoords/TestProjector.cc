@@ -19,6 +19,8 @@
 #include "spatialdata/geocoords/CoordSys.hh" // USES CSGeo
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
+#include <string.h> // USES strcmp()
+#include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------

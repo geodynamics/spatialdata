@@ -24,6 +24,7 @@
 
 #include "spatialdata/spatialdb/SimpleDBTypes.hh" // USES SimpleDBTypes
 
+#include <string.h> // USES strcmp()
 #include <sstream> // USES std::ostringstream
 
 // ----------------------------------------------------------------------

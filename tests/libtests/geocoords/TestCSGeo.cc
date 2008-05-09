@@ -18,6 +18,8 @@
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 #include <math.h> // USES M_PI
 
+#include <string.h> // USES memcpy() and strcmp()
+#include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------

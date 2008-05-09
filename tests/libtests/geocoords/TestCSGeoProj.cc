@@ -20,6 +20,8 @@
 #include "spatialdata/geocoords/Projector.hh" // USES Projector
 
 #include <math.h> // USES M_PI
+#include <string.h> // USES memcpy()
+#include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------

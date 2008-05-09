@@ -23,6 +23,8 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
+#include <string.h> // USES strcmp() and memcpy()
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDB );
 

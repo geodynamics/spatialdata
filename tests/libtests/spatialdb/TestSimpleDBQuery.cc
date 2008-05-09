@@ -23,6 +23,8 @@
 
 #include "data/SimpleDBQueryData.hh"
 
+#include <string.h> // USES memcpy()
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBQuery );
 

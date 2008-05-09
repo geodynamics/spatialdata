@@ -18,6 +18,7 @@
 
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
+#include <string.h> // USES strcmp()
 #include <math.h> // USES fabs()
 
 // ----------------------------------------------------------------------

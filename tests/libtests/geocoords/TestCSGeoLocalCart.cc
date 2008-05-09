@@ -19,6 +19,8 @@
 #include "spatialdata/geocoords/CSGeoLocalCart.hh" // USES CSGeoLocalCart
 
 #include <math.h> // USES fabs()
+#include <string.h> // USES memcpy()
+#include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------
