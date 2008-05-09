@@ -29,6 +29,7 @@
 #define MAXFLOAT 1e+30
 #endif
 
+#include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------

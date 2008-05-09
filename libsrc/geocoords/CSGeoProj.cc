@@ -22,6 +22,7 @@
 
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
+#include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------

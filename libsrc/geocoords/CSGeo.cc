@@ -23,6 +23,7 @@
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
+#include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 
 extern "C" {

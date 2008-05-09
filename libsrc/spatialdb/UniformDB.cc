@@ -18,6 +18,7 @@
 #include <stdexcept> // USES std::runtime_error
 
 #include <sstream> // USES std::ostringsgream
+#include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------

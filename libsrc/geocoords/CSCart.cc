@@ -19,6 +19,7 @@
 #include <iostream> // USES std::istream, std::ostream
 
 #include <sstream> // USES std::ostringstream
+#include <strings.h> // USES strcasecmp
 #include <stdexcept> // USES std::runtime_error
 
 // ----------------------------------------------------------------------

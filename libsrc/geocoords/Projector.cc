@@ -27,6 +27,7 @@ extern "C" {
 
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringstream
+#include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
