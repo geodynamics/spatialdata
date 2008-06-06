@@ -47,13 +47,16 @@ testspatial.py: $(srcdir)/TestSCECCVMH.py
 
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/tests/pytests/spatialdb
-export-data: $(dist_data_DATA)
-	for f in $(dist_data_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done
+export-data: $(data_DATA)
+	if [ "X$(top_srcdir)" != "X$(top_builddir)" ]; then for f in $(dist_data_DATA); do $(install_sh_DATA) $(srcdir)/$$f $(export_datadir); done; fi
+
+clean-data:
+	if [ "X$(top_srcdir)" != "X$(top_builddir)" ]; then for f in $(dist_data_DATA); do $(RM) $(RM_FLAGS) $(export_datadir)/$$f; done; fi
 
 BUILT_SOURCES = export-data
+clean-local: clean-data
 
 CLEANFILES = \
-	$(srcdir)/TestSCECCVMH.py \
-	$(export_datadir)/$(dist_data_DATA)
+	$(srcdir)/TestSCECCVMH.py
 
 # End of file 

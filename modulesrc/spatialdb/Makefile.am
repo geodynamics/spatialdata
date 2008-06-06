@@ -42,6 +42,6 @@ spatialdb_embed.h: spatialdb.pyx
 .pyx.c:
 	pyrexc $<
 
-CLEANFILES = spatialdb.pyx spatialdb.c *_embed.*
+CLEANFILES = spatialdb.pyx spatialdb.pyxe spatialdb.c *_embed.*
 
 # End of file 

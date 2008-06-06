@@ -24,6 +24,8 @@ noinst_PYTHON = \
 	TestPointsStream.py \
 	TestSimpleArray.py
 
+data_TMP = tmp.txt
+
 # module
 subpkgpyexec_LTLIBRARIES = testcppmodule.la
 
@@ -54,6 +56,7 @@ testcpp_embed.h: testcpp.pyx
 	pyrexc $<
 
 CLEANFILES = testcpp.pyxe testcpp.pyx testcpp.c *_embed.*
+CLEANFILES += $(data_TMP) 
 
 
 # End of file 

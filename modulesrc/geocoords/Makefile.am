@@ -44,6 +44,6 @@ geocoords_embed.h: geocoords.pyx
 .pyx.c:
 	pyrexc $<
 
-CLEANFILES = geocoords.pyx geocoords.c *_embed.*
+CLEANFILES = geocoords.pyx geocoords.pyxe geocoords.c *_embed.*
 
 # End of file 

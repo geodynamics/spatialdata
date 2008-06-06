@@ -11,7 +11,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [0.3.0], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [0.3.1], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AM_INIT_AUTOMAKE([foreign])

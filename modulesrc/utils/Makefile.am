@@ -65,6 +65,8 @@ utils_embed.h: utils.pyx
 .pyx.c:
 	pyrexc $<
 
-CLEANFILES = utils.pyx utils.c *_embed.*
+CLEANFILES = utils.pyx utils.pyxe utils.c \
+	simplearray.pyx simplearray.pyxe simplearray.c \
+	*_embed.*
 
 # End of file 
