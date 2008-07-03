@@ -169,6 +169,7 @@ AC_CONFIG_FILES([Makefile
 	tests/pytests/spatialdb/data/Makefile
 	tests/pytests/utils/Makefile
 	applications/Makefile
+	templates/Makefile
 	doc/Makefile])
 
 AC_OUTPUT

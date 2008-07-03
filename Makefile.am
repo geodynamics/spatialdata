@@ -13,7 +13,8 @@
 ACLOCAL_AMFLAGS = -I ./m4
 
 SUBDIRS = \
-	libsrc
+	libsrc \
+	templates
 
 if ENABLE_PYTHIA
   SUBDIRS += modulesrc spatialdata applications

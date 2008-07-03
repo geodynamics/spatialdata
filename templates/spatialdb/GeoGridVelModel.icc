@@ -1,0 +1,23 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// <LicenseText>
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(yourname_spatialdb_geogridvelmodel_hh)
+#error "GeoGridVelModel.icc must only be included from GeoGridVelModel.hh"
+#endif
+
+// Set filename of velocity model.
+void
+yourname::spatialdb::GeoGridVelModel::filename(const char* name) {
+  _filename = name;
+} // filename
+
+// End of file
