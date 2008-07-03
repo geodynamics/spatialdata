@@ -12,7 +12,7 @@
 
 #header{
 #include "spatialdata/spatialdb/SpatialDB.hh"
-#include "spatialdata/spatialdb/GeoVelModel.hh"
+#include "GeoGridVelModel.hh"
 
 #include "spatialdata/geocoords/CoordSys.hh"
 
@@ -312,7 +312,7 @@ cdef class GeoGridVelModel(SpatialDB):
     """
     # create shim for constructor
     #embed{ void* GeoGridVelModel_constructor()
-      return (void*)(new spatialdata::spatialdb::GeoGridVelModel);
+      return (void*)(new yourname::spatialdb::GeoGridVelModel);
     #}embed
 
     SpatialDB.__init__(self)
@@ -328,7 +328,7 @@ cdef class GeoGridVelModel(SpatialDB):
     # create shim for method 'filename'
     #embed{ void GeoGridVelModel_filename(void* pObj, char* name)
     assert(0 != pObj);
-    ((spatialdata::spatialdb::GeoGridVelModel*) pObj)->filename(name);
+    ((yourname::spatialdb::GeoGridVelModel*) pObj)->filename(name);
     #}embed
 
     GeoGridVelModel_filename(self.thisptr, name)

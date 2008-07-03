@@ -103,4 +103,5 @@ AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
 
-dnl end of configure.ac
+
+# End of file

@@ -10,6 +10,9 @@
 # ----------------------------------------------------------------------
 #
 
+ACLOCAL_AMFLAGS = -I ./m4
+
+
 # LIBRARY --------------------------------------------------------------
 lib_LTLIBRARIES = libyournamespatialdb.la
 
@@ -26,19 +29,19 @@ INCLUDES =
 
 # MODULE ---------------------------------------------------------------
 
-pkgpyexec_LTLIBRARIES = yournamespatialdbmodule.la
+pkgpyexec_LTLIBRARIES = spatialdbmodule.la
 
-yournamespatialdbmodule_la_LDFLAGS = -module -avoid-version \
+spatialdbmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist_yournamespatialdbmodule_la_SOURCES = spatialdb.pyxe.src
-nodist_yournamespatialdbmodule_la_SOURCES = \
+dist_spatialdbmodule_la_SOURCES = spatialdb.pyxe.src
+nodist_spatialdbmodule_la_SOURCES = \
 	spatialdb.pyxe \
 	spatialdb.c spatialdb_embed.cpp spatialdb_embed.h
 
-yournamespatialdbmodule_la_LIBADD = libyournamespatialdb.la
+spatialdbmodule_la_LIBADD = libyournamespatialdb.la
 if NO_UNDEFINED
-yournamespatialdbmodule_la_LIBADD += \
+spatialdbmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 

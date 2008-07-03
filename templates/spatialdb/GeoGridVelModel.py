@@ -10,9 +10,8 @@
 # ----------------------------------------------------------------------
 #
 
-# 1. Rename the MyVelModel class to something appropriate (do a
-#    search/replace on MyVelModel).
-# 2. Add the necessary Pyre properties and facilities for user parameters.
+# 1. Rename the GeoGridVelModel class to something appropriate.
+# 2. Adjust the Pyre properties and facilities for user parameters.
 # 3. Update the constructor, __init__().
 # 4. Update initialize().
 # 5. Update _configure().
@@ -24,8 +23,8 @@
 
 from spatialdata.spatialdb.SpatialDB import SpatialDB
 
-# MyVelModel class
-class MyVelModel(SpatialDB):
+# GeoGridVelModel class
+class GeoGridVelModel(SpatialDB):
   """
   Python manager for spatial database to a new velocity model.
 
@@ -36,11 +35,11 @@ class MyVelModel(SpatialDB):
 
   class Inventory(SpatialDB.Inventory):
     """
-    Python object for managing MyVelModel facilities and properties.
+    Python object for managing GeoGridVelModel facilities and properties.
     """
 
     ## @class Inventory
-    ## Python object for managing MyVelModel facilities and properties.
+    ## Python object for managing GeoGridVelModel facilities and properties.
     ##
     ## \b Properties
     ## @li \b filename Filename for seismic velocity model.
@@ -57,14 +56,16 @@ class MyVelModel(SpatialDB):
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   # Change this name.
-  def __init__(self, name="myvelmodel"):
+  def __init__(self, name="geogridvelmodel"):
     """
     Constructor.
     """
-    SpatialDB.__init__(self, name)
+    SpatialDB.__init__(self, name) # Call parent function
+
+    # Create handle to corresponding C++ object
     import spatialdb as bindings
-    self.cppHandle = bindings.MyVelModel() # Change this
-    self.cppHandle.label = "My velocity model" # Change this
+    self.cppHandle = bindings.GeoGridVelModel()
+    self.cppHandle.label = "Geographic gridded velocity model"
     return
 
 
@@ -72,7 +73,7 @@ class MyVelModel(SpatialDB):
     """
     Initialize database.
     """
-    SpatialDB.initialize(self)
+    SpatialDB.initialize(self) # Call parent function
 
     # Transfer Pyre properties/facilities to C++
     self.cppHandle.filename(self.filename)
@@ -85,7 +86,8 @@ class MyVelModel(SpatialDB):
     """
     Set members based on inventory.
     """
-    SpatialDB._configure(self)
+    SpatialDB._configure(self) # Call parent function.
+    
     # Transfer inventory to object
     self.filename = self.inventory.filename
     return
@@ -93,11 +95,13 @@ class MyVelModel(SpatialDB):
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
+# Factory used when setting GeoGridVelModel to a Pyre
+# 'spatial_database' facility.
 def spatial_database():
   """
-  Factory associated with MyVelModel.
+  Factory associated with GeoGridVelModel.
   """
-  return MyVelModel()
+  return GeoGridVelModel()
 
 
 # End of file 
