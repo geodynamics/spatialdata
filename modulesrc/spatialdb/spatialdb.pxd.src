@@ -1,0 +1,7 @@
+
+cdef class SpatialDB:
+
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for type of object
+

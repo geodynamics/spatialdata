@@ -36,8 +36,8 @@ spatialdbmodule_la_LDFLAGS = -module -avoid-version \
 
 dist_spatialdbmodule_la_SOURCES = spatialdb.pyxe.src
 nodist_spatialdbmodule_la_SOURCES = \
-	spatialdb.pyxe \
-	spatialdb.c spatialdb_embed.cpp spatialdb_embed.h
+	yourname.spatialdb.pyxe \
+	yourname.spatialdb.c yourname.spatialdb_embed.cpp yourname.spatialdb_embed.h
 
 spatialdbmodule_la_LIBADD = libyournamespatialdb.la
 if NO_UNDEFINED
@@ -47,17 +47,17 @@ endif
 
 INCLUDES += -I$(PYTHON_INCDIR)
 
-spatialdb.pyx spatialdb_embed.cpp  spatialdb_embed.h: spatialdb.pyxe
-	pyrexembed spatialdb.pyxe
-spatialdb.pyxe: $(srcdir)/spatialdb.pyxe.src
+yourname.spatialdb.pyx yourname.spatialdb_embed.cpp yourname.spatialdb_embed.h: yourname.spatialdb.pyxe
+	pyrexembed yourname.spatialdb.pyxe
+yourname.spatialdb.pyxe: $(srcdir)/spatialdb.pyxe.src
 	cp $(srcdir)/spatialdb.pyxe.src $@
-spatialdb_embed.cpp: spatialdb_embed.h
-spatialdb_embed.h: spatialdb.pyx
+yourname.spatialdb_embed.cpp: yourname.spatialdb_embed.h
+yourname.spatialdb_embed.h: yourname.spatialdb.pyx
 
 .pyx.c:
-	pyrexc $<
+	pyrexc $(PYXFLAGS) $<
 
-CLEANFILES = spatialdb.pyx spatialdb.pyxe spatialdb.c *_embed.*
+CLEANFILES = yourname.spatialdb.pyx yourname.spatialdb.pyxe yourname.spatialdb.c *_embed.*
 
 
 

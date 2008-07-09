@@ -61,6 +61,7 @@ AC_CHECK_PROG([have_pyrexembed],
 if test "$have_pyrexembed" = "no"; then
   AC_MSG_ERROR([Pyrexembed not found in current path.])
 fi
+AC_ARG_VAR(PYXFLAGS, [Pyrex flags])
 
 # CPPUNIT
 if test "$enable_testing" = "yes" ; then
