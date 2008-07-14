@@ -21,8 +21,6 @@
 #}header
 
 # ----------------------------------------------------------------------
-
-
 from spatialdata.spatialdb.spatialdb cimport SpatialDB
 
 

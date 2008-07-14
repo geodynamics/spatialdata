@@ -32,7 +32,7 @@ endif
 
 INCLUDES += -I$(PYTHON_INCDIR)
 
-include_HEADERS = \
+nobase_pyexec_HEADERS = \
 	spatialdata.spatialdb.spatialdb.pxd
 
 spatialdata.spatialdb.spatialdb.pyx spatialdata.spatialdb.spatialdb_embed.cpp spatialdata.spatialdb.spatialdb_embed.h: spatialdata.spatialdb.spatialdb.pyxe spatialdata.spatialdb.spatialdb.pxd
