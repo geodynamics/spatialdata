@@ -14,6 +14,7 @@ subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
 subpkginclude_HEADERS = \
+	CompositeDB.hh \
 	Exception.hh \
 	Exception.icc \
 	GocadVoxet.hh \
