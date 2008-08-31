@@ -23,6 +23,7 @@ endif
 TESTS_ENVIRONMENT = $(PYTHON)
 
 noinst_PYTHON = \
+	TestCompositeDB.py \
 	TestGenSimpleDBApp.py \
 	TestGravityField.py \
 	TestSCECCVMH.py \

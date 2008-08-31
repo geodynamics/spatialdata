@@ -21,6 +21,8 @@
 #include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 
+#include <iostream> // TEMPORARY
+
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::CompositeDB::CompositeDB(void) :
@@ -82,6 +84,8 @@ spatialdata::spatialdb::CompositeDB::dbA(SpatialDB* db,
   } else
     _infoA = new dbinfo;
 
+  _dbA = db;
+
   // Initialize data
   _infoA->query_buffer = 0;
   _infoA->query_indices = 0;
@@ -116,6 +120,8 @@ spatialdata::spatialdb::CompositeDB::dbB(SpatialDB* db,
     delete[] _infoB->names_values; _infoB->names_values = 0;
   } else
     _infoB = new dbinfo;
+
+  _dbB = db;
 
   // Initialize data
   _infoB->query_buffer = 0;
@@ -250,7 +256,7 @@ spatialdata::spatialdb::CompositeDB::queryVals(const char** names,
       if (0 == strcasecmp(names[iVal], _infoA->names_values[iName].c_str())) {
 	assert(indexA < qsizeA);
 	_infoA->query_indices[indexA] = iVal;
-	queryValsA[indexA] = const_cast<char*>(names[iVal]);
+	queryValsA[indexA] = const_cast<char*>(_infoA->names_values[iName].c_str());
 	++indexA;
 	break;
       } // if
@@ -258,11 +264,12 @@ spatialdata::spatialdb::CompositeDB::queryVals(const char** names,
     } // while
 
     // Search database B names
+    iName = 0;
     while (iName < numNamesB) {
       if (0 == strcasecmp(names[iVal], _infoB->names_values[iName].c_str())) {
 	assert(indexB < qsizeB);
 	_infoB->query_indices[indexB] = iVal;
-	queryValsB[indexB] = const_cast<char*>(names[iVal]);
+	queryValsB[indexB] = const_cast<char*>(_infoB->names_values[iName].c_str());
 	++indexB;
 	break;
       } // if

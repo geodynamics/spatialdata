@@ -18,6 +18,7 @@
 #include "spatialdata/spatialdb/SimpleDBTypes.hh"
 #include "spatialdata/spatialdb/GravityField.hh"
 #include "spatialdata/spatialdb/UniformDB.hh"
+#include "spatialdata/spatialdb/CompositeDB.hh"
 #include "spatialdata/spatialdb/SCECCVMH.hh"
 
 #include "spatialdata/geocoords/CoordSys.hh"
@@ -619,6 +620,96 @@ cdef class UniformDB(SpatialDB):
       free(<void*> namesArray[i])
     free(<void*> namesArray)
     free(<void*> valuesArray)
+    return
+
+
+# ----------------------------------------------------------------------
+cdef class CompositeDB(SpatialDB):
+
+  def __init__(self):
+    """
+    Constructor.
+    """
+    # create shim for constructor
+    #embed{ void* CompositeDB_constructor()
+      return (void*)(new spatialdata::spatialdb::CompositeDB);
+    #}embed
+
+    SpatialDB.__init__(self)
+    self.thisptr = CompositeDB_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  def dbA(self, db, names):
+    """
+    Set database A information.
+    """
+    # create shim for method 'dbA'
+    #embed{ void CompositeDB_dbA(void* pObj, void* objDB, char** names, int size)
+    assert(0 != pObj);
+    assert(0 != objDB);
+    spatialdata::spatialdb::SpatialDB* db =
+      (spatialdata::spatialdb::SpatialDB*) objDB;
+    ((spatialdata::spatialdb::CompositeDB*) pObj)->dbA(db,
+      const_cast<const char**>(names), size);
+    #}embed
+
+    if db.name != "spatialdata_spatialdb_SpatialDB":
+      raise TypeError("Argument 'db' must be extension module type 'SpatialDB'")
+
+    cdef char** namesArray
+    namesArray = NULL
+    numValues = len(names)
+    if numValues > 0:
+      namesArray = <char**> malloc(numValues*sizeof(char*))
+    for i from 0 <= i < numValues:
+      strsize = len(names[i])
+      namesArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = names[i] # KLUDGE??
+      strcpy(namesArray[i], tmp)
+      
+    CompositeDB_dbA(self.thisptr, ptrFromHandle(db), namesArray, numValues)
+
+    for i from 0 <= i < numValues:
+      free(<void*> namesArray[i])
+    free(<void*> namesArray)
+    return
+
+
+  def dbB(self, db, names):
+    """
+    Set database B information.
+    """
+    # create shim for method 'dbB'
+    #embed{ void CompositeDB_dbB(void* pObj, void* objDB, char** names, int size)
+    assert(0 != pObj);
+    assert(0 != objDB);
+    spatialdata::spatialdb::SpatialDB* db =
+      (spatialdata::spatialdb::SpatialDB*) objDB;
+    ((spatialdata::spatialdb::CompositeDB*) pObj)->dbB(db,
+      const_cast<const char**>(names), size);
+    #}embed
+
+    if db.name != "spatialdata_spatialdb_SpatialDB":
+      raise TypeError("Argument 'db' must be extension module type 'SpatialDB'")
+
+    cdef char** namesArray
+    namesArray = NULL
+    numValues = len(names)
+    if numValues > 0:
+      namesArray = <char**> malloc(numValues*sizeof(char*))
+    for i from 0 <= i < numValues:
+      strsize = len(names[i])
+      namesArray[i] = <char*> malloc(1+strsize*sizeof(char))
+      tmp = names[i] # KLUDGE??
+      strcpy(namesArray[i], tmp)
+      
+    CompositeDB_dbB(self.thisptr, ptrFromHandle(db), namesArray, numValues)
+
+    for i from 0 <= i < numValues:
+      free(<void*> namesArray[i])
+    free(<void*> namesArray)
     return
 
 
