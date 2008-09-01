@@ -53,10 +53,12 @@ class CompositeDB(SpatialDB):
     namesB.meta['tip'] = "Names of values to query with database B."
 
     from SimpleDB import SimpleDB
-    dbA = pyre.inventory.facility("db_A", factory=SimpleDB)
+    dbA = pyre.inventory.facility("db_A", factory=SimpleDB,
+                                  family="spatial_database")
     dbA.meta['tip'] = "Spatial database A."
 
-    dbB = pyre.inventory.facility("db_B", factory=SimpleDB)
+    dbB = pyre.inventory.facility("db_B", factory=SimpleDB,
+                                  family="spatial_database")
     dbB.meta['tip'] = "Spatial database B."
 
 
