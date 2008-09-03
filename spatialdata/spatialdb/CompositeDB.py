@@ -79,6 +79,8 @@ class CompositeDB(SpatialDB):
     Initialize database.
     """
     SpatialDB.initialize(self)
+    self.dbA.initialize()
+    self.dbB.initialize()
     self.cppHandle.dbA(self.dbA.cppHandle, self.namesA)
     self.cppHandle.dbB(self.dbB.cppHandle, self.namesB)
     return
