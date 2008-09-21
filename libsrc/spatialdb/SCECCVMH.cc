@@ -235,21 +235,16 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
       case QUERY_VP :
 	outsideVoxet = _queryVp(&vals[iVal]);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet || queryFlag;
+	  queryFlag |= outsideVoxet;
 	haveVp = true;
 	vp = vals[iVal];
-	break;
-      case QUERY_VPTAG :
-	outsideVoxet = _queryTag(&vals[iVal]);
-	if (outsideVoxet)
-	  queryFlag = outsideVoxet || queryFlag;
 	break;
       case QUERY_DENSITY :
 	if (!haveVp) {
 	  outsideVoxet = _queryVp(&vp);
 	  haveVp = true;
 	  if (outsideVoxet)
-	    queryFlag = outsideVoxet || queryFlag;
+	    queryFlag |= outsideVoxet;
 	} // if
 	vals[iVal] = _calcDensity(vp);
 	break;
@@ -258,7 +253,7 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	  outsideVoxet = _queryVp(&vp);
 	  haveVp = true;
 	  if (outsideVoxet)
-	    queryFlag = outsideVoxet || queryFlag;
+	    queryFlag |= outsideVoxet;
 	} // if
 	vals[iVal] = _calcVs(vp);
 	break;
@@ -267,7 +262,7 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	  assert(0 != _topoElev);
 	  outsideVoxet = _topoElev->queryNearest(&vals[iVal], _xyzUTM);
 	  if (outsideVoxet)
-	    queryFlag = outsideVoxet || queryFlag;
+	    queryFlag |= outsideVoxet;
 	} else
 	  vals[iVal] = topoElev;
 	break;
@@ -275,13 +270,18 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 	assert(0 != _baseDepth);
 	outsideVoxet = _baseDepth->queryNearest(&vals[iVal], _xyzUTM);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet || queryFlag;
+	  queryFlag |= outsideVoxet;
 	break;
       case QUERY_MOHODEPTH :
 	assert(0 != _mohoDepth);
 	outsideVoxet = _mohoDepth->queryNearest(&vals[iVal], _xyzUTM);
 	if (outsideVoxet)
-	  queryFlag = outsideVoxet || queryFlag;
+	  queryFlag |= outsideVoxet;
+	break;
+      case QUERY_VPTAG :
+	outsideVoxet = _queryTag(&vals[iVal]);
+	if (outsideVoxet)
+	  queryFlag |= outsideVoxet;
 	break;
       default:
 	assert(0);
