@@ -148,6 +148,24 @@ spatialdata::spatialdb::GocadVoxet::queryNearest(double* value,
   int indexV = indexZ*numY*numX + indexY*numX + indexX;
   *value = _data[indexV];
 
+#if 0
+    // If voxet value is "no data value"
+    if (fabs(1.0 - *value / _property.noDataValue) < 1.0e-6) {
+      // If near indexZ=0, retry with indexZ+1, otherwise if near
+      // indexZ=numZ, retry with indexZ-1.
+      const int dz = (indexZ < numZ/2) ? +1 : -1;
+      const int maxRetries = 32;
+      for (int iTry=0; iTry < maxRetries; ++iTry) {
+	const int indexZNew = indexZ + dz*iTry;
+	assert(indexZNew >= 0 && indexZNew < numZ);
+	indexV = indexZNew*numY*numX + indexY*numX + indexX;
+	*value = _data[indexV];
+	if (fabs(1.0 - *value / _property.noDataValue) > 1.0e-6)
+	  break;
+      } // for
+    } // if
+#endif
+
   return flag;
 } // queryNearest
 

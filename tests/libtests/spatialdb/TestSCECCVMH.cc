@@ -148,7 +148,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
   cs.datumVert("mean sea level");
   cs.initialize();
 
-  const int numLocs = 17;
+  const int numLocs = 18;
   const int spaceDim = 3;
   const double lonlatelev[] = {
     -118.560000,  32.550000,  -2450.00,
@@ -171,6 +171,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
 
     -117.989344,  34.034148,  5000.00, // above domain
     -117.989344,  34.034148,  -500000.0, // below domain
+    -117.682186,  34.357760,  1793.81,
   };
   const double tolerance = 1.0e-06;
 
@@ -208,12 +209,14 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
 
       -28512.111328,    93.515053,  0.0, -2860.919189, 6649.152832, 3496.384277, 3838.102107,
       -28512.111328,    93.515053,  0.0, -2860.919189, 8159.479492, 3999.826497, 4751.5155415, 
+      -34629.367188,  2266.779785,  2.0, 2001.1707764, 4491.211426, 2777.070475, 2664.4122143,
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0,
       0, 0,
-      0, 0
+      0, 0,
+      0
     };
 
     db.queryVals(queryNames, querySize);
@@ -258,12 +261,14 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       3494.035156,   2.0,
       3496.384277,   0.0,
       3999.826497,   0.0,
+      2777.070475,   2.0,
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0,
       0, 0,
-      0, 0
+      0, 0,
+      0
     };
 
     db.queryVals(queryNames, querySize);
@@ -310,12 +315,14 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
 
       3838.102107,
       4751.5155415, 
+      2664.4122143, 
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0,
       0, 0,
-      0, 0
+      0, 0,
+      0
     };
 
     db.queryVals(queryNames, querySize);
@@ -353,7 +360,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void)
   cs.datumVert("mean sea level");
   cs.initialize();
 
-  const int numLocs = 17;
+  const int numLocs = 18;
   const int spaceDim = 3;
   const double lonlatelev[] = {
     -118.560000,  32.550000,  -2450.00,
@@ -376,6 +383,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void)
 
     -117.989344,  34.034148,  5000.00, // above domain
     -117.989344,  34.034148,  -500000.0, // below domain
+    -117.682186,  34.357760,  1793.81,
   };
   const double tolerance = 1.0e-06;
 
@@ -413,12 +421,14 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void)
 
       -28512.111328,    93.515053,  0.0, -2860.919189, 6649.152832, 3496.384277, 3838.102107,
       -28512.111328,    93.515053,  0.0, -2860.919189, 8159.479492, 3999.826497, 4751.5155415, 
+      -34629.367188,  2266.779785,  4.0, 2001.1707764, 3705.773438, 2515.257812, 2022.2184806,
     };
     const int flags[] = {
       0, 0, 0, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0,
       0, 0,
-      0, 0
+      0, 0,
+      0
     };
 
     db.squash(true);
