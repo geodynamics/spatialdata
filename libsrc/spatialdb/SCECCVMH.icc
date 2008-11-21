@@ -30,5 +30,13 @@ spatialdata::spatialdb::SCECCVMH::squash(const bool flag,
   _squashLimit = limit;
 }
 
+// Compute minimum Vp from minimum Vs.
+inline
+double
+spatialdata::spatialdb::SCECCVMH::_minVp(void) const {
+  // Use inverse of nominal Vp->Vs relation to compute minimum Vp.
+  const double minVp = 1360.0 + 1.16 * _minVs;
+  return minVp;
+}
 
 // End of file

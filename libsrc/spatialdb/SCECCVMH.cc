@@ -44,6 +44,7 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
   _mohoDepth(0),
   _csUTM(new geocoords::CSGeoProj),
   _squashLimit(-2000.0),
+  _minVs(0.0),
   _queryVals(0),
   _querySize(0),
   _squashTopo(false)
@@ -77,10 +78,25 @@ spatialdata::spatialdb::SCECCVMH::~SCECCVMH(void)
   delete _csUTM; _csUTM = 0;
 
   _squashLimit = 0.0;
+  _minVs = 0.0;
   delete[] _queryVals; _queryVals = 0;
   _querySize = 0;
   _squashTopo = 0;
 } // destructor
+
+// ----------------------------------------------------------------------
+// Set minimum shear wave speed.
+void
+spatialdata::spatialdb::SCECCVMH::minVs(const double value)
+{ // minVs
+  if (value < 0.0) {
+    std::ostringstream msg;
+    msg << "Value for minimum shear wave speed (" << value 
+	<< ") must be non-negative.";
+    throw std::runtime_error(msg.str());
+  } // if
+  _minVs = value;
+} // minVs
 
 // ----------------------------------------------------------------------
 // Open the database and prepare for querying.
@@ -310,6 +326,12 @@ spatialdata::spatialdb::SCECCVMH::_queryVp(double* vp)
   } else
     outsideVoxet = _crustMantleVp->queryNearest(vp, _xyzUTM);
 
+  if (!outsideVoxet) {
+    const double minVp = _minVp();
+    if (*vp < minVp)
+      *vp = minVp;
+  } // if
+
   return outsideVoxet;
 } // _queryVp
 
@@ -337,11 +359,14 @@ spatialdata::spatialdb::SCECCVMH::_queryTag(double* tag)
 // ----------------------------------------------------------------------
 // Compute density from Vp.
 double
-spatialdata::spatialdb::SCECCVMH::_calcDensity(const double vp)
+spatialdata::spatialdb::SCECCVMH::_calcDensity(const double vp) const
 { // _calcDensity
-  double density = vp / 3.0 + 1280.0;
-  if (vp < 2160.0) {
-    if (vp != 1480.0) // if not water
+  const double minVp = _minVp();
+  const double vpAdj = (vp < minVp) ? minVp : vp;
+
+  double density = vpAdj / 3.0 + 1280.0;
+  if (vpAdj < 2160.0) {
+    if (vpAdj != 1480.0) // if not water
       density = 2000.0;
     else
       density = 1000.0; // water
@@ -353,7 +378,7 @@ spatialdata::spatialdb::SCECCVMH::_calcDensity(const double vp)
 // ----------------------------------------------------------------------
 // Compute density from Vp.
 double
-spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp)
+spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp) const
 { // _calcVs
   double vs = (vp < 4250.0) ?
     (vp - 1360.0) / 1.16 :
@@ -364,6 +389,9 @@ spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp)
       vs = (1500.0-1360.0)/1.16;
     else 
       vs = 0.0; // water
+
+  if (vs < _minVs)
+    vs = _minVs;
 
   return vs;
 } // _calcVs

@@ -485,9 +485,10 @@ spatialdata::spatialdb::TestSCECCVMH::testCalcDensity(void)
     2000.0,
   };
 
+  SCECCVMH db;
   const double tolerance = 1.0e-06;
   for (int i=0; i < size; ++i) {
-    const double density = SCECCVMH::_calcDensity(vp[i]);
+    const double density = db._calcDensity(vp[i]);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0,
 				 density/densityE[i], tolerance);
   } // for
@@ -524,9 +525,10 @@ spatialdata::spatialdb::TestSCECCVMH::testCalcVs(void)
     431.0344827586207,
   };
 
+  SCECCVMH db;
   const double tolerance = 1.0e-06;
   for (int i=0; i < size; ++i) {
-    const double vs = SCECCVMH::_calcVs(vp[i]);
+    const double vs = db._calcVs(vp[i]);
     if (fabs(vsE[i]) > tolerance)
       CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0,
 				   vs/vsE[i], tolerance);

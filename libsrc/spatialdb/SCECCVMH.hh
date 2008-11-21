@@ -49,6 +49,14 @@ public :
    */
   void dataDir(const char* dir);
  
+  /** Set minimum shear wave speed. Corresponding minima for Vp and
+   * density are enforced using nominal Vp->Vs relation and
+   * Vp->density relations.
+   *
+   * @param value Minimum shear wave speed.
+   */
+  void minVs(const double value);
+
   /** Set squashed topography/bathymetry flag and minimum elevation of
    * squashing.
    *
@@ -137,16 +145,20 @@ private :
    * @param vp Vp in m/s.
    * @returns density in kg/m^3.
    */
-  static
-  double _calcDensity(const double vp);
+  double _calcDensity(const double vp) const;
 
   /** Compute density from Vp.
    *
    * @param vp Vp in m/s.
    * @returns Vs in m/s.
    */
-  static
-  double _calcVs(const double vp);
+  double _calcVs(const double vp) const;
+
+  /** Compute minimum Vp from minimum Vs.
+   *
+   * @returns Minimum Vp.
+   */
+  double _minVp(void) const;
 
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
@@ -166,6 +178,7 @@ private :
   geocoords::CSGeoProj* _csUTM;
 
   double _squashLimit; ///< Elevation above which topography is squashed.
+  double _minVs; ///< Minimum Vs to use.
   int* _queryVals; ///< Indices of values to be returned in queries.
   int _querySize; ///< Number of values requested to be returned in queries.
   bool _squashTopo; ///< Squash topography/bathymetry to sea level.

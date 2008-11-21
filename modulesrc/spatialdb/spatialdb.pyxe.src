@@ -745,6 +745,20 @@ cdef class SCECCVMH(SpatialDB):
     return
 
 
+  def minVs(self, value):
+    """
+    Set minimum shear wave speed.
+    """
+    # create shim for method 'minVs'
+    #embed{ void SCECCVMH_minVs(void* pObj, double value)
+    assert(0 != pObj);
+    ((spatialdata::spatialdb::SCECCVMH*) pObj)->minVs(value);
+    #}embed
+
+    SCECCVMH_minVs(self.thisptr, value)
+    return
+
+
   def squash(self, flag, limit):
     """
     Set squashed topography/bathymetry flag and minimum elevation of 
