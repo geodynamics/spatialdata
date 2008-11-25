@@ -13,6 +13,9 @@
 subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
+EXTRA_DIST = \
+	spatialdb.pxd.src
+
 subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
 
 spatialdbmodule_la_LDFLAGS = -module -avoid-version \
@@ -32,7 +35,7 @@ endif
 
 INCLUDES += -I$(PYTHON_INCDIR)
 
-nobase_pyexec_HEADERS = \
+nodist_pyexec_HEADERS = \
 	spatialdata.spatialdb.spatialdb.pxd
 
 spatialdata.spatialdb.spatialdb.pyx spatialdata.spatialdb.spatialdb_embed.cpp spatialdata.spatialdb.spatialdb_embed.h: spatialdata.spatialdb.spatialdb.pyxe spatialdata.spatialdb.spatialdb.pxd

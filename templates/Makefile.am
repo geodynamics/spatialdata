@@ -24,6 +24,6 @@ EXTRA_DIST = \
 	spatialdb/GeoGridVelModel.cc \
 	spatialdb/__init__.py \
 	spatialdb/GeoGridVelModel.py \
-	spatialdb/geogridvelmodel.pyxe.src
+	spatialdb/spatialdb.pyxe.src
 
 # End of file 
