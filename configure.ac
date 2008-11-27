@@ -25,7 +25,7 @@ AC_ARG_ENABLE([testing],
 
 # PYTHIA w/pythia
 AC_ARG_ENABLE([pythia],
-	[  --enable-pythia        Enable use of Pythia (requires pythia) [[default=no]]],
+	[  --enable-pythia        Enable use of Pythia (requires pythia) [[default=yes]]],
 	[enable_pythia=yes],
 	[enable_pythia=no])
 
@@ -149,10 +149,12 @@ AC_CONFIG_FILES([Makefile
 	libsrc/geocoords/Makefile
 	libsrc/geocoords/data/Makefile
 	libsrc/spatialdb/Makefile
+	libsrc/units/Makefile
 	libsrc/utils/Makefile
 	modulesrc/Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
+	modulesrc/units/Makefile
 	modulesrc/utils/Makefile
 	spatialdata/Makefile
 	tests/Makefile
@@ -161,12 +163,14 @@ AC_CONFIG_FILES([Makefile
 	tests/libtests/geocoords/data/Makefile
 	tests/libtests/spatialdb/Makefile
 	tests/libtests/spatialdb/data/Makefile
+	tests/libtests/units/Makefile
 	tests/libtests/utils/Makefile
 	tests/libtests/utils/data/Makefile
 	tests/pytests/Makefile
 	tests/pytests/geocoords/Makefile
 	tests/pytests/spatialdb/Makefile
 	tests/pytests/spatialdb/data/Makefile
+	tests/pytests/units/Makefile
 	tests/pytests/utils/Makefile
 	applications/Makefile
 	templates/Makefile

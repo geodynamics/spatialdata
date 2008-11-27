@@ -10,11 +10,15 @@
 # ----------------------------------------------------------------------
 #
 
-SUBDIRS = \
-	geocoords \
-	spatialdb \
-	units \
-	utils
+TESTS = testunits.py
+dist_check_SCRIPTS = testunits.py
+
+TESTS_ENVIRONMENT = $(PYTHON)
+
+noinst_PYTHON = \
+	TestNondimElastic.py
+	TestNondimElasticQuasistati.py \
+	TestNondimElasticDynamic.py
 
 
 # End of file 

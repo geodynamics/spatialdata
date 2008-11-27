@@ -13,13 +13,12 @@
 SUBDIRS = \
 	geocoords \
 	spatialdb \
+	units \
 	utils
 
 lib_LTLIBRARIES = libspatialdata.la
 
 libspatialdata_la_SOURCES = \
-	utils/LineParser.cc \
-	utils/PointsStream.cc \
 	geocoords/Converter.cc \
 	geocoords/CoordSys.cc \
 	geocoords/CSCart.cc \
@@ -39,7 +38,10 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleIO.cc \
 	spatialdb/SimpleIOAscii.cc \
 	spatialdb/UniformDB.cc \
-	spatialdb/cspatialdb.cc	
+	spatialdb/cspatialdb.cc	\
+	units/NondimElastic.cc \
+	utils/LineParser.cc \
+	utils/PointsStream.cc
 
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS)
 

@@ -1,0 +1,145 @@
+#!/usr/bin/env python
+#
+# ======================================================================
+#
+#                           Brad T. Aagaard
+#                        U.S. Geological Survey
+#
+# {LicenseText}
+#
+# ======================================================================
+#
+
+#header{
+#include "spatialdata/units/NondimElastic.hh"
+
+#include <stdexcept>
+#include <Python.h>
+#}header
+
+# ----------------------------------------------------------------------
+cdef extern from "Python.h":
+  object PyCObject_FromVoidPtr(void*, void (*destruct)(void*))
+  void* PyCObject_AsVoidPtr(object)
+
+cdef void* ptrFromHandle(obj):
+  """Extract pointer from PyCObject."""
+  return PyCObject_AsVoidPtr(obj.handle)
+
+cdef extern from "stdlib.h":
+  ctypedef unsigned long size_t
+  void* malloc(size_t size)
+  void free(void* mem)
+
+cdef void NondimElastic_destructor(void* obj):
+  """
+  Destroy NondimElastic object.
+  """
+  # create shim for destructor
+  #embed{ void NondimElastic_destructor_cpp(void* pObj)
+  spatialdata::units::NondimElastic* pDim =
+  (spatialdata::units::NondimElastic*) pObj;
+  delete pDim;
+  #}embed
+  NondimElastic_destructor_cpp(obj)
+  return
+
+  
+# ----------------------------------------------------------------------
+cdef class NondimElastic:
+
+  cdef void* thisptr # Pointer to C++ object
+  cdef readonly object handle # PyCObject holding pointer to C++ object
+  cdef readonly object name # Identifier for object base type
+
+  def __init__(self):
+    """Constructor."""
+    # create shim for constructor
+    #embed{ void* NondimElastic_constructor()
+      return (void*)(new spatialdata::units::NondimElastic);
+    #}embed
+
+    self.name = "spatialdata_units_NondimElastic"
+    self.thisptr = NondimElastic_constructor()
+    self.handle = self._createHandle()
+    return
+
+
+  property length:
+    def __set__(self, value):
+      """Set value to nondimensionalize length scale in meters (SI units)."""
+      # create shim for method 'length'
+      #embed{ void NondimElastic_length_set(void* pObj, double value)
+      try {
+        ((spatialdata::units::NondimElastic*) pObj)->lengthScale(value);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      #}embed
+      NondimElastic_length_set(self.thisptr, value)
+
+
+  property pressure:
+    def __set__(self, value):
+      """Set value to nondimensionalize pressure scale in Pascals (SI units)."""
+      # create shim for method 'pressure'
+      #embed{ void NondimElastic_pressure_set(void* pObj, double value)
+      try {
+        ((spatialdata::units::NondimElastic*) pObj)->pressureScale(value);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      #}embed
+      NondimElastic_pressure_set(self.thisptr, value)
+
+
+  property time:
+    def __set__(self, value):
+      """Set value to nondimensionalize time scale in seconds (SI units)."""
+      # create shim for method 'time'
+      #embed{ void NondimElastic_time_set(void* pObj, double value)
+      try {
+        ((spatialdata::units::NondimElastic*) pObj)->timeScale(value);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      #}embed
+      NondimElastic_time_set(self.thisptr, value)
+
+
+  property density:
+    def __set__(self, value):
+      """Set value to nondimensionalize density scale in kg/m^3 (SI units)."""
+      # create shim for method 'density'
+      #embed{ void NondimElastic_density_set(void* pObj, double value)
+      try {
+        ((spatialdata::units::NondimElastic*) pObj)->densityScale(value);
+      } catch (const std::exception& err) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        const_cast<char*>(err.what()));
+      } catch (...) {
+        PyErr_SetString(PyExc_RuntimeError,
+                        "Caught unknown C++ exception.");
+      } // try/catch
+      #}embed
+      NondimElastic_density_set(self.thisptr, value)
+
+
+  def _createHandle(self):
+    """Wrap pointer to C++ object in PyCObject."""
+    return PyCObject_FromVoidPtr(self.thisptr, NondimElastic_destructor)
+
+
+# End of file 

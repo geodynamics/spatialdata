@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+#!/usr/bin/env python
 #
 # ----------------------------------------------------------------------
 #
@@ -10,11 +10,14 @@
 # ----------------------------------------------------------------------
 #
 
-SUBDIRS = \
-	geocoords \
-	spatialdb \
-	units \
-	utils
+## @file spatialdata/units/__init__.py
+##
+## @brief Python spatialdata units module initialization.
+
+__all__ = ['NondimElastic',
+           'NondimElasticQuasistatic',
+           'NondimElasticDynamic',
+           ]
 
 
-# End of file 
+# End of file
