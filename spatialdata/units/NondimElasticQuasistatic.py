@@ -17,10 +17,10 @@
 ##
 ## Factory: nondimensional
 
-from NondimElastic import NondimElastic
+from Nondimensional import Nondimensional
 
 # NondimElasticQuasistatic class
-class NondimElasticQuasistatic(NondimElastic):
+class NondimElasticQuasistatic(Nondimensional):
   """
   Python manager for nondimensionalizing quasi-static elasticity problems.
 
@@ -29,7 +29,7 @@ class NondimElasticQuasistatic(NondimElastic):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(NondimElastic.Inventory):
+  class Inventory(Nondimensional.Inventory):
     """
     Python object for managing NondimElasticQuasistatic facilities and
     properties.
@@ -70,11 +70,11 @@ class NondimElasticQuasistatic(NondimElastic):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="nondimelastic"):
+  def __init__(self, name="nondimelasticquasistatic"):
     """
     Constructor.
     """
-    NondimElastic.__init__(self, name)
+    Nondimensional.__init__(self, name)
     return
 
 
@@ -84,7 +84,7 @@ class NondimElasticQuasistatic(NondimElastic):
     """
     Setup members using inventory.
     """
-    NondimElastic._configure(self)
+    Nondimensional._configure(self)
     self._length = self.inventory.lengthScale
     self._pressure = self.inventory.shearModulus
     self._time = self.inventory.relaxationTime

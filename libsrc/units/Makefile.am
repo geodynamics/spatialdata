@@ -14,8 +14,8 @@ subpackage = units
 include $(top_srcdir)/subpackage.am
 
 subpkginclude_HEADERS = \
-	NondimElastic.hh \
-	NondimElastic.icc
+	Nondimensional.hh \
+	Nondimensional.icc
 
 noinst_HEADERS =
 

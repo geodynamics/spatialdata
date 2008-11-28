@@ -18,11 +18,11 @@ TESTS = testunits
 check_PROGRAMS = testunits
 
 testunits_SOURCES = \
-	TestNondimElastic.cc \
+	TestNondimensional.cc \
 	testunits.cc
 
 noinst_HEADERS = \
-	TestNondimElastic.hh
+	TestNondimensional.hh
 
 testunits_LDFLAGS =
 

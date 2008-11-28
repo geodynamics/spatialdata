@@ -1,0 +1,62 @@
+// -*- C++ -*-
+//
+// ======================================================================
+//
+//                           Brad T. Aagaard
+//                        U.S. Geological Survey
+//
+// {LicenseText}
+//
+// ======================================================================
+//
+
+#if !defined(spatialdata_units_nondimensional_hh)
+#error "Nondimensional.icc must only be included from Nondimensional.hh"
+#endif
+
+// Get value to nondimensionalize length scale in meters (SI units).
+inline
+double
+spatialdata::units::Nondimensional::lengthScale(void) const {
+  return _length;
+}
+
+// Get value to nondimensionalize pressure scale in Pascals (SI units).
+inline
+double
+spatialdata::units::Nondimensional::pressureScale(void) const {
+  return _pressure;
+}
+
+// Get value to nondimensionalize time scale in seconds (SI units).
+inline
+double
+spatialdata::units::Nondimensional::timeScale(void) const {
+  return _time;
+}
+
+// Get value to nondimensionalize density scale in kg/m^3 (SI units).
+inline
+double
+spatialdata::units::Nondimensional::densityScale(void) const {
+  return _density;
+}
+
+// Make value dimensionless.
+inline
+double
+spatialdata::units::Nondimensional::nondimensionalize(const double value,
+						      const double scale) const {
+  return value / scale;
+}
+
+// Make value dimensionless.
+inline
+double
+spatialdata::units::Nondimensional::dimensionalize(const double value,
+						   const double scale) const {
+  return value * scale;
+}
+
+
+// End of file 

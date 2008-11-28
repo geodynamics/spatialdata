@@ -37,7 +37,7 @@ nobase_pkgpyexec_PYTHON = \
 	spatialdb/generator/Values.py \
 	spatialdb/generator/__init__.py \
 	units/__init__.py \
-	units/NondimElastic.py \
+	units/Nondimensional.py \
 	units/NondimElasticQuasistatic.py \
 	units/NondimElasticDynamic.py \
 	utils/ChangeCoordSys.py \

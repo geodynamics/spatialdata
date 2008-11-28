@@ -10,18 +10,18 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/units/NondimElastic.py
+## @file spatialdata/units/Nondimensional.py
 ##
-## @brief Python manager for nondimensionalizing elasticity problems.
+## @brief Python manager for nondimensionalizing problems.
 ##
 ## Factory: nondimensional
 
 from pyre.components.Component import Component
 
-# NondimElastic class
-class NondimElastic(Component):
+# Nondimensional class
+class Nondimensional(Component):
   """
-  Python manager for nondimensionalizing elasticity problems.
+  Python manager for nondimensionalizing problems.
 
   Factory: nondimensional
   """
@@ -29,10 +29,10 @@ class NondimElastic(Component):
   # INVENTORY //////////////////////////////////////////////////////////
 
   class Inventory(Component.Inventory):
-    """Python object for managing NondimElastic facilities and properties."""
+    """Python object for managing Nondimensional facilities and properties."""
 
     ## @class Inventory
-    ## Python object for managing NondimElastic facilities and properties.
+    ## Python object for managing Nondimensional facilities and properties.
     ##
     ## \b Properties
     ## @li None
@@ -40,13 +40,14 @@ class NondimElastic(Component):
     ## \b Facilities
     ## @li None
 
+
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="nondimelastic"):
+  def __init__(self, name="nondimensional"):
     """
     Constructor.
     """
-    Component.__init__(self, name, facility="nondimelastic")
+    Component.__init__(self, name, facility="nondimensional")
 
     self.cppHandle = None
     from pyre.units.length import meter
@@ -73,60 +74,46 @@ class NondimElastic(Component):
     return
 
 
-  def utonLength(self, value):
+  def lengthScale(self):
     """
-    Make length scale dimensionless.
+    Get length scale.
     """
-    return value / self._length
+    return self._length
 
 
-  def ntouLength(self, value):
+  def pressureScale(self):
     """
-    Add dimensions to length scale.
+    Get pressure scale.
     """
-    return value * self._length
+    return self._pressure
 
 
-  def utonPressure(self, value):
+  def timeScale(self):
     """
-    Make pressure scale dimensionless.
+    Get time scale.
     """
-    return value / self._pressure
+    return self._time
 
 
-  def ntouPressure(self, value):
+  def densityScale(self):
     """
-    Add dimensions to pressure scale.
+    Get density scale.
     """
-    return value * self._pressure
+    return self._density
 
 
-  def utonTime(self, value):
+  def nondimensionalize(self, value, scale):
     """
-    Make time scale dimensionless.
+    Make value dimensionless.
     """
-    return value / self._time
+    return value / scale
 
 
-  def ntouTime(self, value):
+  def dimensionalize(self, value, scale):
     """
-    Add dimensions to time scale.
+    Make value dimensional.
     """
-    return value * self._time
-
-
-  def utonDensity(self, value):
-    """
-    Make density scale dimensionless.
-    """
-    return value / self._density
-
-
-  def ntouDensity(self, value):
-    """
-    Add dimensions to density scale.
-    """
-    return value * self._density
+    return value * scale
 
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -145,7 +132,7 @@ class NondimElastic(Component):
     """
     if None == self.cppHandle:
       import spatialdata.units.units as bindings
-      self.cppHandle = bindings.NondimElastic()
+      self.cppHandle = bindings.Nondimensional()
     return
 
 
@@ -153,9 +140,9 @@ class NondimElastic(Component):
 
 def nondimensional():
   """
-  Factory associated with NondimElastic.
+  Factory associated with Nondimensional.
   """
-  return NondimElastic()
+  return Nondimensional()
 
 
 # End of file 

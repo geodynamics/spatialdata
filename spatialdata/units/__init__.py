@@ -14,7 +14,7 @@
 ##
 ## @brief Python spatialdata units module initialization.
 
-__all__ = ['NondimElastic',
+__all__ = ['Nondimensional',
            'NondimElasticQuasistatic',
            'NondimElasticDynamic',
            ]

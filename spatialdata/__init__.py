@@ -16,6 +16,7 @@
 
 __all__ = ['geocoords',
            'spatialdb',
+           'units',
            'utils']
 
 

@@ -39,7 +39,7 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleIOAscii.cc \
 	spatialdb/UniformDB.cc \
 	spatialdb/cspatialdb.cc	\
-	units/NondimElastic.cc \
+	units/Nondimensional.cc \
 	utils/LineParser.cc \
 	utils/PointsStream.cc
 

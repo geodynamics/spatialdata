@@ -16,7 +16,7 @@ dist_check_SCRIPTS = testunits.py
 TESTS_ENVIRONMENT = $(PYTHON)
 
 noinst_PYTHON = \
-	TestNondimElastic.py
+	TestNondimensional.py
 	TestNondimElasticQuasistati.py \
 	TestNondimElasticDynamic.py
 

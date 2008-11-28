@@ -16,8 +16,8 @@ def suite():
 
   suite = unittest.TestSuite()
 
-  from TestNondimElastic import TestNondimElastic
-  suite.addTest(unittest.makeSuite(TestNondimElastic))
+  from TestNondimensional import TestNondimensional
+  suite.addTest(unittest.makeSuite(TestNondimensional))
 
   from TestNondimElasticQuasistatic import TestNondimElasticQuasistatic
   suite.addTest(unittest.makeSuite(TestNondimElasticQuasistatic))

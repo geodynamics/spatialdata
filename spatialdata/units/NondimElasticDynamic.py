@@ -17,10 +17,10 @@
 ##
 ## Factory: nondimensional
 
-from NondimElastic import NondimElastic
+from Nondimensional import Nondimensional
 
 # NondimElasticDynamic class
-class NondimElasticDynamic(NondimElastic):
+class NondimElasticDynamic(Nondimensional):
   """
   Python manager for nondimensionalizing dynamic elasticity problems.
 
@@ -29,7 +29,7 @@ class NondimElasticDynamic(NondimElastic):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(NondimElastic.Inventory):
+  class Inventory(Nondimensional.Inventory):
     """
     Python object for managing NondimElasticDynamic facilities and
     properties.
@@ -70,11 +70,11 @@ class NondimElasticDynamic(NondimElastic):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="nondimelastic"):
+  def __init__(self, name="nondimelasticdynamic"):
     """
     Constructor.
     """
-    NondimElastic.__init__(self, name)
+    Nondimensional.__init__(self, name)
     return
 
 
@@ -84,7 +84,7 @@ class NondimElasticDynamic(NondimElastic):
     """
     Setup members using inventory.
     """
-    NondimElastic._configure(self)
+    Nondimensional._configure(self)
     vs = self.inventory.shearWaveSpeed
     period = self.inventory.wavePeriod
     density = self.inventory.massDensity
