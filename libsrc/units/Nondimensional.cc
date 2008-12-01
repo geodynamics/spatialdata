@@ -111,34 +111,5 @@ spatialdata::units::Nondimensional::densityScale(const double value)
   _density = value;
 } // densityScale
 
-// ----------------------------------------------------------------------
-// Make values dimensionless.
-void
-spatialdata::units::Nondimensional::nondimensionalize(double* const values,
-						      const int nvalues,
-						      const double scale) const
-{ // nondimensionalize
-  assert( (0 < nvalues && 0 != values) ||
-	  (0 == nvalues && 0 == values) );
-
-  for (int i=0; i < nvalues; ++i)
-    values[i] /= scale;
-} // nondimensionalize
-
-// ----------------------------------------------------------------------
-// Make value dimensionless.
-void
-spatialdata::units::Nondimensional::dimensionalize(double* const values,
-						   const int nvalues,
-						   const double scale) const
-{ // dimensionalize
-  assert( (0 < nvalues && 0 != values) ||
-	  (0 == nvalues && 0 == values) );
-
-  for (int i=0; i < nvalues; ++i)
-    values[i] *= scale;
-} // dimensionalize
-
-
 
 // End of file 

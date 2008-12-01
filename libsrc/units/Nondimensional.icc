@@ -14,6 +14,8 @@
 #error "Nondimensional.icc must only be included from Nondimensional.hh"
 #endif
 
+#include <assert.h> // USES assert()
+
 // Get value to nondimensionalize length scale in meters (SI units).
 inline
 double
@@ -50,6 +52,20 @@ spatialdata::units::Nondimensional::nondimensionalize(const double value,
   return value / scale;
 }
 
+// Make values dimensionless.
+inline
+void
+spatialdata::units::Nondimensional::nondimensionalize(double* const values,
+						      const int nvalues,
+						      const double scale) const
+{ // nondimensionalize
+  assert( (0 < nvalues && 0 != values) ||
+	  (0 == nvalues && 0 == values) );
+
+  for (int i=0; i < nvalues; ++i)
+    values[i] /= scale;
+} // nondimensionalize
+
 // Make value dimensionless.
 inline
 double
@@ -57,6 +73,20 @@ spatialdata::units::Nondimensional::dimensionalize(const double value,
 						   const double scale) const {
   return value * scale;
 }
+
+// Make value dimensionless.
+inline
+void
+spatialdata::units::Nondimensional::dimensionalize(double* const values,
+						   const int nvalues,
+						   const double scale) const
+{ // dimensionalize
+  assert( (0 < nvalues && 0 != values) ||
+	  (0 == nvalues && 0 == values) );
+
+  for (int i=0; i < nvalues; ++i)
+    values[i] *= scale;
+} // dimensionalize
 
 
 // End of file 
