@@ -24,6 +24,7 @@ AC_ARG_ENABLE([testing],
 	[enable_testing=no])
 
 # PYTHIA w/pythia
+enable_pythia=yes
 AC_ARG_ENABLE([pythia],
 	[  --enable-pythia        Enable use of Pythia (requires pythia) [[default=yes]]],
 	[enable_pythia=yes],
