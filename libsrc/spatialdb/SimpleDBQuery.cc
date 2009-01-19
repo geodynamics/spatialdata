@@ -20,7 +20,6 @@
 
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 
-ce
 #include "Exception.hh" // USES OutOfBounds
 
 #include <math.h> // USES MAXFLOAT
@@ -32,7 +31,7 @@ ce
 #include <strings.h> // USES strcasecmp()
 #include <cassert.> // USES assert()
 #include <sstream> // USES std::ostringsgream
-#include <algorithm> // USES std::fill(), std::lower_bound(), std::distan
+#include <algorithm> // USES std::fill(), std::lower_bound(), std::distance()
 
 // ----------------------------------------------------------------------
 // Default constructor.
