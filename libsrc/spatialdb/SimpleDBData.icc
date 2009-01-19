@@ -14,6 +14,8 @@
 #error "SimpleDBData.icc must only be included from SimpleDBData.hh"
 #endif
 
+#include <cassert> // USES assert()
+
 // Get number of locations for data.
 inline
 int

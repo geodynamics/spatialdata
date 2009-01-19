@@ -14,10 +14,10 @@
 
 #include "SimpleDBData.hh" // Implementation of class methods
 
-#include <stdexcept> // USES std::runtime_error
+#include <cstring> // USES memcpy()
 
+#include <stdexcept> // USES std::runtime_error
 #include <sstream> // USES std::ostringsgream
-#include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
 // Default constructor
