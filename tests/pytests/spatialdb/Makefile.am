@@ -28,7 +28,7 @@ noinst_PYTHON = \
 	TestGravityField.py \
 	TestSCECCVMH.py \
 	TestSimpleIOAscii.py \
-	TestSpatialDB.py \
+	TestSimpleDB.py \
 	TestUniformDB.py
 
 dist_noinst_PYTHON = \

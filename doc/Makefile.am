@@ -13,7 +13,7 @@
 noinst_HEADERS = \
 	doxyconfig
 
-# version
-# $Id$
+doc:
+	doxygen doxyconfig
 
 # End of file 
