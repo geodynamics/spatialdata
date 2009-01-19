@@ -1,20 +1,3 @@
-SWIG CONVERSION
-
-geocoords
-
-  bindings for Converter
-  Python Converter
-  Test of bindings for Converter
-
-spatialdb
-
-  bindings
-  Python objects
-
-UTILS
-
-  Ignore comment lines in PointsStream.
-
 GEOCOORDS
 
   Add local origin and rotation to coordinate systems.
@@ -26,9 +9,3 @@ GEOCOORDS
 SPATIALDB
 
   Get units by parsing header with Python
-
-  Cleanup SimpleDB::DataStruct, SimpleDBTypes
-    Create SimpleDBPayload class w/accessors?
-    who needs access to Data?
-    Move SpatialDB enums to SimpleDBTypes header file?
-
