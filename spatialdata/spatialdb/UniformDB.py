@@ -16,10 +16,11 @@
 ##
 ## Factory: spatial_database
 
-from SpatialDB import SpatialDB
+from SpatialDBObj import SpatialDBObj
+from spatialdb import UniformDB as ModuleUniformDB
 
 # UniformDB class
-class UniformDB(SpatialDB):
+class UniformDB(SpatialDBObj, ModuleUniformDB):
   """
   Python manager for spatial database with uniform values.
 
@@ -28,7 +29,7 @@ class UniformDB(SpatialDB):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(SpatialDB.Inventory):
+  class Inventory(SpatialDBObj.Inventory):
     """
     Python object for managing UniformDB facilities and properties.
     """
@@ -58,20 +59,9 @@ class UniformDB(SpatialDB):
     """
     Constructor.
     """
-    SpatialDB.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.UniformDB()
+    SpatialDBObj.__init__(self, name)
     return
 
-
-  def initialize(self):
-    """
-    Initialize database.
-    """
-    SpatialDB.initialize(self)
-    self.cppHandle.setData(self.values, self.data)
-    return
-  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -79,25 +69,33 @@ class UniformDB(SpatialDB):
     """
     Set members based on inventory.
     """
-    SpatialDB._configure(self)
+    SpatialDBObj._configure(self)
     self._validateParameters(self.inventory)
-    self.values = self.inventory.values
-    self.data = map(float, self.inventory.data)
+    data = map(float, self.inventory.data)
+    self.setData(self.inventory.values, data)
+    return
+
+  
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleUniformDB.__init__(self)
     return
 
 
-  def _validateParameters(self, data):
+  def _validateParameters(self, params):
     """
     Validate parameters.
     """
-    if (len(data.values) != len(data.data)):
+    if (len(params.values) != len(params.data)):
       raise ValueError, \
             "Incompatible settings for uniform spatial database '%s'.\n"\
             "'values' and 'data' must be lists of the same size.\n"\
             "'values' has size of %d but 'data' has size of %d." \
-            % (self.label, len(data.values), len(data.data))
+            % (self.label, len(params.values), len(params.data))
     try:
-      dataFloat = map(float, data.data)
+      dataFloat = map(float, params.data)
     except:
         raise ValueError, \
               "'data' list must contain floating point values."

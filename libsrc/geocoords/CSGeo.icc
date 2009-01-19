@@ -24,7 +24,7 @@ spatialdata::geocoords::CSGeo::clone(void) const {
 // Set reference ellipsoid.
 inline
 void
-spatialdata::geocoords::CSGeo::ellipsoid(const std::string& name)
+spatialdata::geocoords::CSGeo::ellipsoid(const char* name)
 { _ellipsoid = name; }
 
 // Get reference ellipsoid.
@@ -36,7 +36,7 @@ spatialdata::geocoords::CSGeo::ellipsoid(void) const
 // Set horizontal datum.
 inline
 void 
-spatialdata::geocoords::CSGeo::datumHoriz(const std::string& name)
+spatialdata::geocoords::CSGeo::datumHoriz(const char* name)
 { _datumHoriz = name; }
 
 // Get horizontal datum.
@@ -48,7 +48,7 @@ spatialdata::geocoords::CSGeo::datumHoriz(void) const
 // Set vertical datum.
 inline
 void 
-spatialdata::geocoords::CSGeo::datumVert(const std::string& name)
+spatialdata::geocoords::CSGeo::datumVert(const char* name)
 { _datumVert = name; }
 
 // Get vertical datum.

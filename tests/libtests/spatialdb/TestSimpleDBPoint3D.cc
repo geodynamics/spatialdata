@@ -14,7 +14,7 @@
 
 #include "TestSimpleDBPoint3D.hh" // Implementation of class methods
 
-#include "data/SimpleDBDataPoint3D.hh"
+#include "data/SimpleDBTestDataPoint3D.hh"
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBPoint3D );
@@ -24,7 +24,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBPoint3D );
 void
 spatialdata::spatialdb::TestSimpleDBPoint3D::testQueryLinear(void)
 { // testQueryLinear
-  SimpleDBDataPoint3D data;
+  SimpleDBTestDataPoint3D data;
 
   _testQueryLinear(data);
 } // testQueryLinear
@@ -34,7 +34,7 @@ spatialdata::spatialdb::TestSimpleDBPoint3D::testQueryLinear(void)
 void
 spatialdata::spatialdb::TestSimpleDBPoint3D::testQueryNearest(void)
 { // testQueryNearest
-  SimpleDBDataPoint3D data;
+  SimpleDBTestDataPoint3D data;
 
   _testQueryNearest(data);
 } // testQueryNearest

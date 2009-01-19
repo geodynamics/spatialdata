@@ -17,9 +17,10 @@
 ## Factory: nondimensional
 
 from pyre.components.Component import Component
+from units import Nondimensional as ModuleNondimensional
 
 # Nondimensional class
-class Nondimensional(Component):
+class Nondimensional(Component, ModuleNondimensional):
   """
   Python manager for nondimensionalizing problems.
 
@@ -48,58 +49,69 @@ class Nondimensional(Component):
     Constructor.
     """
     Component.__init__(self, name, facility="nondimensional")
-
-    self.cppHandle = None
-    from pyre.units.length import meter
-    from pyre.units.pressure import pascal
-    from pyre.units.time import second
-    from pyre.units.mass import kilogram
-
-    self._length = 1.0*meter
-    self._pressure = 1.0*pascal
-    self._time = 1.0*second
-    self._density = 1.0*kilogram/meter**3
+    self._createModuleObj()
     return
 
 
-  def initialize(self):
+  def setLengthScale(self, value):
     """
-    Initialize coordinate system.
+    Get length scale.
     """
-    self._createCppHandle()
-    self.cppHandle.length = self._length.value
-    self.cppHandle.pressure = self._pressure.value
-    self.cppHandle.time = self._time.value
-    self.cppHandle.density = self._density.value
-    return
+    return ModuleNondimensional.lengthScale(self, value.value)
 
 
   def lengthScale(self):
     """
     Get length scale.
     """
-    return self._length
+    from pyre.units.length import meter
+    return ModuleNondimensional.lengthScale(self) * meter
+
+
+  def setPressureScale(self, value):
+    """
+    Get length scale.
+    """
+    return ModuleNondimensional.pressureScale(self, value.value)
 
 
   def pressureScale(self):
     """
     Get pressure scale.
     """
-    return self._pressure
+    from pyre.units.pressure import pascal
+    return ModuleNondimensional.pressureScale(self) * pascal
+
+
+  def setTimeScale(self, value):
+    """
+    Get time scale.
+    """
+    return ModuleNondimensional.timeScale(self, value.value)
 
 
   def timeScale(self):
     """
     Get time scale.
     """
-    return self._time
+    from pyre.units.time import second
+    return ModuleNondimensional.timeScale(self) * second
+
+
+  def setDensityScale(self, value):
+    """
+    Get density scale.
+    """
+    return ModuleNondimensional.densityScale(self, value.value)
 
 
   def densityScale(self):
     """
     Get density scale.
     """
-    return self._density
+    from pyre.units.length import meter
+    from pyre.units.mass import kilogram
+    return ModuleNondimensional.densityScale(self) * kilogram / meter**3
 
 
   def nondimensionalize(self, value, scale):
@@ -126,13 +138,11 @@ class Nondimensional(Component):
     return
 
 
-  def _createCppHandle(self):
+  def _createModuleObj(self):
     """
-    Create handle to C++ object.
+    Create Python module object.
     """
-    if None == self.cppHandle:
-      import spatialdata.units.units as bindings
-      self.cppHandle = bindings.Nondimensional()
+    ModuleNondimensional.__init__(self)
     return
 
 

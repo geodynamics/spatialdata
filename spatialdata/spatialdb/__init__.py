@@ -18,7 +18,7 @@ __all__ = ['SCECCVMH',
            'SimpleDB',
            'SimpleIOAscii',
            'SimpleIO',
-           'SpatialDB',
+           'SpatialDBObj',
            'UniformDB',
            'generator']
 

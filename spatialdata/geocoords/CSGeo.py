@@ -17,9 +17,10 @@
 ## Factory: coordsys.
 
 from CoordSys import CoordSys
+from geocoords import CSGeo as ModuleCSGeo
 
 # CSGeo class
-class CSGeo(CoordSys):
+class CSGeo(CoordSys, ModuleCSGeo):
   """
   Python manager for geographic coordinate systems.
 
@@ -75,35 +76,6 @@ class CSGeo(CoordSys):
     Constructor.
     """
     CoordSys.__init__(self, name)
-
-    import spatialdata.geocoords.geocoords as bindings
-    self.cppHandle = bindings.CSGeo()
-    self.ellipsoid = "WGS84"
-    self.datumHoriz = "WGS84"
-    self.datumVert = "ellipsoid"
-    self.isGeocentric = False
-    self.units = "m"
-    self.spaceDim = 3
-    return
-
-
-  def initialize(self):
-    """
-    Initialize coordinate system.
-    """
-    self.cppHandle.ellipsoid = self.ellipsoid
-    self.cppHandle.datumHoriz = self.datumHoriz
-    self.cppHandle.datumVert = self.datumVert
-    self.cppHandle.isGeocentric = self.isGeocentric
-
-    import pyre.units
-    uparser = pyre.units.parser()
-    coordUnits = uparser.parse(self.units)
-    self.cppHandle.toMeters = coordUnits.value
-
-    self.cppHandle.spaceDim = self.spaceDim
-
-    CoordSys.initialize(self)
     return
 
 
@@ -114,12 +86,24 @@ class CSGeo(CoordSys):
     Setup members using inventory.
     """
     CoordSys._configure(self)
-    self.ellipsoid = self.inventory.ellipsoid
-    self.datumHoriz = self.inventory.datumHoriz
-    self.datumVert = self.inventory.datumVert
-    self.isGeocentric = self.inventory.isGeocentric
-    self.units = self.inventory.units
-    self.spaceDim = self.inventory.spaceDim
+    self.ellipsoid(self.inventory.ellipsoid)
+    self.datumHoriz(self.inventory.datumHoriz)
+    self.datumVert(self.inventory.datumVert)
+    self.isGeocentric(self.inventory.isGeocentric)
+    self.setSpaceDim(self.inventory.spaceDim)
+
+    import pyre.units
+    uparser = pyre.units.parser()
+    coordUnits = uparser.parse(self.inventory.units)
+    self.toMeters(coordUnits.value)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleCSGeo.__init__(self)
     return
 
 

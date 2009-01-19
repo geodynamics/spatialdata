@@ -37,48 +37,60 @@ class TestConvertApp(unittest.TestCase):
     """
     Test main().
     """
-    filename = "tmp.txt"
+    filename = "in.txt"
 
     from spatialdata.utils.PointsStream import PointsStream
     s = PointsStream()
-    s.filename = filename
-    s.fieldWidth = 20
-    s.precision = 8
+    s.inventory.filename = filename
+    s.inventory.numFormat = "%20.8e"
+    s._configure()
     
     s.write(lonlatNAD27ElevVals)
 
     from spatialdata.geocoords.CSGeo import CSGeo
     csNAD27 = CSGeo()
-    csNAD27.ellipsoid = "clrk66"
-    csNAD27.datumHoriz = "NAD27"
-    csNAD27.datumVert = "mean sea level"
+    csNAD27.inventory.ellipsoid = "clrk66"
+    csNAD27.inventory.datumHoriz = "NAD27"
+    csNAD27.inventory.datumVert = "mean sea level"
+    csNAD27._configure()
 
     from spatialdata.geocoords.CSGeoLocalCart import CSGeoLocalCart
     csLocal = CSGeoLocalCart()
-    csLocal.originLon = -100.0
-    csLocal.originLat = 39.0
+    csLocal.inventory.originLon = -100.0
+    csLocal.inventory.originLat = 39.0
     from pyre.units.length import m
-    csLocal.originElev = 0.01*m
-    csLocal.ellipsoid = "clrk66"
-    csLocal.datumHoriz = "NAD27"
-    csLocal.datumVert = "mean sea level"
+    csLocal.inventory.originElev = 0.01*m
+    csLocal.inventory.ellipsoid = "clrk66"
+    csLocal.inventory.datumHoriz = "NAD27"
+    csLocal.inventory.datumVert = "mean sea level"
+    csLocal._configure()
 
     from spatialdata.utils.ChangeCoordSys import ChangeCoordSys
     converter = ChangeCoordSys()
-    converter.csDest = csLocal
-    converter.csSrc = csNAD27
+    converter.inventory.csDest = csLocal
+    converter.inventory.csSrc = csNAD27
+    converter._configure()
 
     from spatialdata.utils.ConvertApp import ConvertApp
+    reader = PointsStream()
+    reader.inventory.filename = filename
+    reader.inventory.numFormat = "%20.8e"
+    reader._configure()
+
+    writer = PointsStream()
+    writer.inventory.filename = "out.txt"
+    writer.inventory.numFormat = "%20.8e"
+    writer._configure()
+
     app = ConvertApp()
-    app.reader = PointsStream()
-    app.reader.filename = filename
-    app.writer = app.reader
-    app.writer.fieldWidth = 20
-    app.writer.precision = 8
-    app.converter = converter
+    app.inventory.reader = reader
+    app.inventory.writer = writer
+    app.inventory.converter = converter
+    app._configure()
+
     app.main()
 
-    points = s.read()
+    points = writer.read()
     self.assertEqual(len(xyzLocalVals.shape), len(points.shape))
     for dE,d in zip(xyzLocalVals.shape, points.shape):
       self.assertEqual(dE, d)

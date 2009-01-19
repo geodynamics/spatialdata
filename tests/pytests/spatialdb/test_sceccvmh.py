@@ -21,9 +21,11 @@ def suite():
 
   return suite
 
+
 def main():
   unittest.TextTestRunner(verbosity=2).run(suite())
   return
+
 
 if __name__ == '__main__':
   main()

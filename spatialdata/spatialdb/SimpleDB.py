@@ -16,10 +16,11 @@
 ##
 ## Factory: spatial_database
 
-from SpatialDB import SpatialDB
+from SpatialDBObj import SpatialDBObj
+from spatialdb import SimpleDB as ModuleSimpleDB
 
 # SimpleDB class
-class SimpleDB(SpatialDB):
+class SimpleDB(SpatialDBObj, ModuleSimpleDB):
   """
   Python manager for simple spatial database.
 
@@ -28,7 +29,7 @@ class SimpleDB(SpatialDB):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(SpatialDB.Inventory):
+  class Inventory(SpatialDBObj.Inventory):
     """
     Python object for managing SimpleDB facilities and properties.
     """
@@ -60,23 +61,9 @@ class SimpleDB(SpatialDB):
     """
     Constructor.
     """
-    SpatialDB.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.SimpleDB()
-    self.queryType = "nearest"
+    SpatialDBObj.__init__(self, name)
     return
 
-
-  def initialize(self):
-    """
-    Initialize database.
-    """
-    self.iohandler.initialize()
-    SpatialDB.initialize(self)
-    self.cppHandle.ioHandler(self.iohandler.cppHandle)
-    self.cppHandle.queryType(self.queryType)
-    return
-  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -84,10 +71,28 @@ class SimpleDB(SpatialDB):
     """
     Set members based on inventory.
     """
-    SpatialDB._configure(self)
-    self.iohandler = self.inventory.iohandler
-    self.queryType = self.inventory.queryType
+    SpatialDBObj._configure(self)
+    self.ioHandler(self.inventory.iohandler)
+    self.queryType(self._parseQueryString(self.inventory.queryType))
     return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleSimpleDB.__init__(self)
+    return
+
+
+  def _parseQueryString(self, label):
+    if label.lower() == "nearest":
+      value = ModuleSimpleDB.NEAREST
+    elif label.lower() == "linear":
+      value = ModuleSimpleDB.LINEAR
+    else:
+      raise ValueError("Unknown value for query type '%s'." % label)
+    return value
 
 
 # FACTORIES ////////////////////////////////////////////////////////////

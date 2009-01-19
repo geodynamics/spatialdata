@@ -40,6 +40,7 @@ public:
   int spaceDim; ///< Spatial dimension for coordinates of locations
   int numVals; ///< Number of values per location in database
   int dataDim; ///< Spatial dimension of data in database
+  double* dbCoords; ///< Database locations
   double* dbData; ///< Database data
   char** names; ///< Names of values in database
   char** units; ///< Units of values in database

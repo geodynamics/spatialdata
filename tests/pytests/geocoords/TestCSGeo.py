@@ -17,19 +17,20 @@ class TestCSGeo(unittest.TestCase):
   def test_initialize(self):
     from spatialdata.geocoords.CSGeo import CSGeo
     cs = CSGeo()
-    cs.ellipsoid = "clrk66"
-    cs.datumHoriz = "NAD27"
-    cs.datumVert = "mean sea level"
-    cs.units = "km"
-    cs.spaceDim = 2
+    cs.inventory.ellipsoid = "clrk66"
+    cs.inventory.datumHoriz = "NAD27"
+    cs.inventory.datumVert = "mean sea level"
+    cs.inventory.units = "km"
+    cs.inventory.spaceDim = 2
+    cs._configure()
     cs.initialize()
 
-    self.assertEqual(cs.ellipsoid, cs.cppHandle.ellipsoid)
-    self.assertEqual(cs.datumHoriz, cs.cppHandle.datumHoriz)
-    self.assertEqual(cs.datumVert, cs.cppHandle.datumVert)
-    self.assertEqual(cs.isGeocentric, cs.isGeocentric)
-    self.assertEqual(1.0e+3, cs.cppHandle.toMeters)
-    self.assertEqual(2, cs.cppHandle.spaceDim)
+    self.assertEqual("clrk66", cs.ellipsoid())
+    self.assertEqual("NAD27", cs.datumHoriz())
+    self.assertEqual("mean sea level", cs.datumVert())
+    self.assertEqual(False, cs.isGeocentric())
+    self.assertEqual(1.0e+3, cs.toMeters())
+    self.assertEqual(2, cs.spaceDim())
 
     return
 

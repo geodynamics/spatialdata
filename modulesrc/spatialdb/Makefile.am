@@ -13,43 +13,45 @@
 subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
-EXTRA_DIST = \
-	spatialdb.pxd.src
+subpkgpyexec_LTLIBRARIES = _spatialdbmodule.la
 
-subpkgpyexec_LTLIBRARIES = spatialdbmodule.la
+subpkgpyexec_PYTHON = spatialdb.py
 
-spatialdbmodule_la_LDFLAGS = -module -avoid-version \
+swig_sources = \
+	spatialdb.i \
+	SpatialDBObj.i \
+	SimpleDB.i \
+	SimpleDBData.i \
+	SimpleIO.i \
+	SimpleIOAscii.i \
+	UniformDB.i \
+	CompositeDB.i \
+	SCECCVMH.i \
+	GravityField.i
+
+swig_generated = \
+	spatialdb_wrap.cxx \
+	spatialdb.py
+
+_spatialdbmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist_spatialdbmodule_la_SOURCES = spatialdb.pyxe.src
-nodist_spatialdbmodule_la_SOURCES = \
-	spatialdata.spatialdb.spatialdb.pyxe \
-	spatialdata.spatialdb.spatialdb.c spatialdata.spatialdb.spatialdb_embed.cpp spatialdata.spatialdb.spatialdb_embed.h
+dist__spatialdbmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
-spatialdbmodule_la_LIBADD = \
+_spatialdbmodule_la_LIBADD = \
 	$(top_builddir)/libsrc/libspatialdata.la
 if NO_UNDEFINED
-spatialdbmodule_la_LIBADD += \
+_spatialdbmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
-INCLUDES += -I$(PYTHON_INCDIR)
+INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
-nodist_pyexec_HEADERS = \
-	spatialdata.spatialdb.spatialdb.pxd
+$(srcdir)/spatialdb_wrap.cxx $(srcdir)/spatialdb.py: $(swig_sources)
+	$(SWIG) -Wall -c++ -python $<
 
-spatialdata.spatialdb.spatialdb.pyx spatialdata.spatialdb.spatialdb_embed.cpp spatialdata.spatialdb.spatialdb_embed.h: spatialdata.spatialdb.spatialdb.pyxe spatialdata.spatialdb.spatialdb.pxd
-	pyrexembed spatialdata.spatialdb.spatialdb.pyxe
-spatialdata.spatialdb.spatialdb.pyxe: $(srcdir)/spatialdb.pyxe.src
-	cp $(srcdir)/spatialdb.pyxe.src $@
-spatialdata.spatialdb.spatialdb.pxd: $(srcdir)/spatialdb.pxd.src
-	cp $(srcdir)/spatialdb.pxd.src $@
-spatialdata.spatialdb.spatialdb_embed.cpp: spatialdata.spatialdb.spatialdb_embed.h
-spatialdata.spatialdb.spatialdb_embed.h: spatialdata.spatialdb.spatialdb.pyx
 
-.pyx.c:
-	pyrexc $<
+MAINTAINERCLEANFILES = $(swig_generated)
 
-CLEANFILES = spatialdata.spatialdb.spatialdb.pyx spatialdata.spatialdb.spatialdb.pyxe spatialdata.spatialdb.spatialdb.c *_embed.*
 
 # End of file 

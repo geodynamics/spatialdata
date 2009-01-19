@@ -13,37 +13,38 @@
 subpackage = units
 include $(top_srcdir)/subpackage.am
 
+subpkgpyexec_LTLIBRARIES = _unitsmodule.la
+subpkgpyexec_PYTHON = units.py
 
-subpkgpyexec_LTLIBRARIES = unitsmodule.la
+swig_sources = \
+	units.i \
+	Nondimensional.i
 
-unitsmodule_la_LDFLAGS = -module -avoid-version \
+swig_generated = \
+	units_wrap.cxx \
+	units.py
+
+_unitsmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist_unitsmodule_la_SOURCES = units.pyxe.src
+dist__unitsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
-nodist_unitsmodule_la_SOURCES = \
-	units.pyxe \
-	units.c units_embed.cpp units_embed.h
-
-unitsmodule_la_LIBADD = \
+_unitsmodule_la_LIBADD = \
 	$(top_builddir)/libsrc/libspatialdata.la
 if NO_UNDEFINED
-unitsmodule_la_LIBADD += \
+_unitsmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
 INCLUDES += -I$(PYTHON_INCDIR)
 
-units.pyx units_embed.cpp  units_embed.h: units.pyxe
-	pyrexembed units.pyxe
-units.pyxe: $(srcdir)/units.pyxe.src
-	cp $(srcdir)/units.pyxe.src $@
-units_embed.cpp: units_embed.h
-units_embed.h: units.pyx
+$(srcdir)/units_wrap.cxx $(srcdir)/units.py: $(swig_sources)
+	$(SWIG) -Wall -c++ -python $<
 
-.pyx.c:
-	pyrexc $<
 
-CLEANFILES = units.pyx units.pyxe units.c *_embed.*
+MAINTAINERCLEANFILES = \
+	$(srcdir)/units_wrap.cxx \
+	$(srcdir)/units.py
+
 
 # End of file 

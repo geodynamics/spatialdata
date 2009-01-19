@@ -34,6 +34,7 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SCECCVMH.cc \
 	spatialdb/SimpleDB.cc \
 	spatialdb/SpatialDB.cc \
+	spatialdb/SimpleDBData.cc \
 	spatialdb/SimpleDBQuery.cc \
 	spatialdb/SimpleIO.cc \
 	spatialdb/SimpleIOAscii.cc \

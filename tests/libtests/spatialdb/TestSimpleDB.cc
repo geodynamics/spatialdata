@@ -16,9 +16,9 @@
 
 #include "TestSimpleDB.hh" // Implementation of class methods
 
-#include "data/SimpleDBData.hh" // USES SimpleDBData
+#include "data/SimpleDBTestData.hh" // USES SimpleDBTestData
 
-#include "spatialdata/spatialdb/SimpleDBTypes.hh" // USES SimpleDBTypes
+#include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 #include "spatialdata/spatialdb/SimpleDBQuery.hh" // USES SimpleDBQuery
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
@@ -61,7 +61,7 @@ spatialdata::spatialdb::TestSimpleDB::testLabel(void)
 // Test query() using nearest neighbor
 void
 spatialdata::spatialdb::TestSimpleDB::_testQueryNearest(
-						  const SimpleDBData& data)
+					  const SimpleDBTestData& data)
 { // _testQueryNearest
   SimpleDB db;
   _setupDB(&db, data);
@@ -74,7 +74,7 @@ spatialdata::spatialdb::TestSimpleDB::_testQueryNearest(
 // Test query() using linear interpolation
 void
 spatialdata::spatialdb::TestSimpleDB::_testQueryLinear(
-						  const SimpleDBData& data)
+						  const SimpleDBTestData& data)
 { // _testQueryLinear
   SimpleDB db;
   _setupDB(&db, data);
@@ -87,32 +87,15 @@ spatialdata::spatialdb::TestSimpleDB::_testQueryLinear(
 // Populate database with data.
 void
 spatialdata::spatialdb::TestSimpleDB::_setupDB(SimpleDB* const db,
-					       const SimpleDBData& data)
+					 const SimpleDBTestData& data)
 { // _setupDB
-  SimpleDB::DataStruct* dbData = new SimpleDB::DataStruct;
-
-  const int numLocs = data.numLocs;
-  const int spaceDim = data.spaceDim;
-  const int numVals = data.numVals;
-  const int dataDim = data.dataDim;
-
-  const int size = numLocs * (spaceDim + numVals);
-  CPPUNIT_ASSERT(0 < size);
-  dbData->data = new double[size];
-  memcpy(dbData->data, data.dbData, size*sizeof(double));
-
-  dbData->valNames = new std::string[numVals];
-  for (int i=0; i < numVals; ++i)
-    dbData->valNames[i] = data.names[i];
-
-  dbData->valUnits = new std::string[numVals];
-  for (int i=0; i < numVals; ++i)
-    dbData->valUnits[i] = data.units[i];
-
-  dbData->numLocs = numLocs;
-  dbData->spaceDim = spaceDim;
-  dbData->numVals = numVals;
-  dbData->dataDim = dataDim;
+  SimpleDBData* dbData = new SimpleDBData;
+  dbData->allocate(data.numLocs, data.numVals, data.spaceDim,
+		   data.dataDim);
+  dbData->data(data.dbData, data.numLocs, data.numVals);
+  dbData->coordinates(data.dbCoords, data.numLocs, data.spaceDim);
+  dbData->names(const_cast<const char**>(data.names), data.numVals);
+  dbData->units(const_cast<const char**>(data.units), data.numVals);
 
   db->_data = dbData;
   db->_query = new SimpleDBQuery(*db);

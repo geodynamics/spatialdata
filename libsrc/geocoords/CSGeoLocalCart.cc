@@ -482,7 +482,7 @@ spatialdata::geocoords::CSGeoLocalCart::unpickle(std::istream& s)
       toMeters(val);
     } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
       buffer >> name;
-      ellipsoid(name);
+      ellipsoid(name.c_str());
     } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {
       buffer >> std::ws;
       buffer.get(cbuffer, maxIgnore, '\n');

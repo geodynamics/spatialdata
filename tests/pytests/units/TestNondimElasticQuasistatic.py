@@ -25,10 +25,10 @@ class TestNondimElasticQuasistatic(unittest.TestCase):
     dim = NondimElasticQuasistatic()
     dim._configure()
 
-    self.assertEqual(1.0e+3*meter, dim._length)
-    self.assertEqual(3.0e+10*pascal, dim._pressure)
-    self.assertEqual(1.0*year, dim._time)
-    self.assertEqual(1.0*kilogram/meter**3, dim._density)
+    self.assertEqual(1.0e+3*meter, dim.lengthScale())
+    self.assertEqual(3.0e+10*pascal, dim.pressureScale())
+    self.assertEqual(1.0*year, dim.timeScale())
+    self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
 
     return
 

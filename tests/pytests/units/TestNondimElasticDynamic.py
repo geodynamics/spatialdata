@@ -32,10 +32,10 @@ class TestNondimElasticDynamic(unittest.TestCase):
     shearModulus = density*vs**2
     wavelength = vs*period
 
-    self.assertEqual(wavelength, dim._length)
-    self.assertEqual(shearModulus, dim._pressure)
-    self.assertEqual(period, dim._time)
-    self.assertEqual(density, dim._density)
+    self.assertEqual(wavelength, dim.lengthScale())
+    self.assertEqual(shearModulus, dim.pressureScale())
+    self.assertEqual(period, dim.timeScale())
+    self.assertEqual(density, dim.densityScale())
 
     return
 

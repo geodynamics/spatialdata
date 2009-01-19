@@ -13,37 +13,44 @@
 subpackage = geocoords
 include $(top_srcdir)/subpackage.am
 
+subpkgpyexec_LTLIBRARIES = _geocoordsmodule.la
+subpkgpyexec_PYTHON = geocoords.py
 
-subpkgpyexec_LTLIBRARIES = geocoordsmodule.la
+swig_sources = \
+	geocoords.i \
+	CoordSys.i \
+	CSCart.i \
+	CSGeo.i \
+	CSGeoProj.i \
+	CSGeoLocalCart.i \
+	Projector.i \
+	Converter.i
 
-geocoordsmodule_la_LDFLAGS = -module -avoid-version \
+swig_generated = \
+	geocoords_wrap.cxx \
+	geocoords.py
+
+_geocoordsmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist_geocoordsmodule_la_SOURCES = geocoords.pyxe.src
+dist__geocoordsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
-nodist_geocoordsmodule_la_SOURCES = \
-	geocoords.pyxe \
-	geocoords.c geocoords_embed.cpp geocoords_embed.h
-
-geocoordsmodule_la_LIBADD = \
+_geocoordsmodule_la_LIBADD = \
 	$(top_builddir)/libsrc/libspatialdata.la
 if NO_UNDEFINED
-geocoordsmodule_la_LIBADD += \
+_geocoordsmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
-INCLUDES += -I$(PYTHON_INCDIR)
+INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
-geocoords.pyx geocoords_embed.cpp  geocoords_embed.h: geocoords.pyxe
-	pyrexembed geocoords.pyxe
-geocoords.pyxe: $(srcdir)/geocoords.pyxe.src
-	cp $(srcdir)/geocoords.pyxe.src $@
-geocoords_embed.cpp: geocoords_embed.h
-geocoords_embed.h: geocoords.pyx
+$(srcdir)/geocoords_wrap.cxx $(srcdir)/geocoords.py: $(swig_sources)
+	$(SWIG) -Wall -c++ -python $<
 
-.pyx.c:
-	pyrexc $<
 
-CLEANFILES = geocoords.pyx geocoords.pyxe geocoords.c *_embed.*
+MAINTAINERCLEANFILES = \
+	$(srcdir)/geocoords_wrap.cxx \
+	$(srcdir)/geocoords.py
+
 
 # End of file 

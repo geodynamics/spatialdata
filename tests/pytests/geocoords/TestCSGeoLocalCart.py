@@ -17,27 +17,28 @@ class TestCSGeoLocalCart(unittest.TestCase):
   def test_initialize(self):
     from spatialdata.geocoords.CSGeoLocalCart import CSGeoLocalCart
     cs = CSGeoLocalCart()
-    cs.originLon = -120.0
-    cs.originLat = 38.0
+    cs.inventory.originLon = -120.0
+    cs.inventory.originLat = 38.4
     from pyre.units.length import m
-    cs.originElev = 12.0*m
-    cs.ellipsoid = "clrk66"
-    cs.datumHoriz = "NAD27"
-    cs.datumVert = "mean sea level"
-    cs.units = "km"
+    cs.inventory.originElev = 12.0*m
+    cs.inventory.ellipsoid = "clrk66"
+    cs.inventory.datumHoriz = "NAD27"
+    cs.inventory.datumVert = "mean sea level"
+    cs.inventory.units = "km"
+    cs._configure()
     cs.initialize()
 
-    self.assertEqual(cs.ellipsoid, cs.cppHandle.ellipsoid)
-    self.assertEqual(cs.datumHoriz, cs.cppHandle.datumHoriz)
-    self.assertEqual(cs.datumVert, cs.cppHandle.datumVert)
-    self.assertEqual(True, cs.isGeocentric)
-    self.assertEqual(1.0e+3, cs.cppHandle.toMeters)
-    self.assertEqual(3, cs.cppHandle.spaceDim)
+    self.assertEqual("clrk66", cs.ellipsoid())
+    self.assertEqual("NAD27", cs.datumHoriz())
+    self.assertEqual("mean sea level", cs.datumVert())
+    self.assertEqual(True, cs.isGeocentric())
+    self.assertEqual(1.0e+3, cs.toMeters())
+    self.assertEqual(3, cs.spaceDim())
 
-    (lon, lat, elev) = cs.cppHandle.getOrigin()
-    self.assertAlmostEqual(cs.originLon, lon, 6)
-    self.assertAlmostEqual(cs.originLat, lat, 6)
-    self.assertAlmostEqual(cs.originElev.value, elev, 6)
+    (lon, lat, elev) = cs.origin()
+    self.assertAlmostEqual(-120.0, lon, 6)
+    self.assertAlmostEqual(38.4, lat, 6)
+    self.assertAlmostEqual(12.0, elev, 6)
 
     return
 

@@ -18,6 +18,8 @@
 
 from pyre.components.Component import Component
 
+import numpy
+
 # PointsStream class
 class PointsStream(Component):
   """
@@ -40,8 +42,7 @@ class PointsStream(Component):
     ## @li \b filename Name of file for input/output
     ##          (default is to use stdin/stdout).
     ## @li \b commentFlag String identifying comment (input).
-    ## @li \b field_width Width of field for coordinates (output).
-    ## @li \b precision Decimnal precision of coordinates (output).
+    ## @li \b numFormat C style string specifying number format.
     ##
     ## \b Facilities
     ## @li None
@@ -54,13 +55,8 @@ class PointsStream(Component):
     commentFlag = pyre.inventory.str("comment_flag", default="#")
     commentFlag.meta['tip'] = "String identifying comment."
 
-    fieldWidth = pyre.inventory.int("field_width", default=14)
-    fieldWidth.meta['tip'] = "Width of field for coordinates."
-    fieldWidth.validator = pyre.inventory.greater(0)
-
-    precision = pyre.inventory.int("precision", default=5)
-    precision.meta['tip'] = "Decimal precision of coordinates."
-    precision.validator = pyre.inventory.greaterEqual(0)
+    numFormat = pyre.inventory.str("number_format", default="%14.5e")
+    numFormat.meta['tip'] = "C style string specifying number format."
 
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -69,8 +65,8 @@ class PointsStream(Component):
     """
     Read points from stdin.
     """
-    self._sync()
-    points = self.cppHandle.read()
+    points = numpy.loadtxt(self.filename,
+                           comments=self.commentFlag)
     return points
 
 
@@ -78,8 +74,9 @@ class PointsStream(Component):
     """
     Write points to stdout.
     """
-    self._sync()
-    self.cppHandle.write(points)
+    numpy.savetxt(self.filename,
+                  points,
+                  fmt=self.numFormat)
     return
 
 
@@ -88,12 +85,6 @@ class PointsStream(Component):
     Constructor.
     """
     Component.__init__(self, name, facility="pointsstream")
-    import spatialdata.utils.utils as bindings
-    self.cppHandle = bindings.PointsStream()
-    self.filename = ""
-    self.commentFlag = "#"
-    self.fieldWidth = 14
-    self.precision = 5
     return
 
 
@@ -105,19 +96,7 @@ class PointsStream(Component):
     """
     self.filename = self.inventory.filename
     self.commentFlag = self.inventory.commentFlag
-    self.fieldWidth = self.inventory.fieldWidth
-    self.precision = self.inventory.precision
-    return
-
-
-  def _sync(self):
-    """
-    Synchronize with C++ object.
-    """
-    self.cppHandle.filename = self.filename
-    self.cppHandle.commentFlag = self.commentFlag
-    self.cppHandle.fieldWidth = self.fieldWidth
-    self.cppHandle.precision = self.precision
+    self.numFormat = self.inventory.numFormat
     return
 
 

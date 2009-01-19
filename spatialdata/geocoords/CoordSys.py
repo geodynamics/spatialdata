@@ -47,16 +47,7 @@ class CoordSys(Component):
     Constructor.
     """
     Component.__init__(self, name, facility="coordsys")
-
-    self.cppHandle = None
-    return
-
-
-  def initialize(self):
-    """
-    Initialize coordinate system.
-    """
-    self.cppHandle.initialize()
+    self._createModuleObj()
     return
 
 
@@ -67,6 +58,14 @@ class CoordSys(Component):
     Setup members using inventory.
     """
     Component._configure(self)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    raise NotImplementedError("_createModuleObj() not implemented.")
     return
 
 

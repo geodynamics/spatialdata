@@ -16,8 +16,8 @@
 #include "SimpleDB.hh" // Implementation of class methods
 
 #include "SimpleIO.hh" // USES SimpleIO
+#include "SimpleDBData.hh" // USES SimpleDBData
 #include "SimpleDBQuery.hh" // USES SimpleDBQuery
-#include "SimpleDBTypes.hh" // USES SimpleDBTypes
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 
@@ -30,9 +30,9 @@
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
+  _data(0),
   _iohandler(0),
   _query(0),
-  _data(0),
   _cs(0)
 { // constructor
 } // constructor
@@ -41,9 +41,9 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
 /// Constructor with label
 spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
   SpatialDB(label),
+  _data(0),
   _iohandler(0),
   _query(0),
-  _data(0),
   _cs(0)
 { // constructor
 } // constructor
@@ -52,15 +52,9 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
 /// Default destructor
 spatialdata::spatialdb::SimpleDB::~SimpleDB(void)
 { // destructor
-  delete _query; _query = 0;
-  if (0 != _data) {
-    delete[] _data->data; _data->data = 0;
-    delete[] _data->valNames; _data->valNames = 0;
-    delete[] _data->valUnits; _data->valUnits = 0;
-  } // if
   delete _data; _data = 0;
   delete _iohandler; _iohandler = 0;
-
+  delete _query; _query = 0;
   delete _cs; _cs = 0;
 } // destructor
 
@@ -73,10 +67,7 @@ spatialdata::spatialdb::SimpleDB::open(void)
 
   // Read data
   if (0 == _data) {
-    _data = new DataStruct;
-    _data->data = 0;
-    _data->valNames = 0;
-    _data->valUnits = 0;
+    _data = new SimpleDBData;
     _iohandler->read(_data, &_cs);
   } // if
 
@@ -90,13 +81,8 @@ spatialdata::spatialdb::SimpleDB::open(void)
 void
 spatialdata::spatialdb::SimpleDB::close(void)
 { // close
-  delete _query; _query = 0;
-  if (0 != _data) {
-    delete[] _data->data; _data->data = 0;
-    delete[] _data->valNames; _data->valNames = 0;
-    delete[] _data->valUnits; _data->valUnits = 0;
-  } // if
   delete _data; _data = 0;
+  delete _query; _query = 0;
 } // close
 
 // ----------------------------------------------------------------------

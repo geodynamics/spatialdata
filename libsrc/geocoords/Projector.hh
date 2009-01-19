@@ -91,27 +91,23 @@ class spatialdata::geocoords::Projector
 
   /** Project geographic coordinates.
    *
-   * @param pX Pointer to x coordinate of location (output)
-   * @param pY Pointer to y coordinate of location (output)
-   * @param lon Longitude of location
-   * @param lat Latitude of location
+   * @param coords Array of coordinates (input/output).
+   * @param numLocs Number of location.
+   * @param numDims Number of spatial dimensions in coordinates.
    */
-  void project(double* pX,
-	       double* pY,
-	       const double lon,
-	       const double lat);
+  void project(double* coords,
+	       const int numLocs,
+	       const int numDims);
 
   /** Get geographic coordinates of projected location.
    *
-   * @param pLon Pointer to longitude of location (output)
-   * @param pLat Pointer to latitude of location (output)
-   * @param x X coordinate of location
-   * @param y Y coordinate of location
+   * @param coords Array of coordinates (input/output).
+   * @param numLocs Number of location.
+   * @param numDims Number of spatial dimensions in coordinates.
    */
-  void invproject(double* pLon,
-		  double* pLat,
-		  const double x,
-		  const double y);
+  void invproject(double* coords,
+		  const int numLocs,
+		  const int numDims);
 
   /** Pickle coordinate system to ascii stream.
    *

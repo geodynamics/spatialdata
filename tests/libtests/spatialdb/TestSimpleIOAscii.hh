@@ -54,7 +54,5 @@ public :
 
 #endif // spatialdata_spatialdb_testsimpleioascii_hh
 
-// version
-// $Id$
 
 // End of file 

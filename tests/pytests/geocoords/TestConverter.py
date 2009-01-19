@@ -37,24 +37,26 @@ class TestConverter(unittest.TestCase):
   def test_convert(self):
     from spatialdata.geocoords.CSGeo import CSGeo
     csNAD27 = CSGeo()
-    csNAD27.ellipsoid = "clrk66"
-    csNAD27.datumHoriz = "NAD27"
-    csNAD27.datumVert = "mean sea level"
+    csNAD27.inventory.ellipsoid = "clrk66"
+    csNAD27.inventory.datumHoriz = "NAD27"
+    csNAD27.inventory.datumVert = "mean sea level"
+    csNAD27._configure()
     csNAD27.initialize()
 
     from spatialdata.geocoords.CSGeoLocalCart import CSGeoLocalCart
     csLocal = CSGeoLocalCart()
-    csLocal.originLon = -100.0
-    csLocal.originLat = 39.0
+    csLocal.inventory.originLon = -100.0
+    csLocal.inventory.originLat = 39.0
     from pyre.units.length import m
-    csLocal.originElev = 0.01*m
-    csLocal.ellipsoid = "clrk66"
-    csLocal.datumHoriz = "NAD27"
-    csLocal.datumVert = "mean sea level"
+    csLocal.inventory.originElev = 0.01*m
+    csLocal.inventory.ellipsoid = "clrk66"
+    csLocal.inventory.datumHoriz = "NAD27"
+    csLocal.inventory.datumVert = "mean sea level"
+    csLocal._configure()
     csLocal.initialize()
 
     from spatialdata.geocoords.Converter import convert
-    coordsXYZ = lonlatNAD27ElevVals
+    coordsXYZ = numpy.array(lonlatNAD27ElevVals)
     convert(coordsXYZ, csLocal, csNAD27)
     xyzLocalValsT = numpy.array(coordsXYZ)
 
@@ -65,8 +67,5 @@ class TestConverter(unittest.TestCase):
         
     return
 
-
-# version
-__id__ = "$Id$"
 
 # End of file 

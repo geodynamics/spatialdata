@@ -24,7 +24,7 @@ noinst_PYTHON = \
 	TestPointsStream.py \
 	TestSimpleArray.py
 
-data_TMP = tmp.txt
+data_TMP = in.txt out.txt
 
 # module
 subpkgpyexec_LTLIBRARIES = testcppmodule.la

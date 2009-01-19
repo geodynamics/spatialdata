@@ -25,27 +25,18 @@ class TestNondimensional(unittest.TestCase):
     dim = Nondimensional()
     dim._configure()
 
-    self.assertEqual(1.0*meter, dim._length)
-    self.assertEqual(1.0*pascal, dim._pressure)
-    self.assertEqual(1.0*second, dim._time)
-    self.assertEqual(1.0*kilogram/meter**3, dim._density)
+    self.assertEqual(1.0*meter, dim.lengthScale())
+    self.assertEqual(1.0*pascal, dim.pressureScale())
+    self.assertEqual(1.0*second, dim.timeScale())
+    self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
 
-    return
-
-
-  def test_initialize(self):
-    dim = Nondimensional()
-    dim._configure()
-    dim.initialize()
-
-    self.failIf(dim.cppHandle is None)
     return
 
 
   def test_lengthScale(self):
     dim = Nondimensional()
     dim._configure()
-    dim._length = 2.0*meter
+    dim.setLengthScale(2.0*meter)
 
     self.assertEqual(2.0*meter, dim.lengthScale())
     self.assertEqual(1.0*pascal, dim.pressureScale())
@@ -57,7 +48,7 @@ class TestNondimensional(unittest.TestCase):
   def test_pressureScale(self):
     dim = Nondimensional()
     dim._configure()
-    dim._pressure = 2.0*pascal
+    dim.setPressureScale(2.0*pascal)
 
     self.assertEqual(1.0*meter, dim.lengthScale())
     self.assertEqual(2.0*pascal, dim.pressureScale())
@@ -69,7 +60,7 @@ class TestNondimensional(unittest.TestCase):
   def test_timeScale(self):
     dim = Nondimensional()
     dim._configure()
-    dim._time = 2.0*second
+    dim.setTimeScale(2.0*second)
 
     self.assertEqual(1.0*meter, dim.lengthScale())
     self.assertEqual(1.0*pascal, dim.pressureScale())
@@ -81,7 +72,7 @@ class TestNondimensional(unittest.TestCase):
   def test_densityScale(self):
     dim = Nondimensional()
     dim._configure()
-    dim._density = 2.0*kilogram/meter**3
+    dim.setDensityScale(2.0*kilogram/meter**3)
 
     self.assertEqual(1.0*meter, dim.lengthScale())
     self.assertEqual(1.0*pascal, dim.pressureScale())
@@ -93,7 +84,6 @@ class TestNondimensional(unittest.TestCase):
   def test_nondimensionalize(self):
     dim = Nondimensional()
     dim._configure()
-    dim.initialize()
 
     scale = 8.0*meter
     value = 2.0*meter
@@ -106,7 +96,6 @@ class TestNondimensional(unittest.TestCase):
   def test_dimensionalize(self):
     dim = Nondimensional()
     dim._configure()
-    dim.initialize()
 
     scale = 8.0*meter
     value = 0.25

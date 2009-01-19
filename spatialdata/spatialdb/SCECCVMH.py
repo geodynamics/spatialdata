@@ -17,10 +17,11 @@
 ##
 ## Factory: spatial_database
 
-from SpatialDB import SpatialDB
+from SpatialDBObj import SpatialDBObj
+from spatialdb import SCECCVMH as ModuleSCECCVMH
 
 # SCECCVMH class
-class SCECCVMH(SpatialDB):
+class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
   """
   Python manager for spatial database to the SCEC CVM-H.
 
@@ -29,7 +30,7 @@ class SCECCVMH(SpatialDB):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(SpatialDB.Inventory):
+  class Inventory(SpatialDBObj.Inventory):
     """
     Python object for managing SCECCVMH facilities and properties.
     """
@@ -71,23 +72,9 @@ class SCECCVMH(SpatialDB):
     """
     Constructor.
     """
-    SpatialDB.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.SCECCVMH()
-    self.cppHandle.label = "SCEC CVM-H"
+    SpatialDBObj.__init__(self, name)
     return
 
-
-  def initialize(self):
-    """
-    Initialize database.
-    """
-    SpatialDB.initialize(self)
-    self.cppHandle.dataDir(self.dataDir)
-    self.cppHandle.minVs(self.minVs.value)
-    self.cppHandle.squash(self.squash, self.squashLimit.value)
-    return
-  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -95,11 +82,19 @@ class SCECCVMH(SpatialDB):
     """
     Set members based on inventory.
     """
-    SpatialDB._configure(self)
-    self.dataDir = self.inventory.dataDir
-    self.minVs = self.inventory.minVs
-    self.squash = self.inventory.squash
-    self.squashLimit = self.inventory.squashLimit
+    SpatialDBObj._configure(self)
+    self.label("SCEC CVM-H")
+    self.dataDir(self.inventory.dataDir)
+    self.minVs(self.inventory.minVs.value)
+    self.squash(self.inventory.squash, self.inventory.squashLimit.value)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleSCECCVMH.__init__(self)
     return
 
 

@@ -19,6 +19,7 @@ spatialdata::spatialdb::SimpleDBQueryData::SimpleDBQueryData(void) :
   spaceDim(0),
   numVals(0),
   dataDim(0),
+  dbCoords(0),
   dbData(0),
   names(0),
   units(0),

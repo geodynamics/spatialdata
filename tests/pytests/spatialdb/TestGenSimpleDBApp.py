@@ -30,39 +30,48 @@ class TestGenSimpleDBApp(unittest.TestCase):
 
     # Test write using query
     db = SimpleDB()
+    db.inventory.iohandler.inventory.filename = \
+        "data/gen1Din2D.spatialdb"
+    db.inventory.iohandler._configure()
+    db.inventory.label = "test"
+    db.inventory.queryType = "nearest"
     db._configure()
-    db.iohandler.filename = "data/gen1Din2D.spatialdb"
-    db.label = "test"
-    db.queryType = "nearest"
-    db.initialize()
-
-    db.open()
-    db.queryVals(["two", "one"])
 
     qlocs = numpy.array( [[-2.0,  2.0],
                           [ 3.0, -4.0],
                           [ 0.0,  0.7]],
                          numpy.float64)
     
-    valsE = numpy.array( [[-0.15, 3.45],
+    dataE = numpy.array( [[-0.15, 3.45],
                           [2.4, 6.4],
                           [-0.6, 3.45]], numpy.float64)
-    
+    errE = [0, 0, 0]
+
     from spatialdata.geocoords.CSCart import CSCart
     cs = CSCart()
-    cs.spaceDim = 2
-    cs.initialize()
+    cs.inventory.spaceDim = 2
+    cs._configure()
 
-    (vals, err) = db.query(qlocs, cs, 2)
-    vals = numpy.array(vals)
+    db.open()
+    db.queryVals(["two", "one"])
+    data = numpy.zeros(dataE.shape, dtype=numpy.float64)
+    err = []
+    nlocs = qlocs.shape[0]
+    for i in xrange(nlocs):
+      e = db.query(data[i,:], qlocs[i,:], cs)
+      err.append(e)
+    db.close()    
 
-    self.assertEqual(len(valsE.shape), len(vals.shape))
-    for dE, d in zip(valsE.shape, vals.shape):
+    self.assertEqual(len(errE), len(err))
+    for vE, v in zip(errE, err):
+      self.assertEqual(vE, v)
+
+    self.assertEqual(len(dataE.shape), len(data.shape))
+    for dE, d in zip(dataE.shape, data.shape):
       self.assertEqual(dE, d)
-    for vE, v in zip(numpy.reshape(valsE, -1), numpy.reshape(vals, -1)):
+    for vE, v in zip(numpy.reshape(dataE, -1), numpy.reshape(data, -1)):
       self.assertAlmostEqual(vE, v, 6)
 
-    db.close()
     return
 
 

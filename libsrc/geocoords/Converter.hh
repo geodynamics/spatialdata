@@ -65,8 +65,8 @@ private :
   static void _convert(double* coords,
 		       const int numLocs,
 		       const int numDims,
-		       const CSGeo& csDest,
-		       const CSGeo& csSrc);
+		       const CSGeo* csDest,
+		       const CSGeo* csSrc);
 
   /** Convert coordinates from source Cartesian coordinate system to
    * destination Cartesian coordinate system.
@@ -80,8 +80,8 @@ private :
   static void _convert(double* coords,
 		       const int numLocs,
 		       const int numDims,
-		       const CSCart& csDest,
-		       const CSCart& csSrc);
+		       const CSCart* csDest,
+		       const CSCart* csSrc);
 
 }; // class Converter
 

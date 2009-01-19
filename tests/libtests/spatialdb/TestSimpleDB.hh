@@ -28,7 +28,7 @@ namespace spatialdata {
   namespace spatialdb {
     class TestSimpleDB;
     class SimpleDB; // USES SimpleDB
-    class SimpleDBData; // USES SimpleDBData
+    class SimpleDBTestData; // USES SimpleDBTestData
   } // spatialdb
 } // spatialdata
 
@@ -62,13 +62,13 @@ protected :
    *
    * @param data Data for database
    */
-  void _testQueryNearest(const SimpleDBData& data);
+  void _testQueryNearest(const SimpleDBTestData& data);
 
   /** Test query() using linear interpolation
    *
    * @param data Data for database
    */
-  void _testQueryLinear(const SimpleDBData& data);
+  void _testQueryLinear(const SimpleDBTestData& data);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
@@ -79,7 +79,7 @@ private :
    * @param data Data for database
    */
   void _setupDB(SimpleDB* const db,
-		const SimpleDBData& data);
+		const SimpleDBTestData& data);
 
   /** Test query method by doing query and checking values returned.
    * 

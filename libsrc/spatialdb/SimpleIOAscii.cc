@@ -12,13 +12,12 @@
 
 #include <portinfo>
 
+#include "SimpleIOAscii.hh" // implementation of class methods
+
 #include "SpatialDB.hh" // USES SimpleDB
 #include "SimpleDB.hh" // USES SimpleDB
 
-#include "SimpleIO.hh" // ISA SimpleIO
-#include "SimpleIOAscii.hh" // implementation of class methods
-
-#include "SimpleDBTypes.hh" // USES SimpleDBTypes
+#include "SimpleDBData.hh" // USES SimpleDBData
 #include "spatialdata/geocoords/CoordSys.hh" // USES CSCart
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSPicklerAscii.hh" // USES CSPicklerAscii
@@ -35,13 +34,14 @@
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
-const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =  "#SPATIAL.ascii";
+const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =
+  "#SPATIAL.ascii";
 
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
 spatialdata::spatialdb::SimpleIOAscii::read(
-				   SimpleDB::DataStruct* pData,
+				   SimpleDBData* pData,
 				   spatialdata::geocoords::CoordSys** ppCS)
 { // read
   assert(0 != pData);
@@ -112,7 +112,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
 // Read ascii database file.
 void
 spatialdata::spatialdb::SimpleIOAscii::_readV1(
-				     SimpleDB::DataStruct* pData,
+				     SimpleDBData* pData,
 				     spatialdata::geocoords::CoordSys** ppCS,
 				     std::istream& filein)
 { // ReadV1
@@ -120,12 +120,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   assert(0 != ppCS);
 
   // Clear memory and set default values
-  delete[] pData->valNames; pData->valNames = 0;
-  delete[] pData->valUnits; pData->valUnits = 0;
-  delete[] pData->data; pData->data = 0;
   delete *ppCS; *ppCS = new spatialdata::geocoords::CSCart();
-  pData->dataDim = 0;
-  pData->spaceDim = 3;
 
   utils::LineParser parser(filein, "//");
   parser.eatwhitespace(true);
@@ -143,42 +138,47 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
     throw std::runtime_error(msg.str());
   } // else
 
-  int numVals = 0;
+  int numValues = 0;
+  int numLocs = 0;
+  int spaceDim = 3; // default
+  int dataDim = 0;
+  std::string* names = 0;
+  std::string* units = 0;
+
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
   while (buffer.good() && token != "}") {
     if (0 == strcasecmp(token.c_str(), "num-values")) {
       buffer.ignore(maxIgnore, '=');
-      buffer >> numVals;
-      pData->numVals = numVals;
+      buffer >> numValues;
     } else if (0 == strcasecmp(token.c_str(), "num-locs")) {
       buffer.ignore(maxIgnore, '=');
-      buffer >> pData->numLocs;
+      buffer >> numLocs;
     } else if (0 == strcasecmp(token.c_str(), "value-names")) {
-      if (numVals > 0)
-	pData->valNames = new std::string[numVals];
+      if (numValues > 0)
+	names = new std::string[numValues];
       else
 	throw std::runtime_error("Number of values must be specified BEFORE "
 				 "names of values in SimpleDB file.");
       buffer.ignore(maxIgnore, '=');
-      for (int iVal=0; iVal < numVals; ++iVal)
-	buffer >> pData->valNames[iVal];
+      for (int iVal=0; iVal < numValues; ++iVal)
+	buffer >> names[iVal];
     } else if (0 == strcasecmp(token.c_str(), "value-units")) {
-      if (numVals > 0)
-	pData->valUnits = new std::string[numVals];
+      if (numValues > 0)
+	units = new std::string[numValues];
       else
 	throw std::runtime_error("Number of values must be specified BEFORE "
 				 "units of values in SimpleDB file.");
       buffer.ignore(maxIgnore, '=');
-      for (int iVal=0; iVal < numVals; ++iVal)
-	buffer >> pData->valUnits[iVal];
+      for (int iVal=0; iVal < numValues; ++iVal)
+	buffer >> units[iVal];
     } else if (0 == strcasecmp(token.c_str(), "data-dim")) {
       buffer.ignore(maxIgnore, '=');
-      buffer >> pData->dataDim;
+      buffer >> dataDim;
     } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
       buffer.ignore(maxIgnore, '=');
-      buffer >> pData->spaceDim;
+      buffer >> spaceDim;
     } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
       buffer.ignore(maxIgnore, '=');
       std::string rbuffer(buffer.str());
@@ -207,35 +207,44 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
 
   bool ok = true;
   std::ostringstream msg;
-  if (0 == pData->numVals) {
+  if (0 == numValues) {
     ok = false;
     msg << "SimpleDB settings must include 'num-values'.\n";
   } // if
-  if (0 == pData->numLocs) {
+  if (0 == numLocs) {
     ok = false;
     msg << "SimpleDB settings must include 'num-locs'.\n";
   } // if
-  if (0 == pData->valNames) {
+  if (0 == names) {
     ok = false;
       msg << "SimpleDB settings must include 'value-names'.\n";
   } // if
-  if (0 == pData->valUnits) {
+  if (0 == units) {
     ok = false;
     msg << "SimpleDB settings must include 'value-units'.\n";
   } // if
   if (!ok)
     throw std::runtime_error(msg.str());
   
-  
-  const int dataLocSize = pData->spaceDim + pData->numVals;
-  const int dataTotalSize = pData->numLocs * dataLocSize;
-  delete[] pData->data; 
-  pData->data = (dataTotalSize > 0) ? new double[dataTotalSize] : 0;
-  for (int iLoc=0, i=0; iLoc < pData->numLocs; ++iLoc) {
+  pData->allocate(numLocs, numValues, spaceDim, dataDim);
+  char** cnames = (numValues > 0) ? new char*[numValues] : 0;
+  char** cunits = (numValues > 0) ? new char*[numValues] : 0;
+  for (int i=0; i < numValues; ++i) {
+    cnames[i] = const_cast<char*>(names[i].c_str());
+    cunits[i] = const_cast<char*>(units[i].c_str());
+  } // for
+  pData->names(const_cast<const char**>(cnames), numValues);
+  pData->units(const_cast<const char**>(cunits), numValues);
+
+  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     buffer.str(parser.next());
     buffer.clear();
-    for (int iVal=0; iVal < dataLocSize; ++iVal)
-      buffer >> pData->data[i++];
+    double* coordinates = pData->coordinates(iLoc);
+    for (int iDim=0; iDim < spaceDim; ++iDim)
+      buffer >> coordinates[iDim];
+    double* data = pData->data(iLoc);
+    for (int iVal=0; iVal < numValues; ++iVal)
+      buffer >> data[iVal];
   } // for
   if (!filein.good())
     throw std::runtime_error("I/O error while reading SimpleDB data.");
@@ -245,13 +254,13 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   checkCompatibility(*pData, *ppCS);
   
   (*ppCS)->initialize();
-} // ReadV1
+} // _readV1
 
 // ----------------------------------------------------------------------
 // Write ascii database file.
 void
 spatialdata::spatialdb::SimpleIOAscii::write(
-				const SimpleDB::DataStruct& data,
+				const SimpleDBData& data,
 				const spatialdata::geocoords::CoordSys* pCS)
 { // write
   try {
@@ -264,25 +273,27 @@ spatialdata::spatialdb::SimpleIOAscii::write(
     } // if
     
     const int version = 1;
-    const int numLocs = data.numLocs;
-    const int numVals = data.numVals;
+    const int numLocs = data.numLocs();
+    const int numValues = data.numValues();
+    const int spaceDim = data.spaceDim();
+    const int dataDim = data.dataDim();
     
     fileout
       << HEADER << " " << version << "\n"
       << "SimpleDB {\n"
-      << "  num-values = " << std::setw(6) << numVals << "\n"
+      << "  num-values = " << std::setw(6) << numValues << "\n"
       << "  value-names =";
-    for (int iVal=0; iVal < numVals; ++iVal)
-      fileout << "  " << data.valNames[iVal];
+    for (int iVal=0; iVal < numValues; ++iVal)
+      fileout << "  " << data.name(iVal);
     fileout << "\n";
     fileout << "  value-units =";
-    for (int iVal=0; iVal < numVals; ++iVal)
-      fileout << "  " << data.valUnits[iVal];
+    for (int iVal=0; iVal < numValues; ++iVal)
+      fileout << "  " << data.units(iVal);
     fileout << "\n";
     fileout
       << "  num-locs = " << std::setw(6) << numLocs << "\n"
-      << "  data-dim = " << std::setw(4) << data.dataDim << "\n"
-      << "  space-dim = " << std::setw(4) << data.spaceDim << "\n"
+      << "  data-dim = " << std::setw(4) << dataDim << "\n"
+      << "  space-dim = " << std::setw(4) << spaceDim << "\n"
       << "  cs-data = ";
     spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
     fileout << "}\n";
@@ -293,14 +304,13 @@ spatialdata::spatialdb::SimpleIOAscii::write(
       << std::resetiosflags(std::ios::fixed)
       << std::setiosflags(std::ios::scientific)
       << std::setprecision(6);
-    const int numCoords = data.spaceDim;
     for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-      const double* pCoords = SimpleDBTypes::dataCoords(data, iLoc);
-      for (int iCoord=0; iCoord < numCoords; ++iCoord)
-	fileout << std::setw(14) << pCoords[iCoord];
-      const double* pVals = SimpleDBTypes::dataVals(data, iLoc);
-      for (int iVal=0; iVal < numVals; ++iVal)
-	fileout << std::setw(14) << pVals[iVal];
+      const double* coordinates = data.coordinates(iLoc);
+      for (int iCoord=0; iCoord < spaceDim; ++iCoord)
+	fileout << std::setw(14) << coordinates[iCoord];
+      const double* values = data.data(iLoc);
+      for (int iVal=0; iVal < numValues; ++iVal)
+	fileout << std::setw(14) << values[iVal];
       fileout << "\n";
     } // for
     if (!fileout.good())

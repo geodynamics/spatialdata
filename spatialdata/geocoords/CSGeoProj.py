@@ -17,9 +17,10 @@
 ## Factory: CSGeoProj
 
 from CSGeo import CSGeo
+from geocoords import CSGeoProj as ModuleCSGeoProj
 
 # CoordSysGeo class
-class CSGeoProj(CSGeo):
+class CSGeoProj(CSGeo, ModuleCSGeoProj):
   """
   Python manager for projected geographic coordinate systems.
 
@@ -57,21 +58,6 @@ class CSGeoProj(CSGeo):
     Constructor.
     """
     CSGeo.__init__(self, name)
-
-    import spatialdata.geocoords.geocoords as bindings
-    self.cppHandle = bindings.CSGeoProj()
-    self.projector = None
-    return
-
-
-  def initialize(self):
-    """
-    Initialize coordinate system.
-    """
-    self.projector.initialize(self)
-    self.cppHandle.projector = self.projector.cppHandle
-
-    CSGeo.initialize(self)
     return
 
 
@@ -82,7 +68,15 @@ class CSGeoProj(CSGeo):
     Setup members using inventory.
     """
     CSGeo._configure(self)
-    self.projector = self.inventory.projector
+    self.projector(self.inventory.projector)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleCSGeoProj.__init__(self)
     return
 
 

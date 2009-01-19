@@ -112,21 +112,12 @@ if test "$enable_pythia" = "yes" ; then
   CIT_PYTHON_EGG_SETUP
   AM_PATH_PYTHON([2.3])
 
-  # PYREX/PYREXEMBED
-  AC_CHECK_PROG([have_pyrex],
-    [pyrexc],
-    [yes],
-    [no])
-  if test "$have_pyrex" = "no"; then
-    AC_MSG_ERROR([Pyrex not found in current path.])
-  fi
-  AC_CHECK_PROG([have_pyrexembed],
-    [pyrexembed],
-    [yes],
-    [no])
-  if test "$have_pyrexembed" = "no"; then
-    AC_MSG_ERROR([Pyrexembed not found in current path.])
-  fi
+  # NUMPY
+  CIT_NUMPY_PYTHON_MODULE
+  CIT_NUMPY_INCDIR
+
+  # SWIG
+  AC_PROG_SWIG
 fi
 
 # DOXYGEN
@@ -156,7 +147,6 @@ AC_CONFIG_FILES([Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
 	modulesrc/units/Makefile
-	modulesrc/utils/Makefile
 	spatialdata/Makefile
 	tests/Makefile
 	tests/libtests/Makefile

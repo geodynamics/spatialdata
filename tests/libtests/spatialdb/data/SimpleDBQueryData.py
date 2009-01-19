@@ -40,7 +40,8 @@ class SimpleDBQueryData(Component):
 
     dumper.writeVal("int", "NUMLOCS", numLocs, "%d")
     dumper.writeVal("int", "NUMVALS", numVals, "%d")
-    dumper.writeArray("double", "DATA", self._data, "%18.10e,", 3+numVals)
+    dumper.writeArray("double", "COORDS", self._data, "%18.10e,", 3)
+    dumper.writeArray("double", "DATA", self._data, "%18.10e,", numVals)
     dumper.writeArray("int", "ERRFLAGS", self._errFlags, "%2d,", 1)
     dumper.writeArray("char*", "NAMES", self._names, "  \"%s\",", 1)
     dumper.writeArray("char*", "UNITS", self._units, "  \"%s\",", 1)
@@ -62,7 +63,5 @@ class SimpleDBQueryData(Component):
     dumper.close()
     return
 
-# version
-__id__ = "$Id: SimpleDBQueryData.py,v 1.1 2005/05/25 18:43:07 baagaard Exp $"
 
 # End of file 

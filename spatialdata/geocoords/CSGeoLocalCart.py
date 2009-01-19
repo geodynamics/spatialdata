@@ -17,9 +17,10 @@
 ## Factory: coordsys
 
 from CSGeo import CSGeo
+from geocoords import CSGeoLocalCart as ModuleCSGeoLocalCart
 
 # CSGeoLocalCart class
-class CSGeoLocalCart(CSGeo):
+class CSGeoLocalCart(CSGeo, ModuleCSGeoLocalCart):
   """
   Python manager for local coordinate systems.
 
@@ -64,25 +65,6 @@ class CSGeoLocalCart(CSGeo):
     Constructor.
     """
     CSGeo.__init__(self, name)
-
-    import spatialdata.geocoords.geocoords as bindings
-    self.cppHandle = bindings.CSGeoLocalCart()
-
-    self.originLon = 0.0
-    self.originLat = 0.0
-    self.originElev = 0.0
-    self.isGeocentric = True
-    return
-
-
-  def initialize(self):
-    """
-    Initialize coordinate system.
-    """
-    self.cppHandle.origin(self.originLon, self.originLat,
-                          self.originElev.value)
-    CSGeo.initialize(self)
-
     return
 
 
@@ -93,10 +75,17 @@ class CSGeoLocalCart(CSGeo):
     Setup members using inventory.
     """
     CSGeo._configure(self)
-    self.originLon = self.inventory.originLon
-    self.originLat = self.inventory.originLat
-    self.originElev = self.inventory.originElev
-    self.isGeocentric = True
+    self.origin(self.inventory.originLon, self.inventory.originLat,
+                self.inventory.originElev.value)
+    self.isGeocentric(True)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleCSGeoLocalCart.__init__(self)
     return
 
 

@@ -31,7 +31,7 @@ namespace spatialdata {
 } // spatialdata
 
 #include "proj4fwd.h" // Proj4 forward declaration
-#include <string> // USES std::string
+#include <string> // HASA std::string
 
 /// C++ object for managing parameters defining geographic coordinate systems
 class spatialdata::geocoords::CSGeo : public CoordSys
@@ -60,7 +60,7 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    *
    * @param name Name of reference ellipsoid
    */
-  void ellipsoid(const std::string& name);
+  void ellipsoid(const char* name);
 
   /** Get reference ellipsoid.
    *
@@ -72,7 +72,7 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    *
    * @param name Name of horizontal datum
    */
-  void datumHoriz(const std::string& name);
+  void datumHoriz(const char* name);
 
   /** Get horizontal datum.
    *
@@ -84,7 +84,7 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    *
    * @param name Name of vertical datum
    */
-  void datumVert(const std::string& name);
+  void datumVert(const char* name);
 
   /** Get vertical datum.
    *

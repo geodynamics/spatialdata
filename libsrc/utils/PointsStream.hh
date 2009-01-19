@@ -133,9 +133,7 @@ private :
 
 #include "PointsStream.icc" // inline methods
 
-#endif // spatialdata_geocoodrs_csgeo_hh
+#endif // spatialdata_geocoords_csgeo_hh
 
-// version
-// $Id$
 
 // End of file 

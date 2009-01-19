@@ -63,16 +63,16 @@ spatialdata::geocoords::Converter::convert(double* coords,
       { // GEOGRAPHIC
 	const CSGeo* pGeoDest = dynamic_cast<const CSGeo*>(pCSDest);
 	const CSGeo* pGeoSrc = dynamic_cast<const CSGeo*>(pCSSrc);
-	_convert(coords, numLocs, numDims, *pGeoDest, *pGeoSrc);
+	_convert(coords, numLocs, numDims, pGeoDest, pGeoSrc);
 	break;
       } // GEOGRAPHIC
     case spatialdata::geocoords::CoordSys::CARTESIAN :
-      { // GEOGRAPHIC
+      { // CARTESIAN
 	const CSCart* pCartDest = dynamic_cast<const CSCart*>(pCSDest);
 	const CSCart* pCartSrc = dynamic_cast<const CSCart*>(pCSSrc);
-	_convert(coords, numLocs, numDims, *pCartDest, *pCartSrc);
+	_convert(coords, numLocs, numDims, pCartDest, pCartSrc);
 	break;
-      } // GEOGRAPHIC
+      } // CARTESIAN
     default :
       throw std::runtime_error("Could not parse coordinate system type.");
     } // switch
@@ -85,22 +85,24 @@ void
 spatialdata::geocoords::Converter::_convert(double* coords,
 					    const int numLocs,
 					    const int numDims,
-					    const CSGeo& csDest,
-					    const CSGeo& csSrc)
+					    const CSGeo* csDest,
+					    const CSGeo* csSrc)
 { // convert
-  assert(0 != csSrc.projCoordSys());
-  assert(0 != csDest.projCoordSys());
+  assert(0 != csDest);
+  assert(0 != csSrc);
+  assert(0 != csSrc->projCoordSys());
+  assert(0 != csDest->projCoordSys());
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
 
-  csSrc.toProjForm(coords, numLocs, numDims);
+  csSrc->toProjForm(coords, numLocs, numDims);
 
   double* pX = (numDims >= 1) ? coords + 0 : 0; // lon
   double* pY = (numDims >= 2) ? coords + 1 : 0; // lat
   double* pZ = (numDims >= 3) ? coords + 2 : 0; // elev
 
-  const char* srcDatumVert = csSrc.projDatumVert();
-  const char* destDatumVert = csDest.projDatumVert();
+  const char* srcDatumVert = csSrc->projDatumVert();
+  const char* destDatumVert = csDest->projDatumVert();
   if (numDims > 2 && 0 != strcasecmp(srcDatumVert, destDatumVert)) {
     bool isMSLToWGS84 = true;
     if (0 == strcasecmp(srcDatumVert, "mean sea level") &&
@@ -126,7 +128,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
 	  << "  " << pj_strerrno(pj_errno) << "\n";
       throw std::runtime_error(msg.str());
     } // if
-    int pjerrno = pj_transform(csSrc.projCoordSys(), csWGS84,
+    int pjerrno = pj_transform(csSrc->projCoordSys(), csWGS84,
 			       numLocs, numDims, 
 			       pX, pY, pZ);
     if (0 != pjerrno) {
@@ -142,7 +144,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
       coords[i+2] += (isMSLToWGS84) ? geoidHt : -geoidHt;
     } // for
 
-    pjerrno = pj_transform(csWGS84, csDest.projCoordSys(), 
+    pjerrno = pj_transform(csWGS84, csDest->projCoordSys(), 
 			   numLocs, numDims, pX, pY, pZ);
     if (0 != pjerrno) {
       std::ostringstream msg;
@@ -154,7 +156,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
     pj_free(csWGS84);
   } else {
     const int pjerrno = 
-      pj_transform(csSrc.projCoordSys(), csDest.projCoordSys(),
+      pj_transform(csSrc->projCoordSys(), csDest->projCoordSys(),
 		   numLocs, numDims, pX, pY, pZ);
     if (0 != pjerrno) {
       std::ostringstream msg;
@@ -164,7 +166,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
     } // if
   } // else
 
-  csDest.fromProjForm(coords, numLocs, numDims);
+  csDest->fromProjForm(coords, numLocs, numDims);
 } // convert
 
 // ----------------------------------------------------------------------
@@ -174,14 +176,16 @@ void
 spatialdata::geocoords::Converter::_convert(double* coords,
 					    const int numLocs,
 					    const int numDims,
-					    const CSCart& csDest,
-					    const CSCart& csSrc)
+					    const CSCart* csDest,
+					    const CSCart* csSrc)
 { // convert
+  assert(0 != csDest);
+  assert(0 != csSrc);
   assert( (0 < numLocs && 0 != coords) ||
 	  (0 == numLocs && 0 == coords));
 
   const int size = numLocs*numDims;
-  const double scale = csSrc.toMeters() / csDest.toMeters();
+  const double scale = csSrc->toMeters() / csDest->toMeters();
   for (int i=0; i < size; ++i)
     coords[i] *= scale;
 } // convert

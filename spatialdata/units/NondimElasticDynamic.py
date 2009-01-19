@@ -88,11 +88,10 @@ class NondimElasticDynamic(Nondimensional):
     vs = self.inventory.shearWaveSpeed
     period = self.inventory.wavePeriod
     density = self.inventory.massDensity
-    self._length = vs * period
-    self._pressure = vs**2 * density
-    self._time = period
-    self._density = density
-
+    self.setLengthScale(vs * period)
+    self.setPressureScale(vs**2 * density)
+    self.setTimeScale(period)
+    self.setDensityScale(density)
     return
 
 

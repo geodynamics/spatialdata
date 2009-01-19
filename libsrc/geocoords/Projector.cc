@@ -91,65 +91,66 @@ spatialdata::geocoords::Projector::initialize(const CSGeo& csGeo)
 // ----------------------------------------------------------------------
 // Project geographic coordinates.
 void
-spatialdata::geocoords::Projector::project(double* pX,
-					   double* pY,
-					   const double lon,
-					   const double lat)
+spatialdata::geocoords::Projector::project(double* coords,
+					   const int numLocs,
+					   const int numDims)
 { // project
-  assert(0 != pX);
-  assert(0 != pY);
+  assert(0 != coords);
   assert(0 != _pProj);
   
   projUV lonlat;
   const double degToRad = M_PI / 180.0;
-  lonlat.u = lon * degToRad;
-  lonlat.v = lat * degToRad;
-  projUV xy = pj_fwd(lonlat, _pProj);
-  if (HUGE_VAL == xy.u) {
-    std::ostringstream msg;
-    msg << "Error while projecting location.\n"
-	<< "  " << pj_strerrno(pj_errno) << "\n"
-	<< "  projection: " << _projection << "\n"
-	<< "  units: " << _units << "\n"
-	<< "  proj options: " << _projOptions << "\n";
-    throw std::runtime_error(msg.str());
-  } // if
-  *pX = xy.u;
-  *pY = xy.v;
+  for (int i=0; i < numLocs; ++i) {
+    lonlat.u = coords[i*numDims  ] * degToRad;
+    lonlat.v = coords[i*numDims+1] * degToRad;
+    projUV xy = pj_fwd(lonlat, _pProj);
+    if (HUGE_VAL == xy.u) {
+      std::ostringstream msg;
+      msg << "Error while projecting location.\n"
+	  << "  " << pj_strerrno(pj_errno) << "\n"
+	  << "  projection: " << _projection << "\n"
+	  << "  units: " << _units << "\n"
+	  << "  proj options: " << _projOptions << "\n"
+	  << "  lon: " << lonlat.u << "\n"
+	  << "  lat: " << lonlat.v << "\n";
+      throw std::runtime_error(msg.str());
+    } // if
+    coords[i*numDims  ] = xy.u;
+    coords[i*numDims+1] = xy.v;
+  } // for
 } // project
 
 // ----------------------------------------------------------------------
 // Get geographic coordinates of projected location.
 void
-spatialdata::geocoords::Projector::invproject(double* pLon,
-				   double* pLat,
-				   const double x,
-				   const double y)
+spatialdata::geocoords::Projector::invproject(double* coords,
+					      const int numLocs,
+					      const int numDims)
 { // invproject
-  assert(0 != pLon);
-  assert(0 != pLat);
+  assert(0 != coords);
   assert(0 != _pProj);
   
-  projUV xy;
-  xy.u = x;
-  xy.v = y;
-  projUV lonlat = pj_inv(xy, _pProj);
-  if (HUGE_VAL == lonlat.u) {
-    std::ostringstream msg;
-    msg << "Error while getting geographic coordinates of projected "
-      "location.\n"
-	<< "  " << pj_strerrno(pj_errno) << "\n"
-	<< "  projection: " << _projection << "\n"
-	<< "  units: " << _units << "\n"
-	<< "  proj options: " << _projOptions << "\n"
-	<< "  x: " << x << "\n"
-	<< "  y: " << y << "\n";
-    throw std::runtime_error(msg.str());
-  } // if
-
   const double radToDeg = 180.0 / M_PI;
-  *pLon = lonlat.u * radToDeg;
-  *pLat = lonlat.v * radToDeg;
+  projUV xy;
+  for (int i=0; i < numLocs; ++i) {
+    xy.u = coords[i*numDims  ];
+    xy.v = coords[i*numDims+1];
+    projUV lonlat = pj_inv(xy, _pProj);
+    if (HUGE_VAL == lonlat.u) {
+      std::ostringstream msg;
+      msg << "Error while getting geographic coordinates of projected "
+	"location.\n"
+	  << "  " << pj_strerrno(pj_errno) << "\n"
+	  << "  projection: " << _projection << "\n"
+	  << "  units: " << _units << "\n"
+	  << "  proj options: " << _projOptions << "\n"
+	  << "  x: " << xy.u << "\n"
+	  << "  y: " << xy.v << "\n";
+      throw std::runtime_error(msg.str());
+    } // if
+    coords[i*numDims  ] = lonlat.u * radToDeg;
+    coords[i*numDims+1] = lonlat.v * radToDeg;
+  } // for
 } // invproject
 
 // ----------------------------------------------------------------------

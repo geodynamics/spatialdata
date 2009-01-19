@@ -18,14 +18,14 @@
 #if !defined(spatialdata_spatialdb_simpledb_hh)
 #define spatialdata_spatialdb_simpledb_hh
 
-#include "SpatialDB.hh"
+#include "SpatialDB.hh" // ISA Spatialdb
 
 namespace spatialdata {
   namespace spatialdb {
   class SpatialDB; // ISA SpatialDB
   class SimpleDB;
   class SimpleIO; // USES SimpleIO
-  class SimpleDBTypes; // helper
+  class SimpleDBData; // helper
   class SimpleDBQuery; // helper
   class TestSimpleDB; // unit testing
   class TestSimpleDBQuery; // unit testing
@@ -36,7 +36,6 @@ namespace spatialdata {
 class spatialdata::spatialdb::SimpleDB : public SpatialDB
 { // class SimpleDB
   friend class SimpleDBQuery; // helper
-  friend class SimpleDBTypes; // helper
   friend class TestSimpleDB; // unit testing
   friend class TestSimpleDBQuery; // unit testing
 
@@ -44,16 +43,19 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
   // PUBLIC ENUM ////////////////////////////////////////////////////////
 
   /** Topology of spatial data */
-  enum TopoEnum { POINT, LINE, AREA, VOLUME };
+  enum TopoEnum {
+    POINT=0,
+    LINE=1,
+    AREA=2,
+    VOLUME=3
+  };
 
   /** Type of query */
-  enum QueryEnum { NEAREST=0, LINEAR=1 };
+  enum QueryEnum {
+    NEAREST=0,
+    LINEAR=1
+  };
 
-  // PUBLIC MEMBERS /////////////////////////////////////////////////////
-
-  /** Structure used to store data in database */
-  struct DataStruct;
-  
  public :
   // PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -125,15 +127,11 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB
   SimpleDB(const SimpleDB& data); ///< Not implemented
   const SimpleDB& operator=(const SimpleDB& data); ///< Not implemented
   
-protected :
-// PROTECTED MEMBERS ////////////////////////////////////////////////////
-  
-  DataStruct* _data; ///< Pointer to data  
-
 private :
  // PRIVATE MEMBERS /////////////////////////////////////////////////////
    
- SimpleIO* _iohandler; ///< I/O handler
+  SimpleDBData* _data; ///< Pointer to data  
+  SimpleIO* _iohandler; ///< I/O handler
   SimpleDBQuery* _query; ///< Query handler
   spatialdata::geocoords::CoordSys* _cs; ///< Coordinate system
 

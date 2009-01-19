@@ -60,6 +60,7 @@ class SimpleDBQueryApp(Script):
     self.spaceDim = None
     self.numVals = None
     self.dataDim = None
+    self.dbCoords = None
     self.dbData = None
     self.names = None
     self.units = None
@@ -113,8 +114,10 @@ class SimpleDBQueryApp(Script):
                         format="%d")
     self.data.addScalar(vtype="int", name="_dataDim", value=self.dataDim,
                         format="%d")
+    self.data.addArray(vtype="double", name="_dbCoords", values=self.dbCoords,
+                       format="%16.8e", ncols=self.spaceDim)
     self.data.addArray(vtype="double", name="_dbData", values=self.dbData,
-                       format="%16.8e", ncols=self.spaceDim+self.numVals)
+                       format="%16.8e", ncols=self.numVals)
     self.data.addArray(vtype="char*", name="_names", values=self.names,
                        format="\"%s\"", ncols=1)
     self.data.addArray(vtype="char*", name="_units", values=self.units,

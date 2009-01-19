@@ -53,6 +53,8 @@ private:
 
   static const double _volume;
 
+  static const double _dbCoords[];
+
   static const double _dbData[];
 
   static const char* _names[];

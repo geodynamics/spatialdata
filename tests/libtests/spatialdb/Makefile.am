@@ -23,6 +23,7 @@ testspatial_SOURCES = \
 	TestCompositeDB.cc \
 	TestGravityField.cc \
 	TestSCECCVMH.cc \
+	TestSimpleDBData.cc \
 	TestSimpleDBQuery.cc \
 	TestSimpleDBQuery3D.cc \
 	TestSimpleDB.cc \
@@ -40,6 +41,7 @@ noinst_HEADERS = \
 	TestCompositeDB.hh \
 	TestGravityField.hh \
 	TestSCECCVMH.hh \
+	TestSimpleDBData.hh \
 	TestSimpleDBQuery.hh \
 	TestSimpleDBQuery3D.hh \
 	TestSimpleDB.hh \
@@ -66,20 +68,20 @@ testspatial_LDADD = \
 testspatial_SOURCES += \
 	data/SimpleDBQueryData.cc \
 	data/SimpleDBQueryData3D.cc \
-	data/SimpleDBData.cc \
-	data/SimpleDBDataPoint3D.cc \
-	data/SimpleDBDataLine3D.cc \
-	data/SimpleDBDataArea3D.cc \
-	data/SimpleDBDataVolume3D.cc
+	data/SimpleDBTestData.cc \
+	data/SimpleDBTestDataPoint3D.cc \
+	data/SimpleDBTestDataLine3D.cc \
+	data/SimpleDBTestDataArea3D.cc \
+	data/SimpleDBTestDataVolume3D.cc
 
 noinst_HEADERS += \
 	data/SimpleDBQueryData.hh \
 	data/SimpleDBQueryData3D.hh \
-	data/SimpleDBData.hh \
-	data/SimpleDBDataPoint3D.hh \
-	data/SimpleDBDataLine3D.hh \
-	data/SimpleDBDataArea3D.hh \
-	data/SimpleDBDataVolume3D.hh
+	data/SimpleDBTestData.hh \
+	data/SimpleDBTestDataPoint3D.hh \
+	data/SimpleDBTestDataLine3D.hh \
+	data/SimpleDBTestDataArea3D.hh \
+	data/SimpleDBTestDataVolume3D.hh
 
 
 # End of file 

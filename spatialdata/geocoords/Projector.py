@@ -17,9 +17,10 @@
 ## Factory: projector.
 
 from pyre.components.Component import Component
+from geocoords import Projector as ModuleProjector
 
 # Projector class
-class Projector(Component):
+class Projector(Component, ModuleProjector):
   """
   Python manager for projector.
 
@@ -60,37 +61,9 @@ class Projector(Component):
     Constructor.
     """
     Component.__init__(self, name, facility="projector")
-
-    import spatialdata.geocoords.geocoords as bindings
-    self.cppHandle = bindings.Projector()
+    self._createModuleObj()
     return
 
-
-  def initialize(self, coordSys):
-    """
-    Initialize projector.
-    """
-
-    self.cppHandle.projection = self.projection
-    self.cppHandle.units = self.units
-    self.cppHandle.projOptions = self.projOptions
-    self.cppHandle.initialize(coordSys.cppHandle)
-    return
-
-
-  def project(self, lonlat):
-    """
-    Project geographic coordinates.
-    """
-    return self.cppHandle.project(lonlat)
-  
-
-  def invproject(self, xy):
-    """
-    Project geographic coordinates.
-    """
-    return self.cppHandle.invproject(xy)
-  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -99,9 +72,17 @@ class Projector(Component):
     Setup members using inventory.
     """
     Component._configure(self)
-    self.projection = self.inventory.projection
-    self.units = self.inventory.units
-    self.projOptions = self.inventory.projOptions
+    self.projection(self.inventory.projection)
+    self.units(self.inventory.units)
+    self.projOptions(self.inventory.projOptions)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleProjector.__init__(self)
     return
 
 

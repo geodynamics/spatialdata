@@ -1,3 +1,16 @@
+SWIG CONVERSION
+
+geocoords
+
+  bindings for Converter
+  Python Converter
+  Test of bindings for Converter
+
+spatialdb
+
+  bindings
+  Python objects
+
 UTILS
 
   Ignore comment lines in PointsStream.

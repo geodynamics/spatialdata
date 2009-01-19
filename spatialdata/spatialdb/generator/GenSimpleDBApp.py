@@ -87,7 +87,6 @@ class GenSimpleDBApp(Script):
                              'units': value.units,
                              'data': value.calculate(locs, coordsys)})
     self._info.log("Writing database.")
-    self.iohandler.initialize()
     self.iohandler.write(data)
     return
 

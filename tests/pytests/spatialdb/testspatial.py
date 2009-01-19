@@ -16,11 +16,11 @@ def suite():
 
   suite = unittest.TestSuite()
 
-  from TestSpatialDB import TestSpatialDB
-  suite.addTest(unittest.makeSuite(TestSpatialDB))
-
   from TestSimpleIOAscii import TestSimpleIOAscii
   suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
+
+  from TestSimpleDB import TestSimpleDB
+  suite.addTest(unittest.makeSuite(TestSimpleDB))
 
   from TestUniformDB import TestUniformDB
   suite.addTest(unittest.makeSuite(TestUniformDB))

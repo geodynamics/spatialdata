@@ -13,8 +13,7 @@
 SUBDIRS = \
 	geocoords \
 	spatialdb \
-	units \
-	utils
+	units
 
 
 # End of file 

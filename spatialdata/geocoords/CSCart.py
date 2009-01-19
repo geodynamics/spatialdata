@@ -17,9 +17,10 @@
 ## Factory: coordsys.
 
 from CoordSys import CoordSys
+from geocoords import CSCart as ModuleCSCart
 
 # CSCart class
-class CSCart(CoordSys):
+class CSCart(CoordSys, ModuleCSCart):
   """
   Python manager for Cartesian coordinate systems.
 
@@ -51,31 +52,12 @@ class CSCart(CoordSys):
     spaceDim = pyre.inventory.int("space_dim", default=3)
     spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
 
+
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   def __init__(self, name="cscart"):
     """Constructor."""
     CoordSys.__init__(self, name)
-
-    import spatialdata.geocoords.geocoords as bindings
-    self.cppHandle = bindings.CSCart()
-    self.units = "m"
-    self.spaceDim = 3
-    return
-
-
-  def initialize(self):
-    """
-    Initialize coordinate system.
-    """
-    import pyre.units
-    uparser = pyre.units.parser()
-    coordUnits = uparser.parse(self.units)
-    self.cppHandle.toMeters = coordUnits.value
-
-    self.cppHandle.spaceDim = self.spaceDim
-
-    CoordSys.initialize(self)
     return
 
 
@@ -86,8 +68,20 @@ class CSCart(CoordSys):
     Setup members using inventory.
     """
     CoordSys._configure(self)
-    self.units = self.inventory.units
-    self.spaceDim = self.inventory.spaceDim
+
+    import pyre.units
+    uparser = pyre.units.parser()
+    coordUnits = uparser.parse(self.inventory.units)
+    self.toMeters(coordUnits.value)
+    self.setSpaceDim(self.inventory.spaceDim)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleCSCart.__init__(self)
     return
 
 

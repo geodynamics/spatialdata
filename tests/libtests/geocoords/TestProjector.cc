@@ -19,6 +19,7 @@
 #include "spatialdata/geocoords/CoordSys.hh" // USES CSGeo
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
+#include <valarray> // USES std::valarray
 #include <string.h> // USES strcmp()
 #include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
@@ -112,16 +113,15 @@ spatialdata::geocoords::TestProjector::testProject(void)
   proj.initialize(cs);
 
   const int numLocs = _NUMLOCS;
-  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    double x = 0;
-    double y = 0;
-    const double* pLonLat = &_LONLAT[2*iLoc];
-    proj.project(&x, &y, pLonLat[0], pLonLat[1]);
-    const double* pXY = &_XY[2*iLoc];
-    const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(x/pXY[0], 1.0, tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(y/pXY[1], 1.0, tolerance);
-  } // for
+  const int numDims = 2;
+  const int size = numDims * numLocs;
+  std::valarray<double> coords(size);
+  memcpy(&coords[0], _LONLAT, size*sizeof(double));
+
+  proj.project(&coords[0], numLocs, numDims);
+  const double tolerance = 1.0e-6;
+  for (int i=0; i < size; ++i)
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(coords[i]/_XY[i], 1.0, tolerance);
 } // testProject
 
 // ----------------------------------------------------------------------
@@ -141,16 +141,15 @@ spatialdata::geocoords::TestProjector::testInvproject(void)
   proj.initialize(cs);
 
   const int numLocs = _NUMLOCS;
-  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    double lon = 0;
-    double lat = 0;
-    const double* pXY = &_XY[2*iLoc];
-    proj.invproject(&lon, &lat, pXY[0], pXY[1]);
-    const double* pLonLat = &_LONLAT[2*iLoc];
-    const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, lon/pLonLat[0], tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, lat/pLonLat[1], tolerance);
-  } // for
+  const int numDims = 2;
+  const int size = numDims * numLocs;
+  std::valarray<double> coords(size);
+  memcpy(&coords[0], _XY, size*sizeof(double));
+
+  proj.invproject(&coords[0], numLocs, numDims);
+  const double tolerance = 1.0e-6;
+  for (int i=0; i < size; ++i)
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(coords[i]/_LONLAT[i], 1.0, tolerance);
 } // testInvproject
 
 // ----------------------------------------------------------------------
@@ -173,7 +172,5 @@ spatialdata::geocoords::TestProjector::testPickle(void)
   CPPUNIT_ASSERT(0 == strcasecmp(_PROJOPTIONS, projB.projOptions()));
 } // testPickle
 
-// version
-// $Id$
 
 // End of file 

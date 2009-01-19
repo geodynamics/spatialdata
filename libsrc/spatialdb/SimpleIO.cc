@@ -18,7 +18,7 @@
 #include "SimpleIO.hh" // Implementation of class methods
 
 #include <string> // USES std::string
-#include "SimpleDBTypes.hh" // USES SimpleDBTypes
+#include "SimpleDBData.hh" // USES SimpleDBData
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 
@@ -41,14 +41,14 @@ spatialdata::spatialdb::SimpleIO::~SimpleIO(void)
 // ----------------------------------------------------------------------
 void
 spatialdata::spatialdb::SimpleIO::checkCompatibility(
-			      const SimpleDB::DataStruct& data,
+			      const SimpleDBData& data,
 			      const spatialdata::geocoords::CoordSys* pCS)
 { // checkCompatibility
   assert(0 != pCS);
 
-  const int numLocs = data.numLocs;
-  const int spaceDim = data.spaceDim;
-  const int dataDim = data.dataDim;
+  const int numLocs = data.numLocs();
+  const int spaceDim = data.spaceDim();
+  const int dataDim = data.dataDim();
   if (numLocs < 1 + dataDim) {
     std::ostringstream msg;
     msg << "Spatial distribution with data dimensions of " << dataDim 

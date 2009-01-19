@@ -14,7 +14,7 @@
 
 #include "TestSimpleDBVolume3D.hh" // Implementation of class methods
 
-#include "data/SimpleDBDataVolume3D.hh"
+#include "data/SimpleDBTestDataVolume3D.hh"
 
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBVolume3D );
@@ -24,7 +24,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBVolume3D );
 void
 spatialdata::spatialdb::TestSimpleDBVolume3D::testQueryLinear(void)
 { // testQueryLinear
-  SimpleDBDataVolume3D data;
+  SimpleDBTestDataVolume3D data;
 
   _testQueryLinear(data);
 } // testQueryLinear
@@ -34,7 +34,7 @@ spatialdata::spatialdb::TestSimpleDBVolume3D::testQueryLinear(void)
 void
 spatialdata::spatialdb::TestSimpleDBVolume3D::testQueryNearest(void)
 { // testQueryNearest
-  SimpleDBDataVolume3D data;
+  SimpleDBTestDataVolume3D data;
 
   _testQueryNearest(data);
 } // testQueryNearest

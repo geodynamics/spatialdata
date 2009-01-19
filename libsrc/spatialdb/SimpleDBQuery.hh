@@ -142,6 +142,18 @@ class spatialdata::spatialdb::SimpleDBQuery
    */
   void _findVolumePt(std::vector<WtStruct>* pWeights);
 
+  /** Set coordiantes of point in 3-D space using coordinates in
+   * current coordinate system.
+   *
+   * @param pt3 Coordinates of point in 3-D space [output].
+   * @param pt Cooridinates of point in current coordinate sytem.
+   * @param spaceDim Spatial dimension of current coordinate system.
+   */
+  static
+  void _setPoint3(double* const pt3,
+		  const double* pt,
+		  const int spaceDim);
+
   /** Compute square of distance between points A and B.
    *
    * @param a Coordinates of point A

@@ -14,10 +14,9 @@
 
 #include "TestSimpleDBQuery.hh" // Implementation of class methods
 
-#include "spatialdata/spatialdb/SpatialDB.hh" // USES SimpleDB
 #include "spatialdata/spatialdb/SimpleDB.hh" // USES SimpleDB
 #include "spatialdata/spatialdb/SimpleDBQuery.hh" // USES SimpleDBQuery
-#include "spatialdata/spatialdb/SimpleDBTypes.hh" // USES SimpleDBTypes
+#include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
@@ -64,28 +63,13 @@ void
 spatialdata::spatialdb::TestSimpleDBQuery::_setupDB(SimpleDB* const db,
 						    const SimpleDBQueryData& data)
 { // _setupDB
-  SimpleDB::DataStruct* pData = new SimpleDB::DataStruct;
-
-  const int numCoords = data.spaceDim;
-  const int numLocs = data.numLocs;
-  const int numVals = data.numVals;
-
-  const int dataSize = numLocs*(numCoords+numVals);
-  CPPUNIT_ASSERT(0 < dataSize);
-  pData->data = new double[dataSize];
-  memcpy(pData->data, data.dbData, dataSize*sizeof(double));
-
-  pData->valNames = new std::string[numVals];
-  for (int i=0; i < numVals; ++i)
-    pData->valNames[i] = data.names[i];
-
-  pData->valUnits = new std::string[numVals];
-  for (int i=0; i < numVals; ++i)
-    pData->valUnits[i] = data.units[i];
-
-  pData->numLocs = numLocs;
-  pData->numVals = numVals;
-  pData->dataDim = data.dataDim;
+  SimpleDBData* pData = new SimpleDBData;
+  pData->allocate(data.numLocs, data.numVals, data.spaceDim,
+		  data.dataDim);
+  pData->data(data.dbData, data.numLocs, data.numVals);
+  pData->coordinates(data.dbCoords, data.numLocs, data.spaceDim);
+  pData->names(const_cast<const char**>(data.names), data.numVals);
+  pData->units(const_cast<const char**>(data.units), data.numVals);
 
   db->_data = pData;
   db->_query = new SimpleDBQuery(*db);
@@ -132,7 +116,6 @@ spatialdata::spatialdb::TestSimpleDBQuery::_testQueryVals(const SimpleDBQueryDat
   } // test C
 } // _testQueryVals
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Test distSquared()
 void

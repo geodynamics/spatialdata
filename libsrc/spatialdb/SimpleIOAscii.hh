@@ -18,7 +18,7 @@
 #if !defined(spatialdata_spatialdb_simpleioascii_hh)
 #define spatialdata_spatialdb_simpleioascii_hh
 
-#include "SimpleIO.hh"
+#include "SimpleIO.hh" // ISA SimpleIO
 
 #include <iosfwd> // USES std::istream
 
@@ -52,7 +52,7 @@ public :
    * @param pData Database data
    * @param ppCS Pointer to coordinate system
    */
-  void read(SimpleDB::DataStruct* pData,
+  void read(SimpleDBData* pData,
 	    spatialdata::geocoords::CoordSys** ppCS);
 
   /** Write the database.
@@ -60,7 +60,7 @@ public :
    * @param data Database data
    * @param pCS Pointer to coordinate system
    */
-  void write(const SimpleDB::DataStruct& data,
+  void write(const SimpleDBData& data,
 	     const spatialdata::geocoords::CoordSys* pCS);
 
 private :
@@ -72,7 +72,7 @@ private :
    * @param ppCS Pointer to coordinate system
    * @param filein File input stream
    */
-  static void _readV1(SimpleDB::DataStruct* pData,
+  static void _readV1(SimpleDBData* pData,
 		      spatialdata::geocoords::CoordSys** ppCS,
 		      std::istream& filein);
 

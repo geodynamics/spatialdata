@@ -87,15 +87,7 @@ spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
     throw std::runtime_error(msg.str());
   } // if
 
-  const int size = numLocs * numDims;
-  for (int i=0; i < size; i += numDims) {
-    double lon = 0;
-    double lat = 0;
-    _pProjector->invproject(&lon, &lat, coords[i  ], coords[i+1]);
-    coords[i  ] = lon;
-    coords[i+1] = lat;
-  } // for
-
+  _pProjector->invproject(coords, numLocs, numDims);
   CSGeo::toProjForm(coords, numLocs, numDims);
 } // toProjForm
   
@@ -119,15 +111,7 @@ spatialdata::geocoords::CSGeoProj::fromProjForm(double* coords,
   } // if
 
   CSGeo::fromProjForm(coords, numLocs, numDims);
-
-  const int size = numLocs * numDims;
-  for (int i=0; i < size; i += numDims) {
-    double x = 0;
-    double y = 0;
-    _pProjector->project(&x, &y, coords[i  ], coords[i+1]);
-    coords[i  ] = x;
-    coords[i+1] = y;
-  } // for
+  _pProjector->project(coords, numLocs, numDims);
 } // fromProjForm
   
 // ----------------------------------------------------------------------
@@ -171,7 +155,7 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
       toMeters(val);
     } else if (0 == strcasecmp(token.c_str(), "ellipsoid")) {
       buffer >> name;
-      ellipsoid(name);
+      ellipsoid(name.c_str());
     } else if (0 == strcasecmp(token.c_str(), "datum-horiz")) {
       buffer >> std::ws;
       buffer.get(cbuffer, maxIgnore, '\n');

@@ -16,10 +16,11 @@
 ##
 ## Factory: spatial_database
 
-from SpatialDB import SpatialDB
+from SpatialDBObj import SpatialDBObj
+from spatialdb import GravityField as ModuleGravityField
 
 # GravityField class
-class GravityField(SpatialDB):
+class GravityField(SpatialDBObj, ModuleGravityField):
   """
   Python manager for spatial database with gravity field information.
 
@@ -28,7 +29,7 @@ class GravityField(SpatialDB):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(SpatialDB.Inventory):
+  class Inventory(SpatialDBObj.Inventory):
     """
     Python object for managing GravityField facilities and properties.
     """
@@ -59,25 +60,13 @@ class GravityField(SpatialDB):
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="uniformdb"):
+  def __init__(self, name="gravityfield"):
     """
     Constructor.
     """
-    SpatialDB.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.GravityField()
+    SpatialDBObj.__init__(self, name)
     return
 
-
-  def initialize(self):
-    """
-    Initialize database.
-    """
-    SpatialDB.initialize(self)
-    self.cppHandle.gravityDir(self.gravityDir)
-    self.cppHandle.gravAcceleration(self.acceleration.value)
-    return
-  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -85,22 +74,31 @@ class GravityField(SpatialDB):
     """
     Set members based on inventory.
     """
-    SpatialDB._configure(self)
+    SpatialDBObj._configure(self)
     self._validateParameters(self.inventory)
-    self.gravityDir = self.inventory.gravityDir
-    self.acceleration = self.inventory.acceleration
+    dir = self.inventory.gravityDir
+    self.gravityDir(dir[0], dir[1], dir[2])
+    self.gravAcceleration(self.inventory.acceleration.value)
     return
 
 
-  def _validateParameters(self, data):
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleGravityField.__init__(self)
+    return
+
+
+  def _validateParameters(self, params):
     """
     Validate parameters.
     """
-    if (len(data.gravityDir) != 3):
+    if (len(params.gravityDir) != 3):
       raise ValueError, \
             "Gravity direction must be a 3 component list or tuple."
     try:
-      dataFloat = map(float, data.gravityDir)
+      dirFloat = map(float, params.gravityDir)
     except:
         raise ValueError, \
               "'gravityDir' must contain floating point values."

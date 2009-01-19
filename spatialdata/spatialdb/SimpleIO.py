@@ -55,17 +55,9 @@ class SimpleIO(Component):
     Constructor.
     """
     Component.__init__(self, name, facility="simpledb_io")
-    self.cppHandle = None
+    self._createModuleObj()
     return
 
-
-  def initialize(self):
-    """
-    Initialize the database.
-    """
-    self.cppHandle.filename(self.filename)
-    return
-    
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -74,7 +66,29 @@ class SimpleIO(Component):
     Set members using inventory.
     """
     Component._configure(self)
-    self.filename = self.inventory.filename
+    self.filename(self.inventory.filename)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    raise NotImplementedError("_createModuleObj() not implemented.")
+    return
+
+
+  def _validateData(self, data):
+    """
+    Check consistency of database data.
+    """
+    (numLocs, spaceDim) = data['locs'].shape
+    cs = data['coordsys']
+    if spaceDim != cs.spaceDim():
+      raise ValueError, \
+          "Simple database space-dim (%d) does not agree with spatial "\
+          "dimension of coordinate system (%d)." % \
+          (spaceDim, cs.spaceDim())
     return
 
 

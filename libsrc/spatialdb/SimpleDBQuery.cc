@@ -16,7 +16,7 @@
 #include "SimpleDB.hh" // USES SimpleDB
 #include "SimpleDBQuery.hh" // implementation of class methods
 
-#include "SimpleDBTypes.hh" // USEs SimpleDB::DataStruct
+#include "SimpleDBData.hh" // USEs SimpleDBData
 
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 
@@ -78,9 +78,9 @@ spatialdata::spatialdb::SimpleDBQuery::queryVals(const char** names,
   delete[] _queryVals; _queryVals = new int[numVals];
   for (int iVal=0; iVal < numVals; ++iVal) {
     int iName = 0;
-    const int numNames = _db._data->numVals;
+    const int numNames = _db._data->numValues();
     while (iName < numNames) {
-      if (0 == strcasecmp(names[iVal], _db._data->valNames[iName].c_str()))
+      if (0 == strcasecmp(names[iVal], _db._data->name(iName)))
 	break;
       ++iName;
     } // while
@@ -90,7 +90,7 @@ spatialdata::spatialdb::SimpleDBQuery::queryVals(const char** names,
 	<< "Could not find value " << names[iVal] << " in spatial database\n"
 	<< _db.label() << ". Available values are:";
       for (int iName=0; iName < numNames; ++iName)
-	msg << "\n  " << _db._data->valNames[iName];
+	msg << "\n  " << _db._data->name(iName);
       msg << "\n";
       throw std::runtime_error(msg.str());
     } // if
@@ -160,24 +160,22 @@ spatialdata::spatialdb::SimpleDBQuery::_queryNearest(double* vals,
   assert(numVals == _querySize);
 
   int iNear = 0;
-  const int spaceDim = _db._data->spaceDim;
-
+  const int spaceDim = _db._data->spaceDim();
   double pt[3];
-  pt[0] = 0.0;
-  pt[1] = 0.0;
-  pt[2] = 0.0;
-  SimpleDBTypes::dataCoords(pt, 3, *_db._data, iNear);
+  _setPoint3(pt, _db._data->coordinates(iNear), spaceDim);
   double nearDist = _distSquared(_q, pt);
-  const int numLocs = _db._data->numLocs;
+
+  const int numLocs = _db._data->numLocs();
   for (int iLoc=1; iLoc < numLocs; ++iLoc) {
-    SimpleDBTypes::dataCoords(pt, 3, *_db._data, iLoc);    
+    _setPoint3(pt, _db._data->coordinates(iLoc), spaceDim);
     const double dist = _distSquared(_q, pt);
     if (dist < nearDist) {
       nearDist = dist;
       iNear = iLoc;
     } // if
   } // for
-  const double* nearVals = SimpleDBTypes::dataVals(*_db._data, iNear);
+
+  const double* nearVals = _db._data->data(iNear);
   const int querySize = _querySize;
   for (int iVal=0; iVal < querySize; ++iVal)
     vals[iVal] = nearVals[_queryVals[iVal]];
@@ -194,9 +192,9 @@ spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double* vals,
   assert(0 != _db._data);
   assert(numVals == _querySize);
 
-  if (0 == _db._data->dataDim) {
+  if (0 == _db._data->dataDim()) {
     const int index = 0;
-    const double* nearVals = SimpleDBTypes::dataVals(*_db._data, index);
+    const double* nearVals = _db._data->data(index);
     const int querySize = _querySize;
     for (int iVal=0; iVal < querySize; ++iVal)
       vals[iVal] = nearVals[_queryVals[iVal]];
@@ -215,7 +213,7 @@ spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double* vals,
       double val = 0;
       for (int iWt=0; iWt < numWts; ++iWt) {
 	const int iLoc = _nearest[weights[iWt].nearIndex];
-	const double* locVals = SimpleDBTypes::dataVals(*_db._data, iLoc);
+	const double* locVals = _db._data->data(iLoc);
 	val += weights[iWt].wt * locVals[_queryVals[iVal]];
       } // for
       vals[iVal] = val;
@@ -230,7 +228,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findNearest(void)
   assert(0 != _db._data);
 
   const int maxnear = 100;
-  const int numLocs = _db._data->numLocs;
+  const int numLocs = _db._data->numLocs();
   const int nearSize = (numLocs < maxnear) ? numLocs : maxnear;
   _nearest.resize(nearSize);
   std::fill(_nearest.begin(), _nearest.end(), -1);
@@ -240,12 +238,10 @@ spatialdata::spatialdb::SimpleDBQuery::_findNearest(void)
   
   // find closest nearSize points
   double pt[3];
-  pt[0] = 0.0;
-  pt[1] = 0.0;
-  pt[2] = 0.0;
+  const int spaceDim = _db._data->spaceDim();
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     // use square of distance to find closest
-    SimpleDBTypes::dataCoords(pt, 3, *_db._data, iLoc);
+    _setPoint3(pt, _db._data->coordinates(iLoc), spaceDim);
     const double dist2 = _distSquared(_q, pt);
 
     // find place in nearest list if it exists
@@ -287,22 +283,22 @@ spatialdata::spatialdb::SimpleDBQuery::_getWeights(std::vector<WtStruct>* pWeigh
    * interpolation, etc.
    */
   
-  if (0 == _db._data->dataDim) {
+  if (0 == _db._data->dataDim()) {
     const int numWts = 1;
     pWeights->resize(numWts);
     _findPointPt(pWeights);
-  } else if (1 == _db._data->dataDim) {
+  } else if (1 == _db._data->dataDim()) {
     const int numWts = 2;
     pWeights->resize(numWts);
     _findPointPt(pWeights);
     _findLinePt(pWeights);
-  } else if (2 == _db._data->dataDim) {
+  } else if (2 == _db._data->dataDim()) {
     const int numWts = 3;
     pWeights->resize(numWts);
     _findPointPt(pWeights);
     _findLinePt(pWeights);
     _findAreaPt(pWeights);
-  } else if (3 == _db._data->dataDim) {
+  } else if (3 == _db._data->dataDim()) {
     const int numWts = 4;
     pWeights->resize(numWts);
     _findPointPt(pWeights);
@@ -331,7 +327,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findLinePt(std::vector<WtStruct>* pWeigh
   assert(0 != _db._data);
   assert(0 != pWeights);
   
-  const int spaceDim = _db._data->spaceDim;
+  const int spaceDim = _db._data->spaceDim();
 
   // best case is to use next nearest pt
   const int nearIndexA = (*pWeights)[0].nearIndex;
@@ -339,23 +335,17 @@ spatialdata::spatialdb::SimpleDBQuery::_findLinePt(std::vector<WtStruct>* pWeigh
 
   const int locIndexA = _nearest[nearIndexA];
   double ptA[3];
-  ptA[0] = 0.0;
-  ptA[1] = 0.0;
-  ptA[2] = 0.0;
-  SimpleDBTypes::dataCoords(ptA, 3, *_db._data, locIndexA);
+  _setPoint3(ptA, _db._data->coordinates(locIndexA), spaceDim);
 
   double wtA = 0;
   double wtB = 0;
+  double ptB[3];
 
   // find nearest pt where we can interpolate
   const int nearSize = _nearest.size();
-  double ptB[3];
-  ptB[0] = 0.0;
-  ptB[1] = 0.0;
-  ptB[2] = 0.0;
   while (nearIndexB < nearSize) {
     const int locIndexB = _nearest[nearIndexB];
-    SimpleDBTypes::dataCoords(ptB, 3, *_db._data, locIndexB);
+    _setPoint3(ptB, _db._data->coordinates(locIndexB), spaceDim);
 
     // wtA = DotProduct(pb, ab) / DotProduct(ab, ab)
     // wtB = DotProduct(ap, ab) / DotProduct(ab, ab)
@@ -392,42 +382,33 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
   assert(0 != _db._data);
   assert(0 != pWeights);
 
-  const int numCoords = 3;
+  const int spaceDim = _db._data->spaceDim();
 
   // best case is to use next nearest pt
   const int nearIndexA = (*pWeights)[0].nearIndex;
   const int locIndexA = _nearest[nearIndexA];
   double ptA[3];
-  ptA[0] = 0.0;
-  ptA[1] = 0.0;
-  ptA[2] = 0.0;
-  SimpleDBTypes::dataCoords(ptA, 3, *_db._data, locIndexA);
+  _setPoint3(ptA, _db._data->coordinates(locIndexA), spaceDim);
 
   const int nearIndexB = (*pWeights)[1].nearIndex;
   const int locIndexB = _nearest[nearIndexB];
   double ptB[3];
-  ptB[0] = 0.0;
-  ptB[1] = 0.0;
-  ptB[2] = 0.0;
-  SimpleDBTypes::dataCoords(ptB, 3, *_db._data, locIndexB);
+  _setPoint3(ptB, _db._data->coordinates(locIndexB), spaceDim);
 
   double wtA = 0;
   double wtB = 0;
   double wtC = 0;
+  double ptC[3];
 
   // find nearest pt where we can interpolate
   const int nearSize = _nearest.size();
   int nearIndexC = nearIndexB + 1;
-  double ptC[3];
-  ptC[0] = 0.0;
-  ptC[1] = 0.0;
-  ptC[2] = 0.0;
   while (nearIndexC < nearSize) {
     const int locIndexC = _nearest[nearIndexC];
-    SimpleDBTypes::dataCoords(ptC, 3, *_db._data, locIndexC);
+    _setPoint3(ptC, _db._data->coordinates(locIndexC), spaceDim);
 
     double areaABC = 0;
-    double dirABC[numCoords];
+    double dirABC[3];
     _area(&areaABC, dirABC, ptA, ptB, ptC);
 
 #if 0
@@ -435,8 +416,8 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
     // Compute unit vectors AB and AC, then compute the dot product.
     // If the absolute value of the dot product is somewhat less than 1,
     // the points are not collinear.
-    double vecAB[numCoords];
-    double vecAC[numCoords];
+    double vecAB[3];
+    double vecAC[3];
     double magAB = 0.0;
     double magAC = 0.0;
     for (int iDir=0; iDir < numCoords; ++iDir) {
@@ -468,7 +449,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
     if (areaABC > tolerance*ab2) {
 #endif
       // project P onto abc plane
-      double qProj[numCoords];
+      double qProj[3];
       const double qmod = 
 	dirABC[0]*_q[0] + dirABC[1]*_q[1] + dirABC[2]*_q[2];
       qProj[0] = _q[0] - dirABC[0]*qmod;
@@ -477,7 +458,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
 
       // wtA = areaBCQ / areaABC * DotProduct(dirBCQ, dirABC);
       double areaBCQ = 0;
-      double dirBCQ[numCoords];
+      double dirBCQ[3];
       _area(&areaBCQ, dirBCQ, ptB, ptC, qProj);
       wtA = areaBCQ/areaABC * (dirBCQ[0]*dirABC[0] + 
 			       dirBCQ[1]*dirABC[1] +
@@ -485,7 +466,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
 
       // wtB = areaCAQ / areaABC * DotProduct(dirCAQ, dirABC);
       double areaCAQ = 0;
-      double dirCAQ[numCoords];
+      double dirCAQ[3];
       _area(&areaCAQ, dirCAQ, ptC, ptA, qProj);
       wtB = areaCAQ/areaABC * (dirCAQ[0]*dirABC[0] + 
 			       dirCAQ[1]*dirABC[1] +
@@ -493,7 +474,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
 
       // wtC = areaABQ / areaABC * DotProduct(dirABQ, dirABC);
       double areaABQ = 0;
-      double dirABQ[numCoords];
+      double dirABQ[3];
       _area(&areaABQ, dirABQ, ptA, ptB, qProj);
       wtC = areaABQ/areaABC * (dirABQ[0]*dirABC[0] + 
 			       dirABQ[1]*dirABC[1] +
@@ -526,46 +507,35 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
 
   // best case is to use next nearest pt
 
+  const int spaceDim = _db._data->spaceDim();
+
   const int nearIndexA = (*pWeights)[0].nearIndex;
   const int locIndexA = _nearest[nearIndexA];
   double ptA[3];
-  ptA[0] = 0.0;
-  ptA[1] = 0.0;
-  ptA[2] = 0.0;
-  SimpleDBTypes::dataCoords(ptA, 3, *_db._data, locIndexA);
+  _setPoint3(ptA, _db._data->coordinates(locIndexA), spaceDim);
 
   const int nearIndexB = (*pWeights)[1].nearIndex;
   const int locIndexB = _nearest[nearIndexB];
   double ptB[3];
-  ptB[0] = 0.0;
-  ptB[1] = 0.0;
-  ptB[2] = 0.0;
-  SimpleDBTypes::dataCoords(ptB, 3, *_db._data, locIndexB);
+  _setPoint3(ptB, _db._data->coordinates(locIndexB), spaceDim);
 
   const int nearIndexC = (*pWeights)[2].nearIndex;
   const int locIndexC = _nearest[nearIndexC];
   double ptC[3];
-  ptC[0] = 0.0;
-  ptC[1] = 0.0;
-  ptC[2] = 0.0;
-  SimpleDBTypes::dataCoords(ptC, 3, *_db._data, locIndexC);
-
+  _setPoint3(ptC, _db._data->coordinates(locIndexC), spaceDim);
 
   double wtA = 0;
   double wtB = 0;
   double wtC = 0;
   double wtD = 0;
+  double ptD[3];
 
   // find nearest pt where we can interpolate
   const int nearSize = _nearest.size();
   int nearIndexD = nearIndexC + 1;
-  double ptD[3];
-  ptD[0] = 0.0;
-  ptD[1] = 0.0;
-  ptD[2] = 0.0;
   while (nearIndexD < nearSize) {
     const int locIndexD = _nearest[nearIndexD];
-    SimpleDBTypes::dataCoords(ptD, 3, *_db._data, locIndexD);
+    _setPoint3(ptD, _db._data->coordinates(locIndexD), spaceDim);
     
     // make sure A,B,C,D are not coplanar by checking if volume of
     // tetrahedron ABCD is not a tiny fraction of the distance AB
@@ -621,6 +591,20 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
   (*pWeights)[3].wt = wtD;
   (*pWeights)[3].nearIndex = nearIndexD;
 } // _findVolumePt
+
+// ----------------------------------------------------------------------
+// Set coordiantes of point in 3-D space using coordinates in
+// current coordinate system.
+void
+spatialdata::spatialdb::SimpleDBQuery::_setPoint3(double pt3[3],
+						  const double* pt,
+						  const int spaceDim)
+{ // _setPoint3
+  pt3[0] = 0.0;
+  pt3[1] = 0.0;
+  pt3[2] = 0.0;
+  memcpy(pt3, pt, spaceDim*sizeof(double));
+} // _setPoint3
 
 // ----------------------------------------------------------------------
 // Compute square of distance between points A and B.

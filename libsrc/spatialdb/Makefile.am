@@ -32,8 +32,8 @@ subpkginclude_HEADERS = \
 	SimpleIOAscii.icc \
 	cspatialdb.h \
 	SimpleDBQuery.hh \
-	SimpleDBTypes.hh \
-	SimpleDBTypes.icc \
+	SimpleDBData.hh \
+	SimpleDBData.icc \
 	UniformDB.hh \
 	UniformDB.icc
 

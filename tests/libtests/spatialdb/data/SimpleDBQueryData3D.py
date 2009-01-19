@@ -39,12 +39,18 @@ class SimpleDBQueryData3D(SimpleDBQueryApp):
     self.numLocs = 5
     self.spaceDim = 3
     self.numVals = 2
-    self.dataDim = 4
-    self.dbData = numpy.array([ [0.0, 0.0, 0.0, 1.1, 5.5],
-                               [1.0, 0.1, 0.3, 2.2, 6.6],
-                               [2.0, 0.2, 0.2, 3.3, 7.7],
-                               [3.0, 0.3, 0.1, 4.4, 8.8],
-                               [4.0, 0.4, 0.9, 4.5, 9.9] ],
+    self.dataDim = 3
+    self.dbCoords = numpy.array([ [0.0, 0.0, 0.0],
+                                  [1.0, 0.1, 0.3],
+                                  [2.0, 0.2, 0.2],
+                                  [3.0, 0.3, 0.1],
+                                  [4.0, 0.4, 0.9] ],
+                             dtype=numpy.float64)
+    self.dbData = numpy.array([ [1.1, 5.5],
+                                [2.2, 6.6],
+                                [3.3, 7.7],
+                                [4.4, 8.8],
+                                [4.5, 9.9] ],
                              dtype=numpy.float64)
     self.names = [ "One", "Two" ]
     self.units = [ "m", "m" ]

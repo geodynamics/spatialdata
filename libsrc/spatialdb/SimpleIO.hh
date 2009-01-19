@@ -24,7 +24,11 @@ namespace spatialdata {
   namespace spatialdb {
     class SimpleIO;
     class SimpleDB; // USES SimpleDB
+    class SimpleDBData; // USES SimpleDBData
   } // spatialdb
+  namespace geocoords {
+    class CoordSys; // USES CoordSys
+  } // geocoords
 } // spatialdata
 
 /// C++ manager for simple spatial database.
@@ -65,7 +69,7 @@ public :
    * @param pData Database data
    * @param ppCS Pointer to coordinate system
    */
-  virtual void read(SimpleDB::DataStruct* pData,
+  virtual void read(SimpleDBData* pData,
 		    spatialdata::geocoords::CoordSys** ppCS) = 0;
 
   /** Write the database.
@@ -73,7 +77,7 @@ public :
    * @param data Database data
    * @param pCS Pointer to coordinate system
    */
-  virtual void write(const SimpleDB::DataStruct& data,
+  virtual void write(const SimpleDBData& data,
 		     const spatialdata::geocoords::CoordSys* pCS) = 0;
 
 protected :
@@ -89,7 +93,7 @@ protected :
    * @param data Database data
    * @param pCS Pointer to coordinate system
    */
-  static void checkCompatibility(const SimpleDB::DataStruct& data,
+  static void checkCompatibility(const SimpleDBData& data,
 				 const spatialdata::geocoords::CoordSys* pCS);
 
 private :

@@ -30,25 +30,25 @@ if [ $1 == "simpledb" ] || [ $1 == "all" ]; then
 
   # Point --------------------------------------------------------------
 
-  python SimpleDBDataPoint3D.py \
+  python SimpleDBTestDataPoint3D.py \
     --data.namespace=spatialdata,spatialdb \
-    --data.object=SimpleDBDataPoint3D \
-    --data.parent=SimpleDBData
+    --data.object=SimpleDBTestDataPoint3D \
+    --data.parent=SimpleDBTestData
 
-  python SimpleDBDataLine3D.py \
+  python SimpleDBTestDataLine3D.py \
     --data.namespace=spatialdata,spatialdb \
-    --data.object=SimpleDBDataLine3D \
-    --data.parent=SimpleDBData
+    --data.object=SimpleDBTestDataLine3D \
+    --data.parent=SimpleDBTestData
 
-  python SimpleDBDataArea3D.py \
+  python SimpleDBTestDataArea3D.py \
     --data.namespace=spatialdata,spatialdb \
-    --data.object=SimpleDBDataArea3D \
-    --data.parent=SimpleDBData
+    --data.object=SimpleDBTestDataArea3D \
+    --data.parent=SimpleDBTestData
 
-  python SimpleDBDataVolume3D.py \
+  python SimpleDBTestDataVolume3D.py \
     --data.namespace=spatialdata,spatialdb \
-    --data.object=SimpleDBDataVolume3D \
-    --data.parent=SimpleDBData
+    --data.object=SimpleDBTestDataVolume3D \
+    --data.parent=SimpleDBTestData
 
 fi
 

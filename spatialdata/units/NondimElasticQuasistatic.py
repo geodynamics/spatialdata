@@ -85,9 +85,9 @@ class NondimElasticQuasistatic(Nondimensional):
     Setup members using inventory.
     """
     Nondimensional._configure(self)
-    self._length = self.inventory.lengthScale
-    self._pressure = self.inventory.shearModulus
-    self._time = self.inventory.relaxationTime
+    self.setLengthScale(self.inventory.lengthScale)
+    self.setPressureScale(self.inventory.shearModulus)
+    self.setTimeScale(self.inventory.relaxationTime)
 
     return
 

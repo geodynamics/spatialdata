@@ -20,11 +20,10 @@ class TestUniformDB(unittest.TestCase):
   def setUp(self):
     from spatialdata.spatialdb.UniformDB import UniformDB
     db = UniformDB()
+    db.inventory.label = "test"
+    db.inventory.values = ["one", "two", "three"]
+    db.inventory.data = [1.1, 2.2, 3.3]
     db._configure()
-    db.label = "test"
-    db.values = ["one", "two", "three"]
-    db.data = [1.1, 2.2, 3.3]
-    db.initialize()
     self._db = db
     return
 
@@ -37,18 +36,21 @@ class TestUniformDB(unittest.TestCase):
     queryVals = ["three", "one"]
     dataE = numpy.array([[3.3, 1.1],
                          [3.3, 1.1]], numpy.float64)
-    errE = numpy.array( [0]*2, numpy.int32)
+    errE = [0, 0]
     
-    self._db.open()
-    self._db.queryVals(queryVals)
-    (data, err) = self._db.query(locs, cs, 2)
-    data = numpy.array(data)
-    err = numpy.array(err)
+    db = self._db
+    db.open()
+    db.queryVals(queryVals)
+    data = numpy.zeros(dataE.shape, dtype=numpy.float64)
+    err = []
+    nlocs = locs.shape[0]
+    for i in xrange(nlocs):
+      e = db.query(data[i,:], locs[i,:], cs)
+      err.append(e)
+    db.close()    
 
-    self.assertEqual(len(errE.shape), len(err.shape))
-    for dE, d in zip(errE.shape, err.shape):
-      self.assertEqual(dE, d)
-    for vE, v in zip(numpy.reshape(errE, -1), numpy.reshape(err, -1)):
+    self.assertEqual(len(errE), len(err))
+    for vE, v in zip(errE, err):
       self.assertEqual(vE, v)
 
     self.assertEqual(len(dataE.shape), len(data.shape))
@@ -57,7 +59,6 @@ class TestUniformDB(unittest.TestCase):
     for vE, v in zip(numpy.reshape(dataE, -1), numpy.reshape(data, -1)):
       self.assertAlmostEqual(vE, v, 6)
 
-    self._db.close()    
     return
 
 

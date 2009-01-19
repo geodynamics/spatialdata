@@ -41,24 +41,28 @@ class TestChangeCoordSys(unittest.TestCase):
     """
     from spatialdata.geocoords.CSGeo import CSGeo
     csNAD27 = CSGeo()
-    csNAD27.ellipsoid = "clrk66"
-    csNAD27.datumHoriz = "NAD27"
-    csNAD27.datumVert = "mean sea level"
+    csNAD27.inventory.ellipsoid = "clrk66"
+    csNAD27.inventory.datumHoriz = "NAD27"
+    csNAD27.inventory.datumVert = "mean sea level"
+    csNAD27._configure()
 
     from spatialdata.geocoords.CSGeoLocalCart import CSGeoLocalCart
     csLocal = CSGeoLocalCart()
-    csLocal.originLon = -100.0
-    csLocal.originLat = 39.0
+    csLocal.inventory.originLon = -100.0
+    csLocal.inventory.originLat = 39.0
     from pyre.units.length import m
-    csLocal.originElev = 0.01*m
-    csLocal.ellipsoid = "clrk66"
-    csLocal.datumHoriz = "NAD27"
-    csLocal.datumVert = "mean sea level"
+    csLocal.inventory.originElev = 0.01*m
+    csLocal.inventory.ellipsoid = "clrk66"
+    csLocal.inventory.datumHoriz = "NAD27"
+    csLocal.inventory.datumVert = "mean sea level"
+    csLocal._configure()
 
     from spatialdata.utils.ChangeCoordSys import ChangeCoordSys
     converter = ChangeCoordSys()
-    converter.csDest = csLocal
-    converter.csSrc = csNAD27
+    converter.inventory.csDest = csLocal
+    converter.inventory.csSrc = csNAD27
+    converter._configure()
+
     coordsXYZ = lonlatNAD27ElevVals
     converter.convert(coordsXYZ)
     xyzLocalValsT = numpy.array(coordsXYZ)

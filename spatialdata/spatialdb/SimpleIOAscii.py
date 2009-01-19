@@ -17,11 +17,10 @@
 ## Factory: simpledb_io
 
 from SimpleIO import SimpleIO
-
-import numpy
+from spatialdb import SimpleIOAscii as ModuleSimpleIOAscii
 
 # SimpleIOAscii class
-class SimpleIOAscii(SimpleIO):
+class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
   """
   Python ascii I/O manager for simple spatial database (SimpleDB).
 
@@ -35,8 +34,6 @@ class SimpleIOAscii(SimpleIO):
     Constructor.
     """
     SimpleIO.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.SimpleIOAscii()
     return
 
 
@@ -52,21 +49,42 @@ class SimpleIOAscii(SimpleIO):
                           'units': Units of value,
                           'data': Data for value (numLocs)}]}
     """
-    names = []
-    units = []
+    import numpy
+
+    self._validateData(data)
+
     (numLocs, spaceDim) = data['locs'].shape
     dataDim = data['data_dim']
-    numValues = len(data['values'])
-    dbData = numpy.zeros( (numLocs, spaceDim+numValues), dtype=numpy.float64)
-    dbData[:,0:spaceDim] = data['locs'][:]
-    i = spaceDim
+    numValues = len(data['values'])    
+    names = []
+    units = []
+    values = numpy.zeros( (numLocs, numValues), dtype=numpy.float64)
+    i = 0
     for value in data['values']:
       names.append(value['name'])
       units.append(value['units'])
-      dbData[:,i] = value['data'][:]
+      values[:,i] = value['data'][:]
       i += 1
-    cs = data['coordsys']
-    self.cppHandle.write(names, units, dbData, spaceDim, dataDim, cs.cppHandle)
+
+    from spatialdb import SimpleDBData
+    dbData = SimpleDBData()
+    dbData.allocate(numLocs, numValues, spaceDim, dataDim)
+    dbData.coordinates(data['locs'])
+    dbData.data(values)
+    dbData.names(names)
+    dbData.units(units)
+
+    ModuleSimpleIOAscii.write(self, dbData, data['coordsys'])
+    return
+
+
+  # PRIVATE METHODS ////////////////////////////////////////////////////
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleSimpleIOAscii.__init__(self)
     return
 
 

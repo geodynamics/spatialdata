@@ -16,10 +16,11 @@
 ##
 ## Factory: spatial_database
 
-from SpatialDB import SpatialDB
+from SpatialDBObj import SpatialDBObj
+from spatialdb import CompositeDB as ModuleCompositeDB
 
 # CompositeDB class
-class CompositeDB(SpatialDB):
+class CompositeDB(SpatialDBObj, ModuleCompositeDB):
   """
   Python manager for spatial database with uniform values.
 
@@ -28,7 +29,7 @@ class CompositeDB(SpatialDB):
 
   # INVENTORY //////////////////////////////////////////////////////////
 
-  class Inventory(SpatialDB.Inventory):
+  class Inventory(SpatialDBObj.Inventory):
     """
     Python object for managing CompositeDB facilities and properties.
     """
@@ -52,12 +53,12 @@ class CompositeDB(SpatialDB):
     namesB = pyre.inventory.list("values_B", default=[])
     namesB.meta['tip'] = "Names of values to query with database B."
 
-    from SimpleDB import SimpleDB
-    dbA = pyre.inventory.facility("db_A", factory=SimpleDB,
+    from UniformDB import UniformDB
+    dbA = pyre.inventory.facility("db_A", factory=UniformDB,
                                   family="spatial_database")
     dbA.meta['tip'] = "Spatial database A."
 
-    dbB = pyre.inventory.facility("db_B", factory=SimpleDB,
+    dbB = pyre.inventory.facility("db_B", factory=UniformDB,
                                   family="spatial_database")
     dbB.meta['tip'] = "Spatial database B."
 
@@ -68,23 +69,9 @@ class CompositeDB(SpatialDB):
     """
     Constructor.
     """
-    SpatialDB.__init__(self, name)
-    import spatialdb as bindings
-    self.cppHandle = bindings.CompositeDB()
+    SpatialDBObj.__init__(self, name)
     return
 
-
-  def initialize(self):
-    """
-    Initialize database.
-    """
-    SpatialDB.initialize(self)
-    self.dbA.initialize()
-    self.dbB.initialize()
-    self.cppHandle.dbA(self.dbA.cppHandle, self.namesA)
-    self.cppHandle.dbB(self.dbB.cppHandle, self.namesB)
-    return
-  
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -92,12 +79,18 @@ class CompositeDB(SpatialDB):
     """
     Set members based on inventory.
     """
-    SpatialDB._configure(self)
+    SpatialDBObj._configure(self)
     self._validateParameters(self.inventory)
-    self.namesA = self.inventory.namesA
-    self.dbA = self.inventory.dbA
-    self.namesB = self.inventory.namesB
-    self.dbB = self.inventory.dbB
+    self.dbA(self.inventory.dbA, self.inventory.namesA)
+    self.dbB(self.inventory.dbB, self.inventory.namesB)
+    return
+
+
+  def _createModuleObj(self):
+    """
+    Create Python module object.
+    """
+    ModuleCompositeDB.__init__(self)
     return
 
 
