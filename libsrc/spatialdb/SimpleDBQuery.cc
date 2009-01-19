@@ -29,7 +29,7 @@
 
 #include <cstring> // USES memcpy()
 #include <strings.h> // USES strcasecmp()
-#include <cassert.> // USES assert()
+#include <cassert> // USES assert()
 #include <sstream> // USES std::ostringsgream
 #include <algorithm> // USES std::fill(), std::lower_bound(), std::distance()
 
