@@ -117,7 +117,7 @@ if test "$enable_pythia" = "yes" ; then
   CIT_NUMPY_INCDIR
 
   # SWIG
-  AC_PROG_SWIG
+  AC_PROG_SWIG(1.3.33)
 fi
 
 # DOXYGEN
