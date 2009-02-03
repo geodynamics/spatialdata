@@ -22,13 +22,6 @@
 
 #include "CoordSys.hh" // ISA CoordSys
 
-namespace spatialdata {
-  namespace geocoords {
-    class CSCart;
-    class TestCSCart; // forward declaration
-  } // geocoords
-} // spatialdata
-
 /// C++ object for managing parameters defining Cartesian coordinate systems
 class spatialdata::geocoords::CSCart : public CoordSys
 { // class CSCart

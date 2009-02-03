@@ -20,18 +20,6 @@
 
 #include "SpatialDB.hh"
 
-namespace spatialdata {
-  namespace spatialdb {
-    class SpatialDB; // ISA SpatialDB
-    class GravityField;
-    class TestGravityField; // unit testing
-  } // spatialdb
-
-  namespace geocoords {
-    class CSGeo; // USES CSGeo
-  } // geocoords
-} // spatialdata
-
 /// C++ manager for simple spatial database.
 class spatialdata::spatialdb::GravityField : public SpatialDB
 { // class GravityField

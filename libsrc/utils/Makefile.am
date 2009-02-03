@@ -16,7 +16,8 @@ include $(top_srcdir)/subpackage.am
 subpkginclude_HEADERS = \
 	LineParser.hh \
 	PointsStream.hh \
-	PointsStream.icc
+	PointsStream.icc \
+	utilsfwd.hh
 
 noinst_HEADERS =
 

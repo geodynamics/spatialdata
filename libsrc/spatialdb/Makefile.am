@@ -35,7 +35,8 @@ subpkginclude_HEADERS = \
 	SimpleDBData.hh \
 	SimpleDBData.icc \
 	UniformDB.hh \
-	UniformDB.icc
+	UniformDB.icc \
+	spatialdbfwd.hh
 
 noinst_HEADERS =
 

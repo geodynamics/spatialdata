@@ -20,14 +20,10 @@
 #if !defined(spatialdata_utils_lineparser_hh)
 #define spatialdata_utils_lineparser_hh
 
+#include "utilsfwd.hh"
+
 #include <string> // HASA std::string
 #include <iosfwd> // USES std::istream
-
-namespace spatialdata {
-  namespace utils {
-    class LineParser;
-  } // utils
-} // spatialdata
 
 class spatialdata::utils::LineParser
 { // LineParser

@@ -18,18 +18,10 @@
 #if !defined(spatialdata_spatialdb_simpleio_hh)
 #define spatialdata_spatialdb_simpleio_hh
 
-#include <string> // HASA std::string
+#include "spatialdbfwd.hh" // forward declarations
+#include "spatialdata/geocoords/geocoordsfwd.hh" // forward declarations
 
-namespace spatialdata {
-  namespace spatialdb {
-    class SimpleIO;
-    class SimpleDB; // USES SimpleDB
-    class SimpleDBData; // USES SimpleDBData
-  } // spatialdb
-  namespace geocoords {
-    class CoordSys; // USES CoordSys
-  } // geocoords
-} // spatialdata
+#include <string> // HASA std::string
 
 /// C++ manager for simple spatial database.
 class spatialdata::spatialdb::SimpleIO

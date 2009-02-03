@@ -21,13 +21,9 @@
 #if !defined(spatialdata_geocoords_geoid_hh)
 #define spatialdata_geocoords_geoid_hh
 
-#include <inttypes.h>
+#include "geocoordsfwd.hh"
 
-namespace spatialdata {
-  namespace geocoords {
-    class Geoid;
-  } // geocoords
-} // spatialdata
+#include <inttypes.h>
 
 /// C++ object for converting difference between elevation relative to
 /// mean seal level (MSL) and elevation relative to WGS ellipsoid.

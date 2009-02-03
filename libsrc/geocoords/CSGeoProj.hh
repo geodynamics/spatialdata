@@ -22,14 +22,6 @@
 
 #include "CSGeo.hh" // ISA CSGeo
 
-namespace spatialdata {
-  namespace geocoords {
-    class CSGeoProj;
-    class Projector; // HOLDSA projector
-    class TestCSGeoproj; // forward declaration
-  } // geocoords
-} // spatialdata
-
 /// C++ object for defining a local cartesian coordinate system
 class spatialdata::geocoords::CSGeoProj : public CSGeo
 { // class CSGeoProj

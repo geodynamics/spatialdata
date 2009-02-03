@@ -22,14 +22,6 @@
 
 #include "CoordSys.hh" // ISA CoordSys
 
-namespace spatialdata {
-  namespace geocoords {
-    class CSGeo;
-    class Geoid;
-    class TestCSGeo; // forward declaration
-  } // geocoords
-} // spatialdata
-
 #include "proj4fwd.h" // Proj4 forward declaration
 #include <string> // HASA std::string
 

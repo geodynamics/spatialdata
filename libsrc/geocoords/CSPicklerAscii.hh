@@ -20,14 +20,9 @@
 #if !defined(spatialdata_geocoords_cspicklerascii_hh)
 #define spatialdata_geocoords_cspickerascii_hh
 
-#include <iosfwd> // USES std::istream, std::ostream
+#include "geocoordsfwd.hh"
 
-namespace spatialdata {
-  namespace geocoords {
-    class CSPicklerAscii;
-    class CoordSys;
-  } // geocoords
-} // spatialdata
+#include <iosfwd> // USES std::istream, std::ostream
 
 /// C++ object for pickling/unpickling coordinate systems for ascii streams.
 class spatialdata::geocoords::CSPicklerAscii
@@ -40,16 +35,18 @@ public :
    * @param s Ouput stream
    * @param pCS Pointer to coordinate system
    */
-  static void pickle(std::ostream& s,
-		     const CoordSys* pCS);
+  static
+  void pickle(std::ostream& s,
+	      const CoordSys* pCS);
 
   /** Unpickle coordinate system.
    *
    * @param s Input stream
    * @param ppCS Pointer to pointer to coordinate system
    */
-  static void unpickle(std::istream& s,
-			CoordSys** ppCS);
+  static
+  void unpickle(std::istream& s,
+		CoordSys** ppCS);
 
 }; // class CSPicklerAscii
 

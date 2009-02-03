@@ -19,13 +19,9 @@
 #if !defined(spatialdata_spatialdb_gocadvoxet_hh)
 #define spatialdata_spatialdb_gocadvoxet_hh
 
-#include <string> // USES std::string
+#include "spatialdbfwd.hh" // forward declarations
 
-namespace spatialdata {
-  namespace spatialdb {
-    class GocadVoxet;
-  } // spatialdb
-} // spatialdata
+#include <string> // USES std::string
 
 class spatialdata::spatialdb::GocadVoxet
 { // GocadVoxet

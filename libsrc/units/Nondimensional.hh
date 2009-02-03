@@ -20,13 +20,7 @@
 #if !defined(spatialdata_units_nondimensional_hh)
 #define spatialdata_units_nondimensional_hh
 
-namespace spatialdata {
-  namespace units {
-    class Nondimensional;
-
-    class TestNondimensional; // Unit testing
-  } // units
-} // spatialdata
+#include "unitsfwd.hh"
 
 /// C++ object for managing parameters defining a coordinate system
 class spatialdata::units::Nondimensional

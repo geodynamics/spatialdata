@@ -22,14 +22,6 @@
 
 #include <string> // HASA std::string
 
-namespace spatialdata {
-  namespace spatialdb {
-  class SpatialDB; // ISA SpatialDB
-  class CompositeDB;
-  class TestCompositeDB; // unit testing
-  } // spatialdb
-} // spatialdata
-
 /// C++ manager for simple spatial database.
 class spatialdata::spatialdb::CompositeDB : public SpatialDB
 { // class CompositeDB

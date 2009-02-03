@@ -20,14 +20,7 @@
 #if !defined(spatialdata_geocoords_converter_hh)
 #define spatialdata_geocoords_converter_hh
 
-namespace spatialdata {
-  namespace geocoords {
-    class Converter;
-    class CoordSys; // forward declaration
-    class CSGeo; // forward declaration
-    class CSCart; // forward declaration
-  } // geocoords
-} // spatialdata
+#include "geocoordsfwd.hh"
 
 /// C++ object for converting between coordinate systems.
 class spatialdata::geocoords::Converter

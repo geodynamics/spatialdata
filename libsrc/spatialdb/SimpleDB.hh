@@ -20,18 +20,6 @@
 
 #include "SpatialDB.hh" // ISA Spatialdb
 
-namespace spatialdata {
-  namespace spatialdb {
-  class SpatialDB; // ISA SpatialDB
-  class SimpleDB;
-  class SimpleIO; // USES SimpleIO
-  class SimpleDBData; // helper
-  class SimpleDBQuery; // helper
-  class TestSimpleDB; // unit testing
-  class TestSimpleDBQuery; // unit testing
-  } // spatialdb
-} // spatialdata
-
 /// C++ manager for simple spatial database.
 class spatialdata::spatialdb::SimpleDB : public SpatialDB
 { // class SimpleDB

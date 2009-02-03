@@ -20,12 +20,7 @@
 #if !defined(spatialdata_utils_pointsstream_hh)
 #define spatialdata_utils_pointsstream_hh
 
-namespace spatialdata {
-  namespace utils {
-    class PointsStream;
-    class TestPointsStream; // forward declaration
-  } // utils
-} // spatialdata
+#include "utilsfwd.hh"
 
 #include <string> // HASA std::string
 

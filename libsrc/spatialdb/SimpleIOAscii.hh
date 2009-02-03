@@ -22,12 +22,6 @@
 
 #include <iosfwd> // USES std::istream
 
-namespace spatialdata {
-  namespace spatialdb {
-    class SimpleIOAscii;
-  } // spatialdb
-} // spatialdata
-
 // ----------------------------------------------------------------------
 class spatialdata::spatialdb::SimpleIOAscii : public SimpleIO
 { // SimpleIOAscii

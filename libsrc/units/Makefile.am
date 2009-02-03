@@ -15,7 +15,8 @@ include $(top_srcdir)/subpackage.am
 
 subpkginclude_HEADERS = \
 	Nondimensional.hh \
-	Nondimensional.icc
+	Nondimensional.icc \
+	unitsfwd.hh
 
 noinst_HEADERS =
 

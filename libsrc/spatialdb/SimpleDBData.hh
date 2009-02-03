@@ -18,15 +18,9 @@
 #if !defined(spatialdata_spatialdb_simpledbdata_hh)
 #define spatialdata_spatialdb_simpledbdata_hh
 
+#include "spatialdbfwd.hh" // forward declarations
+
 #include <string> // USES std::string
-
-namespace spatialdata {
-  namespace spatialdb {
-    class SimpleDBData;
-
-    class TestSimpleDBData; // unit testing
-  } // spatialdb
-} // spatialdata
 
 class spatialdata::spatialdb::SimpleDBData
 { // SimpleDBData

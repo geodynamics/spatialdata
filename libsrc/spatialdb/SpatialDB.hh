@@ -18,14 +18,8 @@
 #if !defined(spatialdata_spatialdb_spatialdb_hh)
 #define spatialdata_spatialdb_spatialdb_hh
 
-namespace spatialdata {
-  namespace spatialdb {
-    class SpatialDB;
-  } // spatialdb
-  namespace geocoords {
-    class CoordSys; // forward declaration
-  } // geocoords
-} // spatialdata
+#include "spatialdbfwd.hh"
+#include "spatialdata/geocoords/geocoordsfwd.hh"
 
 /// C++ manager for spatial database.
 class spatialdata::spatialdb::SpatialDB

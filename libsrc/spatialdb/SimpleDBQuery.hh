@@ -18,12 +18,7 @@
 #if !defined(spatialdata_spatialdb_simpledbquery_hh)
 #define spatialdata_spatialdb_simpledbquery_hh
 
-namespace spatialdata {
-  namespace spatialdb {
-    class SimpleDBQuery;
-    class TestSimpleDBQuery; // unit testing
-  } // spatialdb
-} // spatialdata
+#include "spatialdbfwd.hh" // forward declarations
 
 #include <vector> // USES std::vector
 

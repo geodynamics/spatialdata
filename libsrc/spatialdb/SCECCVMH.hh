@@ -13,22 +13,9 @@
 #if !defined(spatialdata_spatialdb_sceccvmh_hh)
 #define spatialdata_spatialdb_sceccvmh_hh
 
-#include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
+#include "SpatialDB.hh" // ISA SpatialDB
 
 #include <string> // HASA std::string
-
-namespace spatialdata {
-  namespace spatialdb {
-    class SCECCVMH;
-
-    class GocadVoxet; // HASA GocadVoxet
-    class TestSCECCVMH; // unit testing
-  } // spatialdb
-
-  namespace geocoords {
-    class CSGeoProj; // HASA CSGeoProj
-  } // geocoords
-} // spatialdata
 
 class spatialdata::spatialdb::SCECCVMH : SpatialDB
 { // SCECCVMH

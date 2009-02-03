@@ -18,13 +18,9 @@
 #if !defined(spatialdata_spatialdb_exception_hh)
 #define spatialdata_spatialdb_exception_hh
 
-#include <stdexcept> // ISA std::runtime_error
+#include "spatialdbfwd.hh" // forward declarations
 
-namespace spatialdata {
-  namespace spatialdb {
-    class OutOfBounds;
-  } // spatialdb
-} // spatialdata
+#include <stdexcept> // ISA std::runtime_error
 
 /// C++ exceptions for spatial database.
 class spatialdata::spatialdb::OutOfBounds : public std::runtime_error

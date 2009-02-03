@@ -20,16 +20,11 @@
 #if !defined(spatialdata_geocoords_projector_hh)
 #define spatialdata_geocoords_projector_hh
 
-#include <string> // HASA std::string
-#include "proj4fwd.h" // Proj4 forward declaration
-#include <iosfwd> // USES std::istream, std::ostream
+#include "geocoordsfwd.hh"
 
-namespace spatialdata {
-  namespace geocoords {
-    class Projector;
-    class CSGeo;
-  } // geocoords
-} // spatialdata
+#include "proj4fwd.h" // Proj4 forward declaration
+#include <string> // HASA std::string
+#include <iosfwd> // USES std::istream, std::ostream
 
 /// C++ object for projecting to/from geographic projections
 class spatialdata::geocoords::Projector

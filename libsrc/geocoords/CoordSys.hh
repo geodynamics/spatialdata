@@ -20,13 +20,9 @@
 #if !defined(spatialdata_geocoords_coordsys_hh)
 #define spatialdata_geocoords_coordsys_hh
 
-#include <iosfwd> // USES std::istream, std::ostream
+#include "geocoordsfwd.hh"
 
-namespace spatialdata {
-  namespace geocoords {
-    class CoordSys;
-  } // geocoords
-} // spatialdata
+#include <iosfwd> // USES std::istream, std::ostream
 
 /// C++ object for managing parameters defining a coordinate system
 class spatialdata::geocoords::CoordSys

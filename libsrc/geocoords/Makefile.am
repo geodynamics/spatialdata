@@ -32,6 +32,7 @@ subpkginclude_HEADERS = \
 	Geoid.icc \
 	Projector.hh \
 	Projector.icc \
+	geocoordsfwd.hh \
 	proj4fwd.h
 
 noinst_HEADERS =
