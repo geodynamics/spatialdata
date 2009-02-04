@@ -56,7 +56,9 @@ class CSCart(CoordSys, ModuleCSCart):
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   def __init__(self, name="cscart"):
-    """Constructor."""
+    """
+    Constructor.
+    """
     CoordSys.__init__(self, name)
     return
 

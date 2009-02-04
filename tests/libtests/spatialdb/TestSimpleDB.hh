@@ -23,11 +23,12 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "spatialdata/spatialdb/spatialdbfwd.hh"
+
 /// Namespace for spatial package
 namespace spatialdata {
   namespace spatialdb {
     class TestSimpleDB;
-    class SimpleDB; // USES SimpleDB
     class SimpleDBTestData; // USES SimpleDBTestData
   } // spatialdb
 } // spatialdata

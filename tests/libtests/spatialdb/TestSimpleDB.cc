@@ -12,9 +12,9 @@
 
 #include <portinfo>
 
-#include "spatialdata/spatialdb/SimpleDB.hh" // USES SimpleDB
-
 #include "TestSimpleDB.hh" // Implementation of class methods
+
+#include "spatialdata/spatialdb/SimpleDB.hh" // USES SimpleDB
 
 #include "data/SimpleDBTestData.hh" // USES SimpleDBTestData
 
@@ -87,7 +87,7 @@ spatialdata::spatialdb::TestSimpleDB::_testQueryLinear(
 // Populate database with data.
 void
 spatialdata::spatialdb::TestSimpleDB::_setupDB(SimpleDB* const db,
-					 const SimpleDBTestData& data)
+					       const SimpleDBTestData& data)
 { // _setupDB
   SimpleDBData* dbData = new SimpleDBData;
   dbData->allocate(data.numLocs, data.numVals, data.spaceDim,
