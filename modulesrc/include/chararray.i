@@ -10,8 +10,8 @@
 // ======================================================================
 //
 
-// Treat const char** as a special case.
-%typemap(in) (const char** string_list) {
+// Treat const char* const* as a special case.
+%typemap(in) (const char* const* string_list) {
   // Check to make sure input is a list.
   if (PyList_Check($input)) {
     const int size = PyList_Size($input);
@@ -30,16 +30,16 @@
     PyErr_SetString(PyExc_TypeError, "Expected list of strings.");
     return NULL;
   } // if/else
-} // typemap(in) const char**
+} // typemap(in) const char* const*
 
 // This cleans up the char** array we malloc'd before the function call
-%typemap(freearg) (const char** string_list) {
+%typemap(freearg) (const char* const* string_list) {
   delete[] $1;
 }
 
 
-// Treat const char** as a special case.
-%typemap(in) (const char** string_list, const int list_len) {
+// Treat const char* const* as a special case.
+%typemap(in) (const char* const* string_list, const int list_len) {
   // Check to make sure input is a list.
   if (PyList_Check($input)) {
     const int size = PyList_Size($input);
@@ -59,10 +59,10 @@
     PyErr_SetString(PyExc_TypeError, "Expected list of strings.");
     return NULL;
   } // if/else
-} // typemap(in) const char**
+} // typemap(in) const char* const*
 
 // This cleans up the char** array we malloc'd before the function call
-%typemap(freearg) (const char** string_list, const int list_len) {
+%typemap(freearg) (const char* const* string_list, const int list_len) {
   delete[] $1;
 }
 

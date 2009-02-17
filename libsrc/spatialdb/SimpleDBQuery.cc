@@ -62,7 +62,7 @@ spatialdata::spatialdb::SimpleDBQuery::queryType(const SimpleDB::QueryEnum query
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::SimpleDBQuery::queryVals(const char** names,
+spatialdata::spatialdb::SimpleDBQuery::queryVals(const char* const* names,
 						 const int numVals)
 { // queryVals
   assert(0 != _db._data);

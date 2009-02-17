@@ -22,7 +22,7 @@ namespace spatialdata {
 
   namespace spatialdb {
 
-    class SCECCVMH : SpatialDB
+    class SCECCVMH : public SpatialDB
     { // SCECCVMH
  
     public :
@@ -70,13 +70,13 @@ namespace spatialdata {
        * @param names Names of values to be returned in queries
        * @param numVals Number of values to be returned in queries
        */
-      %apply(const char** string_list, const int list_len){
-	(const char** names,
+      %apply(const char* const* string_list, const int list_len){
+	(const char* const* names,
 	 const int numVals)
 	  };
-      void queryVals(const char** names,
+      void queryVals(const char* const* names,
 		     const int numVals);
-      %clear(const char** names, const int numVals);
+      %clear(const char* const* names, const int numVals);
       
       /** Query the database.
        *

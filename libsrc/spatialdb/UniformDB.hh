@@ -48,7 +48,7 @@ class spatialdata::spatialdb::UniformDB : public SpatialDB
    * @param values Array of values in database.
    * @param numValues Number of values in database.
    */
-  void setData(const char** names,
+  void setData(const char* const* names,
 	       const double* values,
 	       const int numValues);
 
@@ -65,7 +65,7 @@ class spatialdata::spatialdb::UniformDB : public SpatialDB
    * @param names Names of values to be returned in queries
    * @param numVals Number of values to be returned in queries
    */
-  void queryVals(const char** names,
+  void queryVals(const char* const* names,
 		 const int numVals);
 
   /** Query the database.

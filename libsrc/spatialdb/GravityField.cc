@@ -75,8 +75,8 @@ spatialdata::spatialdb::GravityField::gravityDir(const double x,
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::GravityField::queryVals(const char** names,
-					     const int numVals)
+spatialdata::spatialdb::GravityField::queryVals(const char* const* names,
+						const int numVals)
 { // queryVals
   if (0 == numVals) {
     std::ostringstream msg;

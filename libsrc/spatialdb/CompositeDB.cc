@@ -170,7 +170,7 @@ spatialdata::spatialdb::CompositeDB::close(void)
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::CompositeDB::queryVals(const char** names,
+spatialdata::spatialdb::CompositeDB::queryVals(const char* const* names,
 					       const int numVals)
 { // queryVals
   assert(0 != _dbA);

@@ -161,7 +161,7 @@ spatialdata::spatialdb::SCECCVMH::close(void)
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::SCECCVMH::queryVals(const char** names,
+spatialdata::spatialdb::SCECCVMH::queryVals(const char* const* names,
 					    const int numVals)
 { // queryVals
   if (0 == numVals) {

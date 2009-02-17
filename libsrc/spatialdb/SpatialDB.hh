@@ -69,7 +69,7 @@ class spatialdata::spatialdb::SpatialDB
    * @param numVals Number of values to be returned in queries
    */
   virtual
-  void queryVals(const char** names,
+  void queryVals(const char* const* names,
 		 const int numVals) = 0;
 
   /** Query the database.

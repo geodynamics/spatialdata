@@ -58,7 +58,7 @@ spatialdata::spatialdb::UniformDB::~UniformDB(void)
 // ----------------------------------------------------------------------
 // Set values in database.
 void
-spatialdata::spatialdb::UniformDB::setData(const char** names,
+spatialdata::spatialdb::UniformDB::setData(const char* const* names,
 					   const double* values,
 					   const int numValues)
 { // setData
@@ -84,7 +84,7 @@ spatialdata::spatialdb::UniformDB::setData(const char** names,
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::UniformDB::queryVals(const char** names,
+spatialdata::spatialdb::UniformDB::queryVals(const char* const* names,
 					     const int numVals)
 { // queryVals
   if (0 == numVals) {

@@ -42,16 +42,17 @@ namespace spatialdata {
        * @param values Array of values in database.
        * @param numValues Number of values in database.
        */
-      %apply(const char** string_list) {
-	(const char** names)
+      %apply(const char* const* string_list) {
+	(const char* const* names)
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
 	(const double* values,
 	 const int numValues)
 	  };
-      void setData(const char** names,
+      void setData(const char* const* names,
 		   const double* values,
 		   const int numValues);
+      %clear(const char* const* names);
       %clear(const double* values, const int numValues);
       
       /// Open the database and prepare for querying.
@@ -67,13 +68,13 @@ namespace spatialdata {
        * @param names Names of values to be returned in queries
        * @param numVals Number of values to be returned in queries
        */
-      %apply(const char** string_list, const int list_len){
-	(const char** names,
+      %apply(const char* const* string_list, const int list_len){
+	(const char* const* names,
 	 const int numVals)
 	  };
-      void queryVals(const char** names,
+      void queryVals(const char* const* names,
 		     const int numVals);
-      %clear(const char** names, const int numVals);
+      %clear(const char* const* names, const int numVals);
       
       /** Query the database.
        *
