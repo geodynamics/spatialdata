@@ -85,13 +85,13 @@ namespace spatialdata {
        * @param values Array of names of values [numValues].
        * @param numValues Number of values.
        */
-      %apply(const char** string_list, const int list_len){
-	(const char** const values,
+      %apply(const char* const* string_list, const int list_len){
+	(const char* const* values,
 	 const int numValues)
 	  };
-      void names(const char** const values,
+      void names(const char* const* values,
 		 const int numValues);
-      %clear(const char** const values, const int numValues);
+      %clear(const char* const* values, const int numValues);
       
       /** Set units of values.
        *
@@ -100,13 +100,13 @@ namespace spatialdata {
        * @param values Array of units of values [numValues].
        * @param numValues Number of values.
        */
-      %apply(const char** string_list, const int list_len){
-	(const char** const values,
+      %apply(const char* const* string_list, const int list_len){
+	(const char* const* values,
 	 const int numValues)
 	  };
-      void units(const char** const values,
+      void units(const char* const* values,
 		 const int numValues);
-      %clear(const char** const values, const int numValues);
+      %clear(const char* const* values, const int numValues);
       
       /** Get number of locations for data.
        *

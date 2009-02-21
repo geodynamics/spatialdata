@@ -69,7 +69,7 @@ spatialdata::spatialdb::CompositeDB::~CompositeDB(void)
 // Set database A.
 void
 spatialdata::spatialdb::CompositeDB::dbA(SpatialDB* db,
-					 const char** names,
+					 const char* const* names,
 					 const int numNames)
 { // dbA
   assert(0 != db);
@@ -106,7 +106,7 @@ spatialdata::spatialdb::CompositeDB::dbA(SpatialDB* db,
 // Set database B.
 void
 spatialdata::spatialdb::CompositeDB::dbB(SpatialDB* db,
-					 const char** names,
+					 const char* const* names,
 					 const int numNames)
 { // dbB
   assert(0 != db);

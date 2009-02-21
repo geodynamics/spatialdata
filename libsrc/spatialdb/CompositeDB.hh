@@ -49,7 +49,7 @@ class spatialdata::spatialdb::CompositeDB : public SpatialDB
    * @param numNames Size of array of names.
    */
   void dbA(SpatialDB* db,
-	   const char** names,
+	   const char* const* names,
 	   const int numNames);
 
   /** Set database B.
@@ -59,7 +59,7 @@ class spatialdata::spatialdb::CompositeDB : public SpatialDB
    * @param numNames Size of array of names.
    */
   void dbB(SpatialDB* db,
-	   const char** names,
+	   const char* const* names,
 	   const int numNames);
 
   /// Open the database and prepare for querying.

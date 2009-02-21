@@ -78,7 +78,7 @@ public :
    * @param names Array of names of values [numValues].
    * @param numValues Number of values.
    */
-  void names(const char** const values,
+  void names(const char* const* values,
 	     const int numValues);
 
   /** Set units of values.
@@ -88,7 +88,7 @@ public :
    * @param units Array of units of values [numValues].
    * @param numValues Number of values.
    */
-  void units(const char** const values,
+  void units(const char* const* values,
 	     const int numValues);
 
   /** Get number of locations for data.

@@ -133,7 +133,7 @@ spatialdata::spatialdb::SimpleDBData::coordinates(const double* values,
 // ----------------------------------------------------------------------
 // Set names of values.
 void
-spatialdata::spatialdb::SimpleDBData::names(const char** const values,
+spatialdata::spatialdb::SimpleDBData::names(const char* const* values,
 					    const int numValues)
 { // names
   assert(0 != values);
@@ -146,7 +146,7 @@ spatialdata::spatialdb::SimpleDBData::names(const char** const values,
 // ----------------------------------------------------------------------
 // Set units of values.
 void
-spatialdata::spatialdb::SimpleDBData::units(const char** const values,
+spatialdata::spatialdb::SimpleDBData::units(const char* const* values,
 					    const int numValues)
 { // units
   assert(0 != values);

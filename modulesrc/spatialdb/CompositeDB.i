@@ -42,14 +42,14 @@ namespace spatialdata {
        * @param names Array of names of values to use with database.
        * @param numNames Size of array of names.
        */
-      %apply(const char** string_list, const int list_len){
-	(const char** names,
+      %apply(const char* const* string_list, const int list_len){
+	(const char* const* names,
 	 const int numNames)
 	  };
       void dbA(SpatialDB* db,
-	       const char** names,
+	       const char* const* names,
 	       const int numNames);
-      %clear(const char** names, const int numNames);
+      %clear(const char* const* names, const int numNames);
 
       /** Set database B.
        *
@@ -57,14 +57,14 @@ namespace spatialdata {
        * @param names Array of names of values to use with database.
        * @param numNames Size of array of names.
        */
-      %apply(const char** string_list, const int list_len){
-	(const char** names,
+      %apply(const char* const* string_list, const int list_len){
+	(const char* const* names,
 	 const int numNames)
 	  };
       void dbB(SpatialDB* db,
-	       const char** names,
+	       const char* const* names,
 	       const int numNames);
-      %clear(const char** names, const int numNames);
+      %clear(const char* const* names, const int numNames);
       
       /// Open the database and prepare for querying.
       void open(void);
