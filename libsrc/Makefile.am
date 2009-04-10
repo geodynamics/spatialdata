@@ -45,14 +45,19 @@ libspatialdata_la_SOURCES = \
 	utils/LineParser.cc \
 	utils/PointsStream.cc
 
-libspatialdata_la_LDFLAGS = $(AM_LDFLAGS)
+libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
+libspatialdata_la_LIBADD = \
+	-lproj
+if NO_UNDEFINED
+libspatialdata_la_LIBADD += \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
+endif
 
-CPPFLAGS += -DDATADIR="$(pkgdatadir)/geocoords"
+AM_CPPFLAGS = -DDATADIR="$(pkgdatadir)/geocoords" \
+	$(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
 
 INCLUDES = -I$(top_builddir)/include
 
-libspatialdata_la_LIBADD = \
-	-lproj
 
 
 # End of file 
