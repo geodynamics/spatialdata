@@ -19,10 +19,12 @@ check_PROGRAMS = testunits
 
 testunits_SOURCES = \
 	TestNondimensional.cc \
+	TestParser.cc \
 	testunits.cc
 
 noinst_HEADERS = \
-	TestNondimensional.hh
+	TestNondimensional.hh \
+	TestParser.hh
 
 testunits_LDFLAGS =
 

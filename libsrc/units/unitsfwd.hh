@@ -24,6 +24,7 @@
 namespace spatialdata {
   namespace units {
     class Nondimensional;
+    class Parser;
   } // units
 } // spatialdata
 
