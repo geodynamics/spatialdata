@@ -22,12 +22,19 @@
 // Default constructor
 spatialdata::units::Parser::Parser(void)
 { // constructor
+  // Should check for NULL, decode the exception, and throw a C++ equivalent
+  PyObject *mod = PyImport_ImportModule("pyre.units");
+  PyObject *cls = PyObject_GetAttrString(mod, "parser");
+  this->_p      = PyObject_CallFunctionObjArgs(cls, NULL);
+  Py_DECREF(cls);
+  Py_DECREF(mod);
 } // constructor
 
 // ----------------------------------------------------------------------
 // Default destructor
 spatialdata::units::Parser::~Parser(void)
 { // destructor
+  Py_DECREF(this->_p);
 } // destructor
 
 // ----------------------------------------------------------------------
@@ -48,7 +55,11 @@ spatialdata::units::Parser::parse(const char* units)
    * Any nontrivial setup/teardown should be moved to
    * constructor/destructor.
    */
-
+  PyObject *pyUnit  = PyObject_CallFunction(this->_p, "s", units);
+  PyObject *pyScale = PyObject_GetAttrString(pyUnit, "value");
+  scale             = PyFloat_AsDouble(pyScale);
+  Py_DECREF(pyScale);
+  Py_DECREF(pyUnit);
   return scale;
 } // parser
 
