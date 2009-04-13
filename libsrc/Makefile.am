@@ -48,10 +48,10 @@ libspatialdata_la_SOURCES = \
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 libspatialdata_la_LIBADD = \
 	-lproj
-if NO_UNDEFINED
+#if NO_UNDEFINED
 libspatialdata_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-endif
+#endif
 
 AM_CPPFLAGS = -DDATADIR="$(pkgdatadir)/geocoords" \
 	$(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
