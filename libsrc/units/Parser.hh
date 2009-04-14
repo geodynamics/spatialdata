@@ -52,7 +52,7 @@ public :
 private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-  PyObject *_p;
+  PyObject* _parser;
 }; // class Parser
 
 #endif // spatialdata_units_parser_hh

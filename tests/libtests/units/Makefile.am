@@ -26,7 +26,11 @@ noinst_HEADERS = \
 	TestNondimensional.hh \
 	TestParser.hh
 
-testunits_LDFLAGS =
+AM_CPPFLAGS = \
+	$(PETSC_INCLUDE) -I$(PYTHON_INCDIR) $(PYTHON_EGG_CPPFLAGS)
+
+testunits_LDFLAGS = \
+	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
 testunits_LDADD = \
 	-lcppunit -ldl \
