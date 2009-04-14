@@ -73,9 +73,10 @@ spatialdata::units::TestParser::testDensity(void)
 { // testDensity
   Parser parser;
 
-  CPPUNIT_ASSERT_EQUAL(1.0, parser.parse("kg/m**3"));
+  const double tolerance = 1.0e-06;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, parser.parse("kg/m**3"), tolerance);
 
-  CPPUNIT_ASSERT_EQUAL(1000.0, parser.parse("g/cm**3"));
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(1000.0, parser.parse("g/cm**3"), tolerance);
 } // testDensity
 
 // ----------------------------------------------------------------------

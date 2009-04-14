@@ -19,10 +19,15 @@
 #include <cppunit/TestRunner.h>
 #include <cppunit/TextOutputter.h>
 
+#include <Python.h>
+
 int
 main(int argc,
      char* argv[])
 { // main
+  // Initialize Python interpreter
+  Py_Initialize();
+
   // Create event manager and test controller
   CppUnit::TestResult controller;
 
@@ -42,6 +47,8 @@ main(int argc,
   // Print tests
   CppUnit::TextOutputter outputter(&result, std::cerr);
   outputter.write();
+
+  Py_Finalize();
 
   return (result.wasSuccessful() ? 0 : 1);
 } // main

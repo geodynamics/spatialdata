@@ -58,9 +58,24 @@ spatialdata::units::Parser::parse(const char* units)
    * Any nontrivial setup/teardown should be moved to
    * constructor/destructor.
    */
-  PyObject *pyUnit  = PyObject_CallFunction(_parser, "s", units);
+  PyObject *pyUnit  = PyObject_CallMethod(_parser, "parse", "s", units);
+  if (pyUnit == NULL) {
+    if (PyErr_Occurred()) {PyErr_Print();}
+    return 0.0;
+  }
   PyObject *pyScale = PyObject_GetAttrString(pyUnit, "value");
-  scale             = PyFloat_AsDouble(pyScale);
+  if (pyScale == NULL) {
+    Py_DECREF(pyUnit);
+    if (PyErr_Occurred()) {PyErr_Print();}
+    return 0.0;
+  }
+  if (!PyFloat_Check(pyScale)) {
+    Py_DECREF(pyScale);
+    Py_DECREF(pyUnit);
+    // Should throw a C++ exception. Which one?
+    return 0.0;
+  }
+  scale = PyFloat_AsDouble(pyScale);
   Py_DECREF(pyScale);
   Py_DECREF(pyUnit);
   return scale;
