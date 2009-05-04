@@ -119,9 +119,6 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   assert(0 != pData);
   assert(0 != ppCS);
 
-  // Clear memory and set default values
-  delete *ppCS; *ppCS = new spatialdata::geocoords::CSCart();
-
   utils::LineParser parser(filein, "//");
   parser.eatwhitespace(true);
 
@@ -156,18 +153,18 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
       buffer.ignore(maxIgnore, '=');
       buffer >> numLocs;
     } else if (0 == strcasecmp(token.c_str(), "value-names")) {
-      if (numValues > 0)
-	names = new std::string[numValues];
-      else
+      if (numValues > 0) {
+	delete[] names; names = new std::string[numValues];
+      } else
 	throw std::runtime_error("Number of values must be specified BEFORE "
 				 "names of values in SimpleDB file.");
       buffer.ignore(maxIgnore, '=');
       for (int iVal=0; iVal < numValues; ++iVal)
 	buffer >> names[iVal];
     } else if (0 == strcasecmp(token.c_str(), "value-units")) {
-      if (numValues > 0)
-	units = new std::string[numValues];
-      else
+      if (numValues > 0) {
+	delete[] units; units = new std::string[numValues];
+      } else
 	throw std::runtime_error("Number of values must be specified BEFORE "
 				 "units of values in SimpleDB file.");
       buffer.ignore(maxIgnore, '=');
@@ -235,6 +232,10 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   } // for
   pData->names(const_cast<const char**>(cnames), numValues);
   pData->units(const_cast<const char**>(cunits), numValues);
+  delete[] names; names = 0;
+  delete[] units; units = 0;
+  delete[] cnames; cnames = 0;
+  delete[] cunits; cunits = 0;
 
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     buffer.str(parser.next());
@@ -253,6 +254,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   // number of points
   checkCompatibility(*pData, *ppCS);
   
+  assert(0 != *ppCS);
   (*ppCS)->initialize();
 } // _readV1
 
