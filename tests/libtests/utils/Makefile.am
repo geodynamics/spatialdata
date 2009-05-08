@@ -30,9 +30,8 @@ testutils_LDFLAGS =
 
 testutils_LDADD = \
 	-lcppunit -ldl \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS) \
 	$(top_builddir)/libsrc/libspatialdata.la
 
-# version
-# $Id$
 
 # End of file 

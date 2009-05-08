@@ -47,6 +47,7 @@ INCLUDES +=
 testgeocoords_LDADD = \
 	-lcppunit -ldl \
 	-lproj \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS) \
 	$(top_builddir)/libsrc/libspatialdata.la
 
 # version
