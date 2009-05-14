@@ -88,6 +88,12 @@ protected :
   static void checkCompatibility(const SimpleDBData& data,
 				 const spatialdata::geocoords::CoordSys* pCS);
 
+  /** Convert values to SI units.
+   *
+   * @param data Database data
+   */
+  static void convertToSI(SimpleDBData* const data);
+
 private :
   // PRIVATE METHODS ////////////////////////////////////////////////////
 

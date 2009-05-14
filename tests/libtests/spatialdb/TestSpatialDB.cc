@@ -63,11 +63,11 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
 { // testDB
   CPPUNIT_ASSERT(0 != _pDB);
 
-  const char* names[] = {"two", "one"};
-  const char* units[] = {"m", "m"};
-  const int numVals = 2;
+  const char* names[] = {"two", "one", "four", "three"};
+  const char* units[] = {"km", "m", "None", "MPa"};
+  const int numVals = 4;
   const double queryLoc[] = { 1.0, 2.0, 3.0 };
-  const double vals[] = { 6.3, 4.7 };
+  const double vals[] = { 6.3e+3, 4.7, 0.8, 1.2e+6 };
   const int errFlags[] = { 0 };
   const int spaceDim = 3;
 
@@ -82,7 +82,7 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
 
   const double tolerance = 1.0e-06;
   for (int iVal=0; iVal < numVals; ++iVal)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[numVals-iVal-1],
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[iVal],
 				 1.0, tolerance);
 
   delete[] valsQ; valsQ = 0;
@@ -97,11 +97,11 @@ spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
   CPPUNIT_ASSERT(0 != _pDB);
 
   const char* names[] = {"two", "one"};
-  const char* units[] = {"m", "m"};
+  const char* units[] = {"km", "m"};
   const int numVals = 2;
   const double queryLoc[] = { 1.0, 2.0, 3.0 };
   const int spaceDim = 3;
-  const double vals[] = { 6.3, 4.7 };
+  const double vals[] = { 6.3e+3, 4.7 };
   const int errFlags[] = { 0 };
 
   _pDB->queryVals(names, numVals);
@@ -117,7 +117,7 @@ spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
 
   const double tolerance = 1.0e-06;
   for (int iVal=0; iVal < numVals; ++iVal)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[numVals-iVal-1],
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[iVal],
 				 1.0, tolerance);
 
   delete[] valsQ; valsQ = 0;

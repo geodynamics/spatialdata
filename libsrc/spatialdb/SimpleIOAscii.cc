@@ -254,7 +254,9 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
   // number of points
   checkCompatibility(*pData, *ppCS);
   
-  assert(0 != *ppCS);
+  // Convert to SI units
+  convertToSI(pData);
+
   (*ppCS)->initialize();
 } // _readV1
 

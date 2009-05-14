@@ -46,7 +46,5 @@ main(int argc,
   return (result.wasSuccessful() ? 0 : 1);
 } // main
 
-// version
-// $Id$
 
 // End of file

@@ -20,7 +20,7 @@
 
 #include "unitsfwd.hh"
 
-#include "Python.h"
+#include <Python.h>
 
 /// C++ interface to Pyre units parser.
 class spatialdata::units::Parser
@@ -48,11 +48,12 @@ public :
    */
   double parse(const char* units);
 
-
 private :
   // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
   PyObject* _parser;
+  bool _alreadyInitialized;
+
 }; // class Parser
 
 #endif // spatialdata_units_parser_hh

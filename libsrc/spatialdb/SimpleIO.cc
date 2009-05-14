@@ -21,7 +21,9 @@
 #include "SimpleDBData.hh" // USES SimpleDBData
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
+#include "spatialdata/units/Parser.hh" // USES Parser
 
+#include <vector> // USES std::vector
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
 #include <assert.h> // USES assert()
@@ -71,6 +73,33 @@ spatialdata::spatialdb::SimpleIO::checkCompatibility(
     throw std::runtime_error(msg.str());
   } // if
 } // checkCompatibility
+
+// ----------------------------------------------------------------------
+void
+spatialdata::spatialdb::SimpleIO::convertToSI(SimpleDBData* const data)
+{ // convertToSI
+  assert(0 != data);
+
+#if 1
+  spatialdata::units::Parser parser;
+
+  const int numValues = data->numValues();
+  std::vector<double> scales(numValues);
+  for (int iVal=0; iVal < numValues; ++iVal) {
+    if (strcasecmp(data->units(iVal), "none") != 0)
+      scales[iVal] = parser.parse(data->units(iVal));
+    else
+      scales[iVal] = 1.0;
+  } // for
+
+  const int numLocs = data->numLocs();
+  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+    double* values = data->data(iLoc);
+    for (int iVal=0; iVal < numValues; ++iVal)
+      values[iVal] *= scales[iVal];
+  } // for
+#endif
+} // convertToSI
 
 
 // End of file 

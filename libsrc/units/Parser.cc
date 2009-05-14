@@ -22,12 +22,17 @@
 // Default constructor
 spatialdata::units::Parser::Parser(void)
 { // constructor
+  // Initialize Python interpreter if it is not already initialized.
+  _alreadyInitialized = Py_IsInitialized();
+  if (!_alreadyInitialized)
+  Py_Initialize();
+
   // Should check for NULL, decode the exception, and throw a C++ equivalent
   PyObject *mod = PyImport_ImportModule("pyre.units");
   assert(0 != mod);
   PyObject *cls = PyObject_GetAttrString(mod, "parser");
   assert(0 != cls);
-  _parser      = PyObject_CallFunctionObjArgs(cls, NULL);
+  _parser = PyObject_CallFunctionObjArgs(cls, NULL);
   assert(0 != _parser);
   Py_DECREF(cls);
   Py_DECREF(mod);
@@ -38,6 +43,9 @@ spatialdata::units::Parser::Parser(void)
 spatialdata::units::Parser::~Parser(void)
 { // destructor
   Py_DECREF(_parser); _parser = 0;
+
+  if (!_alreadyInitialized)
+    Py_Finalize();
 } // destructor
 
 // ----------------------------------------------------------------------

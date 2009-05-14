@@ -24,7 +24,13 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::units::TestParser );
 void
 spatialdata::units::TestParser::testConstructor(void)
 { // testConstructor
-  Parser parser;
+  // Test without prior initialization.
+  Parser parserA;
+
+  // Test with prior initialization.
+  Py_Initialize();
+  Parser parserB;
+  Py_Finalize();
 } // testConstructor
 
 // ----------------------------------------------------------------------
