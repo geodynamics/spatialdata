@@ -21,6 +21,8 @@
 #include "spatialdbfwd.hh"
 #include "spatialdata/geocoords/geocoordsfwd.hh"
 
+#include <string> // USES std::string
+
 /// C++ manager for spatial database.
 class spatialdata::spatialdb::SpatialDB
 { // class SpatialDB
@@ -104,7 +106,7 @@ private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
   
   /** Label of spatial database */
-  const char* _label;
+  std::string _label;
 
 }; // class SpatialDB
 

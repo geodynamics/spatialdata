@@ -83,9 +83,10 @@ class SpatialDBObj(Component, ModuleSpatialDB):
 
 def spatial_database():
   """
-  Factory associated with SimpleDB.
+  Factory associated with SpatialDB.
   """
-  return SpatialDBObj()
+  # Abstract object (so return None).
+  return None
 
 
 # End of file 

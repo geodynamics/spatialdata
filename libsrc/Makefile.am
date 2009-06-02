@@ -38,6 +38,8 @@ libspatialdata_la_SOURCES = \
 	spatialdb/SimpleDBQuery.cc \
 	spatialdb/SimpleIO.cc \
 	spatialdb/SimpleIOAscii.cc \
+	spatialdb/TimeHistory.cc \
+	spatialdb/TimeHistoryIO.cc \
 	spatialdb/UniformDB.cc \
 	spatialdb/cspatialdb.cc	\
 	units/Nondimensional.cc \

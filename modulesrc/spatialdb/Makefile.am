@@ -27,7 +27,9 @@ swig_sources = \
 	UniformDB.i \
 	CompositeDB.i \
 	SCECCVMH.i \
-	GravityField.i
+	GravityField.i \
+	TimeHistory.i \
+	TimeHistoryIO.i
 
 swig_generated = \
 	spatialdb_wrap.cxx \

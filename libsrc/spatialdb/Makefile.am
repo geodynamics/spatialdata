@@ -34,6 +34,9 @@ subpkginclude_HEADERS = \
 	SimpleDBQuery.hh \
 	SimpleDBData.hh \
 	SimpleDBData.icc \
+	TimeHistory.hh \
+	TimeHistory.icc \
+	TimeHistoryIO.hh \
 	UniformDB.hh \
 	UniformDB.icc \
 	spatialdbfwd.hh

@@ -17,14 +17,16 @@
 // Set label of spatial database.
 inline
 void
-spatialdata::spatialdb::SpatialDB::label(const char* label)
-{ _label = label; }
+spatialdata::spatialdb::SpatialDB::label(const char* label) {
+  _label = label;
+}
   
 // Get label of spatial database.
 inline
 const char*
-spatialdata::spatialdb::SpatialDB::label(void) const
-{ return _label; }
+spatialdata::spatialdb::SpatialDB::label(void) const {
+  return _label.c_str();
+}
 
 
 // End of file 

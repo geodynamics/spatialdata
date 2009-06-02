@@ -37,6 +37,9 @@ namespace spatialdata {
     class GocadVoxet;
 
     class GravityField;
+
+    class TimeHistory;
+    class TimeHistoryIO;
     
   } // spatialdb
 } // spatialdata

@@ -29,6 +29,8 @@
 #include "spatialdata/spatialdb/CompositeDB.hh"
 #include "spatialdata/spatialdb/SCECCVMH.hh"
 #include "spatialdata/spatialdb/GravityField.hh"
+#include "spatialdata/spatialdb/TimeHistory.hh"
+#include "spatialdata/spatialdb/TimeHistoryIO.hh"
 
 %}
 
@@ -64,6 +66,8 @@ import_array();
 %include "CompositeDB.i"
 %include "SCECCVMH.i"
 %include "GravityField.i"
+%include "TimeHistory.i"
+%include "TimeHistoryIO.i"
 
 
 // End of file

@@ -38,11 +38,12 @@ namespace spatialdata {
 	 const int numLocs,
 	 const int numDims)
 	  };
-      static void convert(double* coords,
-			  const int numLocs,
-			  const int numDims,
-			  const CoordSys* pCSDest,
-			  const CoordSys* pCSSrc);
+      static
+      void convert(double* coords,
+		   const int numLocs,
+		   const int numDims,
+		   const CoordSys* pCSDest,
+		   const CoordSys* pCSSrc);
       %clear(double* coords, const int numLocs, const int numDims);
 
     }; // class Converter
