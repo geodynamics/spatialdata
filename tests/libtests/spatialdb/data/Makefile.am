@@ -13,7 +13,8 @@
 dist_noinst_DATA = \
 	spatialdb.dat \
 	spatial_comments.dat \
-	timehistory_comments.dat
+	timehistory_comments.dat \
+	timehistory.timedb
 
 noinst_TMP = \
 	spatial.dat \

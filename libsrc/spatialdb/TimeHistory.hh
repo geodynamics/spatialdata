@@ -26,6 +26,7 @@
 /// C++ object for time dependence in spatial databases.
 class spatialdata::spatialdb::TimeHistory
 { // class TimeHistory
+  friend class TestTimeHistory;
 
  public :
   // PUBLIC METHODS /////////////////////////////////////////////////////

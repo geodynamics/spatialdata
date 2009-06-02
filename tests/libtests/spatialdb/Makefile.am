@@ -33,6 +33,7 @@ testspatial_SOURCES = \
 	TestSimpleDBVolume3D.cc \
 	TestSimpleIOAscii.cc \
 	TestSpatialDB.cc \
+	TestTimeHistory.cc \
 	TestTimeHistoryIO.cc \
 	TestUniformDB.cc \
 	testcquery.c \
@@ -51,6 +52,8 @@ noinst_HEADERS = \
 	TestSimpleDBArea3D.hh \
 	TestSimpleDBVolume3D.hh \
 	TestSimpleIOAscii.hh \
+	TestTimeHistory.hh \
+	TestTimeHistoryIO.hh \
 	TestUniformDB.hh \
 	testcquery.h \
 	TestSpatialDB.hh

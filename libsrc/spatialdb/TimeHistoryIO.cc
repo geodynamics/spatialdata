@@ -131,7 +131,7 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** time,
       buffer.clear();
       buffer >> (*time)[i];
       buffer >> (*amplitude)[i];
-      (*amplitude)[i] *= scale;
+      (*time)[i] *= scale;
     } // for
     
     if (!filein.good())

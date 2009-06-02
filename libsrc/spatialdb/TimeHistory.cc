@@ -70,6 +70,7 @@ spatialdata::spatialdb::TimeHistory::close(void)
   _npts = 0;
 } // close
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int
@@ -80,19 +81,20 @@ spatialdata::spatialdb::TimeHistory::query(double* value,
   
   if (_npts > 1) {
     if (t < _time[_ilower]) {
-      const int imax = _npts-1;
-      while(_ilower < imax) {
-	if (t >= _time[_ilower])
-	  break;
-	++_ilower;
-      } // while
-    } else if (t > _time[_ilower+1]) {
       while (_ilower > 0) {
-	if (t <= _time[_ilower+1])
+	if (t >= _time[_ilower])
 	  break;
 	--_ilower;
       } // while
+    } else if (t > _time[_ilower+1]) {
+      const int imax = _npts-1;
+      while(_ilower < imax) {
+	if (t <= _time[_ilower+1])
+	  break;
+	++_ilower;
+      } // while
     } // if/else
+
     if (t >= _time[_ilower] && t <= _time[_ilower+1]) {
       const double tL = _time[_ilower];
       const double tU = _time[_ilower+1];

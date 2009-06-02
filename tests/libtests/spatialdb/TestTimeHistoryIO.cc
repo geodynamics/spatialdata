@@ -47,9 +47,11 @@ spatialdata::spatialdb::TestTimeHistoryIO::testIO(void)
 
   CPPUNIT_ASSERT_EQUAL(npts, nptsIn);
   const double tolerance = 1.0e-06;
-  for (int i=0; i < npts; ++i)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i]/scale,
+  for (int i=0; i < npts; ++i) {
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(time[i], timeIn[i]/scale, tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i],
 				 tolerance);
+  } // for
 } // testIO
 
 // ----------------------------------------------------------------------
@@ -69,9 +71,11 @@ spatialdata::spatialdb::TestTimeHistoryIO::testReadComments(void)
 
   CPPUNIT_ASSERT_EQUAL(npts, nptsIn);
   const double tolerance = 1.0e-06;
-  for (int i=0; i < npts; ++i)
+  for (int i=0; i < npts; ++i) {
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(time[i], timeIn[i], tolerance);
     CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i],
 				 tolerance);
+  } // for
 } // testReadComments
 
 
