@@ -33,6 +33,7 @@ testspatial_SOURCES = \
 	TestSimpleDBVolume3D.cc \
 	TestSimpleIOAscii.cc \
 	TestSpatialDB.cc \
+	TestTimeHistoryIO.cc \
 	TestUniformDB.cc \
 	testcquery.c \
 	testspatial.cc
@@ -57,7 +58,7 @@ noinst_HEADERS = \
 
 testspatial_LDFLAGS =
 
-INCLUDES +=
+AM_CPPFLAGS = $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
 
 testspatial_LDADD = \
 	-lcppunit -ldl \

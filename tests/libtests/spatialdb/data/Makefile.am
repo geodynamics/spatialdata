@@ -12,10 +12,12 @@
 
 dist_noinst_DATA = \
 	spatialdb.dat \
-	spatial_comments.dat
+	spatial_comments.dat \
+	timehistory_comments.dat
 
 noinst_TMP = \
-	spatial.dat
+	spatial.dat \
+	timehistory.dat
 
 noinst_HEADERS = \
 	header.hh

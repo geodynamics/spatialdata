@@ -15,6 +15,7 @@
 #include "TimeHistoryIO.hh" // Implementation of class methods
 
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
+#include "spatialdata/units/Parser.hh" // USES Parser
 
 #include <fstream> // USES std::ifstream, std::ofstream
 #include <iomanip> // USES setw(), setiosflags(), resetiosflags()
@@ -117,6 +118,9 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** time,
     } // if
     if (!ok)
       throw std::runtime_error(msg.str());
+
+    units::Parser uparser;
+    const double scale = uparser.parse(timeUnits.c_str());
     
     const int size = *npts;
     delete[] *time; *time = (size > 0) ? new double[size] : 0;
@@ -125,8 +129,9 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** time,
     for (int i=0; i < size; ++i) {
       buffer.str(parser.next());
       buffer.clear();
-      buffer >> (*time[i]);
-      buffer >> (*amplitude[i]);
+      buffer >> (*time)[i];
+      buffer >> (*amplitude)[i];
+      (*amplitude)[i] *= scale;
     } // for
     
     if (!filein.good())
@@ -182,7 +187,7 @@ spatialdata::spatialdb::TimeHistoryIO::write(const double* time,
       << HEADER << "\n"
       << "TimeHistory {\n"
       << "  num-points = " << std::setw(6) << npts << "\n"
-      << "  time-units =" << timeUnits << "\n"
+      << "  time-units = " << timeUnits << "\n"
       << "}\n";
     if (!fileout.good())
       throw std::runtime_error("I/O error while writing TimeHistory "
