@@ -12,6 +12,8 @@
 
 data_DATA = \
 	spatialdb.dat \
+	test_okay.timedb \
+	timehistory.timedb \
 	gen1Din2D_one_bg.spatialdb \
 	gen1Din2D_one_add.spatialdb \
 	gen1Din2D_one_multiply.spatialdb \
@@ -21,6 +23,7 @@ data_DATA = \
 
 data_CLEAN = \
 	test.spatialdb \
+	test.timedb \
 	gen1Din2D.spatialdb
 
 noinst_HEADERS = \

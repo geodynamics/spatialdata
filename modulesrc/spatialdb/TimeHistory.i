@@ -75,8 +75,10 @@ namespace spatialdata {
        *
        * @returns 0 on success, 1 on failure (i.e., could not interpolate)
        */
+      %apply double* OUTPUT { double* value };
       int query(double* value,
 		const double t);
+      %clear (double* value);
         
     }; // class TimeHistory
 

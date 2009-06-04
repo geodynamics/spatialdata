@@ -94,7 +94,7 @@ spatialdata::spatialdb::TestTimeHistory::testQuery(void)
     { 0.5, 0.0, 0.6, 2.0, 5.0, 20.0, 8.0 };
   const double amplitudeE[nqueries] =
     { 1.0, 0.0, 1.2, 4.0, 2.5, 0.0, 1.0 };
-  const int errQ[nqueries] =
+  const int errE[nqueries] =
     { 0, 0, 0, 0, 0, 1, 0 };
 
   TimeHistory th;
@@ -106,8 +106,8 @@ spatialdata::spatialdb::TestTimeHistory::testQuery(void)
   double amplitude = 0.0;
   for (int i=0; i < nqueries; ++i) {
     int err = th.query(&amplitude, timeQ[i]);
-    CPPUNIT_ASSERT_EQUAL(errQ[i], err);
-    if (0 == errQ[i])
+    CPPUNIT_ASSERT_EQUAL(errE[i], err);
+    if (0 == errE[i])
       CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitudeE[i], amplitude, tolerance);
   } // for
 

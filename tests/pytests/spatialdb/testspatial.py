@@ -31,6 +31,12 @@ def suite():
   from TestGravityField import TestGravityField
   suite.addTest(unittest.makeSuite(TestGravityField))
 
+  from TestTimeHistoryIO import TestTimeHistoryIO
+  suite.addTest(unittest.makeSuite(TestTimeHistoryIO))
+
+  from TestTimeHistory import TestTimeHistory
+  suite.addTest(unittest.makeSuite(TestTimeHistory))
+
   from TestGenSimpleDBApp import TestGenSimpleDBApp
   suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
 
