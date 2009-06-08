@@ -70,7 +70,6 @@ spatialdata::spatialdb::TimeHistory::close(void)
   _npts = 0;
 } // close
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int

@@ -60,6 +60,10 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void)
 
   TimeHistory th;
   th.filename(filename);
+
+  // Test calling close on upopened db
+  th.close();
+
   th.open();
 
   units::Parser parser;
@@ -81,6 +85,8 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void)
   CPPUNIT_ASSERT_EQUAL(0, th._npts);
   CPPUNIT_ASSERT(0 == th._time);
   CPPUNIT_ASSERT(0 == th._amplitude);
+
+  th.close(); // Test calling close when already closed
 } // testOpenClose
 
 // ----------------------------------------------------------------------

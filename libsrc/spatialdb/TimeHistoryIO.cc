@@ -31,13 +31,13 @@ const char* spatialdata::spatialdb::TimeHistoryIO::HEADER =
 // ----------------------------------------------------------------------
 // Read time history file.
 void
-spatialdata::spatialdb::TimeHistoryIO::read(double** time,
-					    double** amplitude,
+spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
+					    double** pamplitude,
 					    int* npts,
 					    const char* filename)
 { // read
-  assert(0 != time);
-  assert(0 != amplitude);
+  assert(0 != ptime);
+  assert(0 != pamplitude);
   assert(0 != npts);
 
   try {
@@ -123,19 +123,23 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** time,
     const double scale = uparser.parse(timeUnits.c_str());
     
     const int size = *npts;
-    delete[] *time; *time = (size > 0) ? new double[size] : 0;
-    delete[] *amplitude; *amplitude = (size > 0) ? new double[size] : 0;
+
+    double* time = (size > 0) ? new double[size] : 0;
+    double* amplitude = (size > 0) ? new double[size] : 0;
     
     for (int i=0; i < size; ++i) {
       buffer.str(parser.next());
       buffer.clear();
-      buffer >> (*time)[i];
-      buffer >> (*amplitude)[i];
-      (*time)[i] *= scale;
+      buffer >> time[i];
+      buffer >> amplitude[i];
+      time[i] *= scale;
     } // for
     
     if (!filein.good())
       throw std::runtime_error("Unknown error while reading.");
+
+    delete[] *ptime; *ptime = time;
+    delete[] *pamplitude; *pamplitude = amplitude;
   } catch (const std::exception& err) {
     std::ostringstream msg;
     msg << "Error occurred while reading time history file '"
