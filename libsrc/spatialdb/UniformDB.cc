@@ -15,6 +15,9 @@
 #include "SpatialDB.hh" // ISA SpatialDB object
 #include "UniformDB.hh" // Implementation of class methods
 
+#include "spatialdata/units/Parser.hh" // USES Parser
+
+#include <vector> // USES std::vector
 #include <stdexcept> // USES std::runtime_error
 
 #include <sstream> // USES std::ostringsgream
@@ -59,25 +62,36 @@ spatialdata::spatialdb::UniformDB::~UniformDB(void)
 // Set values in database.
 void
 spatialdata::spatialdb::UniformDB::setData(const char* const* names,
+					   const char* const* units,
 					   const double* values,
 					   const int numValues)
 { // setData
-  assert( (0 < numValues && 0 != names && 0 != values) ||
-	  (0 == numValues && 0 == names && 0 == values) );
+  assert( (0 < numValues && 0 != names && 0 != units && 0 != values) ||
+	  (0 == numValues && 0 == names && 0 == units && 0 == values) );
 
   // clear out old data
   delete[] _names; _names = 0;
   delete[] _values; _values = 0;
   _numValues = numValues;
 
+  spatialdata::units::Parser parser;
+
   if (0 < numValues) {
     _names = new std::string[numValues];
     for (int i=0; i < numValues; ++i)
       _names[i] = names[i];
 
+    std::vector<double> scales(numValues);
+    for (int i=0; i < numValues; ++i) {
+      if (strcasecmp(units[i], "none") != 0)
+	scales[i] = parser.parse(units[i]);
+      else
+	scales[i] = 1.0;
+    } // for
+
     _values = new double[numValues];
     for (int i=0; i < numValues; ++i)
-      _values[i] = values[i];
+      _values[i] = values[i]*scales[i];
   } // if
 } // setData
 

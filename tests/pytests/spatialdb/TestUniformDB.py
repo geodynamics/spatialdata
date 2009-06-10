@@ -22,6 +22,7 @@ class TestUniformDB(unittest.TestCase):
     db = UniformDB()
     db.inventory.label = "test"
     db.inventory.values = ["one", "two", "three"]
+    db.inventory.units = ["m", "km", "cm"]
     db.inventory.data = [1.1, 2.2, 3.3]
     db._configure()
     self._db = db
@@ -34,8 +35,8 @@ class TestUniformDB(unittest.TestCase):
     from spatialdata.geocoords.CSCart import CSCart
     cs = CSCart()
     queryVals = ["three", "one"]
-    dataE = numpy.array([[3.3, 1.1],
-                         [3.3, 1.1]], numpy.float64)
+    dataE = numpy.array([[3.3e-2, 1.1],
+                         [3.3e-2, 1.1]], numpy.float64)
     errE = [0, 0]
     
     db = self._db

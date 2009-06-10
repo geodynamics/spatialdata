@@ -63,8 +63,9 @@ spatialdata::spatialdb::TestCompositeDB::testDBA(void)
   UniformDB dbU;
   const int numValuesU = 3;
   const char* namesU[] = { "one", "two", "three" };
+  const char* unitsU[] = { "none", "none", "none" };
   const double valuesU[] = { 1.1, 2.2, 3.3 };
-  dbU.setData(namesU, valuesU, numValuesU);
+  dbU.setData(namesU, unitsU, valuesU, numValuesU);
 
   const int numNamesA = 2;
   const char* namesA[] = { "three", "one" };
@@ -94,8 +95,9 @@ spatialdata::spatialdb::TestCompositeDB::testDBB(void)
   UniformDB dbU;
   const int numValuesU = 3;
   const char* namesU[] = { "one", "two", "three" };
+  const char* unitsU[] = { "none", "none", "none" };
   const double valuesU[] = { 1.1, 2.2, 3.3 };
-  dbU.setData(namesU, valuesU, numValuesU);
+  dbU.setData(namesU, unitsU, valuesU, numValuesU);
 
   const int numNamesB = 2;
   const char* namesB[] = { "three", "one" };
@@ -126,8 +128,9 @@ spatialdata::spatialdb::TestCompositeDB::testQueryVals(void)
   { // initialize db A
     const int numValuesA = 3;
     const char* namesA[] = { "one", "two", "three" };
+    const char* unitsA[] = { "none", "none", "none" };
     const double valuesA[] = { 1.1, 2.2, 3.3 };
-    dbA.setData(namesA, valuesA, numValuesA);
+    dbA.setData(namesA, unitsA, valuesA, numValuesA);
   } // initialize db A
     
   const int numNamesA = 2;
@@ -138,8 +141,9 @@ spatialdata::spatialdb::TestCompositeDB::testQueryVals(void)
   { // initialize db B
     const int numValuesB = 2;
     const char* namesB[] = { "four", "five" };
+    const char* unitsB[] = { "none", "none" };
     const double valuesB[] = { 4.4, 5.5 };
-    dbB.setData(namesB, valuesB, numValuesB);
+    dbB.setData(namesB, unitsB, valuesB, numValuesB);
   } // initialize db B
 
   const int numNamesB = 1;
@@ -185,8 +189,9 @@ spatialdata::spatialdb::TestCompositeDB::testQuery(void)
   { // initialize db A
     const int numValuesA = 3;
     const char* namesA[] = { "one", "two", "three" };
+    const char* unitsA[] = { "none", "none", "none" };
     const double valuesA[] = { 1.1, 2.2, 3.3 };
-    dbA.setData(namesA, valuesA, numValuesA);
+    dbA.setData(namesA, unitsA, valuesA, numValuesA);
   } // initialize db A
 
   const int numNamesA = 2;
@@ -197,8 +202,9 @@ spatialdata::spatialdb::TestCompositeDB::testQuery(void)
   { // initialize db B
     const int numValuesB = 2;
     const char* namesB[] = { "four", "five" };
+    const char* unitsB[] = { "none", "none" };
     const double valuesB[] = { 4.4, 5.5 };
-    dbB.setData(namesB, valuesB, numValuesB);
+    dbB.setData(namesB, unitsB, valuesB, numValuesB);
   } // initialize db B
 
   const int numNamesB = 1;

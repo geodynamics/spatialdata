@@ -22,12 +22,14 @@ class TestCompositeDB(unittest.TestCase):
     dbA = UniformDB()
     dbA.inventory.label = "db A"
     dbA.inventory.values = ["one", "two", "three"]
+    dbA.inventory.units = ["none", "none", "none"]
     dbA.inventory.data = [1.1, 2.2, 3.3]
     dbA._configure()
     
     dbB = UniformDB()
     dbB.inventory.label = "db B"
     dbB.inventory.values = ["two", "three", "four", "five" ]
+    dbB.inventory.units = ["none", "none", "none", "none" ]
     dbB.inventory.data = [2.1, 3.1, 4.1, 5.1]
     dbB._configure()
 

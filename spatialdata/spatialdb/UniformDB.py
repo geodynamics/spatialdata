@@ -39,6 +39,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     ##
     ## \b Properties
     ## @li \b values Names of values in spatial database.
+    ## @li \b units Units of values in spatial database.
     ## @li \b data Values in spatial database.
     ##
     ## \b Facilities
@@ -48,6 +49,9 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
 
     values = pyre.inventory.list("values", default=[])
     values.meta['tip'] = "Names of values in spatial database."
+
+    units = pyre.inventory.list("units", default=[])
+    units.meta['tip'] = "Units of values in spatial database."
 
     data = pyre.inventory.list("data", default=[])
     data.meta['tip'] = "Values in spatial database."
@@ -72,7 +76,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     SpatialDBObj._configure(self)
     self._validateParameters(self.inventory)
     data = map(float, self.inventory.data)
-    self.setData(self.inventory.values, data)
+    self.setData(self.inventory.values, self.inventory.units, data)
     return
 
   

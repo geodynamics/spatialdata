@@ -80,7 +80,6 @@ spatialdata::spatialdb::SimpleIO::convertToSI(SimpleDBData* const data)
 { // convertToSI
   assert(0 != data);
 
-#if 1
   spatialdata::units::Parser parser;
 
   const int numValues = data->numValues();
@@ -98,7 +97,6 @@ spatialdata::spatialdb::SimpleIO::convertToSI(SimpleDBData* const data)
     for (int iVal=0; iVal < numValues; ++iVal)
       values[iVal] *= scales[iVal];
   } // for
-#endif
 } // convertToSI
 
 

@@ -39,20 +39,26 @@ namespace spatialdata {
       /** Set values in database.
        *
        * @param names Array of names of values in database.
+       * @param units Array of units of values in database.
        * @param values Array of values in database.
        * @param numValues Number of values in database.
        */
       %apply(const char* const* string_list) {
 	(const char* const* names)
 	  };
+      %apply(const char* const* string_list) {
+	(const char* const* units)
+	  };
       %apply(double* IN_ARRAY1, int DIM1) {
 	(const double* values,
 	 const int numValues)
 	  };
       void setData(const char* const* names,
+		   const char* const* names,
 		   const double* values,
 		   const int numValues);
       %clear(const char* const* names);
+      %clear(const char* const* units);
       %clear(const double* values, const int numValues);
       
       /// Open the database and prepare for querying.

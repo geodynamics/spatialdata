@@ -45,10 +45,12 @@ class spatialdata::spatialdb::UniformDB : public SpatialDB
   /** Set values in database.
    *
    * @param names Array of names of values in database.
+   * @param units Array of units for values in database.
    * @param values Array of values in database.
    * @param numValues Number of values in database.
    */
   void setData(const char* const* names,
+	       const char* const* units,
 	       const double* values,
 	       const int numValues);
 
