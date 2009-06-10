@@ -60,6 +60,8 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     Constructor.
     """
     SpatialDBObj.__init__(self, name)
+    from pyre.units import parser
+    self.parser = parser()
     return
 
 
@@ -74,8 +76,9 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     data = []
     units = []
     for x in self.inventory.data:
-      data.append(float(x.value))
-      units.append(x._strDerivation())
+      xdim = self.parser.parse(str(x))
+      data.append(float((xdim.value)))
+      units.append(xdim._strDerivation())
     self.setData(self.inventory.values, units, data)
     return
 
@@ -100,10 +103,11 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
             % (self.label, len(params.values), len(params.data))
     try:
       for x in params.data:
-        dataFloat = float(x.value)
+        xdim = self.parser.parse(str(x))
+        dataFloat = float(xdim.value)
     except:
         raise ValueError, \
-              "'data' list must contain floating point values."
+              "'data' list must contain dimensioned values."
     return
   
 
