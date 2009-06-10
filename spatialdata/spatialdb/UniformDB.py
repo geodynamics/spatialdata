@@ -39,7 +39,6 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     ##
     ## \b Properties
     ## @li \b values Names of values in spatial database.
-    ## @li \b units Units of values in spatial database.
     ## @li \b data Values in spatial database.
     ##
     ## \b Facilities
@@ -49,9 +48,6 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
 
     values = pyre.inventory.list("values", default=[])
     values.meta['tip'] = "Names of values in spatial database."
-
-    units = pyre.inventory.list("units", default=[])
-    units.meta['tip'] = "Units of values in spatial database."
 
     data = pyre.inventory.list("data", default=[])
     data.meta['tip'] = "Values in spatial database."
@@ -75,8 +71,12 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     """
     SpatialDBObj._configure(self)
     self._validateParameters(self.inventory)
-    data = map(float, self.inventory.data)
-    self.setData(self.inventory.values, self.inventory.units, data)
+    data = []
+    units = []
+    for x in self.inventory.data:
+      data.append(float(x.value))
+      units.append(x._strDerivation())
+    self.setData(self.inventory.values, units, data)
     return
 
   
@@ -99,7 +99,8 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
             "'values' has size of %d but 'data' has size of %d." \
             % (self.label, len(params.values), len(params.data))
     try:
-      dataFloat = map(float, params.data)
+      for x in params.data:
+        dataFloat = float(x.value)
     except:
         raise ValueError, \
               "'data' list must contain floating point values."
