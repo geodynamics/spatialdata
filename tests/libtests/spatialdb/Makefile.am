@@ -64,9 +64,10 @@ testspatial_LDFLAGS =
 AM_CPPFLAGS = $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
 
 testspatial_LDADD = \
+	$(top_builddir)/libsrc/libspatialdata.la \
+	-lproj \
 	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS) \
-	$(top_builddir)/libsrc/libspatialdata.la 
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
 # Source files associated with testing data

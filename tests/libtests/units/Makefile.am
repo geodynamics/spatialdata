@@ -33,9 +33,10 @@ testunits_LDFLAGS = \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
 testunits_LDADD = \
+	$(top_builddir)/libsrc/libspatialdata.la \
+	-lproj \
 	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS) \
-	$(top_builddir)/libsrc/libspatialdata.la
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
 # End of file 

@@ -45,12 +45,10 @@ testgeocoords_LDFLAGS =
 INCLUDES +=
 
 testgeocoords_LDADD = \
-	-lcppunit -ldl \
+	$(top_builddir)/libsrc/libspatialdata.la \
 	-lproj \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS) \
-	$(top_builddir)/libsrc/libspatialdata.la
+	-lcppunit -ldl \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
-# version
-# $Id$
 
 # End of file 
