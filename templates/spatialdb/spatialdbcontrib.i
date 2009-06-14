@@ -13,7 +13,7 @@
 // Define the spatialdatacontrib SWIG interface module.
 
 // Set module name
-%module spatialdatacontrib
+%module spatialdbcontrib
 
 // Header files for module C++ code.
 %{

@@ -12,20 +12,28 @@
 
 ACLOCAL_AMFLAGS = -I ./m4
 
+SUBDIRS = tests
+
+subpkgpythondir = $(pythondir)/spatialdata/spatialdb/contrib
+subpkgpyexecdir = $(pyexecdir)/spatialdata/spatialdb/contrib
+
 
 # LIBRARY --------------------------------------------------------------
-lib_LTLIBRARIES = libspatialdatacontrib.la
+lib_LTLIBRARIES = libspatialdbcontrib.la
 
-libspatialdatacontrib_la_SOURCES = \
+libspatialdbcontrib_la_SOURCES = \
 	UniformVelModel.cc
 
-libspatialdatacontrib_la_LDFLAGS = $(AM_LDFLAGS)
+noinst_HEADERS = \
+	UniformVelModel.hh
 
-libspatialdatacontrib_la_LIBADD = \
+libspatialdbcontrib_la_LDFLAGS = $(AM_LDFLAGS)
+
+libspatialdbcontrib_la_LIBADD = \
 	-lspatialdata \
 	-lproj
 if NO_UNDEFINED
-libspatialdatacontrib_la_LIBADD += \
+libspatialdbcontrib_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
@@ -35,32 +43,34 @@ INCLUDES =
 
 # MODULE ---------------------------------------------------------------
 
-pkgpyexec_LTLIBRARIES = _spatialdatacontribmodule.la
+subpkgpyexec_LTLIBRARIES = _spatialdbcontribmodule.la
 
-pkgpyexec_PYTHON = spatialdatacontrib.py
+subpkgpyexec_PYTHON = \
+	spatialdbcontrib.py \
+	__init__.py
 
 swig_sources = \
-	spatialdatacontrib.i \
+	spatialdbcontrib.i \
 	UniformVelModel.i
 
 swig_generated = \
-	spatialdatacontrib_wrap.cxx \
-	spatialdatacontrib.py
+	spatialdbcontrib_wrap.cxx \
+	spatialdbcontrib.py
 
-_spatialdatacontribmodule_la_LDFLAGS = -module -avoid-version \
+_spatialdbcontribmodule_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist__spatialdatacontribmodule_la_SOURCES = $(swig_sources) $(swig_generated)
+dist__spatialdbcontribmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
-_spatialdatacontribmodule_la_LIBADD = libspatialdatacontrib.la
+_spatialdbcontribmodule_la_LIBADD = libspatialdbcontrib.la
 if NO_UNDEFINED
-_spatialdatacontribmodule_la_LIBADD += \
+_spatialdbcontribmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
 INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
-$(srcdir)/spatialdatacontrib_wrap.cxx $(srcdir)/spatialdatacontrib.py: $(swig_sources)
+$(srcdir)/spatialdbcontrib_wrap.cxx $(srcdir)/spatialdbcontrib.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $(CPPFLAGS) $<
 
 
@@ -70,7 +80,7 @@ MAINTAINERCLEANFILES = $(swig_generated)
 
 # PYTHON ---------------------------------------------------------------
 
-nobase_pkgpyexec_PYTHON = \
+nobase_subpkgpyexec_PYTHON = \
 	__init__.py \
 	UniformVelModel.py
 

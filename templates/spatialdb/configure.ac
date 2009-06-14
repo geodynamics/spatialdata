@@ -11,7 +11,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdatacontrib], [0.0.1], [cig-short@geodynamics.org])
+AC_INIT([spatialdbcontrib], [0.0.1], [cig-short@geodynamics.org])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 #AC_CONFIG_MACRO_DIR([./m4])
@@ -49,23 +49,6 @@ CIT_NUMPY_PYTHON_MODULE
 CIT_NUMPY_INCDIR
 AC_PROG_SWIG(1.3.33)
 
-# CPPUNIT
-if test "$enable_testing" = "yes" ; then
-  AC_LANG(C++)
-  AC_CHECK_HEADER([cppunit/TestRunner.h], [], [
-    AC_MSG_ERROR([CppUnit header not found; try CPPFLAGS="-I<CppUnit include dir>"])
-  ])
-  AC_MSG_CHECKING([for CppUnit::TestRunner in -lcppunit])
-  AC_REQUIRE_CPP
-  AC_COMPILE_IFELSE(
-    [AC_LANG_PROGRAM([[#include <cppunit/TestRunner.h>]],
-	             [[CppUnit::TestRunner runner;]])],
-    [AC_MSG_RESULT(yes)],
-    [AC_MSG_RESULT(no)
-     AC_MSG_ERROR([CppUnit library not found; try LDFLAGS="-L<CppUnit lib dir>"])
-  ])
-fi
-
 # SPATIALDATA
 AC_LANG(C++)
 AC_CHECK_HEADER([spatialdata/spatialdb/SpatialDB.hh], [], [
@@ -90,7 +73,8 @@ AC_CHECK_HEADER([spatialdata/spatialdb/swig/SpatialDBObj.i], [], [
 AC_C_BIGENDIAN
 
 # ----------------------------------------------------------------------
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile
+	         tests/Makefile])
 
 AC_OUTPUT
 

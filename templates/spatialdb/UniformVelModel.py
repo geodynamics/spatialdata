@@ -16,7 +16,7 @@
 ## Factory: spatial_database
 
 from spatialdata.spatialdb.SpatialDBObj import SpatialDBObj
-from spatialdatacontrib import UniformVelModel as ModuleUniformVelModel
+from spatialdbcontrib import UniformVelModel as ModuleUniformVelModel
 
 # UniformVelModel class
 class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):

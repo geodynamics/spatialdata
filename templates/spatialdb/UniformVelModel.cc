@@ -176,7 +176,7 @@ contrib::spatialdb::UniformVelModel::query(double* vals,
     throw std::runtime_error(msg.str());
   } // if
   const int spaceDim = csQuery->spaceDim();
-  if (2 != spaceDim || 3 != spaceDim) {
+  if (2 != spaceDim && 3 != spaceDim) {
     std::ostringstream msg;
     msg << "Spatial dimension of coordinate system for query location must have "
 	<< "2 or 3 spatial dimensions while querying uniform velocity model "

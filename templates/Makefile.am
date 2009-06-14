@@ -19,11 +19,13 @@ EXTRA_DIST = \
 	spatialdb/Makefile.in \
 	spatialdb/portinfo.in \
 	spatialdb/configure \
-	spatialdb/GeoGridVelModel.hh \
-	spatialdb/GeoGridVelModel.icc \
-	spatialdb/GeoGridVelModel.cc \
+	spatialdb/UniformVelModel.hh \
+	spatialdb/UniformVelModel.cc \
+	spatialdb/UniformVelModel.i \
+	spatialdb/UniformVelModel.i \
 	spatialdb/__init__.py \
-	spatialdb/GeoGridVelModel.py \
-	spatialdb/spatialdb.pyxe.src
+	spatialdb/UniformVelModel.py \
+	spatialdb/tests/testcontrib.py \
+	spatialdb/tests/TestUniformVelModel.py
 
 # End of file 
