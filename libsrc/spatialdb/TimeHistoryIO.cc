@@ -134,6 +134,10 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
       buffer >> amplitude[i];
       time[i] *= scale;
     } // for
+    // Verify that the time stamps are ordered in time.
+    for (int i=1; i < size; ++i)
+      if (time[i-1] >= time[i])
+	throw std::runtime_error("Time history must be ordered in time.");
     
     if (!filein.good())
       throw std::runtime_error("Unknown error while reading.");
