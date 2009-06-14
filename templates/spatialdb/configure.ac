@@ -11,9 +11,10 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([yourname], [0.0.1], [youremail@here])
+AC_INIT([spatialdatacontrib], [0.0.1], [cig-short@geodynamics.org])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
+#AC_CONFIG_MACRO_DIR([./m4])
 AM_INIT_AUTOMAKE([foreign])
 
 # ----------------------------------------------------------------------
@@ -43,25 +44,10 @@ AC_PROG_INSTALL
 AM_PATH_PYTHON([2.3])
 CIT_PYTHON_SYSCONFIG
 
-# Check for Python modules and packages.
-#CIT_PYTHON_EGG_SETUP
-
-# PYREX/PYREXEMBED
-AC_CHECK_PROG([have_pyrex],
-  [pyrexc],
-  [yes],
-  [no])
-if test "$have_pyrex" = "no"; then
-  AC_MSG_ERROR([Pyrex not found in current path.])
-fi
-AC_CHECK_PROG([have_pyrexembed],
-  [pyrexembed],
-  [yes],
-  [no])
-if test "$have_pyrexembed" = "no"; then
-  AC_MSG_ERROR([Pyrexembed not found in current path.])
-fi
-AC_ARG_VAR(PYXFLAGS, [Pyrex flags])
+# SWIG
+CIT_NUMPY_PYTHON_MODULE
+CIT_NUMPY_INCDIR
+AC_PROG_SWIG(1.3.33)
 
 # CPPUNIT
 if test "$enable_testing" = "yes" ; then
@@ -95,6 +81,10 @@ AC_COMPILE_IFELSE(
   [AC_MSG_RESULT(no)
    AC_MSG_ERROR([Spatialdata library not found; try LDFLAGS="-L<Spatialdata lib dir>"])
 ])
+AC_CHECK_HEADER([spatialdata/spatialdb/swig/SpatialDBObj.i], [], [
+  AC_MSG_ERROR([SpatialDB SWIG interface file not found; try CPPFLAGS="-I<Spatialdata include dir>"])
+])
+
 
 # ENDIANNESS
 AC_C_BIGENDIAN

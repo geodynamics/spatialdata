@@ -12,9 +12,9 @@
 
 ## @file __init__.py
 ##
-## @brief Python top-level SpatialData module initialization
+## @brief Python module initialization
 
-__all__ = ['GeoGridVelModel',
+__all__ = ['UniformVelModel',
            ]
 
 
