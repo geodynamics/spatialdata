@@ -144,6 +144,7 @@ AC_CONFIG_FILES([Makefile
 	libsrc/units/Makefile
 	libsrc/utils/Makefile
 	modulesrc/Makefile
+	modulesrc/include/Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
 	modulesrc/units/Makefile

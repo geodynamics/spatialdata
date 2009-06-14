@@ -13,6 +13,8 @@
 subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
+swigincludedir = $(pkgincludedir)/$(subpackage)/swig
+
 subpkgpyexec_LTLIBRARIES = _spatialdbmodule.la
 
 subpkgpyexec_PYTHON = spatialdb.py
@@ -30,6 +32,9 @@ swig_sources = \
 	GravityField.i \
 	TimeHistory.i \
 	TimeHistoryIO.i
+
+swiginclude_HEADERS = \
+	SpatialDBObj.i
 
 swig_generated = \
 	spatialdb_wrap.cxx \
