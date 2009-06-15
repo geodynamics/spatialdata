@@ -71,7 +71,7 @@ endif
 INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
 $(srcdir)/spatialdbcontrib_wrap.cxx $(srcdir)/spatialdbcontrib.py: $(swig_sources)
-	$(SWIG) -Wall -c++ -python $(CPPFLAGS) $<
+	$(SWIG) -Wall -c++ -python $(SWIG_FLAGS) $<
 
 
 MAINTAINERCLEANFILES = $(swig_generated)

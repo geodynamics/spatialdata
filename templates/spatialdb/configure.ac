@@ -64,9 +64,14 @@ AC_COMPILE_IFELSE(
   [AC_MSG_RESULT(no)
    AC_MSG_ERROR([Spatialdata library not found; try LDFLAGS="-L<Spatialdata lib dir>"])
 ])
-AC_CHECK_HEADER([spatialdata/spatialdb/swig/SpatialDBObj.i], [], [
-  AC_MSG_ERROR([SpatialDB SWIG interface file not found; try CPPFLAGS="-I<Spatialdata include dir>"])
-])
+if test "x$SPATIALDATA_SWIG_DIR" != "x" ; then
+  AC_CHECK_FILE([$SPATIALDATA_SWIG_DIR/spatialdb/SpatialDBObj.i], [], [
+    AC_MSG_ERROR([Spatialdata SpatialDBObj.i SWIG interface file not found])])
+  AC_SUBST([SWIG_FLAGS], ["-I$SPATIALDATA_SWIG_DIR $SWIG_FLAGS"])
+else
+  AC_CHECK_FILE([spatialdata/SpatialDBObj.i], [], [
+    AC_MSG_ERROR([Spatialdata SpatialDBObj.i SWIG interface file not found; Try setting SPATIALDATA_SWIG_DIR=<directory containing spatialdb/SpatialDBObj.i>])])
+fi
 
 
 # ENDIANNESS
