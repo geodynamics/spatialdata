@@ -31,20 +31,20 @@
 } // exception
 
 %include "typemaps.i"
-%include "spatialdata/swig/chararray.i"
+%include "include/chararray.i"
 
 // Numpy interface stuff
 %{
 #define SWIG_FILE_WITH_INIT
 %}
-%include "spatialdata/swig/numpy.i"
+%include "include/numpy.i"
 %init %{
 import_array();
 %}
 
 
 // Interface files.
-%include "spatialdata/spatialdb/swig/SpatialDBObj.i"
+%include "spatialdb/SpatialDBObj.i"
 %include "UniformVelModel.i"
 
 

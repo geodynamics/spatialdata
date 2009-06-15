@@ -25,7 +25,7 @@ spatialdata::units::Parser::Parser(void)
   // Initialize Python interpreter if it is not already initialized.
   _alreadyInitialized = Py_IsInitialized();
   if (!_alreadyInitialized)
-  Py_Initialize();
+    Py_Initialize();
 
   // Should check for NULL, decode the exception, and throw a C++ equivalent
   PyObject *mod = PyImport_ImportModule("pyre.units");

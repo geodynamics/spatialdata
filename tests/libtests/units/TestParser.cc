@@ -28,9 +28,7 @@ spatialdata::units::TestParser::testConstructor(void)
   Parser parserA;
 
   // Test with prior initialization.
-  Py_Initialize();
   Parser parserB;
-  Py_Finalize();
 } // testConstructor
 
 // ----------------------------------------------------------------------
