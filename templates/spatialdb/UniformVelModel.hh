@@ -26,7 +26,8 @@ namespace contrib {
   } // spatialdb
 } // contrib
 
-class contrib::spatialdb::UniformVelModel : public spatialdata::spatialdb::SpatialDB
+class contrib::spatialdb::UniformVelModel : 
+  public spatialdata::spatialdb::SpatialDB
 { // UniformVelModel
   friend class TestUniformVelModel; // unit testing
  

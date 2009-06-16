@@ -18,13 +18,6 @@ AC_CONFIG_AUX_DIR([./aux-config])
 AM_INIT_AUTOMAKE([foreign])
 
 # ----------------------------------------------------------------------
-# TESTING w/cppunit
-AC_ARG_ENABLE([testing],
-	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
-	[enable_testing=yes],
-	[enable_testing=no])
-
-# ----------------------------------------------------------------------
 # C/C++/libtool/install
 AC_PROG_CXX
 AC_PROG_CC

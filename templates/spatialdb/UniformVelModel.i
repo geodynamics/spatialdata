@@ -15,7 +15,7 @@
 /* This is nearly identical to the C++ UniformVelModel header
  * file. There are a few important differences required by SWIG:
  *
- * (1) Instead of forward declaring the UniformVelModel database, we
+ * (1) Instead of forward declaring the UniformVelModel class, we
  * embed the class definition within the namespace declarations.
  *
  * (2) We only include public members and methods, because this is an
