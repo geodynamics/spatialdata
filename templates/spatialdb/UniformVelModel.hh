@@ -20,6 +20,8 @@
 
 #include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
 
+// Forward declaration of the C++ UniformVelModel object in the
+// contrib/spatialdb namespace.
 namespace contrib {
   namespace spatialdb {
     class UniformVelModel;
@@ -27,9 +29,11 @@ namespace contrib {
 } // contrib
 
 class contrib::spatialdb::UniformVelModel : 
-  public spatialdata::spatialdb::SpatialDB
+  public spatialdata::spatialdb::SpatialDB // inheritance from SpatialDB
 { // UniformVelModel
-  friend class TestUniformVelModel; // unit testing
+  // Allow the unit testing TestUniformVelModel object access to
+  // private class methods and members.
+  friend class TestUniformVelModel;
  
 // PUBLIC METHODS ///////////////////////////////////////////////////////
 public :

@@ -10,6 +10,7 @@
 # ----------------------------------------------------------------------
 #
 
+# Include files in templates in spatialdata source distribution.
 EXTRA_DIST = \
 	Makefile.am \
 	README \
