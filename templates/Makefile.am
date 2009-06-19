@@ -15,12 +15,8 @@ EXTRA_DIST = \
 	Makefile.am \
 	README \
 	spatialdb/README \
-	spatialdb/configure \
 	spatialdb/configure.ac \
 	spatialdb/Makefile.am \
-	spatialdb/aclocal.m4 \
-	spatialdb/Makefile.in \
-	spatialdb/portinfo.in \
 	spatialdb/UniformVelModel.hh \
 	spatialdb/UniformVelModel.cc \
 	spatialdb/UniformVelModel.i \
