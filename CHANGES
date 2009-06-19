@@ -1,3 +1,8 @@
+2009/06/19 (version 0.5.0)
+
+  Switched to SWIG for Python modules. Added parsing of units in
+  SimpleDB headers. Added time history files.
+
 2007/02/26
 
   Switched to using numpy arrays as arguments in Python

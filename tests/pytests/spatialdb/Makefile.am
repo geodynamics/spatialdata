@@ -29,7 +29,9 @@ noinst_PYTHON = \
 	TestSCECCVMH.py \
 	TestSimpleIOAscii.py \
 	TestSimpleDB.py \
-	TestUniformDB.py
+	TestUniformDB.py \
+	TestTimeHistory.py \
+	TestTimeHistoryIO.py
 
 dist_noinst_PYTHON = \
 	TestSCECCVMH.py.in
