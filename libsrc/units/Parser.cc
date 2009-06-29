@@ -62,27 +62,37 @@ spatialdata::units::Parser::parse(const char* units)
    * p = pyre.units.parser()
    * x = p.parse(units) [units is a string]
    * scale = x.value
-   *
-   * Any nontrivial setup/teardown should be moved to
-   * constructor/destructor.
    */
   PyObject *pyUnit  = PyObject_CallMethod(_parser, "parse", "s", units);
-  if (pyUnit == NULL) {
-    if (PyErr_Occurred()) {PyErr_Print();}
-    return 0.0;
-  }
+  if (pyUnit == 0) {
+    if (PyErr_Occurred()) {
+      PyErr_Clear();
+      std::ostringstream msg;
+      msg << "Could not parse units string '" << units << "'.";
+      throw std::runtime_error(msg.str());
+    } // if
+  } // if
   PyObject *pyScale = PyObject_GetAttrString(pyUnit, "value");
-  if (pyScale == NULL) {
+  if (pyScale == 0) {
     Py_DECREF(pyUnit);
-    if (PyErr_Occurred()) {PyErr_Print();}
-    return 0.0;
-  }
+    if (PyErr_Occurred()) {
+      PyErr_Clear();
+      std::ostringstream msg;
+      msg << "Could not get floating point value when parsing units string '"
+	  << units << "'.";
+      throw std::runtime_error(msg.str());
+    } // if
+  } // if
   if (!PyFloat_Check(pyScale)) {
     Py_DECREF(pyScale);
     Py_DECREF(pyUnit);
-    // Should throw a C++ exception. Which one?
-    return 0.0;
-  }
+    PyErr_Clear();
+    std::ostringstream msg;
+    msg << "Could not get floating point value when parsing units string '"
+	<< units << "'.";
+    throw std::runtime_error(msg.str());
+  } // if
+
   scale = PyFloat_AsDouble(pyScale);
   Py_DECREF(pyScale);
   Py_DECREF(pyUnit);

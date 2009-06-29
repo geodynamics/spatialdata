@@ -96,4 +96,22 @@ spatialdata::units::TestParser::testPressure(void)
 } // testPressure
 
 
+// ----------------------------------------------------------------------
+// Test trapping errors with parse().
+void
+spatialdata::units::TestParser::testError(void)
+{ // testError
+  Parser parser;
+
+  bool caught = false;
+  try {
+    parser.parse("abc");
+  } catch (const std::exception& err) {
+    caught = true; // assume caught correct error
+  } // try/catch
+
+  CPPUNIT_ASSERT(caught);
+} // testError
+
+
 // End of file 

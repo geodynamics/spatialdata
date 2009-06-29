@@ -42,6 +42,7 @@ class spatialdata::units::TestParser : public CppUnit::TestFixture
   CPPUNIT_TEST( testVelocity );
   CPPUNIT_TEST( testDensity );
   CPPUNIT_TEST( testPressure );  
+  CPPUNIT_TEST( testError );  
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -65,6 +66,9 @@ public :
 
   /// Test parse() with pressure scale.
   void testPressure(void);
+
+  /// Test trapping errors with parse().
+  void testError(void);
 
 }; // class TestParser
 
