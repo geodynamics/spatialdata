@@ -1,3 +1,7 @@
+2009/07/01 (version 0.5.1)
+
+  Fixed trapping of errors from Python when using units parser.
+
 2009/06/19 (version 0.5.0)
 
   Switched to SWIG for Python modules. Added parsing of units in
