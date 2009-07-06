@@ -53,8 +53,10 @@ endif
 
 INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
+if ENABLE_SWIG
 $(srcdir)/spatialdb_wrap.cxx $(srcdir)/spatialdb.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $<
+endif
 
 
 MAINTAINERCLEANFILES = $(swig_generated)

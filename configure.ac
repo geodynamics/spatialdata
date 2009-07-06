@@ -17,6 +17,14 @@ AC_CONFIG_AUX_DIR([./aux-config])
 AM_INIT_AUTOMAKE([foreign])
 
 # ----------------------------------------------------------------------
+# SWIG
+AC_ARG_ENABLE([swig],
+    [AC_HELP_STRING([--enable-swig],
+        [enable generating modules with SWIG) @<:@default=no@:>@])],
+	[enable_swig=yes],
+	[enable_swig=no])
+AM_CONDITIONAL([ENABLE_SWIG], [test "$enable_swig" = yes])
+
 # TESTING w/cppunit
 AC_ARG_ENABLE([testing],
 	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
@@ -117,7 +125,10 @@ if test "$enable_pythia" = "yes" ; then
   CIT_NUMPY_INCDIR
 
   # SWIG
-  AC_PROG_SWIG(1.3.33)
+  if test "$enable_swig" = "yes" ; then
+    AC_PROG_SWIG(1.3.33)
+  fi
+
 fi
 
 # DOXYGEN

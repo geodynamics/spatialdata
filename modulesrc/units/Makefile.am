@@ -38,8 +38,10 @@ endif
 
 INCLUDES += -I$(PYTHON_INCDIR)
 
+if ENABLE_SWIG
 $(srcdir)/units_wrap.cxx $(srcdir)/units.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $<
+endif
 
 
 MAINTAINERCLEANFILES = \

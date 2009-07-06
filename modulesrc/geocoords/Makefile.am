@@ -44,8 +44,10 @@ endif
 
 INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
+if ENABLE_SWIG
 $(srcdir)/geocoords_wrap.cxx $(srcdir)/geocoords.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $<
+endif
 
 
 MAINTAINERCLEANFILES = \
