@@ -76,7 +76,7 @@ class Shaper(Component):
     return
 
 
-  def initialize(self):
+  def initialize(self, locs, cs):
     """
     Initialize shaper.
     """
@@ -85,23 +85,8 @@ class Shaper(Component):
             "Name of value in spatial database must be set for shaper '%s'." %\
             self.name
     self.db.open()
-    return
 
-
-  def finalize(self):
-    """
-    Cleanup shaper.
-    """
-    self.db.close()
-    return
-
-
-  def apply(self, value, locs, cs):
-    """
-    Shape value.
-    """
     nlocs = locs.shape[0]
-
     self.db.queryVals([self.dbValue])
     v = numpy.zeros( (1,), dtype=numpy.float64)
     vals = numpy.zeros( (nlocs, 1), dtype=numpy.float64)
@@ -113,14 +98,32 @@ class Shaper(Component):
     mask[err[:] != 0] = 1.0
     vals[:] += default[:]*mask[:]
 
+    self.db.close()
+
+    self.values = vals
+    return
+
+  
+  def finalize(self):
+    """
+    Deallocate values.
+    """
+    del self.values
+    return
+
+
+  def apply(self, value):
+    """
+    Shape value.
+    """
     if self.operand == "add":
-      value[:] += vals[:]
+      value[:] += self.values[:]
     elif self.operand == "subtract":
-      value[:] -= vals[:]
+      value[:] -= self.values[:]
     elif self.operand == "multiply":
-      value[:] *= vals[:]
+      value[:] *= self.values[:]
     elif self.operand == "divide":
-      value[:] /= vals[:]
+      value[:] /= self.values[:]
     else:
       raise ValueError, \
             "Unknown operand setting '%s'." % self.operand
