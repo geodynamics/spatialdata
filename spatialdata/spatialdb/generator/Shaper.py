@@ -104,12 +104,9 @@ class Shaper(Component):
 
     self.db.queryVals([self.dbValue])
     v = numpy.zeros( (1,), dtype=numpy.float64)
-    vals = numpy.zeros( (nlocs,), dtype=numpy.float64)
+    vals = numpy.zeros( (nlocs, 1), dtype=numpy.float64)
     err = numpy.ones( (nlocs,), dtype=numpy.int32)
-    for i in xrange(nlocs):
-      e = self.db.query(v, locs[i,:], cs)
-      vals[i] = v[0]
-      err[i] = e
+    self.db.multiquery(vals, err, locs, cs)
     vals = numpy.reshape(numpy.array(vals), -1)
     default = self.defaultValue*numpy.ones( vals.shape, dtype=numpy.float64)
     mask = numpy.zeros( vals.shape, dtype=numpy.float64)
