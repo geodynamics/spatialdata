@@ -1,3 +1,9 @@
+2009/07/06 (version 0.5.2)
+
+  Added --enable-swig configure argument because source distribution
+  already contains the SWIG generated files (use --enable-swig when
+  using the source repository).
+
 2009/07/01 (version 0.5.1)
 
   Fixed trapping of errors from Python when using units parser.

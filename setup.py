@@ -7,7 +7,7 @@ from merlin import setup, find_packages
 setup(
     
     name = 'spatialdata', 
-    version = '0.5.1',
+    version = '0.5.2',
 
     zip_safe = False,
     packages = find_packages(),
