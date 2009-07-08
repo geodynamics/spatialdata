@@ -14,6 +14,8 @@
 
 #include "SpatialDB.hh" // Implementation of class methods
 
+#include <cassert> // USES assert()
+
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::SpatialDB::SpatialDB(void) :

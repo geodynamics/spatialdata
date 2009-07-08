@@ -76,19 +76,19 @@ namespace spatialdata {
       void queryVals(const char* const* names,
 		     const int numVals) = 0;
       %clear(const char* const* names, const int numVals);
-      
+
       /** Query the database.
        *
-       * @note pVals should be preallocated to accommodate numVals values.
+       * @note vals should be preallocated to accommodate numVals values.
        *
-       * @pre Must call open() before query()
+       * @pre Must call open() before query().
        *
        * @param vals Array for computed values (output from query), must be
        *   allocated BEFORE calling query().
        * @param numVals Number of values expected (size of pVals array)
-       * @param coords Coordinates of point for query
-       * @param numDims Number of dimensions for coordinates
-       * @param pCSQuery Coordinate system of coordinates
+       * @param coords Coordinates of point for query [numDims].
+       * @param numDims Number of dimensions for coordinates.
+       * @param csQuery Coordinate system of coordinates.
        *
        * @returns 0 on success, 1 on failure (i.e., could not interpolate)
        */
@@ -105,9 +105,57 @@ namespace spatialdata {
 		const int numVals,
 		const double* coords,
 		const int numDims,
-		const spatialdata::geocoords::CoordSys* pCSQuery) = 0;
+		const spatialdata::geocoords::CoordSys* csQuery) = 0;
       %clear(double* vals, const int numVals);
       %clear(const double* coords, const int numDims);
+      
+      /** Perform multiple queries of the database.
+       *
+       * @note vals should be preallocated to accommodate numVals values
+       * at numLocs locations.
+       *
+       * @note err should be preallocated to accommodate numLocs values.
+       *
+       * @pre Must call open() before query().
+       *
+       * @param vals Array for computed values (output from query), must be
+       *   allocated BEFORE calling query() [numLocs*numVals].
+       * @param numLocsV Number of locations.
+       * @param numValsV Number of values expected.
+       * @param err Array for error flag values (output from query), must be
+       *   allocated BEFORE calling query() [numLocs].
+       * @param numLocsE Number of locations.
+       * @param coords Coordinates of point for query [numLocs*numDims].
+       * @param numLocsC Number of locations.
+       * @param numDimsC Number of dimensions for coordinates.
+       * @param csQuery Coordinate system of coordinates.
+       */
+      %apply(double* INPLACE_ARRAY2, int DIM1, int DIM2) {
+	(double* vals,
+	 const int numLocsV,
+	 const int numValsV)
+	  };
+      %apply(int* INPLACE_ARRAY1, int DIM1) {
+	(int* err,
+	 const int numLocsE)
+	  };
+      %apply(double* IN_ARRAY2, int DIM1, int DIM2) {
+	(const double* coords,
+	 const int numLocsC,
+	 const int numDimsC)
+	  };
+      void multiquery(double* vals,
+		      const int numLocsV,
+		      const int numValsV,
+		      int* err,
+		      const int numLocsE,
+		      const double* coords,
+		      const int numLocsC,
+		      const int numDimsC,
+		      const spatialdata::geocoords::CoordSys* csQuery);
+      %clear(double* vals, const int numLocsV, const int numValsV);
+      %clear(int* err, const int numLocsE);
+      %clear(const double* coords, const int numLocsC, const int numDimsC);
       
     }; // class SpatialDB
     

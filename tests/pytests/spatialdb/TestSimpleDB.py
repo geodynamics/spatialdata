@@ -63,4 +63,35 @@ class TestSimpleDB(unittest.TestCase):
     return
 
 
+  def test_databasemulti(self):
+    locs = numpy.array( [[1.0, 2.0, 3.0],
+                         [5.6, 4.2, 8.6]],
+                        numpy.float64)
+    cs = CSCart()
+    cs._configure()
+    queryVals = ["two", "one"]
+    dataE = numpy.array( [[4.7, 6.3]]*2, numpy.float64)
+    errE = numpy.array([0, 0], numpy.int32)
+
+    db = self._db
+    db.open()
+    db.queryVals(queryVals)
+    data = numpy.zeros(dataE.shape, dtype=numpy.float64)
+    err = numpy.zeros(errE.shape, dtype=numpy.int32)
+    db.multiquery(data, err, locs, cs)
+    db.close()    
+
+    self.assertEqual(len(errE), len(err))
+    for vE, v in zip(errE, err):
+      self.assertEqual(vE, v)
+
+    self.assertEqual(len(dataE.shape), len(data.shape))
+    for dE, d in zip(dataE.shape, data.shape):
+      self.assertEqual(dE, d)
+    for vE, v in zip(numpy.reshape(dataE, -1), numpy.reshape(data, -1)):
+      self.assertAlmostEqual(vE, v, 6)
+
+    return
+
+
 # End of file 
