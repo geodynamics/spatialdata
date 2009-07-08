@@ -66,7 +66,7 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
   const char* names[] = {"two", "one", "four", "three"};
   const char* units[] = {"km", "m", "None", "MPa"};
   const int numVals = 4;
-  const double queryLoc[] = { 1.0, 2.0, 3.0 };
+  const double queryLoc[] = { 0.6, 0.1, 0.2 };
   const double vals[] = { 6.3e+3, 4.7, 0.8, 1.2e+6 };
   const int errFlags[] = { 0 };
   const int spaceDim = 3;
@@ -90,6 +90,56 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
 } // testDB
 
 // ----------------------------------------------------------------------
+// Test SpatialDB queries w/multiple points.
+void
+spatialdata::spatialdb::TestSpatialDB::testDBmulti(void)
+{ // testDBmulti
+  CPPUNIT_ASSERT(0 != _pDB);
+
+  const int numVals = 4;
+  const int numLocs = 2;
+  const int spaceDim = 3;
+  const char* names[numVals] = {"two", "one", "four", "three"};
+  const char* units[numVals] = {"km", "m", "None", "MPa"};
+  const double queryLocs[numLocs*spaceDim] = { 
+    0.6, 0.1, 0.2,
+    0.1, 0.6, 0.3,
+  };
+  const double vals[numLocs*numVals] = { 
+    6.3e+3, 4.7, 0.8, 1.2e+6,
+    3.6e+3, 7.4, 8.0, 2.1e+6,
+  };
+  const int errFlags[numLocs] = { 0, 0 };
+
+  _pDB->queryVals(names, numVals);
+
+  int size = numLocs * numVals;
+  double* valsQ = (0 < size) ? new double[size] : 0;
+  size = numLocs;
+  int* errQ = (0 < size) ? new int[size] : 0;
+  		  
+  spatialdata::geocoords::CSCart csCart;
+  csCart.initialize();
+
+  _pDB->multiquery(valsQ, numLocs, numVals, 
+		   errQ, numLocs,
+		   queryLocs, numLocs, spaceDim, &csCart);
+
+  const double tolerance = 1.0e-06;
+  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+    CPPUNIT_ASSERT_EQUAL(errFlags[iLoc], errQ[iLoc]);
+    for (int iVal=0, index=0; iVal < numVals; ++iVal, index++)
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, valsQ[index]/vals[index],
+				   tolerance);
+  } // for
+
+  delete[] valsQ; valsQ = 0;
+  delete[] errQ; errQ = 0;
+
+  _pDB->close();
+} // testDBmulti
+
+// ----------------------------------------------------------------------
 // Test SpatialDB w/C query
 void
 spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
@@ -99,7 +149,7 @@ spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
   const char* names[] = {"two", "one"};
   const char* units[] = {"km", "m"};
   const int numVals = 2;
-  const double queryLoc[] = { 1.0, 2.0, 3.0 };
+  const double queryLoc[] = { 0.6, 0.1, 0.2 };
   const int spaceDim = 3;
   const double vals[] = { 6.3e+3, 4.7 };
   const int errFlags[] = { 0 };
