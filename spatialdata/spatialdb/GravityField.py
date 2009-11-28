@@ -38,7 +38,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     ## Python object for managing GravityField facilities and properties.
     ##
     ## \b Properties
-    ## @li \b up_dir Direction of gravitational body force
+    ## @li \b gravity_dir Direction of gravitational body force
     ##   (used only with a Cartesian coordinate system).
     ## @li \b acceleration Gravitational acceleration.
     ##
@@ -47,7 +47,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
 
     import pyre.inventory
 
-    gravityDir = pyre.inventory.list("gravity_dir", default=[0,0,-1])
+    gravityDir = pyre.inventory.list("gravity_dir", default=[0.0,0.0,-1.0])
     gravityDir.meta['tip'] = "Direction of gravitational body force. " \
                              "(used only with a Cartesian coordinate system."
 
@@ -76,7 +76,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     """
     SpatialDBObj._configure(self)
     self._validateParameters(self.inventory)
-    dir = self.inventory.gravityDir
+    dir = map(float, self.inventory.gravityDir)
     self.gravityDir(dir[0], dir[1], dir[2])
     self.gravAcceleration(self.inventory.acceleration.value)
     return
