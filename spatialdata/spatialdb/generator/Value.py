@@ -76,8 +76,8 @@ class Value(Component):
     (numLocs, spaceDim) = locs.shape
     value = numpy.zeros( (numLocs,), dtype=numpy.float64)
     for filter in self.shapers.shapers:
-      filter.initialize()
-      filter.apply(value, locs, cs)
+      filter.initialize(locs, cs)
+      filter.apply(value)
       filter.finalize()
     return value
 
