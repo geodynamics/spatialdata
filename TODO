@@ -5,7 +5,3 @@ GEOCOORDS
     Meaning of rotation (orientation) will depend upon coordinate system.
 
   Make it possible to pickle/unpickle to/from file like in C++?
-
-SPATIALDB
-
-  Get units by parsing header with Python
