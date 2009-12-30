@@ -324,7 +324,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findPointPt(std::vector<WtStruct>* pWeig
 // ----------------------------------------------------------------------
 void
 spatialdata::spatialdb::SimpleDBQuery::_findLinePt(std::vector<WtStruct>* pWeights)
-{ // _findPointPt
+{ // _findLinePt
   assert(0 != _db._data);
   assert(0 != pWeights);
   
@@ -336,6 +336,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findLinePt(std::vector<WtStruct>* pWeigh
 
   const int locIndexA = _nearest[nearIndexA];
   double ptA[3];
+  assert(locIndexA >= 0);
   _setPoint3(ptA, _db._data->coordinates(locIndexA), spaceDim);
 
   double wtA = 0;
