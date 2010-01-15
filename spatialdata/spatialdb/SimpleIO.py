@@ -82,7 +82,7 @@ class SimpleIO(Component):
     """
     Check consistency of database data.
     """
-    (numLocs, spaceDim) = data['locs'].shape
+    (numLocs, spaceDim) = data['points'].shape
     cs = data['coordsys']
     if spaceDim != cs.spaceDim():
       raise ValueError, \

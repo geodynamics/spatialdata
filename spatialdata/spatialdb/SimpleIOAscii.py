@@ -42,7 +42,7 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
     Write database to file.
 
     @param data Dictionary of the following form:
-      data = {'locs': 2-D array (numLocs, spaceDim),
+      data = {'points': 2-D array (numLocs, spaceDim),
               'coordsys': Coordinate system associated with locations,
               'data_dim': Dimension of spatial distribution,
               'values': [{'name': Name of value,
@@ -53,7 +53,7 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
 
     self._validateData(data)
 
-    (numLocs, spaceDim) = data['locs'].shape
+    (numLocs, spaceDim) = data['points'].shape
     dataDim = data['data_dim']
     numValues = len(data['values'])    
     names = []
@@ -69,7 +69,7 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
     from spatialdb import SimpleDBData
     dbData = SimpleDBData()
     dbData.allocate(numLocs, numValues, spaceDim, dataDim)
-    dbData.coordinates(data['locs'])
+    dbData.coordinates(data['points'])
     dbData.data(values)
     dbData.names(names)
     dbData.units(units)

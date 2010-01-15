@@ -81,8 +81,7 @@ class Geometry(Component):
     """
     Read geometry.
     """
-    mesh = self.reader.unpickle()
-    self.vertices = mesh.vertices
+    self.vertices = self.reader.read()
     self.coordsys.initialize()
     return
 
