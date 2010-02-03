@@ -26,7 +26,7 @@ class TestSimpleIOAscii(unittest.TestCase):
     cs.initialize()
 
     filename = "data/test.spatialdb"
-    data = {'locs': numpy.array( [ [1.0, 2.0, 3.0],
+    data = {'points': numpy.array( [ [1.0, 2.0, 3.0],
                                    [0.5, 3.0, -3.0]], numpy.float64),
             'coordsys': cs,
             'data_dim': 1,

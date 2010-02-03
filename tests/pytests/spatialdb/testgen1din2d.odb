@@ -41,20 +41,19 @@ class GeometryTestGen(Component):
     Constructor.
     """
     Component.__init__(self, name="geometrytestgen", facility="reader")
-    self.topology = self.Topology()
-    self.topology.vertices = numpy.array([ [-2.0,  3.0],
-                                           [ 0.0,  1.0],
-                                           [ 1.0,  0.0],
-                                           [ 2.0, -4.0] ],
-                                         dtype=numpy.float64)
+    self.vertices = numpy.array([ [-2.0,  3.0],
+                                  [ 0.0,  1.0],
+                                  [ 1.0,  0.0],
+                                  [ 2.0, -4.0] ],
+                                dtype=numpy.float64)
     return
 
 
-  def unpickle(self):
+  def read(self):
     """
     Read geometry.
     """
-    return self.topology
+    return self.vertices
 
 
 # ----------------------------------------------------------------------

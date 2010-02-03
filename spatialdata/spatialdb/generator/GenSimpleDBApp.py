@@ -75,9 +75,9 @@ class GenSimpleDBApp(Script):
     """
     self._info.log("Reading geometry.")
     self.geometry.read()
-    locs = self.geometry.vertices
+    points = self.geometry.vertices
     coordsys = self.geometry.coordsys
-    data = {'locs': locs,
+    data = {'points': points,
             'coordsys': coordsys,
             'data_dim': self.geometry.dataDim,
             'values': []}
@@ -85,7 +85,7 @@ class GenSimpleDBApp(Script):
       self._info.log("Creating value '%s'" % value.name)
       data['values'].append({'name': value.name,
                              'units': value.units,
-                             'data': value.calculate(locs, coordsys)})
+                             'data': value.calculate(points, coordsys)})
     self._info.log("Writing database.")
     self.iohandler.write(data)
     return
