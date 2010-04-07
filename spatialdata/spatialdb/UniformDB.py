@@ -76,9 +76,13 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     data = []
     units = []
     for x in self.inventory.data:
-      xdim = self.parser.parse(str(x))
-      data.append(float((xdim.value)))
-      units.append(xdim._strDerivation())
+      if len(str(x).split("*")) > 1:
+        xdim = self.parser.parse(str(x))
+        data.append(float((xdim.value)))
+        units.append(xdim._strDerivation())
+      else:
+        data.append(float(x))
+        units.append("none")
     self.setData(self.inventory.values, units, data)
     return
 
@@ -103,11 +107,14 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
             % (self.label, len(params.values), len(params.data))
     try:
       for x in params.data:
-        xdim = self.parser.parse(str(x))
-        dataFloat = float(xdim.value)
+        if len(str(x).split("*")) > 1:
+          xdim = self.parser.parse(str(x))
+          dataFloat = float(xdim.value)
+        else:
+          dataFloat = float(x)
     except:
         raise ValueError, \
-              "'data' list must contain dimensioned values."
+              "'data' list must contain dimensioned or nondimensional values."
     return
   
 
