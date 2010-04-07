@@ -22,7 +22,7 @@ class TestUniformDB(unittest.TestCase):
     db = UniformDB()
     db.inventory.label = "test"
     db.inventory.values = ["one", "two", "three"]
-    db.inventory.data = [1.1*m, 2.2*km, 3.3*cm]
+    db.inventory.data = [1.1, 2.2*km, 3.3*cm]
     db._configure()
     self._db = db
     return
