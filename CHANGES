@@ -1,3 +1,8 @@
+2010/06/08 (version 0.6.0)
+
+  Permit nondimensionl values in spatial databases.
+
+
 2009/07/06 (version 0.5.2)
 
   Added --enable-swig configure argument because source distribution

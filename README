@@ -13,12 +13,12 @@
 /** @mainpage
  *
  * @author Brad Aagaard
- * @date 2006/05/24
- * @version 0.3.1
+ * @date 2010/06/08
+ * @version 0.6.0
  *
  * @section summary Summary
  *
- * This directory tree contains SpatialData version 0.2. This package
+ * This directory tree contains SpatialData version 0.6. This package
  * provides an interface to Proj.4 (cartographic projections library)
  * for converting coordinates among a variety of geographic projects
  * and local Cartesian coordinates and defines an interface for
@@ -51,8 +51,5 @@
  * default path, you can use environment variables to point to their
  * locations.
  */
-
-// version
-// $Id$
 
 // End of file 
