@@ -13,23 +13,24 @@
 //
 // ----------------------------------------------------------------------
 //
-
 #include <portinfo>
-
-#include "SpatialDB.hh" // USES SimpleDB
-#include "SimpleDB.hh" // USES SimpleDB
 
 #include "SimpleIO.hh" // Implementation of class methods
 
-#include <string> // USES std::string
+// Include ios here to avoid some Python/gcc issues
+#include <ios>
+
+#include "SpatialDB.hh" // USES SimpleDB
+#include "SimpleDB.hh" // USES SimpleDB
 #include "SimpleDBData.hh" // USES SimpleDBData
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/units/Parser.hh" // USES Parser
 
+#include <sstream> // USES std::ostringstream
+#include <string> // USES std::string
 #include <vector> // USES std::vector
 #include <stdexcept> // USES std::runtime_error, std::exception
-#include <sstream> // USES std::ostringsgream
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------

@@ -18,12 +18,15 @@
 
 #include "TimeHistoryIO.hh" // Implementation of class methods
 
+// Include ios here to avoid some Python/gcc issues
+#include <ios>
+
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 #include "spatialdata/units/Parser.hh" // USES Parser
 
 #include <fstream> // USES std::ifstream, std::ofstream
-#include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 
+#include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 #include <cassert> // USES assert()
 #include <stdexcept> // USES std::runtime_error
 #include <sstream> // USES std::ostringstream

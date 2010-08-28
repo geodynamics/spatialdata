@@ -16,8 +16,10 @@
 
 #include <portinfo>
 
-#include "SpatialDB.hh" // ISA SpatialDB object
 #include "UniformDB.hh" // Implementation of class methods
+
+// Include ios here to avoid some Python/gcc issues
+#include <ios>
 
 #include "spatialdata/units/Parser.hh" // USES Parser
 
