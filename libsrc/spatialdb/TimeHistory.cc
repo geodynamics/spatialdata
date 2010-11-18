@@ -82,7 +82,8 @@ spatialdata::spatialdb::TimeHistory::query(double* value,
       const double t)
 { // query
   assert(0 != _npts);
-  
+
+  *value = 0.0;
   if (_npts > 1) {
     if (t < _time[_ilower]) {
       while (_ilower > 0) {
