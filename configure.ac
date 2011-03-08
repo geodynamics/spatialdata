@@ -18,6 +18,7 @@ AC_PREREQ(2.59)
 AC_INIT([spatialdata], [0.6.0], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign])
 
 # ----------------------------------------------------------------------
@@ -25,27 +26,27 @@ AM_INIT_AUTOMAKE([foreign])
 AC_ARG_ENABLE([swig],
     [AC_HELP_STRING([--enable-swig],
         [enable generating modules with SWIG) @<:@default=no@:>@])],
-	[enable_swig=yes],
+	[if test "$enableval" = yes ; then enable_swig=yes; else enable_swig=no; fi],
 	[enable_swig=no])
 AM_CONDITIONAL([ENABLE_SWIG], [test "$enable_swig" = yes])
 
 # TESTING w/cppunit
 AC_ARG_ENABLE([testing],
 	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
-	[enable_testing=yes],
+	[if test "$enableval" = yes ; then enable_testing=yes; else enable_testing=no; fi],
 	[enable_testing=no])
 
 # PYTHIA w/pythia
 enable_pythia=yes
 AC_ARG_ENABLE([pythia],
 	[  --enable-pythia        Enable use of Pythia (requires pythia) [[default=yes]]],
-	[enable_pythia=yes],
+	[if test "$enableval" = yes ; then enable_pythia=yes; else enable_pythia=no; fi],
 	[enable_pythia=no])
 
 # DOCUMENTATION w/doxygen
 AC_ARG_ENABLE([documentation],
 	[  --enable-documentation  Enable building html documentation (requires doxygen) [[default=no]]],
-	[enable_documentation=yes],
+	[if test "$enableval" = yes ; then enable_documentation=yes; else enable_documentation=no; fi],
 	[enable_documentation=no])
 
 # TESTING w/SCEC CVM-H
@@ -79,20 +80,9 @@ AC_CHECK_LIB(proj, pj_init_plus, [
 # CPPUNIT
 AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])
 if test "$enable_testing" = "yes" ; then
-  AC_LANG(C++)
-  AC_CHECK_HEADER([cppunit/TestRunner.h], [], [
-    AC_MSG_ERROR([CppUnit header not found; try CPPFLAGS="-I<CppUnit include dir>"])
-  ])
-  AC_MSG_CHECKING([for CppUnit::TestRunner in -lcppunit])
-  AC_REQUIRE_CPP
-  AC_COMPILE_IFELSE(
-    [AC_LANG_PROGRAM([[#include <cppunit/TestRunner.h>]],
-	             [[CppUnit::TestRunner runner;]])],
-    [AC_MSG_RESULT(yes)],
-    [AC_MSG_RESULT(no)
-     AC_MSG_ERROR([CppUnit library not found; try LDFLAGS="-L<CppUnit lib dir>"])
-  ])
-  if test "x$enable_scec_cvm_h" != "xno" ; then
+  CIT_CPPUNIT_HEADER
+  CIT_CPPUNIT_LIB
+  if test "$enable_scec_cvm_h" != "no" ; then
     AC_SUBST([SCECCVMH_DATADIR], ["$enable_scec_cvm_h"])
     AC_CHECK_FILE([$enable_scec_cvm_h/topo.vo], [], [
       AC_MSG_ERROR([SCEC CVM-H data file topo.vo not found])])
