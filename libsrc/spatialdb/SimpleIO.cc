@@ -56,22 +56,26 @@ spatialdata::spatialdb::SimpleIO::checkCompatibility(
   const int numLocs = data.numLocs();
   const int spaceDim = data.spaceDim();
   const int dataDim = data.dataDim();
+  std::ostringstream msg;
   if (numLocs < 1 + dataDim) {
-    std::ostringstream msg;
     msg << "Spatial distribution with data dimensions of " << dataDim 
-	<< " must have at least " << 1+dataDim << " points. "
+	<< " must have at least " << 1+dataDim << " points.\n"
+	<< "Found " << numLocs << " points in distribution.";
+    throw std::runtime_error(msg.str());
+  } // if
+  if (0 == dataDim && numLocs > 1) {
+    msg << "Spatial distribution with data dimensions of " << dataDim 
+	<< " cannot have more than one point.\n"
 	<< "Found " << numLocs << " points in distribution.";
     throw std::runtime_error(msg.str());
   } // if
   if (dataDim > spaceDim) {
-    std::ostringstream msg;
     msg << "Dimension of data in spatial distribution (" << dataDim
 	<< ") exceeds the number of dimensions of the coordinates ("
 	<< spaceDim << ").";
     throw std::runtime_error(msg.str());
   } // if
   if (spaceDim != pCS->spaceDim()) {
-    std::ostringstream msg;
     msg << "Number of dimensions in coordinates of spatial distribution ("
 	<< spaceDim << ") does not match number of dimensions in coordinate "
 	<< "system (" << pCS->spaceDim() << ")";

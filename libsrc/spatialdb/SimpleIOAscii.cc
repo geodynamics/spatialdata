@@ -216,11 +216,11 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
     ok = false;
     msg << "SimpleDB settings must include 'num-locs'.\n";
   } // if
-  if (0 == names) {
+  if (!names) {
     ok = false;
       msg << "SimpleDB settings must include 'value-names'.\n";
   } // if
-  if (0 == units) {
+  if (!units) {
     ok = false;
     msg << "SimpleDB settings must include 'value-units'.\n";
   } // if

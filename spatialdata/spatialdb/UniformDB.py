@@ -87,7 +87,10 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
       else:
         data.append(float(x))
         units.append("none")
-    self.setData(self.inventory.values, units, data)
+    values = []
+    for v in self.inventory.values:
+      values.append(v.lstrip().rstrip())
+    self.setData(values, units, data)
     return
 
   
