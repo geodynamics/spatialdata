@@ -151,7 +151,7 @@ spatialdata::spatialdb::SimpleDB::query(double* vals,
   } catch(const OutOfBounds& err) {
     std::fill(vals, vals+numVals, 0);
     return 1;
-  } catch(std::exception& err) {
+  } catch(const std::exception& err) {
     throw std::runtime_error(err.what());
   } catch(...) {
     throw std::runtime_error("Unknown error in SpatialDB query");
