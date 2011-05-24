@@ -20,6 +20,8 @@
 
 #include "spatialdata/units/Parser.hh" // USES Parser
 
+#include <stdexcept> // USES std::runtime_error
+
 // ----------------------------------------------------------------------
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::units::TestParser );
 
@@ -107,14 +109,7 @@ spatialdata::units::TestParser::testError(void)
 { // testError
   Parser parser;
 
-  bool caught = false;
-  try {
-    parser.parse("abc");
-  } catch (const std::exception& err) {
-    caught = true; // assume caught correct error
-  } // try/catch
-
-  CPPUNIT_ASSERT(caught);
+  CPPUNIT_ASSERT_THROW(parser.parse("abc"), std::runtime_error);
 } // testError
 
 
