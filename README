@@ -22,7 +22,7 @@
  *
  * @section summary Summary
  *
- * This directory tree contains SpatialData version 0.6. This package
+ * This directory tree contains SpatialData version 0.7.0. This package
  * provides an interface to Proj.4 (cartographic projections library)
  * for converting coordinates among a variety of geographic projects
  * and local Cartesian coordinates and defines an interface for
