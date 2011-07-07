@@ -70,6 +70,11 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     squashLimit.meta['tip'] = "Elevation above which topography is squashed."
 
 
+    # Set label if not already done so.
+    if 0 == len(SpatialObj.Inventory.label):
+      SpatialObj.Inventory.label = "SCEC CVM-H"
+
+
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   def __init__(self, name="sceccvmh"):

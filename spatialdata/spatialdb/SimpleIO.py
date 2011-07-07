@@ -22,6 +22,16 @@
 
 from pyre.components.Component import Component
 
+# Validator for filename
+def validateFilename(value):
+  """
+  Validate filename.
+  """
+  if 0 == len(value):
+    raise ValueError("Filename for spatial database not specified.")
+  return value
+
+
 # SimpleIO class
 class SimpleIO(Component):
   """
@@ -48,7 +58,8 @@ class SimpleIO(Component):
 
     import pyre.inventory
 
-    filename = pyre.inventory.str("filename", default="")
+    filename = pyre.inventory.str("filename", default="", 
+                                  validator=validateFilename)
     filename.meta['tip'] = "Name of database file."
 
 
@@ -69,8 +80,13 @@ class SimpleIO(Component):
     """
     Set members using inventory.
     """
-    Component._configure(self)
-    self.filename(self.inventory.filename)
+    try:
+      Component._configure(self)
+      self.filename(self.inventory.filename)
+    except ValueError as err:
+      aliases = ", ".join(self.aliases)
+      raise ValueError("Error while configuring spatial database reader "
+                       "(%s):\n%s" % (aliases, err.message))
     return
 
 

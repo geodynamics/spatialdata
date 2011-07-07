@@ -18,11 +18,11 @@
  *
  * @author Brad Aagaard
  * @date 2011/05/06
- * @version 0.7.0
+ * @version 1.7.1
  *
  * @section summary Summary
  *
- * This directory tree contains SpatialData version 0.7.0. This package
+ * This directory tree contains SpatialData version 1.7.1. This package
  * provides an interface to Proj.4 (cartographic projections library)
  * for converting coordinates among a variety of geographic projects
  * and local Cartesian coordinates and defines an interface for

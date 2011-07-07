@@ -23,6 +23,16 @@
 from pyre.components.Component import Component
 from spatialdb import SpatialDB as ModuleSpatialDB
 
+# Validator for label
+def validateLabel(value):
+  """
+  Validate label for group/nodeset/pset.
+  """
+  if 0 == len(value):
+    raise ValueError("Descriptive label for spatial database not specified.")
+  return value
+
+
 # SpatialDBObj class
 class SpatialDBObj(Component, ModuleSpatialDB):
   """
@@ -42,15 +52,16 @@ class SpatialDBObj(Component, ModuleSpatialDB):
     ## Python object for managing SpatialDBObj facilities and properties.
     ##
     ## \b Properties
-    ## @li \b label Label of database
+    ## @li \b label Descriprive label for database.
     ##
     ## \b Facilities
     ## @li None
 
     import pyre.inventory
 
-    label = pyre.inventory.str("label", default="spatial database")
-    label.meta['tip'] = "Label of database."
+    label = pyre.inventory.str("label", default="",
+                               validator=validateLabel)
+    label.meta['tip'] = "Descriptive label for database."
 
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -70,8 +81,13 @@ class SpatialDBObj(Component, ModuleSpatialDB):
     """
     Set attributes based on inventory.
     """
-    Component._configure(self)
-    self.label(self.inventory.label)
+    try:
+      Component._configure(self)
+      self.label(self.inventory.label)
+    except ValueError as err:
+      aliases = ", ".join(self.aliases)
+      raise ValueError("Error while configuring spatial database "
+                       "(%s):\n%s" % (aliases, err.message))
     return
   
 
