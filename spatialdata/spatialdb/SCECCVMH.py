@@ -71,6 +71,7 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
 
 
     label = pyre.inventory.str("label", default="SCEC CVM-H")
+    label.meta['tip'] = "Descriptive label for seismic velocity model."
 
 
   # PUBLIC METHODS /////////////////////////////////////////////////////

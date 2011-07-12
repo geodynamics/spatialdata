@@ -61,6 +61,9 @@ class GravityField(SpatialDBObj, ModuleGravityField):
                                               default=9.80665*meter/second**2)
     acceleration.meta['tip'] = "Gravitational acceleration."
 
+    label = pyre.inventory.str("label", default="Gravity field")
+    label.meta['tip'] = "Descriptive label for gravity field."
+
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
