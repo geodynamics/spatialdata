@@ -37,6 +37,7 @@ class TestCompositeDB(unittest.TestCase):
 
     from spatialdata.spatialdb.CompositeDB import CompositeDB
     db = CompositeDB()
+    db.inventory.label = "composite db"
     db.inventory.dbA = dbA
     db.inventory.namesA = ["two", "one"]
     db.inventory.dbB = dbB
