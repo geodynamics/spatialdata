@@ -55,13 +55,15 @@ spatialdata::spatialdb::SpatialDB::query(float* vals,
 
   double* valsD = (numVals > 0) ? new double[numVals] : 0;
 
-  query(valsD, numVals, coordsD, numDims, csQuery);
+  const int err = query(valsD, numVals, coordsD, numDims, csQuery);
 
   for (int i=0; i < numVals; ++i)
     vals[i] = valsD[i];
 
   delete[] valsD; valsD = 0;
   delete[] coordsD; coordsD = 0;
+
+  return err;
 } // query
 
 // ----------------------------------------------------------------------
