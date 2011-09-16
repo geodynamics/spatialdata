@@ -74,7 +74,6 @@ spatialdata::spatialdb::TimeHistory::close(void)
   _npts = 0;
 } // close
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int
@@ -115,6 +114,21 @@ spatialdata::spatialdb::TimeHistory::query(double* value,
   } // else
 
   return 0;
+} // query
+
+
+// ----------------------------------------------------------------------
+// Query the database.
+int
+spatialdata::spatialdb::TimeHistory::query(float* value,
+					   const float t)
+{ // query
+  double valueD = 0.0;
+  const double tD = t;
+
+  const int err = query(&valueD, tD);
+  *value = valueD;
+  return err;
 } // query
 
 

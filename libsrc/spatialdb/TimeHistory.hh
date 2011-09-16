@@ -89,6 +89,18 @@ class spatialdata::spatialdb::TimeHistory
   int query(double* value,
 	    const double t);
 
+  /** Query the database.
+   *
+   * @pre Must call open() before query()
+   *
+   * @param value Value in time history.
+   * @param t Time for query.
+   *
+   * @returns 0 on success, 1 on failure (i.e., could not interpolate)
+   */
+  int query(float* value,
+	    const float t);
+
 private :
  // PRIVATE MEMBERS ////////////////////////////////////////////////////
   
