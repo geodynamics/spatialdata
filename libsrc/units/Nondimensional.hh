@@ -129,6 +129,16 @@ public :
 			 const int nvalues,
 			 const double scale) const;
 
+  /** Make values dimensionless.
+   *
+   * @param values Array of values with dimensions in SI units.
+   * @param nvalues Number of values.
+   * @param scale Scale used to nondimensionalize value.
+   */
+  void nondimensionalize(float* const values,
+			 const int nvalues,
+			 const double scale) const;
+
   /** Make value dimensionless.
    *
    * @param values Array of dimensionless values.
@@ -136,6 +146,16 @@ public :
    * @param scale Scale used to nondimensionalize value.
    */
   void dimensionalize(double* const values,
+		      const int nvalues,
+		      const double scale) const;
+
+  /** Make value dimensionless.
+   *
+   * @param values Array of dimensionless values.
+   * @param nvalues Number of values.
+   * @param scale Scale used to nondimensionalize value.
+   */
+  void dimensionalize(float* const values,
 		      const int nvalues,
 		      const double scale) const;
 

@@ -37,6 +37,7 @@
 #include <string.h> // USES strlen()
 #include <assert.h> // USES assert()
 
+#include <iostream>
 // ----------------------------------------------------------------------
 const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =
   "#SPATIAL.ascii";
@@ -250,6 +251,9 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(
     double* data = pData->data(iLoc);
     for (int iVal=0; iVal < numValues; ++iVal)
       buffer >> data[iVal];
+    if (buffer.bad()) {
+      throw std::runtime_error("Error reading points.");
+    } // if
   } // for
   if (!filein.good())
     throw std::runtime_error("I/O error while reading SimpleDB data.");

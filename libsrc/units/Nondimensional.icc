@@ -70,6 +70,20 @@ spatialdata::units::Nondimensional::nondimensionalize(double* const values,
     values[i] /= scale;
 } // nondimensionalize
 
+// Make values dimensionless.
+inline
+void
+spatialdata::units::Nondimensional::nondimensionalize(float* const values,
+						      const int nvalues,
+						      const double scale) const
+{ // nondimensionalize
+  assert( (0 < nvalues && 0 != values) ||
+	  (0 == nvalues && 0 == values) );
+
+  for (int i=0; i < nvalues; ++i)
+    values[i] /= scale;
+} // nondimensionalize
+
 // Make value dimensionless.
 inline
 double
@@ -82,6 +96,21 @@ spatialdata::units::Nondimensional::dimensionalize(const double value,
 inline
 void
 spatialdata::units::Nondimensional::dimensionalize(double* const values,
+						   const int nvalues,
+						   const double scale) const
+{ // dimensionalize
+  assert( (0 < nvalues && 0 != values) ||
+	  (0 == nvalues && 0 == values) );
+
+  for (int i=0; i < nvalues; ++i)
+    values[i] *= scale;
+} // dimensionalize
+
+
+// Make value dimensionless.
+inline
+void
+spatialdata::units::Nondimensional::dimensionalize(float* const values,
 						   const int nvalues,
 						   const double scale) const
 { // dimensionalize

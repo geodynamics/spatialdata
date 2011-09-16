@@ -100,6 +100,27 @@ class spatialdata::spatialdb::SpatialDB
 	    const int numDims,
 	    const spatialdata::geocoords::CoordSys* csQuery) = 0;
 
+  /** Query the database.
+   *
+   * @note vals should be preallocated to accommodate numVals values.
+   *
+   * @pre Must call open() before query().
+   *
+   * @param vals Array for computed values (output from query), must be
+   *   allocated BEFORE calling query().
+   * @param numVals Number of values expected (size of pVals array)
+   * @param coords Coordinates of point for query [numDims].
+   * @param numDims Number of dimensions for coordinates.
+   * @param csQuery Coordinate system of coordinates.
+   *
+   * @returns 0 on success, 1 on failure (i.e., could not interpolate)
+   */
+  int query(float* vals,
+	    const int numVals,
+	    const float* coords,
+	    const int numDims,
+	    const spatialdata::geocoords::CoordSys* csQuery);
+
   /** Perform multiple queries of the database.
    *
    * @note vals should be preallocated to accommodate numVals values
@@ -127,6 +148,37 @@ class spatialdata::spatialdb::SpatialDB
 		  int* err,
 		  const int numLocsE,
 		  const double* coords,
+		  const int numLocsC,
+		  const int numDimsC,
+		  const spatialdata::geocoords::CoordSys* csQuery);
+
+  /** Perform multiple queries of the database.
+   *
+   * @note vals should be preallocated to accommodate numVals values
+   * at numLocs locations.
+   *
+   * @note err should be preallocated to accommodate numLocs values.
+   *
+   * @pre Must call open() before query().
+   *
+   * @param vals Array for computed values (output from query), must be
+   *   allocated BEFORE calling query() [numLocs*numVals].
+   * @param numLocsV Number of locations.
+   * @param numValsV Number of values expected.
+   * @param err Array for error flag values (output from query), must be
+   *   allocated BEFORE calling query() [numLocs].
+   * @param numLocsE Number of locations.
+   * @param coords Coordinates of point for query [numLocs*numDims].
+   * @param numLocsC Number of locations.
+   * @param numDimsC Number of dimensions for coordinates.
+   * @param csQuery Coordinate system of coordinates.
+   */
+  void multiquery(float* vals,
+		  const int numLocsV,
+		  const int numValsV,
+		  int* err,
+		  const int numLocsE,
+		  const float* coords,
 		  const int numLocsC,
 		  const int numDimsC,
 		  const spatialdata::geocoords::CoordSys* csQuery);
