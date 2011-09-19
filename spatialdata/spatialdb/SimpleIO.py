@@ -83,7 +83,7 @@ class SimpleIO(Component):
     try:
       Component._configure(self)
       self.filename(self.inventory.filename)
-    except ValueError as err:
+    except ValueError, err:
       aliases = ", ".join(self.aliases)
       raise ValueError("Error while configuring spatial database reader "
                        "(%s):\n%s" % (aliases, err.message))

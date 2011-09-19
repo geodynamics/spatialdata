@@ -84,7 +84,7 @@ class SpatialDBObj(Component, ModuleSpatialDB):
     try:
       Component._configure(self)
       self.label(self.inventory.label)
-    except ValueError as err:
+    except ValueError, err:
       aliases = ", ".join(self.aliases)
       raise ValueError("Error while configuring spatial database "
                        "(%s):\n%s" % (aliases, err.message))
