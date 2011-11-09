@@ -1,3 +1,10 @@
+2011/11/09 (version 1.8.0)
+
+  Changed to old syntax for catching exceptions for compatibility with Python 2.4.
+
+  Added single precision wrapper for SpatialDB query.
+
+
 2011/07/07 (version 1.7.1)
 
   Require labels for spatial databases.
