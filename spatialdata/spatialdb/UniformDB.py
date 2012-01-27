@@ -83,7 +83,11 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
       if len(str(x).split("*")) > 1:
         xdim = self.parser.parse(str(x))
         data.append(float((xdim.value)))
-        units.append(xdim._strDerivation())
+        strDeriv = xdim._strDerivation()
+        if len(strDeriv) > 0:
+          units.append(xdim._strDerivation())
+        else:
+          units.append("none")
       else:
         data.append(float(x))
         units.append("none")
