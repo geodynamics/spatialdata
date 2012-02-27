@@ -1,3 +1,9 @@
+2012/01/27 (version 1.8.1)
+
+  Fixed parsing of non-derived units (e.g., degree and radian) in for
+  UniformDB spatial databases.
+
+
 2011/11/09 (version 1.8.0)
 
   Changed to old syntax for catching exceptions for compatibility with Python 2.4.

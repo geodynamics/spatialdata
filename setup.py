@@ -5,7 +5,7 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010 University of California, Davis
+# Copyright (c) 2010-2012 University of California, Davis
 #
 # See COPYING for license information.
 #
@@ -20,7 +20,7 @@ from merlin import setup, find_packages
 setup(
     
     name = 'spatialdata', 
-    version = '1.8.0',
+    version = '1.8.1',
 
     zip_safe = False,
     packages = find_packages(),

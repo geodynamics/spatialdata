@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010 University of California, Davis
+// Copyright (c) 2010-2012 University of California, Davis
 //
 // See COPYING for license information.
 //
@@ -22,7 +22,7 @@
  *
  * @section summary Summary
  *
- * This directory tree contains SpatialData version 1.8.0. This package
+ * This directory tree contains SpatialData version 1.8.1. This package
  * provides an interface to Proj.4 (cartographic projections library)
  * for converting coordinates among a variety of geographic projects
  * and local Cartesian coordinates and defines an interface for
