@@ -237,11 +237,15 @@ spatialdata::geocoords::CSGeo::_projCSString(void) const
 
   std::ostringstream args;
   const char* proj = (_isGeocentric) ? "geocent" : "latlong";
-  args
-    << "+proj=" << proj
-    << " +ellps=" << _ellipsoid
-    << " +datum=" << _datumHoriz
-    << " +units=m";
+  args << "+proj=" << proj;
+  if (_ellipsoid.length() > 0) {
+    args << " +ellps=" << _ellipsoid;
+  } // if
+  if (_datumHoriz.length() > 0) {
+    args << " +datum=" << _datumHoriz;
+  } // if
+  args << " +units=m";
+
   return std::string(args.str());
 } // _projCSString
 
@@ -272,6 +276,13 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s)
   std::istringstream buffer;
   const int maxIgnore = 256;
   char cbuffer[maxIgnore];
+
+  // Set parameters to empty values.
+  _toMeters = 1.0;
+  setSpaceDim(2);
+  _ellipsoid = "";
+  _datumHoriz = "";
+  _datumVert = "ellipsoid";
 
   parser.ignore('{');
   buffer.str(parser.next());

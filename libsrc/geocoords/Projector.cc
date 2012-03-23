@@ -32,6 +32,7 @@ extern "C" {
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringstream
 #include <strings.h> // USES strcasecmp()
+#include <string.h> // USES strlen()
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
@@ -70,12 +71,17 @@ spatialdata::geocoords::Projector::initialize(const CSGeo& csGeo)
   const char* datumHoriz = csGeo.datumHoriz();
 
   std::ostringstream args;
-  args
-    << "+proj=" << _projection
-    << " +ellps=" << ellipsoid
-    << " +datum=" << datumHoriz
-    << " +units=" << _units
-    << " " << _projOptions;
+  args << "+proj=" << _projection;
+  if (strlen(ellipsoid) > 0) {
+    args << " +ellps=" << ellipsoid;
+  } // if
+  if (strlen(datumHoriz) > 0) {
+    args << " +datum=" << datumHoriz;
+  } // if
+  if (_units.length() > 0) {
+    args << " +units=" << _units;
+  } // if
+  args  << " " << _projOptions;
   
   pj_free(_pProj);
   _pProj = pj_init_plus(args.str().c_str());

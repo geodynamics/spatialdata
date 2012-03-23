@@ -1,3 +1,8 @@
+2012/03/23
+
+  Added ability to use empty ellipsoid and datum in order to use +init option
+  for Google Earth projections.
+
 2012/01/27 (version 1.8.1)
 
   Fixed parsing of non-derived units (e.g., degree and radian) in for
