@@ -18,7 +18,7 @@ AC_PREREQ(2.59)
 AC_INIT([spatialdbcontrib], [0.0.1], [cig-short@geodynamics.org])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
-#AC_CONFIG_MACRO_DIR([./m4])
+AC_CONFIG_MACRO_DIR([./m4])
 AM_INIT_AUTOMAKE([foreign])
 
 # ----------------------------------------------------------------------
