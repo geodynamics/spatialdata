@@ -31,6 +31,9 @@ class TestCSGeoProj(unittest.TestCase):
     cs.inventory.ellipsoid = "clrk66"
     cs.inventory.datumHoriz = "NAD27"
     cs.inventory.datumVert = "mean sea level"
+    cs.inventory.originLon = 105.0
+    cs.inventory.originLat = 30.0
+    cs.inventory.rotAngle = 0.0
     cs.inventory.units = "km"
     cs.inventory.spaceDim = 2
     cs.inventory.projector = proj

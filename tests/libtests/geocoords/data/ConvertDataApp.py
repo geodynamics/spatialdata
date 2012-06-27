@@ -47,17 +47,14 @@ class ConvertDataApp(Script):
     ## @li \b dumper Dump data to file
 
     import pyre.inventory
-    from pythiautil.DumpCpp import DumpCpp
+    from spatialdata.utils.CppData import CppData
     from ConvertData import ConvertData
     data = pyre.inventory.facility('data', factory=ConvertData)
-    dumper = pyre.inventory.facility('dumper', factory=DumpCpp)
+    dumper = pyre.inventory.facility('dumper', factory=CppData)
 
 # main
 if __name__ == '__main__':
   app = ConvertDataApp()
   app.run()
-
-# version
-__id__ = "$Id: ConvertDataApp.py,v 1.1 2005/05/25 17:30:21 baagaard Exp $"
 
 # End of file 

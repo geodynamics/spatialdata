@@ -1,4 +1,11 @@
-2012/03/23
+2012/06/27 (version 1.9.0) [in progress[
+
+  Added local origin and rotation angle to projected geographic
+  coordinate system. This provides a local origin to geographic
+  projects that do not necessarily support them in addition to rotated
+  coordinate systems.
+
+2012/03/23 (version 1.8.2)
 
   Added ability to use empty ellipsoid and datum in order to use +init option
   for Google Earth projections.

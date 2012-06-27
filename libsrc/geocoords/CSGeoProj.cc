@@ -19,9 +19,11 @@
 #include "CSGeoProj.hh" // implementation of class methods
 
 #include "Projector.hh" // USES Projector
+#include "Converter.hh" // USES Converter
 
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 
+#include <math.h> // USES M_PI, sin(), cos()
 #include <iostream> // USES std::istream, std::ostream
 
 #include <stdexcept> // USES std::runtime_error, std::exception
@@ -32,6 +34,11 @@
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSGeoProj::CSGeoProj(void) :
+  _originLon(0.0),
+  _originLat(0.0),
+  _originX(0.0),
+  _originY(0.0),
+  _rotAngle(0.0),
   _pProjector(0)
 { // constructor
 } // constructor
@@ -62,6 +69,61 @@ spatialdata::geocoords::CSGeoProj::projector(const Projector& projector)
 } // projector
 
 // ----------------------------------------------------------------------
+// Set origin of local projected coordinate system.
+void
+spatialdata::geocoords::CSGeoProj::origin(const double lon,
+					  const double lat)
+{ // origin
+  if (lon < -360.0 || lon > 360.0 || lat < -360.0 || lat > 360.0) {
+    std::ostringstream msg;
+    msg << "Longitude (" << lon << ") and latitude (" << lat 
+	<< ") must be between in the range [-360.0, 360.0].";
+    throw std::runtime_error(msg.str());
+  } // if
+
+  _originLon = lon;
+  _originLat = lat;
+  _originX = 0.0;
+  _originY = 0.0;
+} // origin
+
+// ----------------------------------------------------------------------
+// Get origin of local projected coordinate system.
+void
+spatialdata::geocoords::CSGeoProj::origin(double* pLon,
+					  double* pLat)
+{ // origin
+  assert(pLon);
+  assert(pLat);
+  
+  *pLon = _originLon;
+  *pLat = _originLat;
+} // origin
+
+// ----------------------------------------------------------------------
+// Set rotation angle (CCW from east) of local x axis.
+void
+spatialdata::geocoords::CSGeoProj::rotationAngle(const double angle)
+{ // rotationAngle
+  if (angle < -360.0 || angle > 360.0) {
+    std::ostringstream msg;
+    msg << "Rotation angle (" << angle 
+	<< ") must be between in the range [-360.0, 360.0].";
+    throw std::runtime_error(msg.str());
+  } // if
+
+  _rotAngle = angle;
+} // rotationAngle
+
+// ----------------------------------------------------------------------
+// Get rotation angle (CCW from east) of local x axis.
+double
+spatialdata::geocoords::CSGeoProj::rotationAngle(void) const
+{ // rotationAngle
+  return _rotAngle;
+} // rotationAngle
+
+// ----------------------------------------------------------------------
 // Initialize the coordinate system.
 void
 spatialdata::geocoords::CSGeoProj::initialize(void)
@@ -70,6 +132,34 @@ spatialdata::geocoords::CSGeoProj::initialize(void)
   
   assert(0 != _pProjector);
   _pProjector->initialize(*this);
+
+  // Convert origin in lon/lat to projected coordinate system.
+  _originX = 0.0;
+  _originY = 0.0;
+  if (_originLon != 0.0 || _originLat != 0.0) {
+    CSGeo csSrc;
+    csSrc.ellipsoid("WGS84");
+    csSrc.datumHoriz("WGS84");
+    csSrc.datumVert(this->datumVert());
+    csSrc.toMeters(this->toMeters());
+    csSrc.setSpaceDim(2);
+    csSrc.initialize();
+
+    CSGeoProj csDest;
+    csDest.ellipsoid(this->ellipsoid());
+    csDest.datumHoriz(this->datumHoriz());
+    csDest.datumVert(this->datumVert());
+    csDest.toMeters(this->toMeters());
+    csDest.setSpaceDim(2);
+    assert(_pProjector);
+    csDest.projector(*_pProjector);
+    csDest.initialize();
+
+    double originCoords[2] = { _originLon, _originLat };
+    Converter::convert(originCoords, 1, 2, &csDest, &csSrc);
+    _originX = originCoords[0];
+    _originY = originCoords[1];
+  } // if
 } // initialize
 
 // ----------------------------------------------------------------------
@@ -90,6 +180,15 @@ spatialdata::geocoords::CSGeoProj::toProjForm(double* coords,
       << spaceDim() << ") of coordinate system.";
     throw std::runtime_error(msg.str());
   } // if
+
+  const double angleRad = M_PI * _rotAngle / 180.0;
+  for (int i=0; i < numLocs; ++i) {
+    const double xOld = coords[i*numDims  ];
+    const double yOld = coords[i*numDims+1];
+
+    coords[i*numDims  ] = _originX + cos(angleRad)*xOld - sin(angleRad)*yOld;
+    coords[i*numDims+1] = _originY + sin(angleRad)*xOld + cos(angleRad)*yOld;
+  } // for
 
   _pProjector->invproject(coords, numLocs, numDims);
   CSGeo::toProjForm(coords, numLocs, numDims);
@@ -116,6 +215,15 @@ spatialdata::geocoords::CSGeoProj::fromProjForm(double* coords,
 
   CSGeo::fromProjForm(coords, numLocs, numDims);
   _pProjector->project(coords, numLocs, numDims);
+
+  const double angleRad = M_PI * _rotAngle / 180.0;
+  for (int i=0; i < numLocs; ++i) {
+    const double xRel = coords[i*numDims  ] - _originX;
+    const double yRel = coords[i*numDims+1] - _originY;
+
+    coords[i*numDims  ] = cos(angleRad)*xRel + sin(angleRad)*yRel;
+    coords[i*numDims+1] = -sin(angleRad)*xRel + cos(angleRad)*yRel;
+  } // for
 } // fromProjForm
   
 // ----------------------------------------------------------------------
@@ -128,6 +236,10 @@ spatialdata::geocoords::CSGeoProj::pickle(std::ostream& s) const
     << "  ellipsoid = " << ellipsoid() << "\n"
     << "  datum-horiz = " << datumHoriz() << "\n"
     << "  datum-vert = " << datumVert() << "\n"
+    << "  datum-vert = " << datumVert() << "\n"
+    << "  origin-lon = " << _originLon << "\n"
+    << "  origin-lat = " << _originLat << "\n"
+    << "  rotation-angle = " << rotationAngle() << "\n"
     << "  projector = ";
   _pProjector->pickle(s);
   s << "}\n";
@@ -168,6 +280,12 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
       buffer >> std::ws;
       buffer.get(cbuffer, maxIgnore, '\n');
       datumVert(cbuffer);
+    } else if (0 == strcasecmp(token.c_str(), "origin-lon")) {
+      buffer >> _originLon;
+    } else if (0 == strcasecmp(token.c_str(), "origin-lat")) {
+      buffer >> _originLat;
+    } else if (0 == strcasecmp(token.c_str(), "rotation-angle")) {
+      buffer >> _rotAngle;
     } else if (0 == strcasecmp(token.c_str(), "projector")) {
       std::string rbuffer(buffer.str());
       int start = token.length();

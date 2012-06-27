@@ -42,12 +42,23 @@ class CSGeoProj(CSGeo, ModuleCSGeoProj):
     ## Python object for managing CSGeoProj facilities and properties.
     ##
     ## \b Properties
-    ## @li None
+    ## @li origin_lon Longitude of local origin in degrees.
+    ## @li origin_lat Latitude of local origin in degrees.
+    ## @li rotation_angle Rotation angle (CCW) of local x-axis from east.
     ##
     ## \b Facilities
     ## @li \b projector Geographic coordinate projector
 
     import pyre.inventory
+
+    originLon = pyre.inventory.float("origin_lon", default=0.0)
+    originLon.meta['tip'] = "Longitude of local origin in degrees."
+
+    originLat = pyre.inventory.float("origin_lat", default=0.0)
+    originLat.meta['tip'] = "Latitude of local origin in degrees."
+
+    rotAngle = pyre.inventory.float("rotation_angle", default=0.0)
+    rotAngle.meta['tip'] = "Rotation angle (CCW) of local x-axis from east."
 
     from Projector import Projector
     projector = pyre.inventory.facility("projector", family="projector",
@@ -72,7 +83,11 @@ class CSGeoProj(CSGeo, ModuleCSGeoProj):
     Setup members using inventory.
     """
     CSGeo._configure(self)
-    self.projector(self.inventory.projector)
+    ModuleCSGeoProj.origin(self, 
+                           self.inventory.originLon,
+                           self.inventory.originLat)
+    ModuleCSGeoProj.rotationAngle(self, self.inventory.rotAngle)
+    ModuleCSGeoProj.projector(self, self.inventory.projector)
     return
 
 

@@ -163,6 +163,9 @@ spatialdata::geocoords::TestCSGeoProj::testPickle(void)
   CPPUNIT_ASSERT(0 == strcasecmp(_ELLIPSOID, csB.ellipsoid()));
   CPPUNIT_ASSERT(0 == strcasecmp(_DATUMHORIZ, csB.datumHoriz()));
   CPPUNIT_ASSERT(0 == strcasecmp(_DATUMVERT, csB.datumVert()));
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(_ORIGINLON, csB._originLon, tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(_ORIGINLAT, csB._originLat, tolerance);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(_ROTANGLE, csB.rotationAngle(), tolerance);
 } // testPickle
 
 

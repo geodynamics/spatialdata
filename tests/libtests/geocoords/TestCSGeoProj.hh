@@ -70,6 +70,10 @@ public :
   static const char* _ELLIPSOID; ///< Name of reference ellipsoid
   static const char* _DATUMHORIZ; ///< Name of horizontal datum
   static const char* _DATUMVERT; ///< Name of vertical datum
+  static const double _ORIGINLON; ///< Longitude of local origin
+  static const double _ORIGINLAT; ///< Latitude of local origin
+  static const double _ROTANGLE; ///< Rotangle angle of local coordinate system
+
   static const char* _PROJECTION; ///< Name of projection
   static const char* _UNITS; ///< Units in projection
   static const char* _PROJOPTIONS; ///< Options for projection

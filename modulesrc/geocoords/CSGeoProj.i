@@ -42,14 +42,43 @@ namespace spatialdata {
       virtual
       CoordSys* clone(void) const;
 
-      /// Initialize the coordinate system.
-      void initialize(void);
-
       /** Set projector.
        *
        * @param projector Geographic coordinate projector
        */
       void projector(const Projector& projector);
+
+      /** Set origin of local projected coordinate system.
+       *
+       * @param lon Longitude of origin (degrees)
+       * @param lat Latitude of origin (degrees)
+       */
+      void origin(const double lon,
+		  const double lat);
+      
+      /** Get origin of local projected coordinate system.
+       *
+       * @param pLon Pointer to longitude of origin (degrees)
+       * @param pLat Pointer to latitude of origin (degrees)
+       */
+      %apply double* OUTPUT { double* pLon, double* pLat };
+      void origin(double* pLon,
+		  double* pLat);  
+      
+      /** Set rotation angle (CCW from east) of local x axis.
+       *
+       * @param angle Rotation angle.
+       */
+      void rotationAngle(const double angle);
+      
+      /** Get rotation angle (CCW from east) of local x axis.
+       *
+       * @returns Rotation angle.
+       */
+      double rotationAngle(void) const;
+      
+      /// Initialize the coordinate system.
+      void initialize(void);
 
     }; // class CSGeoProj
 

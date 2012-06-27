@@ -16,8 +16,6 @@
 ## @file geocoords/tests/libtests/data/csgeoproj.odb
 ## @brief Python data generator for csgeoproj tests.
 
-from Numeric import ravel
-
 def data():
   """Factory method for facility data."""
   return CSGeoProj()
@@ -35,9 +33,13 @@ class CSGeoProj(ConvertData):
     self.ellipsoid = "clrk66"
     self.datumHoriz = "NAD27"
     self.datumVert = "mean sea level"
+    self.originLon = -100.0
+    self.originLat = 30.0
+    self.rotAngle = 0.0
     self.projection = "tmerc"
     self.units = "km"
-    self.projOptions = "+lon_0=-100.0 +lat_0=30.0 +k=0.9996"
+    self.projOptions = "+lon_0=%f +lat_0=%f +k=0.9996" % \
+        (self.originLon, self.originLat)
     self._command = "proj +proj=%s +datum=%s +ellps=%s " \
                     "%s " \
                     "+units=%s -f %s" % \
@@ -56,18 +58,21 @@ class CSGeoProj(ConvertData):
 
   def dump(self, dumper):
     """Dump data."""
-    dumper.open(self.name)
-    dumper.writeVal("char*", "_ELLIPSOID", self.ellipsoid, "\"%s\"")
-    dumper.writeVal("char*", "_DATUMHORIZ", self.datumHoriz, "\"%s\"")
-    dumper.writeVal("char*", "_DATUMVERT", self.datumVert, "\"%s\"")
-    dumper.writeVal("char*", "_PROJECTION", self.projection, "\"%s\"")
-    dumper.writeVal("char*", "_UNITS", self.units, "\"%s\"")
-    dumper.writeVal("char*", "_PROJOPTIONS", self.projOptions, "\"%s\"")
-    dumper.writeVal("int", "_NUMLOCS", len(self.lonlatelev), "%d")
-    dumper.writeArray("double", "_LONLATNAD27ELEV", ravel(self.lonlatelev),
-                      "%20.12e,", 3)
-    dumper.writeArray("double", "_XYZ", ravel(self.xyz), "%20.12e,", 3)
-    dumper.close()
+    dumper.addScalar("char*", "_ELLIPSOID", self.ellipsoid, "\"%s\"")
+    dumper.addScalar("char*", "_DATUMHORIZ", self.datumHoriz, "\"%s\"")
+    dumper.addScalar("char*", "_DATUMVERT", self.datumVert, "\"%s\"")
+    dumper.addScalar("char*", "_PROJECTION", self.projection, "\"%s\"")
+    dumper.addScalar("double", "_ORIGINLON", self.originLon, "%20.12e")
+    dumper.addScalar("double", "_ORIGINLAT", self.originLat, "%20.12e")
+    dumper.addScalar("double", "_ROTANGLE", self.rotAngle, "%20.12e")
+    dumper.addScalar("char*", "_UNITS", self.units, "\"%s\"")
+    dumper.addScalar("char*", "_PROJOPTIONS", self.projOptions, "\"%s\"")
+    dumper.addScalar("int", "_NUMLOCS", len(self.lonlatelev), "%d")
+    dumper.addArray("double", "_LONLATNAD27ELEV", self.lonlatelev,
+                      "%20.12e", 3)
+    dumper.addArray("double", "_XYZ", self.xyz, "%20.12e", 3)
+
+    dumper.write(self.name)
     return
 
 
@@ -78,7 +83,5 @@ class CSGeoProj(ConvertData):
     self._fileDest = "dest.dat"
     return
 
-# version
-__id__ = "$Id: projector.odb,v 1.1 2005/05/25 17:30:21 baagaard Exp $"
 
 # End of file 

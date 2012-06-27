@@ -162,7 +162,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
     const int pjerrno = 
       pj_transform(csSrc->projCoordSys(), csDest->projCoordSys(),
 		   numLocs, numDims, pX, pY, pZ);
-    if (0 != pjerrno) {
+    if (pjerrno) {
       std::ostringstream msg;
       msg << "Error while converting coordinates:\n"
 	  << "  " << pj_strerrno(pjerrno) << "\n";

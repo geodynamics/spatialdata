@@ -20,6 +20,12 @@
 const char* spatialdata::geocoords::TestCSGeoProj::_ELLIPSOID = "clrk66";
 const char* spatialdata::geocoords::TestCSGeoProj::_DATUMHORIZ = "NAD27";
 const char* spatialdata::geocoords::TestCSGeoProj::_DATUMVERT = "mean sea level";
+const double spatialdata::geocoords::TestCSGeoProj::_ORIGINLON =   0.000000000000e+00;
+
+const double spatialdata::geocoords::TestCSGeoProj::_ORIGINLAT =   0.000000000000e+00;
+
+const double spatialdata::geocoords::TestCSGeoProj::_ROTANGLE =   0.000000000000e+00;
+
 const char* spatialdata::geocoords::TestCSGeoProj::_PROJECTION = "tmerc";
 const char* spatialdata::geocoords::TestCSGeoProj::_UNITS = "km";
 const char* spatialdata::geocoords::TestCSGeoProj::_PROJOPTIONS = "+lon_0=-100.0 +lat_0=30.0 +k=0.9996";
