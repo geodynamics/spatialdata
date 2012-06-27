@@ -42,8 +42,8 @@ class CSGeoProj(CSGeo, ModuleCSGeoProj):
     ## Python object for managing CSGeoProj facilities and properties.
     ##
     ## \b Properties
-    ## @li origin_lon Longitude of local origin in degrees.
-    ## @li origin_lat Latitude of local origin in degrees.
+    ## @li origin_lon Longitude of local origin in degrees (WGS84).
+    ## @li origin_lat Latitude of local origin in degrees (WGS84).
     ## @li rotation_angle Rotation angle (CCW) of local x-axis from east.
     ##
     ## \b Facilities
@@ -52,10 +52,10 @@ class CSGeoProj(CSGeo, ModuleCSGeoProj):
     import pyre.inventory
 
     originLon = pyre.inventory.float("origin_lon", default=0.0)
-    originLon.meta['tip'] = "Longitude of local origin in degrees."
+    originLon.meta['tip'] = "Longitude of local origin in degrees (WGS84)."
 
     originLat = pyre.inventory.float("origin_lat", default=0.0)
-    originLat.meta['tip'] = "Latitude of local origin in degrees."
+    originLat.meta['tip'] = "Latitude of local origin in degrees (WGS84)."
 
     rotAngle = pyre.inventory.float("rotation_angle", default=0.0)
     rotAngle.meta['tip'] = "Rotation angle (CCW) of local x-axis from east."

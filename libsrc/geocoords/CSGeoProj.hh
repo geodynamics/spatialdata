@@ -57,16 +57,16 @@ class spatialdata::geocoords::CSGeoProj : public CSGeo
 
   /** Set origin of local projected coordinate system.
    *
-   * @param lon Longitude of origin (degrees)
-   * @param lat Latitude of origin (degrees)
+   * @param lon Longitude of origin (degrees, WGS84)
+   * @param lat Latitude of origin (degrees, WGS84)
    */
   void origin(const double lon,
 	      const double lat);
 
   /** Get origin of local projected coordinate system.
    *
-   * @param pLon Pointer to longitude of origin (degrees)
-   * @param pLat Pointer to latitude of origin (degrees)
+   * @param pLon Pointer to longitude of origin (degrees, WGS84)
+   * @param pLat Pointer to latitude of origin (degrees, WGS84)
    */
   void origin(double* pLon,
 	      double* pLat);  
