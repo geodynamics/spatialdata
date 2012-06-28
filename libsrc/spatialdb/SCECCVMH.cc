@@ -220,14 +220,19 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
       << "Values to be returned by spatial database " << label() << "\n"
       << "have not been set. Please call queryVals() before query().\n";
     throw std::runtime_error(msg.str());
-  } // if
-  else if (numVals != _querySize) {
+  } else if (numVals != _querySize) {
     std::ostringstream msg;
     msg
       << "Number of values to be returned by spatial database "
       << label() << "\n"
       << "(" << _querySize << ") does not match size of array provided ("
       << numVals << ").\n";
+    throw std::runtime_error(msg.str());
+  } else if (3 != numDims) {
+    std::ostringstream msg;
+    msg
+      << "Spatial dimension (" << numDims
+      << ") when querying SCEC CVM-H must be 3.";
     throw std::runtime_error(msg.str());
   } // if
 

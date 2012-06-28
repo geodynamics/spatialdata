@@ -1,0 +1,33 @@
+// -*- C++ -*-
+//
+// ----------------------------------------------------------------------
+//
+// Brad T. Aagaard, U.S. Geological Survey
+//
+// This code was developed as part of the Computational Infrastructure
+// for Geodynamics (http://geodynamics.org).
+//
+// Copyright (c) 2010 University of California, Davis
+//
+// See COPYING for license information.
+//
+// ----------------------------------------------------------------------
+//
+
+#if !defined(spatialdata_spatialdb_geoprojgriddb_hh)
+#error "GeoProjGridDB.icc must only be included from GeoProjGridDB.hh"
+#endif
+
+// ----------------------------------------------------------------------
+// Get index into data array.
+inline
+int
+spatialdata::spatialdb::GeoProjGridDB::_dataIndex(const int indexX,
+						  const int indexY,
+						  const int indexZ) const
+{ // _dataIndex
+  return indexX*_numY*_numZ + indexY*_numY + indexZ;
+} // _dataIndex
+
+
+// End of file 

@@ -22,10 +22,6 @@ subpkginclude_HEADERS = \
 	Exception.hh \
 	Exception.icc \
 	GocadVoxet.hh \
-	GravityField.hh \
-	GravityField.icc \
-	SCECCVMH.hh \
-	SCECCVMH.icc \
 	SpatialDB.hh \
 	SpatialDB.icc \
 	SimpleDB.hh \
@@ -38,6 +34,12 @@ subpkginclude_HEADERS = \
 	SimpleDBQuery.hh \
 	SimpleDBData.hh \
 	SimpleDBData.icc \
+	GeoProjGridDB.hh \
+	GeoProjGridDB.icc \
+	GravityField.hh \
+	GravityField.icc \
+	SCECCVMH.hh \
+	SCECCVMH.icc \
 	TimeHistory.hh \
 	TimeHistory.icc \
 	TimeHistoryIO.hh \

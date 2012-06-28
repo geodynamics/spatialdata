@@ -14,6 +14,12 @@
 // ----------------------------------------------------------------------
 //
 
+/** @file libsrc/spatialdb/SCECCVMH.hh
+ *
+ * @brief C++ object for performing querying of SCEC CVM-H version 5.2
+ * and version 5.3.
+ */
+
 #if !defined(spatialdata_spatialdb_sceccvmh_hh)
 #define spatialdata_spatialdb_sceccvmh_hh
 

@@ -36,6 +36,7 @@ libspatialdata_la_SOURCES = \
 	spatialdb/GocadVoxet.cc \
 	spatialdb/GravityField.cc \
 	spatialdb/SCECCVMH.cc \
+	spatialdb/GeoProjGridDB.cc \
 	spatialdb/SimpleDB.cc \
 	spatialdb/SpatialDB.cc \
 	spatialdb/SimpleDBData.cc \
