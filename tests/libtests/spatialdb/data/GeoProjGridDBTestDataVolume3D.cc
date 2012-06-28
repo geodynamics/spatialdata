@@ -72,7 +72,7 @@ const char* spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_names[] = {
 
 const char* spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_units[] = {
   "m",
-  "cm",
+  "m",
 };
 
 const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_queryNearest[] = {

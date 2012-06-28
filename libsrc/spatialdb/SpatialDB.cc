@@ -19,6 +19,12 @@
 #include "SpatialDB.hh" // Implementation of class methods
 
 #include <cassert> // USES assert()
+#include <vector> // USES std::vector
+
+// Include ios here to avoid some Python/gcc issues
+#include <ios>
+
+#include "spatialdata/units/Parser.hh" // USES Parser
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -134,7 +140,25 @@ spatialdata::spatialdb::SpatialDB::_convertToSI(double* vals,
 						const int numLocs,
 						const int numVals)
 { // _convertToSI
-  assert(false);
+  assert(vals);
+  assert(units);
+
+  spatialdata::units::Parser parser;
+
+  const std::string& none = "none";
+  std::vector<double> scales(numVals);
+  for (int iVal=0; iVal < numVals; ++iVal) {
+    if (none == units[iVal])
+      scales[iVal] = parser.parse(units[iVal].c_str());
+    else
+      scales[iVal] = 1.0;
+  } // for
+
+  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+    for (int iVal=0; iVal < numVals; ++iVal) {
+      vals[iVal] *= scales[iVal];
+    } // for
+  } // for
 } // _convertToSI
 
 // End of file 
