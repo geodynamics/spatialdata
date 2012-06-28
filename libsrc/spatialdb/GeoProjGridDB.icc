@@ -26,7 +26,8 @@ spatialdata::spatialdb::GeoProjGridDB::_dataIndex(const int indexX,
 						  const int indexY,
 						  const int indexZ) const
 { // _dataIndex
-  return indexX*_numY*_numZ + indexY*_numY + indexZ;
+  const int locIndex = indexX*_numY*_numZ + indexY*_numZ + indexZ;
+  return locIndex*_numValues;
 } // _dataIndex
 
 

@@ -126,4 +126,15 @@ spatialdata::spatialdb::SpatialDB::multiquery(float* vals,
 } // multiquery
 
 
+// ----------------------------------------------------------------------
+// Convert values to SI units.
+void
+spatialdata::spatialdb::SpatialDB::_convertToSI(double* vals,
+						std::string* units,
+						const int numLocs,
+						const int numVals)
+{ // _convertToSI
+  assert(false);
+} // _convertToSI
+
 // End of file 

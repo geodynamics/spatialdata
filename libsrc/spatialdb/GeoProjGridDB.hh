@@ -26,6 +26,7 @@
 #include "SpatialDB.hh" // ISA SpatialDB
 
 #include <string> // HASA std::string
+#include <iosfwd> // USES std::istream
 
 class spatialdata::spatialdb::GeoProjGridDB : SpatialDB
 { // GeoProjGridDB
@@ -104,6 +105,21 @@ public :
 // PRIVATE METHODS //////////////////////////////////////////////////////
 private :
 
+  /** Read data file header.
+   *
+   * @param filein Input stream.
+   */
+  void _readHeader(std::istream& filein);
+
+  /** Read data values.
+   *
+   * @param filein Input stream.
+   */
+  void _readData(std::istream& filein);
+
+  /// Check compatibility of spatial database parameters.
+  void _checkCompatibility(void) const;
+
   /** Bilinear search for coordinate.
    *
    * Returns index of target as a double.
@@ -125,11 +141,11 @@ private :
    * @param indexY Index along y dimension.
    * @param indexZ Index along z dimension.
    */
-  void _interpolate(double* vals,
-		    const int numVals,
-		    const double indexX,
-		    const double indexY,
-		    const double indexZ);
+  void _interpolate3D(double* vals,
+		      const int numVals,
+		      const double indexX,
+		      const double indexY,
+		      const double indexZ) const;
 
   /** Get index into data array.
    *
@@ -146,28 +162,32 @@ private :
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
   
-  double* _data; ///< Array of data values
-  double* _x; ///< Array of x coordinates
-  double* _y; ///< Array of y coordinates
-  double* _z; ///< Array of z coordinates
+  double* _data; ///< Array of data values.
+  double* _x; ///< Array of x coordinates.
+  double* _y; ///< Array of y coordinates.
+  double* _z; ///< Array of z coordinates.
 
   double _xyz[3];
 
   int* _queryVals; ///< Indices of values to be returned in queries.
   int _querySize; ///< Number of values requested to be returned in queries.
 
-  int _numX; ///< Number of points along x dimension
-  int _numY; ///< Number of points along y dimension
-  int _numZ; ///< Number of points along z dimension
+  int _numX; ///< Number of points along x dimension.
+  int _numY; ///< Number of points along y dimension.
+  int _numZ; ///< Number of points along z dimension.
+  int _dataDim; ///< Dimension of data topology.
+  int _spaceDim; ///< Spatial dimension of data.
 
   int _numValues; ///< Number of values in database.
   std::string* _names; ///< Names of data values.
   std::string* _units; ///< Units of values.  
 
-  std::string _filename;
-  geocoords::CSGeoProj* _cs;
+  std::string _filename; ///< Filename of data file
+  geocoords::CoordSys* _cs; ///< Coordinate system
 
   QueryEnum _queryType; ///< Query type
+
+  static const char* FILEHEADER;
 
 // NOT IMPLEMENTED //////////////////////////////////////////////////////
 private :

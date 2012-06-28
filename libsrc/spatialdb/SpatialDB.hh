@@ -183,8 +183,24 @@ class spatialdata::spatialdb::SpatialDB
 		  const int numDimsC,
 		  const spatialdata::geocoords::CoordSys* csQuery);
 
- private :
+  // PROTECTED METHODS //////////////////////////////////////////////////
+protected :
+  
+  /** Convert values to SI units.
+   *
+   * @param data Array of data.
+   * @param units Units for values.
+   * @param numLocs Number of locations.
+   * @param numVals Number of values per location.
+   */
+  static
+  void _convertToSI(double* vals,
+		    std::string* units,
+		    const int numLocs,
+		    const int numVals);
+
   // PRIVATE METHODS ////////////////////////////////////////////////////
+ private :
   
   SpatialDB(const SpatialDB& data); ///< Not implemented
   const SpatialDB& operator=(const SpatialDB& data); ///< Not implemented
