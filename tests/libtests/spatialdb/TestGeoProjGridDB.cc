@@ -193,19 +193,58 @@ spatialdata::spatialdb::TestGeoProjGridDB::_testQueryLinear(const GeoProjGridDBT
 // Populate database with data.
 void
 spatialdata::spatialdb::TestGeoProjGridDB::_setupDB(GeoProjGridDB* const db,
-						  const GeoProjGridDBTestData& data)
+						    const GeoProjGridDBTestData& data)
 { // _setupDB
-#if 0
-  dbData->allocate(data.numLocs, data.numVals, data.spaceDim,
-		   data.dataDim);
-  dbData->data(data.dbData, data.numLocs, data.numVals);
-  dbData->coordinates(data.dbCoords, data.numLocs, data.spaceDim);
-  dbData->names(const_cast<const char**>(data.names), data.numVals);
-  dbData->units(const_cast<const char**>(data.units), data.numVals);
+  CPPUNIT_ASSERT(db);
+  CPPUNIT_ASSERT(data.numVals > 0);
 
-  db->_data = dbData;
+  delete[] db->_x; db->_x = 0;
+  delete[] db->_y; db->_y = 0;
+  delete[] db->_z; db->_z = 0;
+  delete[] db->_data; db->_data = 0;
+  delete[] db->_names; db->_names = 0;
+  delete[] db->_units; db->_units = 0;
+
+  int numLocs = 1;
+  if (data.numX > 1) {
+    numLocs *= data.numX;
+    db->_x = new double[data.numX];
+    for (int i=0; i < data.numX; ++i) {
+      db->_x[i] = data.dbX[i];
+    } // for
+  } // if
+  if (data.numY > 1) {
+    numLocs *= data.numY;
+    db->_y = new double[data.numY];
+    for (int i=0; i < data.numY; ++i) {
+      db->_y[i] = data.dbY[i];
+    } // for
+  } // if
+  if (data.numZ > 1) {
+    numLocs *= data.numZ;
+    db->_z = new double[data.numZ];
+    for (int i=0; i < data.numZ; ++i) {
+      db->_z[i] = data.dbZ[i];
+    } // for
+  } // if
+
+  db->_data = (numLocs > 0) ? new double[numLocs*data.numVals] : 0;
+  for (int i=0; i < numLocs*data.numVals; ++i) {
+    db->_data[i] = data.dbData[i];
+  } // for
+
+  db->_names = (data.numVals > 0) ? new std::string[data.numVals] : 0;
+  for (int i=0; i < data.numVals; ++i) {
+    db->_names[i] = data.names[i];
+  } // for
+
+  db->_units = (data.numVals > 0) ? new std::string[data.numVals] : 0;
+  for (int i=0; i < data.numVals; ++i) {
+    db->_units[i] = data.units[i];
+  } // for
+
   db->_cs = new spatialdata::geocoords::CSCart();
-#endif
+  db->_cs->setSpaceDim(data.spaceDim);
 } // _setupDB
 
 // ----------------------------------------------------------------------
@@ -236,6 +275,7 @@ spatialdata::spatialdb::TestGeoProjGridDB::_checkQuery(GeoProjGridDB& db,
   
   const int locSize = spaceDim + numVals;
   spatialdata::geocoords::CSCart csCart;
+  csCart.setSpaceDim(spaceDim);
   for (int iQuery=0; iQuery < numQueries; ++iQuery) {
     const double* coords = &queryData[iQuery*locSize];
     const double* valsE = &queryData[iQuery*locSize+spaceDim];

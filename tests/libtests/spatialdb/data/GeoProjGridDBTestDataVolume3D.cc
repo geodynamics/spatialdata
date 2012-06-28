@@ -16,8 +16,8 @@
 
 #include "GeoProjGridDBTestDataVolume3D.hh"
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numX = 2;
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numY = 3;
+const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numX = 3;
+const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numY = 2;
 const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numZ = 4;
 
 const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_spaceDim = 3;
@@ -29,16 +29,16 @@ const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dataDim = 3;
 const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numQueries = 5;
 
 const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbX[_numX] = {
-  0.0, 0.0,
+  -3.0, 1.0, 2.0,
 };
 const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbY[_numY] = {
-  0.0, 0.0, 0.0,
+  2.0, 4.0,
 };
 const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbZ[_numZ] = {
-  0.0, 0.0, 0.0, 0.0,
+  -0.5, 0.0, 1.0, 4.0,
 };
 
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbData[] = {
+const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbData[_numX*_numY*_numZ*_numVals] = {
   1.00000000e-01,  1.10000000e+00,
   3.00000000e-01,  3.30000000e+00,
   2.00000000e-01,  2.20000000e+00,
@@ -47,16 +47,32 @@ const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbData[] = 
   3.00000000e-01,  3.20000000e+00,
   7.00000000e-01,  5.20000000e+00,
   5.00000000e-01,  4.60000000e+00,
+  0.00000000e-01,  1.20000000e+00,
+  1.00000000e-01,  3.40000000e+00,
+  2.00000000e-01,  2.10000000e+00,
+  6.00000000e-01,  1.40000000e+00,
+  9.00000000e-01,  4.70000000e+00,
+  4.00000000e-01,  3.30000000e+00,
+  7.00000000e-01,  5.50000000e+00,
+  6.00000000e-01,  4.70000000e+00,
+  5.00000000e-01,  1.60000000e+00,
+  3.00000000e-01,  3.30000000e+00,
+  8.00000000e-01,  2.80000000e+00,
+  3.00000000e-01,  1.50000000e+00,
+  7.00000000e-01,  4.80000000e+00,
+  4.00000000e-01,  3.40000000e+00,
+  3.00000000e-01,  5.70000000e+00,
+  4.00000000e-01,  4.50000000e+00,
 };
 
 const char* spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_names[] = {
-"One",
-"Two",
+  "One",
+  "Two",
 };
 
 const char* spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_units[] = {
-"m",
-"m",
+  "m",
+  "cm",
 };
 
 const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_queryNearest[] = {

@@ -14,34 +14,36 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file tests/libtests/spatialdb/TestSimpleDBVolume3D.hh
+/** @file tests/libtests/spatialdb/TestGeoProjGridDBVolume3D.hh
  *
- * @brief C++ TestSimpleDBVolume3D object
+ * @brief C++ TestGeoProjGridDBVolume3D object
  *
- * C++ unit testing for SimpleDB. This object tests the volumetric
+ * C++ unit testing for GeoProjGridDB. This object tests the volumetric
  * interpolation.
  */
 
-#if !defined(spatialdata_spatialdb_testsimpledbvolume3d_hh)
-#define spatialdata_spatialdb_testsimpledbvolume3d_hh
+#if !defined(spatialdata_spatialdb_testgeoprojgriddbvolume3d_hh)
+#define spatialdata_spatialdb_testgeoprojgriddbvolume3d_hh
 
-#include "TestSimpleDB.hh" // ISA TestSimpleDB
+#include "TestGeoProjGridDB.hh" // ISA TestGeoProjGridDB
 
 /// Namespace for spatial package
 namespace spatialdata {
   namespace spatialdb {
-    class TestSimpleDBVolume3D;
+    class TestGeoProjGridDBVolume3D;
   } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for SimpleDB
-class spatialdata::spatialdb::TestSimpleDBVolume3D : public TestSimpleDB
-{ // class TestSimpleDBVolume3D
+/// C++ unit testing for GeoProjGridDB
+class spatialdata::spatialdb::TestGeoProjGridDBVolume3D : public TestGeoProjGridDB
+{ // class TestGeoProjGridDBVolume3D
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestSimpleDBVolume3D );
+  CPPUNIT_TEST_SUITE( TestGeoProjGridDBVolume3D );
+
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -53,9 +55,9 @@ public :
   /// Test queryLinear()
   void testQueryLinear(void);
 
-}; // class TestSimpleDBVolume3D
+}; // class TestGeoProjGridDBVolume3D
 
-#endif // spatialdata_spatialdb_testsimpledbvolume3d_hh
+#endif // spatialdata_spatialdb_testgeoprojgriddbvolume3d_hh
 
 
 // End of file 
