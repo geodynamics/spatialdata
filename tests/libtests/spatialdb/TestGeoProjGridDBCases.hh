@@ -14,16 +14,15 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file tests/libtests/spatialdb/TestGeoProjGridDBVolume3D.hh
+/** @file tests/libtests/spatialdb/TestGeoProjGridDBCases.hh
  *
  * @brief C++ TestGeoProjGridDBVolume3D object
  *
- * C++ unit testing for GeoProjGridDB. This object tests the volumetric
- * interpolation.
+ * C++ unit testing for GeoProjGridDB. 
  */
 
-#if !defined(spatialdata_spatialdb_testgeoprojgriddbvolume3d_hh)
-#define spatialdata_spatialdb_testgeoprojgriddbvolume3d_hh
+#if !defined(spatialdata_spatialdb_testgeoprojgriddbcases_hh)
+#define spatialdata_spatialdb_testgeoprojgriddbcases_hh
 
 #include "TestGeoProjGridDB.hh" // ISA TestGeoProjGridDB
 
@@ -34,7 +33,7 @@ namespace spatialdata {
   } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for GeoProjGridDB
+/// C++ unit testing for GeoProjGridDB with volume data.
 class spatialdata::spatialdb::TestGeoProjGridDBVolume3D : public TestGeoProjGridDB
 { // class TestGeoProjGridDBVolume3D
 

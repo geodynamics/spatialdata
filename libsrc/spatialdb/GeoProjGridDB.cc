@@ -173,7 +173,7 @@ spatialdata::spatialdb::GeoProjGridDB::queryVals(const char* const* names,
     if (iName >= numNames) {
       std::ostringstream msg;
       msg
-	<< "Could not find value " << names[iVal] << " in spatial database\n"
+	<< "Could not find value " << names[iVal] << " in spatial database "
 	<< label() << ". Available values are:";
       for (int iName=0; iName < numNames; ++iName)
 	msg << "\n  " << _names[iName];
@@ -600,7 +600,6 @@ spatialdata::spatialdb::GeoProjGridDB::_checkCompatibility(void) const
   } // if
 } // _checkCompatibility
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Bilinear search for coordinate.
 double

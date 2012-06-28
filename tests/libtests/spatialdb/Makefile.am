@@ -41,6 +41,7 @@ testspatial_SOURCES = \
 	TestTimeHistoryIO.cc \
 	TestUniformDB.cc \
 	TestGeoProjGridDB.cc \
+	TestGeoProjGridDBCases.cc \
 	testcquery.c \
 	testspatial.cc
 
@@ -61,6 +62,7 @@ noinst_HEADERS = \
 	TestTimeHistoryIO.hh \
 	TestUniformDB.hh \
 	TestGeoProjGridDB.hh \
+	TestGeoProjGridDBCases.hh \
 	testcquery.h \
 	TestSpatialDB.hh
 

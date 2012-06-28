@@ -205,6 +205,14 @@ spatialdata::spatialdb::TestGeoProjGridDB::_setupDB(GeoProjGridDB* const db,
   delete[] db->_names; db->_names = 0;
   delete[] db->_units; db->_units = 0;
 
+  db->label("GeoProjGrid test database");
+  db->_numValues = data.numVals;
+  db->_spaceDim = data.spaceDim;
+  db->_dataDim = data.dataDim;
+  db->_numX = data.numX;
+  db->_numY = data.numY;
+  db->_numZ = data.numZ;
+
   int numLocs = 1;
   if (data.numX > 1) {
     numLocs *= data.numX;

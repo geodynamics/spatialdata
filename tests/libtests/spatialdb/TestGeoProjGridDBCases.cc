@@ -16,7 +16,7 @@
 
 #include <portinfo>
 
-#include "TestGeoProjGridDBVolume3D.hh" // Implementation of class methods
+#include "TestGeoProjGridDBCases.hh" // Implementation of class methods
 
 #include "data/GeoProjGridDBTestDataVolume3D.hh"
 
