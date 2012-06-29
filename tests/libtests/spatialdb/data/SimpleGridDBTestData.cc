@@ -14,11 +14,11 @@
 // ----------------------------------------------------------------------
 //
 
-#include "GeoProjGridDBTestData.hh"
+#include "SimpleGridDBTestData.hh"
 
 // ----------------------------------------------------------------------
 // Constructor
-spatialdata::spatialdb::GeoProjGridDBTestData::GeoProjGridDBTestData(void) :
+spatialdata::spatialdb::SimpleGridDBTestData::SimpleGridDBTestData(void) :
   numX(0),
   numY(0),
   numZ(0),
@@ -40,7 +40,7 @@ spatialdata::spatialdb::GeoProjGridDBTestData::GeoProjGridDBTestData(void) :
 
 // ----------------------------------------------------------------------
 // Destructor
-spatialdata::spatialdb::GeoProjGridDBTestData::~GeoProjGridDBTestData(void)
+spatialdata::spatialdb::SimpleGridDBTestData::~SimpleGridDBTestData(void)
 { // destructor
 } // destructor
 

@@ -14,31 +14,31 @@
 // ----------------------------------------------------------------------
 //
 
-#include "GeoProjGridDBTestDataVolume3D.hh"
+#include "SimpleGridDBTestDataVolume3D.hh"
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numX = 3;
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numY = 2;
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numZ = 4;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_numX = 3;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_numY = 2;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_numZ = 4;
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_spaceDim = 3;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_spaceDim = 3;
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numVals = 2;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_numVals = 2;
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dataDim = 3;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_dataDim = 3;
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_numQueries = 5;
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_numQueries = 5;
 
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbX[_numX] = {
+const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_dbX[_numX] = {
   -3.0, 1.0, 2.0,
 };
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbY[_numY] = {
+const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_dbY[_numY] = {
   2.0, 4.0,
 };
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbZ[_numZ] = {
+const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_dbZ[_numZ] = {
   -0.5, 0.0, 1.0, 4.0,
 };
 
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbData[_numX*_numY*_numZ*_numVals] = {
+const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_dbData[_numX*_numY*_numZ*_numVals] = {
   1.00000000e-01,  1.10000000e+00, // 0,0,0
   3.00000000e-01,  3.30000000e+00, // 0,0,1
   2.00000000e-01,  2.20000000e+00, // 0,0,2
@@ -65,17 +65,17 @@ const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_dbData[_num
   4.00000000e-01,  4.50000000e+00, // 2,1,3
 };
 
-const char* spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_names[_numVals] = {
+const char* spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_names[_numVals] = {
   "One",
   "Two",
 };
 
-const char* spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_units[_numVals] = {
+const char* spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_units[_numVals] = {
   "m",
   "m",
 };
 
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_queryNearest[_numQueries*(_spaceDim+_numVals)] = {
+const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_queryNearest[_numQueries*(_spaceDim+_numVals)] = {
   -3.2,  3.8,  2.0,  7.00000000e-01,  5.20000000e+00, // (0,1,2)
    1.1,  1.3, -0.1,  1.00000000e-01,  3.40000000e+00, // (1,0,1)
    0.0, -6.0,  5.0,  6.00000000e-01,  1.40000000e+00, // (1,0,3)
@@ -83,7 +83,7 @@ const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_queryNeares
   -2.0,  3.5,  0.9,  7.00000000e-01,  5.20000000e+00, // (0,1,2)
 };
 
-const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_queryLinear[_numQueries*(_spaceDim+_numVals)] = {
+const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_queryLinear[_numQueries*(_spaceDim+_numVals)] = {
   -3.0,  4.0,  1.0,   7.00000000e-01,  5.20000000e+00, // (0,1,2)
   -1.0,  2.5,  2.5,   3.62500000e-01,  2.52500000e+00, // (0,5, 0.25, 2.5)
    1.25, 3.0,  0.25,  3.25000000e-01,  3.49062500e+00, // (1.25, 0.5, 1.25)
@@ -91,10 +91,10 @@ const double spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_queryLinear
    1.0,  2.0, -0.6,   0.0, 0.0, // not fount
 };
 
-const int spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::_errFlags[_numQueries] = {
+const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_errFlags[_numQueries] = {
  0, 0, 0, 1, 1,};
 
-spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::GeoProjGridDBTestDataVolume3D(void)
+spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::SimpleGridDBTestDataVolume3D(void)
 { // constructor
   numX = _numX;
   numY = _numY;
@@ -114,7 +114,7 @@ spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::GeoProjGridDBTestDataVolu
   errFlags = const_cast<int*>(_errFlags);
 } // constructor
 
-spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D::~GeoProjGridDBTestDataVolume3D(void)
+spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::~SimpleGridDBTestDataVolume3D(void)
 {}
 
 

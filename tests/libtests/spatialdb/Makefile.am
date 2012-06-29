@@ -40,8 +40,8 @@ testspatial_SOURCES = \
 	TestTimeHistory.cc \
 	TestTimeHistoryIO.cc \
 	TestUniformDB.cc \
-	TestGeoProjGridDB.cc \
-	TestGeoProjGridDBCases.cc \
+	TestSimpleGridDB.cc \
+	TestSimpleGridDBCases.cc \
 	testcquery.c \
 	testspatial.cc
 
@@ -61,8 +61,8 @@ noinst_HEADERS = \
 	TestTimeHistory.hh \
 	TestTimeHistoryIO.hh \
 	TestUniformDB.hh \
-	TestGeoProjGridDB.hh \
-	TestGeoProjGridDBCases.hh \
+	TestSimpleGridDB.hh \
+	TestSimpleGridDBCases.hh \
 	testcquery.h \
 	TestSpatialDB.hh
 
@@ -87,8 +87,8 @@ testspatial_SOURCES += \
 	data/SimpleDBTestDataLine3D.cc \
 	data/SimpleDBTestDataArea3D.cc \
 	data/SimpleDBTestDataVolume3D.cc \
-	data/GeoProjGridDBTestData.cc \
-	data/GeoProjGridDBTestDataVolume3D.cc
+	data/SimpleGridDBTestData.cc \
+	data/SimpleGridDBTestDataVolume3D.cc
 
 noinst_HEADERS += \
 	data/SimpleDBQueryData.hh \
@@ -98,8 +98,8 @@ noinst_HEADERS += \
 	data/SimpleDBTestDataLine3D.hh \
 	data/SimpleDBTestDataArea3D.hh \
 	data/SimpleDBTestDataVolume3D.hh \
-	data/GeoProjGridDBTestData.hh \
-	data/GeoProjGridDBTestDataVolume3D.hh
+	data/SimpleGridDBTestData.hh \
+	data/SimpleGridDBTestDataVolume3D.hh
 
 
 # End of file 

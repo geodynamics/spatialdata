@@ -34,6 +34,7 @@ noinst_PYTHON = \
 	TestSimpleIOAscii.py \
 	TestSimpleDB.py \
 	TestUniformDB.py \
+	TestGeoProjGridDB.py \
 	TestTimeHistory.py \
 	TestTimeHistoryIO.py
 

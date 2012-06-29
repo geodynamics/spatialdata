@@ -16,19 +16,19 @@
 
 #include <portinfo>
 
-#include "TestGeoProjGridDBCases.hh" // Implementation of class methods
+#include "TestSimpleGridDBCases.hh" // Implementation of class methods
 
-#include "data/GeoProjGridDBTestDataVolume3D.hh"
+#include "data/SimpleGridDBTestDataVolume3D.hh"
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestGeoProjGridDBVolume3D );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleGridDBVolume3D );
 
 // ----------------------------------------------------------------------
 // Test queryLinear()
 void
-spatialdata::spatialdb::TestGeoProjGridDBVolume3D::testQueryLinear(void)
+spatialdata::spatialdb::TestSimpleGridDBVolume3D::testQueryLinear(void)
 { // testQueryLinear
-  GeoProjGridDBTestDataVolume3D data;
+  SimpleGridDBTestDataVolume3D data;
 
   _testQueryLinear(data);
 } // testQueryLinear
@@ -36,9 +36,9 @@ spatialdata::spatialdb::TestGeoProjGridDBVolume3D::testQueryLinear(void)
 // ----------------------------------------------------------------------
 // Test queryNearest()
 void
-spatialdata::spatialdb::TestGeoProjGridDBVolume3D::testQueryNearest(void)
+spatialdata::spatialdb::TestSimpleGridDBVolume3D::testQueryNearest(void)
 { // testQueryNearest
-  GeoProjGridDBTestDataVolume3D data;
+  SimpleGridDBTestDataVolume3D data;
 
   _testQueryNearest(data);
 } // testQueryNearest

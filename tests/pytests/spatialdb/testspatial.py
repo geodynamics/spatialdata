@@ -29,6 +29,9 @@ def suite():
   from TestUniformDB import TestUniformDB
   suite.addTest(unittest.makeSuite(TestUniformDB))
 
+  from TestSimpleGridDB import TestSimpleGridDB
+  suite.addTest(unittest.makeSuite(TestSimpleGridDB))
+
   from TestCompositeDB import TestCompositeDB
   suite.addTest(unittest.makeSuite(TestCompositeDB))
 

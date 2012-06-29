@@ -16,7 +16,7 @@
 
 #include <portinfo>
 
-#include "GeoProjGridDB.hh" // Implementation of class methods
+#include "SimpleGridDB.hh" // Implementation of class methods
 
 #include "spatialdata/geocoords/CSGeoProj.hh" // USES CSGeoProj
 #include "spatialdata/geocoords/Projector.hh" // USES Projector
@@ -36,11 +36,11 @@
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
-const char* spatialdata::spatialdb::GeoProjGridDB::FILEHEADER = "#SPATIAL_GRID.ascii";
+const char* spatialdata::spatialdb::SimpleGridDB::FILEHEADER = "#SPATIAL_GRID.ascii";
 
 // ----------------------------------------------------------------------
 // Constructor
-spatialdata::spatialdb::GeoProjGridDB::GeoProjGridDB(void) :
+spatialdata::spatialdb::SimpleGridDB::SimpleGridDB(void) :
   _data(0),
   _x(0),
   _y(0),
@@ -61,7 +61,7 @@ spatialdata::spatialdb::GeoProjGridDB::GeoProjGridDB(void) :
 
 // ----------------------------------------------------------------------
 // Destructor
-spatialdata::spatialdb::GeoProjGridDB::~GeoProjGridDB(void)
+spatialdata::spatialdb::SimpleGridDB::~SimpleGridDB(void)
 { // destructor
   delete[] _data; _data = 0;
   delete[] _x; _x = 0;
@@ -80,7 +80,7 @@ spatialdata::spatialdb::GeoProjGridDB::~GeoProjGridDB(void)
 // ----------------------------------------------------------------------
 // Set filename containing data.
 void
-spatialdata::spatialdb::GeoProjGridDB::filename(const char* value)
+spatialdata::spatialdb::SimpleGridDB::filename(const char* value)
 { // filename
   _filename = value;
 } // filename
@@ -88,7 +88,7 @@ spatialdata::spatialdb::GeoProjGridDB::filename(const char* value)
 // ----------------------------------------------------------------------
 // Open the database and prepare for querying.
 void
-spatialdata::spatialdb::GeoProjGridDB::open(void)
+spatialdata::spatialdb::SimpleGridDB::open(void)
 { // open
   try {
     std::ifstream filein(_filename.c_str());
@@ -121,7 +121,7 @@ spatialdata::spatialdb::GeoProjGridDB::open(void)
 // ----------------------------------------------------------------------
 // Close the database.
 void
-spatialdata::spatialdb::GeoProjGridDB::close(void)
+spatialdata::spatialdb::SimpleGridDB::close(void)
 { // close
   delete[] _data; _data = 0;
   delete[] _x; _x = 0;
@@ -139,7 +139,7 @@ spatialdata::spatialdb::GeoProjGridDB::close(void)
 // ----------------------------------------------------------------------
 // Set query type.
 void
-spatialdata::spatialdb::GeoProjGridDB::queryType(const QueryEnum value)
+spatialdata::spatialdb::SimpleGridDB::queryType(const QueryEnum value)
 { // queryType
   _queryType = value;
 } // queryType
@@ -147,7 +147,7 @@ spatialdata::spatialdb::GeoProjGridDB::queryType(const QueryEnum value)
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::GeoProjGridDB::queryVals(const char* const* names,
+spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
 						 const int numVals)
 { // queryVals
   assert(_data);
@@ -187,7 +187,7 @@ spatialdata::spatialdb::GeoProjGridDB::queryVals(const char* const* names,
 // ----------------------------------------------------------------------
 // Query the database.
 int
-spatialdata::spatialdb::GeoProjGridDB::query(double* vals,
+spatialdata::spatialdb::SimpleGridDB::query(double* vals,
 					     const int numVals,
 					     const double* coords,
 					     const int numDims,
@@ -249,12 +249,12 @@ spatialdata::spatialdb::GeoProjGridDB::query(double* vals,
     switch (_dataDim) {
     case 1: {
       assert(false);
-      throw std::logic_error("GeoProjGridDB::query(): 1 == _dataDim not implemented.");
+      throw std::logic_error("SimpleGridDB::query(): 1 == _dataDim not implemented.");
       break;
     } // case 1
     case 2: {
       assert(false);
-      throw std::logic_error("GeoProjGridDB::query(): 2 == _dataDim not implemented.");
+      throw std::logic_error("SimpleGridDB::query(): 2 == _dataDim not implemented.");
       break;
     } // case 2
     case 3 : {
@@ -263,7 +263,7 @@ spatialdata::spatialdb::GeoProjGridDB::query(double* vals,
     } // case 3
     default :
       assert(false);
-      throw std::logic_error("Unsupported data dimension in GeoProjGridDB::query().");
+      throw std::logic_error("Unsupported data dimension in SimpleGridDB::query().");
     } // switch
     break;
   case NEAREST : {
@@ -278,7 +278,7 @@ spatialdata::spatialdb::GeoProjGridDB::query(double* vals,
   } // NEAREST
   default :
     assert(false);
-    throw std::logic_error("Unsupported query type in GeoProjGridDB::query().");
+    throw std::logic_error("Unsupported query type in SimpleGridDB::query().");
   } // switch
     
   return queryFlag;
@@ -287,7 +287,7 @@ spatialdata::spatialdb::GeoProjGridDB::query(double* vals,
 // ----------------------------------------------------------------------
 // Read data file header.
 void
-spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
+spatialdata::spatialdb::SimpleGridDB::_readHeader(std::istream& filein)
 { // _readHeader
   utils::LineParser parser(filein, "//");
   parser.eatwhitespace(true);
@@ -316,9 +316,9 @@ spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
   buffer.str(parser.next());
   buffer.clear();
   buffer >> token;
-  if (0 != strcasecmp(token.c_str(), "GeoProjGridDB")) {
+  if (0 != strcasecmp(token.c_str(), "SimpleGridDB")) {
     std::ostringstream msg;
-    msg << "Could not parse '" << token << "' into 'GeoProjGridDB'.\n";
+    msg << "Could not parse '" << token << "' into 'SimpleGridDB'.\n";
     throw std::runtime_error(msg.str());
   } // else
 
@@ -357,7 +357,7 @@ spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
 	_names = new std::string[_numValues];
       } else
 	throw std::runtime_error("Number of values must be specified BEFORE "
-				 "names of values in GeoProjGridDB file.");
+				 "names of values in SimpleGridDB file.");
       buffer.ignore(maxIgnore, '=');
       for (int iVal=0; iVal < _numValues; ++iVal)
 	buffer >> _names[iVal];
@@ -366,7 +366,7 @@ spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
 	_units = new std::string[_numValues];
       } else
 	throw std::runtime_error("Number of values must be specified BEFORE "
-				 "units of values in GeoProjGridDB file.");
+				 "units of values in SimpleGridDB file.");
       buffer.ignore(maxIgnore, '=');
       for (int iVal=0; iVal < _numValues; ++iVal)
 	buffer >> _units[iVal];
@@ -385,7 +385,7 @@ spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
       spatialdata::geocoords::CSPicklerAscii::unpickle(filein, &_cs);
     } else {
       std::ostringstream msg;
-      msg << "Could not parse '" << token << "' into a GeoProjGridDB setting.";
+      msg << "Could not parse '" << token << "' into a SimpleGridDB setting.";
       throw std::runtime_error(msg.str());
     } // else
     
@@ -394,33 +394,38 @@ spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
     buffer >> token;
   } // while
   if (token != "}" || !filein.good())
-    throw std::runtime_error("I/O error while parsing GeoProjGridDB settings.");
+    throw std::runtime_error("I/O error while parsing SimpleGridDB settings.");
   
   bool ok = true;
   std::ostringstream msg;
   if (_numValues <= 0) {
     ok = false;
-    msg << "GeoProjGridDB settings must include 'num-values'.\n";
+    msg << "SimpleGridDB settings must include 'num-values'.\n";
   } // if
+  if (_spaceDim <= 0) {
+    ok = false;
+    msg << "SimpleGridDB settings must include positive 'space-dim'.\n";
+  } // if
+
   if (_spaceDim > 0 && _numX <= 0) {
     ok = false;
-    msg << "GeoProjGridDB settings must include 'num-x'.\n";
+    msg << "SimpleGridDB settings must include 'num-x'.\n";
   } // if
   if (_spaceDim > 1 && _numY <= 0) {
     ok = false;
-    msg << "GeoProjGridDB settings must include 'num-y' with 2-D and 3-D data.\n";
+    msg << "SimpleGridDB settings must include 'num-y' with 2-D and 3-D data.\n";
   } // if
   if (_spaceDim > 2 && _numZ <= 0) {
     ok = false;
-    msg << "GeoProjGridDB settings must include 'num-z' with 3-D data.\n";
+    msg << "SimpleGridDB settings must include 'num-z' with 3-D data.\n";
   } // if
   if (!_names) {
     ok = false;
-    msg << "GeoProjGridDB settings must include 'value-names'.\n";
+    msg << "SimpleGridDB settings must include 'value-names'.\n";
   } // if
   if (!_units) {
     ok = false;
-    msg << "GeoProjGridDB settings must include 'value-units'.\n";
+    msg << "SimpleGridDB settings must include 'value-units'.\n";
   } // if
   if (!ok)
     throw std::runtime_error(msg.str());
@@ -432,7 +437,7 @@ spatialdata::spatialdb::GeoProjGridDB::_readHeader(std::istream& filein)
 // ----------------------------------------------------------------------
 // Read data values.
 void
-spatialdata::spatialdb::GeoProjGridDB::_readData(std::istream& filein)
+spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
 { // _readData
   delete[] _x; _x = 0;
   delete[] _y; _y = 0;
@@ -527,7 +532,7 @@ spatialdata::spatialdb::GeoProjGridDB::_readData(std::istream& filein)
     } // if
   } // for
   if (!filein.good())
-    throw std::runtime_error("I/O error while reading GeoProjGridDB data.");
+    throw std::runtime_error("I/O error while reading SimpleGridDB data.");
 
   // Check compatibility of dimension of data, spatial dimension and
   // number of points
@@ -540,7 +545,7 @@ spatialdata::spatialdb::GeoProjGridDB::_readData(std::istream& filein)
 // ----------------------------------------------------------------------
 /// Check compatibility of spatial database parameters.
 void
-spatialdata::spatialdb::GeoProjGridDB::_checkCompatibility(void) const
+spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const
 { // _checkCompatibility
   const int spaceDim = _spaceDim;
   const int dataDim = _dataDim;
@@ -604,7 +609,7 @@ spatialdata::spatialdb::GeoProjGridDB::_checkCompatibility(void) const
 // ----------------------------------------------------------------------
 // Bilinear search for coordinate.
 double
-spatialdata::spatialdb::GeoProjGridDB::_search(const double target,
+spatialdata::spatialdb::SimpleGridDB::_search(const double target,
 					       const double* vals,
 					       const int nvals)
 { // _search
@@ -647,7 +652,7 @@ spatialdata::spatialdb::GeoProjGridDB::_search(const double target,
 // ----------------------------------------------------------------------
 // Interpolate to get values at target location defined by indices in 3-D.
 void
-spatialdata::spatialdb::GeoProjGridDB::_interpolate3D(double* vals,
+spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
 						      const int numVals,
 						      const double indexX,
 						      const double indexY,

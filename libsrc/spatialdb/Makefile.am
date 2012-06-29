@@ -34,8 +34,8 @@ subpkginclude_HEADERS = \
 	SimpleDBQuery.hh \
 	SimpleDBData.hh \
 	SimpleDBData.icc \
-	GeoProjGridDB.hh \
-	GeoProjGridDB.icc \
+	SimpleGridDB.hh \
+	SimpleGridDB.icc \
 	GravityField.hh \
 	GravityField.icc \
 	SCECCVMH.hh \

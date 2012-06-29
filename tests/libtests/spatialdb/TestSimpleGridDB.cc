@@ -16,33 +16,33 @@
 
 #include <portinfo>
 
-#include "TestGeoProjGridDB.hh" // Implementation of class methods
+#include "TestSimpleGridDB.hh" // Implementation of class methods
 
-#include "spatialdata/spatialdb/GeoProjGridDB.hh" // USES GeoProjGridDB
+#include "spatialdata/spatialdb/SimpleGridDB.hh" // USES SimpleGridDB
 
-#include "data/GeoProjGridDBTestData.hh" // USES GeoProjGridDBTestData
+#include "data/SimpleGridDBTestData.hh" // USES SimpleGridDBTestData
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
 #include <string.h> // USES strcmp() and memcpy()
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestGeoProjGridDB );
+CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleGridDB );
 
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::spatialdb::TestGeoProjGridDB::testConstructor(void)
+spatialdata::spatialdb::TestSimpleGridDB::testConstructor(void)
 { // testConstructor
-  GeoProjGridDB db;
+  SimpleGridDB db;
 } // testConstructor
 
 // ----------------------------------------------------------------------
 // Test label()
 void
-spatialdata::spatialdb::TestGeoProjGridDB::testLabel(void)
+spatialdata::spatialdb::TestSimpleGridDB::testLabel(void)
 { // testLabel
-  GeoProjGridDB db;
+  SimpleGridDB db;
   const char* label = "database 2";
   db.label(label);
   CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
@@ -51,9 +51,9 @@ spatialdata::spatialdb::TestGeoProjGridDB::testLabel(void)
 // ----------------------------------------------------------------------
 // Test filename()
 void
-spatialdata::spatialdb::TestGeoProjGridDB::testFilename(void)
+spatialdata::spatialdb::TestSimpleGridDB::testFilename(void)
 { // testFilename
-  GeoProjGridDB db;
+  SimpleGridDB db;
   const std::string& filename = "mydb.spatialdb";
   db.filename(filename.c_str());
   CPPUNIT_ASSERT_EQUAL(filename, db._filename);
@@ -62,24 +62,24 @@ spatialdata::spatialdb::TestGeoProjGridDB::testFilename(void)
 // ----------------------------------------------------------------------
 // Test queryType()
 void
-spatialdata::spatialdb::TestGeoProjGridDB::testQueryType(void)
+spatialdata::spatialdb::TestSimpleGridDB::testQueryType(void)
 { // testQueryType
-  GeoProjGridDB db;
+  SimpleGridDB db;
 
   // Test default (nearest)
-  CPPUNIT_ASSERT_EQUAL(GeoProjGridDB::NEAREST, db._queryType);
+  CPPUNIT_ASSERT_EQUAL(SimpleGridDB::NEAREST, db._queryType);
 
-  db.queryType(GeoProjGridDB::LINEAR);
-  CPPUNIT_ASSERT_EQUAL(GeoProjGridDB::LINEAR, db._queryType);
+  db.queryType(SimpleGridDB::LINEAR);
+  CPPUNIT_ASSERT_EQUAL(SimpleGridDB::LINEAR, db._queryType);
   
-  db.queryType(GeoProjGridDB::NEAREST);
-  CPPUNIT_ASSERT_EQUAL(GeoProjGridDB::NEAREST, db._queryType);
+  db.queryType(SimpleGridDB::NEAREST);
+  CPPUNIT_ASSERT_EQUAL(SimpleGridDB::NEAREST, db._queryType);
 } // testQueryType
 
 // ----------------------------------------------------------------------
 // Test _search()
 void
-spatialdata::spatialdb::TestGeoProjGridDB::testSearch(void)
+spatialdata::spatialdb::TestSimpleGridDB::testSearch(void)
 { // testSearch
   const int numX = 5;
   const double x[numX] = {
@@ -87,9 +87,9 @@ spatialdata::spatialdb::TestGeoProjGridDB::testSearch(void)
   };
   const double tolerance = 1.0e-6;
 
-  GeoProjGridDB db;
+  SimpleGridDB db;
   
-  db.queryType(GeoProjGridDB::NEAREST);
+  db.queryType(SimpleGridDB::NEAREST);
 
   // Test data and expected results
   const double xA = -20.0;
@@ -116,7 +116,7 @@ spatialdata::spatialdb::TestGeoProjGridDB::testSearch(void)
   index = db._search(xD, x, numX);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(indexD, index, tolerance);
 
-  db.queryType(GeoProjGridDB::LINEAR);
+  db.queryType(SimpleGridDB::LINEAR);
 
   // Test data and expected results
   const double xE = -20.0;
@@ -147,9 +147,9 @@ spatialdata::spatialdb::TestGeoProjGridDB::testSearch(void)
 // ----------------------------------------------------------------------
 // Test _dataIndex()
 void
-spatialdata::spatialdb::TestGeoProjGridDB::testDataIndex(void)
+spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void)
 { // testDataIndex
-  GeoProjGridDB db;
+  SimpleGridDB db;
   db._numX = 4;
   db._numY = 3;
   db._numZ = 5;
@@ -168,11 +168,11 @@ spatialdata::spatialdb::TestGeoProjGridDB::testDataIndex(void)
 // ----------------------------------------------------------------------
 // Test query() using nearest neighbor
 void
-spatialdata::spatialdb::TestGeoProjGridDB::_testQueryNearest(const GeoProjGridDBTestData& data)
+spatialdata::spatialdb::TestSimpleGridDB::_testQueryNearest(const SimpleGridDBTestData& data)
 { // _testQueryNearest
-  GeoProjGridDB db;
+  SimpleGridDB db;
   _setupDB(&db, data);
-  db.queryType(GeoProjGridDB::NEAREST);
+  db.queryType(SimpleGridDB::NEAREST);
   _checkQuery(db, data.names, data.queryNearest, 0,
 	      data.numQueries, data.spaceDim, data.numVals);
 } // _testQueryNearest
@@ -180,11 +180,11 @@ spatialdata::spatialdb::TestGeoProjGridDB::_testQueryNearest(const GeoProjGridDB
 // ----------------------------------------------------------------------
 // Test query() using linear interpolation
 void
-spatialdata::spatialdb::TestGeoProjGridDB::_testQueryLinear(const GeoProjGridDBTestData& data)
+spatialdata::spatialdb::TestSimpleGridDB::_testQueryLinear(const SimpleGridDBTestData& data)
 { // _testQueryLinear
-  GeoProjGridDB db;
+  SimpleGridDB db;
   _setupDB(&db, data);
-  db.queryType(GeoProjGridDB::LINEAR);
+  db.queryType(SimpleGridDB::LINEAR);
   _checkQuery(db, data.names, data.queryLinear, data.errFlags,
 	      data.numQueries, data.spaceDim, data.numVals);
 } // _testQueryLinear
@@ -192,8 +192,8 @@ spatialdata::spatialdb::TestGeoProjGridDB::_testQueryLinear(const GeoProjGridDBT
 // ----------------------------------------------------------------------
 // Populate database with data.
 void
-spatialdata::spatialdb::TestGeoProjGridDB::_setupDB(GeoProjGridDB* const db,
-						    const GeoProjGridDBTestData& data)
+spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db,
+						    const SimpleGridDBTestData& data)
 { // _setupDB
   CPPUNIT_ASSERT(db);
   CPPUNIT_ASSERT(data.numVals > 0);
@@ -258,7 +258,7 @@ spatialdata::spatialdb::TestGeoProjGridDB::_setupDB(GeoProjGridDB* const db,
 // ----------------------------------------------------------------------
 // Test query method by doing query and checking values returned.
 void
-spatialdata::spatialdb::TestGeoProjGridDB::_checkQuery(GeoProjGridDB& db,
+spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
 						       char** const names,
 						       const double* queryData,
 						       const int* flagsE,

@@ -14,26 +14,26 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_spatialdb_geoprojgriddbtestdata_hh)
-#define spatialdata_spatialdb_geoprojgriddbtestdata_hh
+#if !defined(spatialdata_spatialdb_simplegriddbtestdata_hh)
+#define spatialdata_spatialdb_simplegriddbtestdata_hh
 
 namespace spatialdata {
   namespace spatialdb {
-     class GeoProjGridDBTestData;
+     class SimpleGridDBTestData;
   } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::GeoProjGridDBTestData
+class spatialdata::spatialdb::SimpleGridDBTestData
 {
 
 // PUBLIC METHODS ///////////////////////////////////////////////////////
 public :
   
   /// Constructor
-  GeoProjGridDBTestData(void);
+  SimpleGridDBTestData(void);
 
   /// Destructor
-  ~GeoProjGridDBTestData(void);
+  ~SimpleGridDBTestData(void);
 
 // PUBLIC MEMBERS ///////////////////////////////////////////////////////
 public:
@@ -64,7 +64,7 @@ public:
 
 };
 
-#endif // spatialdata_spatialdb_geoprojgriddbtestdata_hh
+#endif // spatialdata_spatialdb_simplegriddbtestdata_hh
 
 
 // End of file

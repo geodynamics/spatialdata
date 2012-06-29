@@ -14,17 +14,17 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_spatialdb_geoprojgriddb_hh)
-#error "GeoProjGridDB.icc must only be included from GeoProjGridDB.hh"
+#if !defined(spatialdata_spatialdb_simplegriddb_hh)
+#error "SimpleGridDB.icc must only be included from SimpleGridDB.hh"
 #endif
 
 // ----------------------------------------------------------------------
 // Get index into data array.
 inline
 int
-spatialdata::spatialdb::GeoProjGridDB::_dataIndex(const int indexX,
-						  const int indexY,
-						  const int indexZ) const
+spatialdata::spatialdb::SimpleGridDB::_dataIndex(const int indexX,
+						 const int indexY,
+						 const int indexZ) const
 { // _dataIndex
   const int locIndex = indexX*_numY*_numZ + indexY*_numZ + indexZ;
   return locIndex*_numValues;

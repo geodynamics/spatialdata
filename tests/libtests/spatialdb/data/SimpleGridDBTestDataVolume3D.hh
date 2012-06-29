@@ -14,27 +14,27 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_spatialdb_geoprojgriddbtestdatavolume3d_hh)
-#define spatialdata_spatialdb_geoprojgriddbtestdatavolume3d_hh
+#if !defined(spatialdata_spatialdb_simplegriddbtestdatavolume3d_hh)
+#define spatialdata_spatialdb_simplegriddbtestdatavolume3d_hh
 
-#include "GeoProjGridDBTestData.hh"
+#include "SimpleGridDBTestData.hh"
 
 namespace spatialdata {
   namespace spatialdb {
-     class GeoProjGridDBTestDataVolume3D;
+     class SimpleGridDBTestDataVolume3D;
   } // spatialdata
 } // spatialdb
 
-class spatialdata::spatialdb::GeoProjGridDBTestDataVolume3D : public GeoProjGridDBTestData
+class spatialdata::spatialdb::SimpleGridDBTestDataVolume3D : public SimpleGridDBTestData
 {
 
 public: 
 
   /// Constructor
-  GeoProjGridDBTestDataVolume3D(void);
+  SimpleGridDBTestDataVolume3D(void);
 
   /// Destructor
-  ~GeoProjGridDBTestDataVolume3D(void);
+  ~SimpleGridDBTestDataVolume3D(void);
 
 private:
 
@@ -72,6 +72,6 @@ private:
 
 };
 
-#endif // spatialdata_spatialdb_geoprojgriddbtestdatavolume3d_hh
+#endif // spatialdata_spatialdb_simplegriddbtestdatavolume3d_hh
 
 // End of file

@@ -14,23 +14,23 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file libsrc/spatialdb/GeoProjGridDB.hh
+/** @file libsrc/spatialdb/SimpleGridDB.hh
  *
  * @brief C++ object for performing querying of data on a nonuniform
  * (or uniform) grid in a geographic projected coordinate system.
  */
 
-#if !defined(spatialdata_spatialdb_geoprojgriddb_hh)
-#define spatialdata_spatialdb_geoprojgriddb_hh
+#if !defined(spatialdata_spatialdb_simplegriddb_hh)
+#define spatialdata_spatialdb_simplegriddb_hh
 
 #include "SpatialDB.hh" // ISA SpatialDB
 
 #include <string> // HASA std::string
 #include <iosfwd> // USES std::istream
 
-class spatialdata::spatialdb::GeoProjGridDB : SpatialDB
-{ // GeoProjGridDB
-  friend class TestGeoProjGridDB; // unit testing
+class spatialdata::spatialdb::SimpleGridDB : SpatialDB
+{ // SimpleGridDB
+  friend class TestSimpleGridDB; // unit testing
  
  public :
   // PUBLIC ENUM ////////////////////////////////////////////////////////
@@ -45,10 +45,10 @@ class spatialdata::spatialdb::GeoProjGridDB : SpatialDB
 public :
  
   /// Constructor
-  GeoProjGridDB(void);
+  SimpleGridDB(void);
  
   /// Destructor
-  ~GeoProjGridDB(void);
+  ~SimpleGridDB(void);
  
   /** Set filename containing data.
    *
@@ -192,14 +192,14 @@ private :
 // NOT IMPLEMENTED //////////////////////////////////////////////////////
 private :
  
-  GeoProjGridDB(const GeoProjGridDB&); ///< Not implemented
-  const GeoProjGridDB& operator=(const GeoProjGridDB&); ///< Not implemented
+  SimpleGridDB(const SimpleGridDB&); ///< Not implemented
+  const SimpleGridDB& operator=(const SimpleGridDB&); ///< Not implemented
  
-}; // GeoProjGridDB
+}; // SimpleGridDB
 
-#include "GeoProjGridDB.icc" // inline methods
+#include "SimpleGridDB.icc" // inline methods
 
-#endif // spatialdata_spatialdb_geoprojgriddb_hh
+#endif // spatialdata_spatialdb_simplegriddb_hh
 
 
 // End of file 

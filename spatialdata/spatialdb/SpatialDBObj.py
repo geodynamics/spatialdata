@@ -26,7 +26,7 @@ from spatialdb import SpatialDB as ModuleSpatialDB
 # Validator for label
 def validateLabel(value):
   """
-  Validate label for group/nodeset/pset.
+  Validate label for spatial database.
   """
   if 0 == len(value):
     raise ValueError("Descriptive label for spatial database not specified.")

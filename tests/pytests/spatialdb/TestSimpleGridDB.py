@@ -19,15 +19,14 @@ import unittest
 import numpy
 from spatialdata.geocoords.CSCart import CSCart
 
-class TestSimpleDB(unittest.TestCase):
+class TestSimpleGridDB(unittest.TestCase):
 
   def setUp(self):
-    from spatialdata.spatialdb.SimpleDB import SimpleDB
-    db = SimpleDB()
+    from spatialdata.spatialdb.SimpleGridDB import SimpleGridDB
+    db = SimpleGridDB()
     db.inventory.label = "test"
     db.inventory.queryType = "nearest"
-    db.inventory.iohandler.inventory.filename = "data/simple.spatialdb"
-    db.inventory.iohandler._configure()
+    db.inventory.filename = "data/grid.spatialdb"
     db._configure()
     self._db = db
     return

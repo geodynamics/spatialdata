@@ -15,7 +15,8 @@
 #
 
 data_DATA = \
-	spatialdb.dat \
+	simple.spatialdb \
+	grid.spatialdb \
 	test_okay.timedb \
 	timehistory.timedb \
 	gen1Din2D_one_bg.spatialdb \

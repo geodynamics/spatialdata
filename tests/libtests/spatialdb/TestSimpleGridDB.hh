@@ -14,16 +14,16 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file tests/libtests/spatialdb/TestGeoProjGridDB.hh
+/** @file tests/libtests/spatialdb/TestSimpleGridDB.hh
  *
- * @brief C++ TestGeoProjGridDB object
+ * @brief C++ TestSimpleGridDB object
  *
- * C++ unit testing for GeoProjGridDB. This object is an abstract base
+ * C++ unit testing for SimpleGridDB. This object is an abstract base
  * class with children classes specific to the type of data in the database.
  */
 
-#if !defined(spatialdata_spatialdb_testgeoprojgriddb_hh)
-#define spatialdata_spatialdb_testgeoprojgriddb_hh
+#if !defined(spatialdata_spatialdb_testsimplegriddb_hh)
+#define spatialdata_spatialdb_testsimplegriddb_hh
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -32,17 +32,17 @@
 /// Namespace for spatial package
 namespace spatialdata {
   namespace spatialdb {
-    class TestGeoProjGridDB;
-    class GeoProjGridDBTestData; // USES GeoProjGridDBTestData
+    class TestSimpleGridDB;
+    class SimpleGridDBTestData; // USES SimpleGridDBTestData
   } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for GeoProjGridDB
-class spatialdata::spatialdb::TestGeoProjGridDB : public CppUnit::TestFixture
-{ // class TestGeoProjGridDB
+/// C++ unit testing for SimpleGridDB
+class spatialdata::spatialdb::TestSimpleGridDB : public CppUnit::TestFixture
+{ // class TestSimpleGridDB
 
   // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestGeoProjGridDB );
+  CPPUNIT_TEST_SUITE( TestSimpleGridDB );
 
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testLabel );
@@ -81,13 +81,13 @@ protected :
    *
    * @param data Data for database
    */
-  void _testQueryNearest(const GeoProjGridDBTestData& data);
+  void _testQueryNearest(const SimpleGridDBTestData& data);
 
   /** Test query() using linear interpolation
    *
    * @param data Data for database
    */
-  void _testQueryLinear(const GeoProjGridDBTestData& data);
+  void _testQueryLinear(const SimpleGridDBTestData& data);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
@@ -97,8 +97,8 @@ private :
    * @param db Database
    * @param data Data for database
    */
-  void _setupDB(GeoProjGridDB* const db,
-		const GeoProjGridDBTestData& data);
+  void _setupDB(SimpleGridDB* const db,
+		const SimpleGridDBTestData& data);
 
   /** Test query method by doing query and checking values returned.
    * 
@@ -110,7 +110,7 @@ private :
    * @param spaceDim Number of coordinates per location
    * @param numVals Number of values in database
    */
-  void _checkQuery(GeoProjGridDB& db,
+  void _checkQuery(SimpleGridDB& db,
 		   char** const names,
 		   const double* queryData,
 		   const int* flagsE,
@@ -118,9 +118,9 @@ private :
 		   const int spaceDim,
 		   const int numVals);
 
-}; // class TestGeoProjGridDB
+}; // class TestSimpleGridDB
 
-#endif // spatialdata_spatialdb_testgeoprojgriddb_hh
+#endif // spatialdata_spatialdb_testsimplegriddb_hh
 
 
 // End of file 

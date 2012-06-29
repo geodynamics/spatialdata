@@ -29,6 +29,7 @@ swig_sources = \
 	SimpleIO.i \
 	SimpleIOAscii.i \
 	UniformDB.i \
+	SimpleGridDB.i \
 	CompositeDB.i \
 	SCECCVMH.i \
 	GravityField.i \
