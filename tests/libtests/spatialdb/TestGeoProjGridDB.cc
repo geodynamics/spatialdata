@@ -290,15 +290,18 @@ spatialdata::spatialdb::TestGeoProjGridDB::_checkQuery(GeoProjGridDB& db,
     const int err = db.query(vals, numVals, coords, spaceDim, &csCart);
     if (0 != flagsE)
       CPPUNIT_ASSERT(err == flagsE[iQuery]);
-    else
+    else {
       CPPUNIT_ASSERT(0 == err);
-    for (int iVal=0; iVal < numVals; ++iVal)
-      if (valsE[numVals-iVal-1] > tolerance)
-	CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/valsE[numVals-iVal-1],
-				     tolerance);
-      else
-	CPPUNIT_ASSERT_DOUBLES_EQUAL(valsE[numVals-iVal-1], vals[iVal],
-				     tolerance);
+      for (int iVal=0; iVal < numVals; ++iVal) {
+	if (valsE[numVals-iVal-1] > tolerance) {
+	  CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/valsE[numVals-iVal-1],
+				       tolerance);
+	} else {
+	  CPPUNIT_ASSERT_DOUBLES_EQUAL(valsE[numVals-iVal-1], vals[iVal],
+				       tolerance);
+	} // if/else
+      } // for
+    } // if/else
   } // for
   delete[] vals; vals = 0;
 } // _checkQuery

@@ -265,6 +265,7 @@ spatialdata::spatialdb::GeoProjGridDB::query(double* vals,
       assert(false);
       throw std::logic_error("Unsupported data dimension in GeoProjGridDB::query().");
     } // switch
+    break;
   case NEAREST : {
     const int indexNearestX = int(floor(indexX+0.5));
     const int indexNearestY = int(floor(indexY+0.5));
@@ -642,6 +643,7 @@ spatialdata::spatialdb::GeoProjGridDB::_search(const double target,
   return index;
 } // _search
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Interpolate to get values at target location defined by indices in 3-D.
 void
@@ -655,26 +657,29 @@ spatialdata::spatialdb::GeoProjGridDB::_interpolate3D(double* vals,
   const int numY = _numY;
   const int numZ = _numZ;
 
-  const int indexX0 = int(floor(indexX));
+  assert(numX >= 2);
+  const int indexX0 = std::min(numX-2, int(floor(indexX)));
   const double wtX0 = 1.0 - (indexX - indexX0);
   const int indexX1 = indexX0 + 1;
   const double wtX1 = 1.0 - wtX0;
-  assert(0 >= indexX0 && indexX0 < numX);
-  assert(0 >= indexX1 && indexX1 < numX);
+  assert(0 <= indexX0 && indexX0 < numX);
+  assert(0 <= indexX1 && indexX1 < numX);
 
-  const int indexY0 = int(floor(indexY));
+  assert(numY >= 2);
+  const int indexY0 = std::min(numY-2, int(floor(indexY)));
   const double wtY0 = 1.0 - (indexY - indexY0);
   const int indexY1 = indexY0 + 1;
   const double wtY1 = 1.0 - wtY0;
-  assert(0 >= indexY0 && indexY0 < numY);
-  assert(0 >= indexY1 && indexY1 < numY);
+  assert(0 <= indexY0 && indexY0 < numY);
+  assert(0 <= indexY1 && indexY1 < numY);
   
-  const int indexZ0 = int(floor(indexZ));
+  assert(numZ >= 2);
+  const int indexZ0 = std::min(numZ-2, int(floor(indexZ)));
   const double wtZ0 = 1.0 - (indexZ - indexZ0);
   const int indexZ1 = indexZ0 + 1;
   const double wtZ1 = 1.0 - wtZ0;
-  assert(0 >= indexZ0 && indexZ0 < numZ);
-  assert(0 >= indexZ1 && indexZ1 < numZ);
+  assert(0 <= indexZ0 && indexZ0 < numZ);
+  assert(0 <= indexZ1 && indexZ1 < numZ);
 
   const int index000 = _dataIndex(indexX0, indexY0, indexZ0);
   const int index001 = _dataIndex(indexX0, indexY0, indexZ1);
@@ -706,7 +711,20 @@ spatialdata::spatialdb::GeoProjGridDB::_interpolate3D(double* vals,
       wt101 * _data[index101+qVal] +
       wt110 * _data[index110+qVal] +
       wt111 * _data[index111+qVal];
+#if 0 // DEBUGGING
+    std::cout << "val["<<iVal<<"]: " << vals[iVal]
+	      << ", wt000: " << wt000 << ", data: " << _data[index000+qVal]
+	      << ", wt001: " << wt001 << ", data: " << _data[index001+qVal]
+	      << ", wt010: " << wt010 << ", data: " << _data[index010+qVal]
+	      << ", wt011: " << wt011 << ", data: " << _data[index011+qVal]
+	      << ", wt100: " << wt100 << ", data: " << _data[index100+qVal]
+	      << ", wt101: " << wt101 << ", data: " << _data[index101+qVal]
+	      << ", wt110: " << wt110 << ", data: " << _data[index110+qVal]
+	      << ", wt111: " << wt111 << ", data: " << _data[index111+qVal]
+	      << std::endl;
+#endif
   } // for
+
 } // _interpolate3D
 
 
