@@ -236,7 +236,6 @@ spatialdata::geocoords::CSGeoProj::pickle(std::ostream& s) const
     << "  ellipsoid = " << ellipsoid() << "\n"
     << "  datum-horiz = " << datumHoriz() << "\n"
     << "  datum-vert = " << datumVert() << "\n"
-    << "  datum-vert = " << datumVert() << "\n"
     << "  origin-lon = " << _originLon << "\n"
     << "  origin-lat = " << _originLat << "\n"
     << "  rotation-angle = " << rotationAngle() << "\n"
