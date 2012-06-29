@@ -186,6 +186,7 @@ spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
   } // for
 } // queryVals
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int
@@ -275,6 +276,13 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
     const int indexData = _dataIndex(indexNearestX, indexNearestY, indexNearestZ);
     for (int iVal=0; iVal < querySize; ++iVal) {
       vals[iVal] = _data[indexData+_queryVals[iVal]];
+#if 0 // DEBUGGING
+    std::cout << "val["<<iVal<<"]: " << vals[iVal]
+	      << ", indexX: " << indexX
+	      << ", indexY: " << indexY
+	      << ", indexZ: " << indexZ
+	      << std::endl;
+#endif
     } // for
     break;
   } // NEAREST
@@ -448,7 +456,6 @@ spatialdata::spatialdb::SimpleGridDB::_readHeader(std::istream& filein)
   _cs->initialize();
 } // _readHeader
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Read data values.
 void
@@ -671,7 +678,6 @@ spatialdata::spatialdb::SimpleGridDB::_search(const double target,
   return index;
 } // _search
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Interpolate to get values at target location defined by indices in 3-D.
 void

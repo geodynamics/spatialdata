@@ -132,6 +132,7 @@ spatialdata::spatialdb::SpatialDB::multiquery(float* vals,
 } // multiquery
 
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Convert values to SI units.
 void
@@ -148,15 +149,16 @@ spatialdata::spatialdb::SpatialDB::_convertToSI(double* vals,
   const std::string& none = "none";
   std::vector<double> scales(numVals);
   for (int iVal=0; iVal < numVals; ++iVal) {
-    if (none == units[iVal])
+    if (none != units[iVal]) {
       scales[iVal] = parser.parse(units[iVal].c_str());
-    else
+    } else {
       scales[iVal] = 1.0;
+    } // if/else
   } // for
 
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     for (int iVal=0; iVal < numVals; ++iVal) {
-      vals[iVal] *= scales[iVal];
+      vals[iLoc*numVals+iVal] *= scales[iVal];
     } // for
   } // for
 } // _convertToSI

@@ -39,8 +39,8 @@ class TestSimpleGridDB(unittest.TestCase):
     cs = CSCart()
     cs._configure()
     queryVals = ["two", "one"]
-    dataE = numpy.array( [[2.20, 1.04],
-                          [2.22, 1.02]], numpy.float64)
+    dataE = numpy.array( [[0.0220, 1.04],
+                          [0.0222, 1.02]], numpy.float64)
     errE = [0, 0]
 
     db = self._db
@@ -74,8 +74,8 @@ class TestSimpleGridDB(unittest.TestCase):
     cs = CSCart()
     cs._configure()
     queryVals = ["two", "one"]
-    dataE = numpy.array( [[2.07, 1.17],
-                          [2.09, 1.15]], numpy.float64)
+    dataE = numpy.array( [[0.0207, 1.17],
+                          [0.0209, 1.15]], numpy.float64)
     errE = numpy.array([0, 0], numpy.int32)
 
     db = self._db
