@@ -33,13 +33,14 @@ class TestSimpleGridDB(unittest.TestCase):
 
 
   def test_database(self):
-    locs = numpy.array( [[1.0, 2.0, 3.0],
-                         [5.6, 4.2, 8.6]],
+    locs = numpy.array( [[3.5, 0.1, 0.8],
+                         [8.0, -0.4, 1.8]],
                         numpy.float64)
     cs = CSCart()
     cs._configure()
     queryVals = ["two", "one"]
-    dataE = numpy.array( [[4.7, 6.3]]*2, numpy.float64)
+    dataE = numpy.array( [[2.20, 1.04],
+                          [2.22, 1.02]], numpy.float64)
     errE = [0, 0]
 
     db = self._db
@@ -67,13 +68,14 @@ class TestSimpleGridDB(unittest.TestCase):
 
 
   def test_databasemulti(self):
-    locs = numpy.array( [[1.0, 2.0, 3.0],
-                         [5.6, 4.2, 8.6]],
+    locs = numpy.array( [[2.3, -0.1, 1.8],
+                         [2.0,  0.4, -2.0]],
                         numpy.float64)
     cs = CSCart()
     cs._configure()
     queryVals = ["two", "one"]
-    dataE = numpy.array( [[4.7, 6.3]]*2, numpy.float64)
+    dataE = numpy.array( [[2.07, 1.17],
+                          [2.09, 1.15]], numpy.float64)
     errE = numpy.array([0, 0], numpy.int32)
 
     db = self._db

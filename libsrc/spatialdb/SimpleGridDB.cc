@@ -45,16 +45,18 @@ spatialdata::spatialdb::SimpleGridDB::SimpleGridDB(void) :
   _x(0),
   _y(0),
   _z(0),
-  _filename(""),
-  _cs(new geocoords::CSGeoProj),
   _queryVals(0),
   _querySize(0),
   _numX(0),
   _numY(0),
   _numZ(0),
+  _dataDim(0),
+  _spaceDim(0),
   _numValues(0),
   _names(0),
   _units(0),
+  _filename(""),
+  _cs(new geocoords::CSGeoProj),
   _queryType(NEAREST)
 { // constructor
 } // constructor
@@ -430,10 +432,23 @@ spatialdata::spatialdb::SimpleGridDB::_readHeader(std::istream& filein)
   if (!ok)
     throw std::runtime_error(msg.str());
 
+  // Set data dimension based on dimensions of data.
+  _dataDim = 0;
+  if (_numX > 1) {
+    _dataDim += 1;
+  } // if
+  if (_numY > 1) {
+    _dataDim += 1;
+  } // if
+  if (_numZ > 1) {
+    _dataDim += 1;
+  } // if
+
   assert(_cs);
   _cs->initialize();
 } // _readHeader
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Read data values.
 void
@@ -462,12 +477,14 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
     buffer.str(parser.next());
     buffer.clear();
     for (int i=0; i < numX; ++i) {
-      filein >> _x[i];
+      buffer >> _x[i];
     } // for
     std::vector<double> xVec(numX);
     for (int i=0; i < numX; ++i)
       xVec[i] = _x[i];
     std::sort(xVec.begin(), xVec.end());
+    for (int i=0; i < numX; ++i)
+      _x[i] = xVec[i];
   } // if
 
   if (numY > 1) {
@@ -476,12 +493,14 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
     buffer.str(parser.next());
     buffer.clear();
     for (int i=0; i < numY; ++i) {
-      filein >> _y[i];
+      buffer >> _y[i];
     } // for
     std::vector<double> yVec(numY);
     for (int i=0; i < numY; ++i)
       yVec[i] = _y[i];
     std::sort(yVec.begin(), yVec.end());
+    for (int i=0; i < numY; ++i)
+      _y[i] = yVec[i];
   } // if
 
   if (numZ > 1) {
@@ -490,12 +509,14 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
     buffer.str(parser.next());
     buffer.clear();
     for (int i=0; i < numZ; ++i) {
-      filein >> _z[i];
+      buffer >> _z[i];
     } // for
     std::vector<double> zVec(numZ);
     for (int i=0; i < numZ; ++i)
       zVec[i] = _z[i];
     std::sort(zVec.begin(), zVec.end());
+    for (int i=0; i < numZ; ++i)
+      _z[i] = zVec[i];
   } // if
 
   assert(numLocs > 0);
@@ -506,8 +527,9 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     buffer.str(parser.next());
     buffer.clear();
-    for (int iDim=0; iDim < spaceDim; ++iDim)
+    for (int iDim=0; iDim < spaceDim; ++iDim) {
       buffer >> coords[iDim];
+    } // for
     
     int indexX = 0;
     int indexY = 0;
@@ -525,8 +547,9 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
     } // if
     
     const int indexData = _dataIndex(indexX, indexY, indexZ);
-    for (int iVal=0; iVal < _numValues; ++iVal)
+    for (int iVal=0; iVal < _numValues; ++iVal) {
       buffer >> _data[indexData+iVal];
+    } // for
     if (buffer.bad()) {
       throw std::runtime_error("Error reading points.");
     } // if
