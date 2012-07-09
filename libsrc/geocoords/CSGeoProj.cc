@@ -54,6 +54,11 @@ spatialdata::geocoords::CSGeoProj::~CSGeoProj(void)
 // Copy constructor
 spatialdata::geocoords::CSGeoProj::CSGeoProj(const CSGeoProj& cs) :
   CSGeo(cs),
+  _originLon(cs._originLon),
+  _originLat(cs._originLat),
+  _originX(cs._originX),
+  _originY(cs._originY),
+  _rotAngle(cs._rotAngle),
   _pProjector(0)
 { // copy constructor
   if (0 != cs._pProjector)

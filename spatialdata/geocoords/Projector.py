@@ -42,7 +42,7 @@ class Projector(Component, ModuleProjector):
     ## \b Properties
     ## @li \b projection Name of projection
     ## @li \b units Name of units
-    ## @li \b proj-options Additional proj options
+    ## @li \b proj_options Additional proj options
     ##
     ## \b Facilities
     ## @li None
