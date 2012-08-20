@@ -86,7 +86,9 @@ void
 spatialdata::spatialdb::SimpleDB::close(void)
 { // close
   delete _data; _data = 0;
-  delete _query; _query = 0;
+
+  assert(_query);
+  _query->deallocate();
 } // close
 
 // ----------------------------------------------------------------------

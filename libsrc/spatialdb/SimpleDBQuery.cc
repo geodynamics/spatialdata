@@ -51,9 +51,18 @@ spatialdata::spatialdb::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
 // Default destructor.
 spatialdata::spatialdb::SimpleDBQuery::~SimpleDBQuery(void)
 { // destructor
+  deallocate();
+} // destructor
+  
+// ----------------------------------------------------------------------
+// Deallocate data structures.
+void
+spatialdata::spatialdb::SimpleDBQuery::deallocate(void)
+{ // deallocate
   delete[] _queryVals; _queryVals = 0;
   _querySize = 0;
-} // destructor
+  _nearest.resize(0);
+} // deallocate
   
 // ----------------------------------------------------------------------
 // Set query type.

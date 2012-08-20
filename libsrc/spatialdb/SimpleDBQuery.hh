@@ -43,6 +43,9 @@ class spatialdata::spatialdb::SimpleDBQuery
   /// Default destructor.
   ~SimpleDBQuery(void);
   
+  /// Dellocate data structures.
+  void deallocate(void);
+
   /** Set query type.
    *
    * @param Set type of query
