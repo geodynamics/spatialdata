@@ -93,6 +93,10 @@ class NondimElasticQuasistatic(Nondimensional):
     self.setPressureScale(self.inventory.shearModulus)
     self.setTimeScale(self.inventory.relaxationTime)
 
+    # Compute implicit density scale.
+    vs = self.inventory.lengthScale / self.inventory.relaxationTime
+    self.setDensityScale(self.inventory.shearModulus / vs**2)
+
     return
 
 
