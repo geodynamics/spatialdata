@@ -156,13 +156,13 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void)
   db._numValues = 10;
 
   CPPUNIT_ASSERT_EQUAL(0, db._dataIndex(0, 0, 0));
-  CPPUNIT_ASSERT_EQUAL(10, db._dataIndex(0, 0, 1));
+  CPPUNIT_ASSERT_EQUAL(1*3*4*10, db._dataIndex(0, 0, 1));
 
-  CPPUNIT_ASSERT_EQUAL(50, db._dataIndex(0, 1, 0));
-  CPPUNIT_ASSERT_EQUAL(50+40, db._dataIndex(0, 1, 4));
+  CPPUNIT_ASSERT_EQUAL(1*4*10, db._dataIndex(0, 1, 0));
+  CPPUNIT_ASSERT_EQUAL(4*3*4*10 + 1*4*10, db._dataIndex(0, 1, 4));
 
-  CPPUNIT_ASSERT_EQUAL(150, db._dataIndex(1, 0, 0));
-  CPPUNIT_ASSERT_EQUAL(2*150+1*50+30, db._dataIndex(2, 1, 3));
+  CPPUNIT_ASSERT_EQUAL(1*10, db._dataIndex(1, 0, 0));
+  CPPUNIT_ASSERT_EQUAL(3*4*3*10 + 1*4*10 + 2*10, db._dataIndex(2, 1, 3));
 } // testDataIndex
 
 // ----------------------------------------------------------------------

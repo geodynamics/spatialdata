@@ -88,6 +88,11 @@ testspatial_SOURCES += \
 	data/SimpleDBTestDataArea3D.cc \
 	data/SimpleDBTestDataVolume3D.cc \
 	data/SimpleGridDBTestData.cc \
+	data/SimpleGridDBTestDataLine1D.cc \
+	data/SimpleGridDBTestDataLine2D.cc \
+	data/SimpleGridDBTestDataLine3D.cc \
+	data/SimpleGridDBTestDataArea2D.cc \
+	data/SimpleGridDBTestDataArea3D.cc \
 	data/SimpleGridDBTestDataVolume3D.cc
 
 noinst_HEADERS += \
@@ -99,6 +104,11 @@ noinst_HEADERS += \
 	data/SimpleDBTestDataArea3D.hh \
 	data/SimpleDBTestDataVolume3D.hh \
 	data/SimpleGridDBTestData.hh \
+	data/SimpleGridDBTestDataLine1D.hh \
+	data/SimpleGridDBTestDataLine2D.hh \
+	data/SimpleGridDBTestDataLine3D.hh \
+	data/SimpleGridDBTestDataArea2D.hh \
+	data/SimpleGridDBTestDataArea3D.hh \
 	data/SimpleGridDBTestDataVolume3D.hh
 
 

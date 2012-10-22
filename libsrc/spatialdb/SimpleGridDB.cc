@@ -191,10 +191,10 @@ spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
 // Query the database.
 int
 spatialdata::spatialdb::SimpleGridDB::query(double* vals,
-					     const int numVals,
-					     const double* coords,
-					     const int numDims,
-					     const spatialdata::geocoords::CoordSys* csQuery)
+					    const int numVals,
+					    const double* coords,
+					    const int numDims,
+					    const spatialdata::geocoords::CoordSys* csQuery)
 { // query
   const int querySize = _querySize;
 
@@ -212,11 +212,11 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
       << "(" << querySize << ") does not match size of array provided ("
       << numVals << ").\n";
     throw std::runtime_error(msg.str());
-  } else if (3 != numDims) {
+  } else if (numDims != _spaceDim) {
     std::ostringstream msg;
     msg
       << "Spatial dimension (" << numDims
-      << ") when querying SCEC CVM-H must be 3.";
+      << ") does not match spatial dimension of spatial database (" << _spaceDim << ").";
     throw std::runtime_error(msg.str());
   } // if
 
@@ -231,16 +231,53 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
   double indexX = 0.0;
   double indexY = 0.0;
   double indexZ = 0.0;
-  if (spaceDim > 2) {
+  int numX = 0;
+  int numY = 0;
+  int numZ = 0;
+  if (3 == spaceDim) {
     indexX = _search(_xyz[0], _x, _numX);
     indexY = _search(_xyz[1], _y, _numY);
     indexZ = _search(_xyz[2], _z, _numZ);
-  } else if (spaceDim > 1) {
+    numX = _numX;
+    numY = _numY;
+    numZ = _numZ;
+    if (2 == _dataDim) {
+      if (1 == _numX) {
+	indexX = indexY;
+	numX = _numY;
+	indexY = indexZ;
+	numY = _numZ;
+	indexZ = 0;
+      } else if (1 == numY) {
+	indexY = indexZ;
+	numY = _numZ;
+	indexZ = 0;
+      } // if/else
+    } else if (1 == _dataDim) {
+      if (_numY > 1) {
+	indexX = indexY;
+	numX = _numY;
+	indexY = 0;
+      } else if (_numZ > 1) {
+	indexX = indexZ;
+	numX = _numZ;
+	indexZ = 0;
+      } // if
+    } // if
+  } else if (2 == spaceDim) {
     indexX = _search(_xyz[0], _x, _numX);
     indexY = _search(_xyz[1], _y, _numY);
+    numX = _numX;
+    numY = _numY;
+    if (1 == _dataDim && 1 == _numX) {
+      indexX = indexY;
+      numX = _numY;
+      indexY = 0;
+    } // if
   } else { // else
     assert(1 == spaceDim);
     indexX = _search(_xyz[0], _x, _numX);
+    numX = _numX;
   } // if/else
   if (-1.0 == indexX || -1.0 == indexY || -1.0 == indexZ) {
     queryFlag = 1;
@@ -251,13 +288,11 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
   case LINEAR : 
     switch (_dataDim) {
     case 1: {
-      assert(false);
-      throw std::logic_error("SimpleGridDB::query(): 1 == _dataDim not implemented.");
+      _interpolate1D(vals, numVals, indexX, numX);
       break;
     } // case 1
     case 2: {
-      assert(false);
-      throw std::logic_error("SimpleGridDB::query(): 2 == _dataDim not implemented.");
+      _interpolate2D(vals, numVals, indexX, numX, indexY, numY);
       break;
     } // case 2
     case 3 : {
@@ -278,6 +313,7 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
       vals[iVal] = _data[indexData+_queryVals[iVal]];
 #if 0 // DEBUGGING
     std::cout << "val["<<iVal<<"]: " << vals[iVal]
+	      << ", indexData: " << indexData
 	      << ", indexX: " << indexX
 	      << ", indexY: " << indexY
 	      << ", indexZ: " << indexZ
@@ -439,6 +475,17 @@ spatialdata::spatialdb::SimpleGridDB::_readHeader(std::istream& filein)
   } // if
   if (!ok)
     throw std::runtime_error(msg.str());
+
+  // Set dimensions without any data to 1.
+  if (0 == _numX) {
+    _numX = 1;
+  } // if
+  if (0 == _numY) {
+    _numY = 1;
+  } // if
+  if (0 == _numZ) {
+    _numZ = 1;
+  } // if
 
   // Set data dimension based on dimensions of data.
   _dataDim = 0;
@@ -640,18 +687,17 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const
 // Bilinear search for coordinate.
 double
 spatialdata::spatialdb::SimpleGridDB::_search(const double target,
-					       const double* vals,
-					       const int nvals)
+					      const double* vals,
+					      const int nvals)
 { // _search
-  assert(vals);
-  assert(nvals > 0);
-
-  double index = -1.0;
-
   if (1 == nvals) {
     return 0.0;
   } // if
 
+  assert(vals);
+  assert(nvals > 0);
+
+  double index = -1.0;
   int indexL = 0;
   int indexR = nvals - 1;
   const double tolerance = 1.0e-6;
@@ -677,6 +723,102 @@ spatialdata::spatialdb::SimpleGridDB::_search(const double target,
 
   return index;
 } // _search
+
+// ----------------------------------------------------------------------
+// Interpolate to get values at target location defined by indices in 1-D.
+void
+spatialdata::spatialdb::SimpleGridDB::_interpolate1D(double* vals,
+						     const int numVals,
+						     const double indexX,
+						     const int numX) const
+{ // _interpolate1D
+  assert(numX >= 2);
+  const int indexX0 = std::min(numX-2, int(floor(indexX)));
+  const double wtX0 = 1.0 - (indexX - indexX0);
+  const int indexX1 = indexX0 + 1;
+  const double wtX1 = 1.0 - wtX0;
+  assert(0 <= indexX0 && indexX0 < numX);
+  assert(0 <= indexX1 && indexX1 < numX);
+
+  const int index000 = _dataIndex(indexX0, 0, 0);
+  const int index100 = _dataIndex(indexX1, 0, 0);
+
+  const double wt000 = wtX0;
+  const double wt100 = wtX1;
+
+  const int querySize = _querySize;
+  for (int iVal=0; iVal < querySize; ++iVal) {
+    const int qVal = _queryVals[iVal];
+    vals[iVal] = 
+      wt000 * _data[index000+qVal] +
+      wt100 * _data[index100+qVal];
+#if 0 // DEBUGGING
+    std::cout << "val["<<iVal<<"]: " << vals[iVal]
+	      << ", wt000: " << wt000 << ", data: " << _data[index000+qVal]
+	      << ", wt100: " << wt100 << ", data: " << _data[index100+qVal]
+	      << std::endl;
+#endif
+  } // for
+
+} // _interpolate1D
+
+
+// ----------------------------------------------------------------------
+// Interpolate to get values at target location defined by indices in 2-D.
+void
+spatialdata::spatialdb::SimpleGridDB::_interpolate2D(double* vals,
+						     const int numVals,
+						     const double indexX,
+						     const int numX,
+						     const double indexY,
+						     const int numY) const
+{ // _interpolate2D
+  assert(numX >= 2);
+  const int indexX0 = std::min(numX-2, int(floor(indexX)));
+  const double wtX0 = 1.0 - (indexX - indexX0);
+  const int indexX1 = indexX0 + 1;
+  const double wtX1 = 1.0 - wtX0;
+  assert(0 <= indexX0 && indexX0 < numX);
+  assert(0 <= indexX1 && indexX1 < numX);
+
+  assert(numY >= 2);
+  const int indexY0 = std::min(numY-2, int(floor(indexY)));
+  const double wtY0 = 1.0 - (indexY - indexY0);
+  const int indexY1 = indexY0 + 1;
+  const double wtY1 = 1.0 - wtY0;
+  assert(0 <= indexY0 && indexY0 < numY);
+  assert(0 <= indexY1 && indexY1 < numY);
+  
+  const int index000 = _dataIndex(indexX0, indexY0, 0);
+  const int index010 = _dataIndex(indexX0, indexY1, 0);
+  const int index100 = _dataIndex(indexX1, indexY0, 0);
+  const int index110 = _dataIndex(indexX1, indexY1, 0);
+
+  const double wt000 = wtX0 * wtY0;
+  const double wt010 = wtX0 * wtY1;
+  const double wt100 = wtX1 * wtY0;
+  const double wt110 = wtX1 * wtY1;
+
+  const int querySize = _querySize;
+  for (int iVal=0; iVal < querySize; ++iVal) {
+    const int qVal = _queryVals[iVal];
+    vals[iVal] = 
+      wt000 * _data[index000+qVal] +
+      wt010 * _data[index010+qVal] +
+      wt100 * _data[index100+qVal] +
+      wt110 * _data[index110+qVal];
+#if 0 // DEBUGGING
+    std::cout << "val["<<iVal<<"]: " << vals[iVal]
+	      << ", wt000: " << wt000 << ", data: " << _data[index000+qVal]
+	      << ", wt010: " << wt010 << ", data: " << _data[index010+qVal]
+	      << ", wt100: " << wt100 << ", data: " << _data[index100+qVal]
+	      << ", wt110: " << wt110 << ", data: " << _data[index110+qVal]
+	      << std::endl;
+#endif
+  } // for
+
+} // _interpolate2D
+
 
 // ----------------------------------------------------------------------
 // Interpolate to get values at target location defined by indices in 3-D.

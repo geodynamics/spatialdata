@@ -132,7 +132,40 @@ private :
 		 const double* vals,
 		 const int nvals);
 
-  /** Interpolate to get values at target location defined by indices.
+  /** Interpolate in 1-D to get values at target location defined by
+   * indices.
+   *
+   * @param vals Array for computed values (output from query), must be
+   *   allocated BEFORE calling query().
+   * @param numVals Number of values expected (size of pVals array)
+   * @param indexX Index along x dimension.
+   * @param numX Number of coordinates along x dimension.
+   */
+  void _interpolate1D(double* vals,
+		      const int numVals,
+		      const double indexX,
+		      const int numX) const;
+
+  /** Interpolate in 2-D to get values at target location defined by
+   * indices.
+   *
+   * @param vals Array for computed values (output from query), must be
+   *   allocated BEFORE calling query().
+   * @param numVals Number of values expected (size of pVals array)
+   * @param indexX Index along x dimension.
+   * @param numX Number of coordinates along x dimension.
+   * @param indexY Index along y dimension.
+   * @param numY Number of coordinates along y dimension.
+   */
+  void _interpolate2D(double* vals,
+		      const int numVals,
+		      const double indexX,
+		      const int numX,
+		      const double indexY,
+		      const int numY) const;
+
+  /** Interpolate in 3-D to get values at target location defined by
+   * indices.
    *
    * @param vals Array for computed values (output from query), must be
    *   allocated BEFORE calling query().

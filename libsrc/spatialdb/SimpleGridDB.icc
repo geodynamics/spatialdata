@@ -26,7 +26,8 @@ spatialdata::spatialdb::SimpleGridDB::_dataIndex(const int indexX,
 						 const int indexY,
 						 const int indexZ) const
 { // _dataIndex
-  const int locIndex = indexX*_numY*_numZ + indexY*_numZ + indexZ;
+  // Order points so indexing works in any dimension.
+  const int locIndex = indexZ*_numY*_numX + indexY*_numX + indexX;
   return locIndex*_numValues;
 } // _dataIndex
 
