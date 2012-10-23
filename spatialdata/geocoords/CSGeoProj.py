@@ -44,7 +44,7 @@ class CSGeoProj(CSGeo, ModuleCSGeoProj):
     ## \b Properties
     ## @li origin_lon Longitude of local origin in degrees (WGS84).
     ## @li origin_lat Latitude of local origin in degrees (WGS84).
-    ## @li rotation_angle Rotation angle (CCW) of local x-axis from east.
+    ## @li rotation_angle Rotation angle in degrees CCW of local x-axis from east.
     ##
     ## \b Facilities
     ## @li \b projector Geographic coordinate projector
@@ -58,7 +58,7 @@ class CSGeoProj(CSGeo, ModuleCSGeoProj):
     originLat.meta['tip'] = "Latitude of local origin in degrees (WGS84)."
 
     rotAngle = pyre.inventory.float("rotation_angle", default=0.0)
-    rotAngle.meta['tip'] = "Rotation angle (CCW) of local x-axis from east."
+    rotAngle.meta['tip'] = "Rotation angle in degrees CCW of local x-axis from east."
 
     from Projector import Projector
     projector = pyre.inventory.facility("projector", family="projector",
