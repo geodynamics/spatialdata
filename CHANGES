@@ -1,9 +1,13 @@
-2012/06/27 (version 1.9.0) [in progress[
+2012/10/22 (version 1.9.0)
 
   Added local origin and rotation angle to projected geographic
   coordinate system. This provides a local origin to geographic
   projects that do not necessarily support them in addition to rotated
   coordinate systems.
+
+  Added SimpleGridDB for efficient querying of data on logical
+  grids. Works in 1-D, 2-D, and 3-D for lower-dimension grids, e.g.,
+  1-D in 3-D space.
 
 2012/03/23 (version 1.8.2)
 
