@@ -476,17 +476,6 @@ spatialdata::spatialdb::SimpleGridDB::_readHeader(std::istream& filein)
   if (!ok)
     throw std::runtime_error(msg.str());
 
-  // Set dimensions without any data to 1.
-  if (0 == _numX) {
-    _numX = 1;
-  } // if
-  if (0 == _numY) {
-    _numY = 1;
-  } // if
-  if (0 == _numZ) {
-    _numZ = 1;
-  } // if
-
   // Set data dimension based on dimensions of data.
   _dataDim = 0;
   if (_numX > 1) {
@@ -525,7 +514,7 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
   std::istringstream buffer;
 
   int numLocs = 1;
-  if (numX > 1) {
+  if (numX >= 1) {
     numLocs *= numX;
     _x = new double[numX];
     buffer.str(parser.next());
@@ -541,7 +530,7 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
       _x[i] = xVec[i];
   } // if
 
-  if (numY > 1) {
+  if (numY >= 1) {
     numLocs *= numY;
     _y = new double[numY];
     buffer.str(parser.next());
@@ -557,7 +546,7 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
       _y[i] = yVec[i];
   } // if
 
-  if (numZ > 1) {
+  if (numZ >= 1) {
     numLocs *= numZ;
     _z = new double[numZ];
     buffer.str(parser.next());
@@ -610,6 +599,17 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
   } // for
   if (!filein.good())
     throw std::runtime_error("I/O error while reading SimpleGridDB data.");
+
+  // Set dimensions without any data to 1.
+  if (0 == _numX) {
+    _numX = 1;
+  } // if
+  if (0 == _numY) {
+    _numY = 1;
+  } // if
+  if (0 == _numZ) {
+    _numZ = 1;
+  } // if
 
   // Check compatibility of dimension of data, spatial dimension and
   // number of points

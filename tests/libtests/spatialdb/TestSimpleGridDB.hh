@@ -56,6 +56,12 @@ class spatialdata::spatialdb::TestSimpleGridDB : public CppUnit::TestFixture
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
+  /// Setup testing data.
+  void setUp(void);
+
+  /// Tear down testing data.
+  void tearDown(void);
+
   /// Test constructor
   void testConstructor(void);
 
@@ -74,20 +80,19 @@ public :
   /// Test _dataIndex()
   void testDataIndex(void);
 
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
+  // PUBLIC METHODS /////////////////////////////////////////////////////
+public :
 
-  /** Test query() using nearest neighbor
-   *
-   * @param data Data for database
-   */
-  void _testQueryNearest(const SimpleGridDBTestData& data);
+  // Tests in derived classes.
 
-  /** Test query() using linear interpolation
-   *
-   * @param data Data for database
-   */
-  void _testQueryLinear(const SimpleGridDBTestData& data);
+  /// Test query() using nearest neighbor.
+  void testQueryNearest(void);
+
+  /// Test query() using linear interpolation.
+  void testQueryLinear(void);
+
+  /// Test read().
+  void testRead(void);
 
   // PRIVATE METHODS ////////////////////////////////////////////////////
 private :
@@ -97,8 +102,7 @@ private :
    * @param db Database
    * @param data Data for database
    */
-  void _setupDB(SimpleGridDB* const db,
-		const SimpleGridDBTestData& data);
+  void _setupDB(SimpleGridDB* const db);
 
   /** Test query method by doing query and checking values returned.
    * 
@@ -117,6 +121,11 @@ private :
 		   const int numQueries,
 		   const int spaceDim,
 		   const int numVals);
+
+protected :
+  // PROTECTED MEMBERS //////////////////////////////////////////////////
+
+  SimpleGridDBTestData* _data; ///< Test data.
 
 }; // class TestSimpleGridDB
 

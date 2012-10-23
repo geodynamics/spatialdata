@@ -30,6 +30,23 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleGridDB );
 
 // ----------------------------------------------------------------------
+// Setup testing data.
+void
+spatialdata::spatialdb::TestSimpleGridDB::setUp(void)
+{ // setUp
+  _data = 0;
+} // setUp
+
+
+// ----------------------------------------------------------------------
+// Tear down testing data.
+void
+spatialdata::spatialdb::TestSimpleGridDB::tearDown(void)
+{ // tearDown
+  delete _data; _data = 0;
+} // tearDown
+
+// ----------------------------------------------------------------------
 // Test constructor
 void
 spatialdata::spatialdb::TestSimpleGridDB::testConstructor(void)
@@ -166,37 +183,106 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void)
 } // testDataIndex
 
 // ----------------------------------------------------------------------
-// Test query() using nearest neighbor
+// Test query() using nearest neighbor.
 void
-spatialdata::spatialdb::TestSimpleGridDB::_testQueryNearest(const SimpleGridDBTestData& data)
+spatialdata::spatialdb::TestSimpleGridDB::testQueryNearest(void)
 { // _testQueryNearest
+  CPPUNIT_ASSERT(_data);
+
   SimpleGridDB db;
-  _setupDB(&db, data);
+  _setupDB(&db);
   db.queryType(SimpleGridDB::NEAREST);
-  _checkQuery(db, data.names, data.queryNearest, 0,
-	      data.numQueries, data.spaceDim, data.numVals);
+  _checkQuery(db, _data->names, _data->queryNearest, 0,
+	      _data->numQueries, _data->spaceDim, _data->numVals);
 } // _testQueryNearest
 
 // ----------------------------------------------------------------------
-// Test query() using linear interpolation
+// Test query() using linear interpolation.
 void
-spatialdata::spatialdb::TestSimpleGridDB::_testQueryLinear(const SimpleGridDBTestData& data)
+spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void)
 { // _testQueryLinear
+  CPPUNIT_ASSERT(_data);
+
   SimpleGridDB db;
-  _setupDB(&db, data);
+  _setupDB(&db);
   db.queryType(SimpleGridDB::LINEAR);
-  _checkQuery(db, data.names, data.queryLinear, data.errFlags,
-	      data.numQueries, data.spaceDim, data.numVals);
+  _checkQuery(db, _data->names, _data->queryLinear, _data->errFlags,
+	      _data->numQueries, _data->spaceDim, _data->numVals);
 } // _testQueryLinear
+
+// ----------------------------------------------------------------------
+// Test read().
+void
+spatialdata::spatialdb::TestSimpleGridDB::testRead(void)
+{ // _testRead
+  CPPUNIT_ASSERT(_data);
+
+  SimpleGridDB db;
+  db.filename(_data->filename);
+  db.open();
+
+  CPPUNIT_ASSERT_EQUAL(_data->spaceDim, db._spaceDim);
+  CPPUNIT_ASSERT_EQUAL(_data->numVals, db._numValues);
+  CPPUNIT_ASSERT_EQUAL(_data->dataDim, db._dataDim);
+
+  const int numVals = _data->numVals;
+  for (int i=0; i < numVals; ++i) {
+    CPPUNIT_ASSERT_EQUAL(std::string(_data->names[i]), db._names[i]);
+    CPPUNIT_ASSERT_EQUAL(std::string(_data->units[i]), db._units[i]);
+  } // for
+
+  if (_data->numX > 0) {
+    CPPUNIT_ASSERT_EQUAL(_data->numX, db._numX);
+  } else {
+    CPPUNIT_ASSERT_EQUAL(1, db._numX);
+  } // if/else
+
+  if (_data->numY > 0) {
+    CPPUNIT_ASSERT_EQUAL(_data->numY, db._numY);
+  } else {
+    CPPUNIT_ASSERT_EQUAL(1, db._numY);
+  } // if/else
+
+  if (_data->numZ > 0) {
+    CPPUNIT_ASSERT_EQUAL(_data->numZ, db._numZ);
+  } else {
+    CPPUNIT_ASSERT_EQUAL(1, db._numZ);
+  } // if/else
+
+  const double tolerance = 1.0e-6;
+  int totalSize = 1;
+  if (_data->numX > 1) {
+    totalSize *= _data->numX;
+    for (int i=0; i < _data->numX; ++i) {
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->dbX[i], db._x[i], tolerance);
+    } // for
+  } // if
+  if (_data->numY > 1) {
+    totalSize *= _data->numY;
+    for (int i=0; i < _data->numY; ++i) {
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->dbY[i], db._y[i], tolerance);
+    } // for
+  } // if
+  if (_data->numZ > 1) {
+    totalSize *= _data->numZ;
+    for (int i=0; i < _data->numZ; ++i) {
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->dbZ[i], db._z[i], tolerance);
+    } // for
+  } // if
+
+  for (int i=0; i < totalSize; ++i) {
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->dbData[i], db._data[i], tolerance);
+  } // for
+} // _testRead
 
 // ----------------------------------------------------------------------
 // Populate database with data.
 void
-spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db,
-						    const SimpleGridDBTestData& data)
+spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db)
 { // _setupDB
   CPPUNIT_ASSERT(db);
-  CPPUNIT_ASSERT(data.numVals > 0);
+  CPPUNIT_ASSERT(_data);
+  CPPUNIT_ASSERT(_data->numVals > 0);
 
   delete[] db->_x; db->_x = 0;
   delete[] db->_y; db->_y = 0;
@@ -206,53 +292,53 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db,
   delete[] db->_units; db->_units = 0;
 
   db->label("GeoProjGrid test database");
-  db->_numValues = data.numVals;
-  db->_spaceDim = data.spaceDim;
-  db->_dataDim = data.dataDim;
-  db->_numX = data.numX;
-  db->_numY = data.numY;
-  db->_numZ = data.numZ;
+  db->_numValues = _data->numVals;
+  db->_spaceDim = _data->spaceDim;
+  db->_dataDim = _data->dataDim;
+  db->_numX = _data->numX;
+  db->_numY = _data->numY;
+  db->_numZ = _data->numZ;
 
   int numLocs = 1;
-  if (data.numX > 1) {
-    numLocs *= data.numX;
-    db->_x = new double[data.numX];
-    for (int i=0; i < data.numX; ++i) {
-      db->_x[i] = data.dbX[i];
+  if (_data->numX > 1) {
+    numLocs *= _data->numX;
+    db->_x = new double[_data->numX];
+    for (int i=0; i < _data->numX; ++i) {
+      db->_x[i] = _data->dbX[i];
     } // for
   } // if
-  if (data.numY > 1) {
-    numLocs *= data.numY;
-    db->_y = new double[data.numY];
-    for (int i=0; i < data.numY; ++i) {
-      db->_y[i] = data.dbY[i];
+  if (_data->numY > 1) {
+    numLocs *= _data->numY;
+    db->_y = new double[_data->numY];
+    for (int i=0; i < _data->numY; ++i) {
+      db->_y[i] = _data->dbY[i];
     } // for
   } // if
-  if (data.numZ > 1) {
-    numLocs *= data.numZ;
-    db->_z = new double[data.numZ];
-    for (int i=0; i < data.numZ; ++i) {
-      db->_z[i] = data.dbZ[i];
+  if (_data->numZ > 1) {
+    numLocs *= _data->numZ;
+    db->_z = new double[_data->numZ];
+    for (int i=0; i < _data->numZ; ++i) {
+      db->_z[i] = _data->dbZ[i];
     } // for
   } // if
 
-  db->_data = (numLocs > 0) ? new double[numLocs*data.numVals] : 0;
-  for (int i=0; i < numLocs*data.numVals; ++i) {
-    db->_data[i] = data.dbData[i];
+  db->_data = (numLocs > 0) ? new double[numLocs*_data->numVals] : 0;
+  for (int i=0; i < numLocs*_data->numVals; ++i) {
+    db->_data[i] = _data->dbData[i];
   } // for
 
-  db->_names = (data.numVals > 0) ? new std::string[data.numVals] : 0;
-  for (int i=0; i < data.numVals; ++i) {
-    db->_names[i] = data.names[i];
+  db->_names = (_data->numVals > 0) ? new std::string[_data->numVals] : 0;
+  for (int i=0; i < _data->numVals; ++i) {
+    db->_names[i] = _data->names[i];
   } // for
 
-  db->_units = (data.numVals > 0) ? new std::string[data.numVals] : 0;
-  for (int i=0; i < data.numVals; ++i) {
-    db->_units[i] = data.units[i];
+  db->_units = (_data->numVals > 0) ? new std::string[_data->numVals] : 0;
+  for (int i=0; i < _data->numVals; ++i) {
+    db->_units[i] = _data->units[i];
   } // for
 
   db->_cs = new spatialdata::geocoords::CSCart();
-  db->_cs->setSpaceDim(data.spaceDim);
+  db->_cs->setSpaceDim(_data->spaceDim);
 } // _setupDB
 
 // ----------------------------------------------------------------------

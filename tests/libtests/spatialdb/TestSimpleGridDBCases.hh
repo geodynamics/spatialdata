@@ -48,17 +48,15 @@ class spatialdata::spatialdb::TestSimpleGridDBLine1D : public TestSimpleGridDB
 
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+  CPPUNIT_TEST( testRead );
 
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryNearest()
-  void testQueryNearest(void);
-
-  /// Test queryLinear()
-  void testQueryLinear(void);
+  /// Setup data.
+  void setUp();
 
 }; // class TestSimpleGridDBLine1D
 
@@ -73,17 +71,15 @@ class spatialdata::spatialdb::TestSimpleGridDBLine2D : public TestSimpleGridDB
 
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+  CPPUNIT_TEST( testRead );
 
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryNearest()
-  void testQueryNearest(void);
-
-  /// Test queryLinear()
-  void testQueryLinear(void);
+  /// Setup data.
+  void setUp();
 
 }; // class TestSimpleGridDBLine2D
 
@@ -98,17 +94,15 @@ class spatialdata::spatialdb::TestSimpleGridDBLine3D : public TestSimpleGridDB
 
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+  CPPUNIT_TEST( testRead );
 
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryNearest()
-  void testQueryNearest(void);
-
-  /// Test queryLinear()
-  void testQueryLinear(void);
+  /// Setup data.
+  void setUp();
 
 }; // class TestSimpleGridDBLine3D
 
@@ -123,17 +117,15 @@ class spatialdata::spatialdb::TestSimpleGridDBArea2D : public TestSimpleGridDB
 
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+  CPPUNIT_TEST( testRead );
 
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryNearest()
-  void testQueryNearest(void);
-
-  /// Test queryLinear()
-  void testQueryLinear(void);
+  /// Setup data.
+  void setUp();
 
 }; // class TestSimpleGridDBArea2D
 
@@ -148,17 +140,15 @@ class spatialdata::spatialdb::TestSimpleGridDBArea3D : public TestSimpleGridDB
 
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+  CPPUNIT_TEST( testRead );
 
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryNearest()
-  void testQueryNearest(void);
-
-  /// Test queryLinear()
-  void testQueryLinear(void);
+  /// Setup data.
+  void setUp();
 
 }; // class TestSimpleGridDBArea3D
 
@@ -173,17 +163,15 @@ class spatialdata::spatialdb::TestSimpleGridDBVolume3D : public TestSimpleGridDB
 
   CPPUNIT_TEST( testQueryNearest );
   CPPUNIT_TEST( testQueryLinear );
+  CPPUNIT_TEST( testRead );
 
   CPPUNIT_TEST_SUITE_END();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryNearest()
-  void testQueryNearest(void);
-
-  /// Test queryLinear()
-  void testQueryLinear(void);
+  /// Setup data.
+  void setUp();
 
 }; // class TestSimpleGridDBVolume3D
 

@@ -94,6 +94,8 @@ const double spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_queryLinear[
 const int spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_errFlags[_numQueries] = {
  0, 0, 0, 1, 1,};
 
+const char* spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::_filename = "data/grid_volume3d.spatialdb";
+
 spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::SimpleGridDBTestDataVolume3D(void)
 { // constructor
   numX = _numX;
@@ -112,6 +114,7 @@ spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::SimpleGridDBTestDataVolume
   queryNearest = const_cast<double*>(_queryNearest);
   queryLinear = const_cast<double*>(_queryLinear);
   errFlags = const_cast<int*>(_errFlags);
+  filename = const_cast<char*>(_filename);
 } // constructor
 
 spatialdata::spatialdb::SimpleGridDBTestDataVolume3D::~SimpleGridDBTestDataVolume3D(void)

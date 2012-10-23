@@ -17,6 +17,12 @@
 dist_noinst_DATA = \
 	spatialdb.dat \
 	spatial_comments.dat \
+	grid_line1d.spatialdb \
+	grid_line2d.spatialdb \
+	grid_line3d.spatialdb \
+	grid_area2d.spatialdb \
+	grid_area3d.spatialdb \
+	grid_volume3d.spatialdb \
 	timehistory_comments.dat \
 	timehistory.timedb
 

@@ -34,7 +34,8 @@ spatialdata::spatialdb::SimpleGridDBTestData::SimpleGridDBTestData(void) :
   units(0),
   numQueries(0),
   queryNearest(0),
-  queryLinear(0)
+  queryLinear(0),
+  filename(0)
 { // constructor
 } // constructor
 

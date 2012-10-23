@@ -1,0 +1,30 @@
+#SPATIAL_GRID.ascii 1
+SimpleGridDB {
+  num-x = 3
+  num-y = 1
+  num-z = 2
+  num-values = 2
+  space-dim = 3
+  value-names = One Two
+  value-units = m  m
+  cs-data = cartesian {
+    space-dim = 3
+  }
+}
+
+// x coordinates
+-3.0  1.0  2.0
+
+// y coordinates
+8.0
+
+// z coordinates
+2.0  4.0
+
+// x, y, z, one, two
+-3.0  8.0  2.0    1.00000000e-01  1.10000000e+00 // 0,0,0
+ 1.0  8.0  2.0    0.00000000e-01  1.20000000e+00 // 1,0,0
+ 2.0  8.0  2.0    5.00000000e-01  1.60000000e+00 // 2,0,0
+-3.0  8.0  4.0    4.00000000e-01  4.60000000e+00 // 0,0,1
+ 1.0  8.0  4.0    9.00000000e-01  4.70000000e+00 // 1,0,1
+ 2.0  8.0  4.0    7.00000000e-01  4.80000000e+00 // 2,0,1

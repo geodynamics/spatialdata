@@ -62,6 +62,11 @@ public:
   int* errFlags; ///< Expected return values for queries
   //@}
 
+  /// @io I/O information
+  //@{
+  char* filename; ///< Filename of matching spatial database.
+  //@}
+
 };
 
 #endif // spatialdata_spatialdb_simplegriddbtestdata_hh

@@ -70,6 +70,8 @@ private:
 
   static const int _errFlags[];
 
+  static const char* _filename;
+
 };
 
 #endif // spatialdata_spatialdb_simplegriddbtestdataarea3d_hh

@@ -73,6 +73,8 @@ const double spatialdata::spatialdb::SimpleGridDBTestDataLine3D::_queryLinear[_n
 const int spatialdata::spatialdb::SimpleGridDBTestDataLine3D::_errFlags[_numQueries] = {
  0, 0, 0, 1, 1,};
 
+const char* spatialdata::spatialdb::SimpleGridDBTestDataLine3D::_filename = "data/grid_line3d.spatialdb";
+
 spatialdata::spatialdb::SimpleGridDBTestDataLine3D::SimpleGridDBTestDataLine3D(void)
 { // constructor
   numX = _numX;
@@ -91,6 +93,7 @@ spatialdata::spatialdb::SimpleGridDBTestDataLine3D::SimpleGridDBTestDataLine3D(v
   queryNearest = const_cast<double*>(_queryNearest);
   queryLinear = const_cast<double*>(_queryLinear);
   errFlags = const_cast<int*>(_errFlags);
+  filename = const_cast<char*>(_filename);
 } // constructor
 
 spatialdata::spatialdb::SimpleGridDBTestDataLine3D::~SimpleGridDBTestDataLine3D(void)

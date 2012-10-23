@@ -34,129 +34,52 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleGridDBArea3D 
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleGridDBVolume3D );
 
 // ----------------------------------------------------------------------
-// Test queryLinear()
+// Setup for 1-D line.
 void
-spatialdata::spatialdb::TestSimpleGridDBLine1D::testQueryLinear(void)
-{ // testQueryLinear
-  SimpleGridDBTestDataLine1D data;
-
-  _testQueryLinear(data);
-} // testQueryLinear
+spatialdata::spatialdb::TestSimpleGridDBLine1D::setUp(void)
+{ // setUp
+  delete _data; _data = new SimpleGridDBTestDataLine1D;
+} // setUp
 
 // ----------------------------------------------------------------------
-// Test queryNearest()
+// Setup for 2-D line.
 void
-spatialdata::spatialdb::TestSimpleGridDBLine1D::testQueryNearest(void)
-{ // testQueryNearest
-  SimpleGridDBTestDataLine1D data;
-
-  _testQueryNearest(data);
-} // testQueryNearest
-
+spatialdata::spatialdb::TestSimpleGridDBLine2D::setUp(void)
+{ // setUp
+  delete _data; _data = new SimpleGridDBTestDataLine2D;
+} // setUp
 
 // ----------------------------------------------------------------------
-// Test queryLinear()
+// Setup for 3-D line.
 void
-spatialdata::spatialdb::TestSimpleGridDBLine2D::testQueryLinear(void)
-{ // testQueryLinear
-  SimpleGridDBTestDataLine2D data;
-
-  _testQueryLinear(data);
-} // testQueryLinear
+spatialdata::spatialdb::TestSimpleGridDBLine3D::setUp(void)
+{ // setUp
+  delete _data; _data = new SimpleGridDBTestDataLine3D;
+} // setUp
 
 // ----------------------------------------------------------------------
-// Test queryNearest()
+// Setup for 2-D area.
 void
-spatialdata::spatialdb::TestSimpleGridDBLine2D::testQueryNearest(void)
-{ // testQueryNearest
-  SimpleGridDBTestDataLine2D data;
-
-  _testQueryNearest(data);
-} // testQueryNearest
-
+spatialdata::spatialdb::TestSimpleGridDBArea2D::setUp(void)
+{ // setUp
+  delete _data; _data = new SimpleGridDBTestDataArea2D;
+} // setUp
 
 // ----------------------------------------------------------------------
-// Test queryLinear()
+// Setup for 3-D area.
 void
-spatialdata::spatialdb::TestSimpleGridDBLine3D::testQueryLinear(void)
-{ // testQueryLinear
-  SimpleGridDBTestDataLine3D data;
-
-  _testQueryLinear(data);
-} // testQueryLinear
+spatialdata::spatialdb::TestSimpleGridDBArea3D::setUp(void)
+{ // setUp
+  delete _data; _data = new SimpleGridDBTestDataArea3D;
+} // setUp
 
 // ----------------------------------------------------------------------
-// Test queryNearest()
+// Setup for 3-D volume.
 void
-spatialdata::spatialdb::TestSimpleGridDBLine3D::testQueryNearest(void)
-{ // testQueryNearest
-  SimpleGridDBTestDataLine3D data;
-
-  _testQueryNearest(data);
-} // testQueryNearest
-
-
-// ----------------------------------------------------------------------
-// Test queryLinear()
-void
-spatialdata::spatialdb::TestSimpleGridDBArea2D::testQueryLinear(void)
-{ // testQueryLinear
-  SimpleGridDBTestDataArea2D data;
-
-  _testQueryLinear(data);
-} // testQueryLinear
-
-// ----------------------------------------------------------------------
-// Test queryNearest()
-void
-spatialdata::spatialdb::TestSimpleGridDBArea2D::testQueryNearest(void)
-{ // testQueryNearest
-  SimpleGridDBTestDataArea2D data;
-
-  _testQueryNearest(data);
-} // testQueryNearest
-
-
-// ----------------------------------------------------------------------
-// Test queryLinear()
-void
-spatialdata::spatialdb::TestSimpleGridDBArea3D::testQueryLinear(void)
-{ // testQueryLinear
-  SimpleGridDBTestDataArea3D data;
-
-  _testQueryLinear(data);
-} // testQueryLinear
-
-// ----------------------------------------------------------------------
-// Test queryNearest()
-void
-spatialdata::spatialdb::TestSimpleGridDBArea3D::testQueryNearest(void)
-{ // testQueryNearest
-  SimpleGridDBTestDataArea3D data;
-
-  _testQueryNearest(data);
-} // testQueryNearest
-
-
-// ----------------------------------------------------------------------
-// Test queryLinear()
-void
-spatialdata::spatialdb::TestSimpleGridDBVolume3D::testQueryLinear(void)
-{ // testQueryLinear
-  SimpleGridDBTestDataVolume3D data;
-
-  _testQueryLinear(data);
-} // testQueryLinear
-
-// ----------------------------------------------------------------------
-// Test queryNearest()
-void
-spatialdata::spatialdb::TestSimpleGridDBVolume3D::testQueryNearest(void)
-{ // testQueryNearest
-  SimpleGridDBTestDataVolume3D data;
-
-  _testQueryNearest(data);
-} // testQueryNearest
+spatialdata::spatialdb::TestSimpleGridDBVolume3D::setUp(void)
+{ // setUp
+  delete _data; _data = new SimpleGridDBTestDataVolume3D;
+} // setUp
 
 
 // End of file 
