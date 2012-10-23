@@ -38,7 +38,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleGridDBVolume3
 void
 spatialdata::spatialdb::TestSimpleGridDBLine1D::setUp(void)
 { // setUp
-  delete _data; _data = new SimpleGridDBTestDataLine1D;
+  _data = new SimpleGridDBTestDataLine1D;
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -46,7 +46,7 @@ spatialdata::spatialdb::TestSimpleGridDBLine1D::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleGridDBLine2D::setUp(void)
 { // setUp
-  delete _data; _data = new SimpleGridDBTestDataLine2D;
+  _data = new SimpleGridDBTestDataLine2D;
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -54,7 +54,7 @@ spatialdata::spatialdb::TestSimpleGridDBLine2D::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleGridDBLine3D::setUp(void)
 { // setUp
-  delete _data; _data = new SimpleGridDBTestDataLine3D;
+  _data = new SimpleGridDBTestDataLine3D;
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -62,7 +62,7 @@ spatialdata::spatialdb::TestSimpleGridDBLine3D::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleGridDBArea2D::setUp(void)
 { // setUp
-  delete _data; _data = new SimpleGridDBTestDataArea2D;
+  _data = new SimpleGridDBTestDataArea2D;
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -70,7 +70,7 @@ spatialdata::spatialdb::TestSimpleGridDBArea2D::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleGridDBArea3D::setUp(void)
 { // setUp
-  delete _data; _data = new SimpleGridDBTestDataArea3D;
+  _data = new SimpleGridDBTestDataArea3D;
 } // setUp
 
 // ----------------------------------------------------------------------
@@ -78,7 +78,7 @@ spatialdata::spatialdb::TestSimpleGridDBArea3D::setUp(void)
 void
 spatialdata::spatialdb::TestSimpleGridDBVolume3D::setUp(void)
 { // setUp
-  delete _data; _data = new SimpleGridDBTestDataVolume3D;
+  _data = new SimpleGridDBTestDataVolume3D;
 } // setUp
 
 
