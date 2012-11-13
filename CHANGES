@@ -1,3 +1,7 @@
+2012/11/13 (version 1.9.1)
+
+  Updated cit_python.m4 macros to fix configure errors on some systems.
+
 2012/10/22 (version 1.9.0)
 
   Added local origin and rotation angle to projected geographic
