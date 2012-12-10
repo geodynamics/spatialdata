@@ -32,12 +32,18 @@ spatialdata::units::Parser::Parser(void)
     Py_Initialize();
 
   // Should check for NULL, decode the exception, and throw a C++ equivalent
-  PyObject *mod = PyImport_ImportModule("pyre.units");
-  assert(0 != mod);
-  PyObject *cls = PyObject_GetAttrString(mod, "parser");
-  assert(0 != cls);
+  PyObject* mod = PyImport_ImportModule("pyre.units");
+  if (!mod) {
+    throw std::runtime_error("Could not import module 'pyre.units'.");
+  } // if
+  PyObject* cls = PyObject_GetAttrString(mod, "parser");
+  if (!cls) {
+    throw std::runtime_error("Could not get 'parser' attribute in pyre.units module.");
+  } // if
   _parser = PyObject_CallFunctionObjArgs(cls, NULL);
-  assert(0 != _parser);
+  if (!_parser) {
+    throw std::runtime_error("Could not create parser Python object.");
+  } // if
   Py_DECREF(cls);
   Py_DECREF(mod);
 } // constructor
@@ -46,7 +52,7 @@ spatialdata::units::Parser::Parser(void)
 // Default destructor
 spatialdata::units::Parser::~Parser(void)
 { // destructor
-  Py_DECREF(_parser); _parser = 0;
+  Py_CLEAR(_parser);
 
   if (!_alreadyInitialized)
     Py_Finalize();
