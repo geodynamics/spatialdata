@@ -56,6 +56,9 @@ spatialdata::spatialdb::TestTimeHistoryIO::testIO(void)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i],
 				 tolerance);
   } // for
+
+  delete[] timeIn; timeIn = 0;
+  delete[] amplitudeIn; amplitudeIn = 0;
 } // testIO
 
 // ----------------------------------------------------------------------
@@ -80,6 +83,9 @@ spatialdata::spatialdb::TestTimeHistoryIO::testReadComments(void)
     CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i],
 				 tolerance);
   } // for
+
+  delete[] timeIn; timeIn = 0;
+  delete[] amplitudeIn; amplitudeIn = 0;
 } // testReadComments
 
 
