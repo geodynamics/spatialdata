@@ -77,6 +77,7 @@ spatialdata::spatialdb::SimpleGridDB::~SimpleGridDB(void)
   delete[] _units; _units = 0;
   delete[] _queryVals; _queryVals = 0;
   _querySize = 0;
+  delete _cs; _cs = 0;
 } // destructor
 
 // ----------------------------------------------------------------------
@@ -597,6 +598,7 @@ spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
       throw std::runtime_error("Error reading points.");
     } // if
   } // for
+  delete[] coords; coords = 0;
   if (!filein.good())
     throw std::runtime_error("I/O error while reading SimpleGridDB data.");
 

@@ -337,6 +337,7 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db)
     db->_units[i] = _data->units[i];
   } // for
 
+  delete db->_cs; 
   db->_cs = new spatialdata::geocoords::CSCart();
   db->_cs->setSpaceDim(_data->spaceDim);
 } // _setupDB
