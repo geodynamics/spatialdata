@@ -76,7 +76,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
     if (0 != strcasecmp(HEADER, hbuffer.c_str())) {
       std::ostringstream msg;
       msg
-	<< "Magic header '" << buffer << "' does not match expected header '"
+	<< "Magic header '" << buffer.str() << "' does not match expected header '"
 	<< HEADER << "' in spatial database file '" << filename() << "'.\n";
       throw std::runtime_error(msg.str());
     } // if

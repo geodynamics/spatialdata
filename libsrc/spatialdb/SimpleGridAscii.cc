@@ -299,7 +299,8 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
   const int numValues = db->_numValues;
   const int spaceDim = db->_spaceDim;
 
-  utils::LineParser parser(filein, "//");
+  const int bufsize = 32768;
+  utils::LineParser parser(filein, "//", bufsize);
   parser.eatwhitespace(true);
 
   std::istringstream buffer;
