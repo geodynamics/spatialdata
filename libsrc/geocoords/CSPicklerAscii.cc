@@ -35,6 +35,8 @@ void
 spatialdata::geocoords::CSPicklerAscii::pickle(std::ostream& s,
 					       const CoordSys* pCS)
 { // pickle
+  assert(pCS);
+
   pCS->pickle(s);
 } // pickle
 
@@ -44,7 +46,7 @@ void
 spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
 						 CoordSys** ppCS)
 { // unpickle
-  assert(0 != ppCS);
+  assert(ppCS);
 
   delete *ppCS; *ppCS = 0;
 

@@ -37,6 +37,7 @@ namespace spatialdata {
     class SimpleIOAscii;
     class UniformDB;
     class SimpleGridDB;
+    class SimpleGridAscii;
     class CompositeDB;
     class SCECCVMH;
     class GocadVoxet;

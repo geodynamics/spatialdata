@@ -28,7 +28,8 @@ dist_noinst_DATA = \
 
 noinst_TMP = \
 	spatial.dat \
-	timehistory.dat
+	grid.spatialdb \
+	timehistory.data
 
 noinst_HEADERS = \
 	header.hh

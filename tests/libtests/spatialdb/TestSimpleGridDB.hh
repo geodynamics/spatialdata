@@ -50,6 +50,7 @@ class spatialdata::spatialdb::TestSimpleGridDB : public CppUnit::TestFixture
   CPPUNIT_TEST( testQueryType );
   CPPUNIT_TEST( testSearch );
   CPPUNIT_TEST( testDataIndex );
+  CPPUNIT_TEST( testIO );
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -79,6 +80,9 @@ public :
 
   /// Test _dataIndex()
   void testDataIndex(void);
+
+  /// Test read(), write().
+  void testIO(void);
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :

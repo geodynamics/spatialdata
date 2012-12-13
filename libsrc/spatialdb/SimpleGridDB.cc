@@ -18,15 +18,15 @@
 
 #include "SimpleGridDB.hh" // Implementation of class methods
 
+#include "SimpleGridAscii.hh" // USES SimpleGridAscii
+
 #include "spatialdata/geocoords/CSGeoProj.hh" // USES CSGeoProj
 #include "spatialdata/geocoords/Projector.hh" // USES Projector
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 #include "spatialdata/geocoords/CSPicklerAscii.hh" // USES CSPicklerAscii
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 
-#include <math.h> // USES pow()
-#include <algorithm> // USES std::sort()
-#include <vector> // USES std::vector
+#include <cmath> // USES std::floor()
 
 #include <fstream> // USES std::ifstream
 #include <sstream> // USES std::ostringstream
@@ -34,9 +34,6 @@
 #include <string.h> // USES memcpy()
 #include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
-
-// ----------------------------------------------------------------------
-const char* spatialdata::spatialdb::SimpleGridDB::FILEHEADER = "#SPATIAL_GRID.ascii";
 
 // ----------------------------------------------------------------------
 // Constructor
@@ -56,7 +53,7 @@ spatialdata::spatialdb::SimpleGridDB::SimpleGridDB(void) :
   _names(0),
   _units(0),
   _filename(""),
-  _cs(new geocoords::CSGeoProj),
+  _cs(0),
   _queryType(NEAREST)
 { // constructor
 } // constructor
@@ -77,6 +74,7 @@ spatialdata::spatialdb::SimpleGridDB::~SimpleGridDB(void)
   delete[] _units; _units = 0;
   delete[] _queryVals; _queryVals = 0;
   _querySize = 0;
+
   delete _cs; _cs = 0;
 } // destructor
 
@@ -93,32 +91,7 @@ spatialdata::spatialdb::SimpleGridDB::filename(const char* value)
 void
 spatialdata::spatialdb::SimpleGridDB::open(void)
 { // open
-  try {
-    std::ifstream filein(_filename.c_str());
-    if (!filein.is_open() || !filein.good()) {
-      std::ostringstream msg;
-      msg << "Could not open spatial database file '" << _filename
-	  << "' for reading.\n";
-      throw std::runtime_error(msg.str());
-    } // if
-
-    _readHeader(filein);
-    _readData(filein);
-    
-    if (!filein.good())
-      throw std::runtime_error("Unknown error while reading.");
-  } catch (const std::exception& err) {
-    std::ostringstream msg;
-    msg << "Error occurred while reading spatial database file '"
-	<< _filename << "'.\n"
-	<< err.what();
-    throw std::runtime_error(msg.str());
-  } catch (...) {
-    std::ostringstream msg;
-    msg << "Unknown error occurred while reading spatial database file '"
-	<< _filename << "'.\n";
-    throw std::runtime_error(msg.str());
-  } // try/catch
+  SimpleGridAscii::read(this);
 } // open
 
 // ----------------------------------------------------------------------
@@ -280,13 +253,16 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
     indexX = _search(_xyz[0], _x, _numX);
     numX = _numX;
   } // if/else
-  if (-1.0 == indexX || -1.0 == indexY || -1.0 == indexZ) {
-    queryFlag = 1;
-    return queryFlag;
-  } // if
   
   switch (_queryType) {
   case LINEAR : 
+    if (indexX < 0.0 || (indexX > 0 && indexX > numX-1.0) ||
+	indexY < 0.0 || (indexY > 0 && indexY > numY-1.0) ||
+        indexZ < 0.0 || (indexZ > 0 && indexZ > numZ-1.0)) {
+  queryFlag = 1;
+  return queryFlag;
+    } // if
+
     switch (_dataDim) {
     case 1: {
       _interpolate1D(vals, numVals, indexX, numX);
@@ -306,9 +282,15 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
     } // switch
     break;
   case NEAREST : {
-    const int indexNearestX = int(floor(indexX+0.5));
-    const int indexNearestY = int(floor(indexY+0.5));
-    const int indexNearestZ = int(floor(indexZ+0.5));
+    indexX = std::min(indexX, numX-1.0);
+    indexX = std::max(indexX, 0.0);
+    indexY = std::min(indexY, numY-1.0);
+    indexY = std::max(indexY, 0.0);
+    indexZ = std::min(indexZ, numZ-1.0);
+    indexZ = std::max(indexZ, 0.0);
+    const int indexNearestX = int(std::floor(indexX+0.5));
+    const int indexNearestY = int(std::floor(indexY+0.5));
+    const int indexNearestZ = int(std::floor(indexZ+0.5));
     const int indexData = _dataIndex(indexNearestX, indexNearestY, indexNearestZ);
     for (int iVal=0; iVal < querySize; ++iVal) {
       vals[iVal] = _data[indexData+_queryVals[iVal]];
@@ -331,298 +313,216 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
   return queryFlag;
 } // query
 
+
 // ----------------------------------------------------------------------
-// Read data file header.
+// Allocate data.
 void
-spatialdata::spatialdb::SimpleGridDB::_readHeader(std::istream& filein)
-{ // _readHeader
-  utils::LineParser parser(filein, "//");
-  parser.eatwhitespace(true);
+spatialdata::spatialdb::SimpleGridDB::allocate(const int numX,
+					       const int numY,
+					       const int numZ,
+					       const int numValues,
+					       const int spaceDim,
+					       const int dataDim)
+{ // allocate
+  _numX = numX;
+  _numY = numY;
+  _numZ = numZ;
+  _numValues = numValues;
+  _spaceDim = spaceDim;
+  _dataDim = dataDim;
+  
+  _checkCompatibility();
 
-  std::istringstream buffer;
+  const int numLocs = _numX * _numY * _numZ;
+  delete[] _data; _data = (numLocs*numValues > 0) ? new double[numLocs*numValues] : 0;
 
-  buffer.str(parser.next());
-  buffer.clear();
+  delete[] _x; _x = (numX > 0) ? new double[numX] : 0;
+  delete[] _y; _y = (numY > 0) ? new double[numY] : 0;
+  delete[] _z; _z = (numZ > 0) ? new double[numZ] : 0;
+} // allocate
 
-  const int headerLen = strlen(FILEHEADER);
-  std::string hbuffer;
-  hbuffer.resize(headerLen+1);
-  buffer.read((char*) hbuffer.c_str(), sizeof(char)*headerLen);
-  hbuffer[headerLen] = '\0';
-  if (0 != strcasecmp(FILEHEADER, hbuffer.c_str())) {
+
+// ----------------------------------------------------------------------
+// Set coordinates along x-axis;
+void
+spatialdata::spatialdb::SimpleGridDB::x(const double* values,
+					const int size)
+{ // x
+  if (size != _numX) {
     std::ostringstream msg;
-    msg
-      << "Magic header '" << buffer << "' does not match expected header '"
-      << FILEHEADER << "' in spatial database file '" << _filename << "'.\n";
+    msg << "Mismatch in size (" << _numX << " != " << size
+	<< ") for number of values along x-axis in simple grid spatial database.";
     throw std::runtime_error(msg.str());
   } // if
+  if (!_x) {
+    _x = (size > 0) ? new double[size] : 0;
+  } // if
 
-  std::string token;
-  const int maxIgnore = 256;
+  assert(_x);
+  for (int i=0; i < size; ++i) {
+    _x[i] = values[i];
+  } // for
+} // x
+ 
 
-  buffer.str(parser.next());
-  buffer.clear();
-  buffer >> token;
-  if (0 != strcasecmp(token.c_str(), "SimpleGridDB")) {
+// ----------------------------------------------------------------------
+// Set coordinates along y-axis;
+void
+spatialdata::spatialdb::SimpleGridDB::y(const double* values,
+					const int size)
+{ // y
+  if (size != _numY) {
     std::ostringstream msg;
-    msg << "Could not parse '" << token << "' into 'SimpleGridDB'.\n";
+    msg << "Mismatch in size (" << _numY << " != " << size
+	<< ") for number of values along y-axis in simple grid spatial database.";
     throw std::runtime_error(msg.str());
-  } // else
+  } // if
+  if (!_y) {
+    _y = (size > 0) ? new double[size] : 0;
+  } // if
 
-  _numX = 0;
-  _numY = 0;
-  _numZ = 0;
-  delete[] _x; _x = 0;
-  delete[] _y; _y = 0;
-  delete[] _z; _z = 0;
-  
-  _numValues = 0;
-  delete[] _names; _names = 0;
-  delete[] _units; _units = 0;
+  assert(_y);
+  for (int i=0; i < size; ++i) {
+    _y[i] = values[i];
+  } // for
+} // y
+ 
 
-  buffer.str(parser.next());
-  buffer.clear();
-  buffer >> token;
-  while (buffer.good() && token != "}") {
-    if (0 == strcasecmp(token.c_str(), "num-x")) {
-      buffer.ignore(maxIgnore, '=');
-      buffer >> _numX;
-    } else if (0 == strcasecmp(token.c_str(), "num-y")) {
-      buffer.ignore(maxIgnore, '=');
-      buffer >> _numY;
-    } else if (0 == strcasecmp(token.c_str(), "num-z")) {
-      buffer.ignore(maxIgnore, '=');
-      buffer >> _numZ;
-    } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
-      buffer.ignore(maxIgnore, '=');
-      buffer >> _spaceDim;
-    } else if (0 == strcasecmp(token.c_str(), "num-values")) {
-      buffer.ignore(maxIgnore, '=');
-      buffer >> _numValues;
-    } else if (0 == strcasecmp(token.c_str(), "value-names")) {
-      if (_numValues > 0) {
-	_names = new std::string[_numValues];
-      } else
-	throw std::runtime_error("Number of values must be specified BEFORE "
-				 "names of values in SimpleGridDB file.");
-      buffer.ignore(maxIgnore, '=');
-      for (int iVal=0; iVal < _numValues; ++iVal)
-	buffer >> _names[iVal];
-    } else if (0 == strcasecmp(token.c_str(), "value-units")) {
-      if (_numValues > 0) {
-	_units = new std::string[_numValues];
-      } else
-	throw std::runtime_error("Number of values must be specified BEFORE "
-				 "units of values in SimpleGridDB file.");
-      buffer.ignore(maxIgnore, '=');
-      for (int iVal=0; iVal < _numValues; ++iVal)
-	buffer >> _units[iVal];
-    } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
-      buffer.ignore(maxIgnore, '=');
-      std::string rbuffer(buffer.str());
-      filein.putback('\n');
-      filein.clear();
-      int i = rbuffer.length()-1;
-      while (i >= 0) {
-	filein.putback(rbuffer[i]);
-	if ('=' == rbuffer[i--])
-	  break;
-      } // while
-      filein.clear();
-      spatialdata::geocoords::CSPicklerAscii::unpickle(filein, &_cs);
-    } else {
-      std::ostringstream msg;
-      msg << "Could not parse '" << token << "' into a SimpleGridDB setting.";
-      throw std::runtime_error(msg.str());
-    } // else
+// ----------------------------------------------------------------------
+// Set coordinates along z-axis;
+void
+spatialdata::spatialdb::SimpleGridDB::z(const double* values,
+					const int size)
+{ // z
+  if (size != _numZ) {
+    std::ostringstream msg;
+    msg << "Mismatch in size (" << _numZ << " != " << size
+	<< ") for number of values along z-axis in simple grid spatial database.";
+    throw std::runtime_error(msg.str());
+  } // if
+  if (!_z) {
+    _z = (size > 0) ? new double[size] : 0;
+  } // if
+
+  assert(_z);
+  for (int i=0; i < size; ++i) {
+    _z[i] = values[i];
+  } // for
+} // z
+ 
+
+// ----------------------------------------------------------------------
+// Set data values.
+void
+spatialdata::spatialdb::SimpleGridDB::data(const double* coords,
+					   const int numLocs,
+					   const int spaceDim,
+					   const double* values,
+					   const int numLocs2,
+					   const int numValues)
+{ // data
+  if (numLocs != numLocs2) {
+    std::ostringstream msg;
+    msg << "Mismatch in number of locations (" << numLocs << " != " << numLocs2
+	<< ") for number of locations in simple grid spatial database.";
+    throw std::runtime_error(msg.str());
+  } // if
+  if (spaceDim != _spaceDim) {
+    std::ostringstream msg;
+    msg << "Mismatch in coordinate dimension (" << _spaceDim << " != " << spaceDim
+	<< ") for locations in simple grid spatial database.";
+    throw std::runtime_error(msg.str());
+  } // if
+  if (numValues != _numValues) {
+    std::ostringstream msg;
+    msg << "Mismatch in number of values (" << _numValues << " != " << numValues
+	<< ") for simple grid spatial database.";
+    throw std::runtime_error(msg.str());
+  } // if
     
-    buffer.str(parser.next());
-    buffer.clear();
-    buffer >> token;
-  } // while
-  if (token != "}" || !filein.good())
-    throw std::runtime_error("I/O error while parsing SimpleGridDB settings.");
-  
-  bool ok = true;
-  std::ostringstream msg;
-  if (_numValues <= 0) {
-    ok = false;
-    msg << "SimpleGridDB settings must include 'num-values'.\n";
-  } // if
-  if (_spaceDim <= 0) {
-    ok = false;
-    msg << "SimpleGridDB settings must include positive 'space-dim'.\n";
+  if (!_data) {
+    const int size = numLocs*numValues;
+    _data = (size > 0) ? new double[size] : 0;
   } // if
 
-  if (_spaceDim > 0 && _numX <= 0) {
-    ok = false;
-    msg << "SimpleGridDB settings must include 'num-x'.\n";
-  } // if
-  if (_spaceDim > 1 && _numY <= 0) {
-    ok = false;
-    msg << "SimpleGridDB settings must include 'num-y' with 2-D and 3-D data.\n";
-  } // if
-  if (_spaceDim > 2 && _numZ <= 0) {
-    ok = false;
-    msg << "SimpleGridDB settings must include 'num-z' with 3-D data.\n";
-  } // if
-  if (!_names) {
-    ok = false;
-    msg << "SimpleGridDB settings must include 'value-names'.\n";
-  } // if
-  if (!_units) {
-    ok = false;
-    msg << "SimpleGridDB settings must include 'value-units'.\n";
-  } // if
-  if (!ok)
-    throw std::runtime_error(msg.str());
-
-  // Set data dimension based on dimensions of data.
-  _dataDim = 0;
-  if (_numX > 1) {
-    _dataDim += 1;
-  } // if
-  if (_numY > 1) {
-    _dataDim += 1;
-  } // if
-  if (_numZ > 1) {
-    _dataDim += 1;
-  } // if
-
-  assert(_cs);
-  _cs->initialize();
-} // _readHeader
-
-// ----------------------------------------------------------------------
-// Read data values.
-void
-spatialdata::spatialdb::SimpleGridDB::_readData(std::istream& filein)
-{ // _readData
-  delete[] _x; _x = 0;
-  delete[] _y; _y = 0;
-  delete[] _z; _z = 0;
-  delete[] _data; _data = 0;
-
-  const int numX = _numX;
-  const int numY = _numY;
-  const int numZ = _numZ;
-  const int numValues = _numValues;
-  const int spaceDim = _spaceDim;
-
-  utils::LineParser parser(filein, "//");
-  parser.eatwhitespace(true);
-
-  std::istringstream buffer;
-
-  int numLocs = 1;
-  if (numX >= 1) {
-    numLocs *= numX;
-    _x = new double[numX];
-    buffer.str(parser.next());
-    buffer.clear();
-    for (int i=0; i < numX; ++i) {
-      buffer >> _x[i];
-    } // for
-    std::vector<double> xVec(numX);
-    for (int i=0; i < numX; ++i)
-      xVec[i] = _x[i];
-    std::sort(xVec.begin(), xVec.end());
-    for (int i=0; i < numX; ++i)
-      _x[i] = xVec[i];
-  } // if
-
-  if (numY >= 1) {
-    numLocs *= numY;
-    _y = new double[numY];
-    buffer.str(parser.next());
-    buffer.clear();
-    for (int i=0; i < numY; ++i) {
-      buffer >> _y[i];
-    } // for
-    std::vector<double> yVec(numY);
-    for (int i=0; i < numY; ++i)
-      yVec[i] = _y[i];
-    std::sort(yVec.begin(), yVec.end());
-    for (int i=0; i < numY; ++i)
-      _y[i] = yVec[i];
-  } // if
-
-  if (numZ >= 1) {
-    numLocs *= numZ;
-    _z = new double[numZ];
-    buffer.str(parser.next());
-    buffer.clear();
-    for (int i=0; i < numZ; ++i) {
-      buffer >> _z[i];
-    } // for
-    std::vector<double> zVec(numZ);
-    for (int i=0; i < numZ; ++i)
-      zVec[i] = _z[i];
-    std::sort(zVec.begin(), zVec.end());
-    for (int i=0; i < numZ; ++i)
-      _z[i] = zVec[i];
-  } // if
-
-  assert(numLocs > 0);
-  assert(numValues > 0);
-  _data = new double[numLocs*_numValues];
-  assert(spaceDim > 0);
-  double* coords = new double[spaceDim];
+  assert(_data);
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    buffer.str(parser.next());
-    buffer.clear();
-    for (int iDim=0; iDim < spaceDim; ++iDim) {
-      buffer >> coords[iDim];
-    } // for
-    
     int indexX = 0;
     int indexY = 0;
     int indexZ = 0;
+    const int ii = iLoc*spaceDim;
     if (spaceDim > 2) {
-      indexX = int(floor(_search(coords[0], _x, numX)+0.5));
-      indexY = int(floor(_search(coords[1], _y, numY)+0.5));
-      indexZ = int(floor(_search(coords[2], _z, numZ)+0.5));
+      indexX = int(std::floor(_search(coords[ii+0], _x, _numX)+0.5));
+      indexY = int(std::floor(_search(coords[ii+1], _y, _numY)+0.5));
+      indexZ = int(std::floor(_search(coords[ii+2], _z, _numZ)+0.5));
     } else if (spaceDim > 1) {
-      indexX = int(floor(_search(coords[0], _x, numX)+0.5));
-      indexY = int(floor(_search(coords[1], _y, numY)+0.5));
+      indexX = int(std::floor(_search(coords[ii+0], _x, _numX)+0.5));
+      indexY = int(std::floor(_search(coords[ii+1], _y, _numY)+0.5));
     } else {
       assert(1 == spaceDim);
-      indexX = int(floor(_search(coords[0], _x, numX)+0.5));
+      indexX = int(std::floor(_search(coords[ii+0], _x, _numX)+0.5));
     } // if
-    
-    const int indexData = _dataIndex(indexX, indexY, indexZ);
-    for (int iVal=0; iVal < _numValues; ++iVal) {
-      buffer >> _data[indexData+iVal];
+
+    const int iD = _dataIndex(indexX, indexY, indexZ);
+    const int jj = iLoc*numValues;
+    for (int iV=0; iV < numValues; ++iV) {
+      _data[iD+iV] = values[jj+iV];
     } // for
-    if (buffer.bad()) {
-      throw std::runtime_error("Error reading points.");
-    } // if
   } // for
-  delete[] coords; coords = 0;
-  if (!filein.good())
-    throw std::runtime_error("I/O error while reading SimpleGridDB data.");
+} // data
 
-  // Set dimensions without any data to 1.
-  if (0 == _numX) {
-    _numX = 1;
-  } // if
-  if (0 == _numY) {
-    _numY = 1;
-  } // if
-  if (0 == _numZ) {
-    _numZ = 1;
-  } // if
-
-  // Check compatibility of dimension of data, spatial dimension and
-  // number of points
-  _checkCompatibility();
-
-  // Convert to SI units
-  SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);  
-} // _readData
 
 // ----------------------------------------------------------------------
-/// Check compatibility of spatial database parameters.
+// Set names of data values.
+void
+spatialdata::spatialdb::SimpleGridDB::names(const char* const* values,
+					    const int numValues)
+{ // names
+  assert(values);
+  if (numValues != _numValues) {
+    std::ostringstream msg;
+    msg << "Mismatch in number of values (" << _numValues << " != " << numValues
+	<< ") for names of values in simple grid spatial database.";
+    throw std::runtime_error(msg.str());
+  } // if
+  delete[] _names; _names = (numValues > 0) ? new std::string[numValues] : 0;
+  for (int i=0; i < numValues; ++i) {
+    _names[i] = values[i];
+  } // for
+} // names
+ 
+
+// ----------------------------------------------------------------------
+// Set units of data values.
+void 
+spatialdata::spatialdb::SimpleGridDB::units(const char* const* values,
+					    const int numValues)
+{ // units
+  assert(values);
+  if (numValues != _numValues) {
+    std::ostringstream msg;
+    msg << "Mismatch in number of values (" << _numValues << " != " << numValues
+	<< ") for units of values in simple grid spatial database.";
+    throw std::runtime_error(msg.str());
+  } // if
+  delete[] _units; _units = (numValues > 0) ? new std::string[numValues] : 0;
+  for (int i=0; i < numValues; ++i) {
+    _units[i] = values[i];
+  } // for
+} // units
+ 
+
+// ----------------------------------------------------------------------
+// Set filename containing data.
+void
+spatialdata::spatialdb::SimpleGridDB::coordsys(const geocoords::CoordSys& cs)
+{ // coordsys
+  delete _cs; _cs = cs.clone();
+  _cs->initialize();
+} // coordsys
+ 
+// ----------------------------------------------------------------------
+// Check compatibility of spatial database parameters.
 void
 spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const
 { // _checkCompatibility
@@ -677,6 +577,7 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const
     throw std::runtime_error(msg.str());
   } // if
 
+  assert(_cs);
   if (spaceDim != _cs->spaceDim()) {
     msg << "Number of dimensions in coordinates of spatial distribution ("
 	<< spaceDim << ") does not match number of dimensions in coordinate "
@@ -735,7 +636,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate1D(double* vals,
 						     const int numX) const
 { // _interpolate1D
   assert(numX >= 2);
-  const int indexX0 = std::min(numX-2, int(floor(indexX)));
+  const int indexX0 = std::min(numX-2, int(std::floor(indexX)));
   const double wtX0 = 1.0 - (indexX - indexX0);
   const int indexX1 = indexX0 + 1;
   const double wtX1 = 1.0 - wtX0;
@@ -776,7 +677,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate2D(double* vals,
 						     const int numY) const
 { // _interpolate2D
   assert(numX >= 2);
-  const int indexX0 = std::min(numX-2, int(floor(indexX)));
+  const int indexX0 = std::min(numX-2, int(std::floor(indexX)));
   const double wtX0 = 1.0 - (indexX - indexX0);
   const int indexX1 = indexX0 + 1;
   const double wtX1 = 1.0 - wtX0;
@@ -784,7 +685,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate2D(double* vals,
   assert(0 <= indexX1 && indexX1 < numX);
 
   assert(numY >= 2);
-  const int indexY0 = std::min(numY-2, int(floor(indexY)));
+  const int indexY0 = std::min(numY-2, int(std::floor(indexY)));
   const double wtY0 = 1.0 - (indexY - indexY0);
   const int indexY1 = indexY0 + 1;
   const double wtY1 = 1.0 - wtY0;
@@ -836,7 +737,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
   const int numZ = _numZ;
 
   assert(numX >= 2);
-  const int indexX0 = std::min(numX-2, int(floor(indexX)));
+  const int indexX0 = std::min(numX-2, int(std::floor(indexX)));
   const double wtX0 = 1.0 - (indexX - indexX0);
   const int indexX1 = indexX0 + 1;
   const double wtX1 = 1.0 - wtX0;
@@ -844,7 +745,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
   assert(0 <= indexX1 && indexX1 < numX);
 
   assert(numY >= 2);
-  const int indexY0 = std::min(numY-2, int(floor(indexY)));
+  const int indexY0 = std::min(numY-2, int(std::floor(indexY)));
   const double wtY0 = 1.0 - (indexY - indexY0);
   const int indexY1 = indexY0 + 1;
   const double wtY1 = 1.0 - wtY0;
@@ -852,7 +753,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
   assert(0 <= indexY1 && indexY1 < numY);
   
   assert(numZ >= 2);
-  const int indexZ0 = std::min(numZ-2, int(floor(indexZ)));
+  const int indexZ0 = std::min(numZ-2, int(std::floor(indexZ)));
   const double wtZ0 = 1.0 - (indexZ - indexZ0);
   const int indexZ1 = indexZ0 + 1;
   const double wtZ1 = 1.0 - wtZ0;

@@ -26,11 +26,11 @@
 #include "SpatialDB.hh" // ISA SpatialDB
 
 #include <string> // HASA std::string
-#include <iosfwd> // USES std::istream
 
 class spatialdata::spatialdb::SimpleGridDB : SpatialDB
 { // SimpleGridDB
   friend class TestSimpleGridDB; // unit testing
+  friend class SimpleGridAscii; // reader
  
  public :
   // PUBLIC ENUM ////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public :
  
   /** Set filename containing data.
    *
-   * @param dir Directory containing data files.
+   * @param value Name of data file.
    */
   void filename(const char* value);
  
@@ -101,21 +101,87 @@ public :
 	    const int numDims,
 	    const spatialdata::geocoords::CoordSys* pCSQuery);
  
+
+  /** Allocate room for data.
+   *
+   * @param numX Number of locations along x-axis.
+   * @param numY Number of locations along y-axis.
+   * @param numZ Number of locations along z-axis.
+   * @param numValues Number of values at each location.
+   * @param spaceDim Spatial dimension.
+   * @param dataDim Spatial dimension of topology.
+   */
+  void allocate(const int numX,
+		const int numY,
+		const int numZ,
+		const int numValues,
+		const int spaceDim,
+		const int dataDim);
+
+  /** Set coordinates along x-axis;
+   *
+   * @param values Values along x-axis.
+   * @param size Number of values along x-axis.
+   */
+  void x(const double* values,
+	 const int size);
+ 
+  /** Set coordinates along y-axis;
+   *
+   * @param values Values along y-axis.
+   * @param size Number of values along y-axis.
+   */
+  void y(const double* values,
+	 const int size);
+ 
+  /** Set coordinates along z-axis;
+   *
+   * @param values Values along z-axis.
+   * @param size Number of values along z-axis.
+   */
+  void z(const double* values,
+	 const int size);
+ 
+  /** Set data values.
+   *
+   * @param coords Coordinates of locations.
+   * @param numLocs Number of locations.
+   * @param spaceDim Coordinate dimension.
+   * @param values Data values.
+   * @param numLocs2 Number of locations.
+   * @param numValues Number of values per location.
+   */
+  void data(const double* coords,
+	    const int numLocs,
+	    const int spaceDim,
+	    const double* values,
+	    const int numLocs2,
+	    const int numValues);
+
+  /** Set names of data values.
+   *
+   * @param values Names of values.
+   * @param numValues Number of values.
+   */
+  void names(const char* const* values,
+	     const int numValues);
+ 
+  /** Set units of data values.
+   *
+   * @param values Units of values.
+   * @param numValues Number of values.
+   */
+  void units(const char* const* values,
+	     const int numValues);
+ 
+  /** Set filename containing data.
+   *
+   * @param dir Directory containing data files.
+   */
+  void coordsys(const geocoords::CoordSys& cs);
  
 // PRIVATE METHODS //////////////////////////////////////////////////////
 private :
-
-  /** Read data file header.
-   *
-   * @param filein Input stream.
-   */
-  void _readHeader(std::istream& filein);
-
-  /** Read data values.
-   *
-   * @param filein Input stream.
-   */
-  void _readData(std::istream& filein);
 
   /// Check compatibility of spatial database parameters.
   void _checkCompatibility(void) const;

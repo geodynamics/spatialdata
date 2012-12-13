@@ -36,6 +36,7 @@ subpkginclude_HEADERS = \
 	SimpleDBData.icc \
 	SimpleGridDB.hh \
 	SimpleGridDB.icc \
+	SimpleGridAscii.hh \
 	GravityField.hh \
 	GravityField.icc \
 	SCECCVMH.hh \

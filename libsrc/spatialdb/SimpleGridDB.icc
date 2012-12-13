@@ -18,6 +18,8 @@
 #error "SimpleGridDB.icc must only be included from SimpleGridDB.hh"
 #endif
 
+#include <cassert> // USES assert()
+
 // ----------------------------------------------------------------------
 // Get index into data array.
 inline

@@ -19,6 +19,7 @@
 #include "TestSimpleGridDB.hh" // Implementation of class methods
 
 #include "spatialdata/spatialdb/SimpleGridDB.hh" // USES SimpleGridDB
+#include "spatialdata/spatialdb/SimpleGridAscii.hh" // USES SimpleGridAscii
 
 #include "data/SimpleGridDBTestData.hh" // USES SimpleGridDBTestData
 
@@ -214,7 +215,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void)
 // Test read().
 void
 spatialdata::spatialdb::TestSimpleGridDB::testRead(void)
-{ // _testRead
+{ // testRead
   CPPUNIT_ASSERT(_data);
 
   SimpleGridDB db;
@@ -273,7 +274,118 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void)
   for (int i=0; i < totalSize; ++i) {
     CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->dbData[i], db._data[i], tolerance);
   } // for
-} // _testRead
+} // testRead
+
+
+// ----------------------------------------------------------------------
+// Test filename(), write(), read().
+void
+spatialdata::spatialdb::TestSimpleGridDB::testIO(void)
+{ // testIO
+  const int numX = 3;
+  const int numY = 2;
+  const int numZ = 3;
+  const int spaceDim = 3;
+  const int numVals = 2;
+  const int dataDim = 3;
+
+  const double x[numX] = { -2.0, 0.0, 3.0 };
+  const double y[numY] = { 0.0, 1.0 };
+  const double z[numZ] = { -2.0, -1.0, 2.0 };
+  
+  const double coords[numX*numY*numZ*spaceDim] = {
+    -2.0,  0.0, -2.0,
+    -2.0,  1.0, -2.0,
+    -2.0,  0.0, -1.0,
+    -2.0,  1.0, -1.0,
+    -2.0,  0.0,  2.0,
+    -2.0,  1.0,  2.0,
+     0.0,  0.0, -2.0,
+     0.0,  1.0, -2.0,
+     0.0,  0.0, -1.0,
+     0.0,  1.0, -1.0,
+     0.0,  0.0,  2.0,
+     0.0,  1.0,  2.0,
+     3.0,  0.0, -2.0,
+     3.0,  1.0, -2.0,
+     3.0,  0.0, -1.0,
+     3.0,  1.0, -1.0,
+     3.0,  0.0,  2.0,
+     3.0,  1.0,  2.0,
+  };
+  const double data[numX*numY*numZ*numVals] = {
+    6.6,  3.4,
+    5.5,  6.7,
+    2.3,  4.1,
+    5.7,  2.0,
+    6.3,  6.7,
+    3.4,  6.4,
+    7.2,  6.8,
+    5.7,  8.2,
+    3.4,  9.8,
+    5.7,  2.3,
+    9.4,  8.5,
+    7.2,  9.3,
+    4.8,  7.5,
+    9.2,  8.3,
+    5.8,  8.5,
+    4.7,  8.9,
+    7.8,  6.2,
+    2.9,  8.3,
+  };
+  const char* names[] = { "One", "Two" };
+  const char* units[] = { "m", "m" };
+
+  geocoords::CSCart csOut;
+  csOut.initialize();
+
+  SimpleGridDB dbOut;
+  dbOut.coordsys(csOut);
+  dbOut.allocate(numX, numY, numZ, numVals, spaceDim, dataDim);
+  dbOut.x(x, numX);
+  dbOut.y(y, numY);
+  dbOut.z(z, numZ);
+  dbOut.data(coords, numX*numY*numZ, spaceDim, data, numX*numY*numZ, numVals);
+  dbOut.names(names, numVals);
+  dbOut.units(units, numVals);
+
+  const char* filename = "data/grid.spatialdb";
+  dbOut.filename(filename);
+  SimpleGridAscii::write(dbOut);
+
+  SimpleGridDB dbIn;
+  dbIn.filename(filename);
+  dbIn.open();
+
+  CPPUNIT_ASSERT_EQUAL(numX, dbIn._numX);
+  CPPUNIT_ASSERT_EQUAL(numY, dbIn._numY);
+  CPPUNIT_ASSERT_EQUAL(numZ, dbIn._numZ);
+  CPPUNIT_ASSERT_EQUAL(numVals, dbIn._numValues);
+  CPPUNIT_ASSERT_EQUAL(dataDim, dbIn._dataDim);
+  CPPUNIT_ASSERT_EQUAL(spaceDim, dbIn._spaceDim);
+
+  CPPUNIT_ASSERT(dbIn._names);
+  CPPUNIT_ASSERT(dbIn._units);
+  for (int iVal=0; iVal < numVals; ++iVal) {
+    CPPUNIT_ASSERT_EQUAL(std::string(names[iVal]), dbIn._names[iVal]);
+    CPPUNIT_ASSERT_EQUAL(std::string(units[iVal]), dbIn._units[iVal]);
+  } // for
+
+  CPPUNIT_ASSERT(dbIn._data);
+  const double tolerance = 1.0e-06;
+  for (int iX=0, i=0; iX < numX; ++iX) {
+    for (int iZ=0; iZ < numZ; ++iZ) {
+      for (int iY=0; iY < numY; ++iY) {
+	const int iD = dbIn._dataIndex(iX, iY, iZ);
+	for (int iVal=0; iVal < numVals; ++iVal, ++i) {
+	  CPPUNIT_ASSERT_DOUBLES_EQUAL(dbIn._data[iD+iVal]/data[i], 1.0, tolerance);
+	} // for
+      } // for
+    } // for
+  } // for
+} // testIO
+
+
 
 // ----------------------------------------------------------------------
 // Populate database with data.

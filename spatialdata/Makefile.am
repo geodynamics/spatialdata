@@ -35,6 +35,7 @@ nobase_pkgpyexec_PYTHON = \
 	spatialdb/TimeHistoryIO.py \
 	spatialdb/UniformDB.py \
 	spatialdb/SimpleGridDB.py \
+	spatialdb/SimpleGridAscii.py \
 	spatialdb/__init__.py \
 	spatialdb/generator/Shaper.py \
 	spatialdb/generator/Shapers.py \

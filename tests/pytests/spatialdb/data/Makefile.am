@@ -29,7 +29,8 @@ data_DATA = \
 data_CLEAN = \
 	test.spatialdb \
 	test.timedb \
-	gen1Din2D.spatialdb
+	gen1Din2D.spatialdb \
+	gridio.spatialdb
 
 noinst_HEADERS = \
 	$(data_DATA)
