@@ -202,78 +202,47 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
   int queryFlag = 0;
   const int spaceDim = _spaceDim;
 
-  double indexX = 0.0;
-  double indexY = 0.0;
-  double indexZ = 0.0;
-  int numX = 0;
-  int numY = 0;
-  int numZ = 0;
+  double index0 = 0.0;
+  double index1 = 0.0;
+  double index2 = 0.0;
+  int size0 = 0;
+  int size1 = 0;
+  int size2 = 0;
   if (3 == spaceDim) {
-    indexX = _search(_xyz[0], _x, _numX);
-    indexY = _search(_xyz[1], _y, _numY);
-    indexZ = _search(_xyz[2], _z, _numZ);
-    numX = _numX;
-    numY = _numY;
-    numZ = _numZ;
-    if (2 == _dataDim) {
-      if (1 == _numX) {
-	indexX = indexY;
-	numX = _numY;
-	indexY = indexZ;
-	numY = _numZ;
-	indexZ = 0;
-      } else if (1 == numY) {
-	indexY = indexZ;
-	numY = _numZ;
-	indexZ = 0;
-      } // if/else
-    } else if (1 == _dataDim) {
-      if (_numY > 1) {
-	indexX = indexY;
-	numX = _numY;
-	indexY = 0;
-      } else if (_numZ > 1) {
-	indexX = indexZ;
-	numX = _numZ;
-	indexZ = 0;
-      } // if
-    } // if
+    index0 = _search(_xyz[0], _x, _numX);
+    index1 = _search(_xyz[1], _y, _numY);
+    index2 = _search(_xyz[2], _z, _numZ);
+    _reindex3d(&index0, &size0, &index1, &size1, &index2, &size2);
   } else if (2 == spaceDim) {
-    indexX = _search(_xyz[0], _x, _numX);
-    indexY = _search(_xyz[1], _y, _numY);
-    numX = _numX;
-    numY = _numY;
-    if (1 == _dataDim && 1 == _numX) {
-      indexX = indexY;
-      numX = _numY;
-      indexY = 0;
-    } // if
+    index0 = _search(_xyz[0], _x, _numX);
+    index1 = _search(_xyz[1], _y, _numY);
+    _reindex2d(&index0, &size0, &index1, &size1);
   } else { // else
     assert(1 == spaceDim);
-    indexX = _search(_xyz[0], _x, _numX);
-    numX = _numX;
+    index0 = _search(_xyz[0], _x, _numX);
+    size0 = _numX;
   } // if/else
   
   switch (_queryType) {
   case LINEAR : 
-    if (indexX < 0.0 || (indexX > 0 && indexX > numX-1.0) ||
-	indexY < 0.0 || (indexY > 0 && indexY > numY-1.0) ||
-        indexZ < 0.0 || (indexZ > 0 && indexZ > numZ-1.0)) {
-  queryFlag = 1;
-  return queryFlag;
+    if (index0 < 0.0 || (index0 > 0 && index0 > size0-1.0) ||
+	index1 < 0.0 || (index1 > 0 && index1 > size1-1.0) ||
+        index2 < 0.0 || (index2 > 0 && index2 > size2-1.0)) {
+      queryFlag = 1;
+      return queryFlag;
     } // if
 
     switch (_dataDim) {
     case 1: {
-      _interpolate1D(vals, numVals, indexX, numX);
+      _interpolate1D(vals, numVals, index0, size0);
       break;
     } // case 1
     case 2: {
-      _interpolate2D(vals, numVals, indexX, numX, indexY, numY);
+      _interpolate2D(vals, numVals, index0, size0, index1, size1);
       break;
     } // case 2
     case 3 : {
-      _interpolate3D(vals, numVals, indexX, indexY, indexZ);
+      _interpolate3D(vals, numVals, index0, index1, index2);
       break;
     } // case 3
     default :
@@ -282,24 +251,25 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
     } // switch
     break;
   case NEAREST : {
-    indexX = std::min(indexX, numX-1.0);
-    indexX = std::max(indexX, 0.0);
-    indexY = std::min(indexY, numY-1.0);
-    indexY = std::max(indexY, 0.0);
-    indexZ = std::min(indexZ, numZ-1.0);
-    indexZ = std::max(indexZ, 0.0);
-    const int indexNearestX = int(std::floor(indexX+0.5));
-    const int indexNearestY = int(std::floor(indexY+0.5));
-    const int indexNearestZ = int(std::floor(indexZ+0.5));
-    const int indexData = _dataIndex(indexNearestX, indexNearestY, indexNearestZ);
+    index0 = std::min(index0, size0-1.0);
+    index0 = std::max(index0, 0.0);
+    index1 = std::min(index1, size1-1.0);
+    index1 = std::max(index1, 0.0);
+    index2 = std::min(index2, size2-1.0);
+    index2 = std::max(index2, 0.0);
+    const int indexNearest0 = int(std::floor(index0+0.5));
+    const int indexNearest1 = int(std::floor(index1+0.5));
+    const int indexNearest2 = int(std::floor(index2+0.5));
+    const int indexData = _dataIndex(indexNearest0, size0, indexNearest1, size1, indexNearest2, size2);
+
     for (int iVal=0; iVal < querySize; ++iVal) {
       vals[iVal] = _data[indexData+_queryVals[iVal]];
 #if 0 // DEBUGGING
     std::cout << "val["<<iVal<<"]: " << vals[iVal]
 	      << ", indexData: " << indexData
-	      << ", indexX: " << indexX
-	      << ", indexY: " << indexY
-	      << ", indexZ: " << indexZ
+	      << ", index0: " << index0
+	      << ", index1: " << index1
+	      << ", index2: " << index2
 	      << std::endl;
 #endif
     } // for
@@ -447,26 +417,10 @@ spatialdata::spatialdb::SimpleGridDB::data(const double* coords,
 
   assert(_data);
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    int indexX = 0;
-    int indexY = 0;
-    int indexZ = 0;
-    const int ii = iLoc*spaceDim;
-    if (spaceDim > 2) {
-      indexX = int(std::floor(_search(coords[ii+0], _x, _numX)+0.5));
-      indexY = int(std::floor(_search(coords[ii+1], _y, _numY)+0.5));
-      indexZ = int(std::floor(_search(coords[ii+2], _z, _numZ)+0.5));
-    } else if (spaceDim > 1) {
-      indexX = int(std::floor(_search(coords[ii+0], _x, _numX)+0.5));
-      indexY = int(std::floor(_search(coords[ii+1], _y, _numY)+0.5));
-    } else {
-      assert(1 == spaceDim);
-      indexX = int(std::floor(_search(coords[ii+0], _x, _numX)+0.5));
-    } // if
-
-    const int iD = _dataIndex(indexX, indexY, indexZ);
+    const int indexData = _dataIndex(&coords[iLoc*spaceDim], spaceDim);
     const int jj = iLoc*numValues;
     for (int iV=0; iV < numValues; ++iV) {
-      _data[iD+iV] = values[jj+iV];
+      _data[indexData+iV] = values[jj+iV];
     } // for
   } // for
 } // data
@@ -591,7 +545,7 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const
 double
 spatialdata::spatialdb::SimpleGridDB::_search(const double target,
 					      const double* vals,
-					      const int nvals)
+					      const int nvals) const
 { // _search
   if (1 == nvals) {
     return 0.0;
@@ -643,8 +597,8 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate1D(double* vals,
   assert(0 <= indexX0 && indexX0 < numX);
   assert(0 <= indexX1 && indexX1 < numX);
 
-  const int index000 = _dataIndex(indexX0, 0, 0);
-  const int index100 = _dataIndex(indexX1, 0, 0);
+  const int index000 = _dataIndex(indexX0, numX, 0, 0, 0, 0);
+  const int index100 = _dataIndex(indexX1, numX, 0, 0, 0, 0);
 
   const double wt000 = wtX0;
   const double wt100 = wtX1;
@@ -692,10 +646,10 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate2D(double* vals,
   assert(0 <= indexY0 && indexY0 < numY);
   assert(0 <= indexY1 && indexY1 < numY);
   
-  const int index000 = _dataIndex(indexX0, indexY0, 0);
-  const int index010 = _dataIndex(indexX0, indexY1, 0);
-  const int index100 = _dataIndex(indexX1, indexY0, 0);
-  const int index110 = _dataIndex(indexX1, indexY1, 0);
+  const int index000 = _dataIndex(indexX0, numX, indexY0, numY, 0, 0);
+  const int index010 = _dataIndex(indexX0, numX, indexY1, numY, 0, 0);
+  const int index100 = _dataIndex(indexX1, numX, indexY0, numY, 0, 0);
+  const int index110 = _dataIndex(indexX1, numX, indexY1, numY, 0, 0);
 
   const double wt000 = wtX0 * wtY0;
   const double wt010 = wtX0 * wtY1;
@@ -760,14 +714,14 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
   assert(0 <= indexZ0 && indexZ0 < numZ);
   assert(0 <= indexZ1 && indexZ1 < numZ);
 
-  const int index000 = _dataIndex(indexX0, indexY0, indexZ0);
-  const int index001 = _dataIndex(indexX0, indexY0, indexZ1);
-  const int index010 = _dataIndex(indexX0, indexY1, indexZ0);
-  const int index011 = _dataIndex(indexX0, indexY1, indexZ1);
-  const int index100 = _dataIndex(indexX1, indexY0, indexZ0);
-  const int index101 = _dataIndex(indexX1, indexY0, indexZ1);
-  const int index110 = _dataIndex(indexX1, indexY1, indexZ0);
-  const int index111 = _dataIndex(indexX1, indexY1, indexZ1);
+  const int index000 = _dataIndex(indexX0, numX, indexY0, numY, indexZ0, numZ);
+  const int index001 = _dataIndex(indexX0, numX, indexY0, numY, indexZ1, numZ);
+  const int index010 = _dataIndex(indexX0, numX, indexY1, numY, indexZ0, numZ);
+  const int index011 = _dataIndex(indexX0, numX, indexY1, numY, indexZ1, numZ);
+  const int index100 = _dataIndex(indexX1, numX, indexY0, numY, indexZ0, numZ);
+  const int index101 = _dataIndex(indexX1, numX, indexY0, numY, indexZ1, numZ);
+  const int index110 = _dataIndex(indexX1, numX, indexY1, numY, indexZ0, numZ);
+  const int index111 = _dataIndex(indexX1, numX, indexY1, numY, indexZ1, numZ);
 
   const double wt000 = wtX0 * wtY0 * wtZ0;
   const double wt001 = wtX0 * wtY0 * wtZ1;
@@ -805,6 +759,119 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
   } // for
 
 } // _interpolate3D
+
+
+// ----------------------------------------------------------------------
+// Adjust indices to account for optimizations for lower dimension
+// distribution.
+void
+spatialdata::spatialdb::SimpleGridDB::_reindex2d(double* const index0,
+						 int* const size0,
+						 double* const index1,
+						 int* const size1) const
+{ // _reindex2d
+  assert(index0);
+  assert(index1);
+  assert(size0);
+  assert(size1);
+
+  *size0 = _numX;
+  *size1 = _numY;
+  if (1 == _dataDim && 1 == _numX) {
+    *index0 = *index1;
+    *size0 = *size1;
+    *index1 = 0;
+    *size1 = 1;
+  } // if
+} // _reindex2d
+
+
+// ----------------------------------------------------------------------
+// Adjust indices to account for optimizations for lower dimension
+// distribution.
+void
+spatialdata::spatialdb::SimpleGridDB::_reindex3d(double* const index0,
+						 int* const size0,
+						 double* const index1,
+						 int* const size1,
+						 double* const index2,
+						 int* const size2) const
+{ // _reindex3d
+  assert(index0);
+  assert(index1);
+  assert(index2);
+  assert(size0);
+  assert(size1);
+  assert(size2);
+
+  *size0 = _numX;
+  *size1 = _numY;
+  *size2 = _numZ;
+  if (2 == _dataDim) {
+    if (1 == _numX) {
+      *index0 = *index1;
+      *size0 = *size1;
+      *index1 = *index2;
+      *size1 = *size2;
+      *index2 = 0;
+      *size2 = 1;
+    } else if (1 == _numY) {
+      *index1 = *index2;
+      *size1 = *size2;
+      *index2 = 0;
+      *size2 = 1;
+    } // if/else
+  } else if (1 == _dataDim) {
+    if (_numY > 1) {
+      *index0 = *index1;
+      *size0 = *size1;
+      *index1 = 0;
+      *size1 = 1;
+      *index2 = 0;
+      *size2 = 1;
+    } else if (_numZ > 1) {
+      *index0 = *index2;
+      *size0 = *size2;
+      *index1 = 0;
+      *size1 = 1;
+      *index2 = 0;
+      *size2 = 1;
+    } // if
+  } // if/else
+} // _reindex3d
+
+
+// ----------------------------------------------------------------------
+// Get index into data array.
+int
+spatialdata::spatialdb::SimpleGridDB::_dataIndex(const double* const coords,
+						 const int spaceDim) const
+{ // _dataIndex
+  assert(coords);
+
+  double index0 = 0;
+  double index1 = 0;
+  double index2 = 0;
+  int size0 = 0;
+  int size1 = 0;
+  int size2 = 0;
+  if (spaceDim > 2) {
+    index0 = std::floor(_search(coords[0], _x, _numX)+0.5);
+    index1 = std::floor(_search(coords[1], _y, _numY)+0.5);
+    index2 = std::floor(_search(coords[2], _z, _numZ)+0.5);
+    _reindex3d(&index0, &size0, &index1, &size1, &index2, &size2);
+  } else if (spaceDim > 1) {
+    index0 = std::floor(_search(coords[0], _x, _numX)+0.5);
+    index1 = std::floor(_search(coords[1], _y, _numY)+0.5);
+    _reindex2d(&index0, &size0, &index1, &size1);
+  } else {
+    assert(1 == spaceDim);
+    index0 = std::floor(_search(coords[0], _x, _numX)+0.5);
+  } // if
+
+  const int indexData = _dataIndex(int(index0), size0, int(index1), size1, int(index2), size2);
+  return indexData;
+} // _dataIndex
 
 
 // End of file

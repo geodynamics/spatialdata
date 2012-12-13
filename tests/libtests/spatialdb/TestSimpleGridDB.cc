@@ -173,14 +173,14 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void)
   db._numZ = 5;
   db._numValues = 10;
 
-  CPPUNIT_ASSERT_EQUAL(0, db._dataIndex(0, 0, 0));
-  CPPUNIT_ASSERT_EQUAL(1*3*4*10, db._dataIndex(0, 0, 1));
+  CPPUNIT_ASSERT_EQUAL(0, db._dataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
+  CPPUNIT_ASSERT_EQUAL(1*3*4*10, db._dataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
 
-  CPPUNIT_ASSERT_EQUAL(1*4*10, db._dataIndex(0, 1, 0));
-  CPPUNIT_ASSERT_EQUAL(4*3*4*10 + 1*4*10, db._dataIndex(0, 1, 4));
+  CPPUNIT_ASSERT_EQUAL(1*4*10, db._dataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
+  CPPUNIT_ASSERT_EQUAL(4*3*4*10 + 1*4*10, db._dataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
 
-  CPPUNIT_ASSERT_EQUAL(1*10, db._dataIndex(1, 0, 0));
-  CPPUNIT_ASSERT_EQUAL(3*4*3*10 + 1*4*10 + 2*10, db._dataIndex(2, 1, 3));
+  CPPUNIT_ASSERT_EQUAL(1*10, db._dataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
+  CPPUNIT_ASSERT_EQUAL(3*4*3*10 + 1*4*10 + 2*10, db._dataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
 } // testDataIndex
 
 // ----------------------------------------------------------------------
@@ -282,14 +282,14 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void)
 void
 spatialdata::spatialdb::TestSimpleGridDB::testIO(void)
 { // testIO
-  const int numX = 3;
+  const int numX = 1;
   const int numY = 2;
   const int numZ = 3;
   const int spaceDim = 3;
   const int numVals = 2;
-  const int dataDim = 3;
+  const int dataDim = 2;
 
-  const double x[numX] = { -2.0, 0.0, 3.0 };
+  const double x[numX] = { -2.0 };
   const double y[numY] = { 0.0, 1.0 };
   const double z[numZ] = { -2.0, -1.0, 2.0 };
   
@@ -300,41 +300,17 @@ spatialdata::spatialdb::TestSimpleGridDB::testIO(void)
     -2.0,  1.0, -1.0,
     -2.0,  0.0,  2.0,
     -2.0,  1.0,  2.0,
-     0.0,  0.0, -2.0,
-     0.0,  1.0, -2.0,
-     0.0,  0.0, -1.0,
-     0.0,  1.0, -1.0,
-     0.0,  0.0,  2.0,
-     0.0,  1.0,  2.0,
-     3.0,  0.0, -2.0,
-     3.0,  1.0, -2.0,
-     3.0,  0.0, -1.0,
-     3.0,  1.0, -1.0,
-     3.0,  0.0,  2.0,
-     3.0,  1.0,  2.0,
   };
   const double data[numX*numY*numZ*numVals] = {
     6.6,  3.4,
     5.5,  6.7,
     2.3,  4.1,
     5.7,  2.0,
-    6.3,  6.7,
+    6.3,  6.9,
     3.4,  6.4,
-    7.2,  6.8,
-    5.7,  8.2,
-    3.4,  9.8,
-    5.7,  2.3,
-    9.4,  8.5,
-    7.2,  9.3,
-    4.8,  7.5,
-    9.2,  8.3,
-    5.8,  8.5,
-    4.7,  8.9,
-    7.8,  6.2,
-    2.9,  8.3,
   };
-  const char* names[] = { "One", "Two" };
-  const char* units[] = { "m", "m" };
+  const char* names[numVals] = { "One", "Two" };
+  const char* units[numVals] = { "m", "m" };
 
   geocoords::CSCart csOut;
   csOut.initialize();
@@ -371,18 +347,44 @@ spatialdata::spatialdb::TestSimpleGridDB::testIO(void)
     CPPUNIT_ASSERT_EQUAL(std::string(units[iVal]), dbIn._units[iVal]);
   } // for
 
+  // Check to make sure values were read in correctly
   CPPUNIT_ASSERT(dbIn._data);
   const double tolerance = 1.0e-06;
   for (int iX=0, i=0; iX < numX; ++iX) {
     for (int iZ=0; iZ < numZ; ++iZ) {
       for (int iY=0; iY < numY; ++iY) {
-	const int iD = dbIn._dataIndex(iX, iY, iZ);
+	const int iD = dbIn._dataIndex(iX, numX, iY, numY, iZ, numZ);
 	for (int iVal=0; iVal < numVals; ++iVal, ++i) {
 	  CPPUNIT_ASSERT_DOUBLES_EQUAL(dbIn._data[iD+iVal]/data[i], 1.0, tolerance);
 	} // for
       } // for
     } // for
   } // for
+
+  // Perform simple nearest query to ensure consistency of read/query
+  dbIn.queryVals(names, numVals);
+  const int numLocs = 3;
+  const double points[numLocs*spaceDim] = {
+    -2.0, 1.0, -2.0,
+    -5.0, 0.0,  2.0,
+    +6.0, 1.0, -1.0,
+  };
+  const double dataE[numLocs*numVals] = {
+    5.5, 6.7,
+    6.3, 6.9,
+    5.7, 2.0,
+  };
+  const int errE[numLocs] = { 0, 0 };
+  
+  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+    double data[numVals];
+    int err = dbIn.query(data, numVals, &points[iLoc*spaceDim], spaceDim, &csOut);
+    CPPUNIT_ASSERT_EQUAL(errE[iLoc], err);
+    for (int iVal=0; iVal < numVals; ++iVal) {
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(data[iVal]/dataE[iLoc*numVals+iVal], 1.0, tolerance);
+    } // for
+  } // for
+
 } // testIO
 
 

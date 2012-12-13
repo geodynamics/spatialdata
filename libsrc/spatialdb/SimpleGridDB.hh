@@ -196,7 +196,7 @@ private :
    */
   double _search(const double target,
 		 const double* vals,
-		 const int nvals);
+		 const int nvals) const;
 
   /** Interpolate in 1-D to get values at target location defined by
    * indices.
@@ -246,17 +246,63 @@ private :
 		      const double indexY,
 		      const double indexZ) const;
 
+  /** Adjust indices to account for optimizations for lower dimension
+   *  distribution.
+   *
+   * @param index0 Adjusted index for coordinate 0.
+   * @param size0 Adjusted size for coordinate 0.
+   * @param index1 Adjusted index for dimension 1.
+   * @param size1 Adjusted size for dimension 1.
+   */
+  void _reindex2d(double* const index0,
+		  int* const size0,
+		  double* const index1,
+		  int* const size1) const;
+  
+  /** Adjust indices to account for optimizations for lower dimension
+   *  distribution.
+   *
+   * @param index0 Adjusted index for coordinate 0.
+   * @param size0 Adjusted size for coordinate 0.
+   * @param index1 Adjusted index for dimension 1.
+   * @param size1 Adjusted size for dimension 1.
+   * @param index2 Adjusted index for dimension 2.
+   * @param size2 Adjusted size for dimension 2.
+   */
+  void _reindex3d(double* const index0,
+		  int* const size0,
+		  double* const index1,
+		  int* const size1,
+		  double* const index2,
+		  int* const size2) const;
+
   /** Get index into data array.
    *
-   * @param indexX Index along x dimension.
-   * @param indexY Index along y dimension.
-   * @param indexZ Index along z dimension.
+   * @param index0 Adjusted index for coordinate 0.
+   * @param size0 Adjusted size for coordinate 0.
+   * @param index1 Adjusted index for dimension 1.
+   * @param size1 Adjusted size for dimension 1.
+   * @param index2 Adjusted index for dimension 2.
+   * @param size2 Adjusted size for dimension 2.
    *
    * @returns Index into data array.
    */
-  int _dataIndex(const int indexX,
-		 const int indexY,
-		 const int indexZ) const;
+  int _dataIndex(const int index0,
+		 const int size0,
+		 const int index1,
+		 const int size1,
+		 const int index2,
+		 const int size2) const;
+
+  /** Get index into data array.
+   *
+   * @param Coordinates of point.
+   * @param spaceDim Number of coordinate dimensions.
+   *
+   * @returns Index into data array.
+   */
+  int _dataIndex(const double* const coords,
+		 const int spaceDim) const;
 
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :

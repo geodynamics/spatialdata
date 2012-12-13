@@ -282,6 +282,7 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
   db->_cs->initialize();
 } // _readHeader
 
+#include <iostream>
 // ----------------------------------------------------------------------
 // Read data values.
 void
@@ -365,23 +366,8 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     for (int iDim=0; iDim < spaceDim; ++iDim) {
       buffer >> coords[iDim];
     } // for
-    
-    int indexX = 0;
-    int indexY = 0;
-    int indexZ = 0;
-    if (spaceDim > 2) {
-      indexX = int(std::floor(db->_search(coords[0], db->_x, numX)+0.5));
-      indexY = int(std::floor(db->_search(coords[1], db->_y, numY)+0.5));
-      indexZ = int(std::floor(db->_search(coords[2], db->_z, numZ)+0.5));
-    } else if (spaceDim > 1) {
-      indexX = int(std::floor(db->_search(coords[0], db->_x, numX)+0.5));
-      indexY = int(std::floor(db->_search(coords[1], db->_y, numY)+0.5));
-    } else {
-      assert(1 == spaceDim);
-      indexX = int(std::floor(db->_search(coords[0], db->_x, numX)+0.5));
-    } // if
-    
-    const int indexData = db->_dataIndex(indexX, indexY, indexZ);
+
+    const int indexData = db->_dataIndex(coords, spaceDim);
     for (int iVal=0; iVal < db->_numValues; ++iVal) {
       buffer >> db->_data[indexData+iVal];
     } // for
@@ -489,7 +475,7 @@ spatialdata::spatialdb::SimpleGridAscii::_writeData(std::ostream& fileout,
   for (int iZ=0; iZ < numZ; ++iZ) {
     for (int iY=0; iY < numY; ++iY) {
       for (int iX=0; iX < numX; ++iX) {
-	const int iD = db._dataIndex(iX, iY, iZ);
+	const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
 	fileout 
 	  << std::setw(14) << db._x[iX]
 	  << std::setw(14) << db._y[iY]
