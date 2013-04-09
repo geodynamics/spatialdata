@@ -92,6 +92,10 @@ void
 spatialdata::spatialdb::SimpleGridDB::open(void)
 { // open
   SimpleGridAscii::read(this);
+
+  // Convert to SI units
+  const int numLocs = _numX * _numY * _numZ;
+  SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);  
 } // open
 
 // ----------------------------------------------------------------------

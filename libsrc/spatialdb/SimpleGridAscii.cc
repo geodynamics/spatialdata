@@ -393,9 +393,6 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
   // Check compatibility of dimension of data, spatial dimension and
   // number of points
   db->_checkCompatibility();
-
-  // Convert to SI units
-  SpatialDB::_convertToSI(db->_data, db->_units, numLocs, db->_numValues);  
 } // _readData
 
 // ----------------------------------------------------------------------
