@@ -310,7 +310,7 @@ spatialdata::spatialdb::SimpleIOAscii::write(
     spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
     fileout << "}\n";
     if (!fileout.good())
-      throw std::runtime_error("I/O error while writing SimpleDB settings.");
+      throw std::runtime_error("I/O error while writing SimpleDB header.");
 
     fileout
       << std::resetiosflags(std::ios::fixed)
@@ -326,7 +326,7 @@ spatialdata::spatialdb::SimpleIOAscii::write(
       fileout << "\n";
     } // for
     if (!fileout.good())
-      throw std::runtime_error("I/O error while writing SimpleDB data.");
+      throw std::runtime_error("I/O error while writing SimpleDB data. Make sure num-locs is correct and your last line of data contains a line feed.");
   } catch (const std::exception& err) {
     std::ostringstream msg;
     msg << "Error occurred while writing spatial database file '"
