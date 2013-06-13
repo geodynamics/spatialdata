@@ -1,3 +1,8 @@
+2013/06/13 (version 1.9.2)
+
+  Set spatialdata label in template test to avoid error message about
+  unset parameter.
+
 2012/12/10 (version 1.9.1)
 
   Fixed some small memory leaks (mostly in unit tests).  Updated
