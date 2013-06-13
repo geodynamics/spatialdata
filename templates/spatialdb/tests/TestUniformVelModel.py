@@ -23,6 +23,7 @@ class TestUniformVelModel(unittest.TestCase):
   def setUp(self):
     from spatialdata.spatialdb.contrib.UniformVelModel import UniformVelModel
     db = UniformVelModel()
+    db.inventory.label = "Uniform properties"
     db._configure()
     self._db = db
 
