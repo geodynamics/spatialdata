@@ -128,7 +128,7 @@ class spatialdata::geocoords::CSGeo : public CoordSys
    *
    * @returns Coordinate system
    */
-  virtual const projPJ projCoordSys(void) const;
+  virtual projPJ projCoordSys(void) const;
 
   /** Convert coordinates to PROJ4 useable form.
    *

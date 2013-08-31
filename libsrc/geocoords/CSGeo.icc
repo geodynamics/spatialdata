@@ -93,7 +93,7 @@ spatialdata::geocoords::CSGeo::projDatumVert(void) const
 
 // Get coordinate system
 inline
-const projPJ
+projPJ
 spatialdata::geocoords::CSGeo::projCoordSys(void) const
 { return _pCS; }
 
