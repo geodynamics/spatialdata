@@ -1,3 +1,9 @@
+/modulesrc/geocoords/geocoords.py
+/modulesrc/geocoords/geocoords_wrap.cxx
+/modulesrc/spatialdb/spatialdb.py
+/modulesrc/spatialdb/spatialdb_wrap.cxx
+/modulesrc/units/units.py
+/modulesrc/units/units_wrap.cxx
 portinfo.in
 Makefile.in
 autom4te.cache
