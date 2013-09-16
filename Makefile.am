@@ -7,7 +7,7 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2012 University of California, Davis
+# Copyright (c) 2010-2013 University of California, Davis
 #
 # See COPYING for license information.
 #
@@ -44,13 +44,12 @@ EXTRA_DIST = \
 
 if ENABLE_PYTHIA
   EXTRA_DIST += \
-	setup.py \
-	archimedes/__init__.py
+	setup.py 
+
 install-data-hook:
 	top_builddir=`$(am__cd) $(top_builddir) && pwd` && \
 		cd $(top_srcdir) && \
-		$(PYTHON) setup.py install_deps -H None -f $$top_builddir/deps --prefix=$(prefix) && \
-		$(PYTHON) setup.py egg_info -e $(pythondir)
+		$(PYTHON) setup.py install --prefix=$(prefix)
 endif
 
 

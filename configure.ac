@@ -7,7 +7,7 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2012 University of California, Davis
+# Copyright (c) 2010-2013 University of California, Davis
 #
 # See COPYING for license information.
 #
@@ -108,11 +108,16 @@ if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
   # Check for Python modules and packages.
+  AM_PATH_PYTHON([2.3])
   AC_ARG_VAR(PYTHON, [Python interpreter])
   AC_ARG_VAR(PYTHONPATH, [Python module search path])
   CIT_PYTHON_SYSCONFIG
-  CIT_PYTHON_EGG_SETUP
-  AM_PATH_PYTHON([2.3])
+  CIT_CHECK_PYTHON_HEADER
+  CIT_CHECK_PYTHON_SHARED
+
+  # PYTHIA/PYRE
+  CIT_PYTHON_MODULE([pyre],[0.8.1])
+  CIT_PYTHON_MODULE([journal],[0.8.1])
 
   # NUMPY
   CIT_NUMPY_PYTHON_MODULE
