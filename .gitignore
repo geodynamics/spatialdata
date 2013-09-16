@@ -1,0 +1,6 @@
+portinfo.in
+Makefile.in
+autom4te.cache
+aclocal.m4
+aux-config
+configure
