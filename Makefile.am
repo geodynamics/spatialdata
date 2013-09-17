@@ -42,15 +42,5 @@ DISTCHECK_CONFIGURE_FLAGS = \
 EXTRA_DIST = \
 	CHANGES
 
-if ENABLE_PYTHIA
-  EXTRA_DIST += \
-	setup.py 
-
-install-data-hook:
-	top_builddir=`$(am__cd) $(top_builddir) && pwd` && \
-		cd $(top_srcdir) && \
-		$(PYTHON) setup.py install --prefix=$(prefix)
-endif
-
 
 # End of file 
