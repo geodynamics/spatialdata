@@ -1,3 +1,7 @@
+2013/09/17 (version 1.9.3)
+
+  Removed use of Python eggs in configuration and install.
+
 2013/06/13 (version 1.9.2)
 
   Set spatialdata label in template test to avoid error message about
