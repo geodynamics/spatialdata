@@ -29,7 +29,7 @@
  * querying data specified over some spatial domain. An implementation
  * for simple fields specified in zero through three dimensions is
  * included.
- *
+ * 
  * The software is built using the GNU build procedure. It is possible
  * to build only the C++ library with C bindings for the
  * routines. Building the complete package with the Pyre framework
