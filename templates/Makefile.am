@@ -28,7 +28,6 @@ EXTRA_DIST = \
 	spatialdb/__init__.py \
 	spatialdb/UniformVelModel.py \
 	spatialdb/tests/Makefile.am \
-	spatialdb/tests/Makefile.in \
 	spatialdb/tests/testcontrib.py \
 	spatialdb/tests/TestUniformVelModel.py \
 	spatialdb/m4/ac_pkg_swig.m4 \
