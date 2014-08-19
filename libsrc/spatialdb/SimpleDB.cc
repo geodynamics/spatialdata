@@ -67,16 +67,16 @@ spatialdata::spatialdb::SimpleDB::~SimpleDB(void)
 void
 spatialdata::spatialdb::SimpleDB::open(void)
 { // open
-  assert(0 != _iohandler);
+  assert(_iohandler);
 
   // Read data
-  if (0 == _data) {
+  if (!_data) {
     _data = new SimpleDBData;
     _iohandler->read(_data, &_cs);
   } // if
 
   // Create query object
-  if (0 == _query)
+  if (!_query)
     _query = new SimpleDBQuery(*this);
 } // open
 
