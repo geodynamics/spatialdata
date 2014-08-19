@@ -19,7 +19,7 @@ AC_INIT([spatialdata], [1.9.3], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign subdir-objects])
 
 # ----------------------------------------------------------------------
 # SWIG
@@ -108,7 +108,7 @@ if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
   # Check for Python modules and packages.
-  AM_PATH_PYTHON([2.3])
+  AM_PATH_PYTHON([2.4])
   AC_ARG_VAR(PYTHON, [Python interpreter])
   AC_ARG_VAR(PYTHONPATH, [Python module search path])
   CIT_PYTHON_SYSCONFIG
@@ -148,11 +148,12 @@ AC_C_BIGENDIAN
 # ----------------------------------------------------------------------
 AC_CONFIG_FILES([Makefile
 	libsrc/Makefile
-	libsrc/geocoords/Makefile
-	libsrc/geocoords/data/Makefile
-	libsrc/spatialdb/Makefile
-	libsrc/units/Makefile
-	libsrc/utils/Makefile
+	libsrc/spatialdata/Makefile
+	libsrc/spatialdata/geocoords/Makefile
+	libsrc/spatialdata/geocoords/data/Makefile
+	libsrc/spatialdata/spatialdb/Makefile
+	libsrc/spatialdata/units/Makefile
+	libsrc/spatialdata/utils/Makefile
 	modulesrc/Makefile
 	modulesrc/include/Makefile
 	modulesrc/geocoords/Makefile

@@ -14,8 +14,7 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = spatialdb
-include $(top_srcdir)/subpackage.am
+include $(top_srcdir)/check.am
 
 SUBDIRS = data
 
@@ -69,10 +68,10 @@ noinst_HEADERS = \
 
 testspatial_LDFLAGS =
 
-AM_CPPFLAGS = $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
+AM_CPPFLAGS += $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
 
 testspatial_LDADD = \
-	$(top_builddir)/libsrc/libspatialdata.la \
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	-lproj \
 	-lcppunit -ldl \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)

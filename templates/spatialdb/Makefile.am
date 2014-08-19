@@ -56,8 +56,6 @@ endif
 # Preprocessor flags
 AM_CPPFLAGS = $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
 
-INCLUDES = 
-
 # SWIG PYTHON MODULE ---------------------------------------------------
 # The name of the module will be _spatialdbcontribmodule.MACHINE_DEPENDENT_SUFFIX
 subpkgpyexec_LTLIBRARIES = _spatialdbcontribmodule.la
@@ -92,7 +90,7 @@ _spatialdbcontribmodule_la_LIBADD += \
 endif
 
 # Module uses numpy and Python header files
-INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
+AM_CPPFLAGS = -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
 # Command to invoke SWIG
 $(srcdir)/spatialdbcontrib_wrap.cxx $(srcdir)/spatialdbcontrib.py: $(swig_sources)

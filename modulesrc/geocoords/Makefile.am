@@ -16,6 +16,7 @@
 
 subpackage = geocoords
 include $(top_srcdir)/subpackage.am
+include $(top_srcdir)/modulesrc/module.am
 
 subpkgpyexec_LTLIBRARIES = _geocoordsmodule.la
 subpkgpyexec_PYTHON = geocoords.py
@@ -40,13 +41,11 @@ _geocoordsmodule_la_LDFLAGS = -module -avoid-version \
 dist__geocoordsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
 _geocoordsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/libspatialdata.la
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la
 if NO_UNDEFINED
 _geocoordsmodule_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
-
-INCLUDES += -I$(NUMPY_INCDIR) -I$(PYTHON_INCDIR)
 
 if ENABLE_SWIG
 $(srcdir)/geocoords_wrap.cxx $(srcdir)/geocoords.py: $(swig_sources)

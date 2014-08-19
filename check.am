@@ -7,22 +7,18 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2013 University of California, Davis
+# Copyright (c) 2010-2014 University of California, Davis
 #
 # See COPYING for license information.
 #
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
-
-TESTS = testunits.py
-dist_check_SCRIPTS = testunits.py
-
-noinst_PYTHON = \
-	TestNondimensional.py \
-	TestNondimElasticQuasistatic.py \
-	TestNondimElasticDynamic.py
+AM_CPPFLAGS = -I$(top_srcdir)/libsrc
 
 
-# End of file 
+check-local: $(TEST_LOGS)
+	for f in $(TEST_LOGS); do printf "\n=== $$f ===\n\n"; cat $$f; done
+
+
+# End of file

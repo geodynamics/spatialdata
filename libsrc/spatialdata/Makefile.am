@@ -61,11 +61,8 @@ libspatialdata_la_LIBADD += \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 endif
 
-AM_CPPFLAGS = -DDATADIR=$(pkgdatadir)/geocoords \
-	$(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
-
-INCLUDES = -I$(top_builddir)/include
-
+AM_CPPFLAGS = -I$(top_srcdir)/libsrc
+AM_CPPFLAGS += -DDATADIR=$(pkgdatadir)/geocoords $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
 
 
 # End of file 
