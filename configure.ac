@@ -58,6 +58,8 @@ AC_ARG_ENABLE([scec-cvm-h],
 # ----------------------------------------------------------------------
 AC_PROG_CXX
 AC_PROG_CC
+AC_DISABLE_STATIC
+AM_PROG_CC_C_O
 
 AC_PROG_LIBTOOL
 if test "$allow_undefined_flag" = unsupported; then
@@ -66,6 +68,8 @@ if test "$allow_undefined_flag" = unsupported; then
 fi
 AM_CONDITIONAL([NO_UNDEFINED], [test "$allow_undefined_flag" = unsupported])
 AC_SUBST(AM_LDFLAGS)
+
+AC_PROG_INSTALL
 
 # ----------------------------------------------------------------------
 # PROJ4
