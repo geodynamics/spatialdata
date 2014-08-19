@@ -1,3 +1,8 @@
+2014/08/19 (version 1.9.4)
+
+  Updates to files for compatibility with automake v1.14.1. Also
+  changed libsrc layout to eliminate need to export header files.
+
 2013/09/17 (version 1.9.3)
 
   Removed use of Python eggs in configuration and install.
