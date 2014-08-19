@@ -14,13 +14,10 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = utils
-include $(top_srcdir)/subpackage.am
+include $(top_srcdir)/check.am
 
 TESTS = testutils.py
 dist_check_SCRIPTS = testutils.py
-
-TESTS_ENVIRONMENT = $(PYTHON)
 
 noinst_PYTHON = \
 	TestChangeCoordSys.py \

@@ -14,8 +14,7 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = units
-include $(top_srcdir)/subpackage.am
+include $(top_srcdir)/check.am
 
 TESTS = testunits
 
@@ -30,14 +29,13 @@ noinst_HEADERS = \
 	TestNondimensional.hh \
 	TestParser.hh
 
-AM_CPPFLAGS = \
-	$(PETSC_INCLUDE) -I$(PYTHON_INCDIR) $(PYTHON_EGG_CPPFLAGS)
+AM_CPPFLAGS += -I$(PYTHON_INCDIR) $(PYTHON_EGG_CPPFLAGS)
 
 testunits_LDFLAGS = \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
 testunits_LDADD = \
-	$(top_builddir)/libsrc/libspatialdata.la \
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	-lproj \
 	-lcppunit -ldl \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)

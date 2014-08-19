@@ -45,18 +45,17 @@ const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
-spatialdata::spatialdb::SimpleIOAscii::read(
-				   SimpleDBData* pData,
-				   spatialdata::geocoords::CoordSys** ppCS)
+spatialdata::spatialdb::SimpleIOAscii::read(SimpleDBData* pData,
+					    spatialdata::geocoords::CoordSys** ppCS)
 { // read
-  assert(0 != pData);
+  assert(pData);
 
   try {
     std::ifstream filein(filename());
     if (!filein.is_open() || !filein.good()) {
       std::ostringstream msg;
       msg << "Could not open spatial database file '" << filename()
-	  << "' for reading.\n";
+	  << "' for reading.";
       throw std::runtime_error(msg.str());
     } // if
 
@@ -77,7 +76,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
       std::ostringstream msg;
       msg
 	<< "Magic header '" << buffer.str() << "' does not match expected header '"
-	<< HEADER << "' in spatial database file '" << filename() << "'.\n";
+	<< HEADER << "' in spatial database file '" << filename() << "'.";
       throw std::runtime_error(msg.str());
     } // if
     int version = 0;
@@ -92,7 +91,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
 	  std::ostringstream msg;
 	  msg
 	    << "Did not recognize format version " << version
-	    << " of spatial database file '" << filename() << "'.\n";
+	    << " of spatial database file '" << filename() << "'.";
 	  throw std::runtime_error(msg.str());
 	} // default
       } // switch
@@ -107,7 +106,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(
   } catch (...) {
     std::ostringstream msg;
     msg << "Unknown error occurred while reading spatial database file '"
-	<< filename() << "'.\n";
+	<< filename() << "'.";
     throw std::runtime_error(msg.str());
   } // try/catch
 
@@ -116,13 +115,12 @@ spatialdata::spatialdb::SimpleIOAscii::read(
 // ----------------------------------------------------------------------
 // Read ascii database file.
 void
-spatialdata::spatialdb::SimpleIOAscii::_readV1(
-				     SimpleDBData* pData,
-				     spatialdata::geocoords::CoordSys** ppCS,
-				     std::istream& filein)
+spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
+					       spatialdata::geocoords::CoordSys** ppCS,
+					       std::istream& filein)
 { // ReadV1
-  assert(0 != pData);
-  assert(0 != ppCS);
+  assert(pData);
+  assert(ppCS);
 
   utils::LineParser parser(filein, "//");
   parser.eatwhitespace(true);

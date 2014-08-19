@@ -14,6 +14,8 @@
 # ----------------------------------------------------------------------
 #
 
+include $(top_srcdir)/check.am
+
 SUBDIRS = data
 
 TESTS = testspatial.py
@@ -23,8 +25,6 @@ if ENABLE_SCEC_CVM_H
   TESTS += test_sceccvmh.py
   dist_check_SCRIPTS += test_sceccvmh.py
 endif
-
-TESTS_ENVIRONMENT = $(PYTHON)
 
 noinst_PYTHON = \
 	TestCompositeDB.py \

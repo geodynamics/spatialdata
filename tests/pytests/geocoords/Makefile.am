@@ -14,10 +14,10 @@
 # ----------------------------------------------------------------------
 #
 
+include $(top_srcdir)/check.am
+
 TESTS = testgeocoords.py
 dist_check_SCRIPTS = testgeocoords.py
-
-TESTS_ENVIRONMENT = $(PYTHON)
 
 noinst_PYTHON = \
 	TestConverter.py \
