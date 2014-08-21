@@ -1,3 +1,4 @@
+/tests/pytests/spatialdb/TestSCECCVMH.py
 /modulesrc/geocoords/geocoords.py
 /modulesrc/geocoords/geocoords_wrap.cxx
 /modulesrc/spatialdb/spatialdb.py
