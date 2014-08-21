@@ -69,7 +69,7 @@ class NondimElasticQuasistatic(Nondimensional):
     relaxationTime = pyre.inventory.dimensional("relaxation_time",
                                                 default=1.0*year,
                             validator=pyre.inventory.greater(0.0*year))
-    relaxationTime.meta['tip'] = "Relaxatim time to nondimensionalize time."
+    relaxationTime.meta['tip'] = "Relaxation time to nondimensionalize time."
 
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
