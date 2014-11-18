@@ -110,7 +110,11 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     """
     Validate parameters.
     """
-    if (len(params.values) != len(params.data)):
+    if len(params.values) == 0:
+      raise ValueError("Values in UniformDB not specified.")
+    if len(params.data) == 0:
+      raise ValueError("Data for UniformDB not specified.")
+    if len(params.values) != len(params.data):
       raise ValueError, \
             "Incompatible settings for uniform spatial database '%s'.\n"\
             "'values' and 'data' must be lists of the same size.\n"\
