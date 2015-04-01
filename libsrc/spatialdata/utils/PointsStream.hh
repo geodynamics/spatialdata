@@ -111,8 +111,8 @@ class spatialdata::utils::PointsStream
    * @param numDims Number of dimensions
    */
   void write(const double* pPoints,
-	     const int numPts,
-	     const int numDims) const;
+	     const size_t numPts,
+	     const size_t numDims) const;
 
 private :
  // PRIVATE METHODS ////////////////////////////////////////////////////

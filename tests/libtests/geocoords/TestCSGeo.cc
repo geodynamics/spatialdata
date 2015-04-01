@@ -259,8 +259,6 @@ spatialdata::geocoords::TestCSGeo::testRadialDirGeographic(void)
 { // testRadialDirGeographic
   CSGeo cs;
 
-  const double tolerance = 1.0e-6;
-
   { // 2D
     const int numLocs = 1;
     const int numDims = 2;
