@@ -244,7 +244,6 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
   bool haveTopo = false;
   double topoElev = 0;
   if (_squashTopo && _xyzUTM[2] > _squashLimit) {
-    double z = 0;
     _topoElev->queryNearest(&topoElev, _xyzUTM);
     haveTopo = true;
     _xyzUTM[2] += topoElev;
@@ -393,14 +392,17 @@ spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp) const
     (vp - 1360.0) / 1.16 :
     785.8 - 1.2344*vp + 794.9 * pow(vp/1000.0,2) 
     - 123.8 * pow(vp/1000.0,3) + 6.4 * pow(vp/1000.0,4);
-  if (vp < 1500.0)
-    if (vp != 1480.0) // if not water
+  if (vp < 1500.0) {
+    if (vp != 1480.0) { // if not water
       vs = (1500.0-1360.0)/1.16;
-    else 
+    } else {
       vs = 0.0; // water
+    } // if/else
+  } // if
 
-  if (vs < _minVs)
+  if (vs < _minVs) {
     vs = _minVs;
+  } // if
 
   return vs;
 } // _calcVs

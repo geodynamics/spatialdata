@@ -27,8 +27,8 @@
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::utils::PointsStream::PointsStream(void) :
-  _commentFlag("#"),
   _filename(""),
+  _commentFlag("#"),
   _fieldWidth(14),
   _precision(5)
 { // constructor
@@ -90,7 +90,7 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
   if (0 != ppPoints) {
     const size_t size = numPts * numDims;
     double* pPoints = (size > 0) ? new double[size] : 0;
-    for (int i=0; i < size; ++i)
+    for (size_t i=0; i < size; ++i)
       pPoints[i] = buffer[i];
     *ppPoints = pPoints;
   } // if
@@ -104,8 +104,8 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
 // Write points to stdout.
 void
 spatialdata::utils::PointsStream::write(const double* pPoints,
-					const int numPts,
-					const int numDims) const
+					const size_t numPts,
+					const size_t numDims) const
 { // write
   std::ostream* pOut = (0 != _filename.length()) ?
     new std::ofstream(_filename.c_str()) :

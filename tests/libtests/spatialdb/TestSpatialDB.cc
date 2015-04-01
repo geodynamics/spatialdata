@@ -68,7 +68,6 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
   CPPUNIT_ASSERT(0 != _pDB);
 
   const char* names[] = {"two", "one", "four", "three"};
-  const char* units[] = {"km", "m", "None", "MPa"};
   const int numVals = 4;
   const double queryLoc[] = { 0.6, 0.1, 0.2 };
   const double vals[] = { 6.3e+3, 4.7, 0.8, 1.2e+6 };
@@ -80,14 +79,12 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
   double* valsQ = (0 < numVals) ? new double[numVals] : 0;
   spatialdata::geocoords::CSCart csCart;
   csCart.initialize();
-  const int err = _pDB->query(valsQ, numVals, queryLoc, spaceDim,
-			      &csCart);
+  const int err = _pDB->query(valsQ, numVals, queryLoc, spaceDim, &csCart);
   CPPUNIT_ASSERT(err == errFlags[0]);
 
   const double tolerance = 1.0e-06;
   for (int iVal=0; iVal < numVals; ++iVal)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[iVal],
-				 1.0, tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[iVal], 1.0, tolerance);
 
   delete[] valsQ; valsQ = 0;
   _pDB->close();
@@ -104,7 +101,6 @@ spatialdata::spatialdb::TestSpatialDB::testDBmulti(void)
   const int numLocs = 2;
   const int spaceDim = 3;
   const char* names[numVals] = {"two", "one", "four", "three"};
-  const char* units[numVals] = {"km", "m", "None", "MPa"};
   const double queryLocs[numLocs*spaceDim] = { 
     0.6, 0.1, 0.2,
     0.1, 0.6, 0.3,
@@ -126,15 +122,13 @@ spatialdata::spatialdb::TestSpatialDB::testDBmulti(void)
   csCart.initialize();
 
   _pDB->multiquery(valsQ, numLocs, numVals, 
-		   errQ, numLocs,
-		   queryLocs, numLocs, spaceDim, &csCart);
+		   errQ, numLocs, queryLocs, numLocs, spaceDim, &csCart);
 
   const double tolerance = 1.0e-06;
   for (int iLoc=0; iLoc < numLocs; ++iLoc) {
     CPPUNIT_ASSERT_EQUAL(errFlags[iLoc], errQ[iLoc]);
     for (int iVal=0, index=0; iVal < numVals; ++iVal, index++)
-      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, valsQ[index]/vals[index],
-				   tolerance);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, valsQ[index]/vals[index], tolerance);
   } // for
 
   delete[] valsQ; valsQ = 0;
@@ -148,10 +142,9 @@ spatialdata::spatialdb::TestSpatialDB::testDBmulti(void)
 void
 spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
 { // testDB_c
-  CPPUNIT_ASSERT(0 != _pDB);
+  CPPUNIT_ASSERT(_pDB);
 
   const char* names[] = {"two", "one"};
-  const char* units[] = {"km", "m"};
   const int numVals = 2;
   const double queryLoc[] = { 0.6, 0.1, 0.2 };
   const int spaceDim = 3;
@@ -164,15 +157,12 @@ spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
   spatialdata::geocoords::CSCart csCart;
   csCart.initialize();
   
-  const int err = testcquery((void*) _pDB, valsQ, numVals, 
-			     queryLoc, spaceDim,
-			     (void*) &csCart);
+  const int err = testcquery((void*) _pDB, valsQ, numVals, queryLoc, spaceDim, (void*) &csCart);
   CPPUNIT_ASSERT(err == errFlags[0]);
 
   const double tolerance = 1.0e-06;
   for (int iVal=0; iVal < numVals; ++iVal)
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[iVal],
-				 1.0, tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(valsQ[iVal]/vals[iVal], 1.0, tolerance);
 
   delete[] valsQ; valsQ = 0;
   _pDB->close();

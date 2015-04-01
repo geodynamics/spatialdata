@@ -29,12 +29,12 @@ spatialdata::spatialdb::SimpleGridDBTestData::SimpleGridDBTestData(void) :
   dbY(0),
   dbZ(0),
   dbData(0),
-  errFlags(0),
   names(0),
   units(0),
   numQueries(0),
   queryNearest(0),
   queryLinear(0),
+  errFlags(0),
   filename(0)
 { // constructor
 } // constructor

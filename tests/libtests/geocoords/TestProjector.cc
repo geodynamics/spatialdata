@@ -54,7 +54,6 @@ spatialdata::geocoords::TestProjector::testCopy(void)
 
   Projector projB(proj);
 
-  const double tolerance = 1.0e-6;
   CPPUNIT_ASSERT(0 == strcmp(projB.projection(), _PROJECTION));
   CPPUNIT_ASSERT(0 == strcmp(proj.units(), _UNITS));
   CPPUNIT_ASSERT(0 == strcmp(proj.projOptions(), _PROJOPTIONS));
