@@ -306,29 +306,44 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
 
   std::istringstream buffer;
 
+  const bool _verbose = false;
+
   int numLocs = 1;
   if (numX >= 1) {
+    if (_verbose) {
+      std::cout << "Using " << numX << " coordinates in x-direction.\n";
+    } // if
     numLocs *= numX;
     db->_x = new double[numX];
     buffer.str(parser.next());
     buffer.clear();
     for (int i=0; i < numX; ++i) {
+      if (!buffer.good()) {
+	throw std::runtime_error("Error reading x-coordinates.");
+      } // if
       buffer >> db->_x[i];
     } // for
     std::vector<double> xVec(numX);
     for (int i=0; i < numX; ++i)
       xVec[i] = db->_x[i];
     std::sort(xVec.begin(), xVec.end());
-    for (int i=0; i < numX; ++i)
+    for (int i=0; i < numX; ++i) {
       db->_x[i] = xVec[i];
+    } // for
   } // if
 
   if (numY >= 1) {
+    if (_verbose) {
+      std::cout << "Using " << numY << " coordinates in y-direction.\n";
+    } // if
     numLocs *= numY;
     db->_y = new double[numY];
     buffer.str(parser.next());
     buffer.clear();
     for (int i=0; i < numY; ++i) {
+      if (!buffer.good()) {
+	throw std::runtime_error("Error reading y-coordinates.");
+      } // if
       buffer >> db->_y[i];
     } // for
     std::vector<double> yVec(numY);
@@ -340,11 +355,17 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
   } // if
 
   if (numZ >= 1) {
+    if (_verbose) {
+      std::cout << "Using " << numZ << " coordinates in z-direction.\n";
+    } // if
     numLocs *= numZ;
     db->_z = new double[numZ];
     buffer.str(parser.next());
     buffer.clear();
     for (int i=0; i < numZ; ++i) {
+      if (!buffer.good()) {
+	throw std::runtime_error("Error reading z-coordinates.");
+      } // if
       buffer >> db->_z[i];
     } // for
     std::vector<double> zVec(numZ);
@@ -360,7 +381,8 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
   db->_data = new double[numLocs*db->_numValues];
   assert(spaceDim > 0);
   double* coords = new double[spaceDim];
-  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+  int count = 0;
+  for (int iLoc=0; iLoc < numLocs; ++iLoc, ++count) {
     buffer.str(parser.next());
     buffer.clear();
     for (int iDim=0; iDim < spaceDim; ++iDim) {
@@ -369,14 +391,17 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
 
     const int indexData = db->_dataIndex(coords, spaceDim);
     for (int iVal=0; iVal < db->_numValues; ++iVal) {
+      if (!buffer.good()) {
+	throw std::runtime_error("Error reading points.");
+      } // if
       buffer >> db->_data[indexData+iVal];
     } // for
-    if (buffer.bad()) {
-      throw std::runtime_error("Error reading points.");
-    } // if
   } // for
   delete[] coords; coords = 0;
-  if (!filein.good())
+  if (_verbose) {
+    std::cout << "Read " << count << " lines of data.\n";
+  } // if
+  if (filein.bad())
     throw std::runtime_error("I/O error while reading SimpleGridDB data.");
 
   // Set dimensions without any data to 1.
