@@ -244,17 +244,24 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
     buffer.str(parser.next());
     buffer.clear();
     double* coordinates = pData->coordinates(iLoc);
-    for (int iDim=0; iDim < spaceDim; ++iDim)
+    for (int iDim=0; iDim < spaceDim; ++iDim) {
+      if (!buffer.good()) {
+	std::ostringstream msg;
+	msg << "Error reading coordinates from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
+      } // if
       buffer >> coordinates[iDim];
+    } // for
     double* data = pData->data(iLoc);
-    for (int iVal=0; iVal < numValues; ++iVal)
+    for (int iVal=0; iVal < numValues; ++iVal) {
+      if (!buffer.good()) {
+	std::ostringstream msg;
+	msg << "Error reading data from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
+      } // if
       buffer >> data[iVal];
-    if (buffer.bad()) {
-      throw std::runtime_error("Error reading points.");
-    } // if
+    } // for
   } // for
-  if (!filein.good())
-    throw std::runtime_error("I/O error while reading SimpleDB data.");
   
   // Check compatibility of dimension of data, spatial dimension and
   // number of points

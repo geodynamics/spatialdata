@@ -319,7 +319,9 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     buffer.clear();
     for (int i=0; i < numX; ++i) {
       if (!buffer.good()) {
-	throw std::runtime_error("Error reading x-coordinates.");
+	std::ostringstream msg;
+	msg << "Error reading x-coordinates from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
       } // if
       buffer >> db->_x[i];
     } // for
@@ -342,7 +344,9 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     buffer.clear();
     for (int i=0; i < numY; ++i) {
       if (!buffer.good()) {
-	throw std::runtime_error("Error reading y-coordinates.");
+	std::ostringstream msg;
+	msg << "Error reading y-coordinates from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
       } // if
       buffer >> db->_y[i];
     } // for
@@ -364,7 +368,9 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     buffer.clear();
     for (int i=0; i < numZ; ++i) {
       if (!buffer.good()) {
-	throw std::runtime_error("Error reading z-coordinates.");
+	std::ostringstream msg;
+	msg << "Error reading z-coordinates from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
       } // if
       buffer >> db->_z[i];
     } // for
@@ -386,13 +392,20 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     buffer.str(parser.next());
     buffer.clear();
     for (int iDim=0; iDim < spaceDim; ++iDim) {
+      if (!buffer.good()) {
+	std::ostringstream msg;
+	msg << "Error reading coordinates from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
+      } // if
       buffer >> coords[iDim];
     } // for
 
     const int indexData = db->_dataIndex(coords, spaceDim);
     for (int iVal=0; iVal < db->_numValues; ++iVal) {
       if (!buffer.good()) {
-	throw std::runtime_error("Error reading points.");
+	std::ostringstream msg;
+	msg << "Error reading data from buffer '" << buffer.str() << "'.";
+	throw std::runtime_error(msg.str());
       } // if
       buffer >> db->_data[indexData+iVal];
     } // for
