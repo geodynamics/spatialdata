@@ -18,7 +18,7 @@
 ##
 ## @brief Python top-level SpatialData module initialization
 
-__version__ = "1.9.3"
+__version__ = "1.9.6"
 
 __all__ = ['geocoords',
            'spatialdb',
