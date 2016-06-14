@@ -7,7 +7,7 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2015 University of California, Davis
+# Copyright (c) 2010-2016 University of California, Davis
 #
 # See COPYING for license information.
 #
@@ -15,7 +15,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [1.9.5], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [1.9.6], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
