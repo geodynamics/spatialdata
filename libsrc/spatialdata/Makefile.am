@@ -51,7 +51,8 @@ libspatialdata_la_SOURCES = \
 	units/Nondimensional.cc \
 	units/Parser.cc \
 	utils/LineParser.cc \
-	utils/PointsStream.cc
+	utils/PointsStream.cc \
+	utils/SpatialdataVersion.cc
 
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 libspatialdata_la_LIBADD = \

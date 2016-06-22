@@ -21,6 +21,7 @@ subpkginclude_HEADERS = \
 	LineParser.hh \
 	PointsStream.hh \
 	PointsStream.icc \
+	SpatialdataVersion.hh \
 	utilsfwd.hh
 
 noinst_HEADERS =
