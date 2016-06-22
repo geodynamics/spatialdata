@@ -29,6 +29,8 @@ namespace spatialdata {
   namespace utils {
     class LineParser;
     class PointsStream;
+
+    class SpatialdataVersion;
   } // utils
 } // spatialdata
 

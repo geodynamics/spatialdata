@@ -146,6 +146,9 @@ if test "$enable_documentation" = "yes" ; then
   fi
 fi
 
+# VERSION
+CIG_PKG_GIT(SPATIALDATA)
+
 # ENDIANNESS
 AC_C_BIGENDIAN
 
@@ -163,6 +166,7 @@ AC_CONFIG_FILES([Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
 	modulesrc/units/Makefile
+	modulesrc/utils/Makefile
 	spatialdata/Makefile
 	tests/Makefile
 	tests/libtests/Makefile
