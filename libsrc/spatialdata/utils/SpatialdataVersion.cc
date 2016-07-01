@@ -20,13 +20,19 @@
 
 #include "SpatialdataVersion.hh" // Implementation of class methods
 
+#include "proj_api.h" // Proj.4 API
+
 // ----------------------------------------------------------------------
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
 const bool spatialdata::utils::SpatialdataVersion::_isRelease = int(SPATIALDATA_RELEASE_VERSION);
-const char* spatialdata::utils::SpatialdataVersion::_version = PACKAGE_VERSION;
+const char* spatialdata::utils::SpatialdataVersion::_version = SPATIALDATA_VERSION;
 const char* spatialdata::utils::SpatialdataVersion::_gitBranch = SPATIALDATA_GIT_BRANCH;
 const char* spatialdata::utils::SpatialdataVersion::_gitRevision = SPATIALDATA_GIT_REVISION;
 const char* spatialdata::utils::SpatialdataVersion::_gitDate = SPATIALDATA_GIT_DATE;
 const char* spatialdata::utils::SpatialdataVersion::_gitHash = SPATIALDATA_GIT_HASH;
+const char* spatialdata::utils::SpatialdataVersion::_projVersion = STR(PJ_VERSION);
 
 // ----------------------------------------------------------------------
 // Default constructor.
@@ -38,7 +44,6 @@ spatialdata::utils::SpatialdataVersion::SpatialdataVersion(void)
 spatialdata::utils::SpatialdataVersion::~SpatialdataVersion(void)
 {}
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Is source from a release?
 bool
@@ -86,6 +91,14 @@ spatialdata::utils::SpatialdataVersion::gitBranch(void)
 { // gitBranch
   return _gitBranch;
 } // gitBranch
+
+// ----------------------------------------------------------------------
+// Get Proj.4 version number.
+const char*
+spatialdata::utils::SpatialdataVersion::projVersion(void)
+{ // projVersion
+  return _projVersion;
+} // projVersion
 
 
 // End of file 

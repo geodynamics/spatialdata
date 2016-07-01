@@ -26,6 +26,9 @@ def suite():
   from TestConvertApp import TestConvertApp
   suite.addTest(unittest.makeSuite(TestConvertApp))
 
+  from TestSpatialdataVersion import TestSpatialdataVersion
+  suite.addTest(unittest.makeSuite(TestSpatialdataVersion))
+
   return suite
 
 

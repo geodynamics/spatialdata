@@ -86,6 +86,13 @@ public :
   static
   const char* gitBranch(void);
   
+  /** Get Proj.4 version number.
+   *
+   * @returns Version number.
+   */
+  static
+  const char* projVersion(void);
+
 // PRIVATE METHODS //////////////////////////////////////////////////////
 private :
 
@@ -101,6 +108,8 @@ private :
   static const char* _gitDate; ///< Date of GIT revision.
   static const char* _gitHash; ///< GIT hash.
   static const char* _gitBranch; ///< GIT branch.
+
+  static const char* _projVersion; ///< Proj.4 version number.
 
 }; // SpatialdataVersion
 

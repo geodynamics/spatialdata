@@ -24,6 +24,7 @@ check_PROGRAMS = testutils
 
 testutils_SOURCES = \
 	TestPointsStream.cc \
+	TestSpatialdataVersion.cc \
 	testutils.cc
 
 noinst_HEADERS = \
