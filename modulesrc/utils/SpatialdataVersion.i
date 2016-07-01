@@ -79,6 +79,12 @@ namespace spatialdata {
       static
       const char* gitBranch(void) const;
       
+      /** Get Proj.4 version number.
+       *
+       * @returns Version number.
+       */
+      static
+      const char* projVersion(void);
       
     }; // SpatialdataVersion
     
