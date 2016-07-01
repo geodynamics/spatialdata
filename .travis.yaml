@@ -1,0 +1,16 @@
+# Travis-CI configuration
+
+language: cpp
+
+os:
+- linux
+#- osx
+
+# Limit number of commits in cloning
+git:
+  depth: 10
+
+# Install dependencies cached on CIG server
+# install:
+
+script: ./configure --enable-swig --enable-testing --enable-pythia && make && make install && make check
