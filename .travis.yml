@@ -13,4 +13,4 @@ git:
 # Install dependencies cached on CIG server
 # install:
 
-script: ./configure --enable-swig --enable-testing --enable-pythia && make && make install && make check
+script: autoreconf -if && ./configure --enable-swig --enable-testing --enable-pythia && make && make install && make check
