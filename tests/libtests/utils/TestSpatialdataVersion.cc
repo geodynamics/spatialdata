@@ -63,7 +63,6 @@ spatialdata::utils::TestSpatialdataVersion::testGitRevision(void)
 #endif
 } // testGitRevision
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Test gitHash()
 void
@@ -88,7 +87,7 @@ void
 spatialdata::utils::TestSpatialdataVersion::testGitDate(void)
 { // testGitDate
 #if SPATIALDATA_RELEASE_VERSION
-  CPPUNIT_ASSERT_EQUAL(std::string("unknown"), std::string(SpatialdataVersion::gitRevision()));
+  CPPUNIT_ASSERT_EQUAL(std::string("unknown"), std::string(SpatialdataVersion::gitDate()));
 #else
   const char* datetime = SpatialdataVersion::gitDate();
   CPPUNIT_ASSERT(strlen(datetime) > 0);
@@ -101,9 +100,9 @@ void
 spatialdata::utils::TestSpatialdataVersion::testGitBranch(void)
 { // testGitBranch
 #if SPATIALDATA_RELEASE_VERSION
-  CPPUNIT_ASSERT_EQUAL(std::string("unknown"), std::string(SpatialdataVersion::gitRevision()));
+  CPPUNIT_ASSERT_EQUAL(std::string("unknown"), std::string(SpatialdataVersion::gitBranch()));
 #else
-  const char* branch = SpatialdataVersion::gitRevision();
+  const char* branch = SpatialdataVersion::gitBranch();
   CPPUNIT_ASSERT(strlen(branch) > 0);
 #endif
 } // testGitBranch
