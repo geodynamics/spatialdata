@@ -18,6 +18,7 @@ install:
 script: mkdir -p build && pushd build && autoreconf --install --verbose --force $TRAVIS_BUILD_DIR && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix=$TRAVIS_BUILD_DIR/dist CPPFLAGS=-I$TRAVIS_BUILD_DIR/dist/include LDFLAGS=-L$TRAVIS_BUILD_DIR/dist/lib && make && make install && make check && popd
 
 env:
-  - PATH=$TRAVIS_BUILD_DIR/dist:$PATH
-  - PYTHONPATH=$TRAVIS_BUILD_DIR/dist/lib/python2.7/site-packages:$PYTHONPATH
-  - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/dist/lib:$LD_LIBRARY_PATH
+  global:
+    - PATH=$TRAVIS_BUILD_DIR/dist:$PATH
+    - PYTHONPATH=$TRAVIS_BUILD_DIR/dist/lib/python2.7/site-packages:$PYTHONPATH
+    - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/dist/lib:$LD_LIBRARY_PATH
