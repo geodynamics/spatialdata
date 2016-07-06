@@ -21,3 +21,4 @@ env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/dist/bin:$PATH
     - PYTHONPATH=$TRAVIS_BUILD_DIR/dist/lib/python2.7/site-packages:$PYTHONPATH
+    - SWIG_LIB=$TRAVIS_BUILD_DIR/dist/share/swig/2.0.6
