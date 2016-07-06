@@ -19,5 +19,5 @@ script: mkdir -p build && pushd build && autoreconf --install --verbose --force 
 
 env:
   global:
-    - PATH=$TRAVIS_BUILD_DIR/dist:$PATH
+    - PATH=$TRAVIS_BUILD_DIR/dist/bin:$PATH
     - PYTHONPATH=$TRAVIS_BUILD_DIR/dist/lib/python2.7/site-packages:$PYTHONPATH
