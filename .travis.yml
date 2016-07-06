@@ -2,9 +2,10 @@
 
 language: cpp
 
-os:
-  - linux
-#- osx
+matrix:
+  include:
+    - os: linux
+      env: TARBALL=pylith_deps-travis-ubuntu-12.04-amd64.tgz LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/dist/lib:$LD_LIBRARY_PATH
 
 # Limit number of commits in cloning
 git:
@@ -12,7 +13,6 @@ git:
 
 # Install dependencies cached on CIG server
 install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then TARBALL=pylith_deps-ubuntu-12.04-amd64.tgz; fi
   - mkdir -p dist && pushd dist && curl -O http://geoweb.cse.ucdavis.edu/~buildbot/deps/$TARBALL && tar -zxvf $TARBALL && popd
 
 script: mkdir -p build && pushd build && autoreconf --install --verbose --force $TRAVIS_BUILD_DIR && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix=$TRAVIS_BUILD_DIR/dist CPPFLAGS=-I$TRAVIS_BUILD_DIR/dist/include LDFLAGS=-L$TRAVIS_BUILD_DIR/dist/lib && make && make install && make check && popd
@@ -21,4 +21,3 @@ env:
   global:
     - PATH=$TRAVIS_BUILD_DIR/dist:$PATH
     - PYTHONPATH=$TRAVIS_BUILD_DIR/dist/lib/python2.7/site-packages:$PYTHONPATH
-    - LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/dist/lib:$LD_LIBRARY_PATH
