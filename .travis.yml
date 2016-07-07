@@ -14,7 +14,7 @@ git:
 # Build dependencies (will use cache if CREATE_CACHE is undefined)
 install:
   - if [ $CREATE_CACHE ]; then travis/dependencies.sh build; fi
-  - ls dist
+  - ls -lR dist/deps
 
 script: 
   - git fetch --unshallow
