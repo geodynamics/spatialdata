@@ -7,13 +7,8 @@ fi
 
 MAKE_THREADS=2
 TOP_DIR=`pwd`
-#TARBALL=spatialdata_deps-${TRAVIS_OS_NAME}.tgz
-#REPO=http://geoweb.cse.ucdavis.edu/~buildbot/deps
 
-if [ $action == "download" ]; then
-  curl -O ${REPO}/${TARBALL} && tar -zhxvf ${TARBALL}
-
-elif [ $action == "build" ]; then
+if [ $action == "build" ]; then
 
 git clone --depth 1 --recursive https://github.com/geodynamics/pylith_installer.git
 
@@ -24,7 +19,6 @@ pushd pylith_installer && \
   make deps && \
   popd
 
- # tar -zcvf $TARBALL dist && curl -T ${TARBALL} ftp://ftpext.usgs.gov/from_pub/wr/
 fi
 
 # End of file

@@ -11,9 +11,9 @@ matrix:
 git:
   depth: 1
 
-# Install dependencies cached on CIG server
+# Build dependencies (will use cache if CREATE_CACHE is undefined)
 install:
-  - if [ $CREATE_CACHE == 1 ]; then travis/dependencies.sh build; fi
+  - if [ $CREATE_CACHE ]; then travis/dependencies.sh build; fi
 
 script: 
   - git fetch --unshallow
