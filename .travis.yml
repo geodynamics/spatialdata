@@ -5,7 +5,7 @@ language: cpp
 matrix:
   include:
     - os: linux
-      env: LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/dist/lib:$LD_LIBRARY_PATH
+      env: LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/dist/deps/lib:$TRAVIS_BUILD_DIR/dist/target/lib:$LD_LIBRARY_PATH"
 
 # Limit number of commits in cloning
 git:
@@ -13,13 +13,17 @@ git:
 
 # Install dependencies cached on CIG server
 install:
-  - if [ $CREATE_CACHE == 1 ]; then travis/dependencies.sh build; else travis/dependencies.sh download; fi
+  - if [ $CREATE_CACHE == 1 ]; then travis/dependencies.sh build; fi
 
 script: 
   - git fetch --unshallow
-  - autoreconf --install --verbose --force && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix=$TRAVIS_BUILD_DIR/dist CPPFLAGS=-I$TRAVIS_BUILD_DIR/dist/include LDFLAGS=-L$TRAVIS_BUILD_DIR/dist/lib && make -j2 && make install && make -j2 check
+  - autoreconf --install --verbose --force && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix="$TRAVIS_BUILD_DIR/dist/target" CPPFLAGS="-I$TRAVIS_BUILD_DIR/dist/deps/include -I$TRAVIS_BUILD_DIR/dist/target/include" LDFLAGS="-L$TRAVIS_BUILD_DIR/dist/deps/lib -L$TRAVIS_BUILD_DIR/dist/target/lib" && make -j2 && make install && make -j2 check
 
 env:
   global:
-    - PATH=$TRAVIS_BUILD_DIR/dist/bin:$PATH
-    - PYTHONPATH=$TRAVIS_BUILD_DIR/dist/lib/python2.7/site-packages:$PYTHONPATH
+    - PATH="$TRAVIS_BUILD_DIR/dist/deps/bin:$TRAVIS_BUILD_DIR/dist/target/bin:$PATH"
+    - PYTHONPATH="$TRAVIS_BUILD_DIR/dist/deps/lib/python2.7/site-packages:$TRAVIS_BUILD_DIR/dist/target/lib/python2.7/site-packages:$PYTHONPATH"
+
+cache:
+  directories:
+    - dist/deps
