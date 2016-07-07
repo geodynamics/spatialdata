@@ -1,11 +1,13 @@
 # Travis-CI configuration
 
+sudo: false
+
 language: cpp
 
 matrix:
   include:
     - os: linux
-      env: LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/dist/deps/lib:$TRAVIS_BUILD_DIR/dist/target/lib:$LD_LIBRARY_PATH"
+      env: LD_LIBRARY_PATH="$HOME/dist/deps/lib:$HOME/dist/target/lib:$LD_LIBRARY_PATH" CREATE_CACHE=1
 
 # Limit number of commits in cloning
 git:
@@ -14,16 +16,18 @@ git:
 # Build dependencies (will use cache if CREATE_CACHE is undefined)
 install:
   - if [ $CREATE_CACHE ]; then travis/dependencies.sh build; fi
+  - ls -lR dist/deps
 
 script: 
   - git fetch --unshallow
-  - autoreconf --install --verbose --force && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix="$TRAVIS_BUILD_DIR/dist/target" CPPFLAGS="-I$TRAVIS_BUILD_DIR/dist/deps/include -I$TRAVIS_BUILD_DIR/dist/target/include" LDFLAGS="-L$TRAVIS_BUILD_DIR/dist/deps/lib -L$TRAVIS_BUILD_DIR/dist/target/lib" && make -j2 && make install && make -j2 check
+  - autoreconf --install --verbose --force && ./configure --enable-swig --enable-testing --enable-pythia --prefix="$HOME/dist/target" CPPFLAGS="-I$HOME/dist/deps/include -I$HOME/dist/target/include" LDFLAGS="-L$HOME/dist/deps/lib -L$HOME/dist/target/lib" && make -j2 && make install && make -j2 check
 
 env:
   global:
-    - PATH="$TRAVIS_BUILD_DIR/dist/deps/bin:$TRAVIS_BUILD_DIR/dist/target/bin:$PATH"
-    - PYTHONPATH="$TRAVIS_BUILD_DIR/dist/deps/lib/python2.7/site-packages:$TRAVIS_BUILD_DIR/dist/target/lib/python2.7/site-packages:$PYTHONPATH"
+    - PATH="$HOME/dist/deps/bin:$HOME/dist/target/bin:$PATH"
+    - PYTHONPATH="$HOME/dist/deps/lib/python2.7/site-packages:$HOME/dist/target/lib/python2.7/site-packages:$PYTHONPATH"
 
 cache:
+  timeout: 300
   directories:
-    - dist/deps
+    - $HOME/dist/deps
