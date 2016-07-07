@@ -13,7 +13,7 @@ git:
 
 # Install dependencies cached on CIG server
 install:
-  - if [ $CREATE_CACHE ]; then travis/dependencies.sh build; else travis/dependencies.sh download; fi
+  - if [ $CREATE_CACHE == 1 ]; then travis/dependencies.sh build; else travis/dependencies.sh download; fi
 
 script: 
   - git fetch --unshallow
