@@ -17,7 +17,7 @@ install:
 
 script: 
   - git fetch --unshallow
-  - autoreconf --install --verbose --force && $TRAVIS_BUILD_DIR./configure --enable-swig --enable-testing --enable-pythia --prefix=$TRAVIS_BUILD_DIR/dist CPPFLAGS=-I$TRAVIS_BUILD_DIR/dist/include LDFLAGS=-L$TRAVIS_BUILD_DIR/dist/lib && make -j2 && make install && make -j2 check
+  - autoreconf --install --verbose --force && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix=$TRAVIS_BUILD_DIR/dist CPPFLAGS=-I$TRAVIS_BUILD_DIR/dist/include LDFLAGS=-L$TRAVIS_BUILD_DIR/dist/lib && make -j2 && make install && make -j2 check
 
 env:
   global:
