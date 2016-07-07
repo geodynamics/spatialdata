@@ -5,7 +5,7 @@ language: cpp
 matrix:
   include:
     - os: linux
-      env: LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/dist/deps/lib:$TRAVIS_BUILD_DIR/dist/target/lib:$LD_LIBRARY_PATH" CREATE_CACHE=1
+      env: LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/dist/deps/lib:$TRAVIS_BUILD_DIR/dist/target/lib:$LD_LIBRARY_PATH"
 
 # Limit number of commits in cloning
 git:
