@@ -26,5 +26,6 @@ env:
     - PYTHONPATH="$TRAVIS_BUILD_DIR/dist/deps/lib/python2.7/site-packages:$TRAVIS_BUILD_DIR/dist/target/lib/python2.7/site-packages:$PYTHONPATH"
 
 cache:
+  timeout: 300
   directories:
     - dist/deps
