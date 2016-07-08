@@ -13,7 +13,7 @@ matrix:
 git:
   depth: 100
 
-# Build dependencies if we don't find Proj4 header file.
+# Build dependencies. Use Proj4 header file to check to see if dependencies are cached.
 install:
   - if [ ! -f ${DEPS_DIR}/include/proj_api.h ]; then travis/dependencies.sh build; else echo "Using cached dependencies."; fi
   - ls -R ${DEPS_DIR}
