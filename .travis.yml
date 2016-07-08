@@ -1,31 +1,36 @@
 # Travis-CI configuration
 
+sudo: false
+
 language: cpp
 
 matrix:
   include:
     - os: linux
-      env: LD_LIBRARY_PATH="$TRAVIS_BUILD_DIR/dist/deps/lib:$TRAVIS_BUILD_DIR/dist/target/lib:$LD_LIBRARY_PATH"
+      env: LD_LIBRARY_PATH="${DEPS_DIR}/lib:${TARGET_DIR}/lib:${LD_LIBRARY_PATH}"
 
-# Limit number of commits in cloning
+# Limit number of commits in cloning (but keep enough so that 'git describe' works)
 git:
-  depth: 1
+  depth: 100
 
-# Build dependencies (will use cache if CREATE_CACHE is undefined)
+# Build dependencies if we don't find Proj4 header file.
 install:
-  - if [ $CREATE_CACHE ]; then travis/dependencies.sh build; fi
-  - ls -lR dist/deps
+  - if [ ! -f ${DEPS_DIR}/include/proj_api.h ]; then travis/dependencies.sh build; else echo "Using cached dependencies."; fi
+  - ls -R ${DEPS_DIR}
 
 script: 
-  - git fetch --unshallow
-  - autoreconf --install --verbose --force && $TRAVIS_BUILD_DIR/configure --enable-swig --enable-testing --enable-pythia --prefix="$TRAVIS_BUILD_DIR/dist/target" CPPFLAGS="-I$TRAVIS_BUILD_DIR/dist/deps/include -I$TRAVIS_BUILD_DIR/dist/target/include" LDFLAGS="-L$TRAVIS_BUILD_DIR/dist/deps/lib -L$TRAVIS_BUILD_DIR/dist/target/lib" && make -j2 && make install && make -j2 check
+  - autoreconf --install --verbose --force && ./configure --enable-swig --enable-testing --enable-pythia --prefix="${TARGET_DIR}" CPPFLAGS="-I${DEPS_DIR}/include -I${TARGET_DIR}/include" LDFLAGS="-L${DEPS_DIR}/lib -L${TARGET_DIR}/lib" && make -j${MAKE_THREADS} && make install && make -j${MAKE_THREADS} check
 
 env:
   global:
-    - PATH="$TRAVIS_BUILD_DIR/dist/deps/bin:$TRAVIS_BUILD_DIR/dist/target/bin:$PATH"
-    - PYTHONPATH="$TRAVIS_BUILD_DIR/dist/deps/lib/python2.7/site-packages:$TRAVIS_BUILD_DIR/dist/target/lib/python2.7/site-packages:$PYTHONPATH"
+    - MAKE_THREADS=2
+    - PYTHON_VERSION="2.7"
+    - DEPS_DIR="${TRAVIS_BUILD_DIR}/dist/deps"
+    - TARGET_DIR="${TRAVIS_BUILD_DIR}/dist/target"
+    - PATH="${DEPS_DIR}/bin:${TARGET_DIR}/bin:${PATH}"
+    - PYTHONPATH="${DEPS_DIR}/lib/python${PYTHON_VERSION}/site-packages:${TARGET_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PYTHONPATH}"
 
 cache:
   timeout: 300
   directories:
-    - dist/deps
+    - $DEPS_DIR
