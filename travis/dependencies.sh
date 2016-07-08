@@ -5,8 +5,6 @@ if [ $# == 1 ]; then
   action=$1
 fi
 
-MAKE_THREADS=2
-
 if [ $action == "build" ]; then
 
 git clone --depth 1 --recursive https://github.com/geodynamics/pylith_installer.git

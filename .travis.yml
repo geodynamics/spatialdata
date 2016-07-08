@@ -9,23 +9,24 @@ matrix:
     - os: linux
       env: LD_LIBRARY_PATH="$HOME/dist/deps/lib:$HOME/dist/target/lib:$LD_LIBRARY_PATH"
 
-# Limit number of commits in cloning
+# Limit number of commits in cloning (but keep enough so that 'git describe' works)
 git:
-  depth: 1
+  depth: 100
 
-# Build dependencies (will use cache if CREATE_CACHE is undefined)
+# Build dependencies if we don't find Proj4 header file.
 install:
-  - if [ $CREATE_CACHE ]; then travis/dependencies.sh build; fi
-  - ls -lR $HOME/dist/deps
+  - if [ ! -f $HOME/dist/deps/include/proj_api.h ]; then travis/dependencies.sh build; else echo "Using cached dependencies."; fi
+  - ls -R $HOME/dist/deps
 
 script: 
-  - git fetch --unshallow
-  - autoreconf --install --verbose --force && ./configure --enable-swig --enable-testing --enable-pythia --prefix="$HOME/dist/target" CPPFLAGS="-I$HOME/dist/deps/include -I$HOME/dist/target/include" LDFLAGS="-L$HOME/dist/deps/lib -L$HOME/dist/target/lib" && make -j2 && make install && make -j2 check
+  - autoreconf --install --verbose --force && ./configure --enable-swig --enable-testing --enable-pythia --prefix="$HOME/dist/target" CPPFLAGS="-I$HOME/dist/deps/include -I$HOME/dist/target/include" LDFLAGS="-L$HOME/dist/deps/lib -L$HOME/dist/target/lib" && make -j$MAKE_THREADS && make install && make -j$MAKE_THREADS check
 
 env:
   global:
+    - MAKE_THREADS=2
+    - PYTHON_VERSION="2.7"
     - PATH="$HOME/dist/deps/bin:$HOME/dist/target/bin:$PATH"
-    - PYTHONPATH="$HOME/dist/deps/lib/python2.7/site-packages:$HOME/dist/target/lib/python2.7/site-packages:$PYTHONPATH"
+    - PYTHONPATH="$HOME/dist/deps/lib/python$PYTHON_VERSION/site-packages:$HOME/dist/target/lib/python$PYTHON_VERSION/site-packages:$PYTHONPATH"
 
 cache:
   timeout: 300
