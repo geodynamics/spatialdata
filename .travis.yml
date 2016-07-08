@@ -33,4 +33,4 @@ env:
 cache:
   timeout: 300
   directories:
-    - $DEPS_DIR/dist/deps
+    - $DEPS_DIR
