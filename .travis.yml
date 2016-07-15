@@ -13,6 +13,21 @@ matrix:
 git:
   depth: 100
 
+# Dependencies installed as packages
+addons:
+  apt:
+    packages:
+      - cmake
+      - python-setuptools
+      - libcppunit-dev
+      - libopenmpi-dev
+      - openmpi-common
+      - openmpi-bin
+      - proj-bin
+      - proj-data
+      - libproj-dev
+      - swig
+
 # Build dependencies. Use Proj4 header file to check to see if dependencies are cached.
 install:
   - if [ ! -f ${DEPS_DIR}/include/proj_api.h ]; then travis/dependencies.sh build; else echo "Using cached dependencies."; fi
