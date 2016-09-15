@@ -35,11 +35,8 @@ _unitsmodule_la_LDFLAGS = -module -avoid-version \
 dist__unitsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
 _unitsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la
-if NO_UNDEFINED
-_unitsmodule_la_LIBADD += \
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-endif
 
 if ENABLE_SWIG
 $(srcdir)/units_wrap.cxx $(srcdir)/units.py: $(swig_sources)

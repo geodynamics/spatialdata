@@ -51,11 +51,8 @@ _spatialdbmodule_la_LDFLAGS = -module -avoid-version \
 dist__spatialdbmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
 _spatialdbmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la
-if NO_UNDEFINED
-_spatialdbmodule_la_LIBADD += \
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-endif
 
 if ENABLE_SWIG
 $(srcdir)/spatialdb_wrap.cxx $(srcdir)/spatialdb.py: $(swig_sources)
