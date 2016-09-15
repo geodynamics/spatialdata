@@ -41,11 +41,8 @@ _geocoordsmodule_la_LDFLAGS = -module -avoid-version \
 dist__geocoordsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
 
 _geocoordsmodule_la_LIBADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la
-if NO_UNDEFINED
-_geocoordsmodule_la_LIBADD += \
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-endif
 
 if ENABLE_SWIG
 $(srcdir)/geocoords_wrap.cxx $(srcdir)/geocoords.py: $(swig_sources)
