@@ -141,7 +141,7 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
   if (0 != strcasecmp(FILEHEADER, hbuffer.c_str())) {
     std::ostringstream msg;
     msg
-      << "Magic header '" << buffer << "' does not match expected header '"
+      << "Magic header '" << buffer.str() << "' does not match expected header '"
       << FILEHEADER << "' in spatial database file '" << db->_filename << "'.\n";
     throw std::runtime_error(msg.str());
   } // if
