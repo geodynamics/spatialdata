@@ -73,7 +73,7 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
     if (0 != strcasecmp(HEADER, hbuffer.c_str())) {
       std::ostringstream msg;
       msg
-	<< "Magic header '" << buffer << "' does not match expected header '"
+	<< "Magic header '" << buffer.str() << "' does not match expected header '"
 	<< HEADER << "' in time history file '" << filename << "'.\n";
       throw std::runtime_error(msg.str());
     } // if
