@@ -1,3 +1,11 @@
+2016/10/13 (version 1.9.7)
+
+  Add version information.
+
+  Fix compilation issues associated with gcc-6.x.
+
+  Added configuration for testing via Travis.
+
 2016/06/14 (version 1.9.6)
 
   Improve checking for parsing errors for spatial database files.
