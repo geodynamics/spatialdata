@@ -28,7 +28,8 @@ testutils_SOURCES = \
 	testutils.cc
 
 noinst_HEADERS = \
-	TestPointsStream.hh
+	TestPointsStream.hh \
+	TestSpatialdataVersion.hh
 
 testutils_LDFLAGS =
 

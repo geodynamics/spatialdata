@@ -21,7 +21,8 @@ dist_check_SCRIPTS = testutils.py
 
 noinst_PYTHON = \
 	TestChangeCoordSys.py \
-	TestConvertApp.py
+	TestConvertApp.py \
+	TestSpatialdataVersion.py
 
 data_TMP = in.txt out.txt
 
