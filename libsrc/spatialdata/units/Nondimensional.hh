@@ -101,6 +101,18 @@ public :
    */
   double densityScale(void) const;
 
+  /** Set value to nondimensionalize temperature scale in Kelvin (SI units).
+   *
+   * @param value Temperature scale in Kelvin (SI units).
+   */
+  void temperatureScale(const double value);
+
+  /** Get value to nondimensionalize temperature scale in Kelvin (SI units).
+   *
+   * @returns Temperature scale in Kelvin (SI units).
+   */
+  double temperatureScale(void) const;
+
   /** Make value dimensionless.
    *
    * @param value Value with dimensions in SI units.
@@ -166,6 +178,7 @@ private :
   double _pressure; ///< Pressure scale
   double _time; ///< Time scale
   double _density; ///< Density scale
+  double _temperature; ///< Temperature scale
 
 }; // class Nondimensional
 

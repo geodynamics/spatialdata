@@ -48,6 +48,13 @@ spatialdata::units::Nondimensional::densityScale(void) const {
   return _density;
 }
 
+// Get value to nondimensionalize temperature scale in Kelvin (SI units).
+inline
+double
+spatialdata::units::Nondimensional::temperatureScale(void) const {
+  return _temperature;
+}
+
 // Make value dimensionless.
 inline
 double

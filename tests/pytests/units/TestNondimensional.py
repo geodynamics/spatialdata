@@ -21,7 +21,8 @@ from spatialdata.units.Nondimensional import Nondimensional
 from pyre.units.length import meter
 from pyre.units.pressure import pascal
 from pyre.units.time import second
-from pyre.units.mass import kilogram    
+from pyre.units.mass import kilogram
+from pyre.units.temperature import kelvin
 
 class TestNondimensional(unittest.TestCase):
 
@@ -33,6 +34,7 @@ class TestNondimensional(unittest.TestCase):
     self.assertEqual(1.0*pascal, dim.pressureScale())
     self.assertEqual(1.0*second, dim.timeScale())
     self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
+    self.assertEqual(1.0*kelvin, dim.temperatureScale())
 
     return
 
@@ -82,6 +84,18 @@ class TestNondimensional(unittest.TestCase):
     self.assertEqual(1.0*pascal, dim.pressureScale())
     self.assertEqual(1.0*second, dim.timeScale())
     self.assertEqual(2.0*kilogram/meter**3, dim.densityScale())
+    return
+
+
+  def test_temperatureScale(self):
+    dim = Nondimensional()
+    dim._configure()
+    dim.setTemperatureScale(2.0*kelvin)
+
+    self.assertEqual(1.0*meter, dim.lengthScale())
+    self.assertEqual(1.0*pascal, dim.pressureScale())
+    self.assertEqual(1.0*second, dim.timeScale())
+    self.assertEqual(2.0*kelvin, dim.temperatureScale())
     return
 
 

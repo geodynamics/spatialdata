@@ -89,6 +89,18 @@ namespace spatialdata {
        */
       double densityScale(void) const;
       
+      /** Set value to nondimensionalize temperature scale in Kelvin (SI units).
+       *
+       * @param value Temperature scale in Kelvin (SI units).
+       */
+      void temperatureScale(const double value);
+
+      /** Get value to nondimensionalize temperature scale in Kelvin (SI units).
+       *
+       * @returns Temperature scale in Kelvin (SI units).
+       */
+      double temperatureScale(void) const;
+
       /** Make value dimensionless.
        *
        * @param value Value with dimensions in SI units.

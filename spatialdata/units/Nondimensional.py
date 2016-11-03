@@ -118,6 +118,21 @@ class Nondimensional(Component, ModuleNondimensional):
     return ModuleNondimensional.densityScale(self) * kilogram / meter**3
 
 
+  def setTemperatureScale(self, value):
+    """
+    Get temperature scale.
+    """
+    return ModuleNondimensional.temperatureScale(self, value.value)
+
+
+  def temperatureScale(self):
+    """
+    Get density scale.
+    """
+    from pyre.units.temperature import kelvin
+    return ModuleNondimensional.temperatureScale(self) * kelvin
+
+
   def nondimensionalize(self, value, scale):
     """
     Make value dimensionless.

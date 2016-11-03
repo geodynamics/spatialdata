@@ -47,6 +47,7 @@ class spatialdata::units::TestNondimensional : public CppUnit::TestFixture
   CPPUNIT_TEST( testPressureScale );
   CPPUNIT_TEST( testTimeScale );
   CPPUNIT_TEST( testDensityScale );
+  CPPUNIT_TEST( testTemperatureScale );
   CPPUNIT_TEST( testNondimensionalize );
   CPPUNIT_TEST( testDimensionalize );
   CPPUNIT_TEST( testNondimensionalizeArray );
@@ -77,6 +78,9 @@ public :
 
   /// Test densityScale().
   void testDensityScale(void);
+
+  /// Test temperatureScale().
+  void testTemperatureScale(void);
 
   /// Test nondimensionalize().
   void testNondimensionalize(void);

@@ -28,7 +28,8 @@ spatialdata::units::Nondimensional::Nondimensional(void) :
   _length(1.0),
   _pressure(1.0),
   _time(1.0),
-  _density(1.0)
+  _density(1.0),
+  _temperature(1.0)
 { // constructor
 } // constructor
 
@@ -44,7 +45,8 @@ spatialdata::units::Nondimensional::Nondimensional(const Nondimensional& dim) :
   _length(dim._length),
   _pressure(dim._pressure),
   _time(dim._time),
-  _density(dim._density)
+  _density(dim._density),
+  _temperature(dim._temperature)
 { // copy constructor
 } // copy constructor
 
@@ -58,6 +60,7 @@ spatialdata::units::Nondimensional::operator=(const Nondimensional& dim)
     _pressure = dim._pressure;
     _time = dim._time;
     _density = dim._density;
+    _temperature = dim._temperature;
   } // if
 
   return *this;
@@ -114,6 +117,20 @@ spatialdata::units::Nondimensional::densityScale(const double value)
   } // if
   _density = value;
 } // densityScale
+
+
+// ----------------------------------------------------------------------
+// Set value to nondimensionalize temperature scale in Kelvin (SI units).
+void
+spatialdata::units::Nondimensional::temperatureScale(const double value)
+{ // temperatureScale
+  if (value <= 0.0) {
+    std::ostringstream msg;
+    msg << "Temperature scale (" << value << ") must be positive.";
+    throw std::runtime_error(msg.str());
+  } // if
+  _temperature = value;
+} // temperatureScale
 
 
 // End of file 

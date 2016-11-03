@@ -35,6 +35,7 @@ spatialdata::units::TestNondimensional::testConstructor(void)
   CPPUNIT_ASSERT_EQUAL(1.0, dim._pressure);
   CPPUNIT_ASSERT_EQUAL(1.0, dim._time);
   CPPUNIT_ASSERT_EQUAL(1.0, dim._density);
+  CPPUNIT_ASSERT_EQUAL(1.0, dim._temperature);
 } // testConstructor
 
 // ----------------------------------------------------------------------
@@ -47,12 +48,14 @@ spatialdata::units::TestNondimensional::testCopyConstructor(void)
   dim._pressure = 3.0;
   dim._time = 4.0;
   dim._density = 5.0;
+  dim._temperature = 7.0;
 
   Nondimensional dim2(dim);
   CPPUNIT_ASSERT_EQUAL(2.0, dim2._length);
   CPPUNIT_ASSERT_EQUAL(3.0, dim2._pressure);
   CPPUNIT_ASSERT_EQUAL(4.0, dim2._time);
   CPPUNIT_ASSERT_EQUAL(5.0, dim2._density);
+  CPPUNIT_ASSERT_EQUAL(7.0, dim2._temperature);
 } // testCopyConstructor
 
 // ----------------------------------------------------------------------
@@ -65,6 +68,7 @@ spatialdata::units::TestNondimensional::testAssignment(void)
   dim._pressure = 3.0;
   dim._time = 4.0;
   dim._density = 5.0;
+  dim._temperature = 7.0;
 
   Nondimensional dim2;
   dim2 = dim;
@@ -72,6 +76,7 @@ spatialdata::units::TestNondimensional::testAssignment(void)
   CPPUNIT_ASSERT_EQUAL(3.0, dim2._pressure);
   CPPUNIT_ASSERT_EQUAL(4.0, dim2._time);
   CPPUNIT_ASSERT_EQUAL(5.0, dim2._density);
+  CPPUNIT_ASSERT_EQUAL(7.0, dim2._temperature);
 } // testAssignment
 
 // ----------------------------------------------------------------------
@@ -133,6 +138,21 @@ spatialdata::units::TestNondimensional::testDensityScale(void)
   CPPUNIT_ASSERT_EQUAL(1.0, dim.timeScale());
   CPPUNIT_ASSERT_EQUAL(scale, dim.densityScale());
 } // testDensityScale
+
+// ----------------------------------------------------------------------
+// Test temperatureScale().
+void
+spatialdata::units::TestNondimensional::testTemperatureScale(void)
+{ // testTemperatureScale
+  Nondimensional dim;
+
+  const double scale = 4.0;
+  dim.temperatureScale(scale);
+  CPPUNIT_ASSERT_EQUAL(1.0, dim.lengthScale());
+  CPPUNIT_ASSERT_EQUAL(1.0, dim.pressureScale());
+  CPPUNIT_ASSERT_EQUAL(1.0, dim.timeScale());
+  CPPUNIT_ASSERT_EQUAL(scale, dim.temperatureScale());
+} // testTemperatureScale
 
 // ----------------------------------------------------------------------
 // Test nondimensionalize().
