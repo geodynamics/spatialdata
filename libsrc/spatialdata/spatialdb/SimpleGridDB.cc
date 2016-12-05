@@ -153,8 +153,8 @@ spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
     if (iName >= numNames) {
       std::ostringstream msg;
       msg
-	<< "Could not find value " << names[iVal] << " in spatial database "
-	<< label() << ". Available values are:";
+	<< "Could not find value '" << names[iVal] << "' in spatial database '"
+	<< label() << "'. Available values are:";
       for (int iName=0; iName < numNames; ++iName)
 	msg << "\n  " << _names[iName];
       msg << "\n";

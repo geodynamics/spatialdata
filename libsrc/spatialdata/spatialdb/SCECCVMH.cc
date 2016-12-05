@@ -197,8 +197,8 @@ spatialdata::spatialdb::SCECCVMH::queryVals(const char* const* names,
     else {
       std::ostringstream msg;
       msg
-	<< "Could not find value " << names[iVal] << " in spatial database\n"
-	<< label() << ". Available values are:\n"
+	<< "Could not find value '" << names[iVal] << "' in spatial database '"
+	<< label() << "'. Available values are:\n"
 	<< "vp, vs, density, topo-elev, basement-depth, moho-depth, vp-tag.";
       throw std::runtime_error(msg.str());
     } // else

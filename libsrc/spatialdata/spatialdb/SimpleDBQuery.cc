@@ -101,8 +101,8 @@ spatialdata::spatialdb::SimpleDBQuery::queryVals(const char* const* names,
     if (iName >= numNames) {
       std::ostringstream msg;
       msg
-	<< "Could not find value " << names[iVal] << " in spatial database\n"
-	<< _db.label() << ". Available values are:";
+	<< "Could not find value '" << names[iVal] << "' in spatial database '"
+	<< _db.label() << "'. Available values are:";
       for (int iName=0; iName < numNames; ++iName)
 	msg << "\n  " << _db._data->name(iName);
       msg << "\n";

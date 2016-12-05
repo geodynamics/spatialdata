@@ -103,8 +103,8 @@ spatialdata::spatialdb::GravityField::queryVals(const char* const* names,
     else {
       std::ostringstream msg;
       msg
-	<< "Could not find value " << names[iVal] << " in spatial database\n"
-	<< label() << ". Available values are: 'x', 'y', 'z'.";
+	<< "Could not find value '" << names[iVal] << "' in spatial database '"
+	<< label() << "'. Available values are: 'x', 'y', 'z'.";
       throw std::runtime_error(msg.str());
     } // if
   } // for
