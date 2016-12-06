@@ -292,14 +292,14 @@ spatialdata::geocoords::CSGeoProj::unpickle(std::istream& s)
       buffer >> _rotAngle;
     } else if (0 == strcasecmp(token.c_str(), "projector")) {
       std::string rbuffer(buffer.str());
-      int start = token.length();
-      int end = rbuffer.length();
-      for (int i=start; i < end; ++i)
-	if ('=' == rbuffer[i])
-	  start = i+1;
-      for (int i=end-1; i >= start; --i) {
+      s.putback('\n');
+      s.clear();
+      int i = rbuffer.length()-1;
+      while (i >= 0) {
 	s.putback(rbuffer[i]);
-      } // for
+	if ('=' == rbuffer[i--])
+	  break;
+      } // while
       s.clear();
       if (0 == _pProjector)
 	_pProjector = new Projector;
