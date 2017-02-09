@@ -122,7 +122,7 @@ if test "$enable_pythia" = "yes" ; then
 
   # SWIG
   if test "$enable_swig" = "yes" ; then
-    AC_PROG_SWIG(1.3.33)
+    AC_PROG_SWIG([2.0.4], [3.0.2])
   fi
 
 fi
