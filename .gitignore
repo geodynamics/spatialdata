@@ -21,3 +21,4 @@ configure
 *.la
 *.o
 *~
+*.pyc
