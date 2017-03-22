@@ -94,17 +94,17 @@ spatialdata::spatialdb::GravityField::queryVals(const char* const* names,
   _querySize = numVals;
   delete[] _queryVals; _queryVals = new int[numVals];
   for (int iVal=0; iVal < numVals; ++iVal) {
-    if (0 == strcasecmp(names[iVal], "x"))
+    if (0 == strcasecmp(names[iVal], "gravity_field_x"))
       _queryVals[iVal] = 0;
-    else if (0 == strcasecmp(names[iVal], "y"))
+    else if (0 == strcasecmp(names[iVal], "gravity_field_y"))
       _queryVals[iVal] = 1;
-    else if (0 == strcasecmp(names[iVal], "z"))
+    else if (0 == strcasecmp(names[iVal], "gravity_field_z"))
       _queryVals[iVal] = 2;
     else {
       std::ostringstream msg;
       msg
 	<< "Could not find value '" << names[iVal] << "' in spatial database '"
-	<< label() << "'. Available values are: 'x', 'y', 'z'.";
+	<< label() << "'. Available values are: 'gravity_field_x', 'gravity_field_y', 'gravity_field_z'.";
       throw std::runtime_error(msg.str());
     } // if
   } // for
@@ -113,12 +113,11 @@ spatialdata::spatialdb::GravityField::queryVals(const char* const* names,
 // ----------------------------------------------------------------------
 // Query the database.
 int
-spatialdata::spatialdb::GravityField::query(
-			      double* vals,
-			      const int numVals,
-			      const double* coords,
-			      const int numDims,
-			      const spatialdata::geocoords::CoordSys* cs)
+spatialdata::spatialdb::GravityField::query(double* vals,
+					    const int numVals,
+					    const double* coords,
+					    const int numDims,
+					    const spatialdata::geocoords::CoordSys* cs)
 { // query
   assert(0 != cs);
 
