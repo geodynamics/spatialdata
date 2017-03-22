@@ -211,7 +211,6 @@ spatialdata::spatialdb::GocadVoxet::_readVoxetFile(const char* filename,
     } // if
     
     std::string token;
-    const int maxIgnore = 256;
 
     _resetData();
     int propertyId = 0;

@@ -100,7 +100,7 @@ spatialdata::spatialdb::TestGravityField::testQueryVals(void)
   GravityField db;
 
   const int querySize = 2;
-  const char* queryNames[] = { "z", "y" };
+  const char* queryNames[] = { "gravity_field_z", "gravity_field_y" };
   const int queryVals[] = { 2, 1 };
 
   db.queryVals(queryNames, querySize);
@@ -120,7 +120,7 @@ spatialdata::spatialdb::TestGravityField::testQueryCart2(void)
   const double gravityDir[] = { -0.6, -0.8, 0.0 };
   const double gravityE[] = { -1.2, -1.6 };
   const int querySize = spaceDim;
-  const char* queryNames[] = { "x", "y" };
+  const char* queryNames[] = { "gravity_field_x", "gravity_field_y" };
   
   GravityField db;
   db.gravityDir(gravityDir[0], gravityDir[1], gravityDir[2]);
