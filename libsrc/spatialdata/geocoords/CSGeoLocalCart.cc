@@ -99,17 +99,18 @@ spatialdata::geocoords::CSGeoLocalCart::initialize(void)
 	      ellipsoid(), datumHoriz());
 
   double originElev = _originElev;
-  if (0 != strcasecmp(datumVert(), "ellipsoid"))
-    if (0 == strcasecmp(datumVert(), "mean sea level")) {
-      // change vertical datum to WGS84 ellipsoid
-      const double geoidHt = geoid().elevation(lonWGS84, latWGS84);
-      originElev += geoidHt / toMeters();
-    } else {
-      std::ostringstream msg;
-      msg << "Do not know how to convert from vertical datum '"
-	  << datumVert() << "' to 'ellipsoid'.";
-      throw std::runtime_error(msg.str());	
-    } // else
+  if (0 != strcasecmp(datumVert(), "ellipsoid")) {
+      if (0 == strcasecmp(datumVert(), "mean sea level")) {
+	  // change vertical datum to WGS84 ellipsoid
+	  const double geoidHt = geoid().elevation(lonWGS84, latWGS84);
+	  originElev += geoidHt / toMeters();
+      } else {
+	  std::ostringstream msg;
+	  msg << "Do not know how to convert from vertical datum '"
+	      << datumVert() << "' to 'ellipsoid'.";
+	  throw std::runtime_error(msg.str());	
+      } // else
+  } // if
 
   // convert origin and point above origin to ECEF
   double originECEFX = 0;
