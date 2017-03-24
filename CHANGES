@@ -1,6 +1,10 @@
-2016/11/03 (version 1.9.x)
+2017/03/24 (version 1.9.8)
 
   Added temperature scale to Nondimensional.
+
+  Changed query values for gravity field (GravityField) from x, y, z to
+  gravity_field_x, gravity_field_y, gravity_field_z. This makes it easier
+  to use gravity within applications with other fields.
 
 2016/10/13 (version 1.9.7)
 
