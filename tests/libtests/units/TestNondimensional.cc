@@ -177,7 +177,8 @@ spatialdata::units::TestNondimensional::testDimensionalize(void)
   const double valueE = 3.0;
 
   Nondimensional dim;
-  CPPUNIT_ASSERT_EQUAL(valueE, dim.dimensionalize(value, scale));
+  const double tolerance = 1.0e-6;
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(valueE, dim.dimensionalize(value, scale), tolerance);
 } // testNondimensionalize
 
 // ----------------------------------------------------------------------
@@ -193,9 +194,10 @@ spatialdata::units::TestNondimensional::testNondimensionalizeArray(void)
   Nondimensional dim;
   std::valarray<double> v(values, nvalues);
   dim.nondimensionalize(&v[0], nvalues, scale);
-  
+
+  const double tolerance = 1.0e-6;
   for (int i=0; i < nvalues; ++i)
-    CPPUNIT_ASSERT_EQUAL(valuesE[i], v[i]);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(valuesE[i], v[i], tolerance);
 } // testNondimensionalizeArray
 
 // ----------------------------------------------------------------------
@@ -211,9 +213,10 @@ spatialdata::units::TestNondimensional::testDimensionalizeArray(void)
   Nondimensional dim;
   std::valarray<double> v(values, nvalues);
   dim.dimensionalize(&v[0], nvalues, scale);
-  
+
+  const double tolerance = 1.0e-6;
   for (int i=0; i < nvalues; ++i)
-    CPPUNIT_ASSERT_EQUAL(valuesE[i], v[i]);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(valuesE[i], v[i], tolerance);
 } // testDimensionalizeArray
 
 
