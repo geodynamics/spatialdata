@@ -106,9 +106,14 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
 
     numX = data['x'].shape[0]
     numY = data['y'].shape[0]
-    numZ = data['z'].shape[0]
-    if (numLocs != numX*numY*numZ):
-      raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)." % (numLocs, numX, numY, numZ))
+    if data['coordsys'].spaceDim() == 2:
+      numZ = 0
+      if (numLocs != numX*numY):
+        raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d)." % (numLocs, numX, numY))
+    else:
+      numZ = data['z'].shape[0]
+      if (numLocs != numX*numY*numZ):
+        raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)." % (numLocs, numX, numY, numZ))
 
     from SimpleGridDB import SimpleGridDB
     db = SimpleGridDB()
@@ -119,7 +124,8 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
     db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])
     db.x(data['x'])
     db.y(data['y'])
-    db.z(data['z'])
+    if data['coordsys'].spaceDim() == 3:
+      db.z(data['z'])
     db.data(data['points'], values)
     db.names(names)
     db.units(units)

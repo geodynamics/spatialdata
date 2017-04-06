@@ -27,7 +27,7 @@
 
 #include <string> // HASA std::string
 
-class spatialdata::spatialdb::SimpleGridDB : SpatialDB
+class spatialdata::spatialdb::SimpleGridDB : public SpatialDB
 { // SimpleGridDB
   friend class TestSimpleGridDB; // unit testing
   friend class SimpleGridAscii; // reader

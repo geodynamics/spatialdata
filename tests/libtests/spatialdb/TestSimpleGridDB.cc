@@ -232,23 +232,9 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void)
     CPPUNIT_ASSERT_EQUAL(std::string(_data->units[i]), db._units[i]);
   } // for
 
-  if (_data->numX > 0) {
-    CPPUNIT_ASSERT_EQUAL(_data->numX, db._numX);
-  } else {
-    CPPUNIT_ASSERT_EQUAL(1, db._numX);
-  } // if/else
-
-  if (_data->numY > 0) {
-    CPPUNIT_ASSERT_EQUAL(_data->numY, db._numY);
-  } else {
-    CPPUNIT_ASSERT_EQUAL(1, db._numY);
-  } // if/else
-
-  if (_data->numZ > 0) {
-    CPPUNIT_ASSERT_EQUAL(_data->numZ, db._numZ);
-  } else {
-    CPPUNIT_ASSERT_EQUAL(1, db._numZ);
-  } // if/else
+  CPPUNIT_ASSERT_EQUAL(_data->numX, db._numX);
+  CPPUNIT_ASSERT_EQUAL(_data->numY, db._numY);
+  CPPUNIT_ASSERT_EQUAL(_data->numZ, db._numZ);
 
   const double tolerance = 1.0e-6;
   int totalSize = 1;

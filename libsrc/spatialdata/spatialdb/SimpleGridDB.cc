@@ -94,7 +94,7 @@ spatialdata::spatialdb::SimpleGridDB::open(void)
   SimpleGridAscii::read(this);
 
   // Convert to SI units
-  const int numLocs = _numX * _numY * _numZ;
+  const int numLocs = (3 == _spaceDim) ? _numX * _numY * _numZ : (2 == _spaceDim) ? _numX * _numY : _numX;
   SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);  
 } // open
 
@@ -164,7 +164,6 @@ spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
   } // for
 } // queryVals
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Query the database.
 int
@@ -307,7 +306,7 @@ spatialdata::spatialdb::SimpleGridDB::allocate(const int numX,
   
   _checkCompatibility();
 
-  const int numLocs = _numX * _numY * _numZ;
+  const int numLocs = (3 == spaceDim) ? _numX * _numY * _numZ : (2 == spaceDim) ? _numX * _numY : _numX;
   delete[] _data; _data = (numLocs*numValues > 0) ? new double[numLocs*numValues] : 0;
 
   delete[] _x; _x = (numX > 0) ? new double[numX] : 0;
@@ -493,13 +492,13 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const
   const int numZ = _numZ;
 
   int count1 = 0;
-  if (1 == numX) {
+  if (0 == numX || 1 == numX) {
     count1 += 1;
   } // if
-  if (1 == numY) {
+  if (0 == numY || 1 == numY) {
     count1 += 1;
   } // if
-  if (1 == numZ) {
+  if (0 == numZ || 1 == numZ) {
     count1 += 1;
   } // if
 
