@@ -417,15 +417,15 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
   if (filein.bad())
     throw std::runtime_error("I/O error while reading SimpleGridDB data.");
 
-  // Set dimensions without any data to 1.
+  // Set dimensions without any data to 0.
   if (0 == db->_numX) {
-    db->_numX = 1;
+    db->_numX = 0;
   } // if
   if (0 == db->_numY) {
-    db->_numY = 1;
+    db->_numY = 0;
   } // if
   if (0 == db->_numZ) {
-    db->_numZ = 1;
+    db->_numZ = 0;
   } // if
 
   // Check compatibility of dimension of data, spatial dimension and
@@ -507,21 +507,49 @@ spatialdata::spatialdb::SimpleGridAscii::_writeData(std::ostream& fileout,
   fileout << "\n";
 
   fileout << "// data\n";
-  for (int iZ=0; iZ < numZ; ++iZ) {
-    for (int iY=0; iY < numY; ++iY) {
-      for (int iX=0; iX < numX; ++iX) {
-	const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
-	fileout 
-	  << std::setw(14) << db._x[iX]
-	  << std::setw(14) << db._y[iY]
-	  << std::setw(14) << db._z[iZ];
-	for (int iV=0; iV < numValues; ++iV) {
-	  fileout << std::setw(14) << db._data[iD+iV];
-	} // for
-	fileout << "\n";
+  if (numZ > 0) {
+      for (int iZ=0; iZ < numZ; ++iZ) {
+	  for (int iY=0; iY < numY; ++iY) {
+	      for (int iX=0; iX < numX; ++iX) {
+		  const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
+		  fileout 
+		      << std::setw(14) << db._x[iX]
+		      << std::setw(14) << db._y[iY]
+		      << std::setw(14) << db._z[iZ];
+		  for (int iV=0; iV < numValues; ++iV) {
+		      fileout << std::setw(14) << db._data[iD+iV];
+		  } // for
+		  fileout << "\n";
+	      } // for
+	  } // for
       } // for
-    } // for
-  } // for
+  } else if (numY > 0) {
+      const int iZ = 0;
+      for (int iY=0; iY < numY; ++iY) {
+	  for (int iX=0; iX < numX; ++iX) {
+	      const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
+	      fileout 
+		  << std::setw(14) << db._x[iX]
+		  << std::setw(14) << db._y[iY];
+		  for (int iV=0; iV < numValues; ++iV) {
+		      fileout << std::setw(14) << db._data[iD+iV];
+		  } // for
+	      fileout << "\n";
+	  } // for
+      } // for
+  } else if (numX > 0) {
+      const int iY = 0;
+      const int iZ = 0;
+      for (int iX=0; iX < numX; ++iX) {
+	  const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
+	  fileout 
+	      << std::setw(14) << db._x[iX];
+	      for (int iV=0; iV < numValues; ++iV) {
+		  fileout << std::setw(14) << db._data[iD+iV];
+	      } // for
+	  fileout << "\n";
+      } // for
+  } // if/else
 } // _writeData
 
 

@@ -100,10 +100,10 @@ class TestSimpleGridDB(unittest.TestCase):
     return
 
 
-  def test_io(self):
+  def test_io_3d(self):
     from spatialdata.spatialdb.SimpleGridAscii import SimpleGridAscii
 
-    filename = "data/gridio.spatialdb"
+    filename = "data/gridio3d.spatialdb"
     x = numpy.array([-2.0, 0.0, 3.0], dtype=numpy.float64)
     y = numpy.array([0.0, 1.0], dtype=numpy.float64)
     z = numpy.array([-2.0, -1.0, 2.0], dtype=numpy.float64)
@@ -161,6 +161,80 @@ class TestSimpleGridDB(unittest.TestCase):
     locs = numpy.array( [[0.1, 0.95, -1.8]], numpy.float64)
     cs = CSCart()
     cs._configure()
+    queryVals = ["two", "one"]
+    dataE = numpy.array( [[8.2, 5.7]], numpy.float64)
+    errE = [0]
+
+    db = self._db
+    db.open()
+    db.queryVals(queryVals)
+    data = numpy.zeros(dataE.shape, dtype=numpy.float64)
+    err = []
+    nlocs = locs.shape[0]
+    for i in xrange(nlocs):
+      e = db.query(data[i,:], locs[i,:], cs)
+      err.append(e)
+    db.close()    
+
+    self.assertEqual(len(errE), len(err))
+    for vE, v in zip(errE, err):
+      self.assertEqual(vE, v)
+
+    self.assertEqual(len(dataE.shape), len(data.shape))
+    for dE, d in zip(dataE.shape, data.shape):
+      self.assertEqual(dE, d)
+    for vE, v in zip(numpy.reshape(dataE, -1), numpy.reshape(data, -1)):
+      self.assertAlmostEqual(vE, v, 6)
+
+    return
+
+  def test_io_2d(self):
+    from spatialdata.spatialdb.SimpleGridAscii import SimpleGridAscii
+
+    filename = "data/gridio2d.spatialdb"
+    x = numpy.array([-2.0, 0.0, 3.0], dtype=numpy.float64)
+    y = numpy.array([0.0, 1.0], dtype=numpy.float64)
+
+    points = numpy.array([
+        [-2.0,  0.0],
+        [-2.0,  1.0],
+        [ 0.0,  0.0],
+        [ 0.0,  1.0], # query (5.7, 8.2)
+        [ 3.0,  0.0],
+        [ 3.0,  1.0],
+        ], dtype=numpy.float64)
+    one = numpy.array([6.6, 5.5, 7.2, 5.7, 4.8, 9.2], dtype=numpy.float64)
+    two = numpy.array([3.4, 6.7, 6.8, 8.2, 7.5, 8.3], dtype=numpy.float64)
+
+    cs = CSCart()
+    cs.inventory.spaceDim = 2
+    cs._configure()
+    cs.initialize()
+
+    writer = SimpleGridAscii()
+    writer.inventory.filename = filename
+    writer._configure()
+    writer.write({'points': points,
+                  'x': x,
+                  'y': y,
+                  'coordsys': cs,
+                  'data_dim': 2,
+                  'values': [{'name': "one",
+                              'units': "m",
+                              'data': one},
+                             {'name': "two",
+                              'units': "m",
+                              'data': two},
+                             ]})
+
+    db = SimpleGridDB()
+    db.inventory.label = "test"
+    db.inventory.queryType = "nearest"
+    db.inventory.filename = filename
+    db._configure()
+    self._db = db
+
+    locs = numpy.array( [[0.1, 0.95]], numpy.float64)
     queryVals = ["two", "one"]
     dataE = numpy.array( [[8.2, 5.7]], numpy.float64)
     errE = [0]

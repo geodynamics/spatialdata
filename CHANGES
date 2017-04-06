@@ -1,3 +1,8 @@
+
+
+  BUGFIX: Improved Python interface to SimpleGridDB to make it
+  possible to write 1-D and 2-D files.
+
 2017/03/24 (version 1.9.8)
 
   Added temperature scale to Nondimensional.
