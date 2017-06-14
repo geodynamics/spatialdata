@@ -111,9 +111,9 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     Validate parameters.
     """
     if len(params.values) == 0:
-      raise ValueError("Values in UniformDB not specified.")
+      raise ValueError("Values in UniformDB '%s' not specified.", self.inventory.label)
     if len(params.data) == 0:
-      raise ValueError("Data for UniformDB not specified.")
+      raise ValueError("Data for UniformDB '%s' not specified. % self.inventory.label")
     if len(params.values) != len(params.data):
       raise ValueError, \
             "Incompatible settings for uniform spatial database '%s'.\n"\
@@ -129,7 +129,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
           dataFloat = float(x)
     except:
         raise ValueError, \
-              "'data' list must contain dimensioned or nondimensional values."
+              "'data' list for UniformDB '%s' must contain dimensioned or nondimensional values." % self.inventory.label
     return
   
 
