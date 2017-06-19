@@ -1,7 +1,10 @@
-
+2017/06/19 (version 1.9.9)
 
   BUGFIX: Improved Python interface to SimpleGridDB to make it
   possible to write 1-D and 2-D files.
+
+  Improve validation error messages; some error messages were missing
+  spatial database label.
 
 2017/03/24 (version 1.9.8)
 
