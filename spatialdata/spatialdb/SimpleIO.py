@@ -105,10 +105,9 @@ class SimpleIO(Component):
     (numLocs, spaceDim) = data['points'].shape
     cs = data['coordsys']
     if spaceDim != cs.spaceDim():
-      raise ValueError, \
-          "Simple database space-dim (%d) does not agree with spatial "\
-          "dimension of coordinate system (%d)." % \
-          (spaceDim, cs.spaceDim())
+      raise ValueError("Simple database '%s' space-dim (%d) does not agree with spatial "\
+            "dimension of coordinate system (%d)." % \
+            (self.label, spaceDim, cs.spaceDim()))
     return
 
 

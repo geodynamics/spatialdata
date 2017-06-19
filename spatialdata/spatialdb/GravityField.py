@@ -102,13 +102,11 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     Validate parameters.
     """
     if (len(params.gravityDir) != 3):
-      raise ValueError, \
-            "Gravity direction must be a 3 component list or tuple."
+      raise ValueError("Gravity direction must be a 3 component list or tuple.")
     try:
       dirFloat = map(float, params.gravityDir)
     except:
-        raise ValueError, \
-              "'gravityDir' must contain floating point values."
+        raise ValueError("Gravity direction must contain floating point values.")
     return
   
 
