@@ -1,6 +1,6 @@
 [submodule "m4"]
 	path = m4
-	url = git://github.com/geodynamics/autoconf_cig.git
+	url = https://github.com/geodynamics/autoconf_cig.git
 [submodule "templates/spatialdb/m4"]
 	path = templates/spatialdb/m4
-	url = git://github.com/geodynamics/autoconf_cig.git
+	url = https://github.com/geodynamics/autoconf_cig.git
