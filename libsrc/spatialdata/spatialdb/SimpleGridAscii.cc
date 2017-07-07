@@ -394,7 +394,8 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     for (int iDim=0; iDim < spaceDim; ++iDim) {
       if (!buffer.good()) {
 	std::ostringstream msg;
-	msg << "Error reading coordinates from buffer '" << buffer.str() << "'.";
+	msg << "Read data for " << count << " out of " << numLocs << " points.\n"
+	    << "Error reading coordinates from buffer '" << buffer.str() << "'.";
 	throw std::runtime_error(msg.str());
       } // if
       buffer >> coords[iDim];
@@ -404,7 +405,8 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
     for (int iVal=0; iVal < db->_numValues; ++iVal) {
       if (!buffer.good()) {
 	std::ostringstream msg;
-	msg << "Error reading data from buffer '" << buffer.str() << "'.";
+	msg << "Read data for " << count << " out of " << numLocs << " points.\n"
+	    << "Error reading data from buffer '" << buffer.str() << "'.";
 	throw std::runtime_error(msg.str());
       } // if
       buffer >> db->_data[indexData+iVal];
@@ -414,8 +416,17 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
   if (_verbose) {
     std::cout << "Read " << count << " lines of data.\n";
   } // if
-  if (filein.bad())
-    throw std::runtime_error("I/O error while reading SimpleGridDB data.");
+  if (!filein.good()) {
+      std::ostringstream msg;
+      msg << "I/O error while reading SimpleGridDB data. ";
+      if (count < numLocs) {
+	  msg << "Read " << count << " out of " << numLocs << " points before encountering the I/O error.";
+      } else {
+	  msg << "Error occurred while reading data for final point.\n"
+	      << "Make sure that the last line with data ends with an end-of-line character.";
+      } // if/else
+      throw std::runtime_error(msg.str());
+  } // if
 
   // Set dimensions without any data to 0.
   if (0 == db->_numX) {

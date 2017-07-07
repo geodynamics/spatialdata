@@ -240,14 +240,16 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
   delete[] cnames; cnames = 0;
   delete[] cunits; cunits = 0;
 
-  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
+  int count = 0;
+  for (int iLoc=0; iLoc < numLocs; ++iLoc, ++count) {
     buffer.str(parser.next());
     buffer.clear();
     double* coordinates = pData->coordinates(iLoc);
     for (int iDim=0; iDim < spaceDim; ++iDim) {
       if (!buffer.good()) {
 	std::ostringstream msg;
-	msg << "Error reading coordinates from buffer '" << buffer.str() << "'.";
+	msg << "Read data for " << count << " out of " << numLocs << " points.\n"
+	    "Error reading coordinates from buffer '" << buffer.str() << "'.";
 	throw std::runtime_error(msg.str());
       } // if
       buffer >> coordinates[iDim];
@@ -256,12 +258,24 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
     for (int iVal=0; iVal < numValues; ++iVal) {
       if (!buffer.good()) {
 	std::ostringstream msg;
-	msg << "Error reading data from buffer '" << buffer.str() << "'.";
+	msg << "Read data for " << count << " out of " << numLocs << " points.\n"
+	    << "Error reading data from buffer '" << buffer.str() << "'.";
 	throw std::runtime_error(msg.str());
       } // if
       buffer >> data[iVal];
     } // for
   } // for
+  if (!filein.good()) {
+      std::ostringstream msg;
+      msg << "I/O error while reading SimpleDB data. ";
+      if (count < numLocs) {
+	  msg << "Read " << count << " out of " << numLocs << " points before encountering the I/O error.";
+      } else {
+	  msg << "Error occurred while reading data for final point.\n"
+	      << "Make sure that the last line with data ends with an end-of-line character.";
+      } // if/else
+      throw std::runtime_error(msg.str());
+  } // if
   
   // Check compatibility of dimension of data, spatial dimension and
   // number of points
