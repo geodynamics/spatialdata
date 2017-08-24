@@ -15,7 +15,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [1.9.9], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [1.9.10], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
