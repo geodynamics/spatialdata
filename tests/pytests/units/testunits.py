@@ -14,31 +14,41 @@
 # ======================================================================
 #
 
+from spatialdata.utils.UnitTestApp import UnitTestApp
+
 import unittest
 
-def suite():
+class TestApp(UnitTestApp):
+  """Test application.
+  """
 
-  suite = unittest.TestSuite()
+  def __init__(self):
+    """Constructor.
+    """
+    UnitTestApp.__init__(self)
+    return
 
-  from TestNondimensional import TestNondimensional
-  suite.addTest(unittest.makeSuite(TestNondimensional))
+  def _suite(self):
+    """Setup the test suite.
+    """
+    suite = unittest.TestSuite()
 
-  from TestNondimElasticQuasistatic import TestNondimElasticQuasistatic
-  suite.addTest(unittest.makeSuite(TestNondimElasticQuasistatic))
+    from TestNondimensional import TestNondimensional
+    suite.addTest(unittest.makeSuite(TestNondimensional))
 
-  from TestNondimElasticDynamic import TestNondimElasticDynamic
-  suite.addTest(unittest.makeSuite(TestNondimElasticDynamic))
+    from TestNondimElasticQuasistatic import TestNondimElasticQuasistatic
+    suite.addTest(unittest.makeSuite(TestNondimElasticQuasistatic))
 
-  return suite
+    from TestNondimElasticDynamic import TestNondimElasticDynamic
+    suite.addTest(unittest.makeSuite(TestNondimElasticDynamic))
 
-
-def main():
-  unittest.TextTestRunner(verbosity=2).run(suite())
-  return
+    return suite
 
 
+# ----------------------------------------------------------------------
 if __name__ == '__main__':
-  main()
+  app = TestApp()
+  app.run()
 
-  
+
 # End of file 
