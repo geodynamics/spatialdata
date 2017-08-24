@@ -14,31 +14,41 @@
 # ======================================================================
 #
 
+from spatialdata.utils.UnitTestApp import UnitTestApp
+
 import unittest
 
-def suite():
+class TestApp(UnitTestApp):
+  """Test application.
+  """
 
-  suite = unittest.TestSuite()
+  def __init__(self):
+    """Constructor.
+    """
+    UnitTestApp.__init__(self)
+    return
 
-  from TestChangeCoordSys import TestChangeCoordSys
-  suite.addTest(unittest.makeSuite(TestChangeCoordSys))
+  def _suite(self):
+    """Setup the test suite.
+    """
+    suite = unittest.TestSuite()
 
-  from TestConvertApp import TestConvertApp
-  suite.addTest(unittest.makeSuite(TestConvertApp))
+    from TestChangeCoordSys import TestChangeCoordSys
+    suite.addTest(unittest.makeSuite(TestChangeCoordSys))
 
-  from TestSpatialdataVersion import TestSpatialdataVersion
-  suite.addTest(unittest.makeSuite(TestSpatialdataVersion))
+    from TestConvertApp import TestConvertApp
+    suite.addTest(unittest.makeSuite(TestConvertApp))
 
-  return suite
+    from TestSpatialdataVersion import TestSpatialdataVersion
+    suite.addTest(unittest.makeSuite(TestSpatialdataVersion))
 
-
-def main():
-  unittest.TextTestRunner(verbosity=2).run(suite())
-  return
+    return suite
 
 
+# ----------------------------------------------------------------------
 if __name__ == '__main__':
-  main()
-  
+  app = TestApp()
+  app.run()
+
 
 # End of file 

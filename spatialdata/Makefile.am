@@ -52,6 +52,7 @@ nobase_pkgpyexec_PYTHON = \
 	utils/ConvertApp.py \
 	utils/CppData.py \
 	utils/PointsStream.py \
+	utils/UnitTestApp.py \
 	utils/__init__.py
 
 

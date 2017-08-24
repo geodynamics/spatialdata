@@ -14,25 +14,35 @@
 # ======================================================================
 #
 
+from spatialdata.utils.UnitTestApp import UnitTestApp
+
 import unittest
 
-def suite():
+class TestApp(UnitTestApp):
+  """Test application.
+  """
 
-  suite = unittest.TestSuite()
+  def __init__(self):
+    """Constructor.
+    """
+    UnitTestApp.__init__(self)
+    return
 
-  from TestSCECCVMH import TestSCECCVMH
-  suite.addTest(unittest.makeSuite(TestSCECCVMH))
+  def _suite(self):
+    """Setup the test suite.
+    """
+    suite = unittest.TestSuite()
 
-  return suite
+    from TestSCECCVMH import TestSCECCVMH
+    suite.addTest(unittest.makeSuite(TestSCECCVMH))
+
+    return suite
 
 
-def main():
-  unittest.TextTestRunner(verbosity=2).run(suite())
-  return
-
-
+# ----------------------------------------------------------------------
 if __name__ == '__main__':
-  main()
-  
+  app = TestApp()
+  app.run()
+
 
 # End of file 

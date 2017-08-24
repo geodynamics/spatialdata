@@ -14,47 +14,59 @@
 # ======================================================================
 #
 
+from spatialdata.utils.UnitTestApp import UnitTestApp
+
 import unittest
 
-def suite():
+class TestApp(UnitTestApp):
+  """Test application.
+  """
 
-  suite = unittest.TestSuite()
+  def __init__(self):
+    """Constructor.
+    """
+    UnitTestApp.__init__(self)
+    return
 
-  from TestSimpleIOAscii import TestSimpleIOAscii
-  suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
+  def _suite(self):
+    """Setup the test suite.
+    """
+    suite = unittest.TestSuite()
 
-  from TestSimpleDB import TestSimpleDB
-  suite.addTest(unittest.makeSuite(TestSimpleDB))
+    from TestSimpleIOAscii import TestSimpleIOAscii
+    suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
 
-  from TestUniformDB import TestUniformDB
-  suite.addTest(unittest.makeSuite(TestUniformDB))
+    from TestSimpleDB import TestSimpleDB
+    suite.addTest(unittest.makeSuite(TestSimpleDB))
 
-  from TestSimpleGridDB import TestSimpleGridDB
-  suite.addTest(unittest.makeSuite(TestSimpleGridDB))
+    from TestUniformDB import TestUniformDB
+    suite.addTest(unittest.makeSuite(TestUniformDB))
 
-  from TestCompositeDB import TestCompositeDB
-  suite.addTest(unittest.makeSuite(TestCompositeDB))
+    from TestSimpleGridDB import TestSimpleGridDB
+    suite.addTest(unittest.makeSuite(TestSimpleGridDB))
 
-  from TestGravityField import TestGravityField
-  suite.addTest(unittest.makeSuite(TestGravityField))
+    from TestCompositeDB import TestCompositeDB
+    suite.addTest(unittest.makeSuite(TestCompositeDB))
 
-  from TestTimeHistoryIO import TestTimeHistoryIO
-  suite.addTest(unittest.makeSuite(TestTimeHistoryIO))
+    from TestGravityField import TestGravityField
+    suite.addTest(unittest.makeSuite(TestGravityField))
 
-  from TestTimeHistory import TestTimeHistory
-  suite.addTest(unittest.makeSuite(TestTimeHistory))
+    from TestTimeHistoryIO import TestTimeHistoryIO
+    suite.addTest(unittest.makeSuite(TestTimeHistoryIO))
 
-  from TestGenSimpleDBApp import TestGenSimpleDBApp
-  suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
+    from TestTimeHistory import TestTimeHistory
+    suite.addTest(unittest.makeSuite(TestTimeHistory))
 
-  return suite
+    from TestGenSimpleDBApp import TestGenSimpleDBApp
+    suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
 
-def main():
-  unittest.TextTestRunner(verbosity=2).run(suite())
-  return
+    return suite
 
+
+# ----------------------------------------------------------------------
 if __name__ == '__main__':
-  main()
-  
+  app = TestApp()
+  app.run()
+
 
 # End of file 
