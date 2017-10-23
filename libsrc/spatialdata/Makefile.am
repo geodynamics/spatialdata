@@ -47,6 +47,7 @@ libspatialdata_la_SOURCES = \
 	spatialdb/TimeHistory.cc \
 	spatialdb/TimeHistoryIO.cc \
 	spatialdb/UniformDB.cc \
+	spatialdb/UserFunctionDB.cc \
 	spatialdb/cspatialdb.cc	\
 	units/Nondimensional.cc \
 	units/Parser.cc \

@@ -46,6 +46,7 @@ subpkginclude_HEADERS = \
 	TimeHistoryIO.hh \
 	UniformDB.hh \
 	UniformDB.icc \
+	UserFunctionDB.cc \
 	spatialdbfwd.hh
 
 noinst_HEADERS =

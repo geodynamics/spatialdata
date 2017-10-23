@@ -23,7 +23,7 @@
 #if !defined(spatialdata_spatialdb_userfunctiondb_hh)
 #define spatialdata_spatialdb_userfunctiondb_hh
 
-#include "SpatialDB.hh" // ISA SpatialDB
+#include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
 
 #include <string> // HASA std::string
 #include <map> // HASA std::map
@@ -112,8 +112,11 @@ private :
   /// Structure for holding user data
   struct UserData {
     queryfn_type fn; ///< User function for query.
+      std::string units; ///< Units for value of user function.
     double scale; ///< Scale to convert to SI units.
   }; // UserData
+
+    typedef std::map<std::string, UserData> function_map;
     
 // PRIVATE METHODS //////////////////////////////////////////////////////
 private :
@@ -124,8 +127,8 @@ private :
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
   
-  UserData* _queryFunctions; ///< Array of values to be returned in queries.
-  std::map<std::string, UserData> _functions; ///< User functions for values
+  UserData** _queryFunctions; ///< Array of pointers to _functions of values to be returned in queries.
+  std::map<std::string, UserData> _functions; ///< User functions for values.
   geocoords::CoordSys* _cs; ///< Coordinate system
   int _querySize; ///< Number of values to be returned in queries.
 
