@@ -21,6 +21,7 @@
 #include "spatialdata/spatialdb/UserFunctionDB.hh" // USES UserFunctionDB
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
+#include <stdexcept> // USES std::runtime_error
 #include <string.h> // USES strcmp() and memcpy()
 
 // ----------------------------------------------------------------------
@@ -152,7 +153,6 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
   _db->close();
 } // testQueryVals
 
-#include <math.h>
 // ----------------------------------------------------------------------
 // Test query()
 void
