@@ -27,13 +27,13 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "spatialdata/spatialdb/spatialdbfwd.hh"
+#include "spatialdata/spatialdb/UserFunctionDB.hh" // HASA UserFunctionDB::UserData
 
 /// Namespace for spatial package
 namespace spatialdata {
   namespace spatialdb {
     class TestUserFunctionDB;
-    class UserFunctionDBTestData; // USES UserFunctionDBTestData
+    class TestUserFunctionDB_Data;
   } // spatialdb
 } // spatialdata
 
@@ -52,7 +52,7 @@ class spatialdata::spatialdb::TestUserFunctionDB : public CppUnit::TestFixture
     CPPUNIT_TEST( testQueryVals );
     CPPUNIT_TEST( testQuery );
 
-    CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE_END_ABSTRACT();
 
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
@@ -92,36 +92,29 @@ private :
    * @param db Database
    * @param data Data for database
    */
-  void _setupDB(UserFunctionDB* const db);
-
-  /** Test query method by doing query and checking values returned.
-   * 
-   * @param db Database to query
-   * @param names Names of values in database
-   * @param queryData Query locations and expected values
-   * @param flagsE Array of expected return values
-   * @param numQueries Number of queries
-   * @param spaceDim Number of coordinates per location
-   * @param numVals Number of values in database
-   */
-  void _checkQuery(UserFunctionDB& db,
-		   char** const names,
-		   const double* queryData,
-		   const int* flagsE,
-		   const int numQueries,
-		   const int spaceDim,
-		   const int numVals);
+  void _initializeDB(void);
 
 protected :
   // PROTECTED MEMBERS //////////////////////////////////////////////////
 
-  UserFunctionDBTestData* _data; ///< Test data.
+    UserFunctionDB* _db; ///< Test subject.
+    TestUserFunctionDB_Data* _data; ///< Test data.
 
 }; // class TestUserFunctionDB
 
 
 class spatialdata::spatialdb::TestUserFunctionDB_Data {
 
+    // PUBLIC STRUCTS ///////////////////////////////////////////////////////
+public:
+    
+    /// Structure for holding user data
+    struct UserData {
+	spatialdata::spatialdb::UserFunctionDB::queryfn_type fn; ///< User function for query.
+	std::string units; ///< Units for value of user function.
+	double scale; ///< Scale to convert to SI units.
+    }; // UserData
+    
     // PUBLIC METHODS ///////////////////////////////////////////////////////
 public:
 
@@ -136,34 +129,12 @@ public:
 
     int numVals; ///< Number of values in spatial database.
     const char* const* values; ///< Names of values in spatial database.
-    spatialdata::spatialdb::UserFunction::UserData* functions; ///< User function values for spatial database.
+    UserData* functions; ///< User function values for spatial database.
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.
 
-
-    
-    int spaceDim; ///< S.
-    const char* meshFilename; ///< Name of file with ASCII mesh.
-    const char* materialLabel; ///< Label defining cells associated with material.
-    int materialId; ///< Material id.
-    const char* boundaryLabel; ///< Group defining domain boundary.
-
-    spatialdata::units::Nondimensional* normalizer; ///< Scales for nondimensionalization.
-
-    PylithReal t; ///< Time for solution in simulation.
-    PylithReal dt; ///< Time step in simulation.
-    PylithReal tshift; ///< Time shift for LHS Jacobian.
-
-    int numSolnFields; ///< Number of solution fields.
-    pylith::topology::Field::Discretization* solnDiscretizations; ///< Discretizations for solution fields.
-    const char* solnDBFilename; ///< Name of file with data for solution.
-    const char* pertDBFilename; ///< Name of file with data for perturbation.
-
-    int numAuxFields; ///< Number of auxiliary fields.
-    const char** auxFields; ///< Names of auxiliary fields.
-    pylith::topology::Field::Discretization* auxDiscretizations; ///< Discretizations for auxiliary fields.
-    const char* auxDBFilename; ///< Name of file with data for auxFieldsDB.
-
-    bool isExplicit; ///< True for explicit time stepping.
+    double* queryXYZ; ///< Coordinate sof points in test queries.
+    double* queryValues; ///< Expected values in test queries.
+    int numQueryPoints; ///< Number of points in test queries.
     
 }; // TestUserFunctionDB_Data
 

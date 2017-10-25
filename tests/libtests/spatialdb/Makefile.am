@@ -41,6 +41,8 @@ testspatial_SOURCES = \
 	TestUniformDB.cc \
 	TestSimpleGridDB.cc \
 	TestSimpleGridDBCases.cc \
+	TestUserFunctionDB.cc \
+	TestUserFunctionDB_Cases.cc \
 	testcquery.c \
 	testspatial.cc
 
@@ -62,6 +64,7 @@ noinst_HEADERS = \
 	TestUniformDB.hh \
 	TestSimpleGridDB.hh \
 	TestSimpleGridDBCases.hh \
+	TestUserFunctionDB.hh \
 	testcquery.h \
 	TestSpatialDB.hh
 

@@ -50,6 +50,12 @@ void
 spatialdata::spatialdb::UserFunctionDB::addValue(const char* name,
 						 queryfn_type fn,
 						 const char* units) {
+    if (!name) {
+	std::ostringstream msg;
+	msg << "NULL name passed to addValue() for spatial database " << label() << ".";
+	throw std::logic_error(msg.str());
+    } // if
+    
     // Verify user function for value does not already exist.
     const function_map::iterator& iter = _functions.find(name);
     if (iter != _functions.end()) {
@@ -148,15 +154,14 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
     if (0 == querySize) {
 	std::ostringstream msg;
 	msg
-	    << "Values to be returned by spatial database " << label() << "\n"
-	    << "have not been set. Please call queryVals() before query().\n";
+	    << "Values to be returned by spatial database " << label()
+	    << " have not been set. Please call queryVals() before query().\n";
 	throw std::runtime_error(msg.str());
     } else if (numVals != querySize) {
 	std::ostringstream msg;
 	msg
 	    << "Number of values to be returned by spatial database "
-	    << label() << "\n"
-	    << "(" << querySize << ") does not match size of array provided ("
+	    << label() << " (" << querySize << ") does not match size of array provided ("
 	    << numVals << ").\n";
 	throw std::runtime_error(msg.str());
     } else if (numDims != _cs->spaceDim()) {
@@ -176,7 +181,8 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
     int queryFlag = 0;
     for (int iVal=0; iVal < querySize; ++iVal) {
 	queryFlag = _queryFunctions[iVal]->fn(&vals[iVal], xyz, numDims);
-	if (!queryFlag) { break; }
+	if (queryFlag) { break; }
+	vals[iVal] *= _queryFunctions[iVal]->scale; // Convert to SI units.
     } // for
     
     return queryFlag;

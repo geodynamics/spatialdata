@@ -111,9 +111,9 @@ private :
 
   /// Structure for holding user data
   struct UserData {
-    queryfn_type fn; ///< User function for query.
+      queryfn_type fn; ///< User function for query.
       std::string units; ///< Units for value of user function.
-    double scale; ///< Scale to convert to SI units.
+      double scale; ///< Scale to convert to SI units.
   }; // UserData
 
     typedef std::map<std::string, UserData> function_map;
