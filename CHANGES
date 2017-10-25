@@ -1,3 +1,7 @@
+201X/XX/XX (version 1.10.0)
+
+  Added UserFunctionDB for user-specified analytical functions.
+
 2017/07/07 (version 1.9.10)
 
   Improved error messages when reading SimpleDB and SimpleGridDB files.
