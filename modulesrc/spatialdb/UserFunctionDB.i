@@ -27,15 +27,33 @@ namespace spatialdata {
 	public :
 	    // PUBLIC TYPEDEF//////////////////////////////////////////////////////
 	    
-	    /** User function prototype.
+	    /** User function prototype in 1-D.
 	     *
-	     * @param value Return value of function.
-	     * @param coords Coordinates of point.
-	     * @param dim Spatial dimension of coordinate system.
-	     * @returns 0 if successful, 1 on failure.
+	     * @param x X coordinate.
+	     * @returns Value of user-defined function.
 	     */
-	    typedef int (*queryfn_type)(double* value, const double* coords, const int dim);
+	    typedef double (*userfn1D_type)(const double x);
 	    
+	    /** User function prototype in 2-D.
+	     *
+	     * @param x X coordinate.
+	     * @param y Y coordinate.
+	     * @returns Value of user-defined function.
+	     */
+	    typedef double (*userfn2D_type)(const double x,
+					    const double y);
+	    
+	    /** User function prototype in 3-D.
+	     *
+	     * @param x X coordinate.
+	     * @param y Y coordinate.
+	     * @param z Z coordinate.
+	     * @returns Value of user-defined function.
+	     */
+	    typedef double (*userfn3D_type)(const double x,
+					    const double y,
+					    const double z);
+
 	    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
 	public :
 	    
@@ -45,16 +63,36 @@ namespace spatialdata {
 	    /// Destructor
 	    ~UserFunctionDB(void);
 	    
-	    /** Add function/value to database.
+	    /** Add function/value to database in 1-D.
 	     *
 	     * @param name Name of value for function.
 	     * @param fn User function for value.
 	     * @param units Units associated with function value.
 	     */
 	    void addValue(const char* name,
-			  queryfn_type fn,
+			  userfn1D_type fn,
 			  const char* units);
 	    
+	    /** Add function/value to database in 2-D.
+	     *
+	     * @param name Name of value for function.
+	     * @param fn User function for value.
+	     * @param units Units associated with function value.
+	     */
+	    void addValue(const char* name,
+			  userfn2D_type fn,
+			  const char* units);
+	    
+	    /** Add function/value to database in 3-D.
+	     *
+	     * @param name Name of value for function.
+	     * @param fn User function for value.
+	     * @param units Units associated with function value.
+	     */
+	    void addValue(const char* name,
+			  userfn3D_type fn,
+			  const char* units);
+  
 	    /// Open the database and prepare for querying.
 	    void open(void);
 	    
