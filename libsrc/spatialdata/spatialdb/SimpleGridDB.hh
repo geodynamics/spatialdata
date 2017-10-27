@@ -174,9 +174,9 @@ public :
   void units(const char* const* values,
 	     const int numValues);
  
-  /** Set filename containing data.
+  /** Set coordinate system.
    *
-   * @param dir Directory containing data files.
+   * @param cs Coordinate system for spatial database.
    */
   void coordsys(const geocoords::CoordSys& cs);
  
