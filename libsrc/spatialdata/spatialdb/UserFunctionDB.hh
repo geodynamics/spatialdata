@@ -35,14 +35,32 @@ class spatialdata::spatialdb::UserFunctionDB : public SpatialDB
  public :
   // PUBLIC TYPEDEF//////////////////////////////////////////////////////
 
-  /** User function prototype.
+  /** User function prototype in 1-D.
    *
-   * @param value Return value of function.
-   * @param coords Coordinates of point.
-   * @param dim Spatial dimension of coordinate system.
-   * @returns 0 if successful, 1 on failure.
+   * @param x X coordinate.
+   * @returns Value of user-defined function.
    */
-  typedef int (*queryfn_type)(double* value, const double* coords, const int dim);
+    typedef double (*userfn1D_type)(const double x);
+
+  /** User function prototype in 2-D.
+   *
+   * @param x X coordinate.
+   * @param y Y coordinate.
+   * @returns Value of user-defined function.
+   */
+    typedef double (*userfn2D_type)(const double x,
+				    const double y);
+
+  /** User function prototype in 3-D.
+   *
+   * @param x X coordinate.
+   * @param y Y coordinate.
+   * @param z Z coordinate.
+   * @returns Value of user-defined function.
+   */
+    typedef double (*userfn3D_type)(const double x,
+				    const double y,
+				    const double z);
 
   // PUBLIC MEMBERS ///////////////////////////////////////////////////////
 public :
@@ -53,14 +71,34 @@ public :
   /// Destructor
   ~UserFunctionDB(void);
 
-  /** Add function/value to database.
+  /** Add function/value to database in 1-D.
    *
    * @param name Name of value for function.
    * @param fn User function for value.
    * @param units Units associated with function value.
    */
   void addValue(const char* name,
-		queryfn_type fn,
+		userfn1D_type fn,
+		const char* units);
+  
+  /** Add function/value to database in 2-D.
+   *
+   * @param name Name of value for function.
+   * @param fn User function for value.
+   * @param units Units associated with function value.
+   */
+  void addValue(const char* name,
+		userfn2D_type fn,
+		const char* units);
+  
+  /** Add function/value to database in 3-D.
+   *
+   * @param name Name of value for function.
+   * @param fn User function for value.
+   * @param units Units associated with function value.
+   */
+  void addValue(const char* name,
+		userfn3D_type fn,
 		const char* units);
   
   /// Open the database and prepare for querying.
@@ -106,24 +144,56 @@ public :
    */
   void coordsys(const geocoords::CoordSys& cs);
  
+private :
+  // PRIVATE TYPEDEF//////////////////////////////////////////////////////
+
+  /** User function prototype.
+    *
+   * @param value Return value of function.
+   * @param coords Coordinates of point.
+   * @param dim Spatial dimension of coordinate system.
+   * @returns 0 if successful, 1 on failure.
+    */
+  typedef int (*queryfn_type)(double* value, const double* coords, const int dim);
+
+// PRIVATE METHODS //////////////////////////////////////////////////////
+private :
+
+    /** Check suitability of arguments for adding user function.
+     *
+     * @parma[in] name Name of value.
+     * @param[in] fn User-defined function for value.
+     * @param[in] units Units of value.
+     */
+    void _checkAdd(const char* name,
+		   void* fn,
+		   const char* units) const;
+
+  /// Check compatibility of spatial database parameters.
+  void _checkCompatibility(void) const;
+
 // PRIVATE STRUCTS //////////////////////////////////////////////////////
 private :
 
+    class QueryFn {
+    public:
+	QueryFn(void) {};
+	virtual ~QueryFn(void) {};
+	virtual int query(double* value, const double* coords, const int dim) = 0;
+    };
+    class QueryFn1D;
+    class QueryFn2D;
+    class QueryFn3D;
+    
   /// Structure for holding user data
   struct UserData {
-      queryfn_type fn; ///< User function for query.
+      QueryFn* fn; ///< User-defined function for query.
       std::string units; ///< Units for value of user function.
       double scale; ///< Scale to convert to SI units.
   }; // UserData
 
     typedef std::map<std::string, UserData> function_map;
     
-// PRIVATE METHODS //////////////////////////////////////////////////////
-private :
-
-  /// Check compatibility of spatial database parameters.
-  void _checkCompatibility(void) const;
-
 // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private :
   

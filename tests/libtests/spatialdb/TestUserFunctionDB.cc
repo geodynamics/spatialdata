@@ -78,11 +78,12 @@ spatialdata::spatialdb::TestUserFunctionDB::testAddValue(void) {
     // Verify functions have been added
     const int numVals = _data->numVals;
     for (int i=0; i < numVals; ++i) {
-	CPPUNIT_ASSERT_EQUAL(_data->functions[i].fn, _db->_functions[_data->values[i]].fn);
-	CPPUNIT_ASSERT_EQUAL(_data->functions[i].units, _db->_functions[_data->values[i]].units);
+	const std::string& name = _data->values[i].name;
+	CPPUNIT_ASSERT(_db->_functions[name].fn);
+	CPPUNIT_ASSERT_EQUAL(_data->values[i].units, _db->_functions[name].units);
     } // for
   
-} // testCoordsys
+} // testAddValue
 
 
 // ----------------------------------------------------------------------
@@ -98,7 +99,8 @@ spatialdata::spatialdb::TestUserFunctionDB::testOpenClose(void) {
     const int numVals = _data->numVals;
     const double tolerance = 1.0e-6;
     for (int i=0; i < numVals; ++i) {
-	CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->functions[i].scale, _db->_functions[_data->values[i]].scale, tolerance);
+	const std::string& name = _data->values[i].name;
+	CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->values[i].scale, _db->_functions[name].scale, tolerance);
     } // for
   _db->close();
   CPPUNIT_ASSERT(!_db->_queryFunctions);
@@ -111,7 +113,7 @@ spatialdata::spatialdb::TestUserFunctionDB::testOpenClose(void) {
   _db->_cs->setSpaceDim(spaceDim); // Reset space dimension.
   
   // Verify open() fails with bad units.
-  _db->_functions[_data->values[0]].units = "dfkjasdf";
+  _db->_functions[_data->values[0].name].units = "abcd";
   CPPUNIT_ASSERT_THROW(_db->open(), std::runtime_error);
 
 } // testOpenClose
@@ -130,7 +132,7 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
   const int numVals = _data->numVals - 1;
   const char** names = (numVals > 0) ? new const char*[numVals] : NULL;
   for (int i=0; i < numVals; ++i) {
-      names[i] = _data->values[numVals-1-i];
+      names[i] = _data->values[numVals-1-i].name.c_str();
   } // for
   _db->queryVals(names, numVals);
   delete[] names; names = NULL;
@@ -138,9 +140,9 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
   // Check result.
   for (int i=0; i < numVals; ++i) {
       const int j = numVals - 1 - i;
-      CPPUNIT_ASSERT_EQUAL(_data->functions[j].fn, _db->_queryFunctions[i]->fn);
-      CPPUNIT_ASSERT_EQUAL(_data->functions[j].units, _db->_queryFunctions[i]->units);
-      CPPUNIT_ASSERT_EQUAL(_data->functions[j].scale, _db->_queryFunctions[i]->scale);
+      CPPUNIT_ASSERT(_db->_queryFunctions[j]->fn);
+      CPPUNIT_ASSERT_EQUAL(_data->values[j].units, _db->_queryFunctions[i]->units);
+      CPPUNIT_ASSERT_EQUAL(_data->values[j].scale, _db->_queryFunctions[i]->scale);
   } // for
 
   // Attempt to create query with no values.
@@ -171,7 +173,7 @@ spatialdata::spatialdb::TestUserFunctionDB::testQuery(void) {
     // Call queryVals().
     const char** names = (numVals > 0) ? new const char*[numVals] : NULL;
     for (int i=0; i < numVals; ++i) {
-	names[i] = _data->values[i];
+	names[i] = _data->values[i].name.c_str();
     } // for
     _db->queryVals(names, numVals);
     delete[] names; names = NULL;
@@ -183,7 +185,7 @@ spatialdata::spatialdb::TestUserFunctionDB::testQuery(void) {
 	CPPUNIT_ASSERT_EQUAL(0, flag);
 	
 	for (int iVal=0; iVal < numVals; ++iVal) {
-	    const double valueE = _data->queryValues[iQuery*numVals+iVal]*_data->functions[iVal].scale;
+	    const double valueE = _data->queryValues[iQuery*numVals+iVal]*_data->values[iVal].scale;
 	    CPPUNIT_ASSERT_DOUBLES_EQUAL(valueE, values[iVal], tolerance);
 	} // for
     } // for
@@ -200,16 +202,11 @@ void
 spatialdata::spatialdb::TestUserFunctionDB::_initializeDB(void) {
     CPPUNIT_ASSERT(_db);
     CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_data->numVals > 0);
 
     CPPUNIT_ASSERT(_data->cs);
     _db->coordsys(*_data->cs);
-    
-    const int numVals = _data->numVals;
-    CPPUNIT_ASSERT(_data->values);
-    for (int iVal=0; iVal < numVals; ++iVal) {
-	_db->addValue(_data->values[iVal], _data->functions[iVal].fn, _data->functions[iVal].units.c_str());
-    } // for
+
+    _addValues();
 } // _initializeDB
 
 // ----------------------------------------------------------------------
@@ -217,7 +214,6 @@ spatialdata::spatialdb::TestUserFunctionDB::_initializeDB(void) {
 spatialdata::spatialdb::TestUserFunctionDB_Data::TestUserFunctionDB_Data(void) :
     numVals(0),
     values(NULL),
-    functions(NULL),
     cs(NULL),
     queryXYZ(NULL),
     queryValues(NULL),

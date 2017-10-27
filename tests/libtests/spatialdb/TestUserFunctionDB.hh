@@ -94,6 +94,9 @@ private :
    */
   void _initializeDB(void);
 
+    virtual
+    void _addValues(void) = 0;
+    
 protected :
   // PROTECTED MEMBERS //////////////////////////////////////////////////
 
@@ -110,7 +113,7 @@ public:
     
     /// Structure for holding user data
     struct UserData {
-	spatialdata::spatialdb::UserFunctionDB::queryfn_type fn; ///< User function for query.
+	std::string name; ///< Name of value.
 	std::string units; ///< Units for value of user function.
 	double scale; ///< Scale to convert to SI units.
     }; // UserData
@@ -128,8 +131,7 @@ public:
 public:
 
     int numVals; ///< Number of values in spatial database.
-    const char* const* values; ///< Names of values in spatial database.
-    UserData* functions; ///< User function values for spatial database.
+    UserData* values; ///< Names of values in spatial database.
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.
 
     double* queryXYZ; ///< Coordinate sof points in test queries.
