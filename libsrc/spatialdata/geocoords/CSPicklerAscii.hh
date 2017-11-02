@@ -22,7 +22,7 @@
  */
 
 #if !defined(spatialdata_geocoords_cspicklerascii_hh)
-#define spatialdata_geocoords_cspickerascii_hh
+#define spatialdata_geocoords_cspicklerascii_hh
 
 #include "geocoordsfwd.hh"
 
