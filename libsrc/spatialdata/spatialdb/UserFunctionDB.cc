@@ -18,12 +18,15 @@
 
 #include "spatialdata/spatialdb/UserFunctionDB.hh" // Implementation of class methods
 
+// Include ios here to avoid some Python/gcc issues
+#include <ios>
+
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 #include "spatialdata/units/Parser.hh" // USES Parser
 
-#include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
+#include <sstream> // USES std::ostringstream
 #include <cassert> // USES assert()
 
 // ----------------------------------------------------------------------
