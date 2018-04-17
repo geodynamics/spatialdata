@@ -85,7 +85,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     self._validateParameters(self.inventory)
     dir = map(float, self.inventory.gravityDir)
     self.gravityDir(dir[0], dir[1], dir[2])
-    self.gravAcceleration(self.inventory.acceleration.value)
+    self.gravityAcc(self.inventory.acceleration.value)
     return
 
 

@@ -21,8 +21,7 @@
 // Set gravitational acceleration.
 inline
 void
-spatialdata::spatialdb::GravityField::gravAcceleration(
-					       const double acceleration) {
+spatialdata::spatialdb::GravityField::gravityAcc(const double acceleration) {
   _acceleration = acceleration;
 }
 

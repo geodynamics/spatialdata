@@ -53,7 +53,7 @@ namespace spatialdata {
        *
        * @param acceleration Gravitational acceleration.
        */
-      void gravAcceleration(const double acceleration);
+      void gravityAcc(const double acceleration);
       
       /// Open the database and prepare for querying.
       void open(void);

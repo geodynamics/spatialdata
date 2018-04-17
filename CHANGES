@@ -2,6 +2,9 @@
 
   Added UserFunctionDB for user-specified analytical functions.
 
+  Changed GravityField::gravAcceleration() to GravityField::gravityAcc
+  for consistency with gravityDir().
+
 2017/07/07 (version 1.9.10)
 
   Improved error messages when reading SimpleDB and SimpleGridDB files.
