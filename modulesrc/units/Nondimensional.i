@@ -100,7 +100,20 @@ namespace spatialdata {
        * @returns Temperature scale in Kelvin (SI units).
        */
       double temperatureScale(void) const;
+	
+      /** Set density scale from length, time, and pressure scales.
+       *
+       * D = P * (T / L)**2
+       */
+      void computeDensityScale(void);
 
+      /** Compute pressure scale from length, time, and density scales.
+       *
+       * P = D * (L / T)**2
+       */
+      void computePressureScale(void);
+
+	
       /** Make value dimensionless.
        *
        * @param value Value with dimensions in SI units.

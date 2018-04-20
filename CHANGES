@@ -5,6 +5,10 @@
   Changed GravityField::gravAcceleration() to GravityField::gravityAcc
   for consistency with gravityDir().
 
+  Add methods for computing density scale and pressure scale from
+  other scales. Only three of length scale, time scale, pressure
+  scale, and density scale are independent.
+
 2017/07/07 (version 1.9.10)
 
   Improved error messages when reading SimpleDB and SimpleGridDB files.
