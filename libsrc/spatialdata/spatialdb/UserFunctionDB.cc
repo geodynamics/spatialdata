@@ -25,6 +25,7 @@
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 #include "spatialdata/units/Parser.hh" // USES Parser
 
+#include <string> // USES std::string
 #include <stdexcept> // USES std::runtime_error
 #include <sstream> // USES std::ostringstream
 #include <cassert> // USES assert()
@@ -151,7 +152,7 @@ spatialdata::spatialdb::UserFunctionDB::open(void) {
     
     const std::string& none = "none";
     for (function_map::iterator iter=_functions.begin(); iter != _functions.end(); ++iter) {
-	if (none != iter->second.units) {
+	if (strcasecmp(none.c_str(),  iter->second.units.c_str()) != 0) {
 	    iter->second.scale = parser.parse(iter->second.units.c_str());
 	} else {
 	    iter->second.scale = 1.0;
