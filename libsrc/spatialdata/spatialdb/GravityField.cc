@@ -70,7 +70,7 @@ spatialdata::spatialdb::GravityField::gravityDir(const double x,
 						 const double y,
 						 const double z)
 { // gravityDir
-  const double mag = sqrt(x*x + y*y + z*z);
+    const double mag = std::max(1.0e-8, sqrt(x*x + y*y + z*z));
   _gravityDir[0] = x / mag;
   _gravityDir[1] = y / mag;
   _gravityDir[2] = z / mag;
