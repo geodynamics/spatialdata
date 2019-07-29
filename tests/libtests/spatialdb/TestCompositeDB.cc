@@ -122,47 +122,47 @@ spatialdata::spatialdb::TestCompositeDB::testDBB(void)
 } // testDBB
 
 // ----------------------------------------------------------------------
-// Test queryVals().
+// Test queryVals() with values in both dbA and dbB.
 void
-spatialdata::spatialdb::TestCompositeDB::testQueryVals(void)
-{ // testQueryVals
+spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void)
+{ // testQueryValsAB
   CompositeDB db;
 
   UniformDB dbA;
   { // initialize db A
     const int numValuesA = 3;
-    const char* namesA[] = { "one", "two", "three" };
-    const char* unitsA[] = { "none", "none", "none" };
-    const double valuesA[] = { 1.1, 2.2, 3.3 };
+    const char* namesA[3] = { "one", "two", "three" };
+    const char* unitsA[3] = { "none", "none", "none" };
+    const double valuesA[3] = { 1.1, 2.2, 3.3 };
     dbA.setData(namesA, unitsA, valuesA, numValuesA);
   } // initialize db A
     
   const int numNamesA = 2;
-  const char* namesA[] = { "three", "one" };
+  const char* namesA[2] = { "three", "one" };
   db.dbA(&dbA, namesA, numNamesA);
 
   UniformDB dbB;
   { // initialize db B
     const int numValuesB = 2;
-    const char* namesB[] = { "four", "five" };
-    const char* unitsB[] = { "none", "none" };
-    const double valuesB[] = { 4.4, 5.5 };
+    const char* namesB[2] = { "four", "five" };
+    const char* unitsB[2] = { "none", "none" };
+    const double valuesB[2] = { 4.4, 5.5 };
     dbB.setData(namesB, unitsB, valuesB, numValuesB);
   } // initialize db B
 
   const int numNamesB = 1;
-  const char* namesB[] = { "five" };
+  const char* namesB[1] = { "five" };
   db.dbB(&dbB, namesB, numNamesB);
 
   const int querySize = 3;
-  const char* queryVals[] = { "one", "five", "three" };
+  const char* queryVals[3] = { "one", "five", "three" };
   
   db.open();
   db.queryVals(queryVals, querySize);
   db.close();
 
   const int qsizeA = 2;
-  const int qindicesA[] = { 0, 2 };
+  const int qindicesA[2] = { 0, 2 };
   CPPUNIT_ASSERT(0 != db._dbA);
   CPPUNIT_ASSERT(0 != db._infoA);
   CPPUNIT_ASSERT(qsizeA == db._infoA->query_size);
@@ -172,7 +172,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryVals(void)
     CPPUNIT_ASSERT_EQUAL(qindicesA[i], db._infoA->query_indices[i]);
 
   const int qsizeB = 1;
-  const int qindicesB[] = { 1 };
+  const int qindicesB[1] = { 1 };
   CPPUNIT_ASSERT(0 != db._dbB);
   CPPUNIT_ASSERT(0 != db._infoB);
   CPPUNIT_ASSERT(qsizeB == db._infoB->query_size);
@@ -180,50 +180,166 @@ spatialdata::spatialdb::TestCompositeDB::testQueryVals(void)
   CPPUNIT_ASSERT(0 != db._infoB->query_indices);
   for (int i=0; i < qsizeB; ++i)
     CPPUNIT_ASSERT_EQUAL(qindicesB[i], db._infoB->query_indices[i]);
-} // testQueryVals
+} // testQueryValsAB
 
 // ----------------------------------------------------------------------
-// Test query().
+// Test queryVals() with values in dbA.
 void
-spatialdata::spatialdb::TestCompositeDB::testQuery(void)
-{ // testQuery
+spatialdata::spatialdb::TestCompositeDB::testQueryValsA(void)
+{ // testQueryValsA
   CompositeDB db;
 
   UniformDB dbA;
   { // initialize db A
     const int numValuesA = 3;
-    const char* namesA[] = { "one", "two", "three" };
-    const char* unitsA[] = { "none", "none", "none" };
-    const double valuesA[] = { 1.1, 2.2, 3.3 };
+    const char* namesA[3] = { "one", "two", "three" };
+    const char* unitsA[3] = { "none", "none", "none" };
+    const double valuesA[3] = { 1.1, 2.2, 3.3 };
     dbA.setData(namesA, unitsA, valuesA, numValuesA);
   } // initialize db A
-
+    
   const int numNamesA = 2;
-  const char* namesA[] = { "three", "one" };
+  const char* namesA[2] = { "three", "one" };
   db.dbA(&dbA, namesA, numNamesA);
 
   UniformDB dbB;
   { // initialize db B
     const int numValuesB = 2;
-    const char* namesB[] = { "four", "five" };
-    const char* unitsB[] = { "none", "none" };
-    const double valuesB[] = { 4.4, 5.5 };
+    const char* namesB[2] = { "four", "five" };
+    const char* unitsB[2] = { "none", "none" };
+    const double valuesB[2] = { 4.4, 5.5 };
     dbB.setData(namesB, unitsB, valuesB, numValuesB);
   } // initialize db B
 
   const int numNamesB = 1;
-  const char* namesB[] = { "five" };
+  const char* namesB[1] = { "five" };
   db.dbB(&dbB, namesB, numNamesB);
 
   const int querySize = 2;
-  const char* queryVals[] = { "five", "one" };
+  const char* queryVals[2] = { "one", "three" };
+  
+  db.open();
+  db.queryVals(queryVals, querySize);
+  db.close();
+
+  const int qsizeA = 2;
+  const int qindicesA[2] = { 0, 1 };
+  CPPUNIT_ASSERT(0 != db._dbA);
+  CPPUNIT_ASSERT(0 != db._infoA);
+  CPPUNIT_ASSERT(qsizeA == db._infoA->query_size);
+  CPPUNIT_ASSERT(0 != db._infoA->query_buffer);
+  CPPUNIT_ASSERT(0 != db._infoA->query_indices);
+  for (int i=0; i < qsizeA; ++i)
+    CPPUNIT_ASSERT_EQUAL(qindicesA[i], db._infoA->query_indices[i]);
+
+  const int qsizeB = 0;
+  CPPUNIT_ASSERT(0 != db._dbB);
+  CPPUNIT_ASSERT(0 != db._infoB);
+  CPPUNIT_ASSERT(qsizeB == db._infoB->query_size);
+  CPPUNIT_ASSERT(!db._infoB->query_buffer);
+  CPPUNIT_ASSERT(!db._infoB->query_indices);
+} // testQueryValsA
+
+// ----------------------------------------------------------------------
+// Test queryVals() with values in dbB.
+void
+spatialdata::spatialdb::TestCompositeDB::testQueryValsB(void)
+{ // testQueryValsB
+  CompositeDB db;
+
+  UniformDB dbA;
+  { // initialize db A
+    const int numValuesA = 3;
+    const char* namesA[3] = { "one", "two", "three" };
+    const char* unitsA[3] = { "none", "none", "none" };
+    const double valuesA[3] = { 1.1, 2.2, 3.3 };
+    dbA.setData(namesA, unitsA, valuesA, numValuesA);
+  } // initialize db A
+    
+  const int numNamesA = 2;
+  const char* namesA[2] = { "three", "one" };
+  db.dbA(&dbA, namesA, numNamesA);
+
+  UniformDB dbB;
+  { // initialize db B
+    const int numValuesB = 2;
+    const char* namesB[2] = { "four", "five" };
+    const char* unitsB[2] = { "none", "none" };
+    const double valuesB[2] = { 4.4, 5.5 };
+    dbB.setData(namesB, unitsB, valuesB, numValuesB);
+  } // initialize db B
+
+  const int numNamesB = 1;
+  const char* namesB[1] = { "five" };
+  db.dbB(&dbB, namesB, numNamesB);
+
+  const int querySize = 1;
+  const char* queryVals[1] = { "five" };
+  
+  db.open();
+  db.queryVals(queryVals, querySize);
+  db.close();
+
+  const int qsizeA = 0;
+  CPPUNIT_ASSERT(0 != db._dbA);
+  CPPUNIT_ASSERT(0 != db._infoA);
+  CPPUNIT_ASSERT(qsizeA == db._infoA->query_size);
+  CPPUNIT_ASSERT(!db._infoA->query_buffer);
+  CPPUNIT_ASSERT(!db._infoA->query_indices);
+
+  const int qsizeB = 1;
+  const int qindicesB[] = { 0 };
+  CPPUNIT_ASSERT(0 != db._dbB);
+  CPPUNIT_ASSERT(0 != db._infoB);
+  CPPUNIT_ASSERT(qsizeB == db._infoB->query_size);
+  CPPUNIT_ASSERT(0 != db._infoB->query_buffer);
+  CPPUNIT_ASSERT(0 != db._infoB->query_indices);
+  for (int i=0; i < qsizeB; ++i)
+    CPPUNIT_ASSERT_EQUAL(qindicesB[i], db._infoB->query_indices[i]);
+} // testQueryValsB
+
+// ----------------------------------------------------------------------
+// Test query() with values in both dbA and dbB.
+void
+spatialdata::spatialdb::TestCompositeDB::testQueryAB(void)
+{ // testQueryAB
+  CompositeDB db;
+
+  UniformDB dbA;
+  { // initialize db A
+    const int numValuesA = 3;
+    const char* namesA[3] = { "one", "two", "three" };
+    const char* unitsA[3] = { "none", "none", "none" };
+    const double valuesA[3] = { 1.1, 2.2, 3.3 };
+    dbA.setData(namesA, unitsA, valuesA, numValuesA);
+  } // initialize db A
+
+  const int numNamesA = 2;
+  const char* namesA[2] = { "three", "one" };
+  db.dbA(&dbA, namesA, numNamesA);
+
+  UniformDB dbB;
+  { // initialize db B
+    const int numValuesB = 2;
+    const char* namesB[2] = { "four", "five" };
+    const char* unitsB[2] = { "none", "none" };
+    const double valuesB[2] = { 4.4, 5.5 };
+    dbB.setData(namesB, unitsB, valuesB, numValuesB);
+  } // initialize db B
+
+  const int numNamesB = 1;
+  const char* namesB[1] = { "five" };
+  db.dbB(&dbB, namesB, numNamesB);
+
+  const int querySize = 2;
+  const char* queryVals[2] = { "five", "one" };
   
   const int spaceDim = 2;
   spatialdata::geocoords::CSCart cs;
   cs.setSpaceDim(spaceDim);
-  const double coords[] = { 2.3, 5.6 };
+  const double coords[2] = { 2.3, 5.6 };
   double data[querySize];
-  const double valsE[] = { 5.5, 1.1 };
+  const double valsE[2] = { 5.5, 1.1 };
 
   db.open();
   db.queryVals(queryVals, querySize);
@@ -232,7 +348,113 @@ spatialdata::spatialdb::TestCompositeDB::testQuery(void)
 
   for (int i=0; i < querySize; ++i)
     CPPUNIT_ASSERT_EQUAL(valsE[i], data[i]);
-} // testQuery
+} // testQueryAB
+
+
+// ----------------------------------------------------------------------
+// Test query() with values in dbA.
+void
+spatialdata::spatialdb::TestCompositeDB::testQueryA(void)
+{ // testQueryA
+  CompositeDB db;
+
+  UniformDB dbA;
+  { // initialize db A
+    const int numValuesA = 3;
+    const char* namesA[3] = { "one", "two", "three" };
+    const char* unitsA[3] = { "none", "none", "none" };
+    const double valuesA[3] = { 1.1, 2.2, 3.3 };
+    dbA.setData(namesA, unitsA, valuesA, numValuesA);
+  } // initialize db A
+
+  const int numNamesA = 2;
+  const char* namesA[2] = { "three", "one" };
+  db.dbA(&dbA, namesA, numNamesA);
+
+  UniformDB dbB;
+  { // initialize db B
+    const int numValuesB = 2;
+    const char* namesB[2] = { "four", "five" };
+    const char* unitsB[2] = { "none", "none" };
+    const double valuesB[2] = { 4.4, 5.5 };
+    dbB.setData(namesB, unitsB, valuesB, numValuesB);
+  } // initialize db B
+
+  const int numNamesB = 1;
+  const char* namesB[1] = { "five" };
+  db.dbB(&dbB, namesB, numNamesB);
+
+  const int querySize = 1;
+  const char* queryVals[1] = { "three" };
+  
+  const int spaceDim = 2;
+  spatialdata::geocoords::CSCart cs;
+  cs.setSpaceDim(spaceDim);
+  const double coords[2] = { 2.3, 5.6 };
+  double data[querySize];
+  const double valsE[1] = { 3.3 };
+
+  db.open();
+  db.queryVals(queryVals, querySize);
+  db.query(data, querySize, coords, spaceDim, &cs);
+  db.close();
+
+  for (int i=0; i < querySize; ++i)
+    CPPUNIT_ASSERT_EQUAL(valsE[i], data[i]);
+} // testQueryA
+
+
+// ----------------------------------------------------------------------
+// Test query().
+void
+spatialdata::spatialdb::TestCompositeDB::testQueryB(void)
+{ // testQueryB
+  CompositeDB db;
+
+  UniformDB dbA;
+  { // initialize db A
+    const int numValuesA = 3;
+    const char* namesA[3] = { "one", "two", "three" };
+    const char* unitsA[3] = { "none", "none", "none" };
+    const double valuesA[3] = { 1.1, 2.2, 3.3 };
+    dbA.setData(namesA, unitsA, valuesA, numValuesA);
+  } // initialize db A
+
+  const int numNamesA = 2;
+  const char* namesA[2] = { "three", "one" };
+  db.dbA(&dbA, namesA, numNamesA);
+
+  UniformDB dbB;
+  { // initialize db B
+    const int numValuesB = 2;
+    const char* namesB[2] = { "four", "five" };
+    const char* unitsB[2] = { "none", "none" };
+    const double valuesB[] = { 4.4, 5.5 };
+    dbB.setData(namesB, unitsB, valuesB, numValuesB);
+  } // initialize db B
+
+  const int numNamesB = 1;
+  const char* namesB[1] = { "five" };
+  db.dbB(&dbB, namesB, numNamesB);
+
+  const int querySize = 1;
+  const char* queryVals[1] = { "five", };
+  
+  const int spaceDim = 2;
+  spatialdata::geocoords::CSCart cs;
+  cs.setSpaceDim(spaceDim);
+  const double coords[2] = { 2.3, 5.6 };
+  double data[querySize];
+  const double valsE[1] = { 5.5 };
+
+  db.open();
+  db.queryVals(queryVals, querySize);
+  db.query(data, querySize, coords, spaceDim, &cs);
+  db.close();
+
+  for (int i=0; i < querySize; ++i)
+    CPPUNIT_ASSERT_EQUAL(valsE[i], data[i]);
+} // testQueryB
 
 
 // End of file 

@@ -46,8 +46,12 @@ class spatialdata::spatialdb::TestCompositeDB : public CppUnit::TestFixture
   CPPUNIT_TEST( testLabel );
   CPPUNIT_TEST( testDBA );
   CPPUNIT_TEST( testDBB );
-  CPPUNIT_TEST( testQueryVals );
-  CPPUNIT_TEST( testQuery );
+  CPPUNIT_TEST( testQueryValsAB );
+  CPPUNIT_TEST( testQueryValsA );
+  CPPUNIT_TEST( testQueryValsB );
+  CPPUNIT_TEST( testQueryAB );
+  CPPUNIT_TEST( testQueryA );
+  CPPUNIT_TEST( testQueryB );
 
   CPPUNIT_TEST_SUITE_END();
 
@@ -69,11 +73,23 @@ public :
   /// Test dbB()
   void testDBB(void);
 
-  /// Test queryVals()
-  void testQueryVals(void);
+  /// Test queryVals() with values in both dbA and dbB.
+  void testQueryValsAB(void);
 
-  /// Test query()
-  void testQuery(void);
+  /// Test queryVals() with values in dbA.
+  void testQueryValsA(void);
+
+  /// Test queryVals() with values in dbB.
+  void testQueryValsB(void);
+
+  /// Test query() with values in both dbA and dbB.
+  void testQueryAB(void);
+
+  /// Test query() with values in dbA.
+  void testQueryA(void);
+
+  /// Test query() with values in dbB.
+  void testQueryB(void);
 
 }; // class TestCompositeDB
 

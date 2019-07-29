@@ -186,7 +186,7 @@ spatialdata::spatialdb::CompositeDB::queryVals(const char* const* names,
     std::ostringstream msg;
     msg
       << "Number of values for query in spatial database " << label()
-      << "\n must be positive.\n";
+      << " must be positive.\n";
     throw std::runtime_error(msg.str());
   } // if
   assert(0 != names && 0 < numVals);
@@ -280,8 +280,12 @@ spatialdata::spatialdb::CompositeDB::queryVals(const char* const* names,
       ++iName;
     } // while
   } // for
-  _dbA->queryVals(const_cast<const char**>(queryValsA), qsizeA);
-  _dbB->queryVals(const_cast<const char**>(queryValsB), qsizeB);
+  if (qsizeA > 0) {
+      _dbA->queryVals(const_cast<const char**>(queryValsA), qsizeA);
+  } // if
+  if (qsizeB > 0) {
+      _dbB->queryVals(const_cast<const char**>(queryValsB), qsizeB);
+  } // if
 
   delete[] queryValsA; queryValsA = 0;
   delete[] queryValsB; queryValsB = 0;
@@ -308,29 +312,33 @@ spatialdata::spatialdb::CompositeDB::query(
   if (0 == querySize) {
     std::ostringstream msg;
     msg
-      << "Values to be returned by spatial database " << label() << "\n"
-      << "have not been set. Please call queryVals() before query().\n";
+      << "Values to be returned by spatial database " << label()
+      << " have not been set. Please call queryVals() before query().\n";
     throw std::runtime_error(msg.str());
   } // if
   else if (numVals != querySize) {
     std::ostringstream msg;
     msg
       << "Number of values to be returned by spatial database "
-      << label() << "\n"
+      << label()
       << "(" << querySize << ") does not match size of array provided ("
       << numVals << ").\n";
     throw std::runtime_error(msg.str());
   } // if
 
   // Query database A
-  _dbA->query(_infoA->query_buffer, qsizeA, coords, numDims, pCSQuery);
-  for (int i=0; i < qsizeA; ++i)
-    vals[_infoA->query_indices[i]] = _infoA->query_buffer[i];
+  if (qsizeA > 0) {
+      _dbA->query(_infoA->query_buffer, qsizeA, coords, numDims, pCSQuery);
+      for (int i=0; i < qsizeA; ++i)
+	  vals[_infoA->query_indices[i]] = _infoA->query_buffer[i];
+  } // if
 
   // Query database B
-  _dbB->query(_infoB->query_buffer, qsizeB, coords, numDims, pCSQuery);
-  for (int i=0; i < qsizeB; ++i)
-    vals[_infoB->query_indices[i]] = _infoB->query_buffer[i];
+  if (qsizeB > 0) {
+      _dbB->query(_infoB->query_buffer, qsizeB, coords, numDims, pCSQuery);
+      for (int i=0; i < qsizeB; ++i)
+	  vals[_infoB->query_indices[i]] = _infoB->query_buffer[i];
+  } // if
 
   return 0;
 } // query
