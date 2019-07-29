@@ -73,7 +73,7 @@ spatialdata::units::Parser::parse(const char* units)
    * x = p.parse(units) [units is a string]
    * scale = x.value
    */
-  PyObject* pyUnit  = PyObject_CallMethod(_parser, "parse", "s", units);
+  PyObject* pyUnit  = PyObject_CallMethod(_parser, (char*)"parse", (char*)"s", units);
   if (!pyUnit) {
     if (PyErr_Occurred()) {
       PyErr_Clear();
