@@ -26,196 +26,93 @@
 
 #include "CoordSys.hh" // ISA CoordSys
 
-#include "proj4fwd.h" // Proj4 forward declaration
 #include <string> // HASA std::string
 
 /// C++ object for managing parameters defining geographic coordinate systems
-class spatialdata::geocoords::CSGeo : public CoordSys
-{ // class CSGeo
-  friend class TestCSGeo;
+class spatialdata::geocoords::CSGeo : public CoordSys {
+    friend class TestCSGeo;
 
- public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /// Default constructor
-  CSGeo(void);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /// Default destructor
-  virtual ~CSGeo(void);
+    /// Default constructor
+    CSGeo(void);
 
-  /** Clone coordinate system.
-   *
-   * @returns Pointer to copy
-   */
-  virtual CoordSys* clone(void) const;
+    /// Default destructor
+    virtual ~CSGeo(void);
 
-  /// Initialize the coordinate system.
-  virtual void initialize(void);
+    /** Clone coordinate system.
+     *
+     * @returns Pointer to copy
+     */
+    virtual CoordSys* clone(void) const;
 
-  /** Set reference ellipsoid.
-   *
-   * @param name Name of reference ellipsoid
-   */
-  void ellipsoid(const char* name);
+    /** Set string specifying coordinate system.
+     *
+     * @param[in] value String specifying coordinate system (proj format, WKT, EPSG:XXXX).
+     */
+    void setString(const char* value);
 
-  /** Get reference ellipsoid.
-   *
-   * @returns Name of reference ellipsoid
-   */
-  const char* ellipsoid(void) const;
+    /** Get string specifying coordinate system.
+     *
+     * @returns String specifying coordinate system (proj format, WKT, EPSG:XXXX).
+     */
+    const char* getString(void) const;
 
-  /** Set horizontal datum.
-   *
-   * @param name Name of horizontal datum
-   */
-  void datumHoriz(const char* name);
+    /** Set number of spatial dimensions in coordinate system.
+     *
+     * @param ndims Number of dimensions
+     */
+    virtual void setSpaceDim(const int ndims);
 
-  /** Get horizontal datum.
-   *
-   * @returns Name of datum
-   */
-  const char* datumHoriz(void) const;
+    /** Get radial outward direction.
+     *
+     * dir and coords
+     *   size = numLocs * numDims
+     *   index = iLoc*numDims + iDim
+     *
+     * @param dir Array of direction cosines for outward radial direction.
+     * @param coords Array of coordinates for locations.
+     * @param numLocs Number of locations.
+     * @param numDims Number of dimensions in coordinates.
+     */
+    virtual void radialDir(double* dir,
+                           const double* coords,
+                           const size_t numLocs,
+                           const size_t numDims) const;
 
-  /** Set vertical datum.
-   *
-   * @param name Name of vertical datum
-   */
-  void datumVert(const char* name);
+    /** Pickle coordinate system to ascii stream.
+     *
+     * @param s Output stream
+     */
+    virtual void pickle(std::ostream& s) const;
 
-  /** Get vertical datum.
-   *
-   * @returns Name of datum
-   */
-  const char* datumVert(void) const;
+    /** Unpickle coordinate system from ascii stream.
+     *
+     * @param s Input stream
+     */
+    virtual void unpickle(std::istream& s);
 
-  /** Set geocentric flag.
-   *
-   * @param geocentric True if geocentric, false if lon/lat
-   */
-  virtual void isGeocentric(bool geocentric);
+protected:
 
-  /** Get geocentric flag.
-   *
-   * @returns True if geocentric, false if lon/lat
-   */
-  bool isGeocentric(void) const;
+    // PROTECTED METHODS //////////////////////////////////////////////////
 
-  /** Set factor to convert Cartesian coordinates to meters.
-   *
-   * @param factor Factor to convert Cartesian coordinates to meters.
-   */
-  void toMeters(const double factor);
+    /** Copy constructor
+     *
+     * @param cs Coordinate system to copy
+     */
+    CSGeo(const CSGeo& cs);
 
-  /** Get factor to convert Cartesian coordinates to meters.
-   *
-   * @returns Factor to convert Cartesian coordinates to meters.
-   */
-  double toMeters(void) const;
+private:
 
-  /** Set number of spatial dimensions in coordinate system.
-   *
-   * @param ndims Number of dimensions
-   */
-  virtual void setSpaceDim(const int ndims);
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-  /** Get proj form vertical datum.
-   *
-   * @returns Name of datum
-   */
-  virtual const char* projDatumVert(void) const;
+    std::string _string; ///< String specifying coordinate system.
+    int _spaceDim; ///< Number of spatial dimensions in coordinate system
 
-  /** Get PROJ coordinate system.
-   *
-   * @returns Coordinate system
-   */
-  virtual projPJ projCoordSys(void) const;
-
-  /** Convert coordinates to PROJ4 useable form.
-   *
-   * @param coords Array of coordinates [numLocs*numDims]
-   * @param numLocs Number of locations
-   * @param numDims Number of dimensions in coordinates
-   */
-  virtual void toProjForm(double* coords,
-			  const int numLocs,
-			  const int numDims) const;
-  
-  /** Convert coordinates from PROJ4 form to form associated w/coordsys.
-   *
-   * @param coords Array of coordinates [numLocs*numDims]
-   * @param numLocs Number of locations
-   * @param numDims Number of dimensions in coordinates
-   */
-  virtual void fromProjForm(double* coords,
-			    const int numLocs,
-			    const int numDims) const;
-
-  /** Get radial outward direction.
-   *
-   * dir and coords
-   *   size = numLocs * numDims
-   *   index = iLoc*numDims + iDim
-   *
-   * @param dir Array of direction cosines for outward radial direction.
-   * @param coords Array of coordinates for locations.
-   * @param numLocs Number of locations.
-   * @param numDims Number of dimensions in coordinates.
-   */
-  virtual void radialDir(double* dir,
-			 const double* coords,
-			 const int numLocs,
-			 const int numDims) const;
-
-  /** Get geoid.
-   *
-   * @returns Geoid
-   */
-  static Geoid& geoid(void);
-  
-  /** Pickle coordinate system to ascii stream.
-   *
-   * @param s Output stream
-   */
-  virtual void pickle(std::ostream& s) const;
-
-  /** Unpickle coordinate system from ascii stream.
-   *
-   * @param s Input stream
-   */
-  virtual void unpickle(std::istream& s);
-
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
-
-  /** Copy constructor
-   *
-   * @param cs Coordinate system to copy
-   */
-  CSGeo(const CSGeo& cs);
-
-  /** Get the PROJ4 string associated with the coordinate system.
-   *
-   * @returns string
-   */
-  virtual std::string _projCSString(void) const;
-
-private :
- // PRIVATE MEMBERS ////////////////////////////////////////////////////
-
-  double _toMeters; ///< Factor to convert Cartesian coordinates to meters
-  int _spaceDim; ///< Number of spatial dimensions in coordinate system
-  std::string _ellipsoid; ///< Name of reference ellipsoid
-  std::string _datumHoriz; ///< Name of horizontal geographic datum
-  std::string _datumVert; ///< Name of vertical datum
-  
-  projPJ _pCS; ///< Pointer to coordinate system
-  
-  bool _isGeocentric; ///< True if geocentric, false if lat/lon
 }; // class CSGeo
-
-#include "CSGeo.icc" // inline methods
 
 #endif // spatialdata_geocoodrs_csgeo_hh
 
-
-// End of file 
+// End of file

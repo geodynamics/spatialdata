@@ -68,14 +68,9 @@ AC_PROG_INSTALL
 AX_CXX_COMPILE_STDCXX(11)
 
 # ----------------------------------------------------------------------
-# PROJ4
-AC_CHECK_LIB(proj, pj_init_plus, [
-  AC_CHECK_HEADER([proj_api.h], [], [
-    AC_MSG_ERROR([Proj4 header not found; try CPPFLAGS="-I<Proj4 include dir>"])
-  ])
-],[
-  AC_MSG_ERROR([Proj4 library not found; try LDFLAGS="-L<Proj4 lib dir>"])
-])
+# PROJ
+CIT_PROJ6_HEADER
+CIT_PROJ6_LIB
 
 # CPPUNIT
 AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])

@@ -26,63 +26,64 @@
 
 #include "geocoordsfwd.hh"
 
-/// C++ object for converting between coordinate systems.
-class spatialdata::geocoords::Converter
-{ // class Converter
- public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+#include <cstddef> // USES size_t
 
-  /** Convert coordinates from source coordinate system to destination
-   * coordinate system.
-   *
-   * @param coords Array of coordinates
-   * @param numLocs Number of location
-   * @param numDims Number of spatial dimensions in coordinates
-   * @param pCSDest Pointer to destination coordinate system
-   * @param pCSSrc Pointer to source coordinate system
-   */
-  static void convert(double* coords,
-		      const int numLocs,
-		      const int numDims,
-		      const CoordSys* pCSDest,
-		      const CoordSys* pCSSrc);
+class spatialdata::geocoords::Converter {
+public:
 
-private :
-  // PRIVATE METHODS ////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /** Convert coordinates from source geographic coordinate system to
-   * destination geographic coordinate system.
-   *
-   * @param coords Array of coordinates
-   * @param numLocs Number of location
-   * @param numDims Number of spatial dimensions in coordinates
-   * @param csDest Destination coordinate system
-   * @param csSrc Source coordinate system
-   */
-  static void _convert(double* coords,
-		       const int numLocs,
-		       const int numDims,
-		       const CSGeo* csDest,
-		       const CSGeo* csSrc);
+    /** Convert coordinates from source coordinate system to destination
+     * coordinate system.
+     *
+     * @param[inout] coords Array of coordinates
+     * @param[in] numLocs Number of location
+     * @param[in] numDims Number of spatial dimensions in coordinates
+     * @param[in] csDest Pointer to destination coordinate system
+     * @param[in] csSrc Pointer to source coordinate system
+     */
+    static void convert(double* coords,
+                        const size_t numLocs,
+                        const size_t numDims,
+                        const CoordSys* csDest,
+                        const CoordSys* csSrc);
 
-  /** Convert coordinates from source Cartesian coordinate system to
-   * destination Cartesian coordinate system.
-   *
-   * @param coords Array of coordinates
-   * @param numLocs Number of location
-   * @param numDims Number of spatial dimensions in coordinates
-   * @param csDest Destination coordinate system
-   * @param csSrc Source coordinate system
-   */
-  static void _convert(double* coords,
-		       const int numLocs,
-		       const int numDims,
-		       const CSCart* csDest,
-		       const CSCart* csSrc);
+private:
+
+    // PRIVATE METHODS ////////////////////////////////////////////////////
+
+    /** Convert coordinates from source geographic coordinate system to
+     * destination geographic coordinate system.
+     *
+     * @param[inout] coords Array of coordinates
+     * @param[in] numLocs Number of location
+     * @param[in] numDims Number of spatial dimensions in coordinates
+     * @param[in] csDest Destination coordinate system
+     * @param[in] csSrc Source coordinate system
+     */
+    static void _convert(double* coords,
+                         const size_t numLocs,
+                         const size_t numDims,
+                         const CSGeo* csDest,
+                         const CSGeo* csSrc);
+
+    /** Convert coordinates from source Cartesian coordinate system to
+     * destination Cartesian coordinate system.
+     *
+     * @param[inout] coords Array of coordinates
+     * @param[in] numLocs Number of location
+     * @param[in] numDims Number of spatial dimensions in coordinates
+     * @param[in] csDest Destination coordinate system
+     * @param[in] csSrc Source coordinate system
+     */
+    static void _convert(double* coords,
+                         const size_t numLocs,
+                         const size_t numDims,
+                         const CSCart* csDest,
+                         const CSCart* csSrc);
 
 }; // class Converter
 
 #endif // spatialdata_geocoords_converter_hh
 
-
-// End of file 
+// End of file

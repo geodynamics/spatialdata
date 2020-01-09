@@ -29,82 +29,82 @@
 #include <iosfwd> // USES std::istream, std::ostream
 
 /// C++ object for managing parameters defining a coordinate system
-class spatialdata::geocoords::CoordSys
-{ // class CoordSys
-public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::geocoords::CoordSys { // class CoordSys
+public:
 
-  /// Type of coordinate system
-  enum CSTypeEnum {
-    CARTESIAN, ///< Cartesian coordinate system
-    GEOGRAPHIC ///< Geographic coordinate system
-  };
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+    /// Type of coordinate system
+    enum CSTypeEnum {
+        CARTESIAN, ///< Cartesian coordinate system
+        GEOGRAPHIC ///< Geographic coordinate system
+    };
 
-  /// Default constructor
-  CoordSys(void);
+public:
 
-  /// Default destructor
-  virtual ~CoordSys(void);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /** Clone coordinate system.
-   *
-   * @returns Copy of *this
-   */
-  virtual CoordSys* clone(void) const = 0;
+    /// Default constructor
+    CoordSys(void);
 
-  /** Set number of spatial dimensions in coordinate system.
-   *
-   * @param ndims Number of dimensions
-   */
-  virtual void setSpaceDim(const int ndims);
+    /// Default destructor
+    virtual ~CoordSys(void);
 
-  /** Get number of spatial dimensions in coordinate system.
-   *
-   * @returns Number of dimensions
-   */
-  int spaceDim(void) const;
+    /** Clone coordinate system.
+     *
+     * @returns Copy of *this
+     */
+    virtual CoordSys* clone(void) const = 0;
 
-  /// Initialize the coordinate system.
-  virtual void initialize(void) = 0;
+    /** Set number of spatial dimensions in coordinate system.
+     *
+     * @param ndims Number of dimensions
+     */
+    virtual void setSpaceDim(const int ndims);
 
-  /// Get type of coordinate system
-  CSTypeEnum csType(void) const;
+    /** Get number of spatial dimensions in coordinate system.
+     *
+     * @returns Number of dimensions
+     */
+    int spaceDim(void) const;
 
-  /** Pickle coordinate system to ascii stream.
-   *
-   * @param s Output stream
-   */
-  virtual void pickle(std::ostream& s) const = 0;
+    /// Get type of coordinate system
+    CSTypeEnum csType(void) const;
 
-  /** Unpickle coordinate system from ascii stream.
-   *
-   * @param s Input stream
-   */
-  virtual void unpickle(std::istream& s) = 0;
+    /** Pickle coordinate system to ascii stream.
+     *
+     * @param s Output stream
+     */
+    virtual void pickle(std::ostream& s) const = 0;
 
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
+    /** Unpickle coordinate system from ascii stream.
+     *
+     * @param s Input stream
+     */
+    virtual void unpickle(std::istream& s) = 0;
 
-  /** Copy destructor.
-   *
-   * @param cs Coordinate system to copy
-   */
-  CoordSys(const CoordSys& cs);
+protected:
 
-  /** Set type of coordinate system.
-   *
-   * @param cs Type of coordinate system
-   */
-  void csType(const CSTypeEnum cs);
+    // PROTECTED METHODS //////////////////////////////////////////////////
 
-private :
-  // PRIVATE MEMBERS ////////////////////////////////////////////////////
+    /** Copy destructor.
+     *
+     * @param cs Coordinate system to copy
+     */
+    CoordSys(const CoordSys& cs);
 
-  int _spaceDim; ///< Number of spatial dimensions in coordinate system
-  CSTypeEnum _csType; ///< Type of coordinate system
+    /** Set type of coordinate system.
+     *
+     * @param cs Type of coordinate system
+     */
+    void csType(const CSTypeEnum cs);
+
+private:
+
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////
+
+    int _spaceDim; ///< Number of spatial dimensions in coordinate system
+    CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
 
@@ -112,5 +112,4 @@ private :
 
 #endif // spatialdata_geocoords_coordsys_hh
 
-
-// End of file 
+// End of file
