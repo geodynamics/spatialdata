@@ -94,8 +94,8 @@ void
 spatialdata::units::TestParser::testLength(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'cm'.", 0.01, parser.parse("cm"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'inch'.", 0.0254, parser.parse("inch"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'cm'.", 0.01, parser.parse("cm"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'inch'.", 0.0254, parser.parse("inch"), _tolerance);
 } // testLength
 
 
@@ -105,8 +105,8 @@ void
 spatialdata::units::TestParser::testTime(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'minute'.", 60.0, parser.parse("minute"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'millisecond'.", 0.001, parser.parse("millisecond"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'minute'.", 60.0, parser.parse("minute"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'millisecond'.", 0.001, parser.parse("millisecond"), _tolerance);
 } // testTime
 
 
@@ -116,8 +116,8 @@ void
 spatialdata::units::TestParser::testVelocity(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'cm/s'.", 0.01, parser.parse("cm/s"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'km/hour'.", 1.0/3.6, parser.parse("km/hour"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'cm/s'.", 0.01, parser.parse("cm/s"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'km/hour'.", 1.0/3.6, parser.parse("km/hour"), _tolerance);
 } // testVelocity
 
 
@@ -127,8 +127,8 @@ void
 spatialdata::units::TestParser::testDensity(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'kg/m**3'.", 1.0, parser.parse("kg/m**3"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'g/cm**3'.", 1000.0, parser.parse("g/cm**3"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'kg/m**3'.", 1.0, parser.parse("kg/m**3"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'g/cm**3'.", 1000.0, parser.parse("g/cm**3"), _tolerance);
 } // testDensity
 
 
@@ -138,8 +138,8 @@ void
 spatialdata::units::TestParser::testPressure(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'pascal'.", 1.0, parser.parse("pascal"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Test parsing 'MPa'.", 1.0e+06, parser.parse("MPa"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'pascal'.", 1.0, parser.parse("pascal"), _tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'MPa'.", 1.0e+06, parser.parse("MPa"), _tolerance);
 } // testPressure
 
 
