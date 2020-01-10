@@ -14,30 +14,14 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+subpackage = testing
+include $(top_srcdir)/subpackage.am
 
-SUBDIRS = data
+subpkginclude_HEADERS = \
+	TestDriver.hh \
+	testingfwd.hh
 
-TESTS = testgeocoords
-
-check_PROGRAMS = testgeocoords
-
-testgeocoords_SOURCES = \
-	TestCSCart.cc \
-	TestCSGeo.cc \
-	test_driver.cc
-
-#TestCSPicklerAscii.cc \
-#TestConverter.cc
+noinst_HEADERS =
 
 
-testgeocoords_LDFLAGS =
-
-testgeocoords_LDADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
-	-lproj \
-	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-
-
-# End of file
+# End of file 

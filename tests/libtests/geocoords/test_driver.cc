@@ -3,30 +3,27 @@
 // ----------------------------------------------------------------------
 //
 // Brad T. Aagaard, U.S. Geological Survey
+// Charles A. Williams, GNS Science
+// Matthew G. Knepley, University of Chicago
 //
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2017 University of California, Davis
+// Copyright (c) 2010-2019 University of California, Davis
 //
 // See COPYING for license information.
 //
 // ----------------------------------------------------------------------
 //
 
-/** @file pkgs/geocoords/lib/proj4fwd.h
- *
- * @brief Forward declarations for proj4 API.
- */
+#include "spatialdata/testing/TestDriver.hh"
 
-#if !defined(spatialdata_geocoords_proj4fwd_h)
-#define spatialdata_geocoords_proj4fwd_h
+int
+main(int argc,
+     char* argv[]) {
+    spatialdata::testing::TestDriver driver;
+    return driver.run(argc, argv);
+} // main
 
-#if !defined(PROJECTS_H)
-typedef void *projPJ;
-#else
-typedef PJ *projPJ;
-#endif
 
-#endif // spatialdata_geocoords_proj4fwd_h
-
+// End of file

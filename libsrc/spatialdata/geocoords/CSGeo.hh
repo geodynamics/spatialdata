@@ -40,13 +40,13 @@ public:
     CSGeo(void);
 
     /// Default destructor
-    virtual ~CSGeo(void);
+    ~CSGeo(void);
 
     /** Clone coordinate system.
      *
      * @returns Pointer to copy
      */
-    virtual CoordSys* clone(void) const;
+    CoordSys* clone(void) const;
 
     /** Set string specifying coordinate system.
      *
@@ -64,7 +64,7 @@ public:
      *
      * @param ndims Number of dimensions
      */
-    virtual void setSpaceDim(const int ndims);
+    void setSpaceDim(const int ndims);
 
     /** Get radial outward direction.
      *
@@ -76,23 +76,25 @@ public:
      * @param coords Array of coordinates for locations.
      * @param numLocs Number of locations.
      * @param numDims Number of dimensions in coordinates.
+     * @param dx Length scale for approximate surface tangent.
      */
-    virtual void radialDir(double* dir,
-                           const double* coords,
-                           const size_t numLocs,
-                           const size_t numDims) const;
+    void computeSurfaceNormal(double* dir,
+                              const double* coords,
+                              const size_t numLocs,
+                              const size_t numDims,
+                              const double dx=1000.0) const;
 
     /** Pickle coordinate system to ascii stream.
      *
      * @param s Output stream
      */
-    virtual void pickle(std::ostream& s) const;
+    void pickle(std::ostream& s) const;
 
     /** Unpickle coordinate system from ascii stream.
      *
      * @param s Input stream
      */
-    virtual void unpickle(std::istream& s);
+    void unpickle(std::istream& s);
 
 protected:
 
@@ -113,6 +115,6 @@ private:
 
 }; // class CSGeo
 
-#endif // spatialdata_geocoodrs_csgeo_hh
+#endif // spatialdata_geocoords_csgeo_hh
 
 // End of file

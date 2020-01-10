@@ -14,18 +14,25 @@
 // ----------------------------------------------------------------------
 //
 
-#if !defined(spatialdata_geocoords_csgeoproj_hh)
-#error "CSGeoProj.icc must only be included from CSGeoProj.hh"
-#endif
+/** @file libsrc/testing/testingfwd.hh
+ *
+ * @brief Forward declarations for spatialdata::testing objects.
+ *
+ * Including this header file eliminates the need to use separate
+ * forward declarations.
+ */
 
-// Clone coordinate system.
-inline
-spatialdata::geocoords::CoordSys*
-spatialdata::geocoords::CSGeoProj::clone(void) const {
-  return new CSGeoProj(*this);
-}
+#if !defined(spatialdata_testing_testingfwd_hh)
+#define spatialdata_testing_testingfwd_hh
 
-// version
-// $Id$
+namespace spatialdata {
+  namespace testing {
+    class TestDriver;
+  } // testing
+} // spatialdata
+
+
+#endif // spatialdata_testing_testingfwd_hh
+
 
 // End of file 

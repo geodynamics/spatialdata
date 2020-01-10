@@ -28,7 +28,6 @@
 
 #include <iosfwd> // USES std::istream, std::ostream
 
-/// C++ object for managing parameters defining a coordinate system
 class spatialdata::geocoords::CoordSys { // class CoordSys
 public:
 
@@ -107,8 +106,6 @@ private:
     CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
-
-#include "CoordSys.icc" // inline methods
 
 #endif // spatialdata_geocoords_coordsys_hh
 

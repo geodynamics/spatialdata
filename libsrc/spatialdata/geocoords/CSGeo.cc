@@ -24,13 +24,9 @@
 #include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
 
-#include <stdexcept> // USES std::runtime_error, std::exception
 #include <strings.h> // USES strcasecmp()
+#include <stdexcept> // USES std::runtime_error, std::exception
 #include <assert.h> // USES assert()
-
-extern "C" {
-#include "proj.h" // USES PROJ
-}
 
 // ----------------------------------------------------------------------
 // Default constructor
@@ -93,12 +89,13 @@ spatialdata::geocoords::CSGeo::setSpaceDim(const int ndims) {
 
 
 // ----------------------------------------------------------------------
-// Get outward radial direction.
+// Get outward surface normal.
 void
-spatialdata::geocoords::CSGeo::radialDir(double* dir,
-                                         const double* coords,
-                                         const size_t numLocs,
-                                         const size_t numDims) const {
+spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
+                                                    const double* coords,
+                                                    const size_t numLocs,
+                                                    const size_t numDims,
+                                                    const double dx) const {
     assert( (0 < numLocs && 0 != dir) ||
             (0 == numLocs && 0 == dir) );
     assert( (0 < numLocs && 0 != coords) ||
@@ -113,47 +110,21 @@ spatialdata::geocoords::CSGeo::radialDir(double* dir,
         throw std::runtime_error(msg.str());
     } // if
 
-#if 1
-    /* Use PJ_TYPE proj_get_type(const PJ* obj) to determine if geocentric.
-     * PJ_TYPE_GEOCENTRIC_CRS
-     * PJ_TYPE_GEOGRAPHIC_2D_CRS
-     * PJ_TYPE_GEOGRAPHIC_3D_CRS
-     * PJ_TYPE_PROJECTED_CRS
-     */
-#else
-    if (!isGeocentric()) {
-        if (numDims > 2) {
-            for (int iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-                dir[i++] = 0.0;
-                dir[i++] = 0.0;
-                dir[i++] = 1.0;
-            } // for
-        } else {
-            const int size = numLocs*numDims;
-            for (int i = 0; i < size; ++i) {
-                dir[i] = 0.0;
-            }
-        } // else
-    } else { // else geocentric
-        assert(3 == numDims);
-        for (int iLoc = 0, index = 0; iLoc < numLocs; ++iLoc, index += numDims) {
-            const double x = coords[index  ];
-            const double y = coords[index+1];
-            const double z = coords[index+2];
-            const double mag = sqrt(x*x + y*y + z*z);
-            dir[index  ] = x / mag;
-            dir[index+1] = y / mag;
-            dir[index+2] = z / mag;
-        } // for
-    } // else geocentric
-#endif
-} // radialDir
+    if (numDims > 2) {
+        // Compute approximate outward surface normal by computing local tangent.
+        // Outward surface normal = Cross Product(tx, ty)
+        throw std::logic_error(":TODO: @brad CSGeo::radialDir() not yet implemented.");
+    } else {
+        throw std::runtime_error("Outward surface normal not defined for 2-D geographic coordinates.");
+    } // if/else
+
+} // computeSurfaceNormal
 
 
 // ----------------------------------------------------------------------
 // Pickle coordinate system to ascii stream.
 void
-spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const { // pickle
+spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const {
     s << "geographic {\n"
       << "  cs-string = " << _string << "\n"
       << "  space-dim = " << spaceDim() << "\n"
@@ -164,7 +135,7 @@ spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const { // pickle
 // ----------------------------------------------------------------------
 // Unpickle coordinate system from ascii stream.
 void
-spatialdata::geocoords::CSGeo::unpickle(std::istream& s) { // unpickle
+spatialdata::geocoords::CSGeo::unpickle(std::istream& s) {
     utils::LineParser parser(s, "//");
     parser.eatwhitespace(true);
 
@@ -184,7 +155,9 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s) { // unpickle
     while (buffer.good() && token != "}") {
         buffer.ignore(maxIgnore, '=');
         if (0 == strcasecmp(token.c_str(), "cs-string")) {
-            buffer >> _string;
+            buffer >> std::ws;
+            buffer.get(cbuffer, maxIgnore, '\n');
+            setString(cbuffer);
         } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
             int ndims;
             buffer >> ndims;

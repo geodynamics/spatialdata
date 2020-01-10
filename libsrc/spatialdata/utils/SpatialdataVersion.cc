@@ -20,11 +20,14 @@
 
 #include "SpatialdataVersion.hh" // Implementation of class methods
 
-#include "proj_api.h" // Proj.4 API
+#include "proj.h" // Proj API
 
 // ----------------------------------------------------------------------
 #define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
+#define STR(c) STR_HELPER(x)
+
+#define VERSION_JOINER_HELPER(major, minor, patch, dot) STR_HELPER(major ## dot ## minor ## dot ## patch)
+#define VERSION_JOINER(major, minor, patch) VERSION_JOINER_HELPER(major, minor, patch, .)
 
 const bool spatialdata::utils::SpatialdataVersion::_isRelease = int(SPATIALDATA_RELEASE_VERSION);
 const char* spatialdata::utils::SpatialdataVersion::_version = SPATIALDATA_VERSION;
@@ -32,73 +35,75 @@ const char* spatialdata::utils::SpatialdataVersion::_gitBranch = SPATIALDATA_GIT
 const char* spatialdata::utils::SpatialdataVersion::_gitRevision = SPATIALDATA_GIT_REVISION;
 const char* spatialdata::utils::SpatialdataVersion::_gitDate = SPATIALDATA_GIT_DATE;
 const char* spatialdata::utils::SpatialdataVersion::_gitHash = SPATIALDATA_GIT_HASH;
-const char* spatialdata::utils::SpatialdataVersion::_projVersion = STR(PJ_VERSION);
+const char* spatialdata::utils::SpatialdataVersion::_projVersion =
+    VERSION_JOINER(PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR, PROJ_VERSION_PATCH);
 
 // ----------------------------------------------------------------------
 // Default constructor.
 spatialdata::utils::SpatialdataVersion::SpatialdataVersion(void)
 {}
 
+
 // ----------------------------------------------------------------------
 // Default destrictor.
 spatialdata::utils::SpatialdataVersion::~SpatialdataVersion(void)
 {}
 
+
 // ----------------------------------------------------------------------
 // Is source from a release?
 bool
-spatialdata::utils::SpatialdataVersion::isRelease(void)
-{ // isRelease
-  return _isRelease;
+spatialdata::utils::SpatialdataVersion::isRelease(void) {
+    return _isRelease;
 } // isRelease
+
 
 // ----------------------------------------------------------------------
 // Get version number.
 const char*
-spatialdata::utils::SpatialdataVersion::version(void)
-{ // version
-  return _version;
+spatialdata::utils::SpatialdataVersion::version(void) {
+    return _version;
 } // version
+
 
 // ----------------------------------------------------------------------
 // Get GIT revision.
 const char*
-spatialdata::utils::SpatialdataVersion::gitRevision(void)
-{ // gitRevision
-  return _gitRevision;
+spatialdata::utils::SpatialdataVersion::gitRevision(void) {
+    return _gitRevision;
 } // gitRevision
+
 
 // ----------------------------------------------------------------------
 // Get GIT hash.
 const char*
-spatialdata::utils::SpatialdataVersion::gitHash(void)
-{ // gitHash
-  return _gitHash;
+spatialdata::utils::SpatialdataVersion::gitHash(void) {
+    return _gitHash;
 } // gitHash
+
 
 // ----------------------------------------------------------------------
 // Get date of GIT revision.
 const char*
-spatialdata::utils::SpatialdataVersion::gitDate(void)
-{ // gitDate
-  return _gitDate;
+spatialdata::utils::SpatialdataVersion::gitDate(void) {
+    return _gitDate;
 } // gitDate
+
 
 // ----------------------------------------------------------------------
 // Get GIT branch.
 const char*
-spatialdata::utils::SpatialdataVersion::gitBranch(void)
-{ // gitBranch
-  return _gitBranch;
+spatialdata::utils::SpatialdataVersion::gitBranch(void) {
+    return _gitBranch;
 } // gitBranch
+
 
 // ----------------------------------------------------------------------
 // Get Proj.4 version number.
 const char*
-spatialdata::utils::SpatialdataVersion::projVersion(void)
-{ // projVersion
-  return _projVersion;
+spatialdata::utils::SpatialdataVersion::projVersion(void) {
+    return _projVersion;
 } // projVersion
 
 
-// End of file 
+// End of file

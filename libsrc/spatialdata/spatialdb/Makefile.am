@@ -38,7 +38,6 @@ subpkginclude_HEADERS = \
 	SimpleGridDB.icc \
 	SimpleGridAscii.hh \
 	GravityField.hh \
-	GravityField.icc \
 	SCECCVMH.hh \
 	SCECCVMH.icc \
 	TimeHistory.hh \
@@ -52,4 +51,4 @@ subpkginclude_HEADERS = \
 noinst_HEADERS =
 
 
-# End of file 
+# End of file

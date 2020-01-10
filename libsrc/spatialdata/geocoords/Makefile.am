@@ -22,23 +22,11 @@ SUBDIRS = data
 subpkginclude_HEADERS = \
 	Converter.hh \
 	CoordSys.hh \
-	CoordSys.icc \
 	CSCart.hh \
-	CSCart.icc \
 	CSGeo.hh \
-	CSGeo.icc \
-	CSGeoLocalCart.hh \
-	CSGeoLocalCart.icc \
-	CSGeoProj.hh \
-	CSGeoProj.icc \
 	CSPicklerAscii.hh \
-	Geoid.hh \
-	Geoid.icc \
-	Projector.hh \
-	Projector.icc \
-	geocoordsfwd.hh \
-	proj4fwd.h
+	geocoordsfwd.hh
 
 noinst_HEADERS =
 
-# End of file 
+# End of file

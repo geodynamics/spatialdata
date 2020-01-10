@@ -24,39 +24,62 @@
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CoordSys::CoordSys(void) :
-  _spaceDim(3),
-  _csType(CARTESIAN)
-{ // constructor
-} // constructor
+    _spaceDim(3),
+    _csType(CARTESIAN)
+{}
+
 
 // ----------------------------------------------------------------------
 // Copy destructor
 spatialdata::geocoords::CoordSys::CoordSys(const CoordSys& cs) :
-  _spaceDim(cs._spaceDim),
-  _csType(cs._csType)
-{ // copy constructor
-} // copy constructor
+    _spaceDim(cs._spaceDim),
+    _csType(cs._csType)
+{}
+
 
 // ----------------------------------------------------------------------
 // Default destructor
 spatialdata::geocoords::CoordSys::~CoordSys(void)
-{ // destructor
-} // destructor
+{}
+
 
 // ----------------------------------------------------------------------
 // Set number of spatial dimensions in coordinate system.
 void
-spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims)
-{ // setSpaceDim
-  if (ndims < 1) {
-    std::ostringstream msg;
-    msg
-      << "Number of spatial dimensions (" << ndims
-      << ") must be >= 1.";
-    throw std::runtime_error(msg.str());
-  } // if
-  _spaceDim = ndims;
+spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims) {
+    if (ndims < 1) {
+        std::ostringstream msg;
+        msg
+            << "Number of spatial dimensions (" << ndims
+            << ") must be >= 1.";
+        throw std::runtime_error(msg.str());
+    } // if
+    _spaceDim = ndims;
 } // setSpaceDim
 
 
-// End of file 
+// ----------------------------------------------------------------------
+// Get number of spatial dimensions in coordinate system.
+int
+spatialdata::geocoords::CoordSys::spaceDim(void) const {
+    return _spaceDim;
+} // spaceDim
+
+
+// ----------------------------------------------------------------------
+// Get type of coordinate system
+spatialdata::geocoords::CoordSys::CSTypeEnum
+spatialdata::geocoords::CoordSys::csType(void) const {
+    return _csType;
+} // csType
+
+
+// ----------------------------------------------------------------------
+// Set type of coordinate system.
+void
+spatialdata::geocoords::CoordSys::csType(const CSTypeEnum cs) {
+    _csType = cs;
+} // csType
+
+
+// End of file
