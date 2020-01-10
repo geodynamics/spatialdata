@@ -78,11 +78,11 @@ spatialdata::units::TestNondimensional::testConstructors(void) {
     const double defaultTemperature(1.0);
 
     Nondimensional dim;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking default length scale", defaultLength, dim._length);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking default pressure scale", defaultPressure, dim._pressure);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking default time scale", defaultTime, dim._time);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking default density scale", defaultDensity, dim._density);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking default temperature scale", defaultTemperature, dim._temperature);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default length scale", defaultLength, dim._length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default pressure scale", defaultPressure, dim._pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default time scale", defaultTime, dim._time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default density scale", defaultDensity, dim._density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default temperature scale", defaultTemperature, dim._temperature);
 
     dim._length = 2.0;
     dim._pressure = 3.0;
@@ -90,19 +90,19 @@ spatialdata::units::TestNondimensional::testConstructors(void) {
     dim._density = 5.0;
     dim._temperature = 6.0;
     Nondimensional dimCopy(dim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy length scale", dim._length, dimCopy._length);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy pressure scale", dim._pressure, dimCopy._pressure);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy time scale", dim._time, dimCopy._time);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy density scale", dim._density, dimCopy._density);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy temperature scale", dim._temperature, dimCopy._temperature);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy length scale", dim._length, dimCopy._length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy pressure scale", dim._pressure, dimCopy._pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy time scale", dim._time, dimCopy._time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy density scale", dim._density, dimCopy._density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy temperature scale", dim._temperature, dimCopy._temperature);
 
     Nondimensional dimAssign;
     dimAssign = dim;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy length scale", dim._length, dimAssign._length);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy pressure scale", dim._pressure, dimAssign._pressure);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy time scale", dim._time, dimAssign._time);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy density scale", dim._density, dimAssign._density);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Checking copy temperature scale", dim._temperature, dimAssign._temperature);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign length scale", dim._length, dimAssign._length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign pressure scale", dim._pressure, dimAssign._pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign time scale", dim._time, dimAssign._time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign density scale", dim._density, dimAssign._density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign temperature scale", dim._temperature, dimAssign._temperature);
 } // testConstructors
 
 
@@ -120,43 +120,43 @@ spatialdata::units::TestNondimensional::testAccessors(void) {
 
     // Length scale
     dim.lengthScale(length);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying length scale was set", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying pressure scale is unchanged", 1.0, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying time scale is unchanged", 1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying density scale is unchanged", 1.0, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying temperature scale is unchanged", 1.0, dim.temperatureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in length scale.", length, dim.lengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in pressure scale.", 1.0, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in time scale.", 1.0, dim.timeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in density scale.", 1.0, dim.densityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in temperature scale.", 1.0, dim.temperatureScale());
 
     // Pressure scale
     dim.pressureScale(pressure);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying length scale is unchanged", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying pressure scale was set", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying time scale is unchanged", 1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying density scale is unchanged", 1.0, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying temperature scale is unchanged", 1.0, dim.temperatureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in length scale.", length, dim.lengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in time scale.", 1.0, dim.timeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in density scale.", 1.0, dim.densityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in temperature scale.", 1.0, dim.temperatureScale());
 
     // Time scale
     dim.timeScale(time);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying length scale is unchanged", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying pressure scale is unchanged", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying time scale was set", time, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying density scale is unchanged", 1.0, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying temperature scale is unchanged", 1.0, dim.temperatureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in length scale.", length, dim.lengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in time scale.", time, dim.timeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in density scale.", 1.0, dim.densityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in temperature scale.", 1.0, dim.temperatureScale());
 
     // Density scale
     dim.densityScale(density);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying length scale is unchanged", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying pressure scale is unchanged", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying time scale is unchanged", time, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying density scale was set", density, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying temperature scale is unchanged", 1.0, dim.temperatureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in length scale.", length, dim.lengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in time scale.", time, dim.timeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in density scale.", density, dim.densityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in temperature scale.", 1.0, dim.temperatureScale());
 
     // Temperature scale
     dim.temperatureScale(temperature);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying length scale is unchanged", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying pressure scale is unchanged", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying time scale is unchanged", time, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying density scale is unchanged", density, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Verifying temperature scale was set", temperature, dim.temperatureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in length scale.", length, dim.lengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in time scale.", time, dim.timeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in density scale.", density, dim.densityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in temperature scale.", temperature, dim.temperatureScale());
 } // testAccessors
 
 
@@ -210,9 +210,9 @@ spatialdata::units::TestNondimensional::testNondimensionalize(void) {
 
     Nondimensional dim;
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Checking nondimensionalized value.",
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in nondimensionalized value.",
                                          valueE, dim.nondimensionalize(value, scale), tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Checking dimensionalize value.",
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in dimensionalize value.",
                                          value, dim.dimensionalize(valueE, scale), tolerance);
 } // testNondimensionalize
 
@@ -232,13 +232,13 @@ spatialdata::units::TestNondimensional::testNondimensionalizeArray(void) {
     dim.nondimensionalize(&v[0], nvalues, scale);
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < nvalues; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Checking nondimensionalized values.", valuesE[i], v[i], tolerance);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in nondimensionalized values.", valuesE[i], v[i], tolerance);
     } // for
 
     v = std::valarray<double>(valuesE, nvalues);
     dim.dimensionalize(&v[0], nvalues, scale);
     for (size_t i = 0; i < nvalues; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Checking dimensionalized values.", values[i], v[i], tolerance);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in dimensionalized values.", values[i], v[i], tolerance);
     } // for
 } // testNondimensionalizeArray
 
