@@ -16,79 +16,80 @@
 
 #include <portinfo>
 
-#include "TestCSPicklerAscii.hh" // Implementation of class methods
+#include <cppunit/extensions/HelperMacros.h>
 
 #include "spatialdata/geocoords/CSPicklerAscii.hh" // USES CSPickleAscii
 
-#include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
-#include "spatialdata/geocoords/CSGeoProj.hh" // USES CSGeoProj
-#include "spatialdata/geocoords/Projector.hh" // USES Projector
 
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::geocoords::TestCSPicklerAscii );
+/// Namespace for spatialdata package
+namespace spatialdata {
+    namespace geocoords {
+        class TestCSPicklerAscii;
+    } // geocoords
+} // spatialdata
+
+/// C++ unit testing for CSCart
+class spatialdata::geocoords::TestCSPicklerAscii : public CppUnit::TestFixture {
+    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+    CPPUNIT_TEST_SUITE(TestCSPicklerAscii);
+    CPPUNIT_TEST(testPickleCSCart);
+    CPPUNIT_TEST(testPickleCSGeo);
+    CPPUNIT_TEST_SUITE_END();
+
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
+
+    /// Test pickle() & unpickle() for CSCart
+    void testPickleCSCart(void);
+
+    /// Test pickle() & unpickle() for CSGeo
+    void testPickleCSGeo(void);
+
+}; // class TestCSPickleAscii
+
+CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestCSPicklerAscii);
 
 // ----------------------------------------------------------------------
 // Test pickle() and unpickle() for CSCart
 void
-spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart(void)
-{ // testPickleCSCart
-  CSCart cs;
+spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart(void) {
+    CSCart cs;
 
-  std::stringstream s;
-  s << "coord-sys = ";
-  CSPicklerAscii::pickle(s, &cs);
+    std::stringstream s;
+    s << "coord-sys = ";
+    CSPicklerAscii::pickle(s, &cs);
 
-  CoordSys* pCS = 0;
-  CSPicklerAscii::unpickle(s, &pCS);
+    CoordSys* csP = NULL;
+    CSPicklerAscii::unpickle(s, &csP);
 
-  CPPUNIT_ASSERT(0 != dynamic_cast<CSCart*>(pCS));
+    CPPUNIT_ASSERT(dynamic_cast<CSCart*>(csP));
 
-  delete pCS; pCS = 0;
+    delete csP;csP = NULL;
 } // testPickleCSCart
+
 
 // ----------------------------------------------------------------------
 // Test pickle() and unpickle() for CSGeo
 void
-spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void)
-{ // testPickleCSGeo
-  CSGeo cs;
+spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void) {
+    CSGeo cs;
 
-  std::stringstream s;
-  s << "coord-sys = ";
-  CSPicklerAscii::pickle(s, &cs);
+    std::stringstream s;
+    s << "coord-sys = ";
+    CSPicklerAscii::pickle(s, &cs);
 
-  CoordSys* pCS = 0;
-  CSPicklerAscii::unpickle(s, &pCS);
+    CoordSys* csP = NULL;
+    CSPicklerAscii::unpickle(s, &csP);
 
-  CPPUNIT_ASSERT(0 != dynamic_cast<CSGeo*>(pCS));
+    CPPUNIT_ASSERT(dynamic_cast<CSGeo*>(csP));
 
-  delete pCS; pCS = 0;
+    delete csP;csP = NULL;
 } // testPickleCSGeo
 
-// ----------------------------------------------------------------------
-// Test pickle() and unpickle() for CSGeoProj
-void
-spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeoProj(void)
-{ // testPickleCSGeoProj
-  Projector proj;
-  CSGeoProj cs;
-  cs.projector(proj);
 
-  std::stringstream s;
-  s << "coord-sys = ";
-  CSPicklerAscii::pickle(s, &cs);
-
-  CoordSys* pCS = 0;
-  CSPicklerAscii::unpickle(s, &pCS);
-
-  CPPUNIT_ASSERT(0 != dynamic_cast<CSGeoProj*>(pCS));
-
-  delete pCS; pCS = 0;
-} // testPickleCSGeoProj
-
-
-// End of file 
+// End of file

@@ -25,9 +25,9 @@ check_PROGRAMS = testgeocoords
 testgeocoords_SOURCES = \
 	TestCSCart.cc \
 	TestCSGeo.cc \
+	TestCSPicklerAscii.cc \
 	test_driver.cc
 
-#TestCSPicklerAscii.cc \
 #TestConverter.cc
 
 
