@@ -16,8 +16,6 @@
 
 include $(top_srcdir)/check.am
 
-SUBDIRS = data
-
 TESTS = testutils
 
 check_PROGRAMS = testutils
@@ -25,11 +23,7 @@ check_PROGRAMS = testutils
 testutils_SOURCES = \
 	TestPointsStream.cc \
 	TestSpatialdataVersion.cc \
-	testutils.cc
-
-noinst_HEADERS = \
-	TestPointsStream.hh \
-	TestSpatialdataVersion.hh
+	test_driver.cc
 
 testutils_LDFLAGS =
 
@@ -40,4 +34,4 @@ testutils_LDADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
-# End of file 
+# End of file

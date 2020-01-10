@@ -3,25 +3,27 @@
 // ----------------------------------------------------------------------
 //
 // Brad T. Aagaard, U.S. Geological Survey
+// Charles A. Williams, GNS Science
+// Matthew G. Knepley, University of Chicago
 //
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2017 University of California, Davis
+// Copyright (c) 2010-2019 University of California, Davis
 //
 // See COPYING for license information.
 //
 // ----------------------------------------------------------------------
 //
 
-const double spatialdata::utils::TestPointsStream::_POINTS[] = {
-  1.0, 2.0, 3.0,
-  1.1, 2.1, 3.1,
-  1.2, 2.2, 3.2,
-  1.3, 2.3, 3.3
-};
+#include "spatialdata/testing/TestDriver.hh"
 
-const int spatialdata::utils::TestPointsStream::_NUMPTS = 4;
-const int spatialdata::utils::TestPointsStream::_NUMDIMS = 3;
+int
+main(int argc,
+     char* argv[]) {
+    spatialdata::testing::TestDriver driver;
+    return driver.run(argc, argv);
+} // main
+
 
 // End of file

@@ -169,7 +169,6 @@ AC_CONFIG_FILES([Makefile
 	tests/libtests/spatialdb/data/Makefile
 	tests/libtests/units/Makefile
 	tests/libtests/utils/Makefile
-	tests/libtests/utils/data/Makefile
 	tests/pytests/Makefile
 	tests/pytests/geocoords/Makefile
 	tests/pytests/spatialdb/Makefile
@@ -183,4 +182,4 @@ AC_CONFIG_FILES([Makefile
 AC_OUTPUT
 
 
-# End of file 
+# End of file
