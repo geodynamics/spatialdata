@@ -23,28 +23,31 @@ TESTS = testspatial
 check_PROGRAMS = testspatial
 
 testspatial_SOURCES = \
-	TestCompositeDB.cc \
-	TestGravityField.cc \
-	TestSCECCVMH.cc \
-	TestSimpleDBData.cc \
-	TestSimpleDBQuery.cc \
-	TestSimpleDBQuery3D.cc \
-	TestSimpleDB.cc \
-	TestSimpleDBPoint3D.cc \
-	TestSimpleDBLine3D.cc \
-	TestSimpleDBArea3D.cc \
-	TestSimpleDBVolume3D.cc \
-	TestSimpleIOAscii.cc \
-	TestSpatialDB.cc \
-	TestTimeHistory.cc \
-	TestTimeHistoryIO.cc \
 	TestUniformDB.cc \
-	TestSimpleGridDB.cc \
-	TestSimpleGridDBCases.cc \
 	TestUserFunctionDB.cc \
 	TestUserFunctionDB_Cases.cc \
-	testcquery.c \
-	testspatial.cc
+	test_driver.cc
+
+
+# TestCompositeDB.cc \
+# TestGravityField.cc \
+# TestSCECCVMH.cc \
+# TestSimpleDBData.cc \
+# TestSimpleDBQuery.cc \
+# TestSimpleDBQuery3D.cc \
+# TestSimpleDB.cc \
+# TestSimpleDBPoint3D.cc \
+# TestSimpleDBLine3D.cc \
+# TestSimpleDBArea3D.cc \
+# TestSimpleDBVolume3D.cc \
+# TestSimpleIOAscii.cc \
+# TestSpatialDB.cc \
+# TestTimeHistory.cc \
+# TestTimeHistoryIO.cc \
+# TestSimpleGridDB.cc \
+# TestSimpleGridDBCases.cc 
+
+
 
 noinst_HEADERS = \
 	TestCompositeDB.hh \
@@ -61,11 +64,9 @@ noinst_HEADERS = \
 	TestSimpleIOAscii.hh \
 	TestTimeHistory.hh \
 	TestTimeHistoryIO.hh \
-	TestUniformDB.hh \
 	TestSimpleGridDB.hh \
 	TestSimpleGridDBCases.hh \
 	TestUserFunctionDB.hh \
-	testcquery.h \
 	TestSpatialDB.hh
 
 
