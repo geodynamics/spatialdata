@@ -16,8 +16,6 @@
 
 include $(top_srcdir)/check.am
 
-SUBDIRS = data
-
 TESTS = testgeocoords
 
 check_PROGRAMS = testgeocoords
