@@ -26,6 +26,7 @@ testspatial_SOURCES = \
 	TestUniformDB.cc \
 	TestUserFunctionDB.cc \
 	TestUserFunctionDB_Cases.cc \
+	TestSimpleDBData.cc \
 	TestSimpleIOAscii.cc \
 	TestTimeHistoryIO.cc \
 	TestTimeHistory.cc \
@@ -34,16 +35,19 @@ testspatial_SOURCES = \
 
 # TestCompositeDB.cc \
 # TestGravityField.cc \
-# TestSCECCVMH.cc \
-# TestSimpleDBData.cc \
+# TestSCECCVMH.cc
+
 # TestSimpleDBQuery.cc \
-# TestSimpleDBQuery3D.cc \
+# TestSimpleDBQuery3D.cc
+
 # TestSimpleDB.cc \
 # TestSimpleDBPoint3D.cc \
 # TestSimpleDBLine3D.cc \
 # TestSimpleDBArea3D.cc \
-# TestSimpleDBVolume3D.cc \
-# TestSpatialDB.cc \
+# TestSimpleDBVolume3D.cc
+
+# TestSpatialDB.cc 
+
 # TestSimpleGridDB.cc \
 # TestSimpleGridDBCases.cc 
 
@@ -53,7 +57,6 @@ noinst_HEADERS = \
 	TestCompositeDB.hh \
 	TestGravityField.hh \
 	TestSCECCVMH.hh \
-	TestSimpleDBData.hh \
 	TestSimpleDBQuery.hh \
 	TestSimpleDBQuery3D.hh \
 	TestSimpleDB.hh \
