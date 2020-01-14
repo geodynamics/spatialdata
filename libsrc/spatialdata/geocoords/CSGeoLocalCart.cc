@@ -19,7 +19,7 @@
 #include "CSGeoLocalCart.hh" // implementation of class methods
 
 extern "C" {
-#include "proj_api.h" // USES PROJ4
+#include "proj.h" // USES PROJ
 }
 
 #include "Geoid.hh" // USES Geoid

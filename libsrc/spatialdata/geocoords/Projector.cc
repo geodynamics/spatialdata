@@ -22,7 +22,7 @@
 #include "CSGeo.hh" // HOLDS CSGeo
 
 extern "C" {
-#include "proj_api.h" // USES PROJ4
+#include "proj.h" // USES PROJ
 };
 
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
