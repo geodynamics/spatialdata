@@ -101,7 +101,7 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
     assert( (0 < numLocs && 0 != coords) ||
             (0 == numLocs && 0 == coords) );
 
-    if (numDims != spaceDim()) {
+    if (numDims != size_t(spaceDim())) {
         std::ostringstream msg;
         msg
             << "Number of spatial dimensions of coordinates ("
