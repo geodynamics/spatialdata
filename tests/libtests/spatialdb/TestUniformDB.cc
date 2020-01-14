@@ -92,7 +92,7 @@ void
 spatialdata::spatialdb::TestUniformDB::testSetData(void) {
     UniformDB db;
 
-    const int numValues = 3;
+    const size_t numValues = 3;
     const char* names[numValues] = { "one", "two", "three" };
     const char* units[numValues] = { "m", "km", "cm" };
     const double values[numValues] = { 1.1, 2.2, 3.3 };
@@ -101,11 +101,11 @@ spatialdata::spatialdb::TestUniformDB::testSetData(void) {
     db.setData(names, units, values, numValues);
 
     CPPUNIT_ASSERT_EQUAL(numValues, db._numValues);
-    for (int i = 0; i < numValues; ++i) {
+    for (size_t i = 0; i < numValues; ++i) {
         CPPUNIT_ASSERT_EQUAL(std::string(names[i]), db._names[i]);
     } // for
 
-    for (int i = 0; i < numValues; ++i) {
+    for (size_t i = 0; i < numValues; ++i) {
         CPPUNIT_ASSERT_EQUAL(valuesE[i], db._values[i]);
     } // for
 } // testSetData
@@ -117,20 +117,20 @@ void
 spatialdata::spatialdb::TestUniformDB::testQueryVals(void) {
     UniformDB db;
 
-    const int numValues = 3;
+    const size_t numValues = 3;
     const char* names[numValues] = { "one", "two", "three" };
     const char* units[numValues] = { "none", "none", "none" };
     const double values[numValues] = { 1.1, 2.2, 3.3 };
 
-    const int querySize = 2;
+    const size_t querySize = 2;
     const char* queryNames[querySize] = { "three", "two" };
-    const int queryVals[querySize] = { 2, 1 };
+    const size_t queryVals[querySize] = { 2, 1 };
 
     db.setData(names, units, values, numValues);
     db.queryVals(queryNames, querySize);
 
     CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
-    for (int i = 0; i < querySize; ++i) {
+    for (size_t i = 0; i < querySize; ++i) {
         CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryVals[i]);
     }
 } // testQueryVals
@@ -142,19 +142,19 @@ void
 spatialdata::spatialdb::TestUniformDB::testQuery(void) {
     UniformDB db;
 
-    const int numValues = 3;
+    const size_t numValues = 3;
     const char* names[numValues] = { "one", "two", "three" };
     const char* units[numValues] = { "none", "none", "none" };
     const double values[numValues] = { 1.1, 2.2, 3.3 };
 
-    const int querySize = 2;
+    const size_t querySize = 2;
     const char* queryNames[querySize] = { "three", "two" };
-    const int queryVals[querySize] = { 2, 1 };
+    const size_t queryVals[querySize] = { 2, 1 };
 
     db.setData(names, units, values, numValues);
     db.queryVals(queryNames, querySize);
 
-    const int spaceDim = 2;
+    const size_t spaceDim = 2;
     spatialdata::geocoords::CSCart cs;
     cs.setSpaceDim(spaceDim);
     const double coords[spaceDim] = { 2.3, 5.6 };
@@ -162,7 +162,7 @@ spatialdata::spatialdb::TestUniformDB::testQuery(void) {
 
     db.query(data, querySize, coords, spaceDim, &cs);
 
-    for (int i = 0; i < querySize; ++i) {
+    for (size_t i = 0; i < querySize; ++i) {
         const double valE = values[queryVals[i]];
         CPPUNIT_ASSERT_EQUAL(valE, data[i]);
     } // for

@@ -195,20 +195,20 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
                                          "names of values in SimpleGridDB file.");
             }
             buffer.ignore(maxIgnore, '=');
-            for (int iVal = 0; iVal < db->_numValues; ++iVal) {
+            for (size_t iVal = 0; iVal < db->_numValues; ++iVal) {
                 buffer >> db->_names[iVal];
-            }
+            } // for
         } else if (0 == strcasecmp(token.c_str(), "value-units")) {
             if (db->_numValues > 0) {
                 db->_units = new std::string[db->_numValues];
             } else {
                 throw std::runtime_error("Number of values must be specified BEFORE "
                                          "units of values in SimpleGridDB file.");
-            }
+            } // if/else
             buffer.ignore(maxIgnore, '=');
-            for (int iVal = 0; iVal < db->_numValues; ++iVal) {
+            for (size_t iVal = 0; iVal < db->_numValues; ++iVal) {
                 buffer >> db->_units[iVal];
-            }
+            } // for
         } else if (0 == strcasecmp(token.c_str(), "cs-data")) {
             buffer.ignore(maxIgnore, '=');
             std::string rbuffer(buffer.str());
@@ -219,7 +219,7 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
                 filein.putback(rbuffer[i]);
                 if ('=' == rbuffer[i--]) {
                     break;
-                }
+                } // if
             } // while
             filein.clear();
             spatialdata::geocoords::CSPicklerAscii::unpickle(filein, &db->_cs);
@@ -410,7 +410,7 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
         } // for
 
         const int indexData = db->_dataIndex(coords, spaceDim);
-        for (int iVal = 0; iVal < db->_numValues; ++iVal) {
+        for (size_t iVal = 0; iVal < db->_numValues; ++iVal) {
             if (!buffer.good()) {
                 std::ostringstream msg;
                 msg << "Read data for " << count << " out of " << numLocs << " points.\n"

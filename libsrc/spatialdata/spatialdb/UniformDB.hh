@@ -27,92 +27,93 @@
 #include <string> // HASA std::string
 
 /// C++ manager for simple spatial database.
-class spatialdata::spatialdb::UniformDB : public SpatialDB
-{ // class UniformDB
-  friend class TestUniformDB; // unit testing
+class spatialdata::spatialdb::UniformDB : public SpatialDB { // class UniformDB
+    friend class TestUniformDB; // unit testing
 
- public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /// Default constructor.
-  UniformDB(void);
-  
-  /** Constructor with label.
-   *
-   * @param label Label of database
-   */
-  UniformDB(const char* label);
-  
-  /// Default destructor.
-  ~UniformDB(void);
-  
-  /** Set values in database.
-   *
-   * @param names Array of names of values in database.
-   * @param units Array of units for values in database.
-   * @param values Array of values in database.
-   * @param numValues Number of values in database.
-   */
-  void setData(const char* const* names,
-	       const char* const* units,
-	       const double* values,
-	       const int numValues);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /// Open the database and prepare for querying.
-  void open(void);
+    /// Default constructor.
+    UniformDB(void);
 
-  /// Close the database.
-  void close(void);
+    /** Constructor with label.
+     *
+     * @param label Label of database
+     */
+    UniformDB(const char* label);
 
-  /** Set values to be returned by queries.
-   *
-   * @pre Must call open() before queryVals()
-   *
-   * @param names Names of values to be returned in queries
-   * @param numVals Number of values to be returned in queries
-   */
-  void queryVals(const char* const* names,
-		 const int numVals);
+    /// Default destructor.
+    ~UniformDB(void);
 
-  /** Query the database.
-   *
-   * @pre Must call open() before query()
-   *
-   * @param vals Array for computed values (output from query), vals
-   *   must be allocated BEFORE calling query().
-   * @param numVals Number of values expected (size of pVals array)
-   * @param coords Coordinates of point for query
-   * @param numDims Number of dimensions for coordinates
-   * @param pCSQuery Coordinate system of coordinates
-   *
-   * @returns 0 on success, 1 on failure (i.e., could not interpolate
-   *   so values set to 0)
-   */
-  int query(double* vals,
-	    const int numVals,
-	    const double* coords,
-	    const int numDims,
-	    const spatialdata::geocoords::CoordSys* pCSQuery);
+    /** Set values in database.
+     *
+     * @param names Array of names of values in database.
+     * @param units Array of units for values in database.
+     * @param values Array of values in database.
+     * @param numValues Number of values in database.
+     */
+    void setData(const char* const* names,
+                 const char* const* units,
+                 const double* values,
+                 const size_t numValues);
 
- private :
-  // PRIVATE METHODS ////////////////////////////////////////////////////
+    /// Open the database and prepare for querying.
+    void open(void);
 
-  UniformDB(const UniformDB& data); ///< Not implemented
-  const UniformDB& operator=(const UniformDB& data); ///< Not implemented
-  
-private :
- // PRIVATE MEMBERS /////////////////////////////////////////////////////
+    /// Close the database.
+    void close(void);
 
-  std::string* _names; ///< Names of values in database
-  double* _values; ///< Values in database
-  int* _queryVals; ///< Indices of values to be returned in queries.
-  int _numValues; ///< Number of values in database
-  int _querySize; ///< Number of values requested to be returned in queries.
+    /** Set values to be returned by queries.
+     *
+     * @pre Must call open() before queryVals()
+     *
+     * @param names Names of values to be returned in queries
+     * @param numVals Number of values to be returned in queries
+     */
+    void queryVals(const char* const* names,
+                   const size_t numVals);
+
+    /** Query the database.
+     *
+     * @pre Must call open() before query()
+     *
+     * @param vals Array for computed values (output from query), vals
+     *   must be allocated BEFORE calling query().
+     * @param numVals Number of values expected (size of pVals array)
+     * @param coords Coordinates of point for query
+     * @param numDims Number of dimensions for coordinates
+     * @param pCSQuery Coordinate system of coordinates
+     *
+     * @returns 0 on success, 1 on failure (i.e., could not interpolate
+     *   so values set to 0)
+     */
+    int query(double* vals,
+              const size_t numVals,
+              const double* coords,
+              const size_t numDims,
+              const spatialdata::geocoords::CoordSys* pCSQuery);
+
+private:
+
+    // PRIVATE METHODS ////////////////////////////////////////////////////
+
+    UniformDB(const UniformDB& data); ///< Not implemented
+    const UniformDB& operator=(const UniformDB& data); ///< Not implemented
+
+private:
+
+    // PRIVATE MEMBERS /////////////////////////////////////////////////////
+
+    std::string* _names; ///< Names of values in database
+    double* _values; ///< Values in database
+    size_t* _queryVals; ///< Indices of values to be returned in queries.
+    size_t _numValues; ///< Number of values in database
+    size_t _querySize; ///< Number of values requested to be returned in queries.
 }; // class UniformDB
 
 #include "UniformDB.icc"
 
 #endif // spatialdata_spatialdb_uniformdb_hh
 
-
-// End of file 
+// End of file

@@ -23,18 +23,17 @@
 // ----------------------------------------------------------------------
 // Get index into data array.
 inline
-int
-spatialdata::spatialdb::SimpleGridDB::_dataIndex(const int index0,
-						 const int size0,
-						 const int index1,
-						 const int size1,
-						 const int index2,
-						 const int size2) const
-{ // _dataIndex
-  // Order points so indexing works in any dimension.
-  const int locIndex = index2*size1*size0 + index1*size0 + index0;
-  return locIndex*_numValues;
+size_t
+spatialdata::spatialdb::SimpleGridDB::_dataIndex(const size_t index0,
+                                                 const size_t size0,
+                                                 const size_t index1,
+                                                 const size_t size1,
+                                                 const size_t index2,
+                                                 const size_t size2) const {
+    // Order points so indexing works in any dimension.
+    const size_t locIndex = index2*size1*size0 + index1*size0 + index0;
+    return locIndex*_numValues;
 } // _dataIndex
 
 
-// End of file 
+// End of file
