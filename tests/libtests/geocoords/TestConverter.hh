@@ -26,70 +26,64 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-/// Namespace for spatialdata package
+#include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA CoordSys
+
 namespace spatialdata {
-  namespace geocoords {
-    class TestConverter;
-  } // geocoords
+    namespace geocoords {
+        class TestConverter;
+        class TestConverter_Data;
+    } // geocoords
 } // spatialdata
 
-/// C++ unit testing for Converter
-class spatialdata::geocoords::TestConverter : public CppUnit::TestFixture
-{ // class TestConverter
+class spatialdata::geocoords::TestConverter : public CppUnit::TestFixture {
+    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+    CPPUNIT_TEST_SUITE(TestConverter);
 
-  // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestConverter );
-  CPPUNIT_TEST( testNAD27ToWGS84 );
-  CPPUNIT_TEST( testWGS84ToNAD27 );
-  CPPUNIT_TEST( testWGS84ToECEF );
-  CPPUNIT_TEST( testECEFToWGS84 );
-  CPPUNIT_TEST( testNAD27ToLocal );
-  CPPUNIT_TEST( testLocalToNAD27 );
-  CPPUNIT_TEST( testCartToCart );
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST(testConvert);
 
-  // PUBLIC METHODS /////////////////////////////////////////////////////
-public :
+    CPPUNIT_TEST_SUITE_END();
 
-  /// Test NAD27 -> WGS84
-  void testNAD27ToWGS84(void);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /// Test WGS84 -> NAD27
-  void testWGS84ToNAD27(void);
+    /// Setup testing data.
+    void setUp(void);
 
-  /// Test WGS84 -> ECEF
-  void testWGS84ToECEF(void);
+    /// Deallocate testing data.
+    void tearDown(void);
 
-  /// Test ECEF -> WGS84
-  void testECEFToWGS84(void);
+    /// Test convert().
+    void testConvert(void);
 
-  /// Test NAD27 -> local
-  void testNAD27ToLocal(void);
+    // PROTECTED MEMBERS ///////////////////////////////////////////////////////
+protected:
 
-  /// Test local -> NAD27
-  void testLocalToNAD27(void);
-
-  /// Test xyz -> xyz
-  void testCartToCart(void);
-
-  // PRIVATE METHODS ////////////////////////////////////////////////////
-private :
-
-  static const double _LONLATNAD27ELEV[]; ///< Array of locations in NAD27
-  static const double _LONLATWGS84ELEV[]; ///< Array of locs in WGS84 (elev)
-  static const double _LONLATWGS84GEOID[]; ///< Array of locs in WGS (geoid ht)
-  static const double _XYZECEF[]; ///< Array of locations in ECEF
-  static const double _XYZLOCAL[]; ///< Array of locations in local XYZ
-
-  static const double _ORIGINLON; ///< Longitude of local origin in NAD27
-  static const double _ORIGINLAT; ///< Latitude of local origin in NAD27
-  static const double _ORIGINELEV; ///< Elevation of local origin
-
-  static const int _NUMLOCS; ///< Number of locations
+    TestConverter_Data* _data; ///< Data for testing.
 
 }; // class TestConverter
 
+class spatialdata::geocoords::TestConverter_Data {
+    // PUBLIC METHODS //////////////////////////////////////////////////////////
+public:
+
+    /// Constructor
+    TestConverter_Data(void);
+
+    /// Destructor
+    ~TestConverter_Data(void);
+
+    // PUBLIC MEMBERS //////////////////////////////////////////////////////////
+public:
+
+    size_t numPoints; ///< Number of points.
+    size_t spaceDim; ///< Dimension of coordinate system.
+    const double* coordsSrc; ///< Coordinates of points in source coordinate system.
+    const double* coordsDest; ///< Coordinates of points in destination coordinate system.
+    const CoordSys* csSrc; ///< Source coordinate system.
+    const CoordSys* csDest; ///< Destination coordinate system.
+
+}; // TestConverter_Data
+
 #endif // spatialdata_geocoords_testconverter_hh
 
-
-// End of file 
+// End of file

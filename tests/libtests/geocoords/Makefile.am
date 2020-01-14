@@ -26,6 +26,8 @@ testgeocoords_SOURCES = \
 	TestCSCart.cc \
 	TestCSGeo.cc \
 	TestCSPicklerAscii.cc \
+	TestConverter.cc \
+	TestConverter_Cases.cc \
 	test_driver.cc
 
 #TestConverter.cc
