@@ -53,7 +53,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestTimeHistoryIO);
 // Test write(), read().
 void
 spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
-    const int npts = 6;
+    const size_t npts = 6;
     const double time[npts] = { 0.0, 0.2, 0.8, 1.0, 2.0, 10.0 };
     const double amplitude[npts] = { 0.0, 0.4, 1.6, 2.0, 4.0, 0.0 };
     const char* timeUnits = "minute";
@@ -61,7 +61,7 @@ spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
     const char* filename = "timehistory.dat";
     TimeHistoryIO::write(time, npts, amplitude, npts, timeUnits, filename);
 
-    int nptsIn = 0;
+    size_t nptsIn = 0;
     double* timeIn = 0;
     double* amplitudeIn = 0;
     TimeHistoryIO::read(&timeIn, &amplitudeIn, &nptsIn, filename);
@@ -72,7 +72,7 @@ spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
 
     CPPUNIT_ASSERT_EQUAL(npts, nptsIn);
     const double tolerance = 1.0e-06;
-    for (int i = 0; i < npts; ++i) {
+    for (size_t i = 0; i < npts; ++i) {
         CPPUNIT_ASSERT_DOUBLES_EQUAL(time[i], timeIn[i]/scale, tolerance);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i], tolerance);
     } // for
@@ -86,19 +86,19 @@ spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
 // Test read() with time history file that contains comments.
 void
 spatialdata::spatialdb::TestTimeHistoryIO::testReadComments(void) {
-    const int npts = 6;
+    const size_t npts = 6;
     const double time[npts] = { 0.0, 0.2, 0.8, 1.0, 2.0, 10.0 };
     const double amplitude[npts] = { 0.0, 0.4, 1.6, 2.0, 4.0, 0.0 };
     const char* filename = "data/timehistory_comments.dat";
 
-    int nptsIn = 0;
+    size_t nptsIn = 0;
     double* timeIn = 0;
     double* amplitudeIn = 0;
     TimeHistoryIO::read(&timeIn, &amplitudeIn, &nptsIn, filename);
 
     CPPUNIT_ASSERT_EQUAL(npts, nptsIn);
     const double tolerance = 1.0e-06;
-    for (int i = 0; i < npts; ++i) {
+    for (size_t i = 0; i < npts; ++i) {
         CPPUNIT_ASSERT_DOUBLES_EQUAL(time[i], timeIn[i], tolerance);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], amplitudeIn[i], tolerance);
     } // for

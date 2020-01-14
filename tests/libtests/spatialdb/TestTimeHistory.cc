@@ -75,7 +75,7 @@ spatialdata::spatialdb::TestTimeHistory::testAccessors(void) {
 // Test open() and close()
 void
 spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
-    const int npts = 6;
+    const size_t npts = 6;
     const double time[npts] = { 0.0, 0.2, 0.8, 1.0, 2.0, 10.0 };
     const double amplitude[npts] = { 0.0, 0.4, 1.6, 2.0, 4.0, 0.0 };
     const char* timeUnits = "minute";
@@ -94,21 +94,20 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
     const double scale = parser.parse(timeUnits);
     CPPUNIT_ASSERT(scale > 0.0);
 
-    CPPUNIT_ASSERT_EQUAL(0, th._ilower);
+    CPPUNIT_ASSERT_EQUAL(size_t(0), th._ilower);
     CPPUNIT_ASSERT_EQUAL(npts, th._npts);
-    CPPUNIT_ASSERT(0 != th._time);
-    CPPUNIT_ASSERT(0 != th._amplitude);
+    CPPUNIT_ASSERT(th._time);
+    CPPUNIT_ASSERT(th._amplitude);
     const double tolerance = 1.0e-06;
-    for (int i = 0; i < npts; ++i) {
+    for (size_t i = 0; i < npts; ++i) {
         CPPUNIT_ASSERT_DOUBLES_EQUAL(time[i], th._time[i]/scale, tolerance);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], th._amplitude[i],
-                                     tolerance);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], th._amplitude[i], tolerance);
     } // for
 
     th.close();
-    CPPUNIT_ASSERT_EQUAL(0, th._npts);
-    CPPUNIT_ASSERT(0 == th._time);
-    CPPUNIT_ASSERT(0 == th._amplitude);
+    CPPUNIT_ASSERT_EQUAL(size_t(0), th._npts);
+    CPPUNIT_ASSERT(!th._time);
+    CPPUNIT_ASSERT(!th._amplitude);
 
     th.close(); // Test calling close when already closed
 } // testOpenClose
@@ -119,7 +118,7 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
 void
 spatialdata::spatialdb::TestTimeHistory::testQuery(void) {
     const char* filename = "data/timehistory.timedb";
-    const int nqueries = 7;
+    const size_t nqueries = 7;
     const double timeQ[nqueries] = {
         0.5, 0.0, 0.6, 2.0, 5.0, 20.0, 8.0
     };
@@ -137,7 +136,7 @@ spatialdata::spatialdb::TestTimeHistory::testQuery(void) {
 
     const double tolerance = 1.0e-06;
     double amplitude = 0.0;
-    for (int i = 0; i < nqueries; ++i) {
+    for (size_t i = 0; i < nqueries; ++i) {
         int err = th.query(&amplitude, timeQ[i]);
         CPPUNIT_ASSERT_EQUAL(errE[i], err);
         if (0 == errE[i]) {
