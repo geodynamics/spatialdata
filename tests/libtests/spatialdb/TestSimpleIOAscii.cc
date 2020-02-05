@@ -125,7 +125,7 @@ spatialdata::spatialdb::TestSimpleIOAscii::testWriteRead(void) {
 // Test filename(), read() with spatial database file that contains
 // comments.
 void
-spatialdata::spatialdb::TestSimpleIOAscii::testReadComments(void) { // testReadComments
+spatialdata::spatialdb::TestSimpleIOAscii::testReadComments(void) {
     const size_t spaceDim = 3;
     const size_t numLocs = 5;
     const size_t numVals = 2;
