@@ -21,20 +21,13 @@
 #include "spatialdata/spatialdb/SimpleGridDB.hh" // USES SimpleGridDB
 #include "spatialdata/spatialdb/SimpleGridAscii.hh" // USES SimpleGridAscii
 
-#include "data/SimpleGridDBTestData.hh" // USES SimpleGridDBTestData
-
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
-
-#include <string.h> // USES strcmp() and memcpy()
-
-// ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestSimpleGridDB);
 
 // ----------------------------------------------------------------------
 // Setup testing data.
 void
 spatialdata::spatialdb::TestSimpleGridDB::setUp(void) {
-    _data = NULL;
+    _data = new TestSimpleGridDB_Data;CPPUNIT_ASSERT(_data);
 } // setUp
 
 
@@ -149,14 +142,14 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
     db._numZ = 5;
     db._numValues = 10;
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index 0.", 0, db._dataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index z.", 1*3*4*10, db._dataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index 0.", size_t(0), db._dataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index z.", size_t(1*3*4*10), db._dataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index y.", 1*4*10, db._dataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index yz.", 4*3*4*10 + 1*4*10, db._dataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index y.", size_t(1*4*10), db._dataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index yz.", size_t(4*3*4*10 + 1*4*10), db._dataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index x.", 1*10, db._dataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index xyz.", 3*4*3*10 + 1*4*10 + 2*10, db._dataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index x.", size_t(1*10), db._dataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index xyz.", size_t(3*4*3*10 + 1*4*10 + 2*10), db._dataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
 } // testDataIndex
 
 
@@ -169,7 +162,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryNearest(void) {
     SimpleGridDB db;
     _setupDB(&db);
     db.queryType(SimpleGridDB::NEAREST);
-    _checkQuery(db, _data->names, _data->queryNearest, 0, _data->numQueries, _data->spaceDim, _data->numVals);
+    _checkQuery(db, _data->names, _data->queryNearest, 0, _data->numQueries, _data->spaceDim, _data->numValues);
 } // _testQueryNearest
 
 
@@ -182,7 +175,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void) {
     SimpleGridDB db;
     _setupDB(&db);
     db.queryType(SimpleGridDB::LINEAR);
-    _checkQuery(db, _data->names, _data->queryLinear, _data->errFlags, _data->numQueries, _data->spaceDim, _data->numVals);
+    _checkQuery(db, _data->names, _data->queryLinear, _data->errFlags, _data->numQueries, _data->spaceDim, _data->numValues);
 } // _testQueryLinear
 
 
@@ -197,11 +190,11 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void) {
     db.open();
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", _data->spaceDim, db._spaceDim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numVals, db._numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, db._numValues);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", _data->dataDim, db._dataDim);
 
-    const int numVals = _data->numVals;
-    for (int i = 0; i < numVals; ++i) {
+    const int numValues = _data->numValues;
+    for (int i = 0; i < numValues; ++i) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.", std::string(_data->names[i]), db._names[i]);
         CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in units of values.", std::string(_data->units[i]), db._units[i]);
     } // for
@@ -238,119 +231,12 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void) {
 
 
 // ----------------------------------------------------------------------
-// Test filename(), write(), read().
-void
-spatialdata::spatialdb::TestSimpleGridDB::testIO(void) {
-    const size_t numX = 1;
-    const size_t numY = 2;
-    const size_t numZ = 3;
-    const size_t spaceDim = 3;
-    const size_t numVals = 2;
-    const size_t dataDim = 2;
-
-    const double x[numX] = { -2.0 };
-    const double y[numY] = { 0.0, 1.0 };
-    const double z[numZ] = { -2.0, -1.0, 2.0 };
-
-    const double coords[numX*numY*numZ*spaceDim] = {
-        -2.0,  0.0, -2.0,
-        -2.0,  1.0, -2.0,
-        -2.0,  0.0, -1.0,
-        -2.0,  1.0, -1.0,
-        -2.0,  0.0,  2.0,
-        -2.0,  1.0,  2.0,
-    };
-    const double data[numX*numY*numZ*numVals] = {
-        6.6,  3.4,
-        5.5,  6.7,
-        2.3,  4.1,
-        5.7,  2.0,
-        6.3,  6.9,
-        3.4,  6.4,
-    };
-    const char* names[numVals] = { "One", "Two" };
-    const char* units[numVals] = { "m", "m" };
-
-    geocoords::CSCart csOut;
-    SimpleGridDB dbOut;
-    dbOut.coordsys(csOut);
-    dbOut.allocate(numX, numY, numZ, numVals, spaceDim, dataDim);
-    dbOut.x(x, numX);
-    dbOut.y(y, numY);
-    dbOut.z(z, numZ);
-    dbOut.data(coords, numX*numY*numZ, spaceDim, data, numX*numY*numZ, numVals);
-    dbOut.names(names, numVals);
-    dbOut.units(units, numVals);
-
-    const char* filename = "data/grid.spatialdb";
-    dbOut.filename(filename);
-    SimpleGridAscii::write(dbOut);
-
-    SimpleGridDB dbIn;
-    dbIn.filename(filename);
-    dbIn.open();
-
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along x axis.", numX, dbIn._numX);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along y axis.", numY, dbIn._numY);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along z axis.", numZ, dbIn._numZ);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numVals, dbIn._numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dbIn._dataDim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dbIn._spaceDim);
-
-    CPPUNIT_ASSERT(dbIn._names);
-    CPPUNIT_ASSERT(dbIn._units);
-    for (int iVal = 0; iVal < numVals; ++iVal) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", std::string(names[iVal]), dbIn._names[iVal]);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", std::string(units[iVal]), dbIn._units[iVal]);
-    } // for
-
-    // Check to make sure values were read in correctly
-    CPPUNIT_ASSERT(dbIn._data);
-    const double tolerance = 1.0e-06;
-    for (int iX = 0, i = 0; iX < numX; ++iX) {
-        for (int iZ = 0; iZ < numZ; ++iZ) {
-            for (int iY = 0; iY < numY; ++iY) {
-                const int iD = dbIn._dataIndex(iX, numX, iY, numY, iZ, numZ);
-                for (int iVal = 0; iVal < numVals; ++iVal, ++i) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", 1.0, dbIn._data[iD+iVal]/data[i], tolerance);
-                } // for
-            } // for
-        } // for
-    } // for
-
-    // Perform simple nearest query to ensure consistency of read/query
-    dbIn.queryVals(names, numVals);
-    const size_t numLocs = 3;
-    const double points[numLocs*spaceDim] = {
-        -2.0, 1.0, -2.0,
-        -5.0, 0.0,  2.0,
-        +6.0, 1.0, -1.0,
-    };
-    const double dataE[numLocs*numVals] = {
-        5.5, 6.7,
-        6.3, 6.9,
-        5.7, 2.0,
-    };
-    const int errE[numLocs] = { 0, 0 };
-
-    for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
-        double data[numVals];
-        int err = dbIn.query(data, numVals, &points[iLoc*spaceDim], spaceDim, &csOut);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", errE[iLoc], err);
-        for (size_t iVal = 0; iVal < numVals; ++iVal) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in query.", 1.0, data[iVal]/dataE[iLoc*numVals+iVal], tolerance);
-        } // for
-    } // for
-} // testIO
-
-
-// ----------------------------------------------------------------------
 // Populate database with data.
 void
 spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
     CPPUNIT_ASSERT(db);
     CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_data->numVals > 0);
+    CPPUNIT_ASSERT(_data->numValues > 0);
 
     delete[] db->_x;db->_x = NULL;
     delete[] db->_y;db->_y = NULL;
@@ -360,7 +246,7 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
     delete[] db->_units;db->_units = NULL;
 
     db->label("Test database");
-    db->_numValues = _data->numVals;
+    db->_numValues = _data->numValues;
     db->_spaceDim = _data->spaceDim;
     db->_dataDim = _data->dataDim;
     db->_numX = _data->numX;
@@ -390,18 +276,18 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
         } // for
     } // if
 
-    db->_data = (numLocs > 0) ? new double[numLocs*_data->numVals] : NULL;
-    for (size_t i = 0; i < numLocs*_data->numVals; ++i) {
+    db->_data = (numLocs > 0) ? new double[numLocs*_data->numValues] : NULL;
+    for (size_t i = 0; i < numLocs*_data->numValues; ++i) {
         db->_data[i] = _data->dbData[i];
     } // for
 
-    db->_names = (_data->numVals > 0) ? new std::string[_data->numVals] : NULL;
-    for (int i = 0; i < _data->numVals; ++i) {
+    db->_names = (_data->numValues > 0) ? new std::string[_data->numValues] : NULL;
+    for (size_t i = 0; i < _data->numValues; ++i) {
         db->_names[i] = _data->names[i];
     } // for
 
-    db->_units = (_data->numVals > 0) ? new std::string[_data->numVals] : NULL;
-    for (int i = 0; i < _data->numVals; ++i) {
+    db->_units = (_data->numValues > 0) ? new std::string[_data->numValues] : NULL;
+    for (size_t i = 0; i < _data->numValues; ++i) {
         db->_units[i] = _data->units[i];
     } // for
 
@@ -420,45 +306,88 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
                                                       const int* flagsE,
                                                       const size_t numQueries,
                                                       const size_t spaceDim,
-                                                      const size_t numVals) {
+                                                      const size_t numValues) {
     CPPUNIT_ASSERT(names);
     CPPUNIT_ASSERT(queryData);
     CPPUNIT_ASSERT(numQueries);
     CPPUNIT_ASSERT(spaceDim);
-    CPPUNIT_ASSERT(numVals);
+    CPPUNIT_ASSERT(numValues);
 
     // reverse order of vals in queries
-    const char* valNames[numVals];
-    for (size_t i = 0; i < numVals; ++i) {
-        valNames[numVals-i-1] = names[i];
+    const char* valNames[numValues];
+    for (size_t i = 0; i < numValues; ++i) {
+        valNames[numValues-i-1] = names[i];
     }
-    db.queryVals(valNames, numVals);
+    db.queryVals(valNames, numValues);
 
-    double* vals = (0 < numVals) ? new double[numVals] : NULL;
+    double* vals = (0 < numValues) ? new double[numValues] : NULL;
     const double tolerance = 1.0e-06;
 
-    const size_t locSize = spaceDim + numVals;
+    const size_t locSize = spaceDim + numValues;
     spatialdata::geocoords::CSCart csCart;
     csCart.setSpaceDim(spaceDim);
     for (size_t iQuery = 0; iQuery < numQueries; ++iQuery) {
         const double* coords = &queryData[iQuery*locSize];
         const double* valsE = &queryData[iQuery*locSize+spaceDim];
-        const int err = db.query(vals, numVals, coords, spaceDim, &csCart);
+        const int err = db.query(vals, numValues, coords, spaceDim, &csCart);
         if (0 != flagsE) {
             CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in error flag.", flagsE[iQuery], err);
         } else {
             CPPUNIT_ASSERT(!err);
-            for (size_t iVal = 0; iVal < numVals; ++iVal) {
-                if (valsE[numVals-iVal-1] > tolerance) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value.", 1.0, vals[iVal]/valsE[numVals-iVal-1], tolerance);
+            for (size_t iVal = 0; iVal < numValues; ++iVal) {
+                if (valsE[numValues-iVal-1] > tolerance) {
+                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value.", 1.0, vals[iVal]/valsE[numValues-iVal-1], tolerance);
                 } else {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value.", valsE[numVals-iVal-1], vals[iVal], tolerance);
+                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value.", valsE[numValues-iVal-1], vals[iVal], tolerance);
                 } // if/else
             } // for
         } // if/else
     } // for
     delete[] vals;vals = NULL;
 } // _checkQuery
+
+
+// ----------------------------------------------------------------------
+spatialdata::spatialdb::TestSimpleGridDB_Data::TestSimpleGridDB_Data(void) :
+    numX(0),
+    numY(0),
+    numZ(0),
+    spaceDim(0),
+    numValues(0),
+    dataDim(0),
+    dbX(NULL),
+    dbY(NULL),
+    dbZ(NULL),
+    dbData(NULL),
+    names(NULL),
+    units(NULL),
+    numQueries(0),
+    queryNearest(NULL),
+    queryLinear(NULL),
+    errFlags(NULL),
+    filename(NULL) {}
+
+
+// ----------------------------------------------------------------------
+spatialdata::spatialdb::TestSimpleGridDB_Data::~TestSimpleGridDB_Data(void) {
+    numX = 0;
+    numY = 0;
+    numZ = 0;
+    spaceDim = 0;
+    numValues = 0;
+    dataDim = 0;
+    dbX = NULL;
+    dbY = NULL;
+    dbZ = NULL;
+    dbData = NULL;
+    names = NULL;
+    units = NULL;
+    numQueries = 0;
+    queryNearest = NULL;
+    queryLinear = NULL;
+    errFlags = NULL;
+    filename = NULL;
+} // destructor
 
 
 // End of file

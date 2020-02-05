@@ -46,10 +46,9 @@ class spatialdata::spatialdb::TestSimpleGridDB : public CppUnit::TestFixture {
     CPPUNIT_TEST(testDataIndex);
     CPPUNIT_TEST(testQueryNearest);
     CPPUNIT_TEST(testQueryLinear);
-    CPPUNIT_TEST(testIO);
     CPPUNIT_TEST(testRead);
 
-    CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE_END_ABSTRACT();
 
     // PUBLIC METHODS /////////////////////////////////////////////////////
 public:
@@ -71,9 +70,6 @@ public:
 
     /// Test _dataIndex()
     void testDataIndex(void);
-
-    /// Test read(), write().
-    void testIO(void);
 
     /// Test query() using nearest neighbor.
     void testQueryNearest(void);
@@ -139,7 +135,7 @@ public:
     size_t numY; ///< Number of locations in y dimension.
     size_t numZ; ///< Number of locations in z dimension.
     size_t spaceDim; ///< Spatial dimension for coordinates of locations
-    size_t numVals; ///< Number of values per location in database
+    size_t numValues; ///< Number of values per location in database
     size_t dataDim; ///< Spatial dimension of data in database
     double* dbX; ///< Coordinates along x dimension.
     double* dbY; ///< Coordinates along x dimension.

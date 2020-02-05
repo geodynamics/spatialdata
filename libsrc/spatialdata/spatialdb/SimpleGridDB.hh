@@ -29,6 +29,7 @@
 
 class spatialdata::spatialdb::SimpleGridDB : public SpatialDB { // SimpleGridDB
     friend class TestSimpleGridDB; // unit testing
+    friend class TestSimpleGridAscii;
     friend class SimpleGridAscii; // reader
 
 public:

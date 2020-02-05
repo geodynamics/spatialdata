@@ -28,6 +28,9 @@ testspatial_SOURCES = \
 	TestUserFunctionDB_Cases.cc \
 	TestSimpleDBData.cc \
 	TestSimpleIOAscii.cc \
+	TestSimpleGridAscii.cc \
+	TestSimpleGridDB.cc \
+	TestSimpleGridDB_Cases.cc \
 	TestTimeHistoryIO.cc \
 	TestTimeHistory.cc \
 	test_driver.cc
@@ -48,8 +51,6 @@ testspatial_SOURCES = \
 
 # TestSpatialDB.cc 
 
-# TestSimpleGridDB.cc \
-# TestSimpleGridDBCases.cc 
 
 
 
@@ -65,7 +66,6 @@ noinst_HEADERS = \
 	TestSimpleDBArea3D.hh \
 	TestSimpleDBVolume3D.hh \
 	TestSimpleGridDB.hh \
-	TestSimpleGridDBCases.hh \
 	TestUserFunctionDB.hh \
 	TestSpatialDB.hh
 
