@@ -64,6 +64,9 @@ AM_PROG_CC_C_O
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 
+# Require C++-11
+AX_CXX_COMPILE_STDCXX(11)
+
 # ----------------------------------------------------------------------
 # PROJ4
 AC_CHECK_LIB(proj, pj_init_plus, [
