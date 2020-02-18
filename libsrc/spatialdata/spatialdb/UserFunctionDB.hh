@@ -142,7 +142,7 @@ public:
      *
      * @param cs Coordinate system.
      */
-    void coordsys(const geocoords::CoordSys& cs);
+    void setCoordSys(const geocoords::CoordSys& cs);
 
 private:
 
@@ -157,7 +157,7 @@ private:
      */
     typedef int (*queryfn_type)(double* value,
                                 const double* coords,
-                                const int dim);
+                                const size_t dim);
 
     // PRIVATE METHODS //////////////////////////////////////////////////////
 private:
@@ -189,7 +189,7 @@ public:
 
         virtual int query(double* value,
                           const double* coords,
-                          const int dim) = 0;
+                          const size_t dim) = 0;
 
     };
     class QueryFn1D;

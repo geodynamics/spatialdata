@@ -41,7 +41,7 @@ public:
 
             int query(double* value,
                       const double* coords,
-                      const int dim) {
+                      const size_t dim) {
                 if (!value || !coords || ( 1 != dim) ) { return 1; }
                 *value = _fn(coords[0]);
                 return 0;
@@ -60,7 +60,7 @@ public:
 
             int query(double* value,
                       const double* coords,
-                      const int dim) {
+                      const size_t dim) {
                 if (!value || !coords || ( 2 != dim) ) { return 1; }
                 *value = _fn(coords[0], coords[1]);
                 return 0;
@@ -79,7 +79,7 @@ public:
 
             int query(double* value,
                       const double* coords,
-                      const int dim) {
+                      const size_t dim) {
                 if (!value || !coords || ( 3 != dim) ) { return 1; }
                 *value = _fn(coords[0], coords[1], coords[2]);
                 return 0;
@@ -275,9 +275,9 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
 // ----------------------------------------------------------------------
 // Set filename containing data.
 void
-spatialdata::spatialdb::UserFunctionDB::coordsys(const geocoords::CoordSys& cs) {
+spatialdata::spatialdb::UserFunctionDB::setCoordSys(const geocoords::CoordSys& cs) {
     delete _cs;_cs = cs.clone();assert(_cs);
-} // coordsys
+} // setCoordSys
 
 
 // ----------------------------------------------------------------------
