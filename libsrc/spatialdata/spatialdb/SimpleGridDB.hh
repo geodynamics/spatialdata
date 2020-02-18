@@ -55,13 +55,7 @@ public:
      *
      * @param value Name of data file.
      */
-    void filename(const char* value);
-
-    /// Open the database and prepare for querying.
-    void open(void);
-
-    /// Close the database.
-    void close(void);
+    void setFilename(const char* value);
 
     /** Set query type.
      *
@@ -69,17 +63,23 @@ public:
      *
      * @param queryType Set type of query
      */
-    void queryType(const QueryEnum queryType);
+    void setQueryType(const QueryEnum queryType);
+
+    /// Open the database and prepare for querying.
+    void open(void);
+
+    /// Close the database.
+    void close(void);
 
     /** Set values to be returned by queries.
      *
-     * @pre Must call open() before queryVals()
+     * @pre Must call open() before setQueryValues()
      *
      * @param names Names of values to be returned in queries
      * @param numVals Number of values to be returned in queries
      */
-    void queryVals(const char* const* names,
-                   const size_t numVals);
+    void setQueryValues(const char* const* names,
+                        const size_t numVals);
 
     /** Query the database.
      *
@@ -123,24 +123,24 @@ public:
      * @param values Values along x-axis.
      * @param size Number of values along x-axis.
      */
-    void x(const double* values,
-           const size_t size);
+    void setX(const double* values,
+              const size_t size);
 
     /** Set coordinates along y-axis;
      *
      * @param values Values along y-axis.
      * @param size Number of values along y-axis.
      */
-    void y(const double* values,
-           const size_t size);
+    void setY(const double* values,
+              const size_t size);
 
     /** Set coordinates along z-axis;
      *
      * @param values Values along z-axis.
      * @param size Number of values along z-axis.
      */
-    void z(const double* values,
-           const size_t size);
+    void setZ(const double* values,
+              const size_t size);
 
     /** Set data values.
      *
@@ -151,34 +151,34 @@ public:
      * @param numLocs2 Number of locations.
      * @param numValues Number of values per location.
      */
-    void data(const double* coords,
-              const size_t numLocs,
-              const size_t spaceDim,
-              const double* values,
-              const size_t numLocs2,
-              const size_t numValues);
+    void setData(const double* coords,
+                 const size_t numLocs,
+                 const size_t spaceDim,
+                 const double* values,
+                 const size_t numLocs2,
+                 const size_t numValues);
 
     /** Set names of data values.
      *
      * @param values Names of values.
      * @param numValues Number of values.
      */
-    void names(const char* const* values,
-               const size_t numValues);
+    void setNames(const char* const* values,
+                  const size_t numValues);
 
     /** Set units of data values.
      *
      * @param values Units of values.
      * @param numValues Number of values.
      */
-    void units(const char* const* values,
-               const size_t numValues);
+    void setUnits(const char* const* values,
+                  const size_t numValues);
 
     /** Set coordinate system.
      *
      * @param cs Coordinate system for spatial database.
      */
-    void coordsys(const geocoords::CoordSys& cs);
+    void setCoordSys(const geocoords::CoordSys& cs);
 
     // PRIVATE METHODS //////////////////////////////////////////////////////
 private:
@@ -287,12 +287,12 @@ private:
      *
      * @returns Index into data array.
      */
-    size_t _dataIndex(const size_t index0,
-                      const size_t size0,
-                      const size_t index1,
-                      const size_t size1,
-                      const size_t index2,
-                      const size_t size2) const;
+    size_t _getDataIndex(const size_t index0,
+                         const size_t size0,
+                         const size_t index1,
+                         const size_t size1,
+                         const size_t index2,
+                         const size_t size2) const;
 
     /** Get index into data array.
      *
@@ -301,8 +301,8 @@ private:
      *
      * @returns Index into data array.
      */
-    size_t _dataIndex(const double* const coords,
-                      const size_t spaceDim) const;
+    size_t _getDataIndex(const double* const coords,
+                         const size_t spaceDim) const;
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
 private:
@@ -314,7 +314,7 @@ private:
 
     double _xyz[3];
 
-    size_t* _queryVals; ///< Indices of values to be returned in queries.
+    size_t* _queryValues; ///< Indices of values to be returned in queries.
     size_t _querySize; ///< Number of values requested to be returned in queries.
 
     size_t _numX; ///< Number of points along x dimension.

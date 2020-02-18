@@ -409,7 +409,7 @@ spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
             buffer >> coords[iDim];
         } // for
 
-        const int indexData = db->_dataIndex(coords, spaceDim);
+        const int indexData = db->_getDataIndex(coords, spaceDim);
         for (size_t iVal = 0; iVal < db->_numValues; ++iVal) {
             if (!buffer.good()) {
                 std::ostringstream msg;
@@ -532,7 +532,7 @@ spatialdata::spatialdb::SimpleGridAscii::_writeData(std::ostream& fileout,
         for (int iZ = 0; iZ < numZ; ++iZ) {
             for (int iY = 0; iY < numY; ++iY) {
                 for (int iX = 0; iX < numX; ++iX) {
-                    const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
+                    const int iD = db._getDataIndex(iX, numX, iY, numY, iZ, numZ);
                     fileout
                         << std::setw(14) << db._x[iX]
                         << std::setw(14) << db._y[iY]
@@ -548,7 +548,7 @@ spatialdata::spatialdb::SimpleGridAscii::_writeData(std::ostream& fileout,
         const int iZ = 0;
         for (int iY = 0; iY < numY; ++iY) {
             for (int iX = 0; iX < numX; ++iX) {
-                const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
+                const int iD = db._getDataIndex(iX, numX, iY, numY, iZ, numZ);
                 fileout
                     << std::setw(14) << db._x[iX]
                     << std::setw(14) << db._y[iY];
@@ -562,7 +562,7 @@ spatialdata::spatialdb::SimpleGridAscii::_writeData(std::ostream& fileout,
         const int iY = 0;
         const int iZ = 0;
         for (int iX = 0; iX < numX; ++iX) {
-            const int iD = db._dataIndex(iX, numX, iY, numY, iZ, numZ);
+            const int iD = db._getDataIndex(iX, numX, iY, numY, iZ, numZ);
             fileout
                 << std::setw(14) << db._x[iX];
             for (int iV = 0; iV < numValues; ++iV) {

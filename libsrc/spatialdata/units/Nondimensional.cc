@@ -20,8 +20,7 @@
 
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
-#include <assert.h> \
-    // USES assert()
+#include <cassert> // USES assert()
 
 // ----------------------------------------------------------------------
 // Default constructor
@@ -31,14 +30,14 @@ spatialdata::units::Nondimensional::Nondimensional(void) :
     _time(1.0),
     _density(1.0),
     _temperature(1.0)
-{ // constructor
-} // constructor
+{}
+
 
 // ----------------------------------------------------------------------
 // Default destructor
 spatialdata::units::Nondimensional::~Nondimensional(void)
-{ // destructor
-} // destructor
+{}
+
 
 // ----------------------------------------------------------------------
 // Copy constructor.
@@ -48,14 +47,13 @@ spatialdata::units::Nondimensional::Nondimensional(const Nondimensional& dim) :
     _time(dim._time),
     _density(dim._density),
     _temperature(dim._temperature)
-{ // copy constructor
-} // copy constructor
+{}
+
 
 // ----------------------------------------------------------------------
 // Assignment operator.
 const spatialdata::units::Nondimensional&
-spatialdata::units::Nondimensional::operator=(const Nondimensional& dim)
-{ // operator=
+spatialdata::units::Nondimensional::operator=(const Nondimensional& dim) {
     if (this != &dim) {
         _length = dim._length;
         _pressure = dim._pressure;
@@ -67,71 +65,70 @@ spatialdata::units::Nondimensional::operator=(const Nondimensional& dim)
     return *this;
 } // operator=
 
+
 // ----------------------------------------------------------------------
 // Set value to nondimensionalize length scale in meters (SI units).
 void
-spatialdata::units::Nondimensional::lengthScale(const double value)
-{ // lengthScale
+spatialdata::units::Nondimensional::setLengthScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Length scale (" << value << ") must be positive.";
         throw std::runtime_error(msg.str());
     } // if
     _length = value;
-} // lengthScale
+} // setLengthScale
+
 
 // ----------------------------------------------------------------------
 // Set value to nondimensionalize pressure scale in Pascals (SI units).
 void
-spatialdata::units::Nondimensional::pressureScale(const double value)
-{ // pressureScale
+spatialdata::units::Nondimensional::setPressureScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Pressure scale (" << value << ") must be positive.";
         throw std::runtime_error(msg.str());
     } // if
     _pressure = value;
-} // pressureScale
+} // setPressureScale
+
 
 // ----------------------------------------------------------------------
 // Set value to nondimensionalize time scale in seconds (SI units).
 void
-spatialdata::units::Nondimensional::timeScale(const double value)
-{ // timeScale
+spatialdata::units::Nondimensional::setTimeScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Time scale (" << value << ") must be positive.";
         throw std::runtime_error(msg.str());
     } // if
     _time = value;
-} // timeScale
+} // setTimeScale
+
 
 // ----------------------------------------------------------------------
 // Set value to nondimensionalize density scale in kg/m^3 (SI units).
 void
-spatialdata::units::Nondimensional::densityScale(const double value)
-{ // densityScale
+spatialdata::units::Nondimensional::setDensityScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Density scale (" << value << ") must be positive.";
         throw std::runtime_error(msg.str());
     } // if
     _density = value;
-} // densityScale
+} // setDensityScale
 
 
 // ----------------------------------------------------------------------
 // Set value to nondimensionalize temperature scale in Kelvin (SI units).
 void
-spatialdata::units::Nondimensional::temperatureScale(const double value)
-{ // temperatureScale
+spatialdata::units::Nondimensional::setTemperatureScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Temperature scale (" << value << ") must be positive.";
         throw std::runtime_error(msg.str());
     } // if
     _temperature = value;
-} // temperatureScale
+} // setTemperatureScale
 
 
 // ----------------------------------------------------------------------
@@ -141,6 +138,7 @@ spatialdata::units::Nondimensional::computeDensityScale(void) {
     const double velocityScale = _length / _time;
     _density = _pressure / (velocityScale * velocityScale);
 } // computeDensityScale
+
 
 // ----------------------------------------------------------------------
 // Compute pressure scale from length, time, and density scales.

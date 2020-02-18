@@ -66,12 +66,12 @@ public:
 
     /** Set values to be returned by queries.
      *
-     * @pre Must call open() before queryVals()
+     * @pre Must call open() before setQueryValues()
      *
      * @param names Names of values to be returned in queries
      * @param numVals Number of values to be returned in queries
      */
-    void queryVals(const char* const* names,
+    void setQueryValues(const char* const* names,
                    const size_t numVals);
 
     /** Query the database.
@@ -107,7 +107,7 @@ private:
 
     std::string* _names; ///< Names of values in database
     double* _values; ///< Values in database
-    size_t* _queryVals; ///< Indices of values to be returned in queries.
+    size_t* _queryValues; ///< Indices of values to be returned in queries.
     size_t _numValues; ///< Number of values in database
     size_t _querySize; ///< Number of values requested to be returned in queries.
 }; // class UniformDB

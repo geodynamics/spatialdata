@@ -104,9 +104,9 @@ spatialdata::spatialdb::SimpleDBData::allocate(const size_t numLocs,
 // ----------------------------------------------------------------------
 // Set data values.
 void
-spatialdata::spatialdb::SimpleDBData::data(const double* values,
-                                           const size_t numLocs,
-                                           const size_t numValues) {
+spatialdata::spatialdb::SimpleDBData::setData(const double* values,
+                                              const size_t numLocs,
+                                              const size_t numValues) {
     assert(values);
     assert(numLocs == _numLocs);
     assert(numValues == _numValues);
@@ -118,9 +118,9 @@ spatialdata::spatialdb::SimpleDBData::data(const double* values,
 // ----------------------------------------------------------------------
 // Set coordinates of locations.
 void
-spatialdata::spatialdb::SimpleDBData::coordinates(const double* values,
-                                                  const size_t numLocs,
-                                                  const size_t spaceDim) {
+spatialdata::spatialdb::SimpleDBData::setCoordinates(const double* values,
+                                                     const size_t numLocs,
+                                                     const size_t spaceDim) {
     assert(values);
     assert(numLocs == _numLocs);
     assert(spaceDim == _spaceDim);
@@ -132,8 +132,8 @@ spatialdata::spatialdb::SimpleDBData::coordinates(const double* values,
 // ----------------------------------------------------------------------
 // Set names of values.
 void
-spatialdata::spatialdb::SimpleDBData::names(const char* const* values,
-                                            const size_t numValues) {
+spatialdata::spatialdb::SimpleDBData::setNames(const char* const* values,
+                                               const size_t numValues) {
     assert(values);
     assert(numValues == _numValues);
 
@@ -146,8 +146,8 @@ spatialdata::spatialdb::SimpleDBData::names(const char* const* values,
 // ----------------------------------------------------------------------
 // Set units of values.
 void
-spatialdata::spatialdb::SimpleDBData::units(const char* const* values,
-                                            const size_t numValues) {
+spatialdata::spatialdb::SimpleDBData::setUnits(const char* const* values,
+                                               const size_t numValues) {
     assert(values);
     assert(numValues == _numValues);
 

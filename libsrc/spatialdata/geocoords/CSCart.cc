@@ -30,7 +30,7 @@
 // Default constructor
 spatialdata::geocoords::CSCart::CSCart(void) :
     _toMeters(1.0) {
-    csType(CARTESIAN);
+    setCSType(CARTESIAN);
 } // constructor
 
 
@@ -57,15 +57,15 @@ spatialdata::geocoords::CSCart::clone(void) const {
 // ----------------------------------------------------------------------
 // Get factor to convert coordinates to meters.
 double
-spatialdata::geocoords::CSCart::toMeters(void) const {
+spatialdata::geocoords::CSCart::getToMeters(void) const {
     return _toMeters;
-} // toMeters
+} // getToMeters
 
 
 // ----------------------------------------------------------------------
 // Set factor to convert coordinates to meters.
 void
-spatialdata::geocoords::CSCart::toMeters(const double scale) {
+spatialdata::geocoords::CSCart::setToMeters(const double scale) {
     if (scale <= 0.0) {
         std::ostringstream msg;
         msg
@@ -74,7 +74,7 @@ spatialdata::geocoords::CSCart::toMeters(const double scale) {
         throw std::runtime_error(msg.str());
     } // if
     _toMeters = scale;
-} // toMeters
+} // setToMeters
 
 
 // ----------------------------------------------------------------------
@@ -83,7 +83,7 @@ void
 spatialdata::geocoords::CSCart::pickle(std::ostream& s) const {
     s << "cartesian {\n"
       << "  to-meters = " << _toMeters << "\n"
-      << "  space-dim = " << spaceDim() << "\n"
+      << "  space-dim = " << getSpaceDim() << "\n"
       << "}\n";
 } // pickle
 

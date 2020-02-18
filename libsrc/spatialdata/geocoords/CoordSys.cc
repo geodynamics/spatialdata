@@ -61,25 +61,25 @@ spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims) {
 // ----------------------------------------------------------------------
 // Get number of spatial dimensions in coordinate system.
 int
-spatialdata::geocoords::CoordSys::spaceDim(void) const {
+spatialdata::geocoords::CoordSys::getSpaceDim(void) const {
     return _spaceDim;
-} // spaceDim
+} // getSpaceDim
 
 
 // ----------------------------------------------------------------------
 // Get type of coordinate system
 spatialdata::geocoords::CoordSys::CSTypeEnum
-spatialdata::geocoords::CoordSys::csType(void) const {
+spatialdata::geocoords::CoordSys::getCSType(void) const {
     return _csType;
-} // csType
+} // getCSType
 
 
 // ----------------------------------------------------------------------
 // Set type of coordinate system.
 void
-spatialdata::geocoords::CoordSys::csType(const CSTypeEnum cs) {
+spatialdata::geocoords::CoordSys::setCSType(const CSTypeEnum cs) {
     _csType = cs;
-} // csType
+} // setCSType
 
 
 // End of file

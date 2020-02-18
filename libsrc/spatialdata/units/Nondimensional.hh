@@ -26,11 +26,14 @@
 
 #include "unitsfwd.hh"
 
+#include <stddef.h> // USES size_t
+
 /// C++ object for managing parameters defining a coordinate system
 class spatialdata::units::Nondimensional { // class Nondimensional
-    friend class TestNondimensional;   // Unit testing
+    friend class TestNondimensional; // Unit testing
 
 public:
+
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -56,61 +59,61 @@ public:
      *
      * @param value Length scale in meters (SI units).
      */
-    void lengthScale(const double value);
+    void setLengthScale(const double value);
 
     /** Get value to nondimensionalize length scale in meters (SI units).
      *
      * @returns Length scale in meters (SI units).
      */
-    double lengthScale(void) const;
+    double getLengthScale(void) const;
 
     /** Set value to nondimensionalize pressure scale in Pascals (SI units).
      *
      * @param value Pressure scale in Pascals (SI units).
      */
-    void pressureScale(const double value);
+    void setPressureScale(const double value);
 
     /** Get value to nondimensionalize pressure scale in Pascals (SI units).
      *
      * @returns Pressure scale in Pascals (SI units).
      */
-    double pressureScale(void) const;
+    double getPressureScale(void) const;
 
     /** Set value to nondimensionalize time scale in seconds (SI units).
      *
      * @param value Time scale in seconds (SI units).
      */
-    void timeScale(const double value);
+    void setTimeScale(const double value);
 
     /** Get value to nondimensionalize time scale in seconds (SI units).
      *
      * @returns Time scale in seconds (SI units).
      */
-    double timeScale(void) const;
+    double getTimeScale(void) const;
 
     /** Set value to nondimensionalize density scale in kg/m^3 (SI units).
      *
      * @param value Density scale in kg/m^3 (SI units).
      */
-    void densityScale(const double value);
+    void setDensityScale(const double value);
 
     /** Get value to nondimensionalize density scale in kg/m^3 (SI units).
      *
      * @returns Density scale in kg/m^3 (SI units).
      */
-    double densityScale(void) const;
+    double getDensityScale(void) const;
 
     /** Set value to nondimensionalize temperature scale in Kelvin (SI units).
      *
      * @param value Temperature scale in Kelvin (SI units).
      */
-    void temperatureScale(const double value);
+    void setTemperatureScale(const double value);
 
     /** Get value to nondimensionalize temperature scale in Kelvin (SI units).
      *
      * @returns Temperature scale in Kelvin (SI units).
      */
-    double temperatureScale(void) const;
+    double getTemperatureScale(void) const;
 
     /** Set density scale from length, time, and pressure scales.
      *
@@ -149,7 +152,7 @@ public:
      * @param scale Scale used to nondimensionalize value.
      */
     void nondimensionalize(double* const values,
-                           const int nvalues,
+                           const size_t nvalues,
                            const double scale) const;
 
     /** Make values dimensionless.
@@ -159,7 +162,7 @@ public:
      * @param scale Scale used to nondimensionalize value.
      */
     void nondimensionalize(float* const values,
-                           const int nvalues,
+                           const size_t nvalues,
                            const double scale) const;
 
     /** Make value dimensionless.
@@ -169,7 +172,7 @@ public:
      * @param scale Scale used to nondimensionalize value.
      */
     void dimensionalize(double* const values,
-                        const int nvalues,
+                        const size_t nvalues,
                         const double scale) const;
 
     /** Make value dimensionless.
@@ -179,23 +182,23 @@ public:
      * @param scale Scale used to nondimensionalize value.
      */
     void dimensionalize(float* const values,
-                        const int nvalues,
+                        const size_t nvalues,
                         const double scale) const;
 
 private:
+
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-    double _length;   ///< Length scale
-    double _pressure;   ///< Pressure scale
-    double _time;   ///< Time scale
-    double _density;   ///< Density scale
-    double _temperature;   ///< Temperature scale
+    double _length; ///< Length scale
+    double _pressure; ///< Pressure scale
+    double _time; ///< Time scale
+    double _density; ///< Density scale
+    double _temperature; ///< Temperature scale
 
 }; // class Nondimensional
 
 #include "Nondimensional.icc" // inline methods
 
 #endif // spatialdata_units_nondimensional_hh
-
 
 // End of file

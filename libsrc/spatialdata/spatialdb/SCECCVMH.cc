@@ -28,7 +28,7 @@
 #include <stdexcept> // USES std::logic_error
 #include <string.h> // USES memcpy()
 #include <strings.h> // USES strcasecmp()
-#include <assert.h> // USES assert()
+#include <cassert> // USES assert()
 
 // ----------------------------------------------------------------------
 // Constructor
@@ -48,7 +48,7 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
     _csUTM(new geocoords::CSGeo),
     _squashLimit(-2000.0),
     _minVs(0.0),
-    _queryVals(0),
+    _queryValues(NULL),
     _querySize(0),
     _squashTopo(false) {
     assert(_csUTM);
@@ -73,7 +73,7 @@ spatialdata::spatialdb::SCECCVMH::~SCECCVMH(void) {
 
     _squashLimit = 0.0;
     _minVs = 0.0;
-    delete[] _queryVals;_queryVals = NULL;
+    delete[] _queryValues;_queryValues = NULL;
     _querySize = 0;
     _squashTopo = 0;
 } // destructor
@@ -82,7 +82,7 @@ spatialdata::spatialdb::SCECCVMH::~SCECCVMH(void) {
 // ----------------------------------------------------------------------
 // Set minimum shear wave speed.
 void
-spatialdata::spatialdb::SCECCVMH::minVs(const double value) {
+spatialdata::spatialdb::SCECCVMH::setMinVs(const double value) {
     if (value < 0.0) {
         std::ostringstream msg;
         msg << "Value for minimum shear wave speed (" << value
@@ -90,7 +90,7 @@ spatialdata::spatialdb::SCECCVMH::minVs(const double value) {
         throw std::runtime_error(msg.str());
     } // if
     _minVs = value;
-} // minVs
+} // setMinVs
 
 
 // ----------------------------------------------------------------------
@@ -166,39 +166,37 @@ spatialdata::spatialdb::SCECCVMH::close(void) {
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::SCECCVMH::queryVals(const char* const* names,
-                                            const int numVals) {
+spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
+                                                 const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg
-            << "Number of values for query in spatial database " << label()
+        msg << "Number of values for query in spatial database " << getLabel()
             << "\n must be positive.\n";
         throw std::runtime_error(msg.str());
     } // if
-    assert(0 != names && 0 < numVals);
+    assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryVals;_queryVals = new int[numVals];
-    for (int iVal = 0; iVal < numVals; ++iVal) {
+    delete[] _queryValues;_queryValues = new size_t[numVals];
+    for (size_t iVal = 0; iVal < numVals; ++iVal) {
         if (0 == strcasecmp(names[iVal], "vp")) {
-            _queryVals[iVal] = QUERY_VP;
+            _queryValues[iVal] = QUERY_VP;
         } else if (0 == strcasecmp(names[iVal], "vs")) {
-            _queryVals[iVal] = QUERY_VS;
+            _queryValues[iVal] = QUERY_VS;
         } else if (0 == strcasecmp(names[iVal], "density")) {
-            _queryVals[iVal] = QUERY_DENSITY;
+            _queryValues[iVal] = QUERY_DENSITY;
         } else if (0 == strcasecmp(names[iVal], "topo-elev")) {
-            _queryVals[iVal] = QUERY_TOPOELEV;
+            _queryValues[iVal] = QUERY_TOPOELEV;
         } else if (0 == strcasecmp(names[iVal], "basement-depth")) {
-            _queryVals[iVal] = QUERY_BASEDEPTH;
+            _queryValues[iVal] = QUERY_BASEDEPTH;
         } else if (0 == strcasecmp(names[iVal], "moho-depth")) {
-            _queryVals[iVal] = QUERY_MOHODEPTH;
+            _queryValues[iVal] = QUERY_MOHODEPTH;
         } else if (0 == strcasecmp(names[iVal], "vp-tag")) {
-            _queryVals[iVal] = QUERY_VPTAG;
+            _queryValues[iVal] = QUERY_VPTAG;
         } else {
             std::ostringstream msg;
-            msg
-                << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << label() << "'. Available values are:\n"
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
+                << getLabel() << "'. Available values are:\n"
                 << "vp, vs, density, topo-elev, basement-depth, moho-depth, vp-tag.";
             throw std::runtime_error(msg.str());
         } // else
@@ -210,19 +208,19 @@ spatialdata::spatialdb::SCECCVMH::queryVals(const char* const* names,
 // Query the database.
 int
 spatialdata::spatialdb::SCECCVMH::query(double* vals,
-                                        const int numVals,
+                                        const size_t numVals,
                                         const double* coords,
-                                        const int numDims,
+                                        const size_t numDims,
                                         const spatialdata::geocoords::CoordSys* csQuery) {
     if (0 == _querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << label() << "\n"
-            << "have not been set. Please call queryVals() before query().\n";
+        msg << "Values to be returned by spatial database " << getLabel() << "\n"
+            << "have not been set. Please call setQueryValues() before query().\n";
         throw std::runtime_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << label() << "\n"
+            << getLabel() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::runtime_error(msg.str());
@@ -249,8 +247,8 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
     int queryFlag = 0;
     bool haveVp = false;
     double vp = 0.0;
-    for (int iVal = 0; iVal < numVals; ++iVal) {
-        switch (_queryVals[iVal]) {
+    for (size_t iVal = 0; iVal < numVals; ++iVal) {
+        switch (_queryValues[iVal]) {
         case QUERY_VP:
             outsideVoxet = _queryVp(&vals[iVal]);
             if (outsideVoxet) {

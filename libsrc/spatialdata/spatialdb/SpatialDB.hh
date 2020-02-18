@@ -49,13 +49,13 @@ public:
      *
      * @param label Label for database
      */
-    void label(const char* label);
+    void setLabel(const char* label);
 
     /** Get label of spatial database.
      *
      * @returns Label for database
      */
-    const char* label(void) const;
+    const char* getLabel(void) const;
 
     /// Open the database and prepare for querying.
     virtual
@@ -67,14 +67,14 @@ public:
 
     /** Set values to be returned by queries.
      *
-     * @pre Must call open() before queryVals()
+     * @pre Must call open() before setQueryValues()
      *
      * @param names Names of values to be returned in queries
      * @param numVals Number of values to be returned in queries
      */
     virtual
-    void queryVals(const char* const* names,
-                   const size_t numVals) = 0;
+    void setQueryValues(const char* const* names,
+                        const size_t numVals) = 0;
 
     /** Query the database.
      *

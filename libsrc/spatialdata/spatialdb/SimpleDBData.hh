@@ -59,9 +59,9 @@ public:
      * @param numLocs Number of locations.
      * @param numValues Number of values.
      */
-    void data(const double* values,
-              const size_t numLocs,
-              const size_t numValues);
+    void setData(const double* values,
+                 const size_t numLocs,
+                 const size_t numValues);
 
     /** Set coordinates of locations.
      *
@@ -71,9 +71,9 @@ public:
      * @param numLocs Number of locations.
      * @param spaceDim Spatial dimension of coordinates.
      */
-    void coordinates(const double* values,
-                     const size_t numLocs,
-                     const size_t spaceDim);
+    void setCoordinates(const double* values,
+                        const size_t numLocs,
+                        const size_t spaceDim);
 
     /** Set names of values.
      *
@@ -82,8 +82,8 @@ public:
      * @param names Array of names of values [numValues].
      * @param numValues Number of values.
      */
-    void names(const char* const* values,
-               const size_t numValues);
+    void setNames(const char* const* values,
+                  const size_t numValues);
 
     /** Set units of values.
      *
@@ -92,74 +92,74 @@ public:
      * @param units Array of units of values [numValues].
      * @param numValues Number of values.
      */
-    void units(const char* const* values,
-               const size_t numValues);
+    void setUnits(const char* const* values,
+                  const size_t numValues);
 
     /** Get number of locations for data.
      *
      * @returns Number of locations.
      */
-    size_t numLocs(void) const;
+    size_t getNumLocs(void) const;
 
     /** Get number of values for data.
      *
      * @returns Number of values.
      */
-    size_t numValues(void) const;
+    size_t getNumValues(void) const;
 
     /** Get spatial dimension of data distribution.
      *
      * @returns Spatial dimension.
      */
-    size_t dataDim(void) const;
+    size_t getDataDim(void) const;
 
     /** Get spatial dimension of locations.
      *
      * @returns Spatial dimension.
      */
-    size_t spaceDim(void) const;
+    size_t getSpaceDim(void) const;
 
     /** Get coordinates of location in database.
      *
      * @param index Index of location in database
      * @returns Coordinates of location.
      */
-    const double* coordinates(const size_t index) const;
+    const double* getCoordinates(const size_t index) const;
 
     /** Get coordinates of location in database.
      *
      * @param index Index of location in database
      * @returns Coordinates of location.
      */
-    double* coordinates(const size_t index);
+    double* getCoordinates(const size_t index);
 
     /** Get data values at location in database.
      *
      * @param index Index of location in database.
      * @returns Data values at location.
      */
-    const double* data(const size_t index) const;
+    const double* getData(const size_t index) const;
 
     /** Get data values at location in database.
      *
      * @param index Index of location in database.
      * @returns Data values at location.
      */
-    double* data(const size_t index);
+    double* getData(const size_t index);
 
     /** Get name of value.
      *
      * @param index Index of value.
      * @returns Name of value.
      */
-    const char* name(const size_t index) const;
+    const char* getName(const size_t index) const;
 
     /** Get units of value.
      *
      * @param index Index of value.
      * @returns Units of value.
      */
-    const char* units(const size_t index) const;
+    const char* getUnits(const size_t index) const;
 
 private:
 

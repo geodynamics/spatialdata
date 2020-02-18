@@ -40,7 +40,7 @@ spatialdata::spatialdb::SimpleGridDB::SimpleGridDB(void) :
     _x(NULL),
     _y(NULL),
     _z(NULL),
-    _queryVals(NULL),
+    _queryValues(NULL),
     _querySize(0),
     _numX(0),
     _numY(0),
@@ -68,7 +68,7 @@ spatialdata::spatialdb::SimpleGridDB::~SimpleGridDB(void) {
     _numValues = 0;
     delete[] _names;_names = NULL;
     delete[] _units;_units = NULL;
-    delete[] _queryVals;_queryVals = NULL;
+    delete[] _queryValues;_queryValues = NULL;
     _querySize = 0;
 
     delete _cs;_cs = NULL;
@@ -78,9 +78,9 @@ spatialdata::spatialdb::SimpleGridDB::~SimpleGridDB(void) {
 // ----------------------------------------------------------------------
 // Set filename containing data.
 void
-spatialdata::spatialdb::SimpleGridDB::filename(const char* value) {
+spatialdata::spatialdb::SimpleGridDB::setFilename(const char* value) {
     _filename = value;
-} // filename
+} // setFilename
 
 
 // ----------------------------------------------------------------------
@@ -116,28 +116,28 @@ spatialdata::spatialdb::SimpleGridDB::close(void) {
 // ----------------------------------------------------------------------
 // Set query type.
 void
-spatialdata::spatialdb::SimpleGridDB::queryType(const QueryEnum value) {
+spatialdata::spatialdb::SimpleGridDB::setQueryType(const QueryEnum value) {
     _queryType = value;
-} // queryType
+} // setQueryType
 
 
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
-                                                const size_t numVals) {
+spatialdata::spatialdb::SimpleGridDB::setQueryValues(const char* const* names,
+                                                     const size_t numVals) {
     assert(_data);
     if (0 == numVals) {
         std::ostringstream msg;
         msg
-            << "Number of values for query in spatial database " << label()
+            << "Number of values for query in spatial database " << getLabel()
             << "\n must be positive.\n";
         throw std::runtime_error(msg.str());
     } // if
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryVals;_queryVals = new size_t[numVals];
+    delete[] _queryValues;_queryValues = new size_t[numVals];
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
         const size_t numNames = _numValues;
@@ -150,14 +150,14 @@ spatialdata::spatialdb::SimpleGridDB::queryVals(const char* const* names,
         if (iName >= numNames) {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << label() << "'. Available values are:";
+                << getLabel() << "'. Available values are:";
             for (size_t iName = 0; iName < numNames; ++iName) {
                 msg << "\n  " << _names[iName];
             } // for
             msg << "\n";
             throw std::runtime_error(msg.str());
         } // if
-        _queryVals[iVal] = iName;
+        _queryValues[iVal] = iName;
     } // for
 } // queryVals
 
@@ -174,13 +174,13 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
 
     if (0 == querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << label() << "\n"
-            << "have not been set. Please call queryVals() before query().\n";
+        msg << "Values to be returned by spatial database " << getLabel() << "\n"
+            << "have not been set. Please call setQueryValues() before query().\n";
         throw std::runtime_error(msg.str());
     } else if (numVals != querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << label() << "\n"
+            << getLabel() << "\n"
             << "(" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::runtime_error(msg.str());
@@ -257,10 +257,10 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
         const size_t indexNearest0 = size_t(std::floor(index0+0.5));
         const size_t indexNearest1 = size_t(std::floor(index1+0.5));
         const size_t indexNearest2 = size_t(std::floor(index2+0.5));
-        const size_t indexData = _dataIndex(indexNearest0, size0, indexNearest1, size1, indexNearest2, size2);
+        const size_t indexData = _getDataIndex(indexNearest0, size0, indexNearest1, size1, indexNearest2, size2);
 
         for (size_t iVal = 0; iVal < querySize; ++iVal) {
-            vals[iVal] = _data[indexData+_queryVals[iVal]];
+            vals[iVal] = _data[indexData+_queryValues[iVal]];
 #if 0 // DEBUGGING
             std::cout << "val["<<iVal<<"]: " << vals[iVal]
                       << ", indexData: " << indexData
@@ -311,8 +311,8 @@ spatialdata::spatialdb::SimpleGridDB::allocate(const size_t numX,
 // ----------------------------------------------------------------------
 // Set coordinates along x-axis;
 void
-spatialdata::spatialdb::SimpleGridDB::x(const double* values,
-                                        const size_t size) {
+spatialdata::spatialdb::SimpleGridDB::setX(const double* values,
+                                           const size_t size) {
     if (size != _numX) {
         std::ostringstream msg;
         msg << "Mismatch in size (" << _numX << " != " << size
@@ -327,14 +327,14 @@ spatialdata::spatialdb::SimpleGridDB::x(const double* values,
     for (size_t i = 0; i < size; ++i) {
         _x[i] = values[i];
     } // for
-} // x
+} // setD
 
 
 // ----------------------------------------------------------------------
 // Set coordinates along y-axis;
 void
-spatialdata::spatialdb::SimpleGridDB::y(const double* values,
-                                        const size_t size) {
+spatialdata::spatialdb::SimpleGridDB::setY(const double* values,
+                                           const size_t size) {
     if (size != _numY) {
         std::ostringstream msg;
         msg << "Mismatch in size (" << _numY << " != " << size
@@ -349,14 +349,14 @@ spatialdata::spatialdb::SimpleGridDB::y(const double* values,
     for (size_t i = 0; i < size; ++i) {
         _y[i] = values[i];
     } // for
-} // y
+} // setY
 
 
 // ----------------------------------------------------------------------
 // Set coordinates along z-axis;
 void
-spatialdata::spatialdb::SimpleGridDB::z(const double* values,
-                                        const size_t size) {
+spatialdata::spatialdb::SimpleGridDB::setZ(const double* values,
+                                           const size_t size) {
     if (size != _numZ) {
         std::ostringstream msg;
         msg << "Mismatch in size (" << _numZ << " != " << size
@@ -371,18 +371,18 @@ spatialdata::spatialdb::SimpleGridDB::z(const double* values,
     for (size_t i = 0; i < size; ++i) {
         _z[i] = values[i];
     } // for
-} // z
+} // setZ
 
 
 // ----------------------------------------------------------------------
 // Set data values.
 void
-spatialdata::spatialdb::SimpleGridDB::data(const double* coords,
-                                           const size_t numLocs,
-                                           const size_t spaceDim,
-                                           const double* values,
-                                           const size_t numLocs2,
-                                           const size_t numValues) {
+spatialdata::spatialdb::SimpleGridDB::setData(const double* coords,
+                                              const size_t numLocs,
+                                              const size_t spaceDim,
+                                              const double* values,
+                                              const size_t numLocs2,
+                                              const size_t numValues) {
     if (numLocs != numLocs2) {
         std::ostringstream msg;
         msg << "Mismatch in number of locations (" << numLocs << " != " << numLocs2
@@ -409,20 +409,20 @@ spatialdata::spatialdb::SimpleGridDB::data(const double* coords,
 
     assert(_data);
     for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
-        const size_t indexData = _dataIndex(&coords[iLoc*spaceDim], spaceDim);
+        const size_t indexData = _getDataIndex(&coords[iLoc*spaceDim], spaceDim);
         const size_t jj = iLoc*numValues;
         for (size_t iV = 0; iV < numValues; ++iV) {
             _data[indexData+iV] = values[jj+iV];
         } // for
     } // for
-} // data
+} // setData
 
 
 // ----------------------------------------------------------------------
 // Set names of data values.
 void
-spatialdata::spatialdb::SimpleGridDB::names(const char* const* values,
-                                            const size_t numValues) {
+spatialdata::spatialdb::SimpleGridDB::setNames(const char* const* values,
+                                               const size_t numValues) {
     assert(values);
     if (numValues != _numValues) {
         std::ostringstream msg;
@@ -434,14 +434,14 @@ spatialdata::spatialdb::SimpleGridDB::names(const char* const* values,
     for (size_t i = 0; i < numValues; ++i) {
         _names[i] = values[i];
     } // for
-} // names
+} // setNames
 
 
 // ----------------------------------------------------------------------
 // Set units of data values.
 void
-spatialdata::spatialdb::SimpleGridDB::units(const char* const* values,
-                                            const size_t numValues) {
+spatialdata::spatialdb::SimpleGridDB::setUnits(const char* const* values,
+                                               const size_t numValues) {
     assert(values);
     if (numValues != _numValues) {
         std::ostringstream msg;
@@ -453,15 +453,15 @@ spatialdata::spatialdb::SimpleGridDB::units(const char* const* values,
     for (size_t i = 0; i < numValues; ++i) {
         _units[i] = values[i];
     } // for
-} // units
+} // setUnits
 
 
 // ----------------------------------------------------------------------
 // Set filename containing data.
 void
-spatialdata::spatialdb::SimpleGridDB::coordsys(const geocoords::CoordSys& cs) {
+spatialdata::spatialdb::SimpleGridDB::setCoordSys(const geocoords::CoordSys& cs) {
     delete _cs;_cs = cs.clone();assert(_cs);
-} // coordsys
+} // setCoordSys
 
 
 // ----------------------------------------------------------------------
@@ -520,10 +520,10 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const {
     } // if
 
     assert(_cs);
-    if (spaceDim != size_t(_cs->spaceDim())) {
+    if (spaceDim != size_t(_cs->getSpaceDim())) {
         msg << "Number of dimensions in coordinates of spatial distribution ("
             << spaceDim << ") does not match number of dimensions in coordinate "
-            << "system (" << _cs->spaceDim() << ")";
+            << "system (" << _cs->getSpaceDim() << ")";
         throw std::runtime_error(msg.str());
     } // if
 } // _checkCompatibility
@@ -585,15 +585,15 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate1D(double* vals,
     assert(0 <= indexX0 && indexX0 < numX);
     assert(0 <= indexX1 && indexX1 < numX);
 
-    const size_t index000 = _dataIndex(indexX0, numX, 0, 0, 0, 0);
-    const size_t index100 = _dataIndex(indexX1, numX, 0, 0, 0, 0);
+    const size_t index000 = _getDataIndex(indexX0, numX, 0, 0, 0, 0);
+    const size_t index100 = _getDataIndex(indexX1, numX, 0, 0, 0, 0);
 
     const double wt000 = wtX0;
     const double wt100 = wtX1;
 
     const size_t querySize = _querySize;
     for (size_t iVal = 0; iVal < querySize; ++iVal) {
-        const size_t qVal = _queryVals[iVal];
+        const size_t qVal = _queryValues[iVal];
         vals[iVal] =
             wt000 * _data[index000+qVal] +
             wt100 * _data[index100+qVal];
@@ -633,10 +633,10 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate2D(double* vals,
     assert(0 <= indexY0 && indexY0 < numY);
     assert(0 <= indexY1 && indexY1 < numY);
 
-    const size_t index000 = _dataIndex(indexX0, numX, indexY0, numY, 0, 0);
-    const size_t index010 = _dataIndex(indexX0, numX, indexY1, numY, 0, 0);
-    const size_t index100 = _dataIndex(indexX1, numX, indexY0, numY, 0, 0);
-    const size_t index110 = _dataIndex(indexX1, numX, indexY1, numY, 0, 0);
+    const size_t index000 = _getDataIndex(indexX0, numX, indexY0, numY, 0, 0);
+    const size_t index010 = _getDataIndex(indexX0, numX, indexY1, numY, 0, 0);
+    const size_t index100 = _getDataIndex(indexX1, numX, indexY0, numY, 0, 0);
+    const size_t index110 = _getDataIndex(indexX1, numX, indexY1, numY, 0, 0);
 
     const double wt000 = wtX0 * wtY0;
     const double wt010 = wtX0 * wtY1;
@@ -645,7 +645,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate2D(double* vals,
 
     const size_t querySize = _querySize;
     for (size_t iVal = 0; iVal < querySize; ++iVal) {
-        const size_t qVal = _queryVals[iVal];
+        const size_t qVal = _queryValues[iVal];
         vals[iVal] =
             wt000 * _data[index000+qVal] +
             wt010 * _data[index010+qVal] +
@@ -700,14 +700,14 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
     assert(0 <= indexZ0 && indexZ0 < numZ);
     assert(0 <= indexZ1 && indexZ1 < numZ);
 
-    const size_t index000 = _dataIndex(indexX0, numX, indexY0, numY, indexZ0, numZ);
-    const size_t index001 = _dataIndex(indexX0, numX, indexY0, numY, indexZ1, numZ);
-    const size_t index010 = _dataIndex(indexX0, numX, indexY1, numY, indexZ0, numZ);
-    const size_t index011 = _dataIndex(indexX0, numX, indexY1, numY, indexZ1, numZ);
-    const size_t index100 = _dataIndex(indexX1, numX, indexY0, numY, indexZ0, numZ);
-    const size_t index101 = _dataIndex(indexX1, numX, indexY0, numY, indexZ1, numZ);
-    const size_t index110 = _dataIndex(indexX1, numX, indexY1, numY, indexZ0, numZ);
-    const size_t index111 = _dataIndex(indexX1, numX, indexY1, numY, indexZ1, numZ);
+    const size_t index000 = _getDataIndex(indexX0, numX, indexY0, numY, indexZ0, numZ);
+    const size_t index001 = _getDataIndex(indexX0, numX, indexY0, numY, indexZ1, numZ);
+    const size_t index010 = _getDataIndex(indexX0, numX, indexY1, numY, indexZ0, numZ);
+    const size_t index011 = _getDataIndex(indexX0, numX, indexY1, numY, indexZ1, numZ);
+    const size_t index100 = _getDataIndex(indexX1, numX, indexY0, numY, indexZ0, numZ);
+    const size_t index101 = _getDataIndex(indexX1, numX, indexY0, numY, indexZ1, numZ);
+    const size_t index110 = _getDataIndex(indexX1, numX, indexY1, numY, indexZ0, numZ);
+    const size_t index111 = _getDataIndex(indexX1, numX, indexY1, numY, indexZ1, numZ);
 
     const double wt000 = wtX0 * wtY0 * wtZ0;
     const double wt001 = wtX0 * wtY0 * wtZ1;
@@ -720,7 +720,7 @@ spatialdata::spatialdb::SimpleGridDB::_interpolate3D(double* vals,
 
     const size_t querySize = _querySize;
     for (size_t iVal = 0; iVal < querySize; ++iVal) {
-        const size_t qVal = _queryVals[iVal];
+        const size_t qVal = _queryValues[iVal];
         vals[iVal] =
             wt000 * _data[index000+qVal] +
             wt001 * _data[index001+qVal] +
@@ -828,8 +828,8 @@ spatialdata::spatialdb::SimpleGridDB::_reindex3d(double* const index0,
 // ----------------------------------------------------------------------
 // Get index into data array.
 size_t
-spatialdata::spatialdb::SimpleGridDB::_dataIndex(const double* const coords,
-                                                 const size_t spaceDim) const {
+spatialdata::spatialdb::SimpleGridDB::_getDataIndex(const double* const coords,
+                                                    const size_t spaceDim) const {
     assert(coords);
 
     double index0 = 0;
@@ -852,9 +852,9 @@ spatialdata::spatialdb::SimpleGridDB::_dataIndex(const double* const coords,
         index0 = std::floor(_search(coords[0], _x, _numX)+0.5);
     } // if
 
-    const size_t indexData = _dataIndex(size_t(index0), size0, size_t(index1), size1, size_t(index2), size2);
+    const size_t indexData = _getDataIndex(size_t(index0), size0, size_t(index1), size1, size_t(index2), size2);
     return indexData;
-} // _dataIndex
+} // _getDataIndex
 
 
 // End of file

@@ -35,78 +35,77 @@
 
 // ----------------------------------------------------------------------
 /// Default constructor
-spatialdata::spatialdb::SimpleIO::SimpleIO(void)
-{ // constructor
-} // constructor
+spatialdata::spatialdb::SimpleIO::SimpleIO(void) {}
+
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::SimpleIO::~SimpleIO(void)
-{ // destructor
-} // destructor
+spatialdata::spatialdb::SimpleIO::~SimpleIO(void) {}
+
 
 // ----------------------------------------------------------------------
 void
 spatialdata::spatialdb::SimpleIO::checkCompatibility(
-			      const SimpleDBData& data,
-			      const spatialdata::geocoords::CoordSys* pCS)
-{ // checkCompatibility
-  assert(0 != pCS);
+    const SimpleDBData& data,
+    const spatialdata::geocoords::CoordSys* pCS) {
+    assert(pCS);
 
-  const int numLocs = data.numLocs();
-  const int spaceDim = data.spaceDim();
-  const int dataDim = data.dataDim();
-  std::ostringstream msg;
-  if (numLocs < 1 + dataDim) {
-    msg << "Spatial distribution with data dimensions of " << dataDim 
-	<< " must have at least " << 1+dataDim << " points.\n"
-	<< "Found " << numLocs << " points in distribution.";
-    throw std::runtime_error(msg.str());
-  } // if
-  if (0 == dataDim && numLocs > 1) {
-    msg << "Spatial distribution with data dimensions of " << dataDim 
-	<< " cannot have more than one point.\n"
-	<< "Found " << numLocs << " points in distribution.";
-    throw std::runtime_error(msg.str());
-  } // if
-  if (dataDim > spaceDim) {
-    msg << "Dimension of data in spatial distribution (" << dataDim
-	<< ") exceeds the number of dimensions of the coordinates ("
-	<< spaceDim << ").";
-    throw std::runtime_error(msg.str());
-  } // if
-  if (spaceDim != pCS->spaceDim()) {
-    msg << "Number of dimensions in coordinates of spatial distribution ("
-	<< spaceDim << ") does not match number of dimensions in coordinate "
-	<< "system (" << pCS->spaceDim() << ")";
-    throw std::runtime_error(msg.str());
-  } // if
+    const size_t numLocs = data.getNumLocs();
+    const size_t spaceDim = data.getSpaceDim();
+    const size_t dataDim = data.getDataDim();
+    std::ostringstream msg;
+    if (numLocs < 1 + dataDim) {
+        msg << "Spatial distribution with data dimensions of " << dataDim
+            << " must have at least " << 1+dataDim << " points.\n"
+            << "Found " << numLocs << " points in distribution.";
+        throw std::runtime_error(msg.str());
+    } // if
+    if (( 0 == dataDim) && ( numLocs > 1) ) {
+        msg << "Spatial distribution with data dimensions of " << dataDim
+            << " cannot have more than one point.\n"
+            << "Found " << numLocs << " points in distribution.";
+        throw std::runtime_error(msg.str());
+    } // if
+    if (dataDim > spaceDim) {
+        msg << "Dimension of data in spatial distribution (" << dataDim
+            << ") exceeds the number of dimensions of the coordinates ("
+            << spaceDim << ").";
+        throw std::runtime_error(msg.str());
+    } // if
+    if (spaceDim != pCS->getSpaceDim()) {
+        msg << "Number of dimensions in coordinates of spatial distribution ("
+            << spaceDim << ") does not match number of dimensions in coordinate "
+            << "system (" << pCS->getSpaceDim() << ")";
+        throw std::runtime_error(msg.str());
+    } // if
 } // checkCompatibility
+
 
 // ----------------------------------------------------------------------
 void
-spatialdata::spatialdb::SimpleIO::convertToSI(SimpleDBData* const data)
-{ // convertToSI
-  assert(0 != data);
+spatialdata::spatialdb::SimpleIO::convertToSI(SimpleDBData* const data) {
+    assert(data);
 
-  spatialdata::units::Parser parser;
+    spatialdata::units::Parser parser;
 
-  const int numValues = data->numValues();
-  std::vector<double> scales(numValues);
-  for (int iVal=0; iVal < numValues; ++iVal) {
-    if (strcasecmp(data->units(iVal), "none") != 0)
-      scales[iVal] = parser.parse(data->units(iVal));
-    else
-      scales[iVal] = 1.0;
-  } // for
+    const size_t numValues = data->getNumValues();
+    std::vector<double> scales(numValues);
+    for (size_t iVal = 0; iVal < numValues; ++iVal) {
+        if (strcasecmp(data->getUnits(iVal), "none") != 0) {
+            scales[iVal] = parser.parse(data->getUnits(iVal));
+        } else {
+            scales[iVal] = 1.0;
+        }
+    } // for
 
-  const int numLocs = data->numLocs();
-  for (int iLoc=0; iLoc < numLocs; ++iLoc) {
-    double* values = data->data(iLoc);
-    for (int iVal=0; iVal < numValues; ++iVal)
-      values[iVal] *= scales[iVal];
-  } // for
+    const size_t numLocs = data->getNumLocs();
+    for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
+        double* values = data->getData(iLoc);
+        for (size_t iVal = 0; iVal < numValues; ++iVal) {
+            values[iVal] *= scales[iVal];
+        }
+    } // for
 } // convertToSI
 
 
-// End of file 
+// End of file

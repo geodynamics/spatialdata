@@ -21,7 +21,7 @@
 // Set name of file for input/output.
 inline
 void
-spatialdata::utils::PointsStream::filename(const char* filename) {
+spatialdata::utils::PointsStream::setFilename(const char* filename) {
     _filename = filename;
 }
 
@@ -29,7 +29,7 @@ spatialdata::utils::PointsStream::filename(const char* filename) {
 // Get name of file for input/output.
 inline
 const char*
-spatialdata::utils::PointsStream::filename(void) const {
+spatialdata::utils::PointsStream::getFilename(void) const {
     return _filename.c_str();
 }
 
@@ -37,7 +37,7 @@ spatialdata::utils::PointsStream::filename(void) const {
 // Set comment flag.
 inline
 void
-spatialdata::utils::PointsStream::commentFlag(const char* flag) {
+spatialdata::utils::PointsStream::setCommentFlag(const char* flag) {
     _commentFlag = flag;
 }
 
@@ -45,7 +45,7 @@ spatialdata::utils::PointsStream::commentFlag(const char* flag) {
 // Get comment flag.
 inline
 const char*
-spatialdata::utils::PointsStream::commentFlag(void) const {
+spatialdata::utils::PointsStream::getCommentFlag(void) const {
     return _commentFlag.c_str();
 }
 
@@ -53,7 +53,7 @@ spatialdata::utils::PointsStream::commentFlag(void) const {
 // Set field width.
 inline
 void
-spatialdata::utils::PointsStream::fieldWidth(const size_t width) {
+spatialdata::utils::PointsStream::setFieldWidth(const size_t width) {
     _fieldWidth = width;
 }
 
@@ -61,7 +61,7 @@ spatialdata::utils::PointsStream::fieldWidth(const size_t width) {
 // Get field width.
 inline
 size_t
-spatialdata::utils::PointsStream::fieldWidth(void) const {
+spatialdata::utils::PointsStream::getFieldWidth(void) const {
     return _fieldWidth;
 }
 
@@ -69,7 +69,7 @@ spatialdata::utils::PointsStream::fieldWidth(void) const {
 // Set precision.
 inline
 void
-spatialdata::utils::PointsStream::precision(const size_t value) {
+spatialdata::utils::PointsStream::setPrecision(const size_t value) {
     _precision = value;
 }
 
@@ -77,7 +77,7 @@ spatialdata::utils::PointsStream::precision(const size_t value) {
 // Get precision.
 inline
 size_t
-spatialdata::utils::PointsStream::precision(void) const {
+spatialdata::utils::PointsStream::getPrecision(void) const {
     return _precision;
 }
 

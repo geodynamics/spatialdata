@@ -33,7 +33,7 @@
 spatialdata::geocoords::CSGeo::CSGeo(void) :
     _string("EPSG:4326" /* WGS84 */) {
     setSpaceDim(3);
-    csType(GEOGRAPHIC);
+    setCSType(GEOGRAPHIC);
 } // constructor
 
 
@@ -101,12 +101,12 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
     assert( (0 < numLocs && 0 != coords) ||
             (0 == numLocs && 0 == coords) );
 
-    if (numDims != size_t(spaceDim())) {
+    if (numDims != size_t(getSpaceDim())) {
         std::ostringstream msg;
         msg
             << "Number of spatial dimensions of coordinates ("
             << numDims << ") does not match number of spatial dimensions ("
-            << spaceDim() << ") of coordinate system.";
+            << getSpaceDim() << ") of coordinate system.";
         throw std::runtime_error(msg.str());
     } // if
 
@@ -127,7 +127,7 @@ void
 spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const {
     s << "geographic {\n"
       << "  cs-string = " << _string << "\n"
-      << "  space-dim = " << spaceDim() << "\n"
+      << "  space-dim = " << getSpaceDim() << "\n"
       << "}\n";
 } // pickle
 

@@ -21,14 +21,17 @@
 // Set filename for database.
 inline
 void
-spatialdata::spatialdb::SimpleIO::filename(const char* filename)
-{ _filename = filename; }
+spatialdata::spatialdb::SimpleIO::setFilename(const char* filename) {
+    _filename = filename;
+}
+
 
 // Get filename for database.
 inline
 const char*
-spatialdata::spatialdb::SimpleIO::filename(void) const
-{ return _filename.c_str(); }
+spatialdata::spatialdb::SimpleIO::getFilename(void) const {
+    return _filename.c_str();
+}
 
 
-// End of file 
+// End of file

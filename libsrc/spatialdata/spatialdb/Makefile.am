@@ -25,7 +25,6 @@ subpkginclude_HEADERS = \
 	SpatialDB.hh \
 	SpatialDB.icc \
 	SimpleDB.hh \
-	SimpleDB.icc \
 	SimpleIO.hh \
 	SimpleIO.icc \
 	SimpleIOAscii.hh \

@@ -109,12 +109,12 @@ public:
 
     /** Set values to be returned by queries.
      *
-     * @pre Must call open() before queryVals()
+     * @pre Must call open() before setQueryValues()
      *
      * @param names Names of values to be returned in queries
      * @param numVals Number of values to be returned in queries
      */
-    void queryVals(const char* const* names,
+    void setQueryValues(const char* const* names,
                    const size_t numVals);
 
     /** Query the database.

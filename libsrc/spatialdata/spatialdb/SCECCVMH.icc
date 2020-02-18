@@ -21,26 +21,29 @@
 // Set directory containing SCEC CVM-H data files.
 inline
 void
-spatialdata::spatialdb::SCECCVMH::dataDir(const char* dir) {
-  _dataDir = dir;
+spatialdata::spatialdb::SCECCVMH::setDataDir(const char* dir) {
+    _dataDir = dir;
 }
+
 
 // Set squashed topography/bathymetry flag and minimum elevation of
 inline
 void
-spatialdata::spatialdb::SCECCVMH::squash(const bool flag,
-					 const double limit) {
-  _squashTopo = flag;
-  _squashLimit = limit;
+spatialdata::spatialdb::SCECCVMH::setSquashFlag(const bool flag,
+                                                const double limit) {
+    _squashTopo = flag;
+    _squashLimit = limit;
 }
+
 
 // Compute minimum Vp from minimum Vs.
 inline
 double
 spatialdata::spatialdb::SCECCVMH::_minVp(void) const {
-  // Use inverse of nominal Vp->Vs relation to compute minimum Vp.
-  const double minVp = 1360.0 + 1.16 * _minVs;
-  return minVp;
+    // Use inverse of nominal Vp->Vs relation to compute minimum Vp.
+    const double minVp = 1360.0 + 1.16 * _minVs;
+    return minVp;
 }
+
 
 // End of file

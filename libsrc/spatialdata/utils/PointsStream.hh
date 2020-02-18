@@ -46,37 +46,37 @@ public:
      *
      * @param flag String identifying comments.
      */
-    void commentFlag(const char* flag);
+    void setCommentFlag(const char* flag);
 
     /** Get comment flag.
      *
      * @returns String identifying comments.
      */
-    const char* commentFlag(void) const;
+    const char* getCommentFlag(void) const;
 
     /** Set field width.
      *
      * @returns Width of field.
      */
-    void fieldWidth(const size_t width);
+    void setFieldWidth(const size_t width);
 
     /** Get field width.
      *
      * @returns Width of field.
      */
-    size_t fieldWidth(void) const;
+    size_t getFieldWidth(void) const;
 
     /** Set precision.
      *
      * @returns Precision.
      */
-    void precision(const size_t value);
+    void setPrecision(const size_t value);
 
     /** Get precision.
      *
      * @returns Precision.
      */
-    size_t precision(void) const;
+    size_t getPrecision(void) const;
 
     /** Set name of file.
      *
@@ -84,7 +84,7 @@ public:
      *
      * @param filename Name of file
      */
-    void filename(const char* filename);
+    void setFilename(const char* filename);
 
     /** Get name of fle.
      *
@@ -92,7 +92,7 @@ public:
      *
      * @returns Name of file
      */
-    const char* filename(void) const;
+    const char* getFilename(void) const;
 
     /** Read points from stdin.
      *

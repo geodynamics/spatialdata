@@ -65,10 +65,10 @@ public:
      *
      * @returns Number of dimensions
      */
-    int spaceDim(void) const;
+    int getSpaceDim(void) const;
 
     /// Get type of coordinate system
-    CSTypeEnum csType(void) const;
+    CSTypeEnum getCSType(void) const;
 
     /** Pickle coordinate system to ascii stream.
      *
@@ -96,7 +96,7 @@ protected:
      *
      * @param cs Type of coordinate system
      */
-    void csType(const CSTypeEnum cs);
+    void setCSType(const CSTypeEnum cs);
 
 private:
 

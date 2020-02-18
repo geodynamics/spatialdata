@@ -45,21 +45,21 @@ spatialdata::geocoords::Converter::convert(double* coords,
     assert(csDest);
     assert(csSrc);
 
-    if (csSrc->csType() != csDest->csType()) {
+    if (csSrc->getCSType() != csDest->getCSType()) {
         throw std::runtime_error("Cannot convert between coordinate systems "
                                  "of different types.");
     } // if
-    if (csSrc->spaceDim() != csDest->spaceDim()) {
+    if (csSrc->getSpaceDim() != csDest->getSpaceDim()) {
         std::ostringstream msg;
         msg << "Cannot convert between coordinate systems with different "
             << "spatial dimensions.\n"
             << "Source and destination coordinate systems have "
-            << csSrc->spaceDim() << " and " << csDest->spaceDim()
+            << csSrc->getSpaceDim() << " and " << csDest->getSpaceDim()
             << " dimensions, respectively.";
         throw std::runtime_error(msg.str());
     } // if
 
-    switch (csSrc->csType()) {
+    switch (csSrc->getCSType()) {
     case spatialdata::geocoords::CoordSys::GEOGRAPHIC:
     { // GEOGRAPHIC
         const CSGeo* csGeoDest = dynamic_cast<const CSGeo*>(csDest);
@@ -140,7 +140,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
             (0 == numLocs && 0 == coords));
 
     const int size = numLocs*numDims;
-    const double scale = csSrc->toMeters() / csDest->toMeters();
+    const double scale = csSrc->getToMeters() / csDest->getToMeters();
     for (int i = 0; i < size; ++i) {
         coords[i] *= scale;
     } // for

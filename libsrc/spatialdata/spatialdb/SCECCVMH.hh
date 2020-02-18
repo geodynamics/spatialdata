@@ -43,7 +43,7 @@ public:
      *
      * @param dir Directory containing data files.
      */
-    void dataDir(const char* dir);
+    void setDataDir(const char* dir);
 
     /** Set minimum shear wave speed. Corresponding minima for Vp and
      * density are enforced using nominal Vp->Vs relation and
@@ -51,7 +51,7 @@ public:
      *
      * @param value Minimum shear wave speed.
      */
-    void minVs(const double value);
+    void setMinVs(const double value);
 
     /** Set squashed topography/bathymetry flag and minimum elevation of
      * squashing.
@@ -59,8 +59,8 @@ public:
      * @param flag True if squashing, false otherwise.
      * @param limit Minimum elevation for squashing.
      */
-    void squash(const bool flag,
-                const double limit=-2000.0);
+    void setSquashFlag(const bool flag,
+                       const double limit=-2000.0);
 
     /// Open the database and prepare for querying.
     void open(void);
@@ -70,13 +70,13 @@ public:
 
     /** Set values to be returned by queries.
      *
-     * @pre Must call open() before queryVals()
+     * @pre Must call open() before setQueryValues()
      *
      * @param names Names of values to be returned in queries
      * @param numVals Number of values to be returned in queries
      */
-    void queryVals(const char* const* names,
-                   const int numVals);
+    void setQueryValues(const char* const* names,
+                        const size_t numVals);
 
     /** Query the database.
      *
@@ -94,9 +94,9 @@ public:
      * @returns 0 on success, 1 on failure (i.e., could not interpolate)
      */
     int query(double* vals,
-              const int numVals,
+              const size_t numVals,
               const double* coords,
-              const int numDims,
+              const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
@@ -174,8 +174,8 @@ private:
 
     double _squashLimit; ///< Elevation above which topography is squashed.
     double _minVs; ///< Minimum Vs to use.
-    int* _queryVals; ///< Indices of values to be returned in queries.
-    int _querySize; ///< Number of values requested to be returned in queries.
+    size_t* _queryValues; ///< Indices of values to be returned in queries.
+    size_t _querySize; ///< Number of values requested to be returned in queries.
     bool _squashTopo; ///< Squash topography/bathymetry to sea level.
 
 }; // SCECCVMH
