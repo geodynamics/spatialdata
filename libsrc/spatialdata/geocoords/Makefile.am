@@ -17,8 +17,6 @@
 subpackage = geocoords
 include $(top_srcdir)/subpackage.am
 
-SUBDIRS = data
-
 subpkginclude_HEADERS = \
 	Converter.hh \
 	CoordSys.hh \
