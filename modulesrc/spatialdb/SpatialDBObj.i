@@ -49,13 +49,13 @@ namespace spatialdata {
        *
        * @param label Label for database
        */
-      void label(const char* label);
+      void setLabel(const char* label);
       
       /** Get label of spatial database.
        *
        * @returns Label for database
        */
-      const char* label(void) const;
+      const char* getLabel(void) const;
       
       /// Open the database and prepare for querying.
       virtual
@@ -67,19 +67,18 @@ namespace spatialdata {
       
       /** Set values to be returned by queries.
        *
-       * @pre Must call open() before queryVals()
+       * @pre Must call open() before setQueryValues()
        *
        * @param names Names of values to be returned in queries
        * @param numVals Number of values to be returned in queries
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* names,
-	 const int numVals)
+	(const char* const* names, const size_t numVals)
 	  };
       virtual
-      void queryVals(const char* const* names,
-		     const int numVals) = 0;
-      %clear(const char* const* names, const int numVals);
+      void setQueryValues(const char* const* names,
+		     const size_t numVals) = 0;
+      %clear(const char* const* names, const size_t numVals);
 
       /** Query the database.
        *
@@ -97,21 +96,19 @@ namespace spatialdata {
        * @returns 0 on success, 1 on failure (i.e., could not interpolate)
        */
       %apply(double* INPLACE_ARRAY1, int DIM1) {
-	(double* vals,
-	 const int numVals)
+	(double* vals, const size_t numVals)
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
-	(const double* coords,
-	 const int numDims)
+	(const double* coords, const size_t numDims)
 	  };
       virtual
       int query(double* vals,
-		const int numVals,
+		const size_t numVals,
 		const double* coords,
-		const int numDims,
+		const size_t numDims,
 		const spatialdata::geocoords::CoordSys* csQuery) = 0;
-      %clear(double* vals, const int numVals);
-      %clear(const double* coords, const int numDims);
+      %clear(double* vals, const size_t numVals);
+      %clear(const double* coords, const size_t numDims);
       
       /** Perform multiple queries of the database.
        *
@@ -136,30 +133,30 @@ namespace spatialdata {
        */
       %apply(double* INPLACE_ARRAY2, int DIM1, int DIM2) {
 	(double* vals,
-	 const int numLocsV,
-	 const int numValsV)
+	 const size_t numLocsV,
+	 const size_t numValsV)
 	  };
       %apply(int* INPLACE_ARRAY1, int DIM1) {
 	(int* err,
-	 const int numLocsE)
+	 const size_t numLocsE)
 	  };
       %apply(double* IN_ARRAY2, int DIM1, int DIM2) {
 	(const double* coords,
-	 const int numLocsC,
-	 const int numDimsC)
+	 const size_t numLocsC,
+	 const size_t numDimsC)
 	  };
       void multiquery(double* vals,
-		      const int numLocsV,
-		      const int numValsV,
+		      const size_t numLocsV,
+		      const size_t numValsV,
 		      int* err,
-		      const int numLocsE,
+		      const size_t numLocsE,
 		      const double* coords,
-		      const int numLocsC,
-		      const int numDimsC,
+		      const size_t numLocsC,
+		      const size_t numDimsC,
 		      const spatialdata::geocoords::CoordSys* csQuery);
-      %clear(double* vals, const int numLocsV, const int numValsV);
-      %clear(int* err, const int numLocsE);
-      %clear(const double* coords, const int numLocsC, const int numDimsC);
+      %clear(double* vals, const size_t numLocsV, const size_t numValsV);
+      %clear(int* err, const size_t numLocsE);
+      %clear(const double* coords, const size_t numLocsC, const size_t numDimsC);
       
     }; // class SpatialDB
     

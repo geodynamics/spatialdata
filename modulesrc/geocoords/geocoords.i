@@ -27,10 +27,6 @@
 #include "spatialdata/geocoords/CoordSys.hh"
 #include "spatialdata/geocoords/CSCart.hh"
 #include "spatialdata/geocoords/CSGeo.hh"
-#include "spatialdata/geocoords/CSGeoProj.hh"
-#include "spatialdata/geocoords/CSGeoLocalCart.hh"
-
-#include "spatialdata/geocoords/Projector.hh"
 #include "spatialdata/geocoords/Converter.hh"
 %}
 
@@ -58,10 +54,6 @@ import_array();
 %include "CoordSys.i"
 %include "CSCart.i"
 %include "CSGeo.i"
-%include "CSGeoProj.i"
-%include "CSGeoLocalCart.i"
-
-%include "Projector.i"
 %include "Converter.i"
 
 // End of file

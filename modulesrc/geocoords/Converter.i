@@ -23,8 +23,7 @@ namespace spatialdata {
   namespace geocoords {
     class CoordSys; // forward declaration
 
-    class Converter
-    { // class Converter
+    class Converter {
     public :
       // PUBLIC METHODS /////////////////////////////////////////////////
 
@@ -39,16 +38,16 @@ namespace spatialdata {
        */
       %apply(double* INPLACE_ARRAY2, int DIM1, int DIM2) {
 	(double* coords,
-	 const int numLocs,
-	 const int numDims)
+	 const size_t numLocs,
+	 const size_t numDims)
 	  };
       static
       void convert(double* coords,
-		   const int numLocs,
-		   const int numDims,
+		   const size_t numLocs,
+		   const size_t numDims,
 		   const CoordSys* pCSDest,
 		   const CoordSys* pCSSrc);
-      %clear(double* coords, const int numLocs, const int numDims);
+      %clear(double* coords, const size_t numLocs, const size_t numDims);
 
     }; // class Converter
 

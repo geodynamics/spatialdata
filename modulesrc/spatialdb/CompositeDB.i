@@ -47,13 +47,12 @@ namespace spatialdata {
        * @param numNames Size of array of names.
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* names,
-	 const int numNames)
+	(const char* const* names, const size_t numNames)
 	  };
-      void dbA(SpatialDB* db,
+      void setDBA(SpatialDB* db,
 	       const char* const* names,
-	       const int numNames);
-      %clear(const char* const* names, const int numNames);
+	       const size_t numNames);
+      %clear(const char* const* names, const size_t numNames);
 
       /** Set database B.
        *
@@ -62,13 +61,12 @@ namespace spatialdata {
        * @param numNames Size of array of names.
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* names,
-	 const int numNames)
+	(const char* const* names, const size_t numNames)
 	  };
-      void dbB(SpatialDB* db,
+      void setDBB(SpatialDB* db,
 	       const char* const* names,
-	       const int numNames);
-      %clear(const char* const* names, const int numNames);
+	       const size_t numNames);
+      %clear(const char* const* names, const size_t numNames);
       
       /// Open the database and prepare for querying.
       void open(void);
@@ -78,18 +76,17 @@ namespace spatialdata {
       
       /** Set values to be returned by queries.
        *
-       * @pre Must call open() before queryVals()
+       * @pre Must call open() before setQueryValues()
        *
        * @param names Names of values to be returned in queries
        * @param numVals Number of values to be returned in queries
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* names,
-	 const int numVals)
+	(const char* const* names, const size_t numVals)
 	  };
-      void queryVals(const char* const* names,
-		     const int numVals);
-      %clear(const char* const* names, const int numVals);
+      void setQueryValues(const char* const* names,
+		     const size_t numVals);
+      %clear(const char* const* names, const size_t numVals);
       
       /** Query the database.
        *
@@ -106,20 +103,19 @@ namespace spatialdata {
        *   so values set to 0)
        */
       %apply(double* INPLACE_ARRAY1, int DIM1) {
-	(double* vals,
-	 const int numVals)
+	(double* vals, const size_t numVals)
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
 	(const double* coords,
-	 const int numDims)
+	 const size_t numDims)
 	  };
       int query(double* vals,
-		const int numVals,
+		const size_t numVals,
 		const double* coords,
-		const int numDims,
+		const size_t numDims,
 		const spatialdata::geocoords::CoordSys* pCSQuery);
-      %clear(double* vals, const int numVals);
-      %clear(const double* coords, const int numDims);
+      %clear(double* vals, const size_t numVals);
+      %clear(const double* coords, const size_t numDims);
       
     }; // class CompositeDB
     

@@ -39,22 +39,20 @@ namespace spatialdata {
        * @param filename Filename for time history.
        */
       %apply(double* IN_ARRAY1, int DIM1) {
-	(const double* time,
-	 const int nptsT)
+	(const double* time, const size_t nptsT)
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
-	(const double* amplitude,
-	 const int nptsA)
+	(const double* amplitude, const size_t nptsA)
 	  };
       static
       void write(const double* time,
-		 const int nptsT,
+		 const size_t nptsT,
 		 const double* amplitude,
-		 const int nptsA,
+		 const size_t nptsA,
 		 const char* timeUnits,
 		 const char* filename);
-      %clear(const double* time, const int nptsT);
-      %clear(const double* amplitude, const int nptsA);
+      %clear(const double* time, const size_t nptsT);
+      %clear(const double* amplitude, const size_t nptsA);
 
     }; // class TimeHistoryIO
 

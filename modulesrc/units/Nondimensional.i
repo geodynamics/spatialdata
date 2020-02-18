@@ -38,68 +38,68 @@ namespace spatialdata {
        *
        * @param value Length scale in meters (SI units).
        */
-      void lengthScale(const double value);
+      void setLengthScale(const double value);
       
       /** Get value to nondimensionalize length scale in meters (SI
        * units).
        *
        * @returns Length scale in meters (SI units).
        */
-      double lengthScale(void) const;
+      double getLengthScale(void) const;
       
       /** Set value to nondimensionalize pressure scale in Pascals (SI
        * units).
        *
        * @param value Pressure scale in Pascals (SI units).
        */
-      void pressureScale(const double value);
+      void setPressureScale(const double value);
       
       /** Get value to nondimensionalize pressure scale in Pascals (SI
        * units).
        *
        * @returns Pressure scale in Pascals (SI units).
        */
-      double pressureScale(void) const;
+      double getPressureScale(void) const;
       
       /** Set value to nondimensionalize time scale in seconds (SI
        * units).
        *
        * @param value Time scale in seconds (SI units).
        */
-      void timeScale(const double value);
+      void setTimeScale(const double value);
       
       /** Get value to nondimensionalize time scale in seconds (SI
        * units).
        *
        * @returns Time scale in seconds (SI units).
        */
-      double timeScale(void) const;
+      double getTimeScale(void) const;
       
       /** Set value to nondimensionalize density scale in kg/m^3 (SI
        * units).
        *
        * @param value Density scale in kg/m^3 (SI units).
        */
-      void densityScale(const double value);
+      void setDensityScale(const double value);
       
       /** Get value to nondimensionalize density scale in kg/m^3 (SI
        * units).
        *
        * @returns Density scale in kg/m^3 (SI units).
        */
-      double densityScale(void) const;
+      double getDensityScale(void) const;
       
       /** Set value to nondimensionalize temperature scale in Kelvin (SI units).
        *
        * @param value Temperature scale in Kelvin (SI units).
        */
-      void temperatureScale(const double value);
+      void setTemperatureScale(const double value);
 
       /** Get value to nondimensionalize temperature scale in Kelvin (SI units).
        *
        * @returns Temperature scale in Kelvin (SI units).
        */
-      double temperatureScale(void) const;
+      double getTemperatureScale(void) const;
 	
       /** Set density scale from length, time, and pressure scales.
        *
@@ -139,7 +139,7 @@ namespace spatialdata {
        * @param scale Scale used to nondimensionalize value.
        */
       void nondimensionalize(double* const values,
-			     const int nvalues,
+			     const size_t nvalues,
 			     const double scale) const;
       
       /** Make value dimensionless.
@@ -149,7 +149,7 @@ namespace spatialdata {
        * @param scale Scale used to nondimensionalize value.
        */
       void dimensionalize(double* const values,
-			  const int nvalues,
+			  const size_t nvalues,
 			  const double scale) const;
       
     }; // class Nondimensional

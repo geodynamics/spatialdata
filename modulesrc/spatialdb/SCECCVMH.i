@@ -42,7 +42,7 @@ namespace spatialdata {
        *
        * @param dir Directory containing data files.
        */
-      void dataDir(const char* dir);
+      void setDataDir(const char* dir);
       
       /** Set minimum shear wave speed. Corresponding minima for Vp and
        * density are enforced using nominal Vp->Vs relation and
@@ -50,7 +50,7 @@ namespace spatialdata {
        *
        * @param value Minimum shear wave speed.
        */
-      void minVs(const double value);
+      void setMinVs(const double value);
       
       /** Set squashed topography/bathymetry flag and minimum
        * elevation of squashing.
@@ -58,8 +58,8 @@ namespace spatialdata {
        * @param flag True if squashing, false otherwise.
        * @param limit Minimum elevation for squashing.
        */
-      void squash(const bool flag,
-		  const double limit =-2000.0);
+      void setSquashFlag(const bool flag,
+			 const double limit =-2000.0);
       
       /// Open the database and prepare for querying.
       void open(void);
@@ -69,18 +69,17 @@ namespace spatialdata {
       
       /** Set values to be returned by queries.
        *
-       * @pre Must call open() before queryVals()
+       * @pre Must call open() before setQueryValues()
        *
        * @param names Names of values to be returned in queries
        * @param numVals Number of values to be returned in queries
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* names,
-	 const int numVals)
+	(const char* const* names, const size_t numVals)
 	  };
-      void queryVals(const char* const* names,
-		     const int numVals);
-      %clear(const char* const* names, const int numVals);
+      void setQueryValues(const char* const* names,
+			  const size_t numVals);
+      %clear(const char* const* names, const size_t numVals);
       
       /** Query the database.
        *
@@ -98,20 +97,18 @@ namespace spatialdata {
        * @returns 0 on success, 1 on failure (i.e., could not interpolate)
        */
       %apply(double* INPLACE_ARRAY1, int DIM1) {
-	(double* vals,
-	 const int numVals)
+	(double* vals, const size_t numVals)
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
-	(const double* coords,
-	 const int numDims)
+	(const double* coords, const size_t numDims)
 	  };
       int query(double* vals,
-		const int numVals,
+		const size_t numVals,
 		const double* coords,
-		const int numDims,
+		const size_t numDims,
 		const spatialdata::geocoords::CoordSys* pCSQuery);
-      %clear(double* vals, const int numVals);
-      %clear(const double* coords, const int numDims); 
+      %clear(double* vals, const size_t numVals);
+      %clear(const double* coords, const size_t numDims); 
       
     }; // SCECCVMH
     

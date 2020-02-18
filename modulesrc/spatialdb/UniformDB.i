@@ -55,15 +55,15 @@ namespace spatialdata {
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
 	(const double* values,
-	 const int numValues)
+	 const size_t numValues)
 	  };
       void setData(const char* const* names,
 		   const char* const* names,
 		   const double* values,
-		   const int numValues);
+		   const size_t numValues);
       %clear(const char* const* names);
       %clear(const char* const* units);
-      %clear(const double* values, const int numValues);
+      %clear(const double* values, const size_t numValues);
       
       /// Open the database and prepare for querying.
       void open(void);
@@ -73,18 +73,17 @@ namespace spatialdata {
       
       /** Set values to be returned by queries.
        *
-       * @pre Must call open() before queryVals()
+       * @pre Must call open() before setQueryValues()
        *
        * @param names Names of values to be returned in queries
        * @param numVals Number of values to be returned in queries
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* names,
-	 const int numVals)
+	(const char* const* names, const size_t numVals)
 	  };
-      void queryVals(const char* const* names,
-		     const int numVals);
-      %clear(const char* const* names, const int numVals);
+      void setQueryValues(const char* const* names,
+		     const size_t numVals);
+      %clear(const char* const* names, const size_t numVals);
       
       /** Query the database.
        *
@@ -101,20 +100,18 @@ namespace spatialdata {
        *   so values set to 0)
        */
       %apply(double* INPLACE_ARRAY1, int DIM1) {
-	(double* vals,
-	 const int numVals)
+	(double* vals, const size_t numVals)
 	  };
       %apply(double* IN_ARRAY1, int DIM1) {
-	(const double* coords,
-	 const int numDims)
+	(const double* coords, const size_t numDims)
 	  };
       int query(double* vals,
-		const int numVals,
+		const size_t numVals,
 		const double* coords,
-		const int numDims,
+		const size_t numDims,
 		const spatialdata::geocoords::CoordSys* pCSQuery);
-      %clear(double* vals, const int numVals);
-      %clear(const double* coords, const int numDims);
+      %clear(double* vals, const size_t numVals);
+      %clear(const double* coords, const size_t numDims);
       
     }; // class UniformDB
     
