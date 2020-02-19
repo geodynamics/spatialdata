@@ -51,18 +51,7 @@ spatialdata::spatialdb::CompositeDB::CompositeDB(const char* label) :
 spatialdata::spatialdb::CompositeDB::~CompositeDB(void) {
     // Don't manage memory for dbA and dbB
 
-    if (!_infoA) {
-        delete[] _infoA->query_buffer;_infoA->query_buffer = NULL;
-        delete[] _infoA->query_indices;_infoA->query_indices = NULL;
-        delete[] _infoA->names_values;_infoA->names_values = NULL;
-    } // if
     delete _infoA;_infoA = NULL;
-
-    if (!_infoB) {
-        delete[] _infoB->query_buffer;_infoB->query_buffer = NULL;
-        delete[] _infoB->query_indices;_infoB->query_indices = NULL;
-        delete[] _infoB->names_values;_infoB->names_values = NULL;
-    } // if
     delete _infoB;_infoB = NULL;
 } // destructor
 
@@ -78,22 +67,8 @@ spatialdata::spatialdb::CompositeDB::setDBA(SpatialDB* db,
     assert(numNames > 0);
 
     // Clear out old data
-    if (_infoA) {
-        delete[] _infoA->query_buffer;_infoA->query_buffer = NULL;
-        delete[] _infoA->query_indices;_infoA->query_indices = NULL;
-        delete[] _infoA->names_values;_infoA->names_values = NULL;
-    } else {
-        _infoA = new dbinfo;
-    }
-
+    delete _infoA;_infoA = new dbinfo;
     _dbA = db;
-
-    // Initialize data
-    _infoA->query_buffer = NULL;
-    _infoA->query_indices = NULL;
-    _infoA->names_values = NULL;
-    _infoA->query_size = 0;
-    _infoA->num_names = 0;
 
     // Set data
     if (numNames > 0) {
@@ -101,7 +76,7 @@ spatialdata::spatialdb::CompositeDB::setDBA(SpatialDB* db,
         _infoA->num_names = numNames;
         for (size_t i = 0; i < numNames; ++i) {
             _infoA->names_values[i] = names[i];
-        }
+        } // for
     } // if
 } // setDBA
 
@@ -117,22 +92,8 @@ spatialdata::spatialdb::CompositeDB::setDBB(SpatialDB* db,
     assert(numNames > 0);
 
     // Clear out old data
-    if (_infoB) {
-        delete[] _infoB->query_buffer;_infoB->query_buffer = NULL;
-        delete[] _infoB->query_indices;_infoB->query_indices = NULL;
-        delete[] _infoB->names_values;_infoB->names_values = NULL;
-    } else {
-        _infoB = new dbinfo;
-    }
-
+    delete _infoB;_infoB = new dbinfo;
     _dbB = db;
-
-    // Initialize data
-    _infoB->query_buffer = NULL;
-    _infoB->query_indices = NULL;
-    _infoB->names_values = NULL;
-    _infoB->query_size = 0;
-    _infoB->num_names = 0;
 
     // Set data
     if (numNames > 0) {
@@ -140,7 +101,7 @@ spatialdata::spatialdb::CompositeDB::setDBB(SpatialDB* db,
         _infoB->num_names = numNames;
         for (size_t i = 0; i < numNames; ++i) {
             _infoB->names_values[i] = names[i];
-        }
+        } // for
     } // if
 } // setDBB
 

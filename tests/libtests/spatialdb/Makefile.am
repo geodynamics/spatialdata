@@ -31,12 +31,12 @@ testspatial_SOURCES = \
 	TestSimpleGridAscii.cc \
 	TestSimpleGridDB.cc \
 	TestSimpleGridDB_Cases.cc \
+	TestCompositeDB.cc \
 	TestTimeHistoryIO.cc \
 	TestTimeHistory.cc \
 	test_driver.cc
 
 
-# TestCompositeDB.cc \
 # TestGravityField.cc \
 # TestSCECCVMH.cc
 
@@ -55,7 +55,6 @@ testspatial_SOURCES = \
 
 
 noinst_HEADERS = \
-	TestCompositeDB.hh \
 	TestGravityField.hh \
 	TestSCECCVMH.hh \
 	TestSimpleDBQuery.hh \

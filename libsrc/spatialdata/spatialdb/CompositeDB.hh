@@ -119,6 +119,23 @@ private:
         std::string* names_values;
         size_t query_size;
         size_t num_names;
+
+        dbinfo(void) :
+            query_buffer(NULL),
+            query_indices(NULL),
+            names_values(NULL),
+            query_size(0),
+            num_names(0) {}
+
+
+        ~dbinfo(void) {
+            delete[] query_buffer;query_buffer = NULL;
+            delete[] query_indices;query_indices = NULL;
+            delete[] names_values;names_values = NULL;
+            query_size = 0;
+            num_names = 0;
+        } // destructor
+
     }; // dbinfo
 
 private:
