@@ -82,21 +82,21 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIO(void) {
 
     geocoords::CSCart csOut;
     SimpleGridDB dbOut;
-    dbOut.coordsys(csOut);
+    dbOut.setCoordSys(csOut);
     dbOut.allocate(numX, numY, numZ, numValues, spaceDim, dataDim);
-    dbOut.x(x, numX);
-    dbOut.y(y, numY);
-    dbOut.z(z, numZ);
-    dbOut.data(coords, numX*numY*numZ, spaceDim, data, numX*numY*numZ, numValues);
-    dbOut.names(names, numValues);
-    dbOut.units(units, numValues);
+    dbOut.setX(x, numX);
+    dbOut.setY(y, numY);
+    dbOut.setZ(z, numZ);
+    dbOut.setData(coords, numX*numY*numZ, spaceDim, data, numX*numY*numZ, numValues);
+    dbOut.setNames(names, numValues);
+    dbOut.setUnits(units, numValues);
 
     const char* filename = "data/grid.spatialdb";
-    dbOut.filename(filename);
+    dbOut.setFilename(filename);
     SimpleGridAscii::write(dbOut);
 
     SimpleGridDB dbIn;
-    dbIn.filename(filename);
+    dbIn.setFilename(filename);
     dbIn.open();
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along x axis.", numX, dbIn._numX);
@@ -119,7 +119,7 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIO(void) {
     for (size_t iX = 0, i = 0; iX < numX; ++iX) {
         for (size_t iZ = 0; iZ < numZ; ++iZ) {
             for (size_t iY = 0; iY < numY; ++iY) {
-                const size_t iD = dbIn._dataIndex(iX, numX, iY, numY, iZ, numZ);
+                const size_t iD = dbIn._getDataIndex(iX, numX, iY, numY, iZ, numZ);
                 for (size_t iVal = 0; iVal < numValues; ++iVal, ++i) {
                     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", 1.0, dbIn._data[iD+iVal]/data[i], tolerance);
                 } // for
@@ -128,7 +128,7 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIO(void) {
     } // for
 
     // Perform simple nearest query to ensure consistency of read/query
-    dbIn.queryVals(names, numValues);
+    dbIn.setQueryValues(names, numValues);
     const size_t numLocs = 3;
     const double points[numLocs*spaceDim] = {
         -2.0, 1.0, -2.0,

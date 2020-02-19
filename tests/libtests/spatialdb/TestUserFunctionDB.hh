@@ -78,7 +78,7 @@ public :
     /// Test open() and close()
     void testOpenClose(void);
     
-    /// Test queryVals().
+    /// Test setQueryValues().
     void testQueryVals(void);
     
     /// Test query().

@@ -84,7 +84,7 @@ spatialdata::spatialdb::TestSCECCVMH::testSquashed(void)
 } // testDataDir
 
 // ----------------------------------------------------------------------
-// Test queryVals().
+// Test setQueryValues().
 void
 spatialdata::spatialdb::TestSCECCVMH::testQueryVals(void)
 { // testQueryVals
@@ -111,10 +111,10 @@ spatialdata::spatialdb::TestSCECCVMH::testQueryVals(void)
       SCECCVMH::QUERY_VS
     };
 
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
     CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
     for (int i=0; i < querySize; ++i)
-      CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryVals[i]);
+      CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
   } // all values
 
   { // subset of values
@@ -130,10 +130,10 @@ spatialdata::spatialdb::TestSCECCVMH::testQueryVals(void)
       SCECCVMH::QUERY_VS
     };
 
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
     CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
     for (int i=0; i < querySize; ++i)
-      CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryVals[i]);
+      CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
   } // subset of values
 } // testQueryVals
 
@@ -223,7 +223,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       0
     };
 
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     double data[querySize];
 
@@ -275,7 +275,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       0
     };
 
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     double data[querySize];
 
@@ -329,7 +329,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void)
       0
     };
 
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     double data[querySize];
 
@@ -436,7 +436,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void)
     };
 
     db.squash(true);
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     double data[querySize];
 

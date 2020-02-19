@@ -48,7 +48,7 @@ class spatialdata::spatialdb::TestSimpleDBQuery3D : public TestSimpleDBQuery
   // PUBLIC METHODS /////////////////////////////////////////////////////
 public :
 
-  /// Test queryVals()
+  /// Test setQueryValues()
   void testQueryVals(void);
 
   /// Test distSquared()

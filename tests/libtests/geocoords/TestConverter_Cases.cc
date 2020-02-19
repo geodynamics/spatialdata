@@ -184,12 +184,12 @@ class spatialdata::geocoords::TestConverter_XYZToXYZ : public spatialdata::geoco
         _data->spaceDim = 3;
 
         static CSCart csMeter;
-        csMeter.toMeters(1.0);
+        csMeter.setToMeters(1.0);
         csMeter.setSpaceDim(_data->spaceDim);
         _data->csSrc = &csMeter;
 
         static CSCart csKilometer;
-        csKilometer.toMeters(1.0e+3);
+        csKilometer.setToMeters(1.0e+3);
         csKilometer.setSpaceDim(_data->spaceDim);
         _data->csDest = &csKilometer;
 

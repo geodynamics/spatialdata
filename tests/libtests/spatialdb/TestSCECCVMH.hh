@@ -70,7 +70,7 @@ public :
   /// Test squashed()
   void testSquashed(void);
 
-  /// Test queryVals()
+  /// Test setQueryValues()
   void testQueryVals(void);
 
   /// Test query()

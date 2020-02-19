@@ -57,12 +57,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestCSCart);
 void
 spatialdata::geocoords::TestCSCart::testConstructor(void) {
     CSCart cs;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in length scale for default constructor.", 1.0, cs.toMeters());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in Cartesian coordinate system type.", CoordSys::CARTESIAN, cs.csType());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in length scale for default constructor.", 1.0, cs.getToMeters());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in Cartesian coordinate system type.", CoordSys::CARTESIAN, cs.getCSType());
 
     cs.setSpaceDim(2);
     CoordSys* csClone = cs.clone();CPPUNIT_ASSERT(csClone);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate dimension of clone.", cs.spaceDim(), csClone->spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate dimension of clone.", cs.getSpaceDim(), csClone->getSpaceDim());
     delete csClone;csClone = NULL;
 } // testConstructor
 
@@ -75,12 +75,12 @@ spatialdata::geocoords::TestCSCart::testAccessors(void) {
     const int spaceDim = 2;
 
     CSCart cs;
-    cs.toMeters(toMeters);
+    cs.setToMeters(toMeters);
     cs.setSpaceDim(spaceDim);
 
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in length scale.", toMeters, cs.toMeters(), tolerance);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, cs.spaceDim());
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in length scale.", toMeters, cs.getToMeters(), tolerance);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, cs.getSpaceDim());
 } // testAccessors
 
 
@@ -92,7 +92,7 @@ spatialdata::geocoords::TestCSCart::testPickle(void) {
     const int spaceDim = 2;
 
     CSCart csA;
-    csA.toMeters(toMeters);
+    csA.setToMeters(toMeters);
     csA.setSpaceDim(spaceDim);
 
     std::stringstream s;
@@ -102,8 +102,8 @@ spatialdata::geocoords::TestCSCart::testPickle(void) {
     csB.unpickle(s);
 
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in length scale.", toMeters, csB.toMeters(), tolerance);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system", spaceDim, csB.spaceDim());
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in length scale.", toMeters, csB.getToMeters(), tolerance);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system", spaceDim, csB.getSpaceDim());
 } // testPickle
 
 

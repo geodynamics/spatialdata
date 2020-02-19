@@ -74,7 +74,7 @@ spatialdata::spatialdb::TestSpatialDB::testDB(void)
   const int errFlags[] = { 0 };
   const int spaceDim = 3;
 
-  _pDB->queryVals(names, numVals);
+  _pDB->setQueryValues(names, numVals);
 
   double* valsQ = (0 < numVals) ? new double[numVals] : 0;
   spatialdata::geocoords::CSCart csCart;
@@ -111,7 +111,7 @@ spatialdata::spatialdb::TestSpatialDB::testDBmulti(void)
   };
   const int errFlags[numLocs] = { 0, 0 };
 
-  _pDB->queryVals(names, numVals);
+  _pDB->setQueryValues(names, numVals);
 
   int size = numLocs * numVals;
   double* valsQ = (0 < size) ? new double[size] : 0;
@@ -151,7 +151,7 @@ spatialdata::spatialdb::TestSpatialDB::testDB_c(void)
   const double vals[] = { 6.3e+3, 4.7 };
   const int errFlags[] = { 0 };
 
-  _pDB->queryVals(names, numVals);
+  _pDB->setQueryValues(names, numVals);
 
   double* valsQ = (0 < numVals) ? new double[numVals] : 0;
   spatialdata::geocoords::CSCart csCart;

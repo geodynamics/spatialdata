@@ -70,7 +70,7 @@ public :
   /// Test acceleration()
   void testAcceleration(void);
 
-  /// Test queryVals()
+  /// Test setQueryValues()
   void testQueryVals(void);
 
   /// Test query() with 2-D Cartesian coordinates.

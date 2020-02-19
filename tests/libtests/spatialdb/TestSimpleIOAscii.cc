@@ -78,40 +78,40 @@ spatialdata::spatialdb::TestSimpleIOAscii::testWriteRead(void) {
 
     SimpleDBData dataOut;
     dataOut.allocate(numLocs, numVals, spaceDim, dataDim);
-    dataOut.data(data, numLocs, numVals);
-    dataOut.coordinates(coords, numLocs, spaceDim);
-    dataOut.names(names, numVals);
-    dataOut.units(units, numVals);
+    dataOut.setData(data, numLocs, numVals);
+    dataOut.setCoordinates(coords, numLocs, spaceDim);
+    dataOut.setNames(names, numVals);
+    dataOut.setUnits(units, numVals);
 
     const char* filename = "spatialdb_ascii.dat";
     geocoords::CSCart csOut;
     SimpleIOAscii dbIO;
-    dbIO.filename(filename);
+    dbIO.setFilename(filename);
     dbIO.write(dataOut, &csOut);
 
     SimpleDBData dataIn;
     geocoords::CoordSys* csIn = NULL;
     dbIO.read(&dataIn, &csIn);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of locations.", numLocs, dataIn.numLocs());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numVals, dataIn.numValues());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dataIn.dataDim());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dataIn.spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of locations.", numLocs, dataIn.getNumLocs());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numVals, dataIn.getNumValues());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dataIn.getDataDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dataIn.getSpaceDim());
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value names.", std::string(names[iVal]), std::string(dataIn.name(iVal)));
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mistmatch in value units", std::string(units[iVal]), std::string(dataIn.units(iVal)));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value names.", std::string(names[iVal]), std::string(dataIn.getName(iVal)));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mistmatch in value units", std::string(units[iVal]), std::string(dataIn.getUnits(iVal)));
     } // for
 
     const double tolerance = 1.0e-06;
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-        const double* coordinates = dataIn.coordinates(iLoc);
+        const double* coordinates = dataIn.getCoordinates(iLoc);
         for (size_t iDim = 0; iDim < spaceDim; ++iDim, ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in coordinates.", 1.0, coordinates[iDim]/coords[i], tolerance);
         } // for
     } // for
 
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-        const double* values = dataIn.data(iLoc);
+        const double* values = dataIn.getData(iLoc);
         for (size_t iVal = 0; iVal < numVals; ++iVal, ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in values.", 1.0, values[iVal]/data[i], tolerance);
         } // for
@@ -149,31 +149,31 @@ spatialdata::spatialdb::TestSimpleIOAscii::testReadComments(void) {
 
     const char* filename = "data/spatial_comments.dat";
     SimpleIOAscii dbIO;
-    dbIO.filename(filename);
+    dbIO.setFilename(filename);
 
     SimpleDBData dataIn;
     geocoords::CoordSys* csIn = NULL;
     dbIO.read(&dataIn, &csIn);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points.", numLocs, dataIn.numLocs());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numVals, dataIn.numValues());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dataIn.dataDim());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dataIn.spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points.", numLocs, dataIn.getNumLocs());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numVals, dataIn.getNumValues());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dataIn.getDataDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dataIn.getSpaceDim());
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value names.", std::string(names[iVal]), std::string(dataIn.name(iVal)));
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value units.", std::string(units[iVal]), std::string(dataIn.units(iVal)));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value names.", std::string(names[iVal]), std::string(dataIn.getName(iVal)));
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value units.", std::string(units[iVal]), std::string(dataIn.getUnits(iVal)));
     } // for
 
     const double tolerance = 1.0e-06;
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-        const double* coordinates = dataIn.coordinates(iLoc);
+        const double* coordinates = dataIn.getCoordinates(iLoc);
         for (size_t iDim = 0; iDim < spaceDim; ++iDim, ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in point coordinates.", 1.0, coordinates[iDim]/coords[i], tolerance);
         } // for
     } // for
 
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-        const double* values = dataIn.data(iLoc);
+        const double* values = dataIn.getData(iLoc);
         for (size_t iVal = 0; iVal < numVals; ++iVal, ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in point values.", 1.0, values[iVal]/data[i], tolerance);
         } // for

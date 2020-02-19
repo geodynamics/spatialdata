@@ -127,7 +127,7 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(SimpleDB& db,
   const char* valNames[numVals];
   for (int i=0; i < numVals; ++i)
     valNames[numVals-i-1] = names[i];
-  db.queryVals(valNames, numVals);
+  db.setQueryValues(valNames, numVals);
   
   double* vals = (0 < numVals) ? new double[numVals] : 0;
   const double tolerance = 1.0e-06;

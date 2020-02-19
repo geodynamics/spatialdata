@@ -57,7 +57,7 @@ public :
 protected :
   // PROTECTED METHODS //////////////////////////////////////////////////
 
-  /* Test queryVals()
+  /* Test setQueryValues()
    *
    * @param data Data for database
    */

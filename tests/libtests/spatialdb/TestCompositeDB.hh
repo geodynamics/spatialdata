@@ -73,13 +73,13 @@ public :
   /// Test dbB()
   void testDBB(void);
 
-  /// Test queryVals() with values in both dbA and dbB.
+  /// Test setQueryValues() with values in both dbA and dbB.
   void testQueryValsAB(void);
 
-  /// Test queryVals() with values in dbA.
+  /// Test setQueryValues() with values in dbA.
   void testQueryValsA(void);
 
-  /// Test queryVals() with values in dbB.
+  /// Test setQueryValues() with values in dbB.
   void testQueryValsB(void);
 
   /// Test query() with values in both dbA and dbB.

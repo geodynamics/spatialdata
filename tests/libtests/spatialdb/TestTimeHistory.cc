@@ -63,11 +63,11 @@ spatialdata::spatialdb::TestTimeHistory::testAccessors(void) {
     const std::string filename("file.th");
 
     TimeHistory th;
-    th.label(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(th.label()));
+    th.setLabel(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(th.getLabel()));
 
-    th.filename(filename.c_str());
-    CPPUNIT_ASSERT_EQUAL(filename, std::string(th.filename()));
+    th.setFilename(filename.c_str());
+    CPPUNIT_ASSERT_EQUAL(filename, std::string(th.getFilename()));
 } // testAccessors
 
 
@@ -84,7 +84,7 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
     TimeHistoryIO::write(time, npts, amplitude, npts, timeUnits, filename);
 
     TimeHistory th;
-    th.filename(filename);
+    th.setFilename(filename);
 
     th.close(); // Test calling close on upopened db
 
@@ -130,7 +130,7 @@ spatialdata::spatialdb::TestTimeHistory::testQuery(void) {
     };
 
     TimeHistory th;
-    th.filename(filename);
+    th.setFilename(filename);
 
     th.open();
 

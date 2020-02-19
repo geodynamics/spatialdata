@@ -81,7 +81,7 @@ spatialdata::spatialdb::TestSimpleDBQuery::_setupDB(SimpleDB* const db,
 } // _setupDB
 
 // ----------------------------------------------------------------------
-// Test queryVals()
+// Test setQueryValues()
 void
 spatialdata::spatialdb::TestSimpleDBQuery::_testQueryVals(const SimpleDBQueryData& data)
 { // _testQueryVals
@@ -93,30 +93,30 @@ spatialdata::spatialdb::TestSimpleDBQuery::_testQueryVals(const SimpleDBQueryDat
     const char* names[] = { "one" };
     const int numNames = 1;
     const int vals[] = {0};
-    db._query->queryVals(names, numNames);
+    db._query->setQueryValues(names, numNames);
     CPPUNIT_ASSERT(numNames == db._query->_querySize);
     for (int i=0; i < numNames; ++i)
-      CPPUNIT_ASSERT(vals[i] == db._query->_queryVals[i]);
+      CPPUNIT_ASSERT(vals[i] == db._query->_queryValues[i]);
   } // test A
 
   { // test B
     const char* names[] = { "two" };
     const int numNames = 1;
     const int vals[] = {1};
-    db._query->queryVals(names, numNames);
+    db._query->setQueryValues(names, numNames);
     CPPUNIT_ASSERT(numNames == db._query->_querySize);
     for (int i=0; i < numNames; ++i)
-      CPPUNIT_ASSERT(vals[i] == db._query->_queryVals[i]);
+      CPPUNIT_ASSERT(vals[i] == db._query->_queryValues[i]);
   } // test B
 
   { // test C
     const char* names[] = { "two", "one" };
     const int numNames = 2;
     const int vals[] = {1, 0};
-    db._query->queryVals(names, numNames);
+    db._query->setQueryValues(names, numNames);
     CPPUNIT_ASSERT(numNames == db._query->_querySize);
     for (int i=0; i < numNames; ++i)
-      CPPUNIT_ASSERT(vals[i] == db._query->_queryVals[i]);
+      CPPUNIT_ASSERT(vals[i] == db._query->_queryValues[i]);
   } // test C
 } // _testQueryVals
 

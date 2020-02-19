@@ -55,19 +55,19 @@ spatialdata::spatialdb::TestSimpleGridDB::testAccessors(void) {
     const std::string label("database 2");
     const std::string filename("mydb.spatialdb");
 
-    db.label(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.label()));
+    db.setLabel(label.c_str());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getLabel()));
 
-    db.filename(filename.c_str());
+    db.setFilename(filename.c_str());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, db._filename);
 
     // Test default (nearest)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query type.", SimpleGridDB::NEAREST, db._queryType);
 
-    db.queryType(SimpleGridDB::LINEAR);
+    db.setQueryType(SimpleGridDB::LINEAR);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in linear query type.", SimpleGridDB::LINEAR, db._queryType);
 
-    db.queryType(SimpleGridDB::NEAREST);
+    db.setQueryType(SimpleGridDB::NEAREST);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in nearest query type.", SimpleGridDB::NEAREST, db._queryType);
 } // testAccessors
 
@@ -84,7 +84,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testSearch(void) {
 
     SimpleGridDB db;
 
-    db.queryType(SimpleGridDB::NEAREST);
+    db.setQueryType(SimpleGridDB::NEAREST);
 
     // Test data and expected results
     const double xA = -20.0;
@@ -107,7 +107,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testSearch(void) {
     index = db._search(xD, x, numX);
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexD.", indexD, index, tolerance);
 
-    db.queryType(SimpleGridDB::LINEAR);
+    db.setQueryType(SimpleGridDB::LINEAR);
 
     // Test data and expected results
     const double xE = -20.0;
@@ -133,7 +133,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testSearch(void) {
 
 
 // ----------------------------------------------------------------------
-// Test _dataIndex()
+// Test _getDataIndex()
 void
 spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
     SimpleGridDB db;
@@ -142,14 +142,14 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
     db._numZ = 5;
     db._numValues = 10;
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index 0.", size_t(0), db._dataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index z.", size_t(1*3*4*10), db._dataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index 0.", size_t(0), db._getDataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index z.", size_t(1*3*4*10), db._getDataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index y.", size_t(1*4*10), db._dataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index yz.", size_t(4*3*4*10 + 1*4*10), db._dataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index y.", size_t(1*4*10), db._getDataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index yz.", size_t(4*3*4*10 + 1*4*10), db._getDataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index x.", size_t(1*10), db._dataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index xyz.", size_t(3*4*3*10 + 1*4*10 + 2*10), db._dataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index x.", size_t(1*10), db._getDataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index xyz.", size_t(3*4*3*10 + 1*4*10 + 2*10), db._getDataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
 } // testDataIndex
 
 
@@ -161,7 +161,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryNearest(void) {
 
     SimpleGridDB db;
     _setupDB(&db);
-    db.queryType(SimpleGridDB::NEAREST);
+    db.setQueryType(SimpleGridDB::NEAREST);
     _checkQuery(db, _data->names, _data->queryNearest, 0, _data->numQueries, _data->spaceDim, _data->numValues);
 } // _testQueryNearest
 
@@ -174,7 +174,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void) {
 
     SimpleGridDB db;
     _setupDB(&db);
-    db.queryType(SimpleGridDB::LINEAR);
+    db.setQueryType(SimpleGridDB::LINEAR);
     _checkQuery(db, _data->names, _data->queryLinear, _data->errFlags, _data->numQueries, _data->spaceDim, _data->numValues);
 } // _testQueryLinear
 
@@ -186,15 +186,15 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void) {
     CPPUNIT_ASSERT(_data);
 
     SimpleGridDB db;
-    db.filename(_data->filename);
+    db.setFilename(_data->filename);
     db.open();
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", _data->spaceDim, db._spaceDim);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, db._numValues);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", _data->dataDim, db._dataDim);
 
-    const int numValues = _data->numValues;
-    for (int i = 0; i < numValues; ++i) {
+    const size_t numValues = _data->numValues;
+    for (size_t i = 0; i < numValues; ++i) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.", std::string(_data->names[i]), db._names[i]);
         CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in units of values.", std::string(_data->units[i]), db._units[i]);
     } // for
@@ -245,7 +245,7 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
     delete[] db->_names;db->_names = NULL;
     delete[] db->_units;db->_units = NULL;
 
-    db->label("Test database");
+    db->setLabel("Test database");
     db->_numValues = _data->numValues;
     db->_spaceDim = _data->spaceDim;
     db->_dataDim = _data->dataDim;
@@ -318,7 +318,7 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
     for (size_t i = 0; i < numValues; ++i) {
         valNames[numValues-i-1] = names[i];
     }
-    db.queryVals(valNames, numValues);
+    db.setQueryValues(valNames, numValues);
 
     double* vals = (0 < numValues) ? new double[numValues] : NULL;
     const double tolerance = 1.0e-06;

@@ -122,7 +122,7 @@ spatialdata::spatialdb::TestCompositeDB::testDBB(void)
 } // testDBB
 
 // ----------------------------------------------------------------------
-// Test queryVals() with values in both dbA and dbB.
+// Test setQueryValues() with values in both dbA and dbB.
 void
 spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void)
 { // testQueryValsAB
@@ -158,7 +158,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void)
   const char* queryVals[3] = { "one", "five", "three" };
   
   db.open();
-  db.queryVals(queryVals, querySize);
+  db.setQueryValues(queryVals, querySize);
   db.close();
 
   const int qsizeA = 2;
@@ -183,7 +183,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void)
 } // testQueryValsAB
 
 // ----------------------------------------------------------------------
-// Test queryVals() with values in dbA.
+// Test setQueryValues() with values in dbA.
 void
 spatialdata::spatialdb::TestCompositeDB::testQueryValsA(void)
 { // testQueryValsA
@@ -219,7 +219,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsA(void)
   const char* queryVals[2] = { "one", "three" };
   
   db.open();
-  db.queryVals(queryVals, querySize);
+  db.setQueryValues(queryVals, querySize);
   db.close();
 
   const int qsizeA = 2;
@@ -241,7 +241,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsA(void)
 } // testQueryValsA
 
 // ----------------------------------------------------------------------
-// Test queryVals() with values in dbB.
+// Test setQueryValues() with values in dbB.
 void
 spatialdata::spatialdb::TestCompositeDB::testQueryValsB(void)
 { // testQueryValsB
@@ -277,7 +277,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsB(void)
   const char* queryVals[1] = { "five" };
   
   db.open();
-  db.queryVals(queryVals, querySize);
+  db.setQueryValues(queryVals, querySize);
   db.close();
 
   const int qsizeA = 0;
@@ -342,7 +342,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryAB(void)
   const double valsE[2] = { 5.5, 1.1 };
 
   db.open();
-  db.queryVals(queryVals, querySize);
+  db.setQueryValues(queryVals, querySize);
   db.query(data, querySize, coords, spaceDim, &cs);
   db.close();
 
@@ -395,7 +395,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryA(void)
   const double valsE[1] = { 3.3 };
 
   db.open();
-  db.queryVals(queryVals, querySize);
+  db.setQueryValues(queryVals, querySize);
   db.query(data, querySize, coords, spaceDim, &cs);
   db.close();
 
@@ -448,7 +448,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryB(void)
   const double valsE[1] = { 5.5 };
 
   db.open();
-  db.queryVals(queryVals, querySize);
+  db.setQueryValues(queryVals, querySize);
   db.query(data, querySize, coords, spaceDim, &cs);
   db.close();
 

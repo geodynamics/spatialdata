@@ -119,44 +119,44 @@ spatialdata::units::TestNondimensional::testAccessors(void) {
     Nondimensional dim;
 
     // Length scale
-    dim.lengthScale(length);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in length scale.", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in pressure scale.", 1.0, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in time scale.", 1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in density scale.", 1.0, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in temperature scale.", 1.0, dim.temperatureScale());
+    dim.setLengthScale(length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in pressure scale.", 1.0, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in time scale.", 1.0, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in density scale.", 1.0, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
     // Pressure scale
-    dim.pressureScale(pressure);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in length scale.", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in time scale.", 1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in density scale.", 1.0, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in temperature scale.", 1.0, dim.temperatureScale());
+    dim.setPressureScale(pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in time scale.", 1.0, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in density scale.", 1.0, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
     // Time scale
-    dim.timeScale(time);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in length scale.", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in time scale.", time, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in density scale.", 1.0, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in temperature scale.", 1.0, dim.temperatureScale());
+    dim.setTimeScale(time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in time scale.", time, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in density scale.", 1.0, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
     // Density scale
-    dim.densityScale(density);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in length scale.", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in time scale.", time, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in density scale.", density, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in temperature scale.", 1.0, dim.temperatureScale());
+    dim.setDensityScale(density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in time scale.", time, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in density scale.", density, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
     // Temperature scale
-    dim.temperatureScale(temperature);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in length scale.", length, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in pressure scale.", pressure, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in time scale.", time, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in density scale.", density, dim.densityScale());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in temperature scale.", temperature, dim.temperatureScale());
+    dim.setTemperatureScale(temperature);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in time scale.", time, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in density scale.", density, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in temperature scale.", temperature, dim.getTemperatureScale());
 } // testAccessors
 
 
@@ -172,11 +172,11 @@ spatialdata::units::TestNondimensional::testComputePressureScale(void) {
     const double pressureScale = densityScale * velocityScale * velocityScale;
 
     Nondimensional dim;
-    dim.timeScale(timeScale);
-    dim.densityScale(densityScale);
-    dim.lengthScale(lengthScale);
+    dim.setTimeScale(timeScale);
+    dim.setDensityScale(densityScale);
+    dim.setLengthScale(lengthScale);
     dim.computePressureScale();
-    CPPUNIT_ASSERT_EQUAL(pressureScale, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL(pressureScale, dim.getPressureScale());
 } // testComputePressureScale
 
 
@@ -192,11 +192,11 @@ spatialdata::units::TestNondimensional::testComputeDensityScale(void) {
     const double densityScale = pressureScale / (velocityScale * velocityScale);
 
     Nondimensional dim;
-    dim.timeScale(timeScale);
-    dim.pressureScale(pressureScale);
-    dim.lengthScale(lengthScale);
+    dim.setTimeScale(timeScale);
+    dim.setPressureScale(pressureScale);
+    dim.setLengthScale(lengthScale);
     dim.computeDensityScale();
-    CPPUNIT_ASSERT_EQUAL(densityScale, dim.densityScale());
+    CPPUNIT_ASSERT_EQUAL(densityScale, dim.getDensityScale());
 } // testComputeDensityScale
 
 

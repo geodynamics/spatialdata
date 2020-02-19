@@ -47,7 +47,7 @@ public:
     /// Test constructor.
     void testConstructor(void);
 
-    /// Test allocate(), numLocs(), numValues(), spaceDim().
+    /// Test allocate(), getNumLocs(), numValues(), spaceDim().
     void testAllocate(void);
 
     /// Test data() and dataDim().
@@ -74,7 +74,7 @@ spatialdata::spatialdb::TestSimpleDBData::testConstructor(void) {
 
 
 // ----------------------------------------------------------------------
-// Test allocate(), numLocs(), numValues(), spaceDim().
+// Test allocate(), getNumLocs(), numValues(), spaceDim().
 void
 spatialdata::spatialdb::TestSimpleDBData::testAllocate(void) {
     const size_t numLocs = 4;
@@ -85,10 +85,10 @@ spatialdata::spatialdb::TestSimpleDBData::testAllocate(void) {
     SimpleDBData data;
     data.allocate(numLocs, numValues, spaceDim, dataDim);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points.", numLocs, data.numLocs());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValues, data.numValues());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, data.spaceDim());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, data.dataDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points.", numLocs, data.getNumLocs());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValues, data.getNumValues());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, data.getSpaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, data.getDataDim());
     CPPUNIT_ASSERT(data._data);
     CPPUNIT_ASSERT(data._coordinates);
     CPPUNIT_ASSERT(data._names);
@@ -114,10 +114,10 @@ spatialdata::spatialdb::TestSimpleDBData::testData(void) {
 
     SimpleDBData data;
     data.allocate(numLocs, numValues, spaceDim, dataDim);
-    data.data(valuesE, numLocs, numValues);
+    data.setData(valuesE, numLocs, numValues);
 
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-        const double* values = data.data(iLoc);
+        const double* values = data.getData(iLoc);
         CPPUNIT_ASSERT(values);
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
             CPPUNIT_ASSERT_EQUAL(valuesE[i++], values[iVal]);
@@ -144,10 +144,10 @@ spatialdata::spatialdb::TestSimpleDBData::testCoordinates(void) {
 
     SimpleDBData data;
     data.allocate(numLocs, numValues, spaceDim, dataDim);
-    data.coordinates(coordsE, numLocs, spaceDim);
+    data.setCoordinates(coordsE, numLocs, spaceDim);
 
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-        const double* coords = data.coordinates(iLoc);
+        const double* coords = data.getCoordinates(iLoc);
         CPPUNIT_ASSERT(coords);
         for (size_t iDim = 0; iDim < spaceDim; ++iDim) {
             CPPUNIT_ASSERT_EQUAL(coordsE[i++], coords[iDim]);
@@ -171,10 +171,10 @@ spatialdata::spatialdb::TestSimpleDBData::testNames(void) {
 
     SimpleDBData data;
     data.allocate(numLocs, numValues, spaceDim, dataDim);
-    data.names(namesE, numValues);
+    data.setNames(namesE, numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(namesE[i]), std::string(data.name(i)));
+        CPPUNIT_ASSERT_EQUAL(std::string(namesE[i]), std::string(data.getName(i)));
     } // for
 } // testNames
 
@@ -194,10 +194,10 @@ spatialdata::spatialdb::TestSimpleDBData::testUnits(void) {
 
     SimpleDBData data;
     data.allocate(numLocs, numValues, spaceDim, dataDim);
-    data.units(unitsE, numValues);
+    data.setUnits(unitsE, numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(unitsE[i]), std::string(data.units(i)));
+        CPPUNIT_ASSERT_EQUAL(std::string(unitsE[i]), std::string(data.getUnits(i)));
     } // for
 } // testUnits
 

@@ -53,7 +53,7 @@ public:
     /// Test setData()
     void testSetData(void);
 
-    /// Test queryVals()
+    /// Test setQueryValues()
     void testQueryVals(void);
 
     /// Test query()
@@ -70,7 +70,7 @@ spatialdata::spatialdb::TestUniformDB::testConstructors(void) {
 
     const std::string label("database A");
     UniformDB dbL(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.label()));
+    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.getLabel()));
 } // testConstructors
 
 
@@ -81,8 +81,8 @@ spatialdata::spatialdb::TestUniformDB::testAccessors(void) {
     const std::string label("database 2");
 
     UniformDB db;
-    db.label(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(db.label()));
+    db.setLabel(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(db.getLabel()));
 } // testAccessors
 
 
@@ -112,7 +112,7 @@ spatialdata::spatialdb::TestUniformDB::testSetData(void) {
 
 
 // ----------------------------------------------------------------------
-// Test queryVals().
+// Test setQueryValues().
 void
 spatialdata::spatialdb::TestUniformDB::testQueryVals(void) {
     UniformDB db;
@@ -127,12 +127,12 @@ spatialdata::spatialdb::TestUniformDB::testQueryVals(void) {
     const size_t queryVals[querySize] = { 2, 1 };
 
     db.setData(names, units, values, numValues);
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
     for (size_t i = 0; i < querySize; ++i) {
-        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryVals[i]);
-    }
+        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
+    } // for
 } // testQueryVals
 
 
@@ -152,7 +152,7 @@ spatialdata::spatialdb::TestUniformDB::testQuery(void) {
     const size_t queryVals[querySize] = { 2, 1 };
 
     db.setData(names, units, values, numValues);
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     const size_t spaceDim = 2;
     spatialdata::geocoords::CSCart cs;

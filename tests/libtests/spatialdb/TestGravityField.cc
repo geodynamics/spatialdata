@@ -93,7 +93,7 @@ spatialdata::spatialdb::TestGravityField::testAcceleration(void)
 } // testAcceleration
 
 // ----------------------------------------------------------------------
-// Test queryVals().
+// Test setQueryValues().
 void
 spatialdata::spatialdb::TestGravityField::testQueryVals(void)
 { // testQueryVals
@@ -103,11 +103,11 @@ spatialdata::spatialdb::TestGravityField::testQueryVals(void)
     const char* queryNames[] = { "gravity_field_z", "gravity_field_y" };
     const int queryVals[] = { 2, 1 };
 
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
     for (int i = 0; i < querySize; ++i)
-        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryVals[i]);
+        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
 } // testQueryVals
 
 // ----------------------------------------------------------------------
@@ -126,7 +126,7 @@ spatialdata::spatialdb::TestGravityField::testQueryCart2(void)
     db.gravityDir(gravityDir[0], gravityDir[1], gravityDir[2]);
     db.gravityAcc(gacc);
     db.open();
-    db.queryVals(queryNames, querySize);
+    db.setQueryValues(queryNames, querySize);
 
     geocoords::CSCart cs;
     cs.setSpaceDim(spaceDim);

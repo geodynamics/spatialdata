@@ -70,17 +70,17 @@ spatialdata::geocoords::TestCSGeo::testConstructor(void) {
     const int defaultSpaceDim(3);
 
     CSGeo cs;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system type.", CoordSys::GEOGRAPHIC, cs.csType());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system type.", CoordSys::GEOGRAPHIC, cs.getCSType());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default coordinate system string.", defaultCSString, std::string(cs.getString()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mis match in default coordinate system dimension.", defaultSpaceDim, cs.spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mis match in default coordinate system dimension.", defaultSpaceDim, cs.getSpaceDim());
 
     const std::string cloneCSString("EPSG:4269");
     const int cloneSpaceDim(2);
 
     cs.setSpaceDim(2);
     CoordSys* csClone = cs.clone();CPPUNIT_ASSERT(csClone);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in clone coordinate system type.", CoordSys::GEOGRAPHIC, csClone->csType());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in clone coordinate system dimension.", cloneSpaceDim, csClone->spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in clone coordinate system type.", CoordSys::GEOGRAPHIC, csClone->getCSType());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in clone coordinate system dimension.", cloneSpaceDim, csClone->getSpaceDim());
     delete csClone;csClone = NULL;
 } // testConstructor
 
@@ -97,7 +97,7 @@ spatialdata::geocoords::TestCSGeo::testAccessors(void) {
     cs.setSpaceDim(spaceDim);
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system string.", csString, std::string(cs.getString()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, cs.spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, cs.getSpaceDim());
 } // testAccessors
 
 
@@ -203,7 +203,7 @@ spatialdata::geocoords::TestCSGeo::testPickle(void) {
     csB.unpickle(s);
 
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system string.", csString, std::string(csB.getString()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, csB.spaceDim());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, csB.getSpaceDim());
 } // testPickle
 
 

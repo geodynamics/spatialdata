@@ -24,7 +24,7 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDBQuery3D );
 
 // ----------------------------------------------------------------------
-// Test queryVals()
+// Test setQueryValues()
 void
 spatialdata::spatialdb::TestSimpleDBQuery3D::testQueryVals(void)
 { // testQueryVals
