@@ -32,12 +32,13 @@ testspatial_SOURCES = \
 	TestSimpleGridDB.cc \
 	TestSimpleGridDB_Cases.cc \
 	TestCompositeDB.cc \
+	TestGravityField.cc \
+	TestGravityField_Cases.cc \
 	TestTimeHistoryIO.cc \
 	TestTimeHistory.cc \
 	test_driver.cc
 
 
-# TestGravityField.cc \
 # TestSCECCVMH.cc
 
 # TestSimpleDBQuery.cc \

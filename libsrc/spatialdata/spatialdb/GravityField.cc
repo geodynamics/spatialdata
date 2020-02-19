@@ -34,6 +34,10 @@ spatialdata::spatialdb::GravityField::GravityField(void) :
     SpatialDB("Gravity field"),
     _acceleration(9.80665), // m/s^2
     _querySize(3) {
+    _gravityDir[0] = +0.0;
+    _gravityDir[1] = +0.0;
+    _gravityDir[2] = -1.0;
+
     _queryValues[0] = 0;
     _queryValues[1] = 1;
     _queryValues[2] = 2;
