@@ -16,16 +16,12 @@
 
 #include <portinfo>
 
-#include "SpatialDB.hh" // ISA SpatialDB object
 #include "CompositeDB.hh" // Implementation of class methods
 
 #include <stdexcept> // USES std::runtime_error
-
 #include <sstream> // USES std::ostringsgream
 #include <strings.h> // USES strcasecmp()
 #include <cassert> // USES assert()
-
-#include <iostream> // TEMPORARY
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -67,7 +63,7 @@ spatialdata::spatialdb::CompositeDB::setDBA(SpatialDB* db,
     assert(numNames > 0);
 
     // Clear out old data
-    delete _infoA;_infoA = new dbinfo;
+    delete _infoA;_infoA = new DBInfo;
     _dbA = db;
 
     // Set data
@@ -92,7 +88,7 @@ spatialdata::spatialdb::CompositeDB::setDBB(SpatialDB* db,
     assert(numNames > 0);
 
     // Clear out old data
-    delete _infoB;_infoB = new dbinfo;
+    delete _infoB;_infoB = new DBInfo;
     _dbB = db;
 
     // Set data

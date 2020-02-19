@@ -113,14 +113,14 @@ private:
 
     // PRIVATE STRUCTS ////////////////////////////////////////////////////
 
-    struct dbinfo {
+    struct DBInfo {
         double* query_buffer;
         size_t* query_indices;
         std::string* names_values;
         size_t query_size;
         size_t num_names;
 
-        dbinfo(void) :
+        DBInfo(void) :
             query_buffer(NULL),
             query_indices(NULL),
             names_values(NULL),
@@ -128,7 +128,7 @@ private:
             num_names(0) {}
 
 
-        ~dbinfo(void) {
+        ~DBInfo(void) {
             delete[] query_buffer;query_buffer = NULL;
             delete[] query_indices;query_indices = NULL;
             delete[] names_values;names_values = NULL;
@@ -136,7 +136,7 @@ private:
             num_names = 0;
         } // destructor
 
-    }; // dbinfo
+    }; // DBInfo
 
 private:
 
@@ -145,8 +145,8 @@ private:
     SpatialDB* _dbA; ///< Spatial database A
     SpatialDB* _dbB; ///< Spatial database B
 
-    dbinfo* _infoA; ///< Information for database A
-    dbinfo* _infoB; ///< Information for database B
+    DBInfo* _infoA; ///< Information for database A
+    DBInfo* _infoB; ///< Information for database B
 }; // class CompositeDB
 
 #endif // spatialdata_spatialdb_compositedb_hh
