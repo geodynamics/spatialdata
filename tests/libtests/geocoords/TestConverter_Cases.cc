@@ -60,7 +60,7 @@ class spatialdata::geocoords::TestConverter_NAD27ToWGS84 : public spatialdata::g
             -1.103425320000e+02,  3.923423000000e+01,  1.233000000000e+02,
             -1.073425320000e+02,  3.323423000000e+01,  3.460000000000e+01,
         };
-        _data->coordsSrc = const_cast<double*>(coordsLonLatNAD27);
+        _data->coordsSrc = coordsLonLatNAD27;
 
         static const double coordsLonLatWGS84[6*3] = {
             -1.150008507633e+02,  3.899994227695e+01,  1.200000018017e+01,
@@ -70,7 +70,7 @@ class spatialdata::geocoords::TestConverter_NAD27ToWGS84 : public spatialdata::g
             -1.103432442395e+02,  3.923419970866e+01,  1.233000001811e+02,
             -1.073431211987e+02,  3.323430190358e+01,  3.460000013495e+01,
         };
-        _data->coordsDest = const_cast<double*>(coordsLonLatWGS84);
+        _data->coordsDest = coordsLonLatWGS84;
 
     } // setUp
 
@@ -107,7 +107,7 @@ class spatialdata::geocoords::TestConverter_WGS84ToNAD27 : public spatialdata::g
             -1.103432442395e+02,  3.923419970866e+01,  1.233000001811e+02,
             -1.073431211987e+02,  3.323430190358e+01,  3.460000013495e+01,
         };
-        _data->coordsSrc = const_cast<double*>(coordsLonLatWGS84);
+        _data->coordsSrc = coordsLonLatWGS84;
 
         static const double coordsLatLonNAD27[6*3] = {
             3.900000000000e+01,  -1.150000000000e+02,  1.200000000000e+01,
@@ -117,7 +117,7 @@ class spatialdata::geocoords::TestConverter_WGS84ToNAD27 : public spatialdata::g
             3.923423000000e+01,  -1.103425320000e+02,  1.233000000000e+02,
             3.323423000000e+01,  -1.073425320000e+02,  3.460000000000e+01,
         };
-        _data->coordsDest = const_cast<double*>(coordsLatLonNAD27);
+        _data->coordsDest = coordsLatLonNAD27;
 
     } // setUp
 
@@ -154,7 +154,7 @@ class spatialdata::geocoords::TestConverter_WGS84ToECEF : public spatialdata::ge
             3.923419970866e+01, -1.103432442395e+02,   1.046766831825e+02,
             3.323430190358e+01, -1.073431211987e+02,   1.087924313666e+01,
         };
-        _data->coordsSrc = const_cast<double*>(coordsLatLonWGS84);
+        _data->coordsSrc = coordsLatLonWGS84;
 
         static const double coordsECEF[6*3] = {
             -2.097658330155e+06, -4.498268420315e+06,  3.992306409748e+06,
@@ -164,7 +164,7 @@ class spatialdata::geocoords::TestConverter_WGS84ToECEF : public spatialdata::ge
             -1.719793652503e+06, -4.638444207813e+06,  4.012555773384e+06,
             -1.591903914839e+06, -5.097499656067e+06,  3.475728975021e+06,
         };
-        _data->coordsDest = const_cast<double*>(coordsECEF);
+        _data->coordsDest = coordsECEF;
 
     } // setUp
 
@@ -201,7 +201,7 @@ class spatialdata::geocoords::TestConverter_XYZToXYZ : public spatialdata::geoco
             -8.881745594215e+05,  7.658679840913e+04, -6.239198222893e+04,
             -6.825105930858e+05, -6.111332576090e+05, -6.615476230714e+04,
         };
-        _data->coordsSrc = const_cast<double*>(coordsMeter);
+        _data->coordsSrc = coordsMeter;
 
         static const double coordsKilometer[6*3] = {
             -1.284640402306e+03,  1.064304544651e+02, -1.314223695069e+02,
@@ -211,7 +211,7 @@ class spatialdata::geocoords::TestConverter_XYZToXYZ : public spatialdata::geoco
             -8.881745594215e+02,  7.658679840913e+01, -6.239198222893e+01,
             -6.825105930858e+02, -6.111332576090e+02, -6.615476230714e+01,
         };
-        _data->coordsDest = const_cast<double*>(coordsKilometer);
+        _data->coordsDest = coordsKilometer;
 
     } // setUp
 
