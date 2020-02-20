@@ -48,16 +48,16 @@ class spatialdata::spatialdb::TestGravityField_Cart2D : public TestGravityField 
 
         _data->gravityAcc = 2.0;
         static const double gravityDir[2] = { +0.6, -0.8 };
-        _data->gravityDir = const_cast<double*>(gravityDir);
+        _data->gravityDir = gravityDir;
 
         _data->numPoints = 1;
         _data->querySize = 2;
 
         static const double coordinates[2] = { 2.5, 6.3 };
-        _data->coordinates = const_cast<double*>(coordinates);
+        _data->coordinates = coordinates;
 
         static const double gravity[2] = { +1.2, -1.6 };
-        _data->gravity = const_cast<double*>(gravity);
+        _data->gravity = gravity;
     } // Setup
 
 }; // TestGravityField_Cart2D
@@ -78,20 +78,20 @@ class spatialdata::spatialdb::TestGravityField_Cart3D : public TestGravityField 
         _data->gravityAcc = 2.0;
 
         static const double gravityDir[3] = { +0.3, +0.4, -0.5 };
-        _data->gravityDir = const_cast<double*>(gravityDir);
+        _data->gravityDir = gravityDir;
 
         _data->numPoints = 1;
         _data->querySize = 3;
 
         static const double coordinates[3] = { 2.5, 6.3, -2.4 };
-        _data->coordinates = const_cast<double*>(coordinates);
+        _data->coordinates = coordinates;
 
         static const double gravity[3] = {
             +0.6 / sqrt(0.5),
             +0.8 / sqrt(0.5),
             -1.0 / sqrt(0.5),
         };
-        _data->gravity = const_cast<double*>(gravity);
+        _data->gravity = gravity;
     } // Setup
 
 }; // TestGravityField_Cart3D
@@ -114,16 +114,16 @@ class spatialdata::spatialdb::TestGravityField_Geo : public TestGravityField {
         _data->gravityAcc = 2.0;
 
         static const double gravityDir[3] = { 0.0, 0.0, -1.0 };
-        _data->gravityDir = const_cast<double*>(gravityDir);
+        _data->gravityDir = gravityDir;
 
         _data->numPoints = 1;
         _data->querySize = 3;
 
         static const double coordinates[3] = { 2.5, 6.3, -2.4 };
-        _data->coordinates = const_cast<double*>(coordinates);
+        _data->coordinates = coordinates;
 
         static const double gravity[3] = { 0.0, 0.0, -2.0 };
-        _data->gravity = const_cast<double*>(gravity);
+        _data->gravity = gravity;
     } // Setup
 
 }; // TestGravityField_Geo
@@ -146,16 +146,16 @@ class spatialdata::spatialdb::TestGravityField_GeoProj : public TestGravityField
         _data->gravityAcc = 2.0;
 
         static const double gravityDir[3] = { 0.0, 0.0, -1.0 };
-        _data->gravityDir = const_cast<double*>(gravityDir);
+        _data->gravityDir = gravityDir;
 
         _data->numPoints = 1;
         _data->querySize = 3;
 
         static const double coordinates[3] = { 2.5, 6.3, -2.4 };
-        _data->coordinates = const_cast<double*>(coordinates);
+        _data->coordinates = coordinates;
 
         static const double gravity[3] = { 0.0, 0.0, -2.0 };
-        _data->gravity = const_cast<double*>(gravity);
+        _data->gravity = gravity;
     } // Setup
 
 }; // TestGravityField_GeoProj
@@ -188,7 +188,7 @@ class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityFi
             -2684785.48, -4296554.90, 3861564.10, // (lon=-122.0, lat=37.5)
             -2680581.35, -4289826.89, 3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
         };
-        _data->coordinates = const_cast<double*>(coordinates);
+        _data->coordinates = coordinates;
 
         const double gravity[5*3] = {
             0.0, 0.0, -gacc,
@@ -197,7 +197,7 @@ class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityFi
             4.1330772777176055, 6.6143062683936451, -5.9446622298329901,
             4.1330933324795938, 6.6143319681570834, -5.9446224726661976,
         };
-        _data->gravity = const_cast<double*>(gravity);
+        _data->gravity = gravity;
     } // Setup
 
 }; // TestGravityField_Geocentric

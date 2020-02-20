@@ -91,14 +91,14 @@ public:
 
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.
     double gravityAcc; ///< Gravitational acceleration.
-    double* gravityDir; ///< Direction of gravitational acceleration.
+    const double* gravityDir; ///< Direction of gravitational acceleration.
 
     size_t querySize; ///< Number of values in query (1, 2, or 3).
     const char* queryNames[3]; ///< Names of values in query.
 
     size_t numPoints; ///< Number of query points.
-    double* coordinates; ///< Coordinates of query point.
-    double* gravity; ///< Expected values for query.
+    const double* coordinates; ///< Coordinates of query point.
+    const double* gravity; ///< Expected values for query.
 
 }; // TestGravityField_Data
 
