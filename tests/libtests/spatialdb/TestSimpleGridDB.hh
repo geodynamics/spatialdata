@@ -101,7 +101,7 @@ private:
      * @param numVals Number of values in database
      */
     void _checkQuery(SimpleGridDB& db,
-                     char** const names,
+                     const char** const names,
                      const double* queryData,
                      const int* flagsE,
                      const size_t numQueries,
@@ -137,20 +137,20 @@ public:
     size_t spaceDim; ///< Spatial dimension for coordinates of locations
     size_t numValues; ///< Number of values per location in database
     size_t dataDim; ///< Spatial dimension of data in database
-    double* dbX; ///< Coordinates along x dimension.
-    double* dbY; ///< Coordinates along x dimension.
-    double* dbZ; ///< Coordinates along x dimension.
-    double* dbData; ///< Database data
-    char** names; ///< Names of values in database
-    char** units; ///< Units of values in database
+    const double* dbX; ///< Coordinates along x dimension.
+    const double* dbY; ///< Coordinates along x dimension.
+    const double* dbZ; ///< Coordinates along x dimension.
+    const double* dbData; ///< Database data
+    const char** names; ///< Names of values in database
+    const char** units; ///< Units of values in database
     //@}
 
     /// @name Query information
     //@{
     size_t numQueries; ///< Number of queries
-    double* queryNearest; ///< Data for nearest neighbor queries
-    double* queryLinear; ///< Data for linear interpolation queries
-    int* errFlags; ///< Expected return values for queries
+    const double* queryNearest; ///< Data for nearest neighbor queries
+    const double* queryLinear; ///< Data for linear interpolation queries
+    const int* errFlags; ///< Expected return values for queries
     //@}
 
     /// @io I/O information

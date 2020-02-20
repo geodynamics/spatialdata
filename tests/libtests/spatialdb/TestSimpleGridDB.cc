@@ -301,7 +301,7 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
 // Test query method by doing query and checking values returned.
 void
 spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
-                                                      char** const names,
+                                                      const char** const names,
                                                       const double* queryData,
                                                       const int* flagsE,
                                                       const size_t numQueries,
