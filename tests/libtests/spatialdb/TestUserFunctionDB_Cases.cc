@@ -65,31 +65,31 @@ class spatialdata::spatialdb::TestUserFunctionDB_1D : public TestUserFunctionDB 
         _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
 
         _data->numVals = 3;
-        static const TestUserFunctionDB_Data::UserData _values[3] = {
+        static const TestUserFunctionDB_Data::UserData values[3] = {
             {"density", density_units(), 1.0 },
             {"vs", vs_units(), 1000.0 },
             {"vp", vp_units(), 1000.0 },
         };
-        _data->values = const_cast<TestUserFunctionDB_Data::UserData*>(_values);
+        _data->values = values;
 
         _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
         _data->cs->setSpaceDim(1);
 
         _data->numQueryPoints = 4;
-        static const double _queryXYZ[4*1] = {
+        static const double queryXYZ[4*1] = {
             0.0,
             -10.0,
             4.0,
             0.5,
         };
-        _data->queryXYZ = const_cast<double*>(_queryXYZ);
-        static const double _queryValues[4*3] = {
+        _data->queryXYZ = queryXYZ;
+        static const double queryValues[4*3] = {
             density(0.0),   vs(0.0),   vp(0.0),
             density(-10.0), vs(-10.0), vp(-10.0),
             density(4.0),   vs(4.0),   vp(4.0),
             density(0.5),   vs(0.5),   vp(0.5),
         };
-        _data->queryValues = const_cast<double*>(_queryValues);
+        _data->queryValues = queryValues;
 
     } // setUp
 
@@ -142,31 +142,31 @@ private:
         _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
 
         _data->numVals = 3;
-        static const TestUserFunctionDB_Data::UserData _values[3] = {
+        static const TestUserFunctionDB_Data::UserData values[3] = {
             { "vs", vs_units(), 1000.0, },
             { "vp", vp_units(), 1000.0, },
             { "density", density_units(), 1.0, },
         };
-        _data->values = const_cast<TestUserFunctionDB_Data::UserData*>(_values);
+        _data->values = values;
 
         _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
         _data->cs->setSpaceDim(2);
 
         _data->numQueryPoints = 4;
-        static const double _queryXYZ[4*2] = {
+        static const double queryXYZ[4*2] = {
             0.0, 0.0,
             -10.0, 4.0,
             4.0, 2.0,
             0.5, 0.1,
         };
-        _data->queryXYZ = const_cast<double*>(_queryXYZ);
-        static const double _queryValues[4*3] = {
+        _data->queryXYZ = queryXYZ;
+        static const double queryValues[4*3] = {
             vs(0.0, 0.0),   vp(0.0, 0.0),   density(0.0, 0.0),
             vs(-10.0, 4.0), vp(-10.0, 4.0), density(-10.0, 4.0),
             vs(4.0, 2.0),   vp(4.0, 2.0),   density(4.0, 2.0),
             vs(0.5, 0.1),   vp(0.5, 0.1),   density(0.5, 0.1),
         };
-        _data->queryValues = const_cast<double*>(_queryValues);
+        _data->queryValues = queryValues;
 
     } // setUp
 
@@ -212,26 +212,26 @@ private:
         _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
 
         _data->numVals = 2;
-        static const TestUserFunctionDB_Data::UserData _values[2] = {
+        static const TestUserFunctionDB_Data::UserData values[2] = {
             { "density", density_units(), 1.0, },
             { "vs", vs_units(), 1000.0, },
         };
-        _data->values = const_cast<TestUserFunctionDB_Data::UserData*>(_values);
+        _data->values = values;
 
         _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
         _data->cs->setSpaceDim(3);
 
         _data->numQueryPoints = 2;
-        static const double _queryXYZ[2*3] = {
+        static const double queryXYZ[2*3] = {
             0.0, 0.0, 0.0,
             1.0, 4.3, -3.6,
         };
-        _data->queryXYZ = const_cast<double*>(_queryXYZ);
-        static const double _queryValues[2*2] = {
+        _data->queryXYZ = queryXYZ;
+        static const double queryValues[2*2] = {
             density(0.0, 0.0, 0.0),  vs(0.0, 0.0, 0.0),
             density(1.0, 4.3, -3.6), vs(1.0, 4.3, -3.6),
         };
-        _data->queryValues = const_cast<double*>(_queryValues);
+        _data->queryValues = queryValues;
 
     } // setUp
 
