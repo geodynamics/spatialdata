@@ -26,75 +26,109 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "spatialdata/spatialdb/spatialdbfwd.hh" // USES SimpleDB, SimpleDBQuery
+
 /// Namespace for spatial package
 namespace spatialdata {
-  namespace spatialdb {
-    class TestSimpleDBQuery;
-    class SimpleDB; // USES SimpleDB
-    class SimpleDBQueryData; // USES TestSimpleDBQueryData
-  } // spatialdb
+    namespace spatialdb {
+        class TestSimpleDBQuery;
+        class TestSimpleDBQuery_Data;
+    } // spatialdb
 } // spatialdata
 
 /// C++ unit testing for SimpleDBQuery
-class spatialdata::spatialdb::TestSimpleDBQuery : public CppUnit::TestFixture
-{ // class TestSimpleDBQuery
+class spatialdata::spatialdb::TestSimpleDBQuery : public CppUnit::TestFixture {
+    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+    CPPUNIT_TEST_SUITE(TestSimpleDBQuery);
 
-  // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestSimpleDBQuery );
-  CPPUNIT_TEST( testConstructor );
-  CPPUNIT_TEST( testQueryType );
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST(testConstructor);
+    CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testQueryVals);
+    CPPUNIT_TEST(testDistSquared);
+    CPPUNIT_TEST(testArea);
+    CPPUNIT_TEST(testVolume);
 
-  // PUBLIC METHODS /////////////////////////////////////////////////////
-public :
+    CPPUNIT_TEST_SUITE_END_ABSTRACT();
 
-  /// Test constructor
-  void testConstructor(void);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /// Test queryType()
-  void testQueryType(void);
+    /// Setup query.
+    void setUp(void);
 
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
+    /// Destroy query.
+    void tearDown(void);
 
-  /* Test setQueryValues()
-   *
-   * @param data Data for database
-   */
-  void _testQueryVals(const SimpleDBQueryData& data);
+    /// Test constructor
+    void testConstructor(void);
 
-  /** Test distSquared()
-   *
-   * @param data Data for database
-   */
-  void _testDistSquared(const SimpleDBQueryData& data);
+    /// Test accessors.
+    void testAccessors(void);
 
-  /** Test area().
-   *
-   * @param data Data for database
-   */
-  void _testArea(const SimpleDBQueryData& data);
+    /// Test setQueryValues()
+    void testQueryVals(void);
 
-  /* Test volume()
-   *
-   * @param data Data for database
-   */
-  void _testVolume(const SimpleDBQueryData& data);
+    /// Test distSquared()
+    void testDistSquared(void);
 
-  // PRIVATE METHODS ////////////////////////////////////////////////////
-private :
+    /// Test area().
+    void testArea(void);
 
-  /** Populate database with data.
-   *
-   * @param db Database
-   * @param data Data for database
-   */
-  void _setupDB(SimpleDB* const db,
-		const SimpleDBQueryData& data);
+    /// Test volume().
+    void testVolume(void);
+
+    // PROTECTED MEMBERS ////////////////////////////////////////////////////
+protected:
+
+    /// Populdate database with values.
+    void _initializeDB(void);
+
+    // PROTECTED MEMBERS ////////////////////////////////////////////////////
+protected:
+
+    SimpleDB* _db; ///< Database for test subject.
+    SimpleDBQuery* _query; ///< Test subject.
+    TestSimpleDBQuery_Data* _data; ///< Test data.
 
 }; // class TestSimpleDBQuery
 
+class spatialdata::spatialdb::TestSimpleDBQuery_Data {
+    // PUBLIC METHODS ///////////////////////////////////////////////////////
+public:
+
+    /// Constructor
+    TestSimpleDBQuery_Data(void);
+
+    /// Destructor
+    ~TestSimpleDBQuery_Data(void);
+
+    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+public:
+
+    /// @name Database information
+    //@{
+    size_t numLocs; ///< Number of locations in database.
+    size_t spaceDim; ///< Spatial dimension for coordinates of locations.
+    size_t numValues; ///< Number of values per location in database.
+    size_t dataDim; ///< Spatial dimension of data in database.
+    const double* dbCoordinates; ///< Database locations.
+    const double* dbValues; ///< Database values at locations.
+    const char** names; ///< Names of values in database.
+    const char** units; ///< Units of values in database.
+    //@}
+
+    /// @name Query information
+    //@{
+    size_t numPoints; ///< Number of points for locations
+    const double* coordinates; ///< Coordinates of query locations
+    double dist2; ///< Expected value for distance squared
+    double area; ///< Expected value for area
+    const double* areaDir; ///< Expected value for area direction
+    double volume; ///< Expected value for volume
+    //@}
+
+}; // TestSimpleDBQuery_Data
+
 #endif // spatialdata_spatialdb_testsimpledbquery_hh
 
-
-// End of file 
+// End of file
