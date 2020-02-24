@@ -29,84 +29,101 @@
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
 
-/// Namespace for spatial package
 namespace spatialdata {
-  namespace spatialdb {
-    class TestSimpleDB;
-    class SimpleDBTestData; // USES SimpleDBTestData
-  } // spatialdb
+    namespace spatialdb {
+        class TestSimpleDB;
+        class TestSimpleDB_Data;
+    } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for SimpleDB
-class spatialdata::spatialdb::TestSimpleDB : public CppUnit::TestFixture
-{ // class TestSimpleDB
+class spatialdata::spatialdb::TestSimpleDB : public CppUnit::TestFixture {
+    CPPUNIT_TEST_SUITE(TestSimpleDB);
 
-  // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestSimpleDB );
-  CPPUNIT_TEST( testConstructorA );
-  CPPUNIT_TEST( testConstructorB );
-  CPPUNIT_TEST( testLabel );
-  CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST(testConstructors);
+    CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testQueryNearest);
+    CPPUNIT_TEST(testQueryLinear);
 
-  // PUBLIC METHODS /////////////////////////////////////////////////////
-public :
+    CPPUNIT_TEST_SUITE_END_ABSTRACT();
 
-  /// Test constructor
-  void testConstructorA(void);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /// Test constructor with label
-  void testConstructorB(void);
+    /// Initialize test subject.
+    void setUp(void);
 
-  /// Test label()
-  void testLabel(void);
+    /// Deallocate test data;
+    void tearDown(void);
 
-protected :
-  // PROTECTED METHODS //////////////////////////////////////////////////
+    /// Test constructors.
+    void testConstructors(void);
 
-  /** Test query() using nearest neighbor
-   *
-   * @param data Data for database
-   */
-  void _testQueryNearest(const SimpleDBTestData& data);
+    /// Test accessors.
+    void testAccessors(void);
 
-  /** Test query() using linear interpolation
-   *
-   * @param data Data for database
-   */
-  void _testQueryLinear(const SimpleDBTestData& data);
+    /// Test queryNearest()
+    void testQueryNearest(void);
 
-  // PRIVATE METHODS ////////////////////////////////////////////////////
-private :
+    /// Test queryLinear()
+    void testQueryLinear(void);
 
-  /** Populate database with data.
-   *
-   * @param db Database
-   * @param data Data for database
-   */
-  void _setupDB(SimpleDB* const db,
-		const SimpleDBTestData& data);
+protected:
 
-  /** Test query method by doing query and checking values returned.
-   * 
-   * @param db Database to query
-   * @param names Names of values in database
-   * @param queryData Query locations and expected values
-   * @param flagsE Array of expected return values
-   * @param numQueries Number of queries
-   * @param spaceDim Number of coordinates per location
-   * @param numVals Number of values in database
-   */
-  void _checkQuery(SimpleDB& db,
-		   char** const names,
-		   const double* queryData,
-		   const int* flagsE,
-		   const int numQueries,
-		   const int spaceDim,
-		   const int numVals);
+    // PROTECTED METHODS //////////////////////////////////////////////////
+
+    /// Populate database with data.
+    void _initializeDB(void);
+
+protected:
+
+    // PROTECTED MEMBERS //////////////////////////////////////////////////
+
+    SimpleDB* _db; ///< Test subject
+    TestSimpleDB_Data* _data; ///< Data for tests.
+
+    // PRIVATE METHODS ////////////////////////////////////////////////////
+private:
+
+    /** Test query method by doing query and checking values returned.
+     *
+     * @param queryData Query locations and expected values
+     * @param flagsE Array of expected return values
+     */
+    void _checkQuery(const double* queryData,
+                     const int* flagsE);
 
 }; // class TestSimpleDB
 
+class spatialdata::spatialdb::TestSimpleDB_Data {
+    // PUBLIC METHODS ///////////////////////////////////////////////////////
+public:
+
+    /// Constructor
+    TestSimpleDB_Data(void);
+
+    /// Destructor
+    ~TestSimpleDB_Data(void);
+
+    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+public:
+
+    size_t numLocs;
+    size_t spaceDim;
+    size_t numValues;
+    size_t dataDim;
+    size_t numQueries;
+
+    const double* dbCoordinates;
+    const double* dbValues;
+    const char** names;
+    const char** units;
+
+    const double* queryNearest;
+    const double* queryLinear;
+    const int* errFlags;
+
+};
+
 #endif // spatialdata_spatialdb_testsimpledb_hh
 
-
-// End of file 
+// End of file

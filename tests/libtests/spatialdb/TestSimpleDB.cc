@@ -19,139 +19,174 @@
 #include "TestSimpleDB.hh" // Implementation of class methods
 
 #include "spatialdata/spatialdb/SimpleDB.hh" // USES SimpleDB
-
-#include "data/SimpleDBTestData.hh" // USES SimpleDBTestData
-
 #include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 #include "spatialdata/spatialdb/SimpleDBQuery.hh" // USES SimpleDBQuery
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
-#include <string.h> // USES strcmp() and memcpy()
+// ----------------------------------------------------------------------
+// Initialize test subject.
+void
+spatialdata::spatialdb::TestSimpleDB::setUp(void) {
+    _db = new SimpleDB();
+    _data = NULL;
+} // setUp
+
 
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestSimpleDB );
+// Deallocate test data;
+void
+spatialdata::spatialdb::TestSimpleDB::tearDown(void) {
+    delete _db;_db = NULL;
+    delete _data;_data = NULL;
+} // testDown
+
 
 // ----------------------------------------------------------------------
 // Test constructor
 void
-spatialdata::spatialdb::TestSimpleDB::testConstructorA(void)
-{ // testConstructorA
-  SimpleDB db;
-} // testConstructorA
+spatialdata::spatialdb::TestSimpleDB::testConstructors(void) {
+    SimpleDB db;
+
+    const std::string label("database A");
+    SimpleDB db2(label.c_str());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db2.getLabel()));
+} // testConstructors
+
 
 // ----------------------------------------------------------------------
-// Test constructor
+// Test accessors.
 void
-spatialdata::spatialdb::TestSimpleDB::testConstructorB(void)
-{ // testConstructorB
-  const char* label = "database A";
-  SimpleDB db(label);
-  CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
-} // testConstructorB
+spatialdata::spatialdb::TestSimpleDB::testAccessors(void) {
+    CPPUNIT_ASSERT(_db);
 
-// ----------------------------------------------------------------------
-// Test Label()
-void
-spatialdata::spatialdb::TestSimpleDB::testLabel(void)
-{ // testLabel
-  SimpleDB db;
-  const char* label = "database 2";
-  db.label(label);
-  CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
-} // testLabel
+    const std::string label("database 2");
+    _db->setLabel(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getLabel()));
+} // testAccessors
+
 
 // ----------------------------------------------------------------------
 // Test query() using nearest neighbor
 void
-spatialdata::spatialdb::TestSimpleDB::_testQueryNearest(
-					  const SimpleDBTestData& data)
-{ // _testQueryNearest
-  SimpleDB db;
-  _setupDB(&db, data);
-  db.queryType(SimpleDB::NEAREST);
-  _checkQuery(db, data.names, data.queryNearest, 0,
-	      data.numQueries, data.spaceDim, data.numVals);
-} // _testQueryNearest
+spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void) {
+    _initializeDB();
+
+    CPPUNIT_ASSERT(_db);
+    CPPUNIT_ASSERT(_data);
+
+    _db->setQueryType(SimpleDB::NEAREST);
+    _checkQuery(_data->queryNearest, NULL);
+} // testQueryNearest
+
 
 // ----------------------------------------------------------------------
 // Test query() using linear interpolation
 void
-spatialdata::spatialdb::TestSimpleDB::_testQueryLinear(
-						  const SimpleDBTestData& data)
-{ // _testQueryLinear
-  SimpleDB db;
-  _setupDB(&db, data);
-  db.queryType(SimpleDB::LINEAR);
-  _checkQuery(db, data.names, data.queryLinear, data.errFlags,
-	      data.numQueries, data.spaceDim, data.numVals);
+spatialdata::spatialdb::TestSimpleDB::testQueryLinear(void) {
+    _initializeDB();
+
+    CPPUNIT_ASSERT(_db);
+    CPPUNIT_ASSERT(_data);
+
+    _db->setQueryType(SimpleDB::LINEAR);
+    _checkQuery(_data->queryLinear, _data->errFlags);
 } // _testQueryLinear
+
 
 // ----------------------------------------------------------------------
 // Populate database with data.
 void
-spatialdata::spatialdb::TestSimpleDB::_setupDB(SimpleDB* const db,
-					       const SimpleDBTestData& data)
-{ // _setupDB
-  SimpleDBData* dbData = new SimpleDBData;
-  dbData->allocate(data.numLocs, data.numVals, data.spaceDim,
-		   data.dataDim);
-  dbData->data(data.dbData, data.numLocs, data.numVals);
-  dbData->coordinates(data.dbCoords, data.numLocs, data.spaceDim);
-  dbData->names(const_cast<const char**>(data.names), data.numVals);
-  dbData->units(const_cast<const char**>(data.units), data.numVals);
+spatialdata::spatialdb::TestSimpleDB::_initializeDB(void) {
+    CPPUNIT_ASSERT(_data);
 
-  db->_data = dbData;
-  db->_query = new SimpleDBQuery(*db);
-  db->_cs = new spatialdata::geocoords::CSCart();
+    SimpleDBData* dbData = new SimpleDBData;
+    dbData->allocate(_data->numLocs, _data->numValues, _data->spaceDim, _data->dataDim);
+    dbData->setData(_data->dbValues, _data->numLocs, _data->numValues);
+    dbData->setCoordinates(_data->dbCoordinates, _data->numLocs, _data->spaceDim);
+    dbData->setNames(_data->names, _data->numValues);
+    dbData->setUnits(_data->units, _data->numValues);
+
+    CPPUNIT_ASSERT(_db);
+    _db->_data = dbData;
+    _db->_query = new SimpleDBQuery(*_db);
+    _db->_cs = new spatialdata::geocoords::CSCart();
 } // _setupDB
+
 
 // ----------------------------------------------------------------------
 // Test query method by doing query and checking values returned.
 void
-spatialdata::spatialdb::TestSimpleDB::_checkQuery(SimpleDB& db,
-						  char** const names,
-						  const double* queryData,
-						  const int* flagsE,
-						  const int numQueries,
-						  const int spaceDim,
-						  const int numVals)
-{ // _checkQuery
-  CPPUNIT_ASSERT(0 != names);
-  CPPUNIT_ASSERT(0 != queryData);
-  CPPUNIT_ASSERT(0 != numQueries);
-  CPPUNIT_ASSERT(0 != spaceDim);
-  CPPUNIT_ASSERT(0 != numVals);
+spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
+                                                  const int* flagsE) {
+    CPPUNIT_ASSERT(queryData);
+    CPPUNIT_ASSERT(_data);
+    CPPUNIT_ASSERT(_db);
 
-  // reverse order of vals in queries
-  const char* valNames[numVals];
-  for (int i=0; i < numVals; ++i)
-    valNames[numVals-i-1] = names[i];
-  db.setQueryValues(valNames, numVals);
-  
-  double* vals = (0 < numVals) ? new double[numVals] : 0;
-  const double tolerance = 1.0e-06;
-  
-  const int locSize = spaceDim + numVals;
-  spatialdata::geocoords::CSCart csCart;
-  for (int iQuery=0; iQuery < numQueries; ++iQuery) {
-    const double* coords = &queryData[iQuery*locSize];
-    const double* valsE = &queryData[iQuery*locSize+spaceDim];
-    const int err = db.query(vals, numVals, coords, spaceDim, &csCart);
-    if (0 != flagsE)
-      CPPUNIT_ASSERT(err == flagsE[iQuery]);
-    else
-      CPPUNIT_ASSERT(0 == err);
-    for (int iVal=0; iVal < numVals; ++iVal)
-      if (valsE[numVals-iVal-1] > tolerance)
-	CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, vals[iVal]/valsE[numVals-iVal-1],
-				     tolerance);
-      else
-	CPPUNIT_ASSERT_DOUBLES_EQUAL(valsE[numVals-iVal-1], vals[iVal],
-				     tolerance);
-  } // for
-  delete[] vals; vals = 0;
+    // Query values in reverse order for nontrivial test.
+    const size_t numValues = _data->numValues;
+
+    const char** queryNames = numValues > 0 ? new const char*[numValues] : NULL;
+    for (size_t i = 0; i < numValues; ++i) {
+        queryNames[numValues-i-1] = _data->names[i];
+    } // for
+    _db->setQueryValues(queryNames, numValues);
+    delete[] queryNames;queryNames = NULL;
+
+    double* values = (numValues > 0) ? new double[numValues] : 0;
+    const double tolerance = 1.0e-06;
+
+    const size_t spaceDim = _data->spaceDim;
+    const size_t numQueries = _data->numQueries;
+    const size_t locSize = spaceDim + numValues;
+    spatialdata::geocoords::CSCart csCart;
+    for (size_t iQuery = 0; iQuery < numQueries; ++iQuery) {
+        const double* coordinates = &queryData[iQuery*locSize];
+        const double* valuesE = &queryData[iQuery*locSize+spaceDim];
+        const int err = _db->query(values, numValues, coordinates, spaceDim, &csCart);
+        if (flagsE) {
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query return value.", flagsE[iQuery], err);
+        } else {
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query return value.", 0, err);
+        } // if/else
+        for (size_t iVal = 0; iVal < numValues; ++iVal) {
+            if (valuesE[numValues-iVal-1] > tolerance) {
+                CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, values[iVal]/valuesE[numValues-iVal-1], tolerance);
+            } else {
+                CPPUNIT_ASSERT_DOUBLES_EQUAL(valuesE[numValues-iVal-1], values[iVal], tolerance);
+            } // if/else
+        } // for
+    } // for
+    delete[] values;values = NULL;
 } // _checkQuery
 
 
-// End of file 
+// Constructor
+spatialdata::spatialdb::TestSimpleDB_Data::TestSimpleDB_Data(void) :
+    numLocs(0),
+    spaceDim(0),
+    numValues(0),
+    dataDim(0),
+    numQueries(0),
+    dbCoordinates(NULL),
+    dbValues(NULL),
+    names(NULL),
+    units(NULL),
+    queryNearest(NULL),
+    queryLinear(NULL),
+    errFlags(NULL) {}
+
+
+spatialdata::spatialdb::TestSimpleDB_Data::~TestSimpleDB_Data(void) {
+    // Set members holding static const data to NULL (no deallocation).
+    dbCoordinates = NULL;
+    dbValues = NULL;
+    names = NULL;
+    units = NULL;
+    queryNearest = NULL;
+    queryLinear = NULL;
+    errFlags = NULL;
+} // destructor
+
+
+// End of file

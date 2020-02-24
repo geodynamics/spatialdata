@@ -30,6 +30,8 @@ testspatial_SOURCES = \
 	TestSimpleIOAscii.cc \
 	TestSimpleDBQuery.cc \
 	TestSimpleDBQuery_Cases.cc \
+	TestSimpleDB.cc \
+	TestSimpleDB_Cases.cc \
 	TestSimpleGridAscii.cc \
 	TestSimpleGridDB.cc \
 	TestSimpleGridDB_Cases.cc \
@@ -42,14 +44,6 @@ testspatial_SOURCES = \
 
 
 # TestSCECCVMH.cc
-
-
-# TestSimpleDB.cc \
-# TestSimpleDBPoint3D.cc \
-# TestSimpleDBLine3D.cc \
-# TestSimpleDBArea3D.cc \
-# TestSimpleDBVolume3D.cc
-
 # TestSpatialDB.cc 
 
 
@@ -60,10 +54,6 @@ noinst_HEADERS = \
 	TestSCECCVMH.hh \
 	TestSimpleDBQuery.hh \
 	TestSimpleDB.hh \
-	TestSimpleDBPoint3D.hh \
-	TestSimpleDBLine3D.hh \
-	TestSimpleDBArea3D.hh \
-	TestSimpleDBVolume3D.hh \
 	TestSimpleGridDB.hh \
 	TestUserFunctionDB.hh \
 	TestSpatialDB.hh
@@ -78,26 +68,6 @@ testspatial_LDADD = \
 	-lproj \
 	-lcppunit -ldl \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-
-
-# Source files associated with testing data
-testspatial_SOURCES += \
-	data/SimpleDBQueryData.cc \
-	data/SimpleDBQueryData3D.cc \
-	data/SimpleDBTestData.cc \
-	data/SimpleDBTestDataPoint3D.cc \
-	data/SimpleDBTestDataLine3D.cc \
-	data/SimpleDBTestDataArea3D.cc \
-	data/SimpleDBTestDataVolume3D.cc
-
-noinst_HEADERS += \
-	data/SimpleDBQueryData.hh \
-	data/SimpleDBQueryData3D.hh \
-	data/SimpleDBTestData.hh \
-	data/SimpleDBTestDataPoint3D.hh \
-	data/SimpleDBTestDataLine3D.hh \
-	data/SimpleDBTestDataArea3D.hh \
-	data/SimpleDBTestDataVolume3D.hh
 
 
 # End of file 
