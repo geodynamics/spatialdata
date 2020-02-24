@@ -24,10 +24,6 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
-#include "data/SimpleDBQueryData.hh"
-
-#include <string.h> // USES memcpy()
-
 // ----------------------------------------------------------------------
 // Setup test data.
 void
