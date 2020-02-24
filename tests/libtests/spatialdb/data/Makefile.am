@@ -31,8 +31,6 @@ noinst_TMP = \
 	grid.spatialdb \
 	timehistory.data
 
-noinst_HEADERS = \
-	header.hh
 
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/tests/libtests/spatialdb/data
