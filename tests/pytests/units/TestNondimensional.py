@@ -24,103 +24,88 @@ from pyre.units.time import second
 from pyre.units.mass import kilogram
 from pyre.units.temperature import kelvin
 
+
 class TestNondimensional(unittest.TestCase):
 
-  def test_constructor(self):
-    dim = Nondimensional()
-    dim._configure()
+    def test_constructor(self):
+        dim = Nondimensional()
+        dim._configure()
 
-    self.assertEqual(1.0*meter, dim.lengthScale())
-    self.assertEqual(1.0*pascal, dim.pressureScale())
-    self.assertEqual(1.0*second, dim.timeScale())
-    self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
-    self.assertEqual(1.0*kelvin, dim.temperatureScale())
+        self.assertEqual(1.0 * meter, dim.getLengthScale())
+        self.assertEqual(1.0 * pascal, dim.getPressureScale())
+        self.assertEqual(1.0 * second, dim.getTimeScale())
+        self.assertEqual(1.0 * kilogram / meter**3, dim.getDensityScale())
+        self.assertEqual(1.0 * kelvin, dim.getTemperatureScale())
 
-    return
+    def test_lengthScale(self):
+        dim = Nondimensional()
+        dim._configure()
+        dim.setLengthScale(2.0 * meter)
 
+        self.assertEqual(2.0 * meter, dim.getLengthScale())
+        self.assertEqual(1.0 * pascal, dim.getPressureScale())
+        self.assertEqual(1.0 * second, dim.getTimeScale())
+        self.assertEqual(1.0 * kilogram / meter**3, dim.getDensityScale())
 
-  def test_lengthScale(self):
-    dim = Nondimensional()
-    dim._configure()
-    dim.setLengthScale(2.0*meter)
+    def test_pressureScale(self):
+        dim = Nondimensional()
+        dim._configure()
+        dim.setPressureScale(2.0 * pascal)
 
-    self.assertEqual(2.0*meter, dim.lengthScale())
-    self.assertEqual(1.0*pascal, dim.pressureScale())
-    self.assertEqual(1.0*second, dim.timeScale())
-    self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
-    return
+        self.assertEqual(1.0 * meter, dim.getLengthScale())
+        self.assertEqual(2.0 * pascal, dim.getPressureScale())
+        self.assertEqual(1.0 * second, dim.getTimeScale())
+        self.assertEqual(1.0 * kilogram / meter**3, dim.getDensityScale())
 
+    def test_timeScale(self):
+        dim = Nondimensional()
+        dim._configure()
+        dim.setTimeScale(2.0 * second)
 
-  def test_pressureScale(self):
-    dim = Nondimensional()
-    dim._configure()
-    dim.setPressureScale(2.0*pascal)
+        self.assertEqual(1.0 * meter, dim.getLengthScale())
+        self.assertEqual(1.0 * pascal, dim.getPressureScale())
+        self.assertEqual(2.0 * second, dim.getTimeScale())
+        self.assertEqual(1.0 * kilogram / meter**3, dim.getDensityScale())
 
-    self.assertEqual(1.0*meter, dim.lengthScale())
-    self.assertEqual(2.0*pascal, dim.pressureScale())
-    self.assertEqual(1.0*second, dim.timeScale())
-    self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
-    return
+    def test_densityScale(self):
+        dim = Nondimensional()
+        dim._configure()
+        dim.setDensityScale(2.0 * kilogram / meter**3)
 
+        self.assertEqual(1.0 * meter, dim.getLengthScale())
+        self.assertEqual(1.0 * pascal, dim.getPressureScale())
+        self.assertEqual(1.0 * second, dim.getTimeScale())
+        self.assertEqual(2.0 * kilogram / meter**3, dim.getDensityScale())
 
-  def test_timeScale(self):
-    dim = Nondimensional()
-    dim._configure()
-    dim.setTimeScale(2.0*second)
+    def test_temperatureScale(self):
+        dim = Nondimensional()
+        dim._configure()
+        dim.setTemperatureScale(2.0 * kelvin)
 
-    self.assertEqual(1.0*meter, dim.lengthScale())
-    self.assertEqual(1.0*pascal, dim.pressureScale())
-    self.assertEqual(2.0*second, dim.timeScale())
-    self.assertEqual(1.0*kilogram/meter**3, dim.densityScale())
-    return
+        self.assertEqual(1.0 * meter, dim.getLengthScale())
+        self.assertEqual(1.0 * pascal, dim.getPressureScale())
+        self.assertEqual(1.0 * second, dim.getTimeScale())
+        self.assertEqual(2.0 * kelvin, dim.getTemperatureScale())
 
+    def test_nondimensionalize(self):
+        dim = Nondimensional()
+        dim._configure()
 
-  def test_densityScale(self):
-    dim = Nondimensional()
-    dim._configure()
-    dim.setDensityScale(2.0*kilogram/meter**3)
+        scale = 8.0 * meter
+        value = 2.0 * meter
+        valueE = 0.25
 
-    self.assertEqual(1.0*meter, dim.lengthScale())
-    self.assertEqual(1.0*pascal, dim.pressureScale())
-    self.assertEqual(1.0*second, dim.timeScale())
-    self.assertEqual(2.0*kilogram/meter**3, dim.densityScale())
-    return
+        self.assertEqual(valueE, dim.nondimensionalize(value, scale))
 
+    def test_dimensionalize(self):
+        dim = Nondimensional()
+        dim._configure()
 
-  def test_temperatureScale(self):
-    dim = Nondimensional()
-    dim._configure()
-    dim.setTemperatureScale(2.0*kelvin)
+        scale = 8.0 * meter
+        value = 0.25
+        valueE = 2.0 * meter
 
-    self.assertEqual(1.0*meter, dim.lengthScale())
-    self.assertEqual(1.0*pascal, dim.pressureScale())
-    self.assertEqual(1.0*second, dim.timeScale())
-    self.assertEqual(2.0*kelvin, dim.temperatureScale())
-    return
-
-
-  def test_nondimensionalize(self):
-    dim = Nondimensional()
-    dim._configure()
-
-    scale = 8.0*meter
-    value = 2.0*meter
-    valueE = 0.25
-
-    self.assertEqual(valueE, dim.nondimensionalize(value, scale))
-    return
+        self.assertEqual(valueE, dim.dimensionalize(value, scale))
 
 
-  def test_dimensionalize(self):
-    dim = Nondimensional()
-    dim._configure()
-
-    scale = 8.0*meter
-    value = 0.25
-    valueE = 2.0*meter
-
-    self.assertEqual(valueE, dim.dimensionalize(value, scale))
-    return
-
-
-# End of file 
+# End of file

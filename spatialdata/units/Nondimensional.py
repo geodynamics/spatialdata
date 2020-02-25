@@ -14,164 +14,143 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/units/Nondimensional.py
-##
-## @brief Python manager for nondimensionalizing problems.
-##
-## Factory: nondimensional
+# @file spatialdata/units/Nondimensional.py
+#
+# @brief Python manager for nondimensionalizing problems.
+#
+# Factory: nondimensional
 
 from pyre.components.Component import Component
 from units import Nondimensional as ModuleNondimensional
 
-# Nondimensional class
+
 class Nondimensional(Component, ModuleNondimensional):
-  """
-  Python manager for nondimensionalizing problems.
-
-  Factory: nondimensional
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(Component.Inventory):
-    """Python object for managing Nondimensional facilities and properties."""
-
-    ## @class Inventory
-    ## Python object for managing Nondimensional facilities and properties.
-    ##
-    ## \b Properties
-    ## @li None
-    ##
-    ## \b Facilities
-    ## @li None
-
-
-  # PUBLIC METHODS /////////////////////////////////////////////////////
-
-  def __init__(self, name="nondimensional"):
     """
-    Constructor.
-    """
-    Component.__init__(self, name, facility="nondimensional")
-    self._createModuleObj()
-    return
+    Python manager for nondimensionalizing problems.
 
+    Factory: nondimensional
 
-  def setLengthScale(self, value):
-    """
-    Get length scale.
-    """
-    return ModuleNondimensional.lengthScale(self, value.value)
+    INVENTORY
 
+    Properties
+      - None
 
-  def lengthScale(self):
+    Facilities
+      - None
     """
-    Get length scale.
-    """
-    from pyre.units.length import meter
-    return ModuleNondimensional.lengthScale(self) * meter
 
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def setPressureScale(self, value):
-    """
-    Get length scale.
-    """
-    return ModuleNondimensional.pressureScale(self, value.value)
+    def __init__(self, name="nondimensional"):
+        """
+        Constructor.
+        """
+        Component.__init__(self, name, facility="nondimensional")
+        self._createModuleObj()
+        return
 
+    def setLengthScale(self, value):
+        """
+        Get length scale.
+        """
+        return ModuleNondimensional.setLengthScale(self, value.value)
 
-  def pressureScale(self):
-    """
-    Get pressure scale.
-    """
-    from pyre.units.pressure import pascal
-    return ModuleNondimensional.pressureScale(self) * pascal
+    def getLengthScale(self):
+        """
+        Get length scale.
+        """
+        from pyre.units.length import meter
+        return ModuleNondimensional.getLengthScale(self) * meter
 
+    def setPressureScale(self, value):
+        """
+        Get length scale.
+        """
+        return ModuleNondimensional.setPressureScale(self, value.value)
 
-  def setTimeScale(self, value):
-    """
-    Get time scale.
-    """
-    return ModuleNondimensional.timeScale(self, value.value)
+    def getPressureScale(self):
+        """
+        Get pressure scale.
+        """
+        from pyre.units.pressure import pascal
+        return ModuleNondimensional.getPressureScale(self) * pascal
 
+    def setTimeScale(self, value):
+        """
+        Get time scale.
+        """
+        return ModuleNondimensional.setTimeScale(self, value.value)
 
-  def timeScale(self):
-    """
-    Get time scale.
-    """
-    from pyre.units.time import second
-    return ModuleNondimensional.timeScale(self) * second
+    def getTimeScale(self):
+        """
+        Get time scale.
+        """
+        from pyre.units.time import second
+        return ModuleNondimensional.getTimeScale(self) * second
 
+    def setDensityScale(self, value):
+        """
+        Get density scale.
+        """
+        return ModuleNondimensional.setDensityScale(self, value.value)
 
-  def setDensityScale(self, value):
-    """
-    Get density scale.
-    """
-    return ModuleNondimensional.densityScale(self, value.value)
+    def getDensityScale(self):
+        """
+        Get density scale.
+        """
+        from pyre.units.length import meter
+        from pyre.units.mass import kilogram
+        return ModuleNondimensional.getDensityScale(self) * kilogram / meter**3
 
+    def setTemperatureScale(self, value):
+        """
+        Get temperature scale.
+        """
+        return ModuleNondimensional.setTemperatureScale(self, value.value)
 
-  def densityScale(self):
-    """
-    Get density scale.
-    """
-    from pyre.units.length import meter
-    from pyre.units.mass import kilogram
-    return ModuleNondimensional.densityScale(self) * kilogram / meter**3
+    def getTemperatureScale(self):
+        """
+        Get temperature scale.
+        """
+        from pyre.units.temperature import kelvin
+        return ModuleNondimensional.getTemperatureScale(self) * kelvin
 
+    def nondimensionalize(self, value, scale):
+        """
+        Make value dimensionless.
+        """
+        return value / scale
 
-  def setTemperatureScale(self, value):
-    """
-    Get temperature scale.
-    """
-    return ModuleNondimensional.temperatureScale(self, value.value)
+    def dimensionalize(self, value, scale):
+        """
+        Make value dimensional.
+        """
+        return value * scale
 
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
-  def temperatureScale(self):
-    """
-    Get density scale.
-    """
-    from pyre.units.temperature import kelvin
-    return ModuleNondimensional.temperatureScale(self) * kelvin
+    def _configure(self):
+        """
+        Setup members using inventory.
+        """
+        Component._configure(self)
+        return
 
-
-  def nondimensionalize(self, value, scale):
-    """
-    Make value dimensionless.
-    """
-    return value / scale
-
-
-  def dimensionalize(self, value, scale):
-    """
-    Make value dimensional.
-    """
-    return value * scale
-
-
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """
-    Setup members using inventory.
-    """
-    Component._configure(self)
-    return
-
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    ModuleNondimensional.__init__(self)
-    return
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        ModuleNondimensional.__init__(self)
+        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def nondimensional():
-  """
-  Factory associated with Nondimensional.
-  """
-  return Nondimensional()
+    """
+    Factory associated with Nondimensional.
+    """
+    return Nondimensional()
 
 
-# End of file 
+# End of file
