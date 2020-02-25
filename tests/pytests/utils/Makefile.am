@@ -16,8 +16,8 @@
 
 include $(top_srcdir)/check.am
 
-TESTS = testutils.py
-dist_check_SCRIPTS = testutils.py
+TESTS = test_utils.py
+dist_check_SCRIPTS = test_utils.py
 
 noinst_PYTHON = \
 	TestChangeCoordSys.py \

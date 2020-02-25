@@ -46,9 +46,6 @@ nobase_pkgpyexec_PYTHON = \
 	units/Nondimensional.py \
 	units/NondimElasticQuasistatic.py \
 	units/NondimElasticDynamic.py \
-	utils/ChangeCoordSys.py \
-	utils/ConvertApp.py \
-	utils/CppData.py \
 	utils/PointsStream.py \
 	utils/UnitTestApp.py \
 	utils/__init__.py

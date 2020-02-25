@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,42 +12,31 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/utils/PointsStream.py
-##
-## @brief Python object for reading/writing points from stdin/stdout.
-##
-## Factories: reader, writer
+# @file spatialdata/utils/PointsStream.py
+#
+# @brief Python object for reading/writing points from stdin/stdout.
+#
+# Factories: reader, writer
 
 from pyre.components.Component import Component
 
 import numpy
 
-# PointsStream class
+
 class PointsStream(Component):
-  """
-  Python object for reading/writing points from stdin/stdout.
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(Component.Inventory):
     """
-    Python object for managing PointsStream facilities and properties.
+    Python object for reading/writing points from stdin/stdout.
 
-    Factories: reader, writer
+    INVENTORY
+
+    Properties
+      - *filename* Name of file to use for input/output (default is stdin/stdout).
+      - *comment_flag* String at beginning of comment lines.
+      - *number_format* C style string specifying number format.
+
+    Facilities
+      - None
     """
-
-    ## @class Inventory
-    ## Python object for managing PointsStream facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b filename Name of file for input/output
-    ##          (default is to use stdin/stdout).
-    ## @li \b commentFlag String identifying comment (input).
-    ## @li \b numFormat C style string specifying number format.
-    ##
-    ## \b Facilities
-    ## @li None
 
     import pyre.inventory
 
@@ -62,62 +49,44 @@ class PointsStream(Component):
     numFormat = pyre.inventory.str("number_format", default="%14.5e")
     numFormat.meta['tip'] = "C style string specifying number format."
 
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    def read(self):
+        """
+        Read points from stdin.
+        """
+        points = numpy.loadtxt(self.filename, comments=self.commentFlag)
+        return points
 
-  def read(self):
-    """
-    Read points from stdin.
-    """
-    points = numpy.loadtxt(self.filename,
-                           comments=self.commentFlag)
-    return points
+    def write(self, points):
+        """
+        Write points to stdout.
+        """
+        numpy.savetxt(self.filename, points, fmt=self.numFormat)
+        return
 
-
-  def write(self, points):
-    """
-    Write points to stdout.
-    """
-    numpy.savetxt(self.filename,
-                  points,
-                  fmt=self.numFormat)
-    return
-
-
-  def __init__(self, name="pointsstream"):
-    """
-    Constructor.
-    """
-    Component.__init__(self, name, facility="pointsstream")
-    return
-
-
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """
-    Set members based on inventory.
-    """
-    self.filename = self.inventory.filename
-    self.commentFlag = self.inventory.commentFlag
-    self.numFormat = self.inventory.numFormat
-    return
+    def __init__(self, name="pointsstream"):
+        """
+        Constructor.
+        """
+        Component.__init__(self, name, facility="pointsstream")
+        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def writer():
-  """
-  Factory associated with PointsStream.
-  """
-  return PointsStream()
+    """
+    Factory associated with PointsStream.
+    """
+    return PointsStream()
 
 
 def reader():
-  """
-  Factory associated with PointsStream.
-  """
-  return PointsStream()
+    """
+    Factory associated with PointsStream.
+    """
+    return PointsStream()
 
 
-# End of file 
+# End of file

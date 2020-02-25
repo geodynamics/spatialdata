@@ -33,12 +33,6 @@ class TestApp(UnitTestApp):
     """
     suite = unittest.TestSuite()
 
-    from TestChangeCoordSys import TestChangeCoordSys
-    suite.addTest(unittest.makeSuite(TestChangeCoordSys))
-
-    from TestConvertApp import TestConvertApp
-    suite.addTest(unittest.makeSuite(TestConvertApp))
-
     from TestSpatialdataVersion import TestSpatialdataVersion
     suite.addTest(unittest.makeSuite(TestSpatialdataVersion))
 
