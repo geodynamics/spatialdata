@@ -77,15 +77,15 @@ spatialdata::utils::TestPointsStream::testAccessors(void) {
     const size_t precision(3);
 
     PointsStream s;
-    s.filename(filename.c_str());
-    s.commentFlag(flag.c_str());
-    s.fieldWidth(fieldWidth);
-    s.precision(precision);
+    s.setFilename(filename.c_str());
+    s.setCommentFlag(flag.c_str());
+    s.setFieldWidth(fieldWidth);
+    s.setPrecision(precision);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, std::string(s.filename()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in comment flag.", flag, std::string(s.commentFlag()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in field width.", fieldWidth, s.fieldWidth());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in precision.", precision, s.precision());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, std::string(s.getFilename()));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in comment flag.", flag, std::string(s.getCommentFlag()));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in field width.", fieldWidth, s.getFieldWidth());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in precision.", precision, s.getPrecision());
 } // testAccessors
 
 
@@ -96,7 +96,7 @@ spatialdata::utils::TestPointsStream::testWriteRead(void) {
     const char* filename = "tmp_pointstream.txt";
 
     PointsStream s;
-    s.filename(filename);
+    s.setFilename(filename);
     s.write(_POINTS, _NUMPTS, _NUMDIMS);
 
     double* points = NULL;
