@@ -21,7 +21,6 @@
 %{
 #include <iosfwd>
 #include <string> // USES std::string
-#include "spatialdata/geocoords/proj4fwd.h" // Proj4 forward declaration
 
 // Headers for interfaces
 #include "spatialdata/geocoords/CoordSys.hh"
