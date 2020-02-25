@@ -47,8 +47,8 @@ spatialdata::spatialdb::SimpleIO::~SimpleIO(void) {}
 void
 spatialdata::spatialdb::SimpleIO::checkCompatibility(
     const SimpleDBData& data,
-    const spatialdata::geocoords::CoordSys* pCS) {
-    assert(pCS);
+    const spatialdata::geocoords::CoordSys* cs) {
+    assert(cs);
 
     const size_t numLocs = data.getNumLocs();
     const size_t spaceDim = data.getSpaceDim();
@@ -72,10 +72,10 @@ spatialdata::spatialdb::SimpleIO::checkCompatibility(
             << spaceDim << ").";
         throw std::runtime_error(msg.str());
     } // if
-    if (spaceDim != pCS->getSpaceDim()) {
+    if (spaceDim != cs->getSpaceDim()) {
         msg << "Number of dimensions in coordinates of spatial distribution ("
             << spaceDim << ") does not match number of dimensions in coordinate "
-            << "system (" << pCS->getSpaceDim() << ")";
+            << "system (" << cs->getSpaceDim() << ")";
         throw std::runtime_error(msg.str());
     } // if
 } // checkCompatibility

@@ -259,7 +259,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void) {
     db.setDataDir(SCECCVMH_DATADIR);
 
     spatialdata::geocoords::CSGeo cs;
-    cs.setString("+ellipsoid=clrk66 +datum=NAD27");
+    cs.setString("+proj=lonlat +ellipsoid=clrk66 +datum=NAD27");
 
     const size_t numLocs = 18;
     const size_t spaceDim = 3;
@@ -443,11 +443,11 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void) {
 
         double data[querySize];
 
-        for (int iLoc = 0; iLoc < numLocs; ++iLoc) {
+        for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
             int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
             CPPUNIT_ASSERT_EQUAL(flags[iLoc], err);
 
-            for (int iVal = 0; iVal < querySize; ++iVal) {
+            for (size_t iVal = 0; iVal < querySize; ++iVal) {
                 const double dataE = values[iLoc*querySize+iVal];
                 if (fabs(dataE) > tolerance) {
                     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative query value.",
@@ -472,7 +472,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void) {
     db.setDataDir(SCECCVMH_DATADIR);
 
     spatialdata::geocoords::CSGeo cs;
-    cs.setString("+ellipsoid=clrk66 +datum=NAD27");
+    cs.setString("+proj=lonlat +ellipsoid=clrk66 +datum=NAD27");
 
     const size_t numLocs = 18;
     const size_t spaceDim = 3;
@@ -545,7 +545,7 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void) {
             0
         };
 
-        db.squash(true);
+        db.setSquashFlag(true);
         db.setQueryValues(queryNames, querySize);
 
         double data[querySize];

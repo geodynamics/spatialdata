@@ -154,8 +154,8 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
 
     _infoA->query_size = 0;
     _infoB->query_size = 0;
-    const int numNamesA = _infoA->num_names;
-    const int numNamesB = _infoB->num_names;
+    const size_t numNamesA = _infoA->num_names;
+    const size_t numNamesB = _infoB->num_names;
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         bool foundA = false;
         bool foundB = false;
@@ -197,7 +197,7 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
     assert(_infoA->query_size + _infoB->query_size == numVals);
 
     // Setup query values for A
-    const int qsizeA = _infoA->query_size;
+    const size_t qsizeA = _infoA->query_size;
     char** queryValsA = (qsizeA > 0) ? new char*[qsizeA] : NULL;
     delete[] _infoA->query_indices;
     _infoA->query_indices = (qsizeA > 0) ? new size_t[qsizeA] : NULL;
@@ -205,7 +205,7 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
     _infoA->query_buffer = (qsizeA > 0) ? new double[qsizeA] : NULL;
 
     // Setup query values for B
-    const int qsizeB = _infoB->query_size;
+    const size_t qsizeB = _infoB->query_size;
     char** queryValsB = (qsizeB > 0) ? new char*[qsizeB] : NULL;
     delete[] _infoB->query_indices;
     _infoB->query_indices = (qsizeB > 0) ? new size_t[qsizeB] : NULL;

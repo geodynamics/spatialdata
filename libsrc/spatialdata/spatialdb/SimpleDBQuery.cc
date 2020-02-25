@@ -75,21 +75,21 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryType(const SimpleDB::QueryEnum va
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
-                                                      const size_t numVals) { // queryVals
-    assert(0 != _db._data);
+                                                      const size_t numVals) {
+    assert(_db._data);
     if (0 == numVals) {
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << _db.getLabel()
             << "\n must be positive.\n";
         throw std::runtime_error(msg.str());
     } // if
-    assert(0 != names && 0 < numVals);
+    assert(names && 0 < numVals);
 
     _querySize = numVals;
     delete[] _queryValues;_queryValues = new size_t[numVals];
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
-        const int numNames = _db._data->getNumValues();
+        const size_t numNames = _db._data->getNumValues();
         while (iName < numNames) {
             if (0 == strcasecmp(names[iVal], _db._data->getName(iName))) {
                 break;
@@ -250,7 +250,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findNearest(void) {
     // find closest nearSize points
     double pt[3];
     const size_t spaceDim = _db._data->getSpaceDim();
-    for (int iLoc = 0; iLoc < numLocs; ++iLoc) {
+    for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
         // use square of distance to find closest
         _setPoint3(pt, _db._data->getCoordinates(iLoc), spaceDim);
         const double dist2 = _distSquared(_q, pt);
@@ -260,7 +260,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findNearest(void) {
             std::lower_bound(nearestDist.begin(), nearestDist.end(), dist2);
         if (dist2 <= *pNearDist) { // if found place in nearest list
 #if !defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
-            int index = std::distance(nearestDist.begin(), pNearDist);
+            size_t index = std::distance(nearestDist.begin(), pNearDist);
 #else
             size_t index = 0;
             std::distance(nearestDist.begin(), pNearDist, index);
