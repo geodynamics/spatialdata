@@ -129,13 +129,6 @@ class Nondimensional(Component, ModuleNondimensional):
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
-    def _configure(self):
-        """
-        Setup members using inventory.
-        """
-        Component._configure(self)
-        return
-
     def _createModuleObj(self):
         """
         Create Python module object.
