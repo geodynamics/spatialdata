@@ -60,7 +60,7 @@ spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims) {
 
 // ----------------------------------------------------------------------
 // Get number of spatial dimensions in coordinate system.
-int
+size_t
 spatialdata::geocoords::CoordSys::getSpaceDim(void) const {
     return _spaceDim;
 } // getSpaceDim

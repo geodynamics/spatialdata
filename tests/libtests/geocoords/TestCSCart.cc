@@ -72,7 +72,7 @@ spatialdata::geocoords::TestCSCart::testConstructor(void) {
 void
 spatialdata::geocoords::TestCSCart::testAccessors(void) {
     const double toMeters = 3.2;
-    const int spaceDim = 2;
+    const size_t spaceDim = 2;
 
     CSCart cs;
     cs.setToMeters(toMeters);
@@ -89,7 +89,7 @@ spatialdata::geocoords::TestCSCart::testAccessors(void) {
 void
 spatialdata::geocoords::TestCSCart::testPickle(void) {
     const double toMeters = 5.4;
-    const int spaceDim = 2;
+    const size_t spaceDim = 2;
 
     CSCart csA;
     csA.setToMeters(toMeters);

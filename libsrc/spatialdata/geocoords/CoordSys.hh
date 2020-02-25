@@ -65,7 +65,7 @@ public:
      *
      * @returns Number of dimensions
      */
-    int getSpaceDim(void) const;
+    size_t getSpaceDim(void) const;
 
     /// Get type of coordinate system
     CSTypeEnum getCSType(void) const;

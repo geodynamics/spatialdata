@@ -67,7 +67,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestCSGeo);
 void
 spatialdata::geocoords::TestCSGeo::testConstructor(void) {
     const std::string defaultCSString("EPSG:4326");
-    const int defaultSpaceDim(3);
+    const size_t defaultSpaceDim(3);
 
     CSGeo cs;
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system type.", CoordSys::GEOGRAPHIC, cs.getCSType());
@@ -75,7 +75,7 @@ spatialdata::geocoords::TestCSGeo::testConstructor(void) {
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mis match in default coordinate system dimension.", defaultSpaceDim, cs.getSpaceDim());
 
     const std::string cloneCSString("EPSG:4269");
-    const int cloneSpaceDim(2);
+    const size_t cloneSpaceDim(2);
 
     cs.setSpaceDim(2);
     CoordSys* csClone = cs.clone();CPPUNIT_ASSERT(csClone);
@@ -90,7 +90,7 @@ spatialdata::geocoords::TestCSGeo::testConstructor(void) {
 void
 spatialdata::geocoords::TestCSGeo::testAccessors(void) {
     const std::string csString("EPSG:4269"); // +proj=longlat +datum=NAD83
-    const int spaceDim(2);
+    const size_t spaceDim(2);
 
     CSGeo cs;
     cs.setString(csString.c_str());
@@ -190,7 +190,7 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
 void
 spatialdata::geocoords::TestCSGeo::testPickle(void) {
     const std::string csString("+proj=lonlat +datum=WGS84");
-    const int spaceDim(2);
+    const size_t spaceDim(2);
 
     CSGeo csA;
     csA.setString(csString.c_str());
