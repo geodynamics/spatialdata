@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,157 +12,141 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/SimpleGridAscii.py
-##
-## @brief Python ascii I/O manager for simple gridd spatial database
-## (SimpleGridDB).
-##
-## Factory: simplegrid_io
+# @file spatialdata/spatialdb/SimpleGridAscii.py
+#
+# @brief Python ascii I/O manager for simple gridd spatial database
+# (SimpleGridDB).
+#
+# Factory: simplegrid_io
 
 from pyre.components.Component import Component
 from spatialdb import SimpleGridAscii as ModuleSimpleGridAscii
 
-# Validator for filename
+
 def validateFilename(value):
-  """
-  Validate filename.
-  """
-  if 0 == len(value):
-    raise ValueError("Filename for spatial database not specified.")
-  return value
+    """
+    Validate filename.
+    """
+    if 0 == len(value):
+        raise ValueError("Filename for spatial database not specified.")
+    return value
 
 
-# SimpleGridAscii class
 class SimpleGridAscii(Component, ModuleSimpleGridAscii):
-  """
-  Python ascii I/O manager for simple grid spatial database
-  (SimpleGridDB).
-
-  Factory: simplegrid_io
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(Component.Inventory):
     """
-    Python object for managing SimpleIO facilities and properties.
-    """
+    Python ascii I/O manager for simple grid spatial database (SimpleGridDB).
 
-    ## @class Inventory
-    ## Python object for managing SimpleIO facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b filename Name of database file
-    ##
-    ## \b Facilities
-    ## @li None
+    Factory: simplegrid_io
+
+    INVENTORY
+
+    Properties
+      - *filename* Name of spatial database file.
+
+    Facilities
+      - None
+    """
 
     import pyre.inventory
 
     filename = pyre.inventory.str("filename", default="", validator=validateFilename)
     filename.meta['tip'] = "Name of database file."
 
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    def __init__(self, name="simplegridascii"):
+        """
+        Constructor.
+        """
+        Component.__init__(self, name, facility="simplegrid_io")
 
-  def __init__(self, name="simpleioascii"):
-    """
-    Constructor.
-    """
-    Component.__init__(self, name, facility="simplegrid_io")
-    return
+    def write(self, data):
+        """
+        Write database to file.
 
+        @param data Dictionary of the following form:
+        data = {'points': 2-D array (numLocs, spaceDim),
+                'x': Array of x coordinates,
+                'y': Array of y coordinates,
+                'z': Array of z coordinates,
+                'coordsys': Coordinate system associated with locations,
+                'data_dim': Dimension of spatial distribution,
+                'values': [{'name': Name of value,
+                            'units': Units of value,
+                            'data': Data for value (numLocs)}]}
+        """
+        import numpy
 
-  def write(self, data):
-    """
-    Write database to file.
+        (numLocs, spaceDim) = data['points'].shape
+        numValues = len(data['values'])
+        names = []
+        units = []
+        values = numpy.zeros((numLocs, numValues), dtype=numpy.float64)
+        i = 0
+        for value in data['values']:
+            names.append(value['name'])
+            units.append(value['units'])
+            values[:, i] = value['data'][:]
+            i += 1
 
-    @param data Dictionary of the following form:
-      data = {'points': 2-D array (numLocs, spaceDim),
-              'x': Array of x coordinates,
-              'y': Array of y coordinates,
-              'z': Array of z coordinates,
-              'coordsys': Coordinate system associated with locations,
-              'data_dim': Dimension of spatial distribution,
-              'values': [{'name': Name of value,
-                          'units': Units of value,
-                          'data': Data for value (numLocs)}]}
-    """
-    import numpy
+        numX = data['x'].shape[0]
+        numY = data['y'].shape[0]
+        if data['coordsys'].spaceDim() == 2:
+            numZ = 0
+            if (numLocs != numX * numY):
+                raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d)." %
+                                 (numLocs, numX, numY))
+        else:
+            numZ = data['z'].shape[0]
+            if (numLocs != numX * numY * numZ):
+                raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)." %
+                                 (numLocs, numX, numY, numZ))
 
-    (numLocs, spaceDim) = data['points'].shape
-    numValues = len(data['values'])    
-    names = []
-    units = []
-    values = numpy.zeros( (numLocs, numValues), dtype=numpy.float64)
-    i = 0
-    for value in data['values']:
-      names.append(value['name'])
-      units.append(value['units'])
-      values[:,i] = value['data'][:]
-      i += 1
+        from SimpleGridDB import SimpleGridDB
+        db = SimpleGridDB()
+        db.inventory.label = "Temporary database for I/O"
+        db.inventory.filename = self.filename
+        db._configure()
+        db.coordsys(data['coordsys'])
+        db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])
+        db.x(data['x'])
+        db.y(data['y'])
+        if data['coordsys'].spaceDim() == 3:
+            db.z(data['z'])
+        db.data(data['points'], values)
+        db.names(names)
+        db.units(units)
 
-    numX = data['x'].shape[0]
-    numY = data['y'].shape[0]
-    if data['coordsys'].spaceDim() == 2:
-      numZ = 0
-      if (numLocs != numX*numY):
-        raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d)." % (numLocs, numX, numY))
-    else:
-      numZ = data['z'].shape[0]
-      if (numLocs != numX*numY*numZ):
-        raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)." % (numLocs, numX, numY, numZ))
+        ModuleSimpleGridAscii.write(db)
 
-    from SimpleGridDB import SimpleGridDB
-    db = SimpleGridDB()
-    db.inventory.label = "Temporary database for I/O"
-    db.inventory.filename = self.filename
-    db._configure()
-    db.coordsys(data['coordsys'])
-    db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])
-    db.x(data['x'])
-    db.y(data['y'])
-    if data['coordsys'].spaceDim() == 3:
-      db.z(data['z'])
-    db.data(data['points'], values)
-    db.names(names)
-    db.units(units)
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
-    ModuleSimpleGridAscii.write(db)
-    return
+    def _configure(self):
+        """
+        Set members using inventory.
+        """
+        try:
+            Component._configure(self)
+            self.filename = self.inventory.filename
+        except ValueError, err:
+            aliases = ", ".join(self.aliases)
+            raise ValueError("Error while configuring spatial database reader "
+                             "(%s):\n%s" % (aliases, err.message))
 
-
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """
-    Set members using inventory.
-    """
-    try:
-      Component._configure(self)
-      self.filename = self.inventory.filename
-    except ValueError, err:
-      aliases = ", ".join(self.aliases)
-      raise ValueError("Error while configuring spatial database reader "
-                       "(%s):\n%s" % (aliases, err.message))
-    return
-
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    ModuleSimpleGridAscii.__init__(self)
-    return
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        ModuleSimpleGridAscii.__init__(self)
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def simplegrid_io():
-  """
-  Factory associated with SimpleGridAscii.
-  """
-  return SimpleGridAscii()
+    """
+    Factory associated with SimpleGridAscii.
+    """
+    return SimpleGridAscii()
 
 
-# End of file 
+# End of file

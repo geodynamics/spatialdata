@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,40 +12,32 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/CompositeDB.py
-##
-## @brief Python manager for spatial database with uniform values.
-##
-## Factory: spatial_database
+# @file spatialdata/spatialdb/CompositeDB.py
+#
+# @brief Python manager for spatial database with uniform values.
+#
+# Factory: spatial_database
 
 from SpatialDBObj import SpatialDBObj
 from spatialdb import CompositeDB as ModuleCompositeDB
 
-# CompositeDB class
+
 class CompositeDB(SpatialDBObj, ModuleCompositeDB):
-  """
-  Python manager for spatial database with uniform values.
-
-  Factory: spatial_database
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(SpatialDBObj.Inventory):
     """
-    Python object for managing CompositeDB facilities and properties.
-    """
+    Python manager for spatial database with uniform values.
 
-    ## @class Inventory
-    ## Python object for managing CompositeDB facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b values_A Names of values to query with database A
-    ## @li \b values_B Names of values to query with database B
-    ##
-    ## \b Facilities
-    ## @li \b db_A Spatial database A
-    ## @li \b db_B Spatial database B
+    Factory: spatial_database
+
+    INVENTORY
+
+    Properties
+      - *values_A* Names of values to query with database A.
+      - *values_B* Names of values to query with databsae B.
+
+    Facilities
+      - *db_A* Spatial database A.
+      - *db_B* Spatial database B.
+    """
 
     import pyre.inventory
 
@@ -58,70 +48,62 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
     namesB.meta['tip'] = "Names of values to query with database B."
 
     from UniformDB import UniformDB
-    dbA = pyre.inventory.facility("db_A", factory=UniformDB,
-                                  family="spatial_database")
+    dbA = pyre.inventory.facility("db_A", factory=UniformDB, family="spatial_database")
     dbA.meta['tip'] = "Spatial database A."
 
-    dbB = pyre.inventory.facility("db_B", factory=UniformDB,
-                                  family="spatial_database")
+    dbB = pyre.inventory.facility("db_B", factory=UniformDB, family="spatial_database")
     dbB.meta['tip'] = "Spatial database B."
 
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    def __init__(self, name="compositedb"):
+        """
+        Constructor.
+        """
+        SpatialDBObj.__init__(self, name)
 
-  def __init__(self, name="compositedb"):
-    """
-    Constructor.
-    """
-    SpatialDBObj.__init__(self, name)
-    return
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
+    def _configure(self):
+        """
+        Set members based on inventory.
+        """
+        SpatialDBObj._configure(self)
+        self._validateParameters(self.inventory)
+        ModuleCompositeDB.setDBA(self, self.dbA, self.namesA)
+        ModuleCompositeDB.setDBB(self, self.dbB, self.namesB)
 
-  # PRIVATE METHODS ////////////////////////////////////////////////////
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        ModuleCompositeDB.__init__(self)
+        return
 
-  def _configure(self):
-    """
-    Set members based on inventory.
-    """
-    SpatialDBObj._configure(self)
-    self._validateParameters(self.inventory)
-    self.dbA(self.inventory.dbA, self.inventory.namesA)
-    self.dbB(self.inventory.dbB, self.inventory.namesB)
-    return
+    def _validateParameters(self, data):
+        """
+        Validate parameters.
+        """
+        if (0 == len(data.namesA)):
+            raise ValueError, \
+                "Error in spatial database '%s'\n" \
+                "Names of values to query in database A not set." \
+                % self.label
+        if (0 == len(data.namesB)):
+            raise ValueError, \
+                "Error in spatial database '%s'\n" \
+                "Names of values to query in database B not set." \
+                % self.label
+        return
 
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    ModuleCompositeDB.__init__(self)
-    return
-
-
-  def _validateParameters(self, data):
-    """
-    Validate parameters.
-    """
-    if (0 == len(data.namesA)):
-      raise ValueError, \
-            "Error in spatial database '%s'\n" \
-            "Names of values to query in database A not set." \
-            % self.label
-    if (0 == len(data.namesB)):
-      raise ValueError, \
-            "Error in spatial database '%s'\n" \
-            "Names of values to query in database B not set." \
-            % self.label
-    return
-  
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def spatial_database():
-  """
-  Factory associated with CompositeDB.
-  """
-  return CompositeDB()
+    """
+    Factory associated with CompositeDB.
+    """
+    return CompositeDB()
 
 
-# End of file 
+# End of file

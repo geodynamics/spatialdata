@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,38 +12,30 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/SimpleDB.py
-##
-## @brief Python manager for simple spatial database.
-##
-## Factory: spatial_database
+# @file spatialdata/spatialdb/SimpleDB.py
+#
+# @brief Python manager for simple spatial database.
+#
+# Factory: spatial_database
 
 from SpatialDBObj import SpatialDBObj
 from spatialdb import SimpleDB as ModuleSimpleDB
 
-# SimpleDB class
+
 class SimpleDB(SpatialDBObj, ModuleSimpleDB):
-  """
-  Python manager for simple spatial database.
-
-  Factory: spatial_database
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(SpatialDBObj.Inventory):
     """
-    Python object for managing SimpleDB facilities and properties.
-    """
+    Python manager for simple spatial database.
 
-    ## @class Inventory
-    ## Python object for managing SimpleDB facilities and properties.
-    ##
-    ## \b Properties
-    ## @li query-type Type of query to perform
-    ##
-    ## \b Facilities
-    ## @li \b iohandler I/O handler for database
+    Factory: spatial_database
+
+    INVENTORY
+
+    Properties
+      - *query_type* Type of query to perform [nearest, linear].
+
+    Facilities
+      - *iohandler* I/O handler for database.
+    """
 
     import pyre.inventory
 
@@ -58,7 +48,6 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
                                         factory=SimpleIOAscii)
     iohandler.meta['tip'] = "I/O handler for database."
 
-
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
   def __init__(self, name="simpledb"):
@@ -66,7 +55,6 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     Constructor.
     """
     SpatialDBObj.__init__(self, name)
-    return
 
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -76,9 +64,8 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     Set members based on inventory.
     """
     SpatialDBObj._configure(self)
-    self.ioHandler(self.inventory.iohandler)
-    self.queryType(self._parseQueryString(self.inventory.queryType))
-    return
+    ModuleSimpleDB.setIOHandler(self, self.iohandler)
+    ModuleSimpleDB.setQueryType(self, self._parseQueryString(self.queryType))
 
 
   def _createModuleObj(self):
@@ -86,7 +73,6 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     Create Python module object.
     """
     ModuleSimpleDB.__init__(self)
-    return
 
 
   def _parseQueryString(self, label):
@@ -108,4 +94,4 @@ def spatial_database():
   return SimpleDB()
 
 
-# End of file 
+# End of file

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,94 +12,70 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/SpatialDBObj.py
-##
-## @brief Python abstract base class for spatial database.
-##
-## Factory: spatial_database
+# @file spatialdata/spatialdb/SpatialDBObj.py
+#
+# @brief Python abstract base class for spatial database.
+#
+# Factory: spatial_database
 
 from pyre.components.Component import Component
 from spatialdb import SpatialDB as ModuleSpatialDB
 
-# Validator for label
+
 def validateLabel(value):
-  """
-  Validate label for spatial database.
-  """
-  if 0 == len(value):
-    raise ValueError("Descriptive label for spatial database not specified.")
-  return value
+    """
+    Validate label for spatial database.
+    """
+    if 0 == len(value):
+        raise ValueError("Descriptive label for spatial database not specified.")
+    return value
 
 
-# SpatialDBObj class
 class SpatialDBObj(Component, ModuleSpatialDB):
-  """
-  Python abstract base class for spatial database.
-
-  Factory: spatial_database
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(Component.Inventory):
     """
-    Python object for managing SpatialDBObj facilities and properties.
-    """
+    Python abstract base class for spatial database.
 
-    ## @class Inventory
-    ## Python object for managing SpatialDBObj facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b label Descriprive label for database.
-    ##
-    ## \b Facilities
-    ## @li None
+    Factory: spatial_database
+
+    INVENTORY
+
+    Properties
+      - *label* Descriptive label for spatial database.
+
+    Facilities
+      - None
+    """
 
     import pyre.inventory
 
-    label = pyre.inventory.str("label", default="",
-                               validator=validateLabel)
+    label = pyre.inventory.str("label", default="", validator=validateLabel)
     label.meta['tip'] = "Descriptive label for database."
 
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    def __init__(self, name="spatialdb"):
+        """
+        Constructor.
+        """
+        Component.__init__(self, name, facility="spatial_database")
+        self._createModuleObj()
+        return
 
-  def __init__(self, name="spatialdb"):
-    """
-    Constructor.
-    """
-    Component.__init__(self, name, facility="spatial_database")
-    self._createModuleObj()
-    return
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
+    def _configure(self):
+        """
+        Set attributes based on inventory.
+        """
+        Component._configure(self)
+        ModuleSpatialDB.setLabel(self, self.label)
+        return
 
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """
-    Set attributes based on inventory.
-    """
-    Component._configure(self)
-    ModuleSpatialDB.label(self, self.inventory.label)
-    return
-  
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    raise NotImplementedError("_createModuleObj() not implemented.")
-    return
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        raise NotImplementedError("_createModuleObj() not implemented.")
 
 
-# FACTORIES ////////////////////////////////////////////////////////////
-
-def spatial_database():
-  """
-  Factory associated with SpatialDB.
-  """
-  # Abstract object (so return None).
-  return None
-
-
-# End of file 
+# End of file

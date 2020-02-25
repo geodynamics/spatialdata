@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,19 +12,21 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/__init__.py
-##
-## @brief Python spatialdata spatialdb module initialization.
+# @file spatialdata/spatialdb/__init__.py
+#
+# @brief Python spatialdata spatialdb module initialization.
 
-__all__ = ['SCECCVMH',
-           'SimpleDB',
-           'SimpleIOAscii',
-           'SimpleIO',
-           'SpatialDBObj',
-           'TimeHistory',
-           'TimeHistoryIO',
-           'UniformDB',
-           'generator']
+__all__ = [
+    "SCECCVMH",
+    "SimpleDB",
+    "SimpleIOAscii",
+    "SimpleIO",
+    "SpatialDBObj",
+    "TimeHistory",
+    "TimeHistoryIO",
+    "UniformDB",
+    "generator",
+]
 
 
 # End of file

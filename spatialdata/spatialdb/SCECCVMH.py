@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,42 +12,34 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/SCECCVMH.py
-##
-## @brief Python manager for spatial database interface to the SCEC
-## CVM-H.
-##
-## Factory: spatial_database
+# @file spatialdata/spatialdb/SCECCVMH.py
+#
+# @brief Python manager for spatial database interface to the SCEC CVM-H.
+#
+# Factory: spatial_database
 
 from SpatialDBObj import SpatialDBObj
 from spatialdb import SCECCVMH as ModuleSCECCVMH
 
-# SCECCVMH class
+
 class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
-  """
-  Python manager for spatial database to the SCEC CVM-H.
-
-  Factory: spatial_database
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(SpatialDBObj.Inventory):
     """
-    Python object for managing SCECCVMH facilities and properties.
-    """
+    Python manager for spatial database to the SCEC CVM-H.
 
-    ## @class Inventory
-    ## Python object for managing SCECCVMH facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b data_dir Directory containing SCEC CVM-H data files.
-    ## @li \b min_vs Minimum shear wave speed.
-    ## @li \b squash Squash topography/bathymetry to sea level.
-    ## @li \b squash_limit Elevation above which topography is squashed.
-    ##
-    ## \b Facilities
-    ## @li none
+    Factory: spatial_database
+
+    INVENTORY
+
+    Properties
+      - *data_dir* Directory containing SCEC CVM-H data files.
+      - *min_vs* Minimum shear wave speed.
+      - *squash* Squash topography/bathymetry to sea level.
+      - *squash_limit* Elevation above which topography/bathymetry is adjusted.
+      - *label* Descriptive label for seismic velocity model.
+
+    Facilities
+      - None
+    """
 
     import pyre.inventory
 
@@ -58,21 +48,18 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
 
     from pyre.units.length import meter
     from pyre.units.time import second
-    minVs = pyre.inventory.dimensional("min_vs", default=500.0*meter/second)
+    minVs = pyre.inventory.dimensional("min_vs", default=500.0 * meter / second)
     minVs.meta['tip'] = "Minimum shear wave speed."
 
     squash = pyre.inventory.bool("squash", default=False)
     squash.meta['tip'] = "Squash topography/bathymetry to sea level."
 
     from pyre.units.length import km
-    squashLimit = pyre.inventory.dimensional("squash_limit",
-                                             default=-2.0*km)
+    squashLimit = pyre.inventory.dimensional("squash_limit", default=-2.0 * km)
     squashLimit.meta['tip'] = "Elevation above which topography is squashed."
-
 
     label = pyre.inventory.str("label", default="SCEC CVM-H")
     label.meta['tip'] = "Descriptive label for seismic velocity model."
-
 
   # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -81,7 +68,6 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     Constructor.
     """
     SpatialDBObj.__init__(self, name)
-    return
 
 
   # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -91,11 +77,10 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     Set members based on inventory.
     """
     SpatialDBObj._configure(self)
-    self.label("SCEC CVM-H")
-    self.dataDir(self.inventory.dataDir)
-    self.minVs(self.inventory.minVs.value)
-    self.squash(self.inventory.squash, self.inventory.squashLimit.value)
-    return
+    ModuleSCECCVMH.setLabel(self, "SCEC CVM-H")
+    ModuleSCECCVMH.setDataDir(self, self.dataDir)
+    ModuleSCECCVMH.setMinVs(self, self.minVs.value)
+    ModuleSCECCVMH.setSquashFlag(self, self.squash, self.squashLimit.value)
 
 
   def _createModuleObj(self):
@@ -103,7 +88,6 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     Create Python module object.
     """
     ModuleSCECCVMH.__init__(self)
-    return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
@@ -115,4 +99,4 @@ def spatial_database():
   return SCECCVMH()
 
 
-# End of file 
+# End of file
