@@ -52,7 +52,7 @@ public:
     void testConstructor(void);
 
     /// Test accessors().
-    void testLabel(void);
+    void testAccessors(void);
 
     /// Test setQueryValues().
     void testQueryVals(void);
@@ -88,25 +88,25 @@ spatialdata::spatialdb::TestSCECCVMH::testAccessors(void) {
 
     // Label
     const std::string label("database 2");
-    db.setLabel(label);
+    db.setLabel(label.c_str());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db.getLabel()));
 
     // Data directory
     const std::string dataDir("/path/to/data/dir");
-    db.setDataDir(dataDir);
+    db.setDataDir(dataDir.c_str());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database data directory.", dataDir, db._dataDir);
 
     // Squashing
     const double limitDefault = -2000.0;
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default squashing flag.", false, db._squashTopo);
-    CPPUNIT_ASSERT_EQUAL("Mismatch in default squashing limit.", limitDefault, db._squashLimit);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default squashing limit.", limitDefault, db._squashLimit);
 
-    db.squash(true);
+    db.setSquashFlag(true);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in squashing flag.", true, db._squashTopo);
-    CPPUNIT_ASSERT_EQUAL("Mismatch in default squashing limit.", limitDefault, db._squashLimit);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default squashing limit.", limitDefault, db._squashLimit);
 
     const double limit = -4000.0;
-    db.squash(true, limit);
+    db.setSquashFlag(true, limit);
     CPPUNIT_ASSERT_EQUAL_MESSAGE(", Mismatch in squashing flag.", true, db._squashTopo);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in specified squashing limit.", limit, db._squashLimit);
 } // testAccessors
