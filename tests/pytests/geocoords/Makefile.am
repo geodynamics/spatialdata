@@ -16,16 +16,13 @@
 
 include $(top_srcdir)/check.am
 
-TESTS = testgeocoords.py
-dist_check_SCRIPTS = testgeocoords.py
+TESTS = test_geocoords.py
+dist_check_SCRIPTS = test_geocoords.py
 
 noinst_PYTHON = \
 	TestConverter.py \
 	TestCSCart.py \
-	TestCSGeoLocalCart.py \
-	TestCSGeoProj.py \
-	TestCSGeo.py \
-	TestProjector.py
+	TestCSGeo.py
 
 
-# End of file 
+# End of file

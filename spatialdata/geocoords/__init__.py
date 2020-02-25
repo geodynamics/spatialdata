@@ -14,17 +14,16 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/geocoords/__init__.py
-##
-## @brief Python spatialdata geocoords module initialization.
+# @file spatialdata/geocoords/__init__.py
+#
+# @brief Python spatialdata geocoords module initialization.
 
-__all__ = ['Converter',
-           'CoordSys',
-           'CSCart',
-           'CSGeoLocalCart',
-           'CSGeoProj',
-           'CSGeo',
-           'Projector']
+__all__ = [
+    'CoordSys',
+    'CSCart',
+    'CSGeo',
+    'Converter',
+]
 
 
 # End of file

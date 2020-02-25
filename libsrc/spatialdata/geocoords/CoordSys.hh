@@ -28,7 +28,7 @@
 
 #include <iosfwd> // USES std::istream, std::ostream
 
-class spatialdata::geocoords::CoordSys { // class CoordSys
+class spatialdata::geocoords::CoordSys {
 public:
 
     // PUBLIC METHODS /////////////////////////////////////////////////////

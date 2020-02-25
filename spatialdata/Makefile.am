@@ -19,10 +19,7 @@ nobase_pkgpyexec_PYTHON = \
 	geocoords/Converter.py \
 	geocoords/CoordSys.py \
 	geocoords/CSCart.py \
-	geocoords/CSGeoLocalCart.py \
-	geocoords/CSGeoProj.py \
 	geocoords/CSGeo.py \
-	geocoords/Projector.py \
 	geocoords/__init__.py \
 	spatialdb/CompositeDB.py \
 	spatialdb/GravityField.py \

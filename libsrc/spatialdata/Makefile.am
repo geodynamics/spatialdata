@@ -50,8 +50,7 @@ libspatialdata_la_SOURCES = \
 	units/Parser.cc \
 	utils/LineParser.cc \
 	utils/PointsStream.cc \
-	utils/SpatialdataVersion.cc \
-	testing/TestDriver.cc
+	utils/SpatialdataVersion.cc
 
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 libspatialdata_la_LIBADD = \
@@ -60,6 +59,14 @@ libspatialdata_la_LIBADD = \
 
 AM_CPPFLAGS = -I$(top_srcdir)/libsrc
 AM_CPPFLAGS += -DDATADIR=$(pkgdatadir)/geocoords $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR)
+
+
+if ENABLE_TESTING
+libspatialdata_la_SOURCES += \
+	testing/TestDriver.cc
+
+libspatialdata_la_LIBADD += -lcppunit
+endif
 
 
 # End of file
