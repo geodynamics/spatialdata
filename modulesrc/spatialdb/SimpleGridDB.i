@@ -40,16 +40,16 @@ namespace spatialdata {
 
       /// Default constructor.
       SimpleGridDB(void);
-  
+
       /// Default destructor.
       ~SimpleGridDB(void);
-      
+
       /** Set filename containing data.
        *
        * @param dir Directory containing data files.
        */
       void setFilename(const char* value);
- 
+
       /** Set query type.
        *
        * @pre Must call open() before setQueryType()
@@ -57,13 +57,13 @@ namespace spatialdata {
        * @param queryType Set type of query
        */
       void setQueryType(const SimpleGridDB::QueryEnum queryType);
-      
+
       /// Open the database and prepare for querying.
       void open(void);
-      
+
       /// Close the database.
       void close(void);
-      
+
       /** Set values to be returned by queries.
        *
        * @pre Must call open() before setQueryValues()
@@ -77,7 +77,7 @@ namespace spatialdata {
       void setQueryValues(const char* const* names,
 		     const size_t numVals);
       %clear(const char* const* names, const size_t numVals);
-      
+
       /** Query the database.
        *
        * @pre Must call open() before query()
@@ -105,7 +105,7 @@ namespace spatialdata {
 		const spatialdata::geocoords::CoordSys* pCSQuery);
       %clear(double* vals, const size_t numVals);
       %clear(const double* coords, const size_t numDims);
-      
+
       /** Allocate room for data.
        *
        * @param numX Number of locations along x-axis.
@@ -121,7 +121,7 @@ namespace spatialdata {
 		    const size_t numValues,
 		    const size_t spaceDim,
 		    const size_t dataDim);
-      
+
       /** Set coordinates along x-axis;
        *
        * @param values Values along x-axis.
@@ -133,7 +133,7 @@ namespace spatialdata {
       void setX(const double* values,
 	     const size_t size);
       %clear(double* values, const size_t size);
-      
+
       /** Set coordinates along y-axis;
        *
        * @param values Values along y-axis.
@@ -145,7 +145,7 @@ namespace spatialdata {
       void setY(const double* values,
 	     const size_t size);
       %clear(double* values, const size_t size);
-      
+
       /** Set coordinates along z-axis;
        *
        * @param values Values along z-axis.
@@ -158,7 +158,7 @@ namespace spatialdata {
       void setZ(const double* values,
 	     const size_t size);
       %clear(double* values, const size_t size);
-      
+
       /** Set data values.
        *
        * @param coords Coordinates of locations.
@@ -182,18 +182,19 @@ namespace spatialdata {
 		const size_t numValues);
       %clear(double* coords, const size_t size, const size_t spaceDim);
       %clear(double* values, const size_t numLocs2, const size_t numValues);
-      
+
       /** Set names of data values.
        *
        * @param values Names of values.
        * @param numValues Number of values.
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* values, const size_t numValues)
-	  };
-      void setNames(const char* const* values, const size_t numValues);
+	     (const char* const* values, const size_t numValues)
+	      };
+      void setNames(const char* const* values,
+                    const size_t numValues);
       %clear(const char* const* values, const size_t numValues);
-      
+
       /** Set units of data values.
        *
        * @param values Units of values.
@@ -202,20 +203,20 @@ namespace spatialdata {
       %apply(const char* const* string_list, const int list_len){
 	(const char* const* values, const size_t numValues)
 	  };
-      void setUnits(const char* const* values, 
-		 const int numValues);
+      void setUnits(const char* const* values,
+		                const size_t numValues);
       %clear(const char* const* values, const size_t numValues);
-      
+
       /** Set filename containing data.
        *
        * @param dir Directory containing data files.
        */
       void setCoordSys(const spatialdata::geocoords::CoordSys& cs);
- 
+
     }; // class SimpleGridDB
-    
+
   } // spatialdb
 } // spatialdata
 
 
-// End of file 
+// End of file
