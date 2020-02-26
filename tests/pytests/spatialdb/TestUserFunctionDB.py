@@ -18,18 +18,26 @@ import unittest
 
 from spatialdata.spatialdb.UserFunctionDB import UserFunctionDB
 
+
+# ----------------------------------------------------------------------------------------------------------------------
 class TestUserFunctionDB(unittest.TestCase):
 
-  def setUp(self):
-    db = UserFunctionDB()
-    db.inventory.label = "test"
-    db._configure()
-    self._db = db
-    return
+    def setUp(self):
+        db = UserFunctionDB()
+        db.inventory.label = "test"
+        db._configure()
+        self._db = db
+
+    def test_constructor(self):
+        # Trigger call to setUp().
+        pass
 
 
-  def test_constructor(self):
-    # Trigger call to setUp().
-    return
+# ----------------------------------------------------------------------------------------------------------------------
+if __name__ == '__main__':
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestUserFunctionDB))
+    unittest.TextTestRunner(verbosity=2).run(suite)
 
-# End of file 
+
+# End of file
