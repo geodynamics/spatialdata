@@ -21,6 +21,7 @@
 #include "spatialdata/spatialdb/SimpleDB.hh" // USES SimpleDB
 #include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 #include "spatialdata/spatialdb/SimpleDBQuery.hh" // USES SimpleDBQuery
+#include "spatialdata/spatialdb/SimpleIOAscii.hh" // USES SimpleIOAscii
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
@@ -63,6 +64,13 @@ spatialdata::spatialdb::TestSimpleDB::testAccessors(void) {
     const std::string label("database 2");
     _db->setLabel(label.c_str());
     CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getLabel()));
+
+    spatialdata::spatialdb::SimpleIOAscii io;
+    const std::string filename("db.spatialdb");
+    io.setFilename(filename.c_str());
+    _db->setIOHandler(&io);
+    CPPUNIT_ASSERT(_db->_iohandler);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in I/O handler filename.", filename, std::string(_db->_iohandler->getFilename()));
 } // testAccessors
 
 

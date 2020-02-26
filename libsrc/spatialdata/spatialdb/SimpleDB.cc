@@ -76,7 +76,7 @@ spatialdata::spatialdb::SimpleDB::setQueryType(const SimpleDB::QueryEnum queryTy
 // Set the I/O handler.
 void
 spatialdata::spatialdb::SimpleDB::setIOHandler(const SimpleIO* iohandler) {
-    delete _iohandler;_iohandler = (!iohandler) ? iohandler->clone() : NULL;
+    delete _iohandler;_iohandler = iohandler ? iohandler->clone() : NULL;
 } // setIOHandler
 
 
