@@ -74,7 +74,7 @@ class Shaper(Component):
         self.db.open()
 
         nlocs = locs.shape[0]
-        self.db.queryVals([self.dbValue])
+        self.db.setQueryValues([self.dbValue])
         v = numpy.zeros((1,), dtype=numpy.float64)
         vals = numpy.zeros((nlocs, 1), dtype=numpy.float64)
         err = numpy.ones((nlocs,), dtype=numpy.int32)

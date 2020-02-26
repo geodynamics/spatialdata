@@ -35,13 +35,11 @@ nobase_pkgpyexec_PYTHON = \
 	spatialdb/SimpleGridAscii.py \
 	spatialdb/UserFunctionDB.py \
 	spatialdb/__init__.py \
-	spatialdb/generator/Shaper.py \
-	spatialdb/generator/Shapers.py \
+	spatialdb/generator/__init__.py \
 	spatialdb/generator/GenSimpleDBApp.py \
 	spatialdb/generator/Geometry.py \
 	spatialdb/generator/Value.py \
-	spatialdb/generator/Values.py \
-	spatialdb/generator/__init__.py \
+	spatialdb/generator/Shaper.py \
 	units/__init__.py \
 	units/Nondimensional.py \
 	units/NondimElasticQuasistatic.py \

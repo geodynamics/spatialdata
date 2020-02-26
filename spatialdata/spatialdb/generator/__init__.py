@@ -17,12 +17,10 @@
 # @brief Python spatialdata generator module initialization.
 
 __all__ = [
-    "Filter",
-    "Filters",
     "GenSimpleDBApp",
     "Geometry",
     "Value",
-    "Values",
+    "Shaper",
 ]
 
 

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ======================================================================
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -18,120 +16,53 @@ from pyre.components.Component import Component
 
 import numpy
 
+
 # ----------------------------------------------------------------------
-# GeometryTestGen class
 class GeometryTestGen(Component):
-  """
-  Python object acting as Geometry component in testing GenSimpleDBApp.
-  """
+    """
+    Python object acting as Geometry component in testing GenSimpleDBApp.
+    """
 
-  class Topology(object):
-    """
-    Topology object to hold geometry.
-    """
+    class Topology(object):
+        """
+        Topology object to hold geometry.
+        """
+
+        def __init__(self):
+            """
+            Constructor.
+            """
+            self.vertices = None
+            self.simplices = None
+            return
+
+    # PUBLIC METHODS /////////////////////////////////////////////////////
+
     def __init__(self):
-      """
-      Constructor.
-      """
-      self.vertices = None
-      self.simplices = None
-      return
-    
+        """
+        Constructor.
+        """
+        Component.__init__(self, name="geometrytestgen", facility="reader")
+        self.vertices = numpy.array([[-2.0,  3.0],
+                                     [0.0,  1.0],
+                                     [1.0,  0.0],
+                                     [2.0, -4.0]],
+                                    dtype=numpy.float64)
+        return
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
-
-  def __init__(self):
-    """
-    Constructor.
-    """
-    Component.__init__(self, name="geometrytestgen", facility="reader")
-    self.vertices = numpy.array([ [-2.0,  3.0],
-                                  [ 0.0,  1.0],
-                                  [ 1.0,  0.0],
-                                  [ 2.0, -4.0] ],
-                                dtype=numpy.float64)
-    return
+    def read(self):
+        """
+        Read geometry.
+        """
+        return self.vertices
 
 
-  def read(self):
-    """
-    Read geometry.
-    """
-    return self.vertices
-
-
-# ----------------------------------------------------------------------
-# TwoValues class
-from spatialdata.spatialdb.generator.Values import Values
-class TwoValues(Values):
-  """
-  Python object acting as Values component in testing GenSimpleDBApp.
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(Component.Inventory):
-    """
-    Python object for managing Filter facilities and properties.
-    """
-
-    ## @class Inventory
-    ## Python object for managing Filter facilities and properties.
-    ##
-    ## \b Properties
-    ## @li None
-    ##
-    ## \b Facilities
-    ## @li \b one Value 'one' in database
-    ## @li \b two Value 'two' in database
-
-    import pyre.inventory
-
-    from spatialdata.spatialdb.generator.Value import Value
-
-    one = pyre.inventory.facility("one", factory=Value)
-    one.meta['tip'] = "Value 'one' in database."
-
-    two = pyre.inventory.facility("two", factory=Value)
-    two.meta['tip'] = "Value 'two' in database."
-    
-
-  # PUBLIC METHODS /////////////////////////////////////////////////////
-
-  def __init__(self):
-    """
-    Constructor.
-    """
-    Values.__init__(self, name="twovalues")
-    return
-
-
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """
-    Setup members based on inventory.
-    """
-    Values._configure(self)
-    self.values = [self.inventory.one, self.inventory.two]
-    return
-
-
-# ======================================================================
-# Factories
-
+# FACTORIES ======================================================================
 def reader():
-  """
-  Factory for geometry reader.
-  """
-  return GeometryTestGen()
-
-
-def database_values():
-  """
-  Factory for geometry reader.
-  """
-  return TwoValues()
+    """
+    Factory for geometry reader.
+    """
+    return GeometryTestGen()
 
 
 # End of file
