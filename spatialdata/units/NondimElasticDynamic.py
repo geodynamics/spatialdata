@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,17 +11,14 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/units/NondimElasticDynamic.py
-##
+#
 # @brief Python manager for nondimensionalizing dynamic
 # elasticity problems.
-##
+#
 # Factory: nondimensional
 
 from Nondimensional import Nondimensional
-
-# NondimElasticDynamic class
 
 
 class NondimElasticDynamic(Nondimensional):
@@ -67,7 +62,6 @@ class NondimElasticDynamic(Nondimensional):
         Constructor.
         """
         Nondimensional.__init__(self, name)
-        return
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -83,7 +77,6 @@ class NondimElasticDynamic(Nondimensional):
         self.setTimeScale(period)
         self.setDensityScale(density)
         self.computePressureScale()
-        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////

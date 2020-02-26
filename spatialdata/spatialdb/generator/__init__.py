@@ -11,7 +11,6 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/spatialdb/generator/__init__.py
 #
 # @brief Python spatialdata generator module initialization.

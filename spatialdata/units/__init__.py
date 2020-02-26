@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,15 +11,15 @@
 #
 # ----------------------------------------------------------------------
 #
+# @file spatialdata/units/__init__.py
+#
+# @brief Python spatialdata units module initialization.
 
-## @file spatialdata/units/__init__.py
-##
-## @brief Python spatialdata units module initialization.
-
-__all__ = ['Nondimensional',
-           'NondimElasticQuasistatic',
-           'NondimElasticDynamic',
-           ]
+__all__ = [
+    "Nondimensional",
+    "NondimElasticQuasistatic",
+    "NondimElasticDynamic",
+    ]
 
 
 # End of file

@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,17 +11,14 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/units/NondimElasticQuasistatic.py
-##
+#
 # @brief Python manager for nondimensionalizing quasi-static
 # elasticity problems.
-##
+#
 # Factory: nondimensional
 
 from Nondimensional import Nondimensional
-
-# NondimElasticQuasistatic class
 
 
 class NondimElasticQuasistatic(Nondimensional):
@@ -67,7 +62,6 @@ class NondimElasticQuasistatic(Nondimensional):
         Constructor.
         """
         Nondimensional.__init__(self, name)
-        return
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -80,8 +74,6 @@ class NondimElasticQuasistatic(Nondimensional):
         self.setPressureScale(self.inventory.shearModulus)
         self.setTimeScale(self.inventory.relaxationTime)
         self.computeDensityScale()
-
-        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////

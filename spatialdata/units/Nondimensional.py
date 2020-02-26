@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,7 +11,6 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/units/Nondimensional.py
 #
 # @brief Python manager for nondimensionalizing problems.
@@ -47,7 +44,6 @@ class Nondimensional(Component, ModuleNondimensional):
         """
         Component.__init__(self, name, facility="nondimensional")
         self._createModuleObj()
-        return
 
     def setLengthScale(self, value):
         """
@@ -134,7 +130,6 @@ class Nondimensional(Component, ModuleNondimensional):
         Create Python module object.
         """
         ModuleNondimensional.__init__(self)
-        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////

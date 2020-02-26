@@ -11,7 +11,6 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/spatialdb/__init__.py
 #
 # @brief Python spatialdata spatialdb module initialization.

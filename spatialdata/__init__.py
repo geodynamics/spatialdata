@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,17 +11,18 @@
 #
 # ----------------------------------------------------------------------
 #
+# @file spatialdata/__init__.py
+#
+# @brief Python top-level SpatialData module initialization
 
-## @file spatialdata/__init__.py
-##
-## @brief Python top-level SpatialData module initialization
+__version__ = "1.11.0"
 
-__version__ = "1.10.1"
-
-__all__ = ['geocoords',
-           'spatialdb',
-           'units',
-           'utils']
+__all__ = [
+    'geocoords',
+    'spatialdb',
+    'units',
+    'utils',
+]
 
 
 # End of file
