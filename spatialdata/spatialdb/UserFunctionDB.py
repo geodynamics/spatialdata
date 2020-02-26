@@ -66,7 +66,7 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
         Set members based on inventory.
         """
         SpatialDBObj._configure(self)
-        ModuleUserFunctionDB.coordsys(self, self.inventory.cs)
+        ModuleUserFunctionDB.setCoordSys(self, self.cs)
         for (name, fn, units,) in self.functions:
             ModuleUserFunctionDB.addValue(self, name, fn, units)
         return

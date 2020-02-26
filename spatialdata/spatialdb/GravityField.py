@@ -54,58 +54,52 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     label = pyre.inventory.str("label", default="Gravity field")
     label.meta['tip'] = "Descriptive label for gravity field."
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="gravityfield"):
-    """
-    Constructor.
-    """
-    SpatialDBObj.__init__(self, name)
-    return
+    def __init__(self, name="gravityfield"):
+        """
+        Constructor.
+        """
+        SpatialDBObj.__init__(self, name)
+        return
 
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
-  # PRIVATE METHODS ////////////////////////////////////////////////////
+    def _configure(self):
+        """
+        Set members based on inventory.
+        """
+        SpatialDBObj._configure(self)
+        self._validateParameters(self.inventory)
+        dir = map(float, self.gravityDir)
+        ModuleGravityField.setGravityDir(self, dir[0], dir[1], dir[2])
+        ModuleGravityField.setGravityAcc(self, self.acceleration.value)
 
-  def _configure(self):
-    """
-    Set members based on inventory.
-    """
-    SpatialDBObj._configure(self)
-    self._validateParameters(self.inventory)
-    dir = map(float, self.gravityDir)
-    ModuleGravityField.setGravityDir(self, dir[0], dir[1], dir[2])
-    ModuleGravityField.setGravityAcc(self, self.acceleration.value)
-    return
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        ModuleGravityField.__init__(self)
 
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    ModuleGravityField.__init__(self)
-    return
-
-
-  def _validateParameters(self, params):
-    """
-    Validate parameters.
-    """
-    if (len(params.gravityDir) != 3):
-      raise ValueError("Gravity direction must be a 3 component list or tuple.")
-    try:
-      dirFloat = map(float, params.gravityDir)
-    except:
-        raise ValueError("Gravity direction must contain floating point values.")
-    return
+    def _validateParameters(self, params):
+        """
+        Validate parameters.
+        """
+        if (len(params.gravityDir) != 3):
+            raise ValueError("Gravity direction must be a 3 component list or tuple.")
+        try:
+            dirFloat = map(float, params.gravityDir)
+        except:
+            raise ValueError("Gravity direction must contain floating point values.")
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def spatial_database():
-  """
-  Factory associated with GravityField.
-  """
-  return GravityField()
+    """
+    Factory associated with GravityField.
+    """
+    return GravityField()
 
 
 # End of file

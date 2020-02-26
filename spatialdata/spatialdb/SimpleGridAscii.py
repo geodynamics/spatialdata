@@ -91,7 +91,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
 
         numX = data['x'].shape[0]
         numY = data['y'].shape[0]
-        if data['coordsys'].spaceDim() == 2:
+        if data['coordsys'].getSpaceDim() == 2:
             numZ = 0
             if (numLocs != numX * numY):
                 raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d)." %
@@ -107,15 +107,15 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
         db.inventory.label = "Temporary database for I/O"
         db.inventory.filename = self.filename
         db._configure()
-        db.coordsys(data['coordsys'])
+        db.setCoordSys(data['coordsys'])
         db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])
-        db.x(data['x'])
-        db.y(data['y'])
-        if data['coordsys'].spaceDim() == 3:
-            db.z(data['z'])
-        db.data(data['points'], values)
-        db.names(names)
-        db.units(units)
+        db.setX(data['x'])
+        db.setY(data['y'])
+        if data['coordsys'].getSpaceDim() == 3:
+            db.setZ(data['z'])
+        db.setData(data['points'], values)
+        db.setNames(names)
+        db.setUnits(units)
 
         ModuleSimpleGridAscii.write(db)
 

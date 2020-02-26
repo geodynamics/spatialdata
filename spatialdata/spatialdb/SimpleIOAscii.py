@@ -75,9 +75,13 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
         dbData.setNames(names)
         dbData.setUnits(units)
 
+        ModuleSimpleIOAscii.setFilename(self, self.filename)
         ModuleSimpleIOAscii.write(self, dbData, data['coordsys'])
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
+
+    def _configure(self):
+        ModuleSimpleIOAscii.setFilename(self, self.filename)
 
     def _createModuleObj(self):
         """
