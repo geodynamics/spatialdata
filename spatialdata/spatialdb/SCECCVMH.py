@@ -61,42 +61,40 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     label = pyre.inventory.str("label", default="SCEC CVM-H")
     label.meta['tip'] = "Descriptive label for seismic velocity model."
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="sceccvmh"):
-    """
-    Constructor.
-    """
-    SpatialDBObj.__init__(self, name)
+    def __init__(self, name="sceccvmh"):
+        """
+        Constructor.
+        """
+        SpatialDBObj.__init__(self, name)
 
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
-  # PRIVATE METHODS ////////////////////////////////////////////////////
+    def _configure(self):
+        """
+        Set members based on inventory.
+        """
+        SpatialDBObj._configure(self)
+        ModuleSCECCVMH.setLabel(self, "SCEC CVM-H")
+        ModuleSCECCVMH.setDataDir(self, self.dataDir)
+        ModuleSCECCVMH.setMinVs(self, self.minVs.value)
+        ModuleSCECCVMH.setSquashFlag(self, self.squash, self.squashLimit.value)
 
-  def _configure(self):
-    """
-    Set members based on inventory.
-    """
-    SpatialDBObj._configure(self)
-    ModuleSCECCVMH.setLabel(self, "SCEC CVM-H")
-    ModuleSCECCVMH.setDataDir(self, self.dataDir)
-    ModuleSCECCVMH.setMinVs(self, self.minVs.value)
-    ModuleSCECCVMH.setSquashFlag(self, self.squash, self.squashLimit.value)
-
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    ModuleSCECCVMH.__init__(self)
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        ModuleSCECCVMH.__init__(self)
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def spatial_database():
-  """
-  Factory associated with SCECCVMH.
-  """
-  return SCECCVMH()
+    """
+    Factory associated with SCECCVMH.
+    """
+    return SCECCVMH()
 
 
 # End of file
