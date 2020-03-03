@@ -247,7 +247,7 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
             << getLabel() << " (" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::runtime_error(msg.str());
-    } else if (numDims != size_t(_cs->getSpaceDim())) {
+    } else if (numDims != _cs->getSpaceDim()) {
         std::ostringstream msg;
         msg << "Spatial dimension (" << numDims
             << ") does not match spatial dimension of spatial database (" << _cs->getSpaceDim() << ").";

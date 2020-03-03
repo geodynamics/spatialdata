@@ -520,7 +520,7 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const {
     } // if
 
     assert(_cs);
-    if (spaceDim != size_t(_cs->getSpaceDim())) {
+    if (spaceDim != _cs->getSpaceDim()) {
         msg << "Number of dimensions in coordinates of spatial distribution ("
             << spaceDim << ") does not match number of dimensions in coordinate "
             << "system (" << _cs->getSpaceDim() << ")";
