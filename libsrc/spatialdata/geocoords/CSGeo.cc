@@ -18,9 +18,14 @@
 
 #include "CSGeo.hh" // implementation of class methods
 
+#include "Converter.hh" // USES Converter
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 
-#include <math.h> // USES M_PI
+extern "C" {
+#include "proj.h" // USES PROJ
+}
+
+#include <cmath> // USES M_PI, cos(), sin()
 #include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
 
@@ -96,12 +101,10 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
                                                     const size_t numLocs,
                                                     const size_t numDims,
                                                     const double dx) const {
-    assert( (0 < numLocs && 0 != dir) ||
-            (0 == numLocs && 0 == dir) );
-    assert( (0 < numLocs && 0 != coords) ||
-            (0 == numLocs && 0 == coords) );
+    assert( (0 < numLocs && dir) || (0 == numLocs && !dir) );
+    assert( (0 < numLocs && coords) || (0 == numLocs && !coords) );
 
-    if (numDims != size_t(getSpaceDim())) {
+    if (numDims != getSpaceDim()) {
         std::ostringstream msg;
         msg
             << "Number of spatial dimensions of coordinates ("
@@ -111,9 +114,45 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
     } // if
 
     if (numDims > 2) {
-        // Compute approximate outward surface normal by computing local tangent.
-        // Outward surface normal = Cross Product(tx, ty)
-        throw std::logic_error(":TODO: @brad CSGeo::radialDir() not yet implemented.");
+        PJ_CONTEXT* const context = NULL;
+        PJ* const proj = proj_create(context, _string.c_str());
+        const PJ_TYPE projType = proj_get_type(proj);
+        proj_destroy(proj);
+        switch (projType) {
+        case PJ_TYPE_GEOGRAPHIC_2D_CRS:
+        case PJ_TYPE_GEOGRAPHIC_3D_CRS:
+        case PJ_TYPE_GEODETIC_CRS:
+        case PJ_TYPE_PROJECTED_CRS:
+            for (size_t i = 0; i < numLocs; ++i) {
+                dir[i*numDims+0] = +0.0;
+                dir[i*numDims+1] = +0.0;
+                dir[i*numDims+2] = +1.0;
+            } // for
+            break;
+        case PJ_TYPE_GEOCENTRIC_CRS: {
+            // Surface normal is associated with geodetic lon/lat
+            CSGeo csLL;
+            csLL.setString("EPSG:4326"); // WGS84
+            double* coordsLL = (numLocs*numDims > 0) ? new double[numLocs*numDims] : NULL;
+            memcpy(coordsLL, coords, numLocs*numDims*sizeof(double));
+            Converter::convert(coordsLL, numLocs, numDims, &csLL, this);
+            for (size_t i = 0; i < numLocs; ++i) {
+                const double latRad = coordsLL[i*numDims+0] * M_PI/180.0;
+                const double lonRad = coordsLL[i*numDims+1] * M_PI/180.0;
+                dir[i*numDims+0] = cos(latRad) * cos(lonRad);
+                dir[i*numDims+1] = cos(latRad) * sin(lonRad);
+                dir[i*numDims+2] = sin(latRad);
+            } // for
+            delete[] coordsLL;coordsLL = NULL;
+            break;
+        } // PJ_TYPE_GEOCENTRIC_CRS
+        default: {
+            std::ostringstream msg;
+            msg << "Unknown coordinate system type (" << projType << ") for coordinate system '" << _string << "'.";
+            throw std::logic_error(msg.str());
+        } // default
+
+        } // switch
     } else {
         throw std::runtime_error("Outward surface normal not defined for 2-D geographic coordinates.");
     } // if/else

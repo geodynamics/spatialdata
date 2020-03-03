@@ -105,83 +105,86 @@ spatialdata::geocoords::TestCSGeo::testAccessors(void) {
 // Test computeSurfaceNormal().
 void
 spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
-#if 1
-    CPPUNIT_ASSERT_MESSAGE(":TODO: @brad Implement test.", false);
-#else
     CSGeo cs;
 
-    { // 2D
-        const int numLocs = 1;
-        const int numDims = 2;
-        const double coords[] = { 28.0, 23.0,
-                                  42.0, 34.0,
-                                  -12.0, 65.7,
-                                  64.3, -163.0 };
-
-        const int size = numLocs * numDims;
+    { // WGS84
+        cs.setString("EPSG:4326");
+        const size_t numLocs = 4;
+        const size_t numDims = 3;
+        const size_t size = numLocs * numDims;
+        const double coords[size] = {
+            28.0, 23.0, 3.4,
+            42.0, 34.0, 3.5,
+            -12.0, 65.7, 12.6,
+            64.3, -163.0, -1.5,
+        };
         double* dirs = new double[size];
         cs.setSpaceDim(numDims);
-        cs.initialize();
-        cs.radialDir(dirs, coords, numLocs, numDims);
-        for (int i = 0; i < size; ++i) {
-            CPPUNIT_ASSERT_EQUAL(0.0, dirs[i]);
-        }
-        delete[] dirs;dirs = 0;
-    } // 2D
-
-    { // 3D
-        const int numLocs = 4;
-        const int numDims = 3;
-        const double coords[] = { 28.0, 23.0, 3.4,
-                                  42.0, 34.0, 3.5,
-                                  -12.0, 65.7, 12.6,
-                                  64.3, -163.0, -1.5 };
-        const int size = numLocs * numDims;
-        double* dirs = new double[size];
-        cs.setSpaceDim(numDims);
-        cs.initialize();
-        cs.radialDir(dirs, coords, numLocs, numDims);
-        for (int iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-            CPPUNIT_ASSERT_EQUAL(dirs[i++], 0.0);
-            CPPUNIT_ASSERT_EQUAL(dirs[i++], 0.0);
-            CPPUNIT_ASSERT_EQUAL(dirs[i++], 1.0);
+        cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
+        for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in x-component of surface normal (WGS84).", 0.0, dirs[i++]);
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in y-component of surface normal (WGS84).", 0.0, dirs[i++]);
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in z-component of surface normal (WGS84).", 1.0, dirs[i++]);
         } // for
         delete[] dirs;dirs = 0;
-    } // 3D
+    } // WGS84
 
-    cs.isGeocentric(true);
+    { // UTM zone 10
+        cs.setString("EPSG:26910");
+        const size_t numLocs = 4;
+        const size_t numDims = 3;
+        const size_t size = numLocs * numDims;
+        const double coords[size] = {
+            570000.0, 4150000.0, -1.0,
+            400000.0, 4000000.0, 20.0,
+            300000.0, 4250000.0, 30.0,
+            550000.0, 4100000.0, 40.0,
+        };
+        double* dirs = new double[size];
+        cs.setSpaceDim(numDims);
+        cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
+        for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in x-component of surface normal (UTM).", 0.0, dirs[i++]);
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in y-component of surface normal (UTM).", 0.0, dirs[i++]);
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in z-component of surface normal (UTM).", 1.0, dirs[i++]);
+        } // for
+        delete[] dirs;dirs = 0;
+    } // UTM zone 10
 
-    const int numLocs = 5;
-    const int numDims = 3;
-    const double coords[] = {
-        0.0, 0.0, 6356752.31, // (lon=0.0, lat=90.0)
-        6378137.00, 0.0, 0.0, // (lon=0.0, lat=0.0)
-        0.0, -6378137.00, 0.0, // (lon=-90.0, lat=0.0)
-        -2684785.48, -4296554.90, 3861564.10, // (lon=-122.0, lat=37.5)
-        -2680581.35, -4289826.89, 3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
-    };
-    const double dirsE[] = {
-        0.0, 0.0, 1.0,
-        1.0, 0.0, 0.0,
-        0.0, -1.0, 0.0,
-        -0.4214565909579322, -0.67447153394825399, 0.6061868456438223,
-        -0.42145822808804162, -0.67447415459479865, 0.60618279154106625,
-    };
-    const int size = numLocs * numDims;
-    double* dirs = new double[size];
-    cs.initialize();
-    cs.radialDir(dirs, coords, numLocs, numDims);
+    { // Geocentric ECEF
+        cs.setString("EPSG:4978");
 
-    const double tolerance = 1.0e-6;
-    for (int i = 0; i < size; ++i) {
-        if (fabs(dirsE[i]) > tolerance) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, dirs[i]/dirsE[i], tolerance);
-        } else {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL(dirsE[i], dirs[i], tolerance);
+        const size_t numLocs = 5;
+        const size_t numDims = 3;
+        const size_t size = numLocs * numDims;
+        const double coords[size] = {
+            0.0, 0.0, 6356752.31424518, // (lon=0.0, lat=90.0)
+            6378137.00, 0.0, 0.0, // (lon=0.0, lat=0.0)
+            0.0, -6378137.00, 0.0, // (lon=-90.0, lat=0.0)
+            -2684785.48, -4296554.90, 3861564.10, // (lon=-122.0, lat=37.5)
+            -2680581.35, -4289826.89, 3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
+        };
+        const double dirsE[size] = {
+            0.0, 0.0, 1.0,
+            1.0, 0.0, 0.0,
+            0.0, -1.0, 0.0,
+            -0.4204132183640867, -0.6728017898133232, 0.6087614290087207,
+            -0.4204132183640867, -0.6728017898133232, 0.6087614290087207,
+        };
+        double* dirs = new double[size];
+        cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
+
+        const double tolerance = 1.0e-6;
+        for (size_t i = 0; i < size; ++i) {
+            if (fabs(dirsE[i]) > tolerance) {
+                std::cout << "dirE: " << dirsE[i] << ", dir: " << dirs[i] << std::endl;
+                CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value (ECEF).", 1.0, dirs[i]/dirsE[i], tolerance);
+            } else {
+                CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value (ECEF).", dirsE[i], dirs[i], tolerance);
+            } // if/else
         }
-    }
-    delete[] dirs;dirs = 0;
-#endif
+        delete[] dirs;dirs = 0;
+    } // Geocentric ECEF
 } // testComputeSurfaceNormal
 
 

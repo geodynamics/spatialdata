@@ -171,7 +171,7 @@ class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityFi
 
         delete _data;_data = new TestGravityField_Data;CPPUNIT_ASSERT(_data);
         spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();CPPUNIT_ASSERT(cs);
-        cs->setString("EPSG:4318"); // ECEF geocentric
+        cs->setString("EPSG:4978"); // ECEF geocentric
         cs->setSpaceDim(3);
         _data->cs = cs;
 
@@ -194,8 +194,8 @@ class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityFi
             0.0, 0.0, -gacc,
             -gacc, 0.0, 0.0,
             0.0, gacc, 0.0,
-            4.1330772777176055, 6.6143062683936451, -5.9446622298329901,
-            4.1330933324795938, 6.6143319681570834, -5.9446224726661976,
+            +0.4204132183640867*gacc, +0.6728017898133232*gacc, -0.6087614290087207*gacc,
+            +0.4204132183640867*gacc, +0.6728017898133232*gacc, -0.6087614290087207*gacc,
         };
         _data->gravity = gravity;
     } // Setup
