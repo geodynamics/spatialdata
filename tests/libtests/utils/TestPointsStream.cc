@@ -20,7 +20,6 @@
 
 #include "spatialdata/utils/PointsStream.hh" // USES PointStream
 
-#include <string.h> // USES strcmp()
 #include <sstream> // USES std::stringstream
 
 // ----------------------------------------------------------------------

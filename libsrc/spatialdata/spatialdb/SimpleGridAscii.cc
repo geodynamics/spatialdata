@@ -37,7 +37,7 @@
 #include <stdexcept> // USES std::runtime_error
 #include <sstream> // USES std::ostringsgream
 #include <strings.h> // USES strcasecmp()
-#include <string.h> // USES strlen()
+#include <cstring> // USES strlen()
 #include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------

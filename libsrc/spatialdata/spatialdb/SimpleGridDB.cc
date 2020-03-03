@@ -29,7 +29,7 @@
 #include <fstream> // USES std::ifstream
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::logic_error
-#include <string.h> // USES memcpy()
+#include <cstring> // USES memcpy()
 #include <strings.h> // USES strcasecmp()
 #include <assert.h> // USES assert()
 

@@ -25,7 +25,7 @@ extern "C" {
 }
 
 #include <string> // USES std::string()
-#include <string.h> // USES strlen()
+#include <cstring> // USES strlen()
 #include <stdio.h> // USES snprintf()
 
 // ----------------------------------------------------------------------

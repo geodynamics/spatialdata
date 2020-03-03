@@ -22,7 +22,6 @@
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
 #include <stdexcept> // USES std::runtime_error
-#include <string.h> // USES strcmp() and memcpy()
 
 // ----------------------------------------------------------------------
 // Setup testing data.
