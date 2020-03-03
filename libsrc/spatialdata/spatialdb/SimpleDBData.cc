@@ -66,22 +66,22 @@ spatialdata::spatialdb::SimpleDBData::allocate(const size_t numLocs,
     if (numLocs <= 0) {
         std::ostringstream msg;
         msg << "Number of locations (" << numLocs << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     if (numValues <= 0) {
         std::ostringstream msg;
         msg << "Number of values (" << numValues << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     if (spaceDim <= 0) {
         std::ostringstream msg;
         msg << "Number of spatial dimensions (" << spaceDim << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     if (( dataDim < 0) || ( dataDim > 3) ) {
         std::ostringstream msg;
         msg << "Spatial dimension of data (" << dataDim << ") must be in the range [0,3].";
-        throw std::runtime_error(msg.str());
+        throw std::out_of_range(msg.str());
     } // if
 
     size_t size = numLocs*numValues;

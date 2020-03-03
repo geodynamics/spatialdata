@@ -81,7 +81,7 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << _db.getLabel()
             << "\n must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
@@ -104,7 +104,7 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
                 msg << "\n  " << _db._data->getName(iName);
             }
             msg << "\n";
-            throw std::runtime_error(msg.str());
+            throw std::out_of_range(msg.str());
         } // if
         _queryValues[iVal] = iName;
     } // for
@@ -118,14 +118,14 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
                                              const size_t numVals,
                                              const double* coords,
                                              const size_t numDims,
-                                             const spatialdata::geocoords::CoordSys* pCSQuery) { // query
+                                             const spatialdata::geocoords::CoordSys* pCSQuery) {
     assert(0 != coords);
 
     if (0 == _querySize) {
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << _db.getLabel() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
@@ -133,7 +133,7 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
             << _db.getLabel() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 
     const size_t numLocs = 1;
@@ -153,7 +153,7 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
         _queryNearest(vals, numVals);
         break;
     default:
-        throw std::runtime_error("Could not find requested query type.");
+        throw std::logic_error("Could not find requested query type.");
     } // switch
 } // query
 
@@ -316,7 +316,7 @@ spatialdata::spatialdb::SimpleDBQuery::_getWeights(std::vector<WtStruct>* pWeigh
         _findAreaPt(pWeights);
         _findVolumePt(pWeights);
     } else {
-        throw std::runtime_error("Could not set weights for unknown data dimension.");
+        throw std::logic_error("Could not set weights for unknown data dimension.");
     } // if/else
 } // _getWeights
 

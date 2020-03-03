@@ -78,8 +78,7 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     if (!sin->eof() && !sin->good()) {
         const std::string name = !_filename.empty() ? _filename : "std::cin";
         std::ostringstream msg;
-        msg << "Error occurred while reading points from input stream '"
-            << name << "'.";
+        msg << "Error occurred while reading points from input stream '" << name << "'.";
         throw std::runtime_error(msg.str());
     } // if
 
@@ -134,14 +133,13 @@ spatialdata::utils::PointsStream::write(const double* pPoints,
     if (!pOut->good()) {
         const std::string name = !_filename.empty() ? _filename : "std::cout";
         std::ostringstream msg;
-        msg << "Error occurred while writing points to output stream '"
-            << name << "'.";
+        msg << "Error occurred while writing points to output stream '" << name << "'.";
         throw std::runtime_error(msg.str());
     } // if
 
     if (&std::cout != pOut) {
         delete pOut;
-    }
+    } // if
 } // write
 
 

@@ -68,10 +68,8 @@ void
 spatialdata::geocoords::CSCart::setToMeters(const double scale) {
     if (scale <= 0.0) {
         std::ostringstream msg;
-        msg
-            << "Factor to convert coordinates to meters (" << scale
-            << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        msg << "Factor to convert coordinates to meters (" << scale << ") must be positive.";
+        throw std::invalid_argument(msg.str());
     } // if
     _toMeters = scale;
 } // setToMeters

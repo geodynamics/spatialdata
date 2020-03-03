@@ -85,9 +85,8 @@ void
 spatialdata::spatialdb::SCECCVMH::setMinVs(const double value) {
     if (value < 0.0) {
         std::ostringstream msg;
-        msg << "Value for minimum shear wave speed (" << value
-            << ") must be non-negative.";
-        throw std::runtime_error(msg.str());
+        msg << "Value for minimum shear wave speed (" << value << ") must be non-negative.";
+        throw std::invalid_argument(msg.str());
     } // if
     _minVs = value;
 } // setMinVs
@@ -172,7 +171,7 @@ spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << getLabel()
             << "\n must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
@@ -198,7 +197,7 @@ spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
                 << getLabel() << "'. Available values are:\n"
                 << "vp, vs, density, topo-elev, basement-depth, moho-depth, vp-tag.";
-            throw std::runtime_error(msg.str());
+            throw std::out_of_range(msg.str());
         } // else
     } // for
 } // queryVals
@@ -216,19 +215,18 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getLabel() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
             << getLabel() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } else if (3 != numDims) {
         std::ostringstream msg;
-        msg << "Spatial dimension (" << numDims
-            << ") when querying SCEC CVM-H must be 3.";
-        throw std::runtime_error(msg.str());
+        msg << "Spatial dimension (" << numDims << ") when querying SCEC CVM-H must be 3.";
+        throw std::invalid_argument(msg.str());
     } // if
 
     // Convert coordinates to UTM

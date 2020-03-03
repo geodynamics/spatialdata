@@ -68,14 +68,12 @@ spatialdata::spatialdb::SimpleGridAscii::read(SimpleGridDB* db) { // read
         filein.close();
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error occurred while reading spatial database file '"
-            << db->_filename << "'.\n"
+        msg << "Error occurred while reading spatial database file '" << db->_filename << "'.\n"
             << err.what();
         throw std::runtime_error(msg.str());
     } catch (...) {
         std::ostringstream msg;
-        msg << "Unknown error occurred while reading spatial database file '"
-            << db->_filename << "'.\n";
+        msg << "Unknown error occurred while reading spatial database file '" << db->_filename << "'.\n";
         throw std::runtime_error(msg.str());
     } // try/catch
 } // read
@@ -104,14 +102,12 @@ spatialdata::spatialdb::SimpleGridAscii::write(const SimpleGridDB& db) { // writ
         fileout.close();
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error occurred while writing spatial database file '"
-            << db._filename << "'.\n"
+        msg << "Error occurred while writing spatial database file '" << db._filename << "'.\n"
             << err.what();
         throw std::runtime_error(msg.str());
     } catch (...) {
         std::ostringstream msg;
-        msg << "Unknown error occurred while writing spatial database file '"
-            << db._filename << "'.\n";
+        msg << "Unknown error occurred while writing spatial database file '" << db._filename << "'.\n";
         throw std::runtime_error(msg.str());
     } // try/catch
 } // write
@@ -226,7 +222,7 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
         } else {
             std::ostringstream msg;
             msg << "Could not parse '" << token << "' into a SimpleGridDB setting.";
-            throw std::runtime_error(msg.str());
+            throw std::domain_error(msg.str());
         } // else
 
         buffer.str(parser.next());

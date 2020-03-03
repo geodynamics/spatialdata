@@ -73,7 +73,7 @@ spatialdata::units::Nondimensional::setLengthScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Length scale (" << value << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     _length = value;
 } // setLengthScale
@@ -86,7 +86,7 @@ spatialdata::units::Nondimensional::setPressureScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Pressure scale (" << value << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     _pressure = value;
 } // setPressureScale
@@ -99,7 +99,7 @@ spatialdata::units::Nondimensional::setTimeScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Time scale (" << value << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     _time = value;
 } // setTimeScale
@@ -112,7 +112,7 @@ spatialdata::units::Nondimensional::setDensityScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Density scale (" << value << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     _density = value;
 } // setDensityScale
@@ -125,7 +125,7 @@ spatialdata::units::Nondimensional::setTemperatureScale(const double value) {
     if (value <= 0.0) {
         std::ostringstream msg;
         msg << "Temperature scale (" << value << ") must be positive.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     _temperature = value;
 } // setTemperatureScale

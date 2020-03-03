@@ -132,7 +132,7 @@ spatialdata::spatialdb::SimpleGridDB::setQueryValues(const char* const* names,
         msg
             << "Number of values for query in spatial database " << getLabel()
             << "\n must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
@@ -155,7 +155,7 @@ spatialdata::spatialdb::SimpleGridDB::setQueryValues(const char* const* names,
                 msg << "\n  " << _names[iName];
             } // for
             msg << "\n";
-            throw std::runtime_error(msg.str());
+            throw std::out_of_range(msg.str());
         } // if
         _queryValues[iVal] = iName;
     } // for
@@ -176,19 +176,19 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getLabel() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } else if (numVals != querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
             << getLabel() << "\n"
             << "(" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } else if (numDims != _spaceDim) {
         std::ostringstream msg;
         msg << "Spatial dimension (" << numDims
             << ") does not match spatial dimension of spatial database (" << _spaceDim << ").";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 
     // Convert coordinates
@@ -317,7 +317,7 @@ spatialdata::spatialdb::SimpleGridDB::setX(const double* values,
         std::ostringstream msg;
         msg << "Mismatch in size (" << _numX << " != " << size
             << ") for number of values along x-axis in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::length_error(msg.str());
     } // if
     if (!_x) {
         _x = (size > 0) ? new double[size] : NULL;
@@ -339,7 +339,7 @@ spatialdata::spatialdb::SimpleGridDB::setY(const double* values,
         std::ostringstream msg;
         msg << "Mismatch in size (" << _numY << " != " << size
             << ") for number of values along y-axis in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::length_error(msg.str());
     } // if
     if (!_y) {
         _y = (size > 0) ? new double[size] : NULL;
@@ -361,7 +361,7 @@ spatialdata::spatialdb::SimpleGridDB::setZ(const double* values,
         std::ostringstream msg;
         msg << "Mismatch in size (" << _numZ << " != " << size
             << ") for number of values along z-axis in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::length_error(msg.str());
     } // if
     if (!_z) {
         _z = (size > 0) ? new double[size] : NULL;
@@ -387,19 +387,19 @@ spatialdata::spatialdb::SimpleGridDB::setData(const double* coords,
         std::ostringstream msg;
         msg << "Mismatch in number of locations (" << numLocs << " != " << numLocs2
             << ") for number of locations in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     if (spaceDim != _spaceDim) {
         std::ostringstream msg;
         msg << "Mismatch in coordinate dimension (" << _spaceDim << " != " << spaceDim
             << ") for locations in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     if (numValues != _numValues) {
         std::ostringstream msg;
         msg << "Mismatch in number of values (" << _numValues << " != " << numValues
             << ") for simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 
     if (!_data) {
@@ -428,7 +428,7 @@ spatialdata::spatialdb::SimpleGridDB::setNames(const char* const* values,
         std::ostringstream msg;
         msg << "Mismatch in number of values (" << _numValues << " != " << numValues
             << ") for names of values in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     delete[] _names;_names = (numValues > 0) ? new std::string[numValues] : NULL;
     for (size_t i = 0; i < numValues; ++i) {
@@ -447,7 +447,7 @@ spatialdata::spatialdb::SimpleGridDB::setUnits(const char* const* values,
         std::ostringstream msg;
         msg << "Mismatch in number of values (" << _numValues << " != " << numValues
             << ") for units of values in simple grid spatial database.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     delete[] _units;_units = (numValues > 0) ? new std::string[numValues] : NULL;
     for (size_t i = 0; i < numValues; ++i) {
@@ -491,32 +491,32 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const {
         msg << "Dimension of data in spatial distribution (" << dataDim
             << ") is incompatible with dimensions of a 0-D grid  ("
             << numX << "," << numY << "," << numZ << ").";
-        throw std::runtime_error(msg.str());
+        throw std::domain_error(msg.str());
 
     } else if (( 1 == dataDim) && ( 2 != count1) ) {
         msg << "Dimension of data in spatial distribution (" << dataDim
             << ") is incompatible with dimensions of a 1-D grid  ("
             << numX << "," << numY << "," << numZ << ").";
-        throw std::runtime_error(msg.str());
+        throw std::domain_error(msg.str());
 
     } else if (( 2 == dataDim) && ( 1 != count1) ) {
         msg << "Dimension of data in spatial distribution (" << dataDim
             << ") is incompatible with dimensions of a 2-D grid  ("
             << numX << "," << numY << "," << numZ << ").";
-        throw std::runtime_error(msg.str());
+        throw std::domain_error(msg.str());
 
     } else if (( 3 == dataDim) && ( 0 != count1) ) {
         msg << "Dimension of data in spatial distribution (" << dataDim
             << ") is incompatible with dimensions of a 3-D grid  ("
             << numX << "," << numY << "," << numZ << ").";
-        throw std::runtime_error(msg.str());
+        throw std::domain_error(msg.str());
     } // if/else
 
     if (dataDim > spaceDim) {
         msg << "Dimension of data in spatial distribution (" << dataDim
             << ") exceeds the number of dimensions of the coordinates ("
             << spaceDim << ").";
-        throw std::runtime_error(msg.str());
+        throw std::domain_error(msg.str());
     } // if
 
     assert(_cs);
@@ -524,7 +524,7 @@ spatialdata::spatialdb::SimpleGridDB::_checkCompatibility(void) const {
         msg << "Number of dimensions in coordinates of spatial distribution ("
             << spaceDim << ") does not match number of dimensions in coordinate "
             << "system (" << _cs->getSpaceDim() << ")";
-        throw std::runtime_error(msg.str());
+        throw std::domain_error(msg.str());
     } // if
 } // _checkCompatibility
 

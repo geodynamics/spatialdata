@@ -199,7 +199,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
         } else {
             std::ostringstream msg;
             msg << "Could not parse '" << token << "' into a SimpleDB setting.";
-            throw std::runtime_error(msg.str());
+            throw std::domain_error(msg.str());
         } // else
 
         buffer.str(parser.next());
@@ -255,7 +255,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
             if (!buffer.good()) {
                 std::ostringstream msg;
                 msg << "Read data for " << count << " out of " << numLocs << " points.\n"
-                                                                             "Error reading coordinates from buffer '" << buffer.str() << "'.";
+                    << "Error reading coordinates from buffer '" << buffer.str() << "'.";
                 throw std::runtime_error(msg.str());
             } // if
             buffer >> coordinates[iDim];

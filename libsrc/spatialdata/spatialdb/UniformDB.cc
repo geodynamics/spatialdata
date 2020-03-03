@@ -113,7 +113,7 @@ spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << getLabel()
             << "\n must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
@@ -134,7 +134,7 @@ spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,
             for (size_t iName = 0; iName < _numValues; ++iName) {
                 msg << "\n  " << _names[iName];
                 msg << "\n";
-                throw std::runtime_error(msg.str());
+                throw std::out_of_range(msg.str());
             } // for
         } // if
         _queryValues[iVal] = iName;
@@ -154,7 +154,7 @@ spatialdata::spatialdb::UniformDB::query(double* vals,
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getLabel() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
@@ -162,7 +162,7 @@ spatialdata::spatialdb::UniformDB::query(double* vals,
             << getLabel() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 
     for (size_t iVal = 0; iVal < _querySize; ++iVal) {

@@ -90,8 +90,7 @@ spatialdata::units::Parser::parse(const char* units) {
             PyErr_Clear();
         } // if
         std::ostringstream msg;
-        msg << "Could not get floating point value when parsing units string '"
-            << units << "'.";
+        msg << "Could not get floating point value when parsing units string '" << units << "'.";
         throw std::runtime_error(msg.str());
     } // if
     if (!PyFloat_Check(pyScale)) {
@@ -99,8 +98,7 @@ spatialdata::units::Parser::parse(const char* units) {
         Py_DECREF(pyUnit);
         PyErr_Clear();
         std::ostringstream msg;
-        msg << "Could not get floating point value when parsing units string '"
-            << units << "'.";
+        msg << "Could not get floating point value when parsing units string '" << units << "'.";
         throw std::runtime_error(msg.str());
     } // if
 

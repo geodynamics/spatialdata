@@ -93,12 +93,12 @@ spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Number of values (" << numVals << ") for query of gravity field spatial database " << getLabel()
             << "\n must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } else if (numVals > 3) {
         std::ostringstream msg;
         msg << "Number of values (" << numVals << ") for query of gravity field spatial database " << getLabel()
             << "\n must be 1, 2, or 3.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if/else
     assert(names && 0 < numVals);
 
@@ -114,7 +114,7 @@ spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
                 << getLabel() << "'. Available values are: 'gravity_field_x', 'gravity_field_y', 'gravity_field_z'.";
-            throw std::runtime_error(msg.str());
+            throw std::out_of_range(msg.str());
         } // if
     } // for
 } // queryVals
@@ -134,14 +134,14 @@ spatialdata::spatialdb::GravityField::query(double* vals,
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getLabel() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
             << getLabel() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
 
     if (geocoords::CoordSys::CARTESIAN == cs->getCSType()) {

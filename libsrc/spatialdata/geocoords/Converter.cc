@@ -46,17 +46,15 @@ spatialdata::geocoords::Converter::convert(double* coords,
     assert(csSrc);
 
     if (csSrc->getCSType() != csDest->getCSType()) {
-        throw std::runtime_error("Cannot convert between coordinate systems "
-                                 "of different types.");
+        throw std::invalid_argument("Cannot convert between coordinate systems of different types.");
     } // if
     if (csSrc->getSpaceDim() != csDest->getSpaceDim()) {
         std::ostringstream msg;
-        msg << "Cannot convert between coordinate systems with different "
-            << "spatial dimensions.\n"
+        msg << "Cannot convert between coordinate systems with different spatial dimensions.\n"
             << "Source and destination coordinate systems have "
             << csSrc->getSpaceDim() << " and " << csDest->getSpaceDim()
             << " dimensions, respectively.";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 
     switch (csSrc->getCSType()) {
@@ -75,7 +73,7 @@ spatialdata::geocoords::Converter::convert(double* coords,
         break;
     } // CARTESIAN
     default:
-        throw std::runtime_error("Could not parse coordinate system type.");
+        throw std::logic_error("Could not parse coordinate system type.");
     } // switch
 } // convert
 

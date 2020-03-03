@@ -50,9 +50,8 @@ spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims) {
     if (ndims < 1) {
         std::ostringstream msg;
         msg
-            << "Number of spatial dimensions (" << ndims
-            << ") must be >= 1.";
-        throw std::runtime_error(msg.str());
+            << "Number of spatial dimensions (" << ndims << ") must be >= 1.";
+        throw std::invalid_argument(msg.str());
     } // if
     _spaceDim = ndims;
 } // setSpaceDim
