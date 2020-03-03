@@ -120,7 +120,7 @@ spatialdata::spatialdb::SimpleDB::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Spatial database " << getLabel() << " has not been opened.\n"
             << "Please call Open() before calling QueryVals().";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
     _query->setQueryValues(names, numVals);
 } // queryVals
@@ -139,20 +139,20 @@ spatialdata::spatialdb::SimpleDB::query(double* vals,
             std::ostringstream msg;
             msg << "Spatial database " << getLabel() << " has not been opened.\n"
                 << "Please call open() before calling query().";
-            throw std::runtime_error(msg.str());
+            throw std::logic_error(msg.str());
         } // if
         else if (!_data) {
             std::ostringstream msg;
             msg << "Spatial database " << getLabel() << " does not contain any data.\n"
                 << "Database query aborted.";
-            throw std::runtime_error(msg.str());
+            throw std::domain_error(msg.str());
         } // if
         _query->query(vals, numVals, coords, numDims, pCSQuery);
     } catch (const OutOfBounds& err) {
         std::fill(vals, vals+numVals, 0);
         return 1;
     } catch (const std::exception& err) {
-        throw std::runtime_error(err.what());
+        throw;
     } catch (...) {
         throw std::runtime_error("Unknown error in SpatialDB query");
     } // catch

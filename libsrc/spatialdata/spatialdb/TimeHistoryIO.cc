@@ -50,8 +50,7 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
         std::ifstream filein(filename);
         if (!filein.is_open() || !filein.good()) {
             std::ostringstream msg;
-            msg << "Could not open time history file '" << filename
-                << "' for reading.\n";
+            msg << "Could not open time history file '" << filename << "' for reading.\n";
             throw std::runtime_error(msg.str());
         } // if
 
@@ -98,9 +97,8 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
                 buffer >> timeUnits;
             } else {
                 std::ostringstream msg;
-                msg << "Could not parse '" << token
-                    << "' into a TimeHistory setting.";
-                throw std::runtime_error(msg.str());
+                msg << "Could not parse '" << token << "' into a TimeHistory setting.";
+                throw std::domain_error(msg.str());
             } // else
 
             buffer.str(parser.next());
@@ -108,8 +106,7 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
             buffer >> token;
         } // while
         if (( token != "}") || !filein.good()) {
-            throw std::runtime_error("I/O error while parsing TimeHistory "
-                                     "settings.");
+            throw std::runtime_error("I/O error while parsing TimeHistory settings.");
         }
 
         bool ok = true;
@@ -188,14 +185,13 @@ spatialdata::spatialdb::TimeHistoryIO::write(const double* time,
             std::ostringstream msg;
             msg << "Number of time stamps (" << nptsT << ") does not match the "
                 << "number of amplitude points (" << nptsA << ").";
-            throw std::runtime_error(msg.str());
+            throw std::invalid_argument(msg.str());
         } // if
 
         std::ofstream fileout(filename);
         if (!fileout.is_open() || !fileout.good()) {
             std::ostringstream msg;
-            msg << "Could not open time history file " << filename
-                << "for writing.\n";
+            msg << "Could not open time history file " << filename << "for writing.\n";
             throw std::runtime_error(msg.str());
         } // if
 
@@ -207,8 +203,7 @@ spatialdata::spatialdb::TimeHistoryIO::write(const double* time,
                 << "  time-units = " << timeUnits << "\n"
                 << "}\n";
         if (!fileout.good()) {
-            throw std::runtime_error("I/O error while writing TimeHistory "
-                                     "settings.");
+            throw std::runtime_error("I/O error while writing TimeHistory settings.");
         } // if
 
         fileout << std::resetiosflags(std::ios::fixed)

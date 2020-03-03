@@ -200,7 +200,7 @@ spatialdata::spatialdb::UserFunctionDB::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << getLabel()
             << "\n must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
@@ -216,7 +216,7 @@ spatialdata::spatialdb::UserFunctionDB::setQueryValues(const char* const* names,
                 msg << "\n  " << viter->first;
             } // for
             msg << "\n";
-            throw std::runtime_error(msg.str());
+            throw std::out_of_range(msg.str());
         } // if
 
         _queryFunctions[iVal] = &iter->second;
@@ -240,18 +240,18 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getLabel()
             << " have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } else if (numVals != querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
             << getLabel() << " (" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } else if (numDims != _cs->getSpaceDim()) {
         std::ostringstream msg;
         msg << "Spatial dimension (" << numDims
             << ") does not match spatial dimension of spatial database (" << _cs->getSpaceDim() << ").";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 
     // Convert coordinates
@@ -303,13 +303,13 @@ spatialdata::spatialdb::UserFunctionDB::_checkAdd(const char* name,
         std::ostringstream msg;
         msg << "Cannot add user function for value " << name << " to spatial database " << getLabel()
             << ". User function for value already exists.";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
 
     if (!fn) {
         std::ostringstream msg;
         msg << "Cannot add NULL user function for value " << name << " to spatial database " << getLabel() << ".";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
 } // _checkAdd
 
@@ -323,7 +323,7 @@ spatialdata::spatialdb::UserFunctionDB::_checkCompatibility(void) const {
     if (!_cs) {
         std::ostringstream msg;
         msg << "Coordinate system has not been set for spatial database " << getLabel() << ".";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
 
     double coords[3] = { 0.0, 0.0, 0.0 };

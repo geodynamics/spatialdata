@@ -107,10 +107,10 @@ spatialdata::spatialdb::CompositeDB::setDBB(SpatialDB* db,
 void
 spatialdata::spatialdb::CompositeDB::open(void) {
     if (!_dbA) {
-        throw std::runtime_error("Cannot open database A. Database was not set.");
+        throw std::logic_error("Cannot open database A. Database was not set.");
     }
     if (!_dbB) {
-        throw std::runtime_error("Cannot open database B. Database was not set.");
+        throw std::logic_error("Cannot open database B. Database was not set.");
     }
 
     _dbA->open();
@@ -123,13 +123,13 @@ spatialdata::spatialdb::CompositeDB::open(void) {
 void
 spatialdata::spatialdb::CompositeDB::close(void) {
     if (!_dbA) {
-        throw std::runtime_error("Cannot close database A. Database was not set.");
-    }
-    if (!_dbB) {
-        throw std::runtime_error("Cannot close database B. Database was not set.");
-    }
-
+        throw std::logic_error("Cannot close database A. Database was not set.");
+    } // if
     _dbA->close();
+
+    if (!_dbB) {
+        throw std::logic_error("Cannot close database B. Database was not set.");
+    } // if
     _dbB->close();
 } // close
 
@@ -148,7 +148,7 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << getLabel()
             << " must be positive.\n";
-        throw std::runtime_error(msg.str());
+        throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
@@ -184,14 +184,12 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
 
         if (!foundA && !foundB) {
             std::ostringstream msg;
-            msg << "Value " << names[iVal]
-                << " not found in either database A or database B.";
-            throw std::runtime_error(msg.str());
+            msg << "Value " << names[iVal] << " not found in either database A or database B.";
+            throw std::domain_error(msg.str());
         } else if (foundA && foundB) {
             std::ostringstream msg;
-            msg << "Value " << names[iVal]
-                << " found in both database A or database B.";
-            throw std::runtime_error(msg.str());
+            msg << "Value " << names[iVal] << " found in both database A or database B.";
+            throw std::domain_error(msg.str());
         } // if/else
     } // for
     assert(_infoA->query_size + _infoB->query_size == numVals);
@@ -271,7 +269,7 @@ spatialdata::spatialdb::CompositeDB::query(double* vals,
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getLabel()
             << " have not been set. Please call setQueryValues() before query().\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
     else if (numVals != querySize) {
         std::ostringstream msg;
@@ -279,7 +277,7 @@ spatialdata::spatialdb::CompositeDB::query(double* vals,
             << getLabel()
             << "(" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
-        throw std::runtime_error(msg.str());
+        throw std::logic_error(msg.str());
     } // if
 
     // Query database A

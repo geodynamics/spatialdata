@@ -149,11 +149,11 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
     } // for
 
     // Attempt to create query with no values.
-    CPPUNIT_ASSERT_THROW(_db->setQueryValues(NULL, 0), std::runtime_error);
+    CPPUNIT_ASSERT_THROW(_db->setQueryValues(NULL, 0), std::invalid_argument);
 
     // Attempt to create query with value not in database (verify failure).
     const char* badname = "lkdfjglkdfjgljsdf";
-    CPPUNIT_ASSERT_THROW(_db->setQueryValues(&badname, 1), std::runtime_error);
+    CPPUNIT_ASSERT_THROW(_db->setQueryValues(&badname, 1), std::out_of_range);
 
     _db->close();
 } // testQueryVals
