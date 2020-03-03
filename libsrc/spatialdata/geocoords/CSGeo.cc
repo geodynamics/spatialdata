@@ -26,6 +26,7 @@ extern "C" {
 }
 
 #include <cmath> // USES M_PI, cos(), sin()
+#include <cstring> // USES memcpy()
 #include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
 
