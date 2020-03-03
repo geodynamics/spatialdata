@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -13,17 +13,16 @@
 #
 # ======================================================================
 #
-
-## @file spatialdata/applications/gensimpledb.py
-
-## @brief Generic use of GenSimpleDBApp.
+# @file spatialdata/applications/gensimpledb.py
+#
+# @brief Generic use of GenSimpleDBApp.
 
 # ----------------------------------------------------------------------
 if __name__ == '__main__':
-  from spatialdata.spatialdb.generator.GenSimpleDBApp import GenSimpleDBApp
+    from spatialdata.spatialdb.generator.GenSimpleDBApp import GenSimpleDBApp
 
-  app = GenSimpleDBApp()
-  app.run()
+    app = GenSimpleDBApp()
+    app.run()
 
 
-# End of file 
+# End of file

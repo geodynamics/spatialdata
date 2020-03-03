@@ -22,8 +22,7 @@
 namespace spatialdata {
   namespace geocoords {
 
-    class CoordSys
-    { // class CoordSys
+    class CoordSys {
     public :
       // PUBLIC METHODS /////////////////////////////////////////////////
 
@@ -61,14 +60,22 @@ namespace spatialdata {
        *
        * @returns Number of dimensions
        */
-      int spaceDim(void) const;
-
-      /// Initialize the coordinate system.
-      virtual
-      void initialize(void) = 0;
+      int getSpaceDim(void) const;
 
       /// Get type of coordinate system
-      CSTypeEnum csType(void) const;
+      CSTypeEnum getCSType(void) const;
+
+    /** Pickle coordinate system to ascii stream.
+     *
+     * @param s Output stream
+     */
+    virtual void pickle(std::ostream& s) const = 0;
+
+    /** Unpickle coordinate system from ascii stream.
+     *
+     * @param s Input stream
+     */
+    virtual void unpickle(std::istream& s) = 0;
 
     }; // class CoordSys
 

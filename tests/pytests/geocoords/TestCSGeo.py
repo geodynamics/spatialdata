@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -16,27 +16,25 @@
 
 import unittest
 
+from spatialdata.geocoords.CSGeo import CSGeo
+
+
 class TestCSGeo(unittest.TestCase):
 
-  def test_initialize(self):
-    from spatialdata.geocoords.CSGeo import CSGeo
-    cs = CSGeo()
-    cs.inventory.ellipsoid = "clrk66"
-    cs.inventory.datumHoriz = "NAD27"
-    cs.inventory.datumVert = "mean sea level"
-    cs.inventory.units = "km"
-    cs.inventory.spaceDim = 2
-    cs._configure()
-    cs.initialize()
+    def test_constructor(self):
+        cs = CSGeo()
+        self.assertEqual(3, cs.getSpaceDim())
 
-    self.assertEqual("clrk66", cs.ellipsoid())
-    self.assertEqual("NAD27", cs.datumHoriz())
-    self.assertEqual("mean sea level", cs.datumVert())
-    self.assertEqual(False, cs.isGeocentric())
-    self.assertEqual(1.0e+3, cs.toMeters())
-    self.assertEqual(2, cs.spaceDim())
+    def test_accessors(self):
+        projString = "+proj=utm +zone=11"
 
-    return
+        cs = CSGeo()
+        cs.inventory.specification = projString
+        cs.inventory.spaceDim = 2
+        cs._configure()
+
+        self.assertEqual(projString, cs.getString())
+        self.assertEqual(2, cs.getSpaceDim())
 
 
-# End of file 
+# End of file

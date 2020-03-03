@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,17 +11,14 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/units/NondimElasticDynamic.py
-##
+#
 # @brief Python manager for nondimensionalizing dynamic
 # elasticity problems.
-##
+#
 # Factory: nondimensional
 
 from Nondimensional import Nondimensional
-
-# NondimElasticDynamic class
 
 
 class NondimElasticDynamic(Nondimensional):
@@ -31,44 +26,34 @@ class NondimElasticDynamic(Nondimensional):
     Python manager for nondimensionalizing dynamic elasticity problems.
 
     Factory: nondimensional
+
+    INVENTORY
+
+    Properties
+      - *shear_wave_speed* Shear wave speed for velocity scale of problem.
+      - *density* Mass density for density scale of problem.
+      - *wave_period* Period of shear wave for time scale of problem.
+
+    Facilities
+      - None
     """
 
-    # INVENTORY //////////////////////////////////////////////////////////
+    import pyre.inventory
 
-    class Inventory(Nondimensional.Inventory):
-        """
-        Python object for managing NondimElasticDynamic facilities and
-        properties.
-        """
+    from pyre.units.length import meter
+    from pyre.units.time import second
+    from pyre.units.mass import kg
+    shearWaveSpeed = pyre.inventory.dimensional("shear_wave_speed", default=3.0e+3 * meter / second,
+                                                validator=pyre.inventory.greater(0.0 * meter / second))
+    shearWaveSpeed.meta['tip'] = "Shear wave speed to nondimensionalize problem."
 
-        # @class Inventory
-        # Python object for managing NondimElasticDynamic facilities and
-        # properties.
-        ##
-        # \b Properties
-        # @li \b shear_wave_speed Shear wave speed to nondimensionalize problem.
-        # @li \b mass_density Mass density to nondimensionalize problem.
-        # @li \b wave_period Period of wave to nondimensionalize problem.
-        ##
-        # \b Facilities
-        # @li None
+    massDensity = pyre.inventory.dimensional("mass_density", default=3.0e+3 * kg / meter**3,
+                                             validator=pyre.inventory.greater(0.0 * kg / meter**3))
+    massDensity.meta['tip'] = "Mass density to nondimensionalize problem"
 
-        import pyre.inventory
-
-        from pyre.units.length import meter
-        from pyre.units.time import second
-        from pyre.units.mass import kg
-        shearWaveSpeed = pyre.inventory.dimensional("shear_wave_speed", default=3.0e+3 * meter / second,
-                                                    validator=pyre.inventory.greater(0.0 * meter / second))
-        shearWaveSpeed.meta['tip'] = "Shear wave speed to nondimensionalize problem."
-
-        massDensity = pyre.inventory.dimensional("mass_density", default=3.0e+3 * kg / meter**3,
-                                                 validator=pyre.inventory.greater(0.0 * kg / meter**3))
-        massDensity.meta['tip'] = "Mass density to nondimensionalize problem"
-
-        wavePeriod = pyre.inventory.dimensional("wave_period", default=1.0 * second,
-                                                validator=pyre.inventory.greater(0.0 * second))
-        wavePeriod.meta['tip'] = "Period of wave to nondimensionalize problem."
+    wavePeriod = pyre.inventory.dimensional("wave_period", default=1.0 * second,
+                                            validator=pyre.inventory.greater(0.0 * second))
+    wavePeriod.meta['tip'] = "Period of wave to nondimensionalize problem."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -77,7 +62,6 @@ class NondimElasticDynamic(Nondimensional):
         Constructor.
         """
         Nondimensional.__init__(self, name)
-        return
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -93,7 +77,6 @@ class NondimElasticDynamic(Nondimensional):
         self.setTimeScale(period)
         self.setDensityScale(density)
         self.computePressureScale()
-        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////

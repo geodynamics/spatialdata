@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -39,10 +39,10 @@ class TestNondimElasticDynamic(unittest.TestCase):
         pressureScale = densityScale * velocityScale**2
 
         # Check defaults
-        self.assertEqual(lengthScale, dim.lengthScale())
-        self.assertEqual(pressureScale, dim.pressureScale())
-        self.assertEqual(timeScale, dim.timeScale())
-        self.assertEqual(densityScale, dim.densityScale())
+        self.assertEqual(lengthScale, dim.getLengthScale())
+        self.assertEqual(pressureScale, dim.getPressureScale())
+        self.assertEqual(timeScale, dim.getTimeScale())
+        self.assertEqual(densityScale, dim.getDensityScale())
 
         return
 

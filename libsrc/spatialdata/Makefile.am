@@ -18,7 +18,8 @@ SUBDIRS = \
 	geocoords \
 	spatialdb \
 	units \
-	utils
+	utils \
+	testing
 
 lib_LTLIBRARIES = libspatialdata.la
 
@@ -27,11 +28,7 @@ libspatialdata_la_SOURCES = \
 	geocoords/CoordSys.cc \
 	geocoords/CSCart.cc \
 	geocoords/CSGeo.cc \
-	geocoords/CSGeoLocalCart.cc \
-	geocoords/CSGeoProj.cc \
 	geocoords/CSPicklerAscii.cc \
-	geocoords/Geoid.cc \
-	geocoords/Projector.cc \
 	spatialdb/CompositeDB.cc \
 	spatialdb/GocadVoxet.cc \
 	spatialdb/GravityField.cc \
@@ -61,7 +58,15 @@ libspatialdata_la_LIBADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 AM_CPPFLAGS = -I$(top_srcdir)/libsrc
-AM_CPPFLAGS += -DDATADIR=$(pkgdatadir)/geocoords $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
+AM_CPPFLAGS += -DDATADIR=$(pkgdatadir)/geocoords $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR)
 
 
-# End of file 
+if ENABLE_TESTING
+libspatialdata_la_SOURCES += \
+	testing/TestDriver.cc
+
+libspatialdata_la_LIBADD += -lcppunit
+endif
+
+
+# End of file

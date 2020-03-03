@@ -40,13 +40,13 @@ namespace spatialdata {
        *
        * @param filename Filename of database
        */
-      void filename(const char* filename);
+      void setFilename(const char* filename);
 
       /** Get filename for database.
        *
        * @returns Filename of database
        */
-      const char* filename(void) const;
+      const char* getFilename(void) const;
 
       /** Read the database.
        *

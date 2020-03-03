@@ -22,8 +22,7 @@
 namespace spatialdata {
   namespace geocoords {
     
-    class CSCart : public CoordSys
-    { // class CSCart
+    class CSCart : public CoordSys {
 
     public :
       // PUBLIC METHODS /////////////////////////////////////////////////
@@ -40,22 +39,18 @@ namespace spatialdata {
        */
       virtual CoordSys* clone(void) const;
 
-      /// Initialize the coordinate system.
-      virtual void initialize(void);
-
-      /** Set scale factor for converting coordinates to SI units
-       * (meters).
+      /** Set scale factor for converting coordinates to SI units (meters).
        *
        * @param scale Scale factor
        */
-      void toMeters(const double scale);
-
+      void setToMeters(const double scale);
+      
       /** Get scale factor to convert coordinates to SI units (meters).
        *
        * @returns Scale factor
        */
-      double toMeters(void) const;
-      
+      double getToMeters(void) const;
+
       /** Pickle coordinate system to ascii stream.
        *
        * @param s Output stream

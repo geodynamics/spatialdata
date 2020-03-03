@@ -15,7 +15,7 @@
 #
 
 dist_bin_SCRIPTS = \
-	gensimpledb.py \
-	pyconvert.py
+	gensimpledb.py
+
 
 # End of file 

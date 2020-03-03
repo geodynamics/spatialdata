@@ -28,33 +28,31 @@
 
 #include <iosfwd> // USES std::istream, std::ostream
 
-/// C++ object for pickling/unpickling coordinate systems for ascii streams.
-class spatialdata::geocoords::CSPicklerAscii
-{ // class CoordSys
-public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::geocoords::CSPicklerAscii {
+public:
 
-  /** Pickle coordinate system.
-   *
-   * @param s Ouput stream
-   * @param pCS Pointer to coordinate system
-   */
-  static
-  void pickle(std::ostream& s,
-	      const CoordSys* pCS);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /** Unpickle coordinate system.
-   *
-   * @param s Input stream
-   * @param ppCS Pointer to pointer to coordinate system
-   */
-  static
-  void unpickle(std::istream& s,
-		CoordSys** ppCS);
+    /** Pickle coordinate system.
+     *
+     * @param s Ouput stream
+     * @param cs Pointer to coordinate system
+     */
+    static
+    void pickle(std::ostream& s,
+                const CoordSys* cs);
+
+    /** Unpickle coordinate system.
+     *
+     * @param s Input stream
+     * @param cs Pointer to pointer to coordinate system
+     */
+    static
+    void unpickle(std::istream& s,
+                  CoordSys** cs);
 
 }; // class CSPicklerAscii
 
 #endif // spatialdata_geocoords_cspicklerascii_hh
 
-
-// End of file 
+// End of file

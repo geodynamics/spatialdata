@@ -21,59 +21,67 @@
 // Set name of file for input/output.
 inline
 void
-spatialdata::utils::PointsStream::filename(const char* filename) {
-  _filename = filename;
+spatialdata::utils::PointsStream::setFilename(const char* filename) {
+    _filename = filename;
 }
+
 
 // Get name of file for input/output.
 inline
 const char*
-spatialdata::utils::PointsStream::filename(void) const {
-  return _filename.c_str();
+spatialdata::utils::PointsStream::getFilename(void) const {
+    return _filename.c_str();
 }
+
 
 // Set comment flag.
 inline
 void
-spatialdata::utils::PointsStream::commentFlag(const char* flag) {
-  _commentFlag = flag;
+spatialdata::utils::PointsStream::setCommentFlag(const char* flag) {
+    _commentFlag = flag;
 }
+
 
 // Get comment flag.
 inline
 const char*
-spatialdata::utils::PointsStream::commentFlag(void) const {
-  return _commentFlag.c_str();
+spatialdata::utils::PointsStream::getCommentFlag(void) const {
+    return _commentFlag.c_str();
 }
+
 
 // Set field width.
 inline
 void
-spatialdata::utils::PointsStream::fieldWidth(const int width) {
-  _fieldWidth = width;
+spatialdata::utils::PointsStream::setFieldWidth(const size_t width) {
+    _fieldWidth = width;
 }
+
 
 // Get field width.
 inline
-int
-spatialdata::utils::PointsStream::fieldWidth(void) const {
-  return _fieldWidth;
+size_t
+spatialdata::utils::PointsStream::getFieldWidth(void) const {
+    return _fieldWidth;
 }
+
 
 // Set precision.
 inline
 void
-spatialdata::utils::PointsStream::precision(const int value) {
-  _precision = value;
+spatialdata::utils::PointsStream::setPrecision(const size_t value) {
+    _precision = value;
 }
+
 
 // Get precision.
 inline
-int
-spatialdata::utils::PointsStream::precision(void) const {
-  return _precision;
+size_t
+spatialdata::utils::PointsStream::getPrecision(void) const {
+    return _precision;
 }
+
 
 #endif
 
-// End of file 
+// End of file

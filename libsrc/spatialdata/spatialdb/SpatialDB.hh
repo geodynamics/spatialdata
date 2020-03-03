@@ -28,188 +28,186 @@
 #include <string> // USES std::string
 
 /// C++ manager for spatial database.
-class spatialdata::spatialdb::SpatialDB
-{ // class SpatialDB
+class spatialdata::spatialdb::SpatialDB { // class SpatialDB
+public:
 
- public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
-  
-  /// Default constructor.
-  SpatialDB(void);
-  
-  /** Constructor with label.
-   *
-   * @param label Label for database
-   */
-  SpatialDB(const char* label);
-  
-  /// Default destructor.
-  virtual
-  ~SpatialDB(void);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /** Set label of spatial database.
-   *
-   * @param label Label for database
-   */
-  void label(const char* label);
-  
-  /** Get label of spatial database.
-   *
-   * @returns Label for database
-   */
-  const char* label(void) const;
+    /// Default constructor.
+    SpatialDB(void);
 
-  /// Open the database and prepare for querying.
-  virtual
-  void open(void) = 0;
+    /** Constructor with label.
+     *
+     * @param label Label for database
+     */
+    SpatialDB(const char* label);
 
-  /// Close the database.
-  virtual
-  void close(void) = 0;
+    /// Default destructor.
+    virtual ~SpatialDB(void);
 
-  /** Set values to be returned by queries.
-   *
-   * @pre Must call open() before queryVals()
-   *
-   * @param names Names of values to be returned in queries
-   * @param numVals Number of values to be returned in queries
-   */
-  virtual
-  void queryVals(const char* const* names,
-		 const int numVals) = 0;
+    /** Set label of spatial database.
+     *
+     * @param label Label for database
+     */
+    void setLabel(const char* label);
 
-  /** Query the database.
-   *
-   * @note vals should be preallocated to accommodate numVals values.
-   *
-   * @pre Must call open() before query().
-   *
-   * @param vals Array for computed values (output from query), must be
-   *   allocated BEFORE calling query().
-   * @param numVals Number of values expected (size of pVals array)
-   * @param coords Coordinates of point for query [numDims].
-   * @param numDims Number of dimensions for coordinates.
-   * @param csQuery Coordinate system of coordinates.
-   *
-   * @returns 0 on success, 1 on failure (i.e., could not interpolate)
-   */
-  virtual
-  int query(double* vals,
-	    const int numVals,
-	    const double* coords,
-	    const int numDims,
-	    const spatialdata::geocoords::CoordSys* csQuery) = 0;
+    /** Get label of spatial database.
+     *
+     * @returns Label for database
+     */
+    const char* getLabel(void) const;
 
-  /** Query the database.
-   *
-   * @note vals should be preallocated to accommodate numVals values.
-   *
-   * @pre Must call open() before query().
-   *
-   * @param vals Array for computed values (output from query), must be
-   *   allocated BEFORE calling query().
-   * @param numVals Number of values expected (size of pVals array)
-   * @param coords Coordinates of point for query [numDims].
-   * @param numDims Number of dimensions for coordinates.
-   * @param csQuery Coordinate system of coordinates.
-   *
-   * @returns 0 on success, 1 on failure (i.e., could not interpolate)
-   */
-  int query(float* vals,
-	    const int numVals,
-	    const float* coords,
-	    const int numDims,
-	    const spatialdata::geocoords::CoordSys* csQuery);
+    /// Open the database and prepare for querying.
+    virtual
+    void open(void) = 0;
 
-  /** Perform multiple queries of the database.
-   *
-   * @note vals should be preallocated to accommodate numVals values
-   * at numLocs locations.
-   *
-   * @note err should be preallocated to accommodate numLocs values.
-   *
-   * @pre Must call open() before query().
-   *
-   * @param vals Array for computed values (output from query), must be
-   *   allocated BEFORE calling query() [numLocs*numVals].
-   * @param numLocsV Number of locations.
-   * @param numValsV Number of values expected.
-   * @param err Array for error flag values (output from query), must be
-   *   allocated BEFORE calling query() [numLocs].
-   * @param numLocsE Number of locations.
-   * @param coords Coordinates of point for query [numLocs*numDims].
-   * @param numLocsC Number of locations.
-   * @param numDimsC Number of dimensions for coordinates.
-   * @param csQuery Coordinate system of coordinates.
-   */
-  void multiquery(double* vals,
-		  const int numLocsV,
-		  const int numValsV,
-		  int* err,
-		  const int numLocsE,
-		  const double* coords,
-		  const int numLocsC,
-		  const int numDimsC,
-		  const spatialdata::geocoords::CoordSys* csQuery);
+    /// Close the database.
+    virtual
+    void close(void) = 0;
 
-  /** Perform multiple queries of the database.
-   *
-   * @note vals should be preallocated to accommodate numVals values
-   * at numLocs locations.
-   *
-   * @note err should be preallocated to accommodate numLocs values.
-   *
-   * @pre Must call open() before query().
-   *
-   * @param vals Array for computed values (output from query), must be
-   *   allocated BEFORE calling query() [numLocs*numVals].
-   * @param numLocsV Number of locations.
-   * @param numValsV Number of values expected.
-   * @param err Array for error flag values (output from query), must be
-   *   allocated BEFORE calling query() [numLocs].
-   * @param numLocsE Number of locations.
-   * @param coords Coordinates of point for query [numLocs*numDims].
-   * @param numLocsC Number of locations.
-   * @param numDimsC Number of dimensions for coordinates.
-   * @param csQuery Coordinate system of coordinates.
-   */
-  void multiquery(float* vals,
-		  const int numLocsV,
-		  const int numValsV,
-		  int* err,
-		  const int numLocsE,
-		  const float* coords,
-		  const int numLocsC,
-		  const int numDimsC,
-		  const spatialdata::geocoords::CoordSys* csQuery);
+    /** Set values to be returned by queries.
+     *
+     * @pre Must call open() before setQueryValues()
+     *
+     * @param names Names of values to be returned in queries
+     * @param numVals Number of values to be returned in queries
+     */
+    virtual
+    void setQueryValues(const char* const* names,
+                        const size_t numVals) = 0;
 
-  // PROTECTED METHODS //////////////////////////////////////////////////
-protected :
-  
-  /** Convert values to SI units.
-   *
-   * @param data Array of data.
-   * @param units Units for values.
-   * @param numLocs Number of locations.
-   * @param numVals Number of values per location.
-   */
-  static
-  void _convertToSI(double* vals,
-		    std::string* units,
-		    const int numLocs,
-		    const int numVals);
+    /** Query the database.
+     *
+     * @note vals should be preallocated to accommodate numVals values.
+     *
+     * @pre Must call open() before query().
+     *
+     * @param vals Array for computed values (output from query), must be
+     *   allocated BEFORE calling query().
+     * @param numVals Number of values expected (size of pVals array)
+     * @param coords Coordinates of point for query [numDims].
+     * @param numDims Number of dimensions for coordinates.
+     * @param csQuery Coordinate system of coordinates.
+     *
+     * @returns 0 on success, 1 on failure (i.e., could not interpolate)
+     */
+    virtual
+    int query(double* vals,
+              const size_t numVals,
+              const double* coords,
+              const size_t numDims,
+              const spatialdata::geocoords::CoordSys* csQuery) = 0;
 
-  // PRIVATE METHODS ////////////////////////////////////////////////////
- private :
-  
-  SpatialDB(const SpatialDB& data); ///< Not implemented
-  const SpatialDB& operator=(const SpatialDB& data); ///< Not implemented
-  
-private :
- // PRIVATE MEMBERS ////////////////////////////////////////////////////
-  
-  /** Label of spatial database */
-  std::string _label;
+    /** Query the database.
+     *
+     * @note vals should be preallocated to accommodate numVals values.
+     *
+     * @pre Must call open() before query().
+     *
+     * @param vals Array for computed values (output from query), must be
+     *   allocated BEFORE calling query().
+     * @param numVals Number of values expected (size of pVals array)
+     * @param coords Coordinates of point for query [numDims].
+     * @param numDims Number of dimensions for coordinates.
+     * @param csQuery Coordinate system of coordinates.
+     *
+     * @returns 0 on success, 1 on failure (i.e., could not interpolate)
+     */
+    int query(float* vals,
+              const size_t numVals,
+              const float* coords,
+              const size_t numDims,
+              const spatialdata::geocoords::CoordSys* csQuery);
+
+    /** Perform multiple queries of the database.
+     *
+     * @note vals should be preallocated to accommodate numVals values
+     * at numLocs locations.
+     *
+     * @note err should be preallocated to accommodate numLocs values.
+     *
+     * @pre Must call open() before query().
+     *
+     * @param vals Array for computed values (output from query), must be
+     *   allocated BEFORE calling query() [numLocs*numVals].
+     * @param numLocsV Number of locations.
+     * @param numValsV Number of values expected.
+     * @param err Array for error flag values (output from query), must be
+     *   allocated BEFORE calling query() [numLocs].
+     * @param numLocsE Number of locations.
+     * @param coords Coordinates of point for query [numLocs*numDims].
+     * @param numLocsC Number of locations.
+     * @param numDimsC Number of dimensions for coordinates.
+     * @param csQuery Coordinate system of coordinates.
+     */
+    void multiquery(double* vals,
+                    const size_t numLocsV,
+                    const size_t numValsV,
+                    int* err,
+                    const size_t numLocsE,
+                    const double* coords,
+                    const size_t numLocsC,
+                    const size_t numDimsC,
+                    const spatialdata::geocoords::CoordSys* csQuery);
+
+    /** Perform multiple queries of the database.
+     *
+     * @note vals should be preallocated to accommodate numVals values
+     * at numLocs locations.
+     *
+     * @note err should be preallocated to accommodate numLocs values.
+     *
+     * @pre Must call open() before query().
+     *
+     * @param vals Array for computed values (output from query), must be
+     *   allocated BEFORE calling query() [numLocs*numVals].
+     * @param numLocsV Number of locations.
+     * @param numValsV Number of values expected.
+     * @param err Array for error flag values (output from query), must be
+     *   allocated BEFORE calling query() [numLocs].
+     * @param numLocsE Number of locations.
+     * @param coords Coordinates of point for query [numLocs*numDims].
+     * @param numLocsC Number of locations.
+     * @param numDimsC Number of dimensions for coordinates.
+     * @param csQuery Coordinate system of coordinates.
+     */
+    void multiquery(float* vals,
+                    const size_t numLocsV,
+                    const size_t numValsV,
+                    int* err,
+                    const size_t numLocsE,
+                    const float* coords,
+                    const size_t numLocsC,
+                    const size_t numDimsC,
+                    const spatialdata::geocoords::CoordSys* csQuery);
+
+    // PROTECTED METHODS //////////////////////////////////////////////////
+protected:
+
+    /** Convert values to SI units.
+     *
+     * @param data Array of data.
+     * @param units Units for values.
+     * @param numLocs Number of locations.
+     * @param numVals Number of values per location.
+     */
+    static
+    void _convertToSI(double* vals,
+                      std::string* units,
+                      const size_t numLocs,
+                      const size_t numVals);
+
+    // PRIVATE METHODS ////////////////////////////////////////////////////
+private:
+
+    SpatialDB(const SpatialDB& data); ///< Not implemented
+    const SpatialDB& operator=(const SpatialDB& data); ///< Not implemented
+
+private:
+
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////
+
+    std::string _label; ///< Label of spatial database.
 
 }; // class SpatialDB
 
@@ -217,5 +215,4 @@ private :
 
 #endif // spatialdata_spatialdb_spatialdb_hh
 
-
-// End of file 
+// End of file

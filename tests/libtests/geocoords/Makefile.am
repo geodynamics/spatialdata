@@ -16,32 +16,20 @@
 
 include $(top_srcdir)/check.am
 
-SUBDIRS = data
-
 TESTS = testgeocoords
 
 check_PROGRAMS = testgeocoords
 
 testgeocoords_SOURCES = \
-	TestConverter.cc \
 	TestCSCart.cc \
 	TestCSGeo.cc \
-	TestCSGeoLocalCart.cc \
-	TestCSGeoProj.cc \
 	TestCSPicklerAscii.cc \
-	TestGeoid.cc \
-	TestProjector.cc \
-	testgeocoords.cc
+	TestConverter.cc \
+	TestConverter_Cases.cc \
+	test_driver.cc
 
-noinst_HEADERS = \
-	TestConverter.hh \
-	TestCSCart.hh \
-	TestCSGeo.hh \
-	TestCSGeoLocalCart.hh \
-	TestCSGeoProj.hh \
-	TestCSPicklerAscii.hh \
-	TestGeoid.hh \
-	TestProjector.hh
+#TestConverter.cc
+
 
 testgeocoords_LDFLAGS =
 
@@ -52,4 +40,4 @@ testgeocoords_LDADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
-# End of file 
+# End of file

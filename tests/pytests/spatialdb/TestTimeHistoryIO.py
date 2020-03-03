@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -18,41 +18,48 @@ import unittest
 
 import numpy
 
+
+# ----------------------------------------------------------------------------------------------------------------------
 class TestTimeHistoryIO(unittest.TestCase):
 
-  def test_write(self):
-    """
-    Test write().
-    """
-    filename = "data/test.timedb"
-    time = numpy.array( [0.0, 2.0, 6.0, 7.0, 10.0], dtype=numpy.float64)
-    amplitude = numpy.array( [0.0, 0.2, 0.1, -0.1, 2.0], dtype=numpy.float64)
-    units = "year"
-  
-    # Write database
-    from spatialdata.spatialdb.TimeHistoryIO import write
-    write(time, amplitude, units, filename)
+    def test_write(self):
+        """
+        Test write().
+        """
+        filename = "data/test.timedb"
+        time = numpy.array([0.0, 2.0, 6.0, 7.0, 10.0], dtype=numpy.float64)
+        amplitude = numpy.array([0.0, 0.2, 0.1, -0.1, 2.0], dtype=numpy.float64)
+        units = "year"
 
-    # Test write
-    filenameE = "data/test_okay.timedb"
-    
-    fin = open(filenameE, "r")
-    linesE = fin.readlines()
-    fin.close()
+        # Write database
+        from spatialdata.spatialdb.TimeHistoryIO import write
+        write(time, amplitude, units, filename)
 
-    fin = open(filename, "r")
-    lines = fin.readlines()
-    fin.close()
+        # Test write
+        filenameE = "data/test_okay.timedb"
 
-    self.assertEqual(len(linesE), len(lines))
-    iline = 0
-    for (lineE, line) in zip(linesE, lines):
-      if lineE != line:
-        print "Error found in line %d in file '%s' is incorrect." % (iline, filename)
-        self.failIf(True)
-      iline += 1
+        fin = open(filenameE, "r")
+        linesE = fin.readlines()
+        fin.close()
 
-    return
+        fin = open(filename, "r")
+        lines = fin.readlines()
+        fin.close()
+
+        self.assertEqual(len(linesE), len(lines))
+        iline = 0
+        for (lineE, line) in zip(linesE, lines):
+            if lineE != line:
+                print "Error found in line %d in file '%s' is incorrect." % (iline, filename)
+                self.failIf(True)
+            iline += 1
 
 
-# End of file 
+# ----------------------------------------------------------------------------------------------------------------------
+if __name__ == '__main__':
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestSimpleDB))
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+# End of file

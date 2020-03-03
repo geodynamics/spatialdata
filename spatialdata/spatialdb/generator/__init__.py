@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,17 +11,16 @@
 #
 # ----------------------------------------------------------------------
 #
+# @file spatialdata/spatialdb/generator/__init__.py
+#
+# @brief Python spatialdata generator module initialization.
 
-## @file spatialdata/spatialdb/generator/__init__.py
-##
-## @brief Python spatialdata generator module initialization.
-
-__all__ = ['Filter',
-           'Filters',
-           'GenSimpleDBApp',
-           'Geometry',
-           'Value',
-           'Values']
+__all__ = [
+    "GenSimpleDBApp",
+    "Geometry",
+    "Value",
+    "Shaper",
+]
 
 
 # End of file

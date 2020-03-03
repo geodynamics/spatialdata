@@ -44,25 +44,25 @@ namespace spatialdata {
        *
        * @param label Label for time history.
        */
-      void label(const char* label);
+      void setLabel(const char* label);
   
       /** Get label of time history.
        *
        * @returns Label for time history.
        */
-      const char* label(void) const;
+      const char* getLabel(void) const;
       
       /** Set filename for time history.
        *
        * @param name Name of file.
        */
-      void filename(const char* name);
+      void setFilename(const char* name);
       
       /** Set filename for time history.
        *
        * @return Name of file.
        */
-      const char* filename(void);
+      const char* getFilename(void);
       
       /// Open the time history and prepare for querying.
       void open(void);

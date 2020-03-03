@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -16,20 +16,23 @@
 
 import unittest
 
+from spatialdata.geocoords.CSCart import CSCart
+
+
 class TestCSCart(unittest.TestCase):
 
-  def test_initialize(self):
-    from spatialdata.geocoords.CSCart import CSCart
-    cs = CSCart()
-    cs.inventory.units = "km"
-    cs.inventory.spaceDim = 2
-    cs._configure()
-    cs.initialize()
+    def test_constructor(self):
+        cs = CSCart()
+        self.assertEqual(3, cs.getSpaceDim())
 
-    self.assertEqual(1.0e+3, cs.toMeters())
-    self.assertEqual(2, cs.spaceDim())
+    def test_accessors(self):
+        cs = CSCart()
+        cs.inventory.units = "km"
+        cs.inventory.spaceDim = 2
+        cs._configure()
 
-    return
+        self.assertEqual(1.0e+3, cs.getToMeters())
+        self.assertEqual(2, cs.getSpaceDim())
 
 
-# End of file 
+# End of file

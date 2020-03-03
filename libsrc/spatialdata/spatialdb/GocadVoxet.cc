@@ -25,7 +25,7 @@
 
 #include <stdexcept> // USES std::runtime_error
 #include <sstream> // USES std::ostringsgream
-#include <string.h> // USES memcpy() and strcmp()
+#include <cstring> // USES memcpy() and strcmp()
 #include <assert.h> // USES assert()
 
 #if defined(WORDS_BIGENDIAN)

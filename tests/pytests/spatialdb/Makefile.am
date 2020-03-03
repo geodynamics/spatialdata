@@ -18,8 +18,8 @@ include $(top_srcdir)/check.am
 
 SUBDIRS = data
 
-TESTS = testspatial.py
-dist_check_SCRIPTS = testspatial.py
+TESTS = test_spatial.py
+dist_check_SCRIPTS = test_spatial.py
 
 if ENABLE_SCEC_CVM_H
   TESTS += test_sceccvmh.py
@@ -43,16 +43,14 @@ dist_noinst_PYTHON = \
 	TestSCECCVMH.py.in
 
 dist_data_DATA = \
-	testgen1din2d.odb \
-	testgen1din2d_one.odb \
-	testgen1din2d_two.odb \
-	gensimpledb.cfg
+	gensimpledb.cfg \
+	testgen1din2d.odb
 
 do_build = sed -e s%[@]SCECCVMH_DATADIR[@]%${SCECCVMH_DATADIR}%g
 
 $(srcdir)/TestSCECCVMH.py: $(srcdir)/TestSCECCVMH.py.in Makefile
 	$(do_build) < $< > $@
-testspatial.py: $(srcdir)/TestSCECCVMH.py
+test_sceccvmh.py: $(srcdir)/TestSCECCVMH.py
 
 # 'export' the input files by performing a mock install
 export_datadir = $(top_builddir)/tests/pytests/spatialdb

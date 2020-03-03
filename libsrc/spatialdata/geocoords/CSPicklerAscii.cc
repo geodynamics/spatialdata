@@ -21,8 +21,6 @@
 
 #include "CSCart.hh" // USES CSCart
 #include "CSGeo.hh" // USES CSGeo
-#include "CSGeoLocalCart.hh" // USES CSGeoLocalCart
-#include "CSGeoProj.hh" // USES CSGeoProj
 
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
@@ -33,45 +31,41 @@
 // Pickle coordinate system.
 void
 spatialdata::geocoords::CSPicklerAscii::pickle(std::ostream& s,
-					       const CoordSys* pCS)
-{ // pickle
-  assert(pCS);
+                                               const CoordSys* cs) {
+    assert(cs);
 
-  pCS->pickle(s);
+    cs->pickle(s);
 } // pickle
+
 
 // ----------------------------------------------------------------------
 // Unpickle coordinate system.
 void
 spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
-						 CoordSys** ppCS)
-{ // unpickle
-  assert(ppCS);
+                                                 CoordSys** cs) {
+    assert(cs);
 
-  delete *ppCS; *ppCS = 0;
+    delete *cs;*cs = 0;
 
-  const int maxIgnore = 128;
-  std::string objname;
-  s.ignore(maxIgnore, '=');
-  s >> objname;
-  if (0 == strcasecmp(objname.c_str(), "cartesian")) 
-    *ppCS = new CSCart;
-  else if (0 == strcasecmp(objname.c_str(), "geographic"))
-    *ppCS = new CSGeo;
-  else if (0 == strcasecmp(objname.c_str(), "geo-local-cartesian"))
-    *ppCS = new CSGeoLocalCart;
-  else if (0 == strcasecmp(objname.c_str(), "geo-projected"))
-    *ppCS = new CSGeoProj;
-  else {
-    std::ostringstream msg;
-    msg << "Could not parse coordinate system object name '" 
-	<< objname << "'\n"
-	<< "into a known type of coordinate system object.\n"
-	<< "Known types of coordinate systems:\n"
-	<< "  cartesian, geographic, geo-local-cartesian, geo-projected";
-    throw std::runtime_error(msg.str().c_str());
-  } // else
-  (*ppCS)->unpickle(s);
+    const int maxIgnore = 128;
+    std::string objname;
+    s.ignore(maxIgnore, '=');
+    s >> objname;
+    if (0 == strcasecmp(objname.c_str(), "cartesian")) {
+        *cs = new CSCart;
+    } else if (0 == strcasecmp(objname.c_str(), "geographic")) {
+        *cs = new CSGeo;
+    } else {
+        std::ostringstream msg;
+        msg << "Could not parse coordinate system object name '"
+            << objname << "'\n"
+            << "into a known type of coordinate system object.\n"
+            << "Known types of coordinate systems:\n"
+            << "  cartesian, geographic, geo-local-cartesian, geo-projected";
+        throw std::runtime_error(msg.str().c_str());
+    } // else
+    (*cs)->unpickle(s);
 } // unpickle
 
-// End of file 
+
+// End of file

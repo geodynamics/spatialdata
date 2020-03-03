@@ -16,125 +16,157 @@
 
 #include <portinfo>
 
-#include "TestUniformDB.hh" // Implementation of class methods
+#include <cppunit/extensions/HelperMacros.h>
 
 #include "spatialdata/spatialdb/UniformDB.hh" // USES UniformDB
-
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 
-#include <string.h> // USES strcmp()
-
 // ----------------------------------------------------------------------
-CPPUNIT_TEST_SUITE_REGISTRATION( spatialdata::spatialdb::TestUniformDB );
+namespace spatialdata {
+    namespace spatialdb {
+        class TestUniformDB;
+        class UniformDB; // USES UniformDB
+    } // spatialdb
+} // spatialdata
+
+class spatialdata::spatialdb::TestUniformDB : public CppUnit::TestFixture {
+    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+    CPPUNIT_TEST_SUITE(TestUniformDB);
+
+    CPPUNIT_TEST(testConstructors);
+    CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testSetData);
+    CPPUNIT_TEST(testQueryVals);
+    CPPUNIT_TEST(testQuery);
+
+    CPPUNIT_TEST_SUITE_END();
+
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
+
+    /// Test constructors
+    void testConstructors(void);
+
+    /// Test accessors.
+    void testAccessors(void);
+
+    /// Test setData()
+    void testSetData(void);
+
+    /// Test setQueryValues()
+    void testQueryVals(void);
+
+    /// Test query()
+    void testQuery(void);
+
+}; // class TestUniformDB
+CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestUniformDB);
 
 // ----------------------------------------------------------------------
 // Test constructor.
 void
-spatialdata::spatialdb::TestUniformDB::testConstructorA(void)
-{ // testConstructorA
-  UniformDB db;
-} // testConstructorA
+spatialdata::spatialdb::TestUniformDB::testConstructors(void) {
+    UniformDB db;
+
+    const std::string label("database A");
+    UniformDB dbL(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.getLabel()));
+} // testConstructors
+
 
 // ----------------------------------------------------------------------
-// Test constructor w/label.
+// Test accessors().
 void
-spatialdata::spatialdb::TestUniformDB::testConstructorB(void)
-{ // testConstructorB
-  const char* label = "database A";
-  UniformDB db(label);
-  CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
-} // testConstructorB
+spatialdata::spatialdb::TestUniformDB::testAccessors(void) {
+    const std::string label("database 2");
 
-// ----------------------------------------------------------------------
-// Test Label().
-void
-spatialdata::spatialdb::TestUniformDB::testLabel(void)
-{ // testLabel
-  UniformDB db;
-  const char* label = "database 2";
-  db.label(label);
-  CPPUNIT_ASSERT(0 == strcmp(label, db.label()));
-} // testLabel
+    UniformDB db;
+    db.setLabel(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(db.getLabel()));
+} // testAccessors
+
 
 // ----------------------------------------------------------------------
 // Test setData().
 void
-spatialdata::spatialdb::TestUniformDB::testSetData(void)
-{ // testSetData
-  UniformDB db;
+spatialdata::spatialdb::TestUniformDB::testSetData(void) {
+    UniformDB db;
 
-  const int numValues = 3;
-  const char* names[numValues] = { "one", "two", "three" };
-  const char* units[numValues] = { "m", "km", "cm" };
-  const double values[numValues] = { 1.1, 2.2, 3.3 };
-  const double valuesE[numValues] = { 1.1, 2.2e+3, 3.3e-2 };
+    const size_t numValues = 3;
+    const char* names[numValues] = { "one", "two", "three" };
+    const char* units[numValues] = { "m", "km", "cm" };
+    const double values[numValues] = { 1.1, 2.2, 3.3 };
+    const double valuesE[numValues] = { 1.1, 2.2e+3, 3.3e-2 };
 
-  db.setData(names, units, values, numValues);
+    db.setData(names, units, values, numValues);
 
-  CPPUNIT_ASSERT_EQUAL(numValues, db._numValues);
-  for (int i=0; i < numValues; ++i)
-    CPPUNIT_ASSERT_EQUAL(std::string(names[i]), db._names[i]);
+    CPPUNIT_ASSERT_EQUAL(numValues, db._numValues);
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL(std::string(names[i]), db._names[i]);
+    } // for
 
-  for (int i=0; i < numValues; ++i)
-    CPPUNIT_ASSERT_EQUAL(valuesE[i], db._values[i]);
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL(valuesE[i], db._values[i]);
+    } // for
 } // testSetData
 
+
 // ----------------------------------------------------------------------
-// Test queryVals().
+// Test setQueryValues().
 void
-spatialdata::spatialdb::TestUniformDB::testQueryVals(void)
-{ // testQueryVals
-  UniformDB db;
+spatialdata::spatialdb::TestUniformDB::testQueryVals(void) {
+    UniformDB db;
 
-  const int numValues = 3;
-  const char* names[numValues] = { "one", "two", "three" };
-  const char* units[numValues] = { "none", "none", "none" };
-  const double values[numValues] = { 1.1, 2.2, 3.3 };
+    const size_t numValues = 3;
+    const char* names[numValues] = { "one", "two", "three" };
+    const char* units[numValues] = { "none", "none", "none" };
+    const double values[numValues] = { 1.1, 2.2, 3.3 };
 
-  const int querySize = 2;
-  const char* queryNames[querySize] = { "three", "two" };
-  const int queryVals[querySize] = { 2, 1 };
+    const size_t querySize = 2;
+    const char* queryNames[querySize] = { "three", "two" };
+    const size_t queryVals[querySize] = { 2, 1 };
 
-  db.setData(names, units, values, numValues);
-  db.queryVals(queryNames, querySize);
+    db.setData(names, units, values, numValues);
+    db.setQueryValues(queryNames, querySize);
 
-  CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
-  for (int i=0; i < querySize; ++i)
-    CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryVals[i]);
+    CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
+    for (size_t i = 0; i < querySize; ++i) {
+        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
+    } // for
 } // testQueryVals
+
 
 // ----------------------------------------------------------------------
 // Test query().
 void
-spatialdata::spatialdb::TestUniformDB::testQuery(void)
-{ // testQuery
-  UniformDB db;
+spatialdata::spatialdb::TestUniformDB::testQuery(void) {
+    UniformDB db;
 
-  const int numValues = 3;
-  const char* names[numValues] = { "one", "two", "three" };
-  const char* units[numValues] = { "none", "none", "none" };
-  const double values[numValues] = { 1.1, 2.2, 3.3 };
+    const size_t numValues = 3;
+    const char* names[numValues] = { "one", "two", "three" };
+    const char* units[numValues] = { "none", "none", "none" };
+    const double values[numValues] = { 1.1, 2.2, 3.3 };
 
-  const int querySize = 2;
-  const char* queryNames[querySize] = { "three", "two" };
-  const int queryVals[querySize] = { 2, 1 };
+    const size_t querySize = 2;
+    const char* queryNames[querySize] = { "three", "two" };
+    const size_t queryVals[querySize] = { 2, 1 };
 
-  db.setData(names, units, values, numValues);
-  db.queryVals(queryNames, querySize);
+    db.setData(names, units, values, numValues);
+    db.setQueryValues(queryNames, querySize);
 
-  const int spaceDim = 2;
-  spatialdata::geocoords::CSCart cs;
-  cs.setSpaceDim(spaceDim);
-  const double coords[spaceDim] = { 2.3, 5.6 };
-  double data[querySize];
+    const size_t spaceDim = 2;
+    spatialdata::geocoords::CSCart cs;
+    cs.setSpaceDim(spaceDim);
+    const double coords[spaceDim] = { 2.3, 5.6 };
+    double data[querySize];
 
-  db.query(data, querySize, coords, spaceDim, &cs);
+    db.query(data, querySize, coords, spaceDim, &cs);
 
-  for (int i=0; i < querySize; ++i) {
-    const double valE = values[queryVals[i]];
-    CPPUNIT_ASSERT_EQUAL(valE, data[i]);
-  } // for
+    for (size_t i = 0; i < querySize; ++i) {
+        const double valE = values[queryVals[i]];
+        CPPUNIT_ASSERT_EQUAL(valE, data[i]);
+    } // for
 } // testQuery
 
 
-// End of file 
+// End of file

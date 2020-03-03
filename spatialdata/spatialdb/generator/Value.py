@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,99 +11,111 @@
 #
 # ----------------------------------------------------------------------
 #
-
-## @file spatialdata/spatialdb/generator/Value.py
-##
-## @brief Python manager for generating value in database.
-##
-## Factory: database_value
+# @file spatialdata/spatialdb/generator/Value.py
+#
+# @brief Python manager for generating value in database.
+#
+# Factory: database_value
 
 from pyre.components.Component import Component
 
 import numpy
 
-# Value class
-class Value(Component):
-  """
-  Python manager for generating value in database.
 
-  Factory: database_value
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(Component.Inventory):
+# ----------------------------------------------------------------------------------------------------------------------
+def shaperFactory(name):
     """
-    Python object for managing Value facilities and properties.
+    Factory for shapers.
     """
+    from pyre.inventory import facility
+    from Shaper import Shaper
+    return facility(name, family="shaper", factory=Shaper)
 
-    ## @class Inventory
-    ## Python object for managing Value facilities and properties.
-    ##
-    ## \b Properties
-    ## @li \b name Name of value
-    ## @li \b units Units for value
-    ##
-    ## \b Facilities
-    ## @li \b shapers Shapers used to construct spatial distribution
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SingleShaper(Component):
+    """
+    Python container with one shaper.
+
+    INVENTORY
+
+    Properties
+      - None
+
+    Facilities
+      - *shaper* Shaper for database value.
+    """
 
     import pyre.inventory
 
-    name = pyre.inventory.str("name", default="")
-    name.meta['tip'] = "Name of value."
+    from Shaper import Shaper
+    valueShaper = pyre.inventory.facility("shaper", family="shaper", factory=Shaper)
+    valueShaper.meta['tip'] = "Shaper for database value."
+
+    # PUBLIC METHODS /////////////////////////////////////////////////////
+
+    def __init__(self, name="sigleshaper"):
+        """
+        Constructor.
+        """
+        Component.__init__(self, name, facility="shaper")
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class Value(Component):
+    """
+    Python manager for generating value in database.
+
+    Factory: database_value
+
+    INVENTORY
+
+    Properties
+      - *name* Name of value.
+      - *units* Units for value.
+
+    Facilities
+      - *shapers* Shapers/filters used to construct spatial distribution.
+    """
+
+    import pyre.inventory
+
+    vname = pyre.inventory.str("name", default="")
+    vname.meta['tip'] = "Name of value."
 
     units = pyre.inventory.str("units", default="none")
     units.meta['tip'] = "Units associated with value."
 
-    from Shapers import Shapers
-    shapers = pyre.inventory.facility("shapers", family="shapers",
-                                      factory=Shapers)
-    shapers.meta['tip'] = "Filter used to construct spatial distribution"
-    
+    shapers = pyre.inventory.facilityArray("shapers", itemFactory=shaperFactory, factory=SingleShaper)
+    shapers.meta['tip'] = "Shapers/filters used to construct spatial distribution."
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="value"):
-    """
-    Constructor.
-    """
-    Component.__init__(self, name, facility="database_value")
-    return
+    def __init__(self, name="value"):
+        """
+        Constructor.
+        """
+        Component.__init__(self, name, facility="database_value")
 
-
-  def calculate(self, locs, cs):
-    """
-    Calculate spatial distribution for value using shapers.
-    """
-    (numLocs, spaceDim) = locs.shape
-    value = numpy.zeros( (numLocs,), dtype=numpy.float64)
-    for filter in self.shapers.shapers:
-      filter.initialize(locs, cs)
-      filter.apply(value)
-      filter.finalize()
-    return value
-
-
-  # PRIVATE METHODS ////////////////////////////////////////////////////
-
-  def _configure(self):
-    """
-    Setup members using inventory.
-    """
-    Component._configure(self)
-    self.name = self.inventory.name
-    self.units = self.inventory.units
-    self.shapers = self.inventory.shapers
-    return
+    def calculate(self, locs, cs):
+        """
+        Calculate spatial distribution for value using shapers.
+        """
+        (numLocs, spaceDim) = locs.shape
+        value = numpy.zeros((numLocs,), dtype=numpy.float64)
+        for shaper in self.shapers.components():
+            shaper.initialize(locs, cs)
+            shaper.apply(value)
+            shaper.finalize()
+        return value
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
-
 def database_value():
-  """
-  Factory associated with Value.
-  """
-  return Value()
+    """
+    Factory associated with Value.
+    """
+    return Value()
 
 
-# End of file 
+# End of file

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -36,13 +36,13 @@ class TestNondimElasticQuasistatic(unittest.TestCase):
         timeScale = 1.0e+2 * year
 
         # Check defaults
-        self.assertEqual(lengthScale, dim.lengthScale())
-        self.assertEqual(pressureScale, dim.pressureScale())
-        self.assertEqual(timeScale, dim.timeScale())
+        self.assertEqual(lengthScale, dim.getLengthScale())
+        self.assertEqual(pressureScale, dim.getPressureScale())
+        self.assertEqual(timeScale, dim.getTimeScale())
 
         velocityScale = lengthScale / timeScale
         densityScale = pressureScale / velocityScale**2
-        self.assertEqual(densityScale, dim.densityScale())
+        self.assertEqual(densityScale, dim.getDensityScale())
 
         return
 

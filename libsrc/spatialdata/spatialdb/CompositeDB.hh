@@ -27,109 +27,128 @@
 #include <string> // HASA std::string
 
 /// C++ manager for simple spatial database.
-class spatialdata::spatialdb::CompositeDB : public SpatialDB
-{ // class CompositeDB
-  friend class TestCompositeDB; // unit testing
+class spatialdata::spatialdb::CompositeDB : public SpatialDB { // class CompositeDB
+    friend class TestCompositeDB; // unit testing
 
- public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /// Default constructor.
-  CompositeDB(void);
-  
-  /** Constructor with label.
-   *
-   * @param label Label of database
-   */
-  CompositeDB(const char* label);
-  
-  /// Default destructor.
-  ~CompositeDB(void);
-  
-  /** Set database A.
-   *
-   * @param db Pointer to database.
-   * @param names Array of names of values to use with database.
-   * @param numNames Size of array of names.
-   */
-  void dbA(SpatialDB* db,
-	   const char* const* names,
-	   const int numNames);
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /** Set database B.
-   *
-   * @param db Pointer to database.
-   * @param names Array of names of values to use with database.
-   * @param numNames Size of array of names.
-   */
-  void dbB(SpatialDB* db,
-	   const char* const* names,
-	   const int numNames);
+    /// Default constructor.
+    CompositeDB(void);
 
-  /// Open the database and prepare for querying.
-  void open(void);
+    /** Constructor with label.
+     *
+     * @param label Label of database
+     */
+    CompositeDB(const char* label);
 
-  /// Close the database.
-  void close(void);
+    /// Default destructor.
+    ~CompositeDB(void);
 
-  /** Set values to be returned by queries.
-   *
-   * @pre Must call open() before queryVals()
-   *
-   * @param names Names of values to be returned in queries
-   * @param numVals Number of values to be returned in queries
-   */
-  void queryVals(const char* const* names,
-		 const int numVals);
+    /** Set database A.
+     *
+     * @param db Pointer to database.
+     * @param names Array of names of values to use with database.
+     * @param numNames Size of array of names.
+     */
+    void setDBA(SpatialDB* db,
+                const char* const* names,
+                const size_t numNames);
 
-  /** Query the database.
-   *
-   * @pre Must call open() before query()
-   *
-   * @param vals Array for computed values (output from query), vals
-   *   must be allocated BEFORE calling query().
-   * @param numVals Number of values expected (size of pVals array)
-   * @param coords Coordinates of point for query
-   * @param numDims Number of dimensions for coordinates
-   * @param pCSQuery Coordinate system of coordinates
-   *
-   * @returns 0 on success, 1 on failure (i.e., could not interpolate
-   *   so values set to 0)
-   */
-  int query(double* vals,
-	    const int numVals,
-	    const double* coords,
-	    const int numDims,
-	    const spatialdata::geocoords::CoordSys* pCSQuery);
+    /** Set database B.
+     *
+     * @param db Pointer to database.
+     * @param names Array of names of values to use with database.
+     * @param numNames Size of array of names.
+     */
+    void setDBB(SpatialDB* db,
+                const char* const* names,
+                const size_t numNames);
 
-private :
-  // NOT IMPLEMENTED ////////////////////////////////////////////////////
+    /// Open the database and prepare for querying.
+    void open(void);
 
-  CompositeDB(const CompositeDB& data); ///< Not implemented
-  const CompositeDB& operator=(const CompositeDB& data); ///< Not implemented
-  
-private :
-  // PRIVATE STRUCTS ////////////////////////////////////////////////////
+    /// Close the database.
+    void close(void);
 
-  struct dbinfo {
-    double* query_buffer;
-    int* query_indices;
-    std::string* names_values;
-    int query_size;
-    int num_names;
-  }; // dbinfo
+    /** Set values to be returned by queries.
+     *
+     * @pre Must call open() before setQueryValues()
+     *
+     * @param names Names of values to be returned in queries
+     * @param numVals Number of values to be returned in queries
+     */
+    void setQueryValues(const char* const* names,
+                        const size_t numVals);
 
-private :
- // PRIVATE MEMBERS /////////////////////////////////////////////////////
+    /** Query the database.
+     *
+     * @pre Must call open() before query()
+     *
+     * @param vals Array for computed values (output from query), vals
+     *   must be allocated BEFORE calling query().
+     * @param numVals Number of values expected (size of pVals array)
+     * @param coords Coordinates of point for query
+     * @param numDims Number of dimensions for coordinates
+     * @param pCSQuery Coordinate system of coordinates
+     *
+     * @returns 0 on success, 1 on failure (i.e., could not interpolate
+     *   so values set to 0)
+     */
+    int query(double* vals,
+              const size_t numVals,
+              const double* coords,
+              const size_t numDims,
+              const spatialdata::geocoords::CoordSys* pCSQuery);
 
-  SpatialDB* _dbA; ///< Spatial database A
-  SpatialDB* _dbB; ///< Spatial database B
+private:
 
-  dbinfo* _infoA; ///< Information for database A
-  dbinfo* _infoB; ///< Information for database B
+    // NOT IMPLEMENTED ////////////////////////////////////////////////////
+
+    CompositeDB(const CompositeDB& data); ///< Not implemented
+    const CompositeDB& operator=(const CompositeDB& data); ///< Not implemented
+
+private:
+
+    // PRIVATE STRUCTS ////////////////////////////////////////////////////
+
+    struct DBInfo {
+        double* query_buffer;
+        size_t* query_indices;
+        std::string* names_values;
+        size_t query_size;
+        size_t num_names;
+
+        DBInfo(void) :
+            query_buffer(NULL),
+            query_indices(NULL),
+            names_values(NULL),
+            query_size(0),
+            num_names(0) {}
+
+
+        ~DBInfo(void) {
+            delete[] query_buffer;query_buffer = NULL;
+            delete[] query_indices;query_indices = NULL;
+            delete[] names_values;names_values = NULL;
+            query_size = 0;
+            num_names = 0;
+        } // destructor
+
+    }; // DBInfo
+
+private:
+
+    // PRIVATE MEMBERS /////////////////////////////////////////////////////
+
+    SpatialDB* _dbA; ///< Spatial database A
+    SpatialDB* _dbB; ///< Spatial database B
+
+    DBInfo* _infoA; ///< Information for database A
+    DBInfo* _infoB; ///< Information for database B
 }; // class CompositeDB
 
 #endif // spatialdata_spatialdb_compositedb_hh
 
-
-// End of file 
+// End of file

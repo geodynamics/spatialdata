@@ -26,74 +26,82 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "spatialdata/geocoords/geocoordsfwd.hh" // USES CoordSys
+
 /// Namespace for spatial package
 namespace spatialdata {
-  namespace spatialdb {
-    class TestGravityField;
-    class GravityField; // USES GravityField
-  } // spatialdb
+    namespace spatialdb {
+        class TestGravityField;
+        class TestGravityField_Data;
+    } // spatialdb
 } // spatialdata
 
 /// C++ unit testing for GravityField
-class spatialdata::spatialdb::TestGravityField : public CppUnit::TestFixture
-{ // class TestGravityField
+class spatialdata::spatialdb::TestGravityField : public CppUnit::TestFixture {
+    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+    CPPUNIT_TEST_SUITE(TestGravityField);
 
-  // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-  CPPUNIT_TEST_SUITE( TestGravityField );
+    CPPUNIT_TEST(testConstructor);
+    CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testQueryVals);
+    CPPUNIT_TEST(testQuery);
 
-  CPPUNIT_TEST( testConstructor );
-  CPPUNIT_TEST( testLabel );
-  CPPUNIT_TEST( testGravityDir );
-  CPPUNIT_TEST( testAcceleration );
-  CPPUNIT_TEST( testQueryVals );
-  CPPUNIT_TEST( testQueryCart2 );
-  CPPUNIT_TEST( testQueryCart3 );
-  CPPUNIT_TEST( testQueryGeographic );
-  CPPUNIT_TEST( testQueryGeoProj );
-  CPPUNIT_TEST( testQueryGeocentric );
-  CPPUNIT_TEST( testQueryGeoLocal );
+    CPPUNIT_TEST_SUITE_END_ABSTRACT();
 
-  CPPUNIT_TEST_SUITE_END();
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  // PUBLIC METHODS /////////////////////////////////////////////////////
-public :
+    /// Setup test data.
+    void setUp(void);
 
-  /// Test constructor
-  void testConstructor(void);
+    /// Destroy test data.
+    void tearDown(void);
 
-  /// Test label()
-  void testLabel(void);
+    /// Test constructor
+    void testConstructor(void);
 
-  /// Test gravityDir()
-  void testGravityDir(void);
+    /// Test accessors.
+    void testAccessors(void);
 
-  /// Test acceleration()
-  void testAcceleration(void);
+    /// Test setQueryValues()
+    void testQueryVals(void);
 
-  /// Test queryVals()
-  void testQueryVals(void);
+    /// Test query().
+    void testQuery(void);
 
-  /// Test query() with 2-D Cartesian coordinates.
-  void testQueryCart2(void);
+    // PROTECTED METHODS /////////////////////////////////////////////////////
+protected:
 
-  /// Test query() with 3-D Cartesian coordinates.
-  void testQueryCart3(void);
-
-  /// Test query() with geographic coordinates.
-  void testQueryGeographic(void);
-
-  /// Test query() with projected geographic coordinates.
-  void testQueryGeoProj(void);
-
-  /// Test query() with geocentric coordinates.
-  void testQueryGeocentric(void);
-
-  /// Test query() with geocentric coordinates and local origin.
-  void testQueryGeoLocal(void);
+    TestGravityField_Data* _data; ///< Test data.
 
 }; // class TestGravityField
 
+class spatialdata::spatialdb::TestGravityField_Data {
+    // PUBLIC METHODS ///////////////////////////////////////////////////////
+public:
+
+    /// Constructor
+    TestGravityField_Data(void);
+
+    /// Destructor
+    ~TestGravityField_Data(void);
+
+    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+public:
+
+    spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.
+    double gravityAcc; ///< Gravitational acceleration.
+    const double* gravityDir; ///< Direction of gravitational acceleration.
+
+    size_t querySize; ///< Number of values in query (1, 2, or 3).
+    const char* queryNames[3]; ///< Names of values in query.
+
+    size_t numPoints; ///< Number of query points.
+    const double* coordinates; ///< Coordinates of query point.
+    const double* gravity; ///< Expected values for query.
+
+}; // TestGravityField_Data
+
 #endif // spatialdata_spatialdb_testgravityfield_hh
 
-
-// End of file 
+// End of file

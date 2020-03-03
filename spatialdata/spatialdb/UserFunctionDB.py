@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -14,40 +12,32 @@
 # ----------------------------------------------------------------------
 #
 
-## @file spatialdata/spatialdb/UserFunctionDB.py
-##
-## @brief Python manager for user function spatial database.
-##
-## @WARNING This object is incomplete. It needs 
-##
-## Factory: spatial_database
+# @file spatialdata/spatialdb/UserFunctionDB.py
+#
+# @brief Python manager for user function spatial database.
+#
+# @WARNING This object is incomplete.
+#
+# Factory: spatial_database
 
 from SpatialDBObj import SpatialDBObj
 from spatialdb import UserFunctionDB as ModuleUserFunctionDB
 
-# UserFunctionDB class
+
 class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
-  """
-  Python manager for simple spatial database.
-
-  Factory: spatial_database
-  """
-
-  # INVENTORY //////////////////////////////////////////////////////////
-
-  class Inventory(SpatialDBObj.Inventory):
     """
-    Python object for managing UserFunctionDB facilities and properties.
-    """
+    Python manager for simple spatial database.
 
-    ## @class Inventory
-    ## Python object for managing UserFunctionDB facilities and properties.
-    ##
-    ## \b Properties
-    ## @li None
-    ##
-    ## \b Facilities
-    ## @li \b coordsys Coordinate system
+    Factory: spatial_database
+
+    INVENTORY
+
+    Properties
+      - None
+
+    Facilities
+      - *coordsys* Coordinate system.
+    """
 
     import pyre.inventory
 
@@ -55,49 +45,47 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
     cs = pyre.inventory.facility("coordsys", factory=CSCart)
     cs.meta['tip'] = "Coordinate system."
 
-  # PUBLIC METHODS /////////////////////////////////////////////////////
+    # PUBLIC METHODS /////////////////////////////////////////////////////
 
-  def __init__(self, name="userfunctiondb"):
-    """
-    Constructor.
-    """
-    SpatialDBObj.__init__(self, name)
+    def __init__(self, name="userfunctiondb"):
+        """
+        Constructor.
+        """
+        SpatialDBObj.__init__(self, name)
 
-    # This data member should be initialized in derived classes.
-    #
-    # self.functions = [(name, pointer_to_queryfn, units)]
-    self.functions = []
-    return
+        # This data member should be initialized in derived classes.
+        #
+        # self.functions = [(name, pointer_to_queryfn, units)]
+        self.functions = []
+        return
 
+    # PRIVATE METHODS ////////////////////////////////////////////////////
 
-  # PRIVATE METHODS ////////////////////////////////////////////////////
+    def _configure(self):
+        """
+        Set members based on inventory.
+        """
+        SpatialDBObj._configure(self)
+        ModuleUserFunctionDB.setCoordSys(self, self.cs)
+        for (name, fn, units,) in self.functions:
+            ModuleUserFunctionDB.addValue(self, name, fn, units)
+        return
 
-  def _configure(self):
-    """
-    Set members based on inventory.
-    """
-    SpatialDBObj._configure(self)
-    ModuleUserFunctionDB.coordsys(self, self.inventory.cs)
-    for (name, fn, units,) in self.functions:
-      ModuleUserFunctionDB.addValue(self, name, fn, units)
-    return
-
-
-  def _createModuleObj(self):
-    """
-    Create Python module object.
-    """
-    ModuleUserFunctionDB.__init__(self)
-    return
+    def _createModuleObj(self):
+        """
+        Create Python module object.
+        """
+        ModuleUserFunctionDB.__init__(self)
+        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
 def spatial_database():
-  """
-  Factory associated with UserFunctionDB.
-  """
-  return UserFunctionDB()
+    """
+    Factory associated with UserFunctionDB.
+    """
+    return UserFunctionDB()
 
 
-# End of file 
+# End of file

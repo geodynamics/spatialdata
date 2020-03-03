@@ -16,8 +16,8 @@
 
 include $(top_srcdir)/check.am
 
-TESTS = testunits.py
-dist_check_SCRIPTS = testunits.py
+TESTS = test_units.py
+dist_check_SCRIPTS = test_units.py
 
 noinst_PYTHON = \
 	TestNondimensional.py \

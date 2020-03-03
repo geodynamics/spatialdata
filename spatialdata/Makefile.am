@@ -19,10 +19,7 @@ nobase_pkgpyexec_PYTHON = \
 	geocoords/Converter.py \
 	geocoords/CoordSys.py \
 	geocoords/CSCart.py \
-	geocoords/CSGeoLocalCart.py \
-	geocoords/CSGeoProj.py \
 	geocoords/CSGeo.py \
-	geocoords/Projector.py \
 	geocoords/__init__.py \
 	spatialdb/CompositeDB.py \
 	spatialdb/GravityField.py \
@@ -38,20 +35,15 @@ nobase_pkgpyexec_PYTHON = \
 	spatialdb/SimpleGridAscii.py \
 	spatialdb/UserFunctionDB.py \
 	spatialdb/__init__.py \
-	spatialdb/generator/Shaper.py \
-	spatialdb/generator/Shapers.py \
+	spatialdb/generator/__init__.py \
 	spatialdb/generator/GenSimpleDBApp.py \
 	spatialdb/generator/Geometry.py \
 	spatialdb/generator/Value.py \
-	spatialdb/generator/Values.py \
-	spatialdb/generator/__init__.py \
+	spatialdb/generator/Shaper.py \
 	units/__init__.py \
 	units/Nondimensional.py \
 	units/NondimElasticQuasistatic.py \
 	units/NondimElasticDynamic.py \
-	utils/ChangeCoordSys.py \
-	utils/ConvertApp.py \
-	utils/CppData.py \
 	utils/PointsStream.py \
 	utils/UnitTestApp.py \
 	utils/__init__.py

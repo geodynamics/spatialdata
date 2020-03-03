@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ======================================================================
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -19,47 +17,49 @@ import unittest
 import numpy
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 class TestGravityField(unittest.TestCase):
 
-  def setUp(self):
-    from spatialdata.spatialdb.GravityField import GravityField
-    db = GravityField()
-    db._configure()
-    self._db = db
-    return
+    def setUp(self):
+        from spatialdata.spatialdb.GravityField import GravityField
+        db = GravityField()
+        db._configure()
+        self._db = db
 
-  def test_database(self):
-    locs = numpy.array( [[1.0, 2.0, 3.0],
-                         [5.6, 4.2, 8.6]],
-                        numpy.float64)
-    from spatialdata.geocoords.CSCart import CSCart
-    cs = CSCart()
-    gacc = 9.80665
-    dataE = numpy.array([[0.0, 0.0, -gacc],
-                         [0.0, 0.0, -gacc]], numpy.float64)
-    errE = [0, 0]
-    
-    db = self._db
-    db.open()
-    data = numpy.zeros(dataE.shape, dtype=numpy.float64)
-    err = []
-    nlocs = locs.shape[0]
-    for i in xrange(nlocs):
-      e = db.query(data[i,:], locs[i,:], cs)
-      err.append(e)
-    db.close()    
+    def test_database(self):
+        locs = numpy.array([[1.0, 2.0, 3.0], [5.6, 4.2, 8.6]], numpy.float64)
+        from spatialdata.geocoords.CSCart import CSCart
+        cs = CSCart()
+        gacc = 9.80665
+        dataE = numpy.array([[0.0, 0.0, -gacc], [0.0, 0.0, -gacc]], numpy.float64)
+        errE = [0, 0]
 
-    self.assertEqual(len(errE), len(err))
-    for vE, v in zip(errE, err):
-      self.assertEqual(vE, v)
+        db = self._db
+        db.open()
+        data = numpy.zeros(dataE.shape, dtype=numpy.float64)
+        err = []
+        nlocs = locs.shape[0]
+        for i in xrange(nlocs):
+            e = db.query(data[i, :], locs[i, :], cs)
+            err.append(e)
+        db.close()
 
-    self.assertEqual(len(dataE.shape), len(data.shape))
-    for dE, d in zip(dataE.shape, data.shape):
-      self.assertEqual(dE, d)
-    for vE, v in zip(numpy.reshape(dataE, -1), numpy.reshape(data, -1)):
-      self.assertAlmostEqual(vE, v, 6)
+        self.assertEqual(len(errE), len(err))
+        for vE, v in zip(errE, err):
+            self.assertEqual(vE, v)
 
-    return
+        self.assertEqual(len(dataE.shape), len(data.shape))
+        for dE, d in zip(dataE.shape, data.shape):
+            self.assertEqual(dE, d)
+        for vE, v in zip(numpy.reshape(dataE, -1), numpy.reshape(data, -1)):
+            self.assertAlmostEqual(vE, v, 6)
 
 
-# End of file 
+# ----------------------------------------------------------------------------------------------------------------------
+if __name__ == '__main__':
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestGravityField))
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+# End of file

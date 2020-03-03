@@ -56,13 +56,13 @@ namespace spatialdata {
        */
       %apply(double* IN_ARRAY2, int DIM1, int DIM2) {
 	(const double* values,
-	 const int numLocs,
-	 const int numValues)
+	 const size_t numLocs,
+	 const size_t numValues)
 	  };
-      void data(const double* values,
-		const int numLocs,
-		const int numValues);
-      %clear(const double* values, const int numLocs, const int numValues);
+      void setData(const double* values,
+		   const size_t numLocs,
+		const size_t numValues);
+      %clear(const double* values, const size_t numLocs, const size_t numValues);
       
       /** Set coordinates of locations.
        *
@@ -74,13 +74,13 @@ namespace spatialdata {
        */
       %apply(double* IN_ARRAY2, int DIM1, int DIM2) {
 	(const double* values,
-	 const int numLocs,
-	 const int spaceDim)
+	 const size_t numLocs,
+	 const size_t spaceDim)
 	  };
-      void coordinates(const double* values,
-		       const int numLocs,
-		       const int spaceDim);
-      %clear(const double* values, const int numLocs, const int numValues);
+      void setCoordinates(const double* values,
+		       const size_t numLocs,
+		       const size_t spaceDim);
+      %clear(const double* values, const size_t numLocs, const size_t numValues);
       
       /** Set names of values.
        *
@@ -90,12 +90,11 @@ namespace spatialdata {
        * @param numValues Number of values.
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* values,
-	 const int numValues)
+	(const char* const* values, const size_t numValues)
 	  };
-      void names(const char* const* values,
-		 const int numValues);
-      %clear(const char* const* values, const int numValues);
+      void setNames(const char* const* values,
+		 const size_t numValues);
+      %clear(const char* const* values, const size_t numValues);
       
       /** Set units of values.
        *
@@ -105,10 +104,9 @@ namespace spatialdata {
        * @param numValues Number of values.
        */
       %apply(const char* const* string_list, const int list_len){
-	(const char* const* values,
-	 const int numValues)
+	(const char* const* values, const int numValues)
 	  };
-      void units(const char* const* values,
+      void setUnits(const char* const* values,
 		 const int numValues);
       %clear(const char* const* values, const int numValues);
       
@@ -116,25 +114,25 @@ namespace spatialdata {
        *
        * @returns Number of locations.
        */
-      int numLocs(void) const;
+      size_t getNumLocs(void) const;
       
       /** Get number of values for data.
        *
        * @returns Number of values.
        */
-      int numValues(void) const;
+      size_t getNumValues(void) const;
       
       /** Get spatial dimension of data distribution.
        *
        * @returns Spatial dimension.
        */
-      int dataDim(void) const;
+      size_t getDataDim(void) const;
       
       /** Get spatial dimension of locations.
        *
        * @returns Spatial dimension.
        */
-      int spaceDim(void) const;
+      size_t getSpaceDim(void) const;
       
     }; // class SpatialDBData
 

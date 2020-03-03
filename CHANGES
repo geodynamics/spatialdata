@@ -1,7 +1,21 @@
+2020/03/03 (version 2.0.0)
+
+  Update to use Proj 6.x. This allows a user to specify a coordinate
+  system using a string consisting of Proj parameters, EPSG code, or
+  WKT.
+
+  Eliminate overloading of getters/settings in C++ interface. Use
+  getXXX/setXXX instead, which is more widely used.
+
+  Clean up layout of C++ unit test code. Consolidate files with test
+  data.
+
+
 2019/07/29 (version 1.10.1)
 
   Fix bug in composite spatial database. Allow queries that only use
   one of the two spatial databases.
+
 
 2019/07/01 (version 1.10.0)
 
@@ -13,6 +27,7 @@
   Add methods for computing density scale and pressure scale from
   other scales. Only three of length scale, time scale, pressure
   scale, and density scale are independent.
+
 
 2017/07/07 (version 1.9.10)
 
@@ -156,5 +171,3 @@
 
   Changed interfaces to allow spatial dimension of coordinate systems
   to be 1-D and 2-D instead of just 3-D.
-
-

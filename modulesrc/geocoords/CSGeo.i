@@ -22,10 +22,7 @@
 namespace spatialdata {
   namespace geocoords {
 
-  class Geoid;
-
-    class CSGeo : public CoordSys
-    { // class CSGeo
+    class CSGeo : public CoordSys {
       friend class TestCSGeo;
 
     public :
@@ -44,79 +41,26 @@ namespace spatialdata {
        */
       virtual
       CoordSys* clone(void) const;
+
+      /** Set string specifying coordinate system.
+       *
+       * @param[in] value String specifying coordinate system (proj format, WKT, EPSG:XXXX).
+       */
+      void setString(const char* value);
       
-      /// Initialize the coordinate system.
-      virtual
-      void initialize(void);
+      /** Get string specifying coordinate system.
+       *
+       * @returns String specifying coordinate system (proj format, WKT, EPSG:XXXX).
+       */
+      const char* getString(void) const;
       
-      /** Set reference ellipsoid.
-       *
-       * @param name Name of reference ellipsoid
-       */
-      void ellipsoid(const char* name);
-
-      /** Get reference ellipsoid.
-       *
-       * @returns Name of reference ellipsoid
-       */
-      const char* ellipsoid(void) const;
-
-      /** Set horizontal datum.
-       *
-       * @param name Name of horizontal datum
-       */
-      void datumHoriz(const char* name);
-
-      /** Get horizontal datum.
-       *
-       * @returns Name of datum
-       */
-      const char* datumHoriz(void) const;
-
-      /** Set vertical datum.
-       *
-       * @param name Name of vertical datum
-       */
-      void datumVert(const char* name);
-
-      /** Get vertical datum.
-       *
-       * @returns Name of datum
-       */
-      const char* datumVert(void) const;
-
-      /** Set geocentric flag.
-       *
-       * @param geocentric True if geocentric, false if lon/lat
-       */
-      virtual
-      void isGeocentric(bool geocentric);
-
-      /** Get geocentric flag.
-       *
-       * @returns True if geocentric, false if lon/lat
-       */
-      bool isGeocentric(void) const;
-
-      /** Set factor to convert Cartesian coordinates to meters.
-       *
-       * @param factor Factor to convert Cartesian coordinates to meters.
-       */
-      void toMeters(const double factor);
-
-      /** Get factor to convert Cartesian coordinates to meters.
-       *
-       * @returns Factor to convert Cartesian coordinates to meters.
-       */
-      double toMeters(void) const;
-
       /** Set number of spatial dimensions in coordinate system.
        *
        * @param ndims Number of dimensions
        */
       virtual
       void setSpaceDim(const int ndims);
-
+      
       /** Get radial outward direction.
        *
        * dir and coords
@@ -127,19 +71,26 @@ namespace spatialdata {
        * @param coords Array of coordinates for locations.
        * @param numLocs Number of locations.
        * @param numDims Number of dimensions in coordinates.
+       * @param dx Length scale for approximate surface tangent.
        */
-      virtual
-      void radialDir(double* dir,
-		     const double* coords,
-		     const int numLocs,
-		     const int numDims) const;
+      void computeSurfaceNormal(double* dir,
+				const double* coords,
+				const size_t numLocs,
+				const size_t numDims,
+				const double dx=1000.0) const;
 
-      /** Get geoid.
+      /** Pickle coordinate system to ascii stream.
        *
-       * @returns Geoid
+       * @param s Output stream
        */
-      static Geoid& geoid(void);
-  
+      void pickle(std::ostream& s) const;
+      
+      /** Unpickle coordinate system from ascii stream.
+       *
+       * @param s Input stream
+       */
+      void unpickle(std::istream& s);
+
     }; // class CSGeo
 
   } // geocoords

@@ -22,79 +22,88 @@
 
 // Get number of locations for data.
 inline
-int
-spatialdata::spatialdb::SimpleDBData::numLocs(void) const {
-  return _numLocs;
+size_t
+spatialdata::spatialdb::SimpleDBData::getNumLocs(void) const {
+    return _numLocs;
 }
+
 
 // Get number of values for data.
 inline
-int
-spatialdata::spatialdb::SimpleDBData::numValues(void) const {
-  return _numValues;
+size_t
+spatialdata::spatialdb::SimpleDBData::getNumValues(void) const {
+    return _numValues;
 }
+
 
 // Get spatial dimension of data distribution.
 inline
-int
-spatialdata::spatialdb::SimpleDBData::dataDim(void) const {
-  return _dataDim;
+size_t
+spatialdata::spatialdb::SimpleDBData::getDataDim(void) const {
+    return _dataDim;
 }
+
 
 // Get spatial dimension of locations.
 inline
-int
-spatialdata::spatialdb::SimpleDBData::spaceDim(void) const {
-  return _spaceDim;
+size_t
+spatialdata::spatialdb::SimpleDBData::getSpaceDim(void) const {
+    return _spaceDim;
 }
+
 
 // Get coordinates of location in database.
 inline
 const double*
-spatialdata::spatialdb::SimpleDBData::coordinates(const int index) const {
-  assert(index >= 0 && index < _numLocs);
-  return &_coordinates[index*_spaceDim];
+spatialdata::spatialdb::SimpleDBData::getCoordinates(const size_t index) const {
+    assert(index >= 0 && index < _numLocs);
+    return &_coordinates[index*_spaceDim];
 }
+
 
 // Get coordinates of location in database.
 inline
 double*
-spatialdata::spatialdb::SimpleDBData::coordinates(const int index) {
-  assert(index >= 0 && index < _numLocs);
-  return &_coordinates[index*_spaceDim];
+spatialdata::spatialdb::SimpleDBData::getCoordinates(const size_t index) {
+    assert(index >= 0 && index < _numLocs);
+    return &_coordinates[index*_spaceDim];
 }
+
 
 // Get data values at location in database.
 inline
 const double*
-spatialdata::spatialdb::SimpleDBData::data(const int index) const {
-  assert(index >= 0 && index < _numLocs);
-  return &_data[index*_numValues];
+spatialdata::spatialdb::SimpleDBData::getData(const size_t index) const {
+    assert(index >= 0 && index < _numLocs);
+    return &_data[index*_numValues];
 }
+
 
 // Get data values at location in database.
 inline
 double*
-spatialdata::spatialdb::SimpleDBData::data(const int index) {
-  assert(index >= 0 && index < _numLocs);
-  return &_data[index*_numValues];
+spatialdata::spatialdb::SimpleDBData::getData(const size_t index) {
+    assert(index >= 0 && index < _numLocs);
+    return &_data[index*_numValues];
 }
+
 
 // Get name of value.
 inline
 const char*
-spatialdata::spatialdb::SimpleDBData::name(const int index) const {
-  assert(index >= 0 && index < _numValues);
-  return _names[index].c_str();
+spatialdata::spatialdb::SimpleDBData::getName(const size_t index) const {
+    assert(index >= 0 && index < _numValues);
+    return _names[index].c_str();
 }
-    
+
+
 // Get units of value.
 inline
 const char*
-spatialdata::spatialdb::SimpleDBData::units(const int index) const {
-  assert(index >= 0 && index < _numValues);
-  return _units[index].c_str();
+spatialdata::spatialdb::SimpleDBData::getUnits(const size_t index) const {
+    assert(index >= 0 && index < _numValues);
+    return _units[index].c_str();
 }
 
 
-// End of file 
+// End of file

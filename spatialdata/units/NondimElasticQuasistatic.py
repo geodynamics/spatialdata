@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # ----------------------------------------------------------------------
 #
 # Brad T. Aagaard, U.S. Geological Survey
@@ -13,17 +11,14 @@
 #
 # ----------------------------------------------------------------------
 #
-
 # @file spatialdata/units/NondimElasticQuasistatic.py
-##
+#
 # @brief Python manager for nondimensionalizing quasi-static
 # elasticity problems.
-##
+#
 # Factory: nondimensional
 
 from Nondimensional import Nondimensional
-
-# NondimElasticQuasistatic class
 
 
 class NondimElasticQuasistatic(Nondimensional):
@@ -31,44 +26,34 @@ class NondimElasticQuasistatic(Nondimensional):
     Python manager for nondimensionalizing quasi-static elasticity problems.
 
     Factory: nondimensional
+
+    INVENTORY
+
+    Properties
+      - *shear_modulus* Shear modules for pressure scale of problem.
+      - *length_scale* Discretization size for length scale of problem.
+      - *relaxation_time* Viscoelastic relaxation time for time scale of problem.
+
+    Facilities
+      - None
     """
 
-    # INVENTORY //////////////////////////////////////////////////////////
+    import pyre.inventory
 
-    class Inventory(Nondimensional.Inventory):
-        """
-        Python object for managing NondimElasticQuasistatic facilities and
-        properties.
-        """
+    from pyre.units.length import meter
+    lengthScale = pyre.inventory.dimensional("length_scale", default=1.0e+3 * meter,
+                                             validator=pyre.inventory.greater(0.0 * meter))
+    lengthScale.meta['tip'] = "Value to nondimensionalize length scale."
 
-        # @class Inventory
-        # Python object for managing NondimElasticQuasistatic facilities and
-        # properties.
-        ##
-        # \b Properties
-        # @li \b shear_modulus Shear modulus to nondimensionalize pressure.
-        # @li \b length_scale Value to nondimensionalize length scale.
-        # @li \b relaxation_time Relaxation time to nondimensionalize time.
-        ##
-        # \b Facilities
-        # @li None
+    from pyre.units.pressure import pascal
+    shearModulus = pyre.inventory.dimensional("shear_modulus", default=3.0e+10 * pascal,
+                                              validator=pyre.inventory.greater(0.0 * pascal))
+    shearModulus.meta['tip'] = "Shear modulus to nondimensionalize pressure."
 
-        import pyre.inventory
-
-        from pyre.units.length import meter
-        lengthScale = pyre.inventory.dimensional("length_scale", default=1.0e+3 * meter,
-                                                 validator=pyre.inventory.greater(0.0 * meter))
-        lengthScale.meta['tip'] = "Value to nondimensionalize length scale."
-
-        from pyre.units.pressure import pascal
-        shearModulus = pyre.inventory.dimensional("shear_modulus", default=3.0e+10 * pascal,
-                                                  validator=pyre.inventory.greater(0.0 * pascal))
-        shearModulus.meta['tip'] = "Shear modulus to nondimensionalize pressure."
-
-        from pyre.units.time import year
-        relaxationTime = pyre.inventory.dimensional("relaxation_time", default=100.0 * year,
-                                                    validator=pyre.inventory.greater(0.0 * year))
-        relaxationTime.meta['tip'] = "Relaxation time to nondimensionalize time."
+    from pyre.units.time import year
+    relaxationTime = pyre.inventory.dimensional("relaxation_time", default=100.0 * year,
+                                                validator=pyre.inventory.greater(0.0 * year))
+    relaxationTime.meta['tip'] = "Relaxation time to nondimensionalize time."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -77,7 +62,6 @@ class NondimElasticQuasistatic(Nondimensional):
         Constructor.
         """
         Nondimensional.__init__(self, name)
-        return
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -90,8 +74,6 @@ class NondimElasticQuasistatic(Nondimensional):
         self.setPressureScale(self.inventory.shearModulus)
         self.setTimeScale(self.inventory.relaxationTime)
         self.computeDensityScale()
-
-        return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////

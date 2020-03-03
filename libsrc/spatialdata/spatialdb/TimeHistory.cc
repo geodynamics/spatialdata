@@ -25,95 +25,96 @@
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::TimeHistory::TimeHistory(void) :
-  _label(""),
-  _filename(""),
-  _time(0),
-  _amplitude(0),
-  _npts(0),
-  _ilower(0)
-{ // constructor
+    _label(""),
+    _filename(""),
+    _time(0),
+    _amplitude(0),
+    _npts(0),
+    _ilower(0) { // constructor
 } // constructor
+
 
 // ----------------------------------------------------------------------
 /// Constructor with label
 spatialdata::spatialdb::TimeHistory::TimeHistory(const char* label) :
-  _label(label),
-  _filename(""),
-  _time(0),
-  _amplitude(0),
-  _npts(0),
-  _ilower(0)
-{ // constructor
-} // constructor
+    _label(label),
+    _filename(""),
+    _time(0),
+    _amplitude(0),
+    _npts(0),
+    _ilower(0)
+{}
+
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::TimeHistory::~TimeHistory(void)
-{ // destructor
-  delete[] _time; _time = 0;
-  delete[] _amplitude; _amplitude = 0;
-  _npts = 0;
+spatialdata::spatialdb::TimeHistory::~TimeHistory(void) {
+    delete[] _time;_time = 0;
+    delete[] _amplitude;_amplitude = 0;
+    _npts = 0;
 } // destructor
+
 
 // ----------------------------------------------------------------------
 // Open the time history and prepare for querying.
 void
-spatialdata::spatialdb::TimeHistory::open(void)
-{ // open
-  TimeHistoryIO::read(&_time, &_amplitude, &_npts, _filename.c_str());
-  _ilower = 0;
+spatialdata::spatialdb::TimeHistory::open(void) {
+    TimeHistoryIO::read(&_time, &_amplitude, &_npts, _filename.c_str());
+    _ilower = 0;
 } // open
+
 
 // ----------------------------------------------------------------------
 // Close the time history.
 void
-spatialdata::spatialdb::TimeHistory::close(void)
-{ // close
-  delete[] _time; _time = 0;
-  delete[] _amplitude; _amplitude = 0;
-  _npts = 0;
+spatialdata::spatialdb::TimeHistory::close(void) {
+    delete[] _time;_time = 0;
+    delete[] _amplitude;_amplitude = 0;
+    _npts = 0;
 } // close
+
 
 // ----------------------------------------------------------------------
 // Query the database.
 int
 spatialdata::spatialdb::TimeHistory::query(double* value,
-      const double t)
-{ // query
-  assert(0 != _npts);
+                                           const double t) {
+    assert(0 != _npts);
 
-  *value = 0.0;
-  if (_npts > 1) {
-    if (t < _time[_ilower]) {
-      while (_ilower > 0) {
-	if (t >= _time[_ilower])
-	  break;
-	--_ilower;
-      } // while
-    } else if (t > _time[_ilower+1]) {
-      const int imax = _npts-2;
-      while(_ilower < imax) {
-	if (t <= _time[_ilower+1])
-	  break;
-	++_ilower;
-      } // while
-    } // if/else
+    *value = 0.0;
+    if (_npts > 1) {
+        if (t < _time[_ilower]) {
+            while (_ilower > 0) {
+                if (t >= _time[_ilower]) {
+                    break;
+                }
+                --_ilower;
+            } // while
+        } else if (t > _time[_ilower+1]) {
+            const size_t imax = _npts-2;
+            while (_ilower < imax) {
+                if (t <= _time[_ilower+1]) {
+                    break;
+                }
+                ++_ilower;
+            } // while
+        } // if/else
 
-    assert(_ilower < _npts-1);
-    if (t >= _time[_ilower] && t <= _time[_ilower+1]) {
-      const double tL = _time[_ilower];
-      const double tU = _time[_ilower+1];
-      const double wtL = (tU - t) / (tU - tL);
-      const double wtU = (t - tL) / (tU - tL);
-      *value = wtL * _amplitude[_ilower] + wtU * _amplitude[_ilower+1];
+        assert(_ilower < _npts-1);
+        if (( t >= _time[_ilower]) && ( t <= _time[_ilower+1]) ) {
+            const double tL = _time[_ilower];
+            const double tU = _time[_ilower+1];
+            const double wtL = (tU - t) / (tU - tL);
+            const double wtU = (t - tL) / (tU - tL);
+            *value = wtL * _amplitude[_ilower] + wtU * _amplitude[_ilower+1];
+        } else {
+            return 1;
+        } // else
     } else {
-      return 1;
+        *value = _amplitude[0];
     } // else
-  } else {
-    *value = _amplitude[0];
-  } // else
 
-  return 0;
+    return 0;
 } // query
 
 
@@ -121,15 +122,14 @@ spatialdata::spatialdb::TimeHistory::query(double* value,
 // Query the database.
 int
 spatialdata::spatialdb::TimeHistory::query(float* value,
-					   const float t)
-{ // query
-  double valueD = 0.0;
-  const double tD = t;
+                                           const float t) { // query
+    double valueD = 0.0;
+    const double tD = t;
 
-  const int err = query(&valueD, tD);
-  *value = valueD;
-  return err;
+    const int err = query(&valueD, tD);
+    *value = valueD;
+    return err;
 } // query
 
 
-// End of file 
+// End of file

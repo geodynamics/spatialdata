@@ -16,135 +16,149 @@
 
 #include <portinfo>
 
-#include "TestNondimensional.hh" // Implementation of class methods
+#include <cppunit/extensions/HelperMacros.h>
 
 #include "spatialdata/units/Nondimensional.hh" // USES Nondimensional
 
 #include <valarray> // USES std::valarray
 
 // ----------------------------------------------------------------------
+namespace spatialdata {
+    namespace units {
+        class TestNondimensional;
+    } // units
+} // spatialdata
+
+class spatialdata::units::TestNondimensional : public CppUnit::TestFixture {
+    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
+    CPPUNIT_TEST_SUITE(TestNondimensional);
+
+    CPPUNIT_TEST(testConstructors);
+    CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testComputeDensityScale);
+    CPPUNIT_TEST(testComputePressureScale);
+    CPPUNIT_TEST(testNondimensionalize);
+    CPPUNIT_TEST(testNondimensionalizeArray);
+
+    CPPUNIT_TEST_SUITE_END();
+
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
+
+    /// Test constructors.
+    void testConstructors(void);
+
+    /// Test accessors.
+    void testAccessors(void);
+
+    /// Test computeDensityScale.
+    void testComputeDensityScale(void);
+
+    /// Test computePressureScale.
+    void testComputePressureScale(void);
+
+    /// Test nondimensionalize() and dimensionalize().
+    void testNondimensionalize(void);
+
+    /// Test nondimensionalie() and dimensionalize() with arrays.
+    void testNondimensionalizeArray(void);
+
+}; // class TestNondimensional
+
 CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::units::TestNondimensional);
 
 // ----------------------------------------------------------------------
 // Test constructor.
 void
-spatialdata::units::TestNondimensional::testConstructor(void) {
-    Nondimensional dim;
-    CPPUNIT_ASSERT_EQUAL(1.0, dim._length);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim._pressure);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim._time);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim._density);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim._temperature);
-} // testConstructor
+spatialdata::units::TestNondimensional::testConstructors(void) {
+    const double defaultLength(1.0);
+    const double defaultPressure(1.0);
+    const double defaultTime(1.0);
+    const double defaultDensity(1.0);
+    const double defaultTemperature(1.0);
 
-// ----------------------------------------------------------------------
-// Test copy constructor.
-void
-spatialdata::units::TestNondimensional::testCopyConstructor(void) {
     Nondimensional dim;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default length scale", defaultLength, dim._length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default pressure scale", defaultPressure, dim._pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default time scale", defaultTime, dim._time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default density scale", defaultDensity, dim._density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default temperature scale", defaultTemperature, dim._temperature);
+
     dim._length = 2.0;
     dim._pressure = 3.0;
     dim._time = 4.0;
     dim._density = 5.0;
-    dim._temperature = 7.0;
+    dim._temperature = 6.0;
+    Nondimensional dimCopy(dim);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy length scale", dim._length, dimCopy._length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy pressure scale", dim._pressure, dimCopy._pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy time scale", dim._time, dimCopy._time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy density scale", dim._density, dimCopy._density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in copy temperature scale", dim._temperature, dimCopy._temperature);
 
-    Nondimensional dim2(dim);
-    CPPUNIT_ASSERT_EQUAL(2.0, dim2._length);
-    CPPUNIT_ASSERT_EQUAL(3.0, dim2._pressure);
-    CPPUNIT_ASSERT_EQUAL(4.0, dim2._time);
-    CPPUNIT_ASSERT_EQUAL(5.0, dim2._density);
-    CPPUNIT_ASSERT_EQUAL(7.0, dim2._temperature);
-} // testCopyConstructor
+    Nondimensional dimAssign;
+    dimAssign = dim;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign length scale", dim._length, dimAssign._length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign pressure scale", dim._pressure, dimAssign._pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign time scale", dim._time, dimAssign._time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign density scale", dim._density, dimAssign._density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in assign temperature scale", dim._temperature, dimAssign._temperature);
+} // testConstructors
 
-// ----------------------------------------------------------------------
-// Test assignment.
-void
-spatialdata::units::TestNondimensional::testAssignment(void) {
-    Nondimensional dim;
-    dim._length = 2.0;
-    dim._pressure = 3.0;
-    dim._time = 4.0;
-    dim._density = 5.0;
-    dim._temperature = 7.0;
-
-    Nondimensional dim2;
-    dim2 = dim;
-    CPPUNIT_ASSERT_EQUAL(2.0, dim2._length);
-    CPPUNIT_ASSERT_EQUAL(3.0, dim2._pressure);
-    CPPUNIT_ASSERT_EQUAL(4.0, dim2._time);
-    CPPUNIT_ASSERT_EQUAL(5.0, dim2._density);
-    CPPUNIT_ASSERT_EQUAL(7.0, dim2._temperature);
-} // testAssignment
 
 // ----------------------------------------------------------------------
-// Test lengthScale().
+// Test accessors.
 void
-spatialdata::units::TestNondimensional::testLengthScale(void) {
+spatialdata::units::TestNondimensional::testAccessors(void) {
+    const double length(4.0);
+    const double pressure(5.0);
+    const double time(6.0);
+    const double density(7.0);
+    const double temperature(8.0);
+
     Nondimensional dim;
 
-    const double scale = 4.0;
-    dim.lengthScale(scale);
-    CPPUNIT_ASSERT_EQUAL(scale, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.densityScale());
-} // testLengthScale
+    // Length scale
+    dim.setLengthScale(length);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in pressure scale.", 1.0, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in time scale.", 1.0, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in density scale.", 1.0, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set length scale: Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
-// ----------------------------------------------------------------------
-// Test pressureScale().
-void
-spatialdata::units::TestNondimensional::testPressureScale(void) {
-    Nondimensional dim;
+    // Pressure scale
+    dim.setPressureScale(pressure);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in time scale.", 1.0, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in density scale.", 1.0, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set pressure scale. Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
-    const double scale = 4.0;
-    dim.pressureScale(scale);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL(scale, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.densityScale());
-} // testPressureScale
+    // Time scale
+    dim.setTimeScale(time);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in time scale.", time, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in density scale.", 1.0, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set time scale. Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
-// ----------------------------------------------------------------------
-// Test timeScale().
-void
-spatialdata::units::TestNondimensional::testTimeScale(void) {
-    Nondimensional dim;
+    // Density scale
+    dim.setDensityScale(density);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in time scale.", time, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in density scale.", density, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set density scale. Mismatch in temperature scale.", 1.0, dim.getTemperatureScale());
 
-    const double scale = 4.0;
-    dim.timeScale(scale);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL(scale, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.densityScale());
-} // testTimeScale
+    // Temperature scale
+    dim.setTemperatureScale(temperature);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in length scale.", length, dim.getLengthScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in pressure scale.", pressure, dim.getPressureScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in time scale.", time, dim.getTimeScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in density scale.", density, dim.getDensityScale());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Set temperature scale. Mismatch in temperature scale.", temperature, dim.getTemperatureScale());
+} // testAccessors
 
-// ----------------------------------------------------------------------
-// Test densityScale().
-void
-spatialdata::units::TestNondimensional::testDensityScale(void) {
-    Nondimensional dim;
-
-    const double scale = 4.0;
-    dim.densityScale(scale);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL(scale, dim.densityScale());
-} // testDensityScale
-
-// ----------------------------------------------------------------------
-// Test temperatureScale().
-void
-spatialdata::units::TestNondimensional::testTemperatureScale(void) {
-    Nondimensional dim;
-
-    const double scale = 4.0;
-    dim.temperatureScale(scale);
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.lengthScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.pressureScale());
-    CPPUNIT_ASSERT_EQUAL(1.0, dim.timeScale());
-    CPPUNIT_ASSERT_EQUAL(scale, dim.temperatureScale());
-} // testTemperatureScale
 
 // ----------------------------------------------------------------------
 // Test computePressureScale().
@@ -158,12 +172,13 @@ spatialdata::units::TestNondimensional::testComputePressureScale(void) {
     const double pressureScale = densityScale * velocityScale * velocityScale;
 
     Nondimensional dim;
-    dim.timeScale(timeScale);
-    dim.densityScale(densityScale);
-    dim.lengthScale(lengthScale);
+    dim.setTimeScale(timeScale);
+    dim.setDensityScale(densityScale);
+    dim.setLengthScale(lengthScale);
     dim.computePressureScale();
-    CPPUNIT_ASSERT_EQUAL(pressureScale, dim.pressureScale());
+    CPPUNIT_ASSERT_EQUAL(pressureScale, dim.getPressureScale());
 } // testComputePressureScale
+
 
 // ----------------------------------------------------------------------
 // Test computeDensityScale().
@@ -177,15 +192,16 @@ spatialdata::units::TestNondimensional::testComputeDensityScale(void) {
     const double densityScale = pressureScale / (velocityScale * velocityScale);
 
     Nondimensional dim;
-    dim.timeScale(timeScale);
-    dim.pressureScale(pressureScale);
-    dim.lengthScale(lengthScale);
-    dim.computePressureScale();
-    CPPUNIT_ASSERT_EQUAL(densityScale, dim.densityScale());
+    dim.setTimeScale(timeScale);
+    dim.setPressureScale(pressureScale);
+    dim.setLengthScale(lengthScale);
+    dim.computeDensityScale();
+    CPPUNIT_ASSERT_EQUAL(densityScale, dim.getDensityScale());
 } // testComputeDensityScale
 
+
 // ----------------------------------------------------------------------
-// Test nondimensionalize().
+// Test nondimensionalize() and dimensionalize().
 void
 spatialdata::units::TestNondimensional::testNondimensionalize(void) {
     const double scale = 4.0;
@@ -193,57 +209,38 @@ spatialdata::units::TestNondimensional::testNondimensionalize(void) {
     const double valueE = 0.75;
 
     Nondimensional dim;
-    CPPUNIT_ASSERT_EQUAL(valueE, dim.nondimensionalize(value, scale));
-} // testNondimensionalize
-
-// ----------------------------------------------------------------------
-// Test dimensionalize().
-void
-spatialdata::units::TestNondimensional::testDimensionalize(void) {
-    const double scale = 4.0;
-    const double value = 0.75;
-    const double valueE = 3.0;
-
-    Nondimensional dim;
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(valueE, dim.dimensionalize(value, scale), tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in nondimensionalized value.",
+                                         valueE, dim.nondimensionalize(value, scale), tolerance);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in dimensionalize value.",
+                                         value, dim.dimensionalize(valueE, scale), tolerance);
 } // testNondimensionalize
 
+
 // ----------------------------------------------------------------------
-// Test nondimensionalize() with arrays.
+// Test nondimensionalize() and dimensionalize() with arrays.
 void
 spatialdata::units::TestNondimensional::testNondimensionalizeArray(void) {
     const double scale = 10.0;
-    const int nvalues = 3;
-    const double values[] = { 2.0, 5.0, 7.0 };
-    const double valuesE[] = { 0.2, 0.5, 0.7 };
+    const size_t nvalues = 3;
+    const double values[nvalues] = { 2.0, 5.0, 7.0 };
+    const double valuesE[nvalues] = { 0.2, 0.5, 0.7 };
 
     Nondimensional dim;
+
     std::valarray<double> v(values, nvalues);
     dim.nondimensionalize(&v[0], nvalues, scale);
-
     const double tolerance = 1.0e-6;
-    for (int i = 0; i < nvalues; ++i)
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(valuesE[i], v[i], tolerance);
-} // testNondimensionalizeArray
+    for (size_t i = 0; i < nvalues; ++i) {
+        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in nondimensionalized values.", valuesE[i], v[i], tolerance);
+    } // for
 
-// ----------------------------------------------------------------------
-// Test dimensionalize() with arrays.
-void
-spatialdata::units::TestNondimensional::testDimensionalizeArray(void) {
-    const double scale = 10.0;
-    const int nvalues = 3;
-    const double values[] = { 0.2, 0.5, 0.7 };
-    const double valuesE[] = { 2.0, 5.0, 7.0 };
-
-    Nondimensional dim;
-    std::valarray<double> v(values, nvalues);
+    v = std::valarray<double>(valuesE, nvalues);
     dim.dimensionalize(&v[0], nvalues, scale);
-
-    const double tolerance = 1.0e-6;
-    for (int i = 0; i < nvalues; ++i)
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(valuesE[i], v[i], tolerance);
-} // testDimensionalizeArray
+    for (size_t i = 0; i < nvalues; ++i) {
+        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in dimensionalized values.", values[i], v[i], tolerance);
+    } // for
+} // testNondimensionalizeArray
 
 
 // End of file

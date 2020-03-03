@@ -4,8 +4,3 @@ GEOCOORDS
     Update libtest.
 
   Make it possible to pickle/unpickle to/from file like in C++?
-
-
-LONG-TERM
-
-  Update Python test scripts.

@@ -21,30 +21,33 @@
 // Set label of time history.
 inline
 void
-spatialdata::spatialdb::TimeHistory::label(const char* label) {
-  _label = label;
+spatialdata::spatialdb::TimeHistory::setLabel(const char* label) {
+    _label = label;
 }
-  
+
+
 // Get label of time history.
 inline
 const char*
-spatialdata::spatialdb::TimeHistory::label(void) const {
-  return _label.c_str();
+spatialdata::spatialdb::TimeHistory::getLabel(void) const {
+    return _label.c_str();
 }
+
 
 // Set filename for time history.
 inline
 void
-spatialdata::spatialdb::TimeHistory::filename(const char* name) {
-  _filename = name;
+spatialdata::spatialdb::TimeHistory::setFilename(const char* name) {
+    _filename = name;
 }
-  
+
+
 // Set filename for time history.
 inline
 const char*
-spatialdata::spatialdb::TimeHistory::filename(void) {
-  return _filename.c_str();
+spatialdata::spatialdb::TimeHistory::getFilename(void) {
+    return _filename.c_str();
 }
-  
 
-// End of file 
+
+// End of file

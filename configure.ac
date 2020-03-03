@@ -15,7 +15,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [1.10.1], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [2.0.0], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
@@ -64,15 +64,13 @@ AM_PROG_CC_C_O
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 
+# Require C++-11
+AX_CXX_COMPILE_STDCXX(11)
+
 # ----------------------------------------------------------------------
-# PROJ4
-AC_CHECK_LIB(proj, pj_init_plus, [
-  AC_CHECK_HEADER([proj_api.h], [], [
-    AC_MSG_ERROR([Proj4 header not found; try CPPFLAGS="-I<Proj4 include dir>"])
-  ])
-],[
-  AC_MSG_ERROR([Proj4 library not found; try LDFLAGS="-L<Proj4 lib dir>"])
-])
+# PROJ
+CIT_PROJ6_HEADER
+CIT_PROJ6_LIB
 
 # CPPUNIT
 AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])
@@ -151,10 +149,10 @@ AC_CONFIG_FILES([Makefile
 	libsrc/Makefile
 	libsrc/spatialdata/Makefile
 	libsrc/spatialdata/geocoords/Makefile
-	libsrc/spatialdata/geocoords/data/Makefile
 	libsrc/spatialdata/spatialdb/Makefile
 	libsrc/spatialdata/units/Makefile
 	libsrc/spatialdata/utils/Makefile
+	libsrc/spatialdata/testing/Makefile
 	modulesrc/Makefile
 	modulesrc/include/Makefile
 	modulesrc/geocoords/Makefile
@@ -165,12 +163,10 @@ AC_CONFIG_FILES([Makefile
 	tests/Makefile
 	tests/libtests/Makefile
 	tests/libtests/geocoords/Makefile
-	tests/libtests/geocoords/data/Makefile
 	tests/libtests/spatialdb/Makefile
 	tests/libtests/spatialdb/data/Makefile
 	tests/libtests/units/Makefile
 	tests/libtests/utils/Makefile
-	tests/libtests/utils/data/Makefile
 	tests/pytests/Makefile
 	tests/pytests/geocoords/Makefile
 	tests/pytests/spatialdb/Makefile
@@ -184,4 +180,4 @@ AC_CONFIG_FILES([Makefile
 AC_OUTPUT
 
 
-# End of file 
+# End of file

@@ -23,11 +23,7 @@ check_PROGRAMS = testunits
 testunits_SOURCES = \
 	TestNondimensional.cc \
 	TestParser.cc \
-	testunits.cc
-
-noinst_HEADERS = \
-	TestNondimensional.hh \
-	TestParser.hh
+	test_driver.cc
 
 AM_CPPFLAGS += -I$(PYTHON_INCDIR) $(PYTHON_EGG_CPPFLAGS)
 
@@ -41,4 +37,4 @@ testunits_LDADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
-# End of file 
+# End of file

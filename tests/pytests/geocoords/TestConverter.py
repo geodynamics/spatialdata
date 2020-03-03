@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env nemesis
 #
 # ======================================================================
 #
@@ -18,58 +18,73 @@ import unittest
 
 import numpy
 
-lonlatNAD27ElevVals = numpy.array([
-  [ -1.150000000000e+02,  3.900000000000e+01,  1.200000000000e+01],
-  [ -1.203425320000e+02,  4.323423000000e+01,  1.010000000000e+01],
-  [ -1.213425320000e+02,  4.523423000000e+01,  3.600000000000e+00],
-  [ -1.153425320000e+02,  3.623423000000e+01,  7.200000000000e+00],
-  [ -1.103425320000e+02,  3.923423000000e+01,  1.233000000000e+02],
-  [ -1.073425320000e+02,  3.323423000000e+01,  3.460000000000e+01] ],
-                                    numpy.float64)
-xyzLocalVals = numpy.array([
-  [ -1.284640403035e+06,  1.064304545254e+05, -1.314223692642e+05],
-  [ -1.617989794934e+06,  6.524818198322e+05, -2.429529282853e+05],
-  [ -1.637488936891e+06,  8.852730256818e+05, -2.774331803783e+05],
-  [ -1.362847273202e+06, -1.913287267443e+05, -1.500646063011e+05],
-  [ -8.881745585536e+05,  7.658679833419e+04, -6.239199171253e+04],
-  [ -6.825105927499e+05, -6.111332573069e+05, -6.615476872030e+04] ],
-                             numpy.float64)
+lonlatNAD27 = numpy.array([
+    [3.900000000000e+01, -1.150000000000e+02],
+    [4.323423000000e+01, -1.203425320000e+02],
+    [4.523423000000e+01, -1.213425320000e+02],
+    [3.623423000000e+01, -1.153425320000e+02],
+    [3.923423000000e+01, -1.103425320000e+02],
+    [3.323423000000e+01, -1.073425320000e+02]],
+    numpy.float64)
+lonlatWGS84 = numpy.array([
+    [38.99994227694298, -115.00085076334376],
+    [43.234128917800746, -120.34362083668957],
+    [45.23410304341094, -121.34368736399294],
+    [36.234196301769245, -115.3433730158481],
+    [39.23419970865653, -110.34324423951884],
+    [33.23430190357505, -107.34312119874491]],
+    numpy.float64)
+
+xyKm = numpy.array([
+    [1.01, 2.02],
+    [2.02, 3.02]],
+    numpy.float64)
+
 
 class TestConverter(unittest.TestCase):
 
+    def test_geo(self):
+        from spatialdata.geocoords.CSGeo import CSGeo
+        csNAD27 = CSGeo()
+        csNAD27.inventory.specification = "EPSG:4267"
+        csNAD27.inventory.spaceDim = 2
+        csNAD27._configure()
 
-  def test_convert(self):
-    from spatialdata.geocoords.CSGeo import CSGeo
-    csNAD27 = CSGeo()
-    csNAD27.inventory.ellipsoid = "clrk66"
-    csNAD27.inventory.datumHoriz = "NAD27"
-    csNAD27.inventory.datumVert = "mean sea level"
-    csNAD27._configure()
-    csNAD27.initialize()
+        csWGS84 = CSGeo()
+        csWGS84.inventory.specification = "EPSG:4326"
+        csWGS84.inventory.spaceDim = 2
+        csWGS84._configure()
 
-    from spatialdata.geocoords.CSGeoLocalCart import CSGeoLocalCart
-    csLocal = CSGeoLocalCart()
-    csLocal.inventory.originLon = -100.0
-    csLocal.inventory.originLat = 39.0
-    from pyre.units.length import m
-    csLocal.inventory.originElev = 0.01*m
-    csLocal.inventory.ellipsoid = "clrk66"
-    csLocal.inventory.datumHoriz = "NAD27"
-    csLocal.inventory.datumVert = "mean sea level"
-    csLocal._configure()
-    csLocal.initialize()
+        from spatialdata.geocoords.Converter import convert
+        lonlat = numpy.array(lonlatNAD27)
+        convert(lonlat, csWGS84, csNAD27)
 
-    from spatialdata.geocoords.Converter import convert
-    coordsXYZ = numpy.array(lonlatNAD27ElevVals)
-    convert(coordsXYZ, csLocal, csNAD27)
-    xyzLocalValsT = numpy.array(coordsXYZ)
+        self.assertEqual(len(lonlatWGS84.shape), len(lonlat.shape))
+        for (ll, llT) in zip(numpy.reshape(lonlatWGS84, -1),
+                             numpy.reshape(lonlat, -1)):
+            self.assertAlmostEqual(ll, llT, 4)
 
-    self.assertEqual(len(xyzLocalVals.shape), len(xyzLocalValsT.shape))
-    for (xyz, xyzT) in zip(numpy.reshape(xyzLocalVals,-1),
-                           numpy.reshape(xyzLocalValsT, -1)):
-      self.assertAlmostEqual(1.0, xyz/xyzT, 6)
-        
-    return
+    def test_cart(self):
+        from spatialdata.geocoords.CSCart import CSCart
+        csKm = CSCart()
+        csKm.inventory.units = "km"
+        csKm.inventory.spaceDim = 2
+        csKm._configure()
+
+        csM = CSCart()
+        csM.inventory.units = "m"
+        csM.inventory.spaceDim = 2
+        csM._configure()
+
+        from spatialdata.geocoords.Converter import convert
+        xy = numpy.array(xyKm)
+        convert(xy, csM, csKm)
+
+        xyM = xyKm * 1.0e+3
+        self.assertEqual(len(xyM.shape), len(xy.shape))
+        for (xyE, xyT) in zip(numpy.reshape(xyM, -1),
+                              numpy.reshape(xy, -1)):
+            self.assertAlmostEqual(xyE, xyT, 4)
 
 
-# End of file 
+# End of file

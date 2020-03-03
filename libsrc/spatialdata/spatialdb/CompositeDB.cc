@@ -16,332 +16,290 @@
 
 #include <portinfo>
 
-#include "SpatialDB.hh" // ISA SpatialDB object
 #include "CompositeDB.hh" // Implementation of class methods
 
 #include <stdexcept> // USES std::runtime_error
-
 #include <sstream> // USES std::ostringsgream
 #include <strings.h> // USES strcasecmp()
-#include <assert.h> // USES assert()
-
-#include <iostream> // TEMPORARY
+#include <cassert> // USES assert()
 
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::CompositeDB::CompositeDB(void) :
-  _dbA(0),
-  _dbB(0),
-  _infoA(0),
-  _infoB(0)
-{ // constructor
-} // constructor
+    _dbA(NULL),
+    _dbB(NULL),
+    _infoA(NULL),
+    _infoB(NULL) {}
+
 
 // ----------------------------------------------------------------------
 /// Constructor with label
 spatialdata::spatialdb::CompositeDB::CompositeDB(const char* label) :
-  SpatialDB(label),
-  _dbA(0),
-  _dbB(0),
-  _infoA(0),
-  _infoB(0)
-{ // constructor
-} // constructor
+    SpatialDB(label),
+    _dbA(NULL),
+    _dbB(NULL),
+    _infoA(NULL),
+    _infoB(NULL) {}
+
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::CompositeDB::~CompositeDB(void)
-{ // destructor
-  // Don't manage memory for dbA and dbB
+spatialdata::spatialdb::CompositeDB::~CompositeDB(void) {
+    // Don't manage memory for dbA and dbB
 
-  if (0 != _infoA) {
-    delete[] _infoA->query_buffer; _infoA->query_buffer = 0;
-    delete[] _infoA->query_indices; _infoA->query_indices = 0;
-    delete[] _infoA->names_values; _infoA->names_values = 0;
-  } // if
-  delete _infoA; _infoA = 0;
-
-  if (0 != _infoB) {
-    delete[] _infoB->query_buffer; _infoB->query_buffer = 0;
-    delete[] _infoB->query_indices; _infoB->query_indices = 0;
-    delete[] _infoB->names_values; _infoB->names_values = 0;
-  } // if
-  delete _infoB; _infoB = 0;
+    delete _infoA;_infoA = NULL;
+    delete _infoB;_infoB = NULL;
 } // destructor
+
 
 // ----------------------------------------------------------------------
 // Set database A.
 void
-spatialdata::spatialdb::CompositeDB::dbA(SpatialDB* db,
-					 const char* const* names,
-					 const int numNames)
-{ // dbA
-  assert(0 != db);
-  assert(names != 0);
-  assert(numNames > 0);
+spatialdata::spatialdb::CompositeDB::setDBA(SpatialDB* db,
+                                            const char* const* names,
+                                            const size_t numNames) {
+    assert(db);
+    assert(names);
+    assert(numNames > 0);
 
-  // Clear out old data
-  if (0 != _infoA) {
-    delete[] _infoA->query_buffer; _infoA->query_buffer = 0;
-    delete[] _infoA->query_indices; _infoA->query_indices = 0;
-    delete[] _infoA->names_values; _infoA->names_values = 0;
-  } else
-    _infoA = new dbinfo;
+    // Clear out old data
+    delete _infoA;_infoA = new DBInfo;
+    _dbA = db;
 
-  _dbA = db;
+    // Set data
+    if (numNames > 0) {
+        _infoA->names_values = new std::string[numNames];
+        _infoA->num_names = numNames;
+        for (size_t i = 0; i < numNames; ++i) {
+            _infoA->names_values[i] = names[i];
+        } // for
+    } // if
+} // setDBA
 
-  // Initialize data
-  _infoA->query_buffer = 0;
-  _infoA->query_indices = 0;
-  _infoA->names_values = 0;
-  _infoA->query_size = 0;
-  _infoA->num_names = 0;
-  
-  // Set data
-  if (numNames > 0) {
-    _infoA->names_values = new std::string[numNames];
-    _infoA->num_names = numNames;
-    for (int i=0; i < numNames; ++i)
-      _infoA->names_values[i] = names[i];
-  } // if
-} // dbA
 
 // ----------------------------------------------------------------------
 // Set database B.
 void
-spatialdata::spatialdb::CompositeDB::dbB(SpatialDB* db,
-					 const char* const* names,
-					 const int numNames)
-{ // dbB
-  assert(0 != db);
-  assert(names != 0);
-  assert(numNames > 0);
+spatialdata::spatialdb::CompositeDB::setDBB(SpatialDB* db,
+                                            const char* const* names,
+                                            const size_t numNames) {
+    assert(db);
+    assert(names);
+    assert(numNames > 0);
 
-  // Clear out old data
-  if (0 != _infoB) {
-    delete[] _infoB->query_buffer; _infoB->query_buffer = 0;
-    delete[] _infoB->query_indices; _infoB->query_indices = 0;
-    delete[] _infoB->names_values; _infoB->names_values = 0;
-  } else
-    _infoB = new dbinfo;
+    // Clear out old data
+    delete _infoB;_infoB = new DBInfo;
+    _dbB = db;
 
-  _dbB = db;
+    // Set data
+    if (numNames > 0) {
+        _infoB->names_values = new std::string[numNames];
+        _infoB->num_names = numNames;
+        for (size_t i = 0; i < numNames; ++i) {
+            _infoB->names_values[i] = names[i];
+        } // for
+    } // if
+} // setDBB
 
-  // Initialize data
-  _infoB->query_buffer = 0;
-  _infoB->query_indices = 0;
-  _infoB->names_values = 0;
-  _infoB->query_size = 0;
-  _infoB->num_names = 0;
-  
-  // Set data
-  if (numNames > 0) {
-    _infoB->names_values = new std::string[numNames];
-    _infoB->num_names = numNames;
-    for (int i=0; i < numNames; ++i)
-      _infoB->names_values[i] = names[i];
-  } // if
-} // dbB
 
 // ----------------------------------------------------------------------
 // Open the database and prepare for querying.
 void
-spatialdata::spatialdb::CompositeDB::open(void)
-{ // open
-  if (0 == _dbA)
-    throw std::runtime_error("Cannot open database A. Database was not set.");
-  if (0 == _dbB)
-    throw std::runtime_error("Cannot open database B. Database was not set.");
+spatialdata::spatialdb::CompositeDB::open(void) {
+    if (!_dbA) {
+        throw std::runtime_error("Cannot open database A. Database was not set.");
+    }
+    if (!_dbB) {
+        throw std::runtime_error("Cannot open database B. Database was not set.");
+    }
 
-  _dbA->open();
-  _dbB->open();
+    _dbA->open();
+    _dbB->open();
 } // open
+
 
 // ----------------------------------------------------------------------
 // Close the database.
 void
-spatialdata::spatialdb::CompositeDB::close(void)
-{ // close
-  if (0 == _dbA)
-    throw std::runtime_error("Cannot close database A. Database was not set.");
-  if (0 == _dbB)
-    throw std::runtime_error("Cannot close database B. Database was not set.");
+spatialdata::spatialdb::CompositeDB::close(void) {
+    if (!_dbA) {
+        throw std::runtime_error("Cannot close database A. Database was not set.");
+    }
+    if (!_dbB) {
+        throw std::runtime_error("Cannot close database B. Database was not set.");
+    }
 
-  _dbA->close();
-  _dbB->close();
+    _dbA->close();
+    _dbB->close();
 } // close
+
 
 // ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
-spatialdata::spatialdb::CompositeDB::queryVals(const char* const* names,
-					       const int numVals)
-{ // queryVals
-  assert(0 != _dbA);
-  assert(0 != _infoA);
-  assert(0 != _dbB);
-  assert(0 != _infoB);
+spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
+                                                    const size_t numVals) {
+    assert(_dbA);
+    assert(_infoA);
+    assert(_dbB);
+    assert(_infoB);
 
-  if (0 == numVals) {
-    std::ostringstream msg;
-    msg
-      << "Number of values for query in spatial database " << label()
-      << " must be positive.\n";
-    throw std::runtime_error(msg.str());
-  } // if
-  assert(0 != names && 0 < numVals);
-  
-  _infoA->query_size = 0;
-  _infoB->query_size = 0;
-  const int numNamesA = _infoA->num_names;
-  const int numNamesB = _infoB->num_names;
-  for (int iVal=0; iVal < numVals; ++iVal) {
-    bool foundA = false;
-    bool foundB = false;
+    if (0 == numVals) {
+        std::ostringstream msg;
+        msg << "Number of values for query in spatial database " << getLabel()
+            << " must be positive.\n";
+        throw std::runtime_error(msg.str());
+    } // if
+    assert(names && 0 < numVals);
 
-    // Search database A names for name
-    int iName = 0;
-    while (iName < numNamesA) {
-      if (0 == strcasecmp(names[iVal], _infoA->names_values[iName].c_str())) {
-	foundA = true;
-	++_infoA->query_size;
-	break;
-      } // if
-      ++iName;
-    } // while
+    _infoA->query_size = 0;
+    _infoB->query_size = 0;
+    const size_t numNamesA = _infoA->num_names;
+    const size_t numNamesB = _infoB->num_names;
+    for (size_t iVal = 0; iVal < numVals; ++iVal) {
+        bool foundA = false;
+        bool foundB = false;
 
-    // Search database B names for name
-    iName = 0;
-    while (iName < numNamesB) {
-      if (0 == strcasecmp(names[iVal], _infoB->names_values[iName].c_str())) {
-	foundB = true;
-	++_infoB->query_size;
-	break;
-      } // if
-      ++iName;
-    } // while
+        // Search database A names for name
+        size_t iName = 0;
+        while (iName < numNamesA) {
+            if (0 == strcasecmp(names[iVal], _infoA->names_values[iName].c_str())) {
+                foundA = true;
+                ++_infoA->query_size;
+                break;
+            } // if
+            ++iName;
+        } // while
 
-    if (!foundA && !foundB) {
-      std::ostringstream msg;
-      msg
-	<< "Value " << names[iVal]
-	<< " not found in either database A or database B.";
-      throw std::runtime_error(msg.str());
-    } else if (foundA && foundB) {
-      std::ostringstream msg;
-      msg
-	<< "Value " << names[iVal]
-	<< " found in both database A or database B.";
-      throw std::runtime_error(msg.str());
-    } // if/else
-  } // for
-  assert(_infoA->query_size + _infoB->query_size == numVals);
+        // Search database B names for name
+        iName = 0;
+        while (iName < numNamesB) {
+            if (0 == strcasecmp(names[iVal], _infoB->names_values[iName].c_str())) {
+                foundB = true;
+                ++_infoB->query_size;
+                break;
+            } // if
+            ++iName;
+        } // while
 
-  // Setup query values for A
-  const int qsizeA = _infoA->query_size;
-  char** queryValsA = (qsizeA > 0) ? new char*[qsizeA] : 0;
-  delete[] _infoA->query_indices;
-  _infoA->query_indices = (qsizeA > 0) ? new int[qsizeA] : 0;
-  delete[] _infoA->query_buffer;
-  _infoA->query_buffer = (qsizeA > 0) ? new double[qsizeA] : 0;
+        if (!foundA && !foundB) {
+            std::ostringstream msg;
+            msg << "Value " << names[iVal]
+                << " not found in either database A or database B.";
+            throw std::runtime_error(msg.str());
+        } else if (foundA && foundB) {
+            std::ostringstream msg;
+            msg << "Value " << names[iVal]
+                << " found in both database A or database B.";
+            throw std::runtime_error(msg.str());
+        } // if/else
+    } // for
+    assert(_infoA->query_size + _infoB->query_size == numVals);
 
-  // Setup query values for B
-  const int qsizeB = _infoB->query_size;
-  char** queryValsB = (qsizeB > 0) ? new char*[qsizeB] : 0;
-  delete[] _infoB->query_indices;
-  _infoB->query_indices = (qsizeB > 0) ? new int[qsizeB] : 0;
-  delete[] _infoB->query_buffer;
-  _infoB->query_buffer = (qsizeB > 0) ? new double[qsizeB] : 0;
+    // Setup query values for A
+    const size_t qsizeA = _infoA->query_size;
+    char** queryValsA = (qsizeA > 0) ? new char*[qsizeA] : NULL;
+    delete[] _infoA->query_indices;
+    _infoA->query_indices = (qsizeA > 0) ? new size_t[qsizeA] : NULL;
+    delete[] _infoA->query_buffer;
+    _infoA->query_buffer = (qsizeA > 0) ? new double[qsizeA] : NULL;
 
-  for (int iVal=0, indexA=0, indexB=0; iVal < numVals; ++iVal) {
-    int iName = 0;
-    // Search database A names
-    while (iName < numNamesA) {
-      if (0 == strcasecmp(names[iVal], _infoA->names_values[iName].c_str())) {
-	assert(indexA < qsizeA);
-	_infoA->query_indices[indexA] = iVal;
-	queryValsA[indexA] = const_cast<char*>(_infoA->names_values[iName].c_str());
-	++indexA;
-	break;
-      } // if
-      ++iName;
-    } // while
+    // Setup query values for B
+    const size_t qsizeB = _infoB->query_size;
+    char** queryValsB = (qsizeB > 0) ? new char*[qsizeB] : NULL;
+    delete[] _infoB->query_indices;
+    _infoB->query_indices = (qsizeB > 0) ? new size_t[qsizeB] : NULL;
+    delete[] _infoB->query_buffer;
+    _infoB->query_buffer = (qsizeB > 0) ? new double[qsizeB] : NULL;
 
-    // Search database B names
-    iName = 0;
-    while (iName < numNamesB) {
-      if (0 == strcasecmp(names[iVal], _infoB->names_values[iName].c_str())) {
-	assert(indexB < qsizeB);
-	_infoB->query_indices[indexB] = iVal;
-	queryValsB[indexB] = const_cast<char*>(_infoB->names_values[iName].c_str());
-	++indexB;
-	break;
-      } // if
-      ++iName;
-    } // while
-  } // for
-  if (qsizeA > 0) {
-      _dbA->queryVals(const_cast<const char**>(queryValsA), qsizeA);
-  } // if
-  if (qsizeB > 0) {
-      _dbB->queryVals(const_cast<const char**>(queryValsB), qsizeB);
-  } // if
+    for (size_t iVal = 0, indexA = 0, indexB = 0; iVal < numVals; ++iVal) {
+        size_t iName = 0;
+        // Search database A names
+        while (iName < numNamesA) {
+            if (0 == strcasecmp(names[iVal], _infoA->names_values[iName].c_str())) {
+                assert(indexA < qsizeA);
+                _infoA->query_indices[indexA] = iVal;
+                queryValsA[indexA] = const_cast<char*>(_infoA->names_values[iName].c_str());
+                ++indexA;
+                break;
+            } // if
+            ++iName;
+        } // while
 
-  delete[] queryValsA; queryValsA = 0;
-  delete[] queryValsB; queryValsB = 0;
+        // Search database B names
+        iName = 0;
+        while (iName < numNamesB) {
+            if (0 == strcasecmp(names[iVal], _infoB->names_values[iName].c_str())) {
+                assert(indexB < qsizeB);
+                _infoB->query_indices[indexB] = iVal;
+                queryValsB[indexB] = const_cast<char*>(_infoB->names_values[iName].c_str());
+                ++indexB;
+                break;
+            } // if
+            ++iName;
+        } // while
+    } // for
+    if (qsizeA > 0) {
+        _dbA->setQueryValues(const_cast<const char**>(queryValsA), qsizeA);
+    } // if
+    if (qsizeB > 0) {
+        _dbB->setQueryValues(const_cast<const char**>(queryValsB), qsizeB);
+    } // if
+
+    delete[] queryValsA;queryValsA = NULL;
+    delete[] queryValsB;queryValsB = NULL;
 } // queryVals
+
 
 // ----------------------------------------------------------------------
 // Query the database.
 int
-spatialdata::spatialdb::CompositeDB::query(
-			      double* vals,
-			      const int numVals,
-			      const double* coords,
-			      const int numDims,
-			      const spatialdata::geocoords::CoordSys* pCSQuery)
-{ // query
-  assert(0 != _dbA);
-  assert(0 != _infoA);
-  assert(0 != _dbB);
-  assert(0 != _infoB);
+spatialdata::spatialdb::CompositeDB::query(double* vals,
+                                           const size_t numVals,
+                                           const double* coords,
+                                           const size_t numDims,
+                                           const spatialdata::geocoords::CoordSys* pCSQuery) {
+    assert(_dbA);
+    assert(_infoA);
+    assert(_dbB);
+    assert(_infoB);
 
-  const int qsizeA = _infoA->query_size;
-  const int qsizeB = _infoB->query_size;
-  const int querySize = qsizeA + qsizeB;
-  if (0 == querySize) {
-    std::ostringstream msg;
-    msg
-      << "Values to be returned by spatial database " << label()
-      << " have not been set. Please call queryVals() before query().\n";
-    throw std::runtime_error(msg.str());
-  } // if
-  else if (numVals != querySize) {
-    std::ostringstream msg;
-    msg
-      << "Number of values to be returned by spatial database "
-      << label()
-      << "(" << querySize << ") does not match size of array provided ("
-      << numVals << ").\n";
-    throw std::runtime_error(msg.str());
-  } // if
+    const size_t qsizeA = _infoA->query_size;
+    const size_t qsizeB = _infoB->query_size;
+    const size_t querySize = qsizeA + qsizeB;
+    if (0 == querySize) {
+        std::ostringstream msg;
+        msg << "Values to be returned by spatial database " << getLabel()
+            << " have not been set. Please call setQueryValues() before query().\n";
+        throw std::runtime_error(msg.str());
+    } // if
+    else if (numVals != querySize) {
+        std::ostringstream msg;
+        msg << "Number of values to be returned by spatial database "
+            << getLabel()
+            << "(" << querySize << ") does not match size of array provided ("
+            << numVals << ").\n";
+        throw std::runtime_error(msg.str());
+    } // if
 
-  // Query database A
-  if (qsizeA > 0) {
-      _dbA->query(_infoA->query_buffer, qsizeA, coords, numDims, pCSQuery);
-      for (int i=0; i < qsizeA; ++i)
-	  vals[_infoA->query_indices[i]] = _infoA->query_buffer[i];
-  } // if
+    // Query database A
+    if (qsizeA > 0) {
+        _dbA->query(_infoA->query_buffer, qsizeA, coords, numDims, pCSQuery);
+        for (size_t i = 0; i < qsizeA; ++i) {
+            vals[_infoA->query_indices[i]] = _infoA->query_buffer[i];
+        } // for
+    } // if
 
-  // Query database B
-  if (qsizeB > 0) {
-      _dbB->query(_infoB->query_buffer, qsizeB, coords, numDims, pCSQuery);
-      for (int i=0; i < qsizeB; ++i)
-	  vals[_infoB->query_indices[i]] = _infoB->query_buffer[i];
-  } // if
+    // Query database B
+    if (qsizeB > 0) {
+        _dbB->query(_infoB->query_buffer, qsizeB, coords, numDims, pCSQuery);
+        for (size_t i = 0; i < qsizeB; ++i) {
+            vals[_infoB->query_indices[i]] = _infoB->query_buffer[i];
+        } // for
+    } // if
 
-  return 0;
+    return 0;
 } // query
 
 
-// End of file 
+// End of file
