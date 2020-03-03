@@ -1,4 +1,4 @@
-2020/02/26 (version 1.11.0)
+2020/03/03 (version 2.0.0)
 
   Update to use Proj 6.x. This allows a user to specify a coordinate
   system using a string consisting of Proj parameters, EPSG code, or
@@ -171,5 +171,3 @@
 
   Changed interfaces to allow spatial dimension of coordinate systems
   to be 1-D and 2-D instead of just 3-D.
-
-
