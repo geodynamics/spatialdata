@@ -181,7 +181,7 @@ class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityFi
         _data->numPoints = 5;
         _data->querySize = 3;
 
-        const double coordinates[5*3] = {
+        static const double coordinates[5*3] = {
             0.0, 0.0, 6356752.31, // (lon=0.0, lat=90.0)
             6378137.00, 0.0, 0.0, // (lon=0.0, lat=0.0)
             0.0, -6378137.00, 0.0, // (lon=-90.0, lat=0.0)
@@ -190,7 +190,7 @@ class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityFi
         };
         _data->coordinates = coordinates;
 
-        const double gravity[5*3] = {
+        static const double gravity[5*3] = {
             0.0, 0.0, -gacc,
             -gacc, 0.0, 0.0,
             0.0, gacc, 0.0,
