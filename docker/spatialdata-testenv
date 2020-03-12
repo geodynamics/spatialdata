@@ -1,0 +1,64 @@
+# docker build --build-arg BASE_IMAGE=${VARIABLE_NAME} -f DOCKERFILE . -t IMAGE_NAME .
+
+
+# BUILD CIG DEPENDENCIES ----------
+ARG BASE_IMAGE
+from ${BASE_IMAGE} as base
+MAINTAINER Brad Aagaard <baagaard@usgs.gov>
+
+USER ${PYLITH_USER}
+ENV TOP_DIR /home/${PYLITH_USER}
+
+RUN mkdir -p ${TOP_DIR}/src
+ENV PREFIX_DIR ${TOP_DIR}/dependencies
+ENV PATH ${PATH}:${PREFIX_DIR}/bin
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
+ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
+
+
+# Install pythia
+ENV SRC_DIR ${TOP_DIR}/src/pythia
+RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages
+
+RUN git clone --depth 1 --recursive https://github.com/geodynamics/pythia.git ${SRC_DIR}
+WORKDIR ${SRC_DIR}
+RUN python2 setup.py install --prefix=${PREFIX_DIR}
+
+# Install nemesis
+ENV SRC_DIR $TOP_DIR/src/nemesis
+ENV BUILD_DIR $TOP_DIR/build/nemesis
+RUN mkdir -p ${BUILD_DIR}
+
+RUN git clone --depth 1 --recursive https://github.com/geodynamics/nemesis.git ${SRC_DIR}
+WORKDIR ${SRC_DIR}
+RUN autoreconf --install --verbose
+WORKDIR ${BUILD_DIR}
+RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make && make install
+
+
+# CONFIGURE SPATIALDATA ----------
+from base as src
+
+# Copy source code
+ENV PREFIX_DIR ${TOP_DIR}/spatialdata
+ENV BUILD_DIR ${TOP_DIR}/build/spatialdata
+ENV SRC_DIR ${TOP_DIR}/src/spatialdata
+
+COPY --chown=pylith-user:pylith-user . ${SRC_DIR}
+WORKDIR ${SRC_DIR}
+RUN autoreconf --install --verbose --force
+
+RUN mkdir -p ${BUILD_DIR}
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
+ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
+
+WORKDIR ${BUILD_DIR}
+RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-testing --enable-swig CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib"
+
+
+# TESTING ----------
+from src as test
+
+RUN make -j$(nproc) install && make -j$(nproc) check VERBOSE=1
+
+CMD /bin/bash
