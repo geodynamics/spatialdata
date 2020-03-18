@@ -57,6 +57,9 @@ _spatialdbmodule_la_LIBADD = \
 if ENABLE_SWIG
 $(srcdir)/spatialdb_wrap.cxx $(srcdir)/spatialdb.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $<
+else
+$(srcdir)/spatialdb_wrap.cxx $(srcdir)/spatialdb.py:
+	$(error Missing SWIG generated files. Make sure SWIG is installed and reconfigure with --enable-swig)
 endif
 
 

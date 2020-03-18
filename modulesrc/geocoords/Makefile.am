@@ -44,6 +44,9 @@ _geocoordsmodule_la_LIBADD = \
 if ENABLE_SWIG
 $(srcdir)/geocoords_wrap.cxx $(srcdir)/geocoords.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $<
+else
+$(srcdir)/geocoords_wrap.cxx $(srcdir)/geocoords.py:
+	$(error Missing SWIG generated files. Make sure SWIG is installed and reconfigure with --enable-swig)
 endif
 
 

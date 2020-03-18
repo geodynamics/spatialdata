@@ -41,6 +41,9 @@ _unitsmodule_la_LIBADD = \
 if ENABLE_SWIG
 $(srcdir)/units_wrap.cxx $(srcdir)/units.py: $(swig_sources)
 	$(SWIG) -Wall -c++ -python $<
+else
+$(srcdir)/units_wrap.cxx $(srcdir)/units.py:
+	$(error Missing SWIG generated files. Make sure SWIG is installed and reconfigure with --enable-swig)
 endif
 
 
