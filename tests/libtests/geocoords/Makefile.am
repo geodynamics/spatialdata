@@ -28,8 +28,6 @@ testgeocoords_SOURCES = \
 	TestConverter_Cases.cc \
 	test_driver.cc
 
-#TestConverter.cc
-
 
 testgeocoords_LDFLAGS =
 
