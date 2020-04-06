@@ -166,7 +166,7 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
 void
 spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const {
     s << "geographic {\n"
-      << "  cs-string = " << _string << "\n"
+      << "  crs-string = " << _string << "\n"
       << "  space-dim = " << getSpaceDim() << "\n"
       << "}\n";
 } // pickle
@@ -194,7 +194,7 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s) {
     buffer >> token;
     while (buffer.good() && token != "}") {
         buffer.ignore(maxIgnore, '=');
-        if (0 == strcasecmp(token.c_str(), "cs-string")) {
+        if (0 == strcasecmp(token.c_str(), "crs-string")) {
             buffer >> std::ws;
             buffer.get(cbuffer, maxIgnore, '\n');
             setString(cbuffer);
@@ -206,7 +206,7 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s) {
             std::ostringstream msg;
             msg << "Could not parse '" << token << "' into a CSGeo token.\n"
                 << "Known CSGeo tokens:\n"
-                << "  cs-string, space-dim";
+                << "  crs-string, space-dim";
             throw std::runtime_error(msg.str().c_str());
         } // else
         buffer.str(parser.next());

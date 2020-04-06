@@ -46,12 +46,12 @@ class TestConverter(unittest.TestCase):
     def test_geo(self):
         from spatialdata.geocoords.CSGeo import CSGeo
         csNAD27 = CSGeo()
-        csNAD27.inventory.csString = "EPSG:4267"
+        csNAD27.inventory.crsString = "EPSG:4267"
         csNAD27.inventory.spaceDim = 2
         csNAD27._configure()
 
         csWGS84 = CSGeo()
-        csWGS84.inventory.csString = "EPSG:4326"
+        csWGS84.inventory.crsString = "EPSG:4326"
         csWGS84.inventory.spaceDim = 2
         csWGS84._configure()
 

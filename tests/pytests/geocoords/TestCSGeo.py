@@ -29,7 +29,7 @@ class TestCSGeo(unittest.TestCase):
         projString = "+proj=utm +zone=11"
 
         cs = CSGeo()
-        cs.inventory.csString = projString
+        cs.inventory.crsString = projString
         cs.inventory.spaceDim = 2
         cs._configure()
 
