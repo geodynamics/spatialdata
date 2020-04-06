@@ -31,7 +31,7 @@ class CSGeo(CoordSys, ModuleCSGeo):
     INVENTORY
 
     Properties
-      - *specification* String specifying coordinate system.
+      - *cs_string* String specifying coordinate system.
       - *space_dim* Number of dimensions of coordinate system.
 
     Facilities
@@ -40,8 +40,8 @@ class CSGeo(CoordSys, ModuleCSGeo):
 
     import pyre.inventory
 
-    specification = pyre.inventory.str("specification", default="EPSG:4326")
-    specification.meta['tip'] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
+    csString = pyre.inventory.str("cs_string", default="EPSG:4326")
+    csString.meta['tip'] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
 
     spaceDim = pyre.inventory.int("space_dim", default=3)
     spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
@@ -62,7 +62,7 @@ class CSGeo(CoordSys, ModuleCSGeo):
         Setup members using inventory.
         """
         CoordSys._configure(self)
-        ModuleCSGeo.setString(self, self.specification)
+        ModuleCSGeo.setString(self, self.csString)
         ModuleCSGeo.setSpaceDim(self, self.spaceDim)
         return
 

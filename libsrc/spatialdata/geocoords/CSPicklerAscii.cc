@@ -61,7 +61,7 @@ spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
             << objname << "'\n"
             << "into a known type of coordinate system object.\n"
             << "Known types of coordinate systems:\n"
-            << "  cartesian, geographic, geo-local-cartesian, geo-projected";
+            << "  'cartesian' and 'geographic'";
         throw std::runtime_error(msg.str().c_str());
     } // else
     (*cs)->unpickle(s);
