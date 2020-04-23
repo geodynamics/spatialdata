@@ -53,4 +53,4 @@ install:
 
 script: 
   - ci_env=`bash <(curl -s https://codecov.io/env)`
-  - docker run $ci_env spatialdata-testenv ../src/ci-config/run_test_coverage.sh
+  - docker run $ci_env spatialdata-testenv ../../src/spatialdata/ci-config/run_test_coverage.sh

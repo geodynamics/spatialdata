@@ -53,12 +53,13 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
 ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
 
 WORKDIR ${BUILD_DIR}
-RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-testing --enable-swig CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib"
+RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-testing --enable-swig CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib --coverage" CXXFLAGS="-g -O --coverage"
 
 
 # TESTING ----------
 from src as test
 
 RUN make -j$(nproc) install && make -j$(nproc) check VERBOSE=1
+RUN make coverage-libsrc
 
 CMD /bin/bash
