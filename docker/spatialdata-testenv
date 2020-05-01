@@ -10,7 +10,7 @@ USER ${PYLITH_USER}
 ENV TOP_DIR /home/${PYLITH_USER}
 
 RUN mkdir -p ${TOP_DIR}/src
-ENV PREFIX_DIR ${TOP_DIR}/dependencies
+ENV PREFIX_DIR /opt/pylith/cig
 ENV PATH ${PATH}:${PREFIX_DIR}/bin
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
 ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
@@ -40,7 +40,6 @@ RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make
 from base as src
 
 # Copy source code
-ENV PREFIX_DIR ${TOP_DIR}/spatialdata
 ENV BUILD_DIR ${TOP_DIR}/build/spatialdata
 ENV SRC_DIR ${TOP_DIR}/src/spatialdata
 
