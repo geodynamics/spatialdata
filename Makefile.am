@@ -43,15 +43,21 @@ EXTRA_DIST = \
 	CHANGES
 
 
-coverage-libsrc:
-	lcov --directory libsrc --capture --output-file coverage.info
-	lcov --remove coverage.info '/usr/*' '/Library/*' "v1" "*/testing/TestDriver.*" -o coverage.info
-	lcov --list coverage.info
+coverage-libtests:
+	lcov --directory libsrc --capture --output-file coverage-libtests.info
+	lcov --remove coverage-libtests.info '/usr/*' '/Library/*' "v1" "*/testing/TestDriver.*" -o coverage-libtests.info
+	lcov --list coverage-libtests.info
 
-coverage-html: coverage-libsrc
-	genhtml -o coverage coverage.info
+coverage-pytests:
+	coverage combine tests/pytests/*
+	coverage xml -o coverage-pytests.xml
 
-coverage-clean:
+coverage-html: coverage-libtests coverage-pytests
+	genhtml -o coverage-libtests coverage-libtests.info
+	coverage html -d coverage-pytests
+
+clean-coverage:
 	$(RM) `find . -name "*.gcda"`
+	$(RM) `find . -name ".coverage"`
 
 # End of file 

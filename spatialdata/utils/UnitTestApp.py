@@ -23,6 +23,12 @@ class UnitTestApp(Script):
     """
     Test application.
     """
+    cov = None
+    try:
+        import coverage
+        cov = coverage.Coverage(source=["spatialdata"])
+    except ImportError:
+        pass
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -37,8 +43,15 @@ class UnitTestApp(Script):
         """
         Run the application.
         """
+        if self.cov:
+            self.cov.start()
+
         success = unittest.TextTestRunner(verbosity=2).run(self._suite()).wasSuccessful()
 
+        if self.cov:
+            self.cov.stop()
+            self.cov.save()
+        
         if not success:
             import sys
             sys.exit(1)
