@@ -10,7 +10,7 @@ make -j$(nproc) check VERBOSE=1
 if [ $? != 0 ]; then exit 1; fi
 
 LCOV=`which lcov`
-if test -f $LCOV; then
+if [ "x" != "x$LCOV" ]; then
   make coverage-libtests
 
   pushd ../../src/spatialdata && \
@@ -22,7 +22,7 @@ else
 fi
 
 PYCOV=`which coverage`
-if test -f $PYCOV; then
+if [ "x" != "x$PYCOV" ]; then
   make coverage-pytests
 
   pushd ../../src/spatialdata && \
