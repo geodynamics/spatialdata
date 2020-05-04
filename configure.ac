@@ -30,11 +30,17 @@ AC_ARG_ENABLE([swig],
 	[enable_swig=no])
 AM_CONDITIONAL([ENABLE_SWIG], [test "$enable_swig" = yes])
 
-# TESTING w/cppunit
+# TESTING w/cppunit and pytest
 AC_ARG_ENABLE([testing],
 	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
 	[if test "$enableval" = yes ; then enable_testing=yes; else enable_testing=no; fi],
 	[enable_testing=no])
+
+# TEST COVERAGE w/locv and python-coverage
+AC_ARG_ENABLE([test-coverage],
+	[  --enable-test-coverage  Enable test coverage with lcov and python-coverage [[default=no]]],
+	[if test "$enableval" = yes ; then enable_test_coverage=yes; else enable_test_coverage=no; fi],
+	[enable_test_coverage=no])
 
 # PYTHIA w/pythia
 enable_pythia=yes
@@ -43,17 +49,18 @@ AC_ARG_ENABLE([pythia],
 	[if test "$enableval" = yes ; then enable_pythia=yes; else enable_pythia=no; fi],
 	[enable_pythia=no])
 
-# DOCUMENTATION w/doxygen
-AC_ARG_ENABLE([documentation],
-	[  --enable-documentation  Enable building html documentation (requires doxygen) [[default=no]]],
-	[if test "$enableval" = yes ; then enable_documentation=yes; else enable_documentation=no; fi],
-	[enable_documentation=no])
-
 # TESTING w/SCEC CVM-H
 AC_ARG_ENABLE([scec-cvm-h],
 	[  --enable-scec-cvm-h=DIR    Enable unit testing with SCEC CVM-H (requires cppunit and SCEC CVM-H data files) [[default=no]]],
 	[],
 	[enable_scec_cvm_h=no])
+
+AC_ARG_WITH([python-coverage],
+    [AC_HELP_STRING([--with-python-coverage],
+        [set executable for python-coverage @<:@default=coverage2@:>@])],
+	[python_coverage=$withval],
+	[python_coverage="coverage2"])
+AC_SUBST(python_coverage)
 
 # ----------------------------------------------------------------------
 AC_PROG_CXX
@@ -103,7 +110,7 @@ if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
   # Check for Python modules and packages.
-  AM_PATH_PYTHON([2.4])
+  AM_PATH_PYTHON([2.7])
   AC_ARG_VAR(PYTHON, [Python interpreter])
   AC_ARG_VAR(PYTHONPATH, [Python module search path])
   CIT_PYTHON_SYSCONFIG
@@ -125,15 +132,16 @@ if test "$enable_pythia" = "yes" ; then
 
 fi
 
-# DOXYGEN
-AM_CONDITIONAL([ENABLE_DOCUMENTATION], [test "$enable_documentation" = yes])
-if test "$enable_documentation" = "yes" ; then
-  AC_CHECK_PROG([have_doxygen],
-    [doxygen],
-    [yes],
-    [no])
-  if test "$have_doxygen" = "no"; then
-    AC_MSG_ERROR([Doxygen not found in current path.])
+# TEST COVERAGE
+AM_CONDITIONAL([ENABLE_TEST_COVERAGE], [test "$enable_test_coverage" = yes])
+if test "$enable_test_coverage" = "yes" ; then
+  AC_PATH_PROG(LCOV, lcov)
+  if test -z "$LCOV"; then
+    AC_MSG_FAILURE([cannot find 'lcov' program for C++ test coverage.])
+  fi
+  AC_PATH_PROG(PYTHON_COVERAGE, $python_coverage)
+  if test -z "$PYTHON_COVERAGE"; then
+    AC_MSG_FAILURE([cannot find '$python_coverage' program for Python test coverage.])
   fi
 fi
 

@@ -1,10 +1,13 @@
-# docker build --build-arg BASE_IMAGE=${VARIABLE_NAME} -f DOCKERFILE . -t IMAGE_NAME .
-
+# docker build --build-arg BASE_IMAGE=${VARIABLE_NAME} --build-arg CODE_COVERAGE=yes/no --build-arg PYTHON_COVERAGE=${COVERAGE_EXECUTABLE} -f DOCKERFILE . -t IMAGE_NAME .
 
 # BUILD CIG DEPENDENCIES ----------
 ARG BASE_IMAGE
 from ${BASE_IMAGE} as base
-MAINTAINER Brad Aagaard <baagaard@usgs.gov>
+ARG TEST_COVERAGE=no
+ARG PYTHON_COVERAGE=coverage2
+ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE} 
+
+LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
 USER ${PYLITH_USER}
 ENV TOP_DIR /home/${PYLITH_USER}
@@ -52,13 +55,14 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
 ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
 
 WORKDIR ${BUILD_DIR}
-RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-testing --enable-swig CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib --coverage" CXXFLAGS="-g -O --coverage"
+RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib --coverage" CXXFLAGS="-g -O --coverage"
 
 
 # TESTING ----------
 from src as test
 
 RUN make -j$(nproc) install && make -j$(nproc) check VERBOSE=1
-RUN make coverage-libsrc
+RUN make coverage-libtests
+RUN make coverage-pytests
 
 CMD /bin/bash

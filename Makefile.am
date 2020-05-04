@@ -24,10 +24,6 @@ if ENABLE_PYTHIA
   SUBDIRS += modulesrc spatialdata applications
 endif
 
-if ENABLE_DOCUMENTATION
-  SUBDIRS += doc
-endif
-
 if ENABLE_TESTING
   SUBDIRS += tests
 endif
@@ -35,29 +31,36 @@ endif
 DISTCHECK_CONFIGURE_FLAGS = \
 	--enable-testing \
 	--enable-pythia \
-	--enable-documentation \
 	CPPFLAGS="-I${PROJ4_INCDIR} -I${CPPUNIT_INCDIR} -I${PYTHIA_INCDIR} -I${CIG_INCDIR}" \
 	LDFLAGS="-L${PROJ4_LIBDIR} -L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
 
 EXTRA_DIST = \
 	CHANGES
 
+.PHONY: coverage-libtests coverage-pytests coverage-html clean-coverage
 
+if ENABLE_TEST_COVERAGE
 coverage-libtests:
-	lcov --directory libsrc --capture --output-file coverage-libtests.info
-	lcov --remove coverage-libtests.info '/usr/*' '/Library/*' "v1" "*/testing/TestDriver.*" -o coverage-libtests.info
-	lcov --list coverage-libtests.info
+	$(LCOV) --directory libsrc --capture --output-file coverage-libtests.info
+	$(LCOV) --remove coverage-libtests.info '/usr/*' '/Library/*' "v1" "*/testing/TestDriver.*" -o coverage-libtests.info
+	$(LCOV) --list coverage-libtests.info
 
 coverage-pytests:
-	coverage combine tests/pytests/*
-	coverage xml -o coverage-pytests.xml
+	$(PYTHON_COVERAGE) combine tests/pytests/*/.coverage
+	$(PYTHON_COVERAGE) xml -o coverage-pytests.xml
 
 coverage-html: coverage-libtests coverage-pytests
 	genhtml -o coverage-libtests coverage-libtests.info
-	coverage html -d coverage-pytests
+	$(PYTHON_COVERAGE) html -d coverage-pytests
 
 clean-coverage:
 	$(RM) `find . -name "*.gcda"`
 	$(RM) `find . -name ".coverage"`
+
+else
+coverage-libtests coverage-pytests coverage-html clean-coverage:
+	$(warning Test coverage not enabled. Ignoring test coverage targets)
+endif
+
 
 # End of file 
