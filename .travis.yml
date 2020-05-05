@@ -10,19 +10,19 @@ language: cpp
 matrix:
   include:
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-debian-stable-gcc8
+      env: BASE_IMAGE=geodynamics/pylith-testenv-debian-stable-gcc8 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-debian-testing-gcc9
+      env: BASE_IMAGE=geodynamics/pylith-testenv-debian-testing-gcc9 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-ubuntu-18.04
+      env: BASE_IMAGE=geodynamics/pylith-testenv-ubuntu-18.04 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-ubuntu-19.10
+      env: BASE_IMAGE=geodynamics/pylith-testenv-ubuntu-19.10 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-ubuntu-20.04
+      env: BASE_IMAGE=geodynamics/pylith-testenv-ubuntu-20.04 TEST_COVERAGE=yes PYTHON_COVERAGE=python2-coverage
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-30
+      env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-30 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage2
     - os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-31
+      env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-31 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage2
     - os: linux
       env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-32
     - os: linux
@@ -50,7 +50,7 @@ git:
 
 
 install:
-  - docker build -t spatialdata-testenv --build-arg BASE_IMAGE=$BASE_IMAGE --target src -f docker/spatialdata-testenv .
+  - docker build -t spatialdata-testenv --build-arg BASE_IMAGE=$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target src -f docker/spatialdata-testenv .
 
 
 script: 
