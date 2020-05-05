@@ -32,6 +32,10 @@ matrix:
     - os: linux
       env: BASE_IMAGE=geodynamics/pylith-testenv-centos-8
 
+# Permissions problem with BUILD_DIR for nemesis.
+#    - os: linux
+#      env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-33
+
 #    - os: linux
 #      env: BASE_IMAGE=geodynamics/pylith-testenv-debian-testing-clang8
 #    - os: linux
