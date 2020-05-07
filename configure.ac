@@ -30,17 +30,24 @@ AC_ARG_ENABLE([swig],
 	[enable_swig=no])
 AM_CONDITIONAL([ENABLE_SWIG], [test "$enable_swig" = yes])
 
-# TESTING w/cppunit and pytest
+# TESTING w/cppunit and Python unittest
 AC_ARG_ENABLE([testing],
 	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
 	[if test "$enableval" = yes ; then enable_testing=yes; else enable_testing=no; fi],
 	[enable_testing=no])
+AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])
 
 # TEST COVERAGE w/locv and python-coverage
 AC_ARG_ENABLE([test-coverage],
 	[  --enable-test-coverage  Enable test coverage with lcov and python-coverage [[default=no]]],
 	[if test "$enableval" = yes ; then enable_test_coverage=yes; else enable_test_coverage=no; fi],
 	[enable_test_coverage=no])
+AC_ARG_WITH([python-coverage],
+    [AC_HELP_STRING([--with-python-coverage],
+        [set executable for python-coverage @<:@default=coverage2@:>@])],
+	[python_coverage=$withval],
+	[python_coverage="coverage2"])
+AC_SUBST(python_coverage)
 
 # PYTHIA w/pythia
 enable_pythia=yes
@@ -54,13 +61,6 @@ AC_ARG_ENABLE([scec-cvm-h],
 	[  --enable-scec-cvm-h=DIR    Enable unit testing with SCEC CVM-H (requires cppunit and SCEC CVM-H data files) [[default=no]]],
 	[],
 	[enable_scec_cvm_h=no])
-
-AC_ARG_WITH([python-coverage],
-    [AC_HELP_STRING([--with-python-coverage],
-        [set executable for python-coverage @<:@default=coverage2@:>@])],
-	[python_coverage=$withval],
-	[python_coverage="coverage2"])
-AC_SUBST(python_coverage)
 
 # ----------------------------------------------------------------------
 AC_PROG_CXX
@@ -80,7 +80,6 @@ CIT_PROJ6_HEADER
 CIT_PROJ6_LIB
 
 # CPPUNIT
-AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])
 if test "$enable_testing" = "yes" ; then
   CIT_CPPUNIT_HEADER
   CIT_CPPUNIT_LIB
