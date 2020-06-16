@@ -47,6 +47,7 @@ class spatialdata::spatialdb::TestUserFunctionDB : public CppUnit::TestFixture {
     CPPUNIT_TEST(testAddValue);
     CPPUNIT_TEST(testCoordsys);
     CPPUNIT_TEST(testOpenClose);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryVals);
     CPPUNIT_TEST(testQuery);
 
@@ -75,6 +76,9 @@ public:
 
     /// Test open() and close()
     void testOpenClose(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test setQueryValues().
     void testQueryVals(void);
@@ -127,7 +131,7 @@ public:
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
 public:
 
-    int numVals; ///< Number of values in spatial database.
+    size_t numValues; ///< Number of values in spatial database.
     const UserData* values; ///< Names of values in spatial database.
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.
 

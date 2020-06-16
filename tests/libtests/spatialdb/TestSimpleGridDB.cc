@@ -61,7 +61,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testAccessors(void) {
     db.setFilename(filename.c_str());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, db._filename);
 
-    // Test default (nearest)
+    // Test query type.
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query type.", SimpleGridDB::NEAREST, db._queryType);
 
     db.setQueryType(SimpleGridDB::LINEAR);
@@ -151,6 +151,29 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index x.", size_t(1*10), db._getDataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index xyz.", size_t(3*4*3*10 + 1*4*10 + 2*10), db._getDataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
 } // testDataIndex
+
+
+// ----------------------------------------------------------------------
+// Test getNamesDBValues().
+void
+spatialdata::spatialdb::TestSimpleGridDB::testGetNamesDBValues(void) {
+    CPPUNIT_ASSERT(_data);
+
+    SimpleGridDB db;
+    _setupDB(&db);
+
+    const char** valueNames = NULL;
+    size_t numValues = 0;
+    db.getNamesDBValues(&valueNames, &numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, numValues);
+
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
+                                     std::string(_data->names[i]), std::string(valueNames[i]));
+    } // for
+    delete[] valueNames;valueNames = NULL;
+    numValues = 0;
+} // testGetDBValues
 
 
 // ----------------------------------------------------------------------

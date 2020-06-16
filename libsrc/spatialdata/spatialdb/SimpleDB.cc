@@ -112,6 +112,24 @@ spatialdata::spatialdb::SimpleDB::close(void) {
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::SimpleDB::getNamesDBValues(const char*** valueNames,
+                                                   size_t* numValues) const {
+    const size_t dataNumValues = (_data) ? _data->getNumValues() : 0;
+    if (valueNames) {
+        *valueNames = (dataNumValues > 0) ? new const char*[dataNumValues] : NULL;
+        for (size_t i = 0; i < dataNumValues; ++i) {
+            (*valueNames)[i] = _data->getName(i);
+        } // for
+    }
+    if (numValues) {
+        *numValues = dataNumValues;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::SimpleDB::setQueryValues(const char* const* names,

@@ -27,7 +27,7 @@
 
 #include <string> // HASA std::string
 
-class spatialdata::spatialdb::SCECCVMH : SpatialDB { // SCECCVMH
+class spatialdata::spatialdb::SCECCVMH : SpatialDB {
     friend class TestSCECCVMH; // unit testing
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
@@ -67,6 +67,14 @@ public:
 
     /// Close the database.
     void close(void);
+
+    /** Get names of values in spatial database.
+     *
+     * @param[out] valueNames Array of names of values.
+     * @param[out] numValues Size of array.
+     */
+    void getNamesDBValues(const char*** valueNames,
+                          size_t* numValues) const;
 
     /** Set values to be returned by queries.
      *

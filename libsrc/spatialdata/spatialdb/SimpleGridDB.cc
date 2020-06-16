@@ -122,6 +122,23 @@ spatialdata::spatialdb::SimpleGridDB::setQueryType(const QueryEnum value) {
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::SimpleGridDB::getNamesDBValues(const char*** valueNames,
+                                                       size_t* numValues) const {
+    if (valueNames) {
+        *valueNames = (_numValues > 0) ? new const char*[_numValues] : NULL;
+        for (size_t i = 0; i < _numValues; ++i) {
+            (*valueNames)[i] = _names[i].c_str();
+        } // for
+    }
+    if (numValues) {
+        *numValues = _numValues;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::SimpleGridDB::setQueryValues(const char* const* names,

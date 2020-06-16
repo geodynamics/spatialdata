@@ -28,6 +28,25 @@
 #include <sstream> // USES std::ostringsgream
 #include <assert.h> // USES assert()
 
+namespace spatialdata {
+    namespace spatialdb {
+        class _GravityField;
+    } // spatialdb
+} // spatialdata
+
+class spatialdata::spatialdb::_GravityField {
+public:
+
+    static const size_t numValues;
+    static const char* valueNames[3];
+};
+const size_t spatialdata::spatialdb::_GravityField::numValues = 3;
+const char* spatialdata::spatialdb::_GravityField::valueNames[3] = {
+    "gravity_field_x",
+    "gravity_field_y",
+    "gravity_field_z",
+};
+
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::GravityField::GravityField(void) :
@@ -85,6 +104,23 @@ spatialdata::spatialdb::GravityField::close(void) {}
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::GravityField::getNamesDBValues(const char*** valueNames,
+                                                       size_t* numValues) const {
+    if (valueNames) {
+        *valueNames = (_GravityField::numValues > 0) ? new const char*[_GravityField::numValues] : NULL;
+        for (size_t i = 0; i < _GravityField::numValues; ++i) {
+            (*valueNames)[i] = _GravityField::valueNames[i];
+        } // for
+    }
+    if (numValues) {
+        *numValues = _GravityField::numValues;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
@@ -104,16 +140,19 @@ spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
 
     _querySize = numVals;
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
-        if (0 == strcasecmp(names[iVal], "gravity_field_x")) {
+        if (0 == strcasecmp(names[iVal], _GravityField::valueNames[0])) {
             _queryValues[iVal] = 0;
-        } else if (0 == strcasecmp(names[iVal], "gravity_field_y")) {
+        } else if (0 == strcasecmp(names[iVal], _GravityField::valueNames[1])) {
             _queryValues[iVal] = 1;
-        } else if (0 == strcasecmp(names[iVal], "gravity_field_z")) {
+        } else if (0 == strcasecmp(names[iVal], _GravityField::valueNames[2])) {
             _queryValues[iVal] = 2;
         } else {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getLabel() << "'. Available values are: 'gravity_field_x', 'gravity_field_y', 'gravity_field_z'.";
+                << getLabel() << "'. Available values are: "
+                << "'" << _GravityField::valueNames[0] << "', "
+                << "'" << _GravityField::valueNames[1] << "', "
+                << "'" << _GravityField::valueNames[2] << "'.";
             throw std::out_of_range(msg.str());
         } // if
     } // for

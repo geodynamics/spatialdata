@@ -105,6 +105,23 @@ spatialdata::spatialdb::UniformDB::setData(const char* const* names,
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::UniformDB::getNamesDBValues(const char*** valueNames,
+                                                    size_t* numValues) const {
+    if (valueNames) {
+        *valueNames = (_numValues > 0) ? new const char*[_numValues] : NULL;
+        for (size_t i = 0; i < _numValues; ++i) {
+            (*valueNames)[i] = _names[i].c_str();
+        } // for
+    }
+    if (numValues) {
+        *numValues = _numValues;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,

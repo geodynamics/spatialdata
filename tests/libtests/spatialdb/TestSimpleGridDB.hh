@@ -44,6 +44,7 @@ class spatialdata::spatialdb::TestSimpleGridDB : public CppUnit::TestFixture {
     CPPUNIT_TEST(testAccessors);
     CPPUNIT_TEST(testSearch);
     CPPUNIT_TEST(testDataIndex);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryNearest);
     CPPUNIT_TEST(testQueryLinear);
     CPPUNIT_TEST(testRead);
@@ -70,6 +71,9 @@ public:
 
     /// Test _dataIndex()
     void testDataIndex(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test query() using nearest neighbor.
     void testQueryNearest(void);

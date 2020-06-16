@@ -38,6 +38,7 @@ class spatialdata::spatialdb::TestCompositeDB : public CppUnit::TestFixture {
 
     CPPUNIT_TEST(testConstructors);
     CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryValsAB);
     CPPUNIT_TEST(testQueryValsA);
     CPPUNIT_TEST(testQueryValsB);
@@ -58,6 +59,9 @@ public:
 
     /// Test accessors.
     void testAccessors(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test setQueryValues() with values in dbA and dbB.
     void testQueryValsAB(void);
@@ -162,6 +166,39 @@ spatialdata::spatialdb::TestCompositeDB::testAccessors(void) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names for dbB.", std::string(namesB[i]), db._infoB->names_values[i]);
     } // for
 } // testAccessors
+
+
+// ----------------------------------------------------------------------
+// Test getNamesDBValues().
+void
+spatialdata::spatialdb::TestCompositeDB::testGetNamesDBValues(void) {
+    CompositeDB db;
+
+    const size_t numValuesA = 2;
+    const char* namesA[2] = { "three", "one" };
+    db.setDBA(&_dbA, namesA, numValuesA);
+
+    const size_t numValuesB = 1;
+    const char* namesB[1] = { "five" };
+    db.setDBB(&_dbB, namesB, numValuesB);
+
+    const char** valueNames = NULL;
+    size_t numValues = 0;
+    db.getNamesDBValues(&valueNames, &numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesA + numValuesB, numValues);
+
+    size_t iAB = 0;
+    for (size_t iA = 0; iA < numValuesA; ++iA, ++iAB) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values in db A.",
+                                     std::string(namesA[iA]), std::string(valueNames[iAB]));
+    } // for
+    for (size_t iB = 0; iB < numValuesB; ++iB, ++iAB) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values in db B.",
+                                     std::string(namesB[iB]), std::string(valueNames[iAB]));
+    } // for
+    delete[] valueNames;valueNames = NULL;
+    numValues = 0;
+} // testGetDBValues
 
 
 // ----------------------------------------------------------------------
