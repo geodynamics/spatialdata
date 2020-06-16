@@ -180,6 +180,14 @@ spatialdata::spatialdb::UserFunctionDB::open(void) {
     } // for
 
     _checkCompatibility();
+
+    // Default query values is all values.
+    _querySize = _functions.size();
+    delete[] _queryFunctions;_queryFunctions = (_querySize > 0) ? new UserData*[_querySize] : NULL;
+    size_t index = 0;
+    for (function_map::iterator iter = _functions.begin(); iter != _functions.end(); ++iter, ++index) {
+        _queryFunctions[index] = &iter->second;
+    } // for
 } // open
 
 

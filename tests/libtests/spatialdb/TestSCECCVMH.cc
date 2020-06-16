@@ -81,6 +81,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestSCECCVMH);
 void
 spatialdata::spatialdb::TestSCECCVMH::testConstructor(void) {
     SCECCVMH db;
+
+    const size_t numValues = 7;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValues, db._querySize);
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+    } // for
 } // testConstructor
 
 
