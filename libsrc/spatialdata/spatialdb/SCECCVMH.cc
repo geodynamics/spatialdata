@@ -49,10 +49,15 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
     _squashLimit(-2000.0),
     _minVs(0.0),
     _queryValues(NULL),
-    _querySize(0),
+    _querySize(7),
     _squashTopo(false) {
     assert(_csUTM);
     _csUTM->setString("+proj=utm +zone=11 +datum=NAD27 +units=m +type=crs");
+
+    _queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
+    for (size_t i = 0; i < _querySize; ++i) {
+        _queryValues[i] = i;
+    } // for
 } // constructor
 
 

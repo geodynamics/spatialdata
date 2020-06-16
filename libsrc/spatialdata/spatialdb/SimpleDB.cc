@@ -95,7 +95,16 @@ spatialdata::spatialdb::SimpleDB::open(void) {
     // Create query object
     if (!_query) {
         _query = new SimpleDBQuery(*this);
-    }
+    } // if
+
+    // Set default query values to all values in database
+    const size_t numValues = _data->getNumValues();
+    const char** queryValues = (numValues > 0) ? new const char*[numValues] : NULL;
+    for (size_t i = 0; i < numValues; ++i) {
+        queryValues[i] = _data->getName(i);
+    } // for
+    _query->setQueryValues(queryValues, numValues);
+    delete[] queryValues;queryValues = NULL;
 } // open
 
 

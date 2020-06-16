@@ -100,12 +100,15 @@ spatialdata::spatialdb::TestUserFunctionDB::testOpenClose(void) {
     // Test open() and close() with valid data.
     _db->open();
     // Verify scales
-    const int numValues = _data->numValues;
+    const size_t numValues = _data->numValues;
     const double tolerance = 1.0e-6;
-    for (int i = 0; i < numValues; ++i) {
+    for (size_t i = 0; i < numValues; ++i) {
         const std::string& name = _data->values[i].name;
         CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->values[i].scale, _db->_functions[name].scale, tolerance);
     } // for
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValues, _db->_querySize);
+
     _db->close();
     CPPUNIT_ASSERT(!_db->_queryFunctions);
 

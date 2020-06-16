@@ -250,6 +250,13 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void) {
     for (size_t i = 0; i < totalSize; ++i) {
         CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", _data->dbData[i], db._data[i], tolerance);
     } // for
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", _data->numValues, db._querySize);
+    for (size_t i = 0; i < _data->numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+    } // for
+
+    db.close();
 } // testRead
 
 

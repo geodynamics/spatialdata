@@ -55,7 +55,7 @@ spatialdata::spatialdb::UniformDB::UniformDB(const char* label) :
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::UniformDB::~UniformDB(void) { // destructor
+spatialdata::spatialdb::UniformDB::~UniformDB(void) {
     delete[] _names;_names = NULL;
     delete[] _values;_values = NULL;
     delete[] _queryValues;_queryValues = NULL;
@@ -79,9 +79,12 @@ spatialdata::spatialdb::UniformDB::setData(const char* const* names,
     delete[] _values;_values = NULL;
     _numValues = numValues;
 
+    delete[] _queryValues;_queryValues = NULL;
+    _querySize = 0;
+
     spatialdata::units::Parser parser;
 
-    if (0 < numValues) {
+    if (numValues > 0) {
         _names = new std::string[numValues];
         for (size_t i = 0; i < numValues; ++i) {
             _names[i] = names[i];
@@ -99,6 +102,13 @@ spatialdata::spatialdb::UniformDB::setData(const char* const* names,
         _values = new double[numValues];
         for (size_t i = 0; i < numValues; ++i) {
             _values[i] = values[i]*scales[i];
+        } // for
+
+        // Default query values is all values.
+        _querySize = _numValues;
+        delete[] _queryValues;_queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
+        for (size_t i = 0; i < _querySize; ++i) {
+            _queryValues[i] = i;
         } // for
     } // if
 } // setData

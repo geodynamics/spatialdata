@@ -112,6 +112,11 @@ spatialdata::spatialdb::TestUniformDB::testSetData(void) {
     for (size_t i = 0; i < numValues; ++i) {
         CPPUNIT_ASSERT_EQUAL(valuesE[i], db._values[i]);
     } // for
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValues, db._querySize);
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+    } // for
 } // testSetData
 
 

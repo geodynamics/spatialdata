@@ -92,6 +92,13 @@ spatialdata::spatialdb::SimpleGridDB::open(void) {
     // Convert to SI units
     const size_t numLocs = (3 == _spaceDim) ? _numX * _numY * _numZ : (2 == _spaceDim) ? _numX * _numY : _numX;
     SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);
+
+    // Default query values is all values.
+    _querySize = _numValues;
+    delete[] _queryValues;_queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
+    for (size_t i = 0; i < _querySize; ++i) {
+        _queryValues[i] = i;
+    } // for
 } // open
 
 
@@ -110,6 +117,9 @@ spatialdata::spatialdb::SimpleGridDB::close(void) {
     _numValues = 0;
     delete[] _names;_names = NULL;
     delete[] _units;_units = NULL;
+
+    _querySize = 0;
+    delete[] _queryValues;_queryValues = NULL;
 } // close
 
 

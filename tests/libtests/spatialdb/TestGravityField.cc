@@ -45,6 +45,12 @@ spatialdata::spatialdb::TestGravityField::tearDown(void) {
 void
 spatialdata::spatialdb::TestGravityField::testConstructor(void) {
     GravityField db;
+
+    const size_t numValues = 3;
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", size_t(numValues), db._querySize);
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+    } // for
 } // testConstructor
 
 

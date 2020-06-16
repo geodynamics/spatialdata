@@ -219,7 +219,7 @@ private:
     UserData** _queryFunctions; ///< Array of pointers to _functions of values to be returned in queries.
     std::map<std::string, UserData> _functions; ///< User functions for values.
     geocoords::CoordSys* _cs; ///< Coordinate system
-    int _querySize; ///< Number of values to be returned in queries.
+    size_t _querySize; ///< Number of values to be returned in queries.
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
 private:
