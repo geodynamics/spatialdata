@@ -65,6 +65,15 @@ public:
     virtual
     void close(void) = 0;
 
+    /** Get names of values in spatial database.
+     *
+     * @param[out] valueNames Array of names of values.
+     * @param[out] numValues Size of array.
+     */
+    virtual
+    void getNamesDBValues(const char*** valueNames,
+                          size_t* numValues) const = 0;
+
     /** Set values to be returned by queries.
      *
      * @pre Must call open() before setQueryValues()

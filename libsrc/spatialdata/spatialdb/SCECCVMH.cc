@@ -163,6 +163,33 @@ spatialdata::spatialdb::SCECCVMH::close(void) {
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::SCECCVMH::getNamesDBValues(const char*** valueNames,
+                                                   size_t* numValues) const {
+    const size_t dbNumValues = 7;
+    const char* dbNamesValues[dbNumValues] = {
+        "vp",
+        "vs",
+        "density",
+        "topo-elev",
+        "basement-depth",
+        "moho-depth",
+        "vp-tag",
+    };
+    if (valueNames) {
+        *valueNames = (dbNumValues > 0) ? new const char*[dbNumValues] : NULL;
+        for (size_t i = 0; i < dbNumValues; ++i) {
+            (*valueNames)[i] = dbNamesValues[i];
+        } // for
+    }
+    if (numValues) {
+        *numValues = dbNumValues;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,

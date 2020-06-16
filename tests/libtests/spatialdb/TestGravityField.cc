@@ -87,6 +87,29 @@ spatialdata::spatialdb::TestGravityField::testAccessors(void) {
 
 
 // ----------------------------------------------------------------------
+// Test getNamesDBValues().
+void
+spatialdata::spatialdb::TestGravityField::testGetNamesDBValues(void) {
+    GravityField db;
+
+    const size_t numValuesE = 3;
+    const char* valueNamesE[numValuesE] = { "gravity_field_x", "gravity_field_y", "gravity_field_z" };
+
+    const char** valueNames = NULL;
+    size_t numValues = 0;
+    db.getNamesDBValues(&valueNames, &numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
+
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
+                                     std::string(valueNamesE[i]), std::string(valueNames[i]));
+    } // for
+    delete[] valueNames;valueNames = NULL;
+    numValues = 0;
+} // testGetDBValues
+
+
+// ----------------------------------------------------------------------
 // Test setQueryValues().
 void
 spatialdata::spatialdb::TestGravityField::testQueryVals(void) {

@@ -43,6 +43,7 @@ class spatialdata::spatialdb::TestGravityField : public CppUnit::TestFixture {
 
     CPPUNIT_TEST(testConstructor);
     CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryVals);
     CPPUNIT_TEST(testQuery);
 
@@ -62,6 +63,9 @@ public:
 
     /// Test accessors.
     void testAccessors(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test setQueryValues()
     void testQueryVals(void);

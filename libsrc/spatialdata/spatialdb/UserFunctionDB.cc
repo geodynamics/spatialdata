@@ -192,6 +192,25 @@ spatialdata::spatialdb::UserFunctionDB::close(void) {
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::UserFunctionDB::getNamesDBValues(const char*** valueNames,
+                                                         size_t* numValues) const {
+    const size_t dbNumValues = _functions.size();
+    if (valueNames) {
+        *valueNames = (dbNumValues > 0) ? new const char*[dbNumValues] : NULL;
+        size_t i = 0;
+        for (function_map::const_iterator iter = _functions.begin(); iter != _functions.end(); ++iter, ++i) {
+            (*valueNames)[i] = iter->first.c_str();
+        } // for
+    } // if
+    if (numValues) {
+        *numValues = dbNumValues;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::UserFunctionDB::setQueryValues(const char* const* names,

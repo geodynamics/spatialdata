@@ -36,6 +36,7 @@ class spatialdata::spatialdb::TestUniformDB : public CppUnit::TestFixture {
     CPPUNIT_TEST(testConstructors);
     CPPUNIT_TEST(testAccessors);
     CPPUNIT_TEST(testSetData);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryVals);
     CPPUNIT_TEST(testQuery);
 
@@ -52,6 +53,9 @@ public:
 
     /// Test setData()
     void testSetData(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test setQueryValues()
     void testQueryVals(void);
@@ -109,6 +113,32 @@ spatialdata::spatialdb::TestUniformDB::testSetData(void) {
         CPPUNIT_ASSERT_EQUAL(valuesE[i], db._values[i]);
     } // for
 } // testSetData
+
+
+// ----------------------------------------------------------------------
+// Test getNamesDBValues().
+void
+spatialdata::spatialdb::TestUniformDB::testGetNamesDBValues(void) {
+    const size_t numValuesE = 3;
+    const char* names[numValuesE] = { "one", "two", "three" };
+    const char* units[numValuesE] = { "none", "none", "none" };
+    const double values[numValuesE] = { 1.1, 2.2, 3.3 };
+
+    UniformDB db;
+    db.setData(names, units, values, numValuesE);
+
+    const char** valueNames = NULL;
+    size_t numValues = 0;
+    db.getNamesDBValues(&valueNames, &numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
+
+    for (size_t i = 0; i < numValuesE; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
+                                     std::string(names[i]), std::string(valueNames[i]));
+    } // for
+    delete[] valueNames;valueNames = NULL;
+    numValues = 0;
+} // testGetDBValues
 
 
 // ----------------------------------------------------------------------

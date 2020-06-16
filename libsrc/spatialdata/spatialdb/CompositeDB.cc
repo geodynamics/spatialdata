@@ -135,6 +135,31 @@ spatialdata::spatialdb::CompositeDB::close(void) {
 
 
 // ----------------------------------------------------------------------
+// Get names of values in spatial database.
+void
+spatialdata::spatialdb::CompositeDB::getNamesDBValues(const char*** valueNames,
+                                                      size_t* numValues) const {
+    const size_t numValuesA = _infoA->num_names;
+    const size_t numValuesB = _infoB->num_names;
+    const size_t numValuesAB = numValuesA + numValuesB;
+
+    if (valueNames) {
+        *valueNames = (numValuesAB > 0) ? new const char*[numValuesAB] : NULL;
+        size_t iAB = 0;
+        for (size_t iA = 0; iA < numValuesA; ++iA, ++iAB) {
+            (*valueNames)[iAB] = _infoA->names_values[iA].c_str();
+        } // for
+        for (size_t iB = 0; iB < numValuesB; ++iB, ++iAB) {
+            (*valueNames)[iAB] = _infoB->names_values[iB].c_str();
+        } // for
+    } // if
+    if (numValues) {
+        *numValues = numValuesAB;
+    } // if
+} // getNamesDBValues
+
+
+// ----------------------------------------------------------------------
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,

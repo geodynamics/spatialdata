@@ -35,6 +35,7 @@ class spatialdata::spatialdb::TestSCECCVMH : public CppUnit::TestFixture {
 
     CPPUNIT_TEST(testConstructor);
     CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryVals);
     CPPUNIT_TEST(testCalcDensity);
     CPPUNIT_TEST(testCalcVs);
@@ -53,6 +54,9 @@ public:
 
     /// Test accessors().
     void testAccessors(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test setQueryValues().
     void testQueryVals(void);
@@ -110,6 +114,36 @@ spatialdata::spatialdb::TestSCECCVMH::testAccessors(void) {
     CPPUNIT_ASSERT_EQUAL_MESSAGE(", Mismatch in squashing flag.", true, db._squashTopo);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in specified squashing limit.", limit, db._squashLimit);
 } // testAccessors
+
+
+// ----------------------------------------------------------------------
+// Test getNamesDBValues().
+void
+spatialdata::spatialdb::TestSCECCVMH::testGetNamesDBValues(void) {
+    const size_t numValuesE = 7;
+    const char* valueNamesE[numValuesE] = {
+        "vp",
+        "vs",
+        "density",
+        "topo-elev",
+        "basement-depth",
+        "moho-depth",
+        "vp-tag",
+    };
+
+    SCECCVMH db;
+    const char** valueNames = NULL;
+    size_t numValues = 0;
+    db.getNamesDBValues(&valueNames, &numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
+
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
+                                     std::string(valueNamesE[i]), std::string(valueNames[i]));
+    } // for
+    delete[] valueNames;valueNames = NULL;
+    numValues = 0;
+} // testGetDBValues
 
 
 // ----------------------------------------------------------------------

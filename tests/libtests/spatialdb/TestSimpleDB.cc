@@ -75,6 +75,29 @@ spatialdata::spatialdb::TestSimpleDB::testAccessors(void) {
 
 
 // ----------------------------------------------------------------------
+// Test getNamesDBValues().
+void
+spatialdata::spatialdb::TestSimpleDB::testGetNamesDBValues(void) {
+    _initializeDB();
+
+    CPPUNIT_ASSERT(_db);
+    CPPUNIT_ASSERT(_data);
+
+    const char** valueNames = NULL;
+    size_t numValues = 0;
+    _db->getNamesDBValues(&valueNames, &numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, numValues);
+
+    for (size_t i = 0; i < numValues; ++i) {
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
+                                     std::string(_data->names[i]), std::string(valueNames[i]));
+    } // for
+    delete[] valueNames;valueNames = NULL;
+    numValues = 0;
+} // testGetDBValues
+
+
+// ----------------------------------------------------------------------
 // Test query() using nearest neighbor
 void
 spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void) {

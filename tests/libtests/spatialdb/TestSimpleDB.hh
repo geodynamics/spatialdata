@@ -41,6 +41,7 @@ class spatialdata::spatialdb::TestSimpleDB : public CppUnit::TestFixture {
 
     CPPUNIT_TEST(testConstructors);
     CPPUNIT_TEST(testAccessors);
+    CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryNearest);
     CPPUNIT_TEST(testQueryLinear);
 
@@ -60,6 +61,9 @@ public:
 
     /// Test accessors.
     void testAccessors(void);
+
+    /// Test getNamesDBValues().
+    void testGetNamesDBValues(void);
 
     /// Test queryNearest()
     void testQueryNearest(void);

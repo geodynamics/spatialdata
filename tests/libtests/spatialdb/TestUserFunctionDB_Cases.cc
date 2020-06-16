@@ -64,7 +64,7 @@ class spatialdata::spatialdb::TestUserFunctionDB_1D : public TestUserFunctionDB 
         TestUserFunctionDB::setUp();
         _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
 
-        _data->numVals = 3;
+        _data->numValues = 3;
         static const TestUserFunctionDB_Data::UserData values[3] = {
             {"density", density_units(), 1.0 },
             {"vs", vs_units(), 1000.0 },
@@ -141,7 +141,7 @@ private:
         TestUserFunctionDB::setUp();
         _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
 
-        _data->numVals = 3;
+        _data->numValues = 3;
         static const TestUserFunctionDB_Data::UserData values[3] = {
             { "vs", vs_units(), 1000.0, },
             { "vp", vp_units(), 1000.0, },
@@ -211,7 +211,7 @@ private:
         TestUserFunctionDB::setUp();
         _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
 
-        _data->numVals = 2;
+        _data->numValues = 2;
         static const TestUserFunctionDB_Data::UserData values[2] = {
             { "density", density_units(), 1.0, },
             { "vs", vs_units(), 1000.0, },
