@@ -108,13 +108,40 @@ void
 spatialdata::spatialdb::CompositeDB::open(void) {
     if (!_dbA) {
         throw std::logic_error("Cannot open database A. Database was not set.");
-    }
+    } // if
     if (!_dbB) {
         throw std::logic_error("Cannot open database B. Database was not set.");
-    }
+    } // if
 
     _dbA->open();
     _dbB->open();
+
+    // Setup query values for A
+    _infoA->query_size = _infoA->num_names;
+    const size_t qsizeA = _infoA->query_size;
+    char** queryValuesA = (qsizeA > 0) ? new char*[qsizeA] : NULL;
+    delete[] _infoA->query_indices;_infoA->query_indices = (qsizeA > 0) ? new size_t[qsizeA] : NULL;
+    delete[] _infoA->query_buffer;_infoA->query_buffer = (qsizeA > 0) ? new double[qsizeA] : NULL;
+    for (size_t i = 0; i < qsizeA; ++i) {
+        _infoA->query_indices[i] = i;
+        queryValuesA[i] = const_cast<char*>(_infoA->names_values[i].c_str());
+    } // for
+    _dbA->setQueryValues(const_cast<const char**>(queryValuesA), qsizeA);
+
+    // Setup query values for A
+    _infoB->query_size = _infoB->num_names;
+    const size_t qsizeB = _infoB->query_size;
+    char** queryValuesB = (qsizeB > 0) ? new char*[qsizeB] : NULL;
+    delete[] _infoB->query_indices;_infoB->query_indices = (qsizeB > 0) ? new size_t[qsizeB] : NULL;
+    delete[] _infoB->query_buffer;_infoB->query_buffer = (qsizeB > 0) ? new double[qsizeB] : NULL;
+    for (size_t i = 0; i < qsizeB; ++i) {
+        _infoB->query_indices[i] = qsizeA + i;
+        queryValuesB[i] = const_cast<char*>(_infoB->names_values[i].c_str());
+    } // for
+    _dbB->setQueryValues(const_cast<const char**>(queryValuesB), qsizeB);
+
+    delete[] queryValuesA;queryValuesA = NULL;
+    delete[] queryValuesB;queryValuesB = NULL;
 } // open
 
 
@@ -306,22 +333,24 @@ spatialdata::spatialdb::CompositeDB::query(double* vals,
     } // if
 
     // Query database A
+    int errA = 0;
     if (qsizeA > 0) {
-        _dbA->query(_infoA->query_buffer, qsizeA, coords, numDims, pCSQuery);
+        errA = _dbA->query(_infoA->query_buffer, qsizeA, coords, numDims, pCSQuery);
         for (size_t i = 0; i < qsizeA; ++i) {
             vals[_infoA->query_indices[i]] = _infoA->query_buffer[i];
         } // for
     } // if
 
     // Query database B
+    int errB = 0;
     if (qsizeB > 0) {
-        _dbB->query(_infoB->query_buffer, qsizeB, coords, numDims, pCSQuery);
+        errB = _dbB->query(_infoB->query_buffer, qsizeB, coords, numDims, pCSQuery);
         for (size_t i = 0; i < qsizeB; ++i) {
             vals[_infoB->query_indices[i]] = _infoB->query_buffer[i];
         } // for
     } // if
 
-    return 0;
+    return errA || errB;
 } // query
 
 
