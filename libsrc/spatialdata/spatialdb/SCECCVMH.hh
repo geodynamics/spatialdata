@@ -178,7 +178,8 @@ private:
     GocadVoxet* _topoElev;
     GocadVoxet* _baseDepth;
     GocadVoxet* _mohoDepth;
-    geocoords::CSGeo* _csUTM;
+    geocoords::CSGeo* _csUTM; ///< Local coordinate system.
+    spatialdata::geocoords::Converter* _converter; ///< Convert query points to local coordinate system.
 
     double _squashLimit; ///< Elevation above which topography is squashed.
     double _minVs; ///< Minimum Vs to use.

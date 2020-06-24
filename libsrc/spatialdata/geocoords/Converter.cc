@@ -31,6 +31,46 @@ extern "C" {
 #include <sstream> // USES std::ostringsgream
 #include <cassert> // USES assert()
 
+namespace spatialdata {
+    namespace geocoords {
+        namespace _converter {
+            class Cache {
+public:
+
+                std::string csDest;
+                std::string csSrc;
+                PJ* proj;
+
+                Cache(void) :
+                    csDest(""),
+                    csSrc(""),
+                    proj(NULL) {}
+
+
+                ~Cache(void) {
+                    csDest = "";
+                    csSrc = "";
+                    proj_destroy(proj);proj = NULL;
+                }
+
+            }; // Cache
+        } // _converter
+    } // geocoords
+} // spatialdata
+
+// ----------------------------------------------------------------------
+// Default constructor
+spatialdata::geocoords::Converter::Converter(void) :
+    _cache(new _converter::Cache) {}
+
+
+// ----------------------------------------------------------------------
+// Default destructor
+spatialdata::geocoords::Converter::~Converter(void) {
+    delete _cache;_cache = NULL;
+} // destructor
+
+
 // ----------------------------------------------------------------------
 // Convert coordinates from source coordinate system to destination
 // coordinate system.
@@ -97,16 +137,25 @@ spatialdata::geocoords::Converter::_convert(double* coords,
     double* const z = (numDims >= 3) ? coords + 2 : NULL;
     const size_t stride = numDims * sizeof(double);
 
-    PJ* proj = proj_create_crs_to_crs(NULL, csSrc->getString(), csDest->getString(), NULL);
-    if (!proj) {
-        std::stringstream msg;
-        msg << "Error creating projection from '" << csSrc->getString() << "' to '" << csDest->getString() << "'.\n"
-            << proj_errno_string(proj_errno(proj));
-        throw std::runtime_error(msg.str());
+    bool needsNewProj = false;
+    assert(_cache);
+    if ((0 == _cache->csSrc.length()) || (0 != strcasecmp(_cache->csSrc.c_str(), csSrc->getString()))) { needsNewProj = true; }
+    if ((0 == _cache->csDest.length()) || (0 != strcasecmp(_cache->csDest.c_str(), csDest->getString()))) { needsNewProj = true; }
+    if (needsNewProj) {
+        proj_destroy(_cache->proj);
+        _cache->proj = proj_create_crs_to_crs(NULL, csSrc->getString(), csDest->getString(), NULL);
+        if (!_cache->proj) {
+            std::stringstream msg;
+            msg << "Error creating projection from '" << csSrc->getString() << "' to '" << csDest->getString() << "'.\n"
+                << proj_errno_string(proj_errno(_cache->proj));
+            throw std::runtime_error(msg.str());
+        } // if
+        _cache->csSrc = csSrc->getString();
+        _cache->csDest = csDest->getString();
     } // if
 
     const size_t numSuccessful =
-        proj_trans_generic(proj, PJ_FWD,
+        proj_trans_generic(_cache->proj, PJ_FWD,
                            x, stride, numLocs,
                            y, stride, numLocs,
                            z, stride, numLocs,
@@ -114,12 +163,9 @@ spatialdata::geocoords::Converter::_convert(double* coords,
     if (numSuccessful < numLocs) {
         std::ostringstream msg;
         msg << "Error while converting coordinates:\n"
-            << "  " << proj_errno_string(proj_errno(proj));
-        proj_destroy(proj);
+            << "  " << proj_errno_string(proj_errno(_cache->proj));
         throw std::runtime_error(msg.str());
     } // if
-
-    proj_destroy(proj);
 } // convert
 
 

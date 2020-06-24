@@ -39,6 +39,7 @@ class spatialdata::geocoords::TestConverter : public CppUnit::TestFixture {
     // CPPUNIT TEST SUITE /////////////////////////////////////////////////
     CPPUNIT_TEST_SUITE(TestConverter);
 
+    CPPUNIT_TEST(testConstructor);
     CPPUNIT_TEST(testConvert);
 
     CPPUNIT_TEST_SUITE_END();
@@ -51,6 +52,9 @@ public:
 
     /// Deallocate testing data.
     void tearDown(void);
+
+    /// Test constructor.
+    void testConstructor(void);
 
     /// Test convert().
     void testConvert(void);

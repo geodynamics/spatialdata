@@ -26,6 +26,8 @@
 
 #include "CoordSys.hh" // ISA CoordSys
 
+#include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA Converter
+
 #include <string> // HASA std::string
 
 /// C++ object for managing parameters defining geographic coordinate systems
@@ -112,6 +114,7 @@ private:
 
     std::string _string; ///< String specifying coordinate system.
     int _spaceDim; ///< Number of spatial dimensions in coordinate system
+    spatialdata::geocoords::Converter* _converter; ///< Converter for coordinate transformations.
 
 }; // class CSGeo
 

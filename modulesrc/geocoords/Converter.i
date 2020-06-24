@@ -28,6 +28,12 @@ public:
 
             // PUBLIC METHODS /////////////////////////////////////////////////
 
+	    /// Default constructor
+	    Converter(void);
+
+            /// Default destructor
+	    ~Converter(void);
+	  
             /** Convert coordinates from source coordinate system to destination
              * coordinate system.
              *
@@ -40,7 +46,6 @@ public:
             %apply(double* INPLACE_ARRAY2, int DIM1, int DIM2) {
                 (double* coords, const size_t numLocs, const size_t numDims)
             };
-            static
             void convert(double* coords,
                          const size_t numLocs,
                          const size_t numDims,

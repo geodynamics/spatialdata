@@ -20,7 +20,6 @@
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
-#include "spatialdata/geocoords/Converter.hh" // USES Converter
 
 #include <cmath> // USES sqrt()
 #include <strings.h> // USES strcasecmp()

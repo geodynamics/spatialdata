@@ -46,6 +46,7 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
     _baseDepth(NULL),
     _mohoDepth(NULL),
     _csUTM(new geocoords::CSGeo),
+    _converter(new spatialdata::geocoords::Converter),
     _squashLimit(-2000.0),
     _minVs(0.0),
     _queryValues(NULL),
@@ -81,6 +82,8 @@ spatialdata::spatialdb::SCECCVMH::~SCECCVMH(void) {
     delete[] _queryValues;_queryValues = NULL;
     _querySize = 0;
     _squashTopo = 0;
+
+    delete _converter;_converter = NULL;
 } // destructor
 
 
@@ -263,7 +266,8 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
 
     // Convert coordinates to UTM
     memcpy(_xyzUTM, coords, numDims*sizeof(double));
-    spatialdata::geocoords::Converter::convert(_xyzUTM, 1, numDims, _csUTM, csQuery);
+    assert(_converter);
+    _converter->convert(_xyzUTM, 1, numDims, _csUTM, csQuery);
 
     bool haveTopo = false;
     double topoElev = 0;

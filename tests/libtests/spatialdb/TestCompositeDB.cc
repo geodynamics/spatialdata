@@ -219,6 +219,31 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
     const char* queryVals[3] = { "one", "five", "three" };
 
     db.open();
+
+    { // Check defaults (all values in A and then all values in B).
+        const size_t qsizeA = 2;
+        const size_t qindicesA[qsizeA] = { 0, 1 };
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbA.", db._dbA);
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoA.", db._infoA);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbA.", qsizeA, db._infoA->query_size);
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbA.", db._infoA->query_buffer);
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbA.", db._infoA->query_indices);
+        for (size_t i = 0; i < qsizeA; ++i) {
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbA.", qindicesA[i], db._infoA->query_indices[i]);
+        } // for
+
+        const size_t qsizeB = 1;
+        const size_t qindicesB[1] = { 2 };
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbB.", db._dbB);
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoB.", db._infoB);
+        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbB.", qsizeB, db._infoB->query_size);
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbB.", db._infoB->query_buffer);
+        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbB.", db._infoB->query_indices);
+        for (size_t i = 0; i < qsizeB; ++i) {
+            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbB.", qindicesB[i], db._infoB->query_indices[i]);
+        } // for
+    } // check defaults
+
     db.setQueryValues(queryVals, querySize);
     db.close();
 
