@@ -176,7 +176,6 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const double tolerance = 1.0e-6;
         for (size_t i = 0; i < size; ++i) {
             if (fabs(dirsE[i]) > tolerance) {
-                std::cout << "dirE: " << dirsE[i] << ", dir: " << dirs[i] << std::endl;
                 CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value (ECEF).", 1.0, dirs[i]/dirsE[i], tolerance);
             } else {
                 CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value (ECEF).", dirsE[i], dirs[i], tolerance);
