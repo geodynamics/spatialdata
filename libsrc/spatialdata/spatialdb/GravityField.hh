@@ -25,7 +25,7 @@
 #include "SpatialDB.hh"
 
 /// C++ manager for simple spatial database.
-class spatialdata::spatialdb::GravityField : public SpatialDB { // class GravityField
+class spatialdata::spatialdb::GravityField : public SpatialDB {
     friend class TestGravityField; // unit testing
 
 public:

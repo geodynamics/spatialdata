@@ -98,6 +98,7 @@ private:
 spatialdata::spatialdb::UserFunctionDB::UserFunctionDB(void) :
     _queryFunctions(NULL),
     _cs(NULL),
+    _converter(new spatialdata::geocoords::Converter),
     _querySize(0) {}
 
 
@@ -112,6 +113,7 @@ spatialdata::spatialdb::UserFunctionDB::~UserFunctionDB(void) {
     } // for
 
     delete _cs;_cs = NULL;
+    delete _converter;_converter = NULL;
 } // destructor
 
 
@@ -285,7 +287,8 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
     assert(numDims <= 3);
     double xyz[3];
     memcpy(xyz, coords, numDims*sizeof(double));
-    spatialdata::geocoords::Converter::convert(xyz, 1, numDims, _cs, csQuery);
+    assert(_converter);
+    _converter->convert(xyz, 1, numDims, _cs, csQuery);
 
     int queryFlag = 0;
     for (size_t iVal = 0; iVal < querySize; ++iVal) {

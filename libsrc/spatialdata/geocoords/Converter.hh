@@ -28,10 +28,26 @@
 
 #include <cstddef> // USES size_t
 
+namespace spatialdata {
+    namespace geocoords {
+        namespace _converter {
+            class Cache;
+        } // _Converter
+    } // geocoords
+} // spatialdata
+
 class spatialdata::geocoords::Converter {
+    friend class TestConverter; // unit testing
+
 public:
 
     // PUBLIC METHODS /////////////////////////////////////////////////////
+
+    /// Default constructor
+    Converter(void);
+
+    /// Default destructor
+    ~Converter(void);
 
     /** Convert coordinates from source coordinate system to destination
      * coordinate system.
@@ -42,11 +58,11 @@ public:
      * @param[in] csDest Pointer to destination coordinate system
      * @param[in] csSrc Pointer to source coordinate system
      */
-    static void convert(double* coords,
-                        const size_t numLocs,
-                        const size_t numDims,
-                        const CoordSys* csDest,
-                        const CoordSys* csSrc);
+    void convert(double* coords,
+                 const size_t numLocs,
+                 const size_t numDims,
+                 const CoordSys* csDest,
+                 const CoordSys* csSrc);
 
 private:
 
@@ -61,11 +77,11 @@ private:
      * @param[in] csDest Destination coordinate system
      * @param[in] csSrc Source coordinate system
      */
-    static void _convert(double* coords,
-                         const size_t numLocs,
-                         const size_t numDims,
-                         const CSGeo* csDest,
-                         const CSGeo* csSrc);
+    void _convert(double* coords,
+                  const size_t numLocs,
+                  const size_t numDims,
+                  const CSGeo* csDest,
+                  const CSGeo* csSrc);
 
     /** Convert coordinates from source Cartesian coordinate system to
      * destination Cartesian coordinate system.
@@ -76,11 +92,17 @@ private:
      * @param[in] csDest Destination coordinate system
      * @param[in] csSrc Source coordinate system
      */
-    static void _convert(double* coords,
-                         const size_t numLocs,
-                         const size_t numDims,
-                         const CSCart* csDest,
-                         const CSCart* csSrc);
+    void _convert(double* coords,
+                  const size_t numLocs,
+                  const size_t numDims,
+                  const CSCart* csDest,
+                  const CSCart* csSrc);
+
+private:
+
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////
+
+    _converter::Cache* _cache;
 
 }; // class Converter
 

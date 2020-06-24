@@ -41,6 +41,16 @@ spatialdata::geocoords::TestConverter::tearDown(void) {
 
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Test constructor.
+void
+spatialdata::geocoords::TestConverter::testConstructor(void) {
+    Converter converter;
+
+    CPPUNIT_ASSERT(converter._cache);
+} // testConstructor
+
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Teset convert().
 void
 spatialdata::geocoords::TestConverter::testConvert(void) {
@@ -56,7 +66,8 @@ spatialdata::geocoords::TestConverter::testConvert(void) {
     } // if
     std::memcpy(coords, _data->coordsSrc, bufferSize*sizeof(double));
 
-    Converter::convert(coords, numPoints, spaceDim, _data->csDest, _data->csSrc);
+    Converter converter;
+    converter.convert(coords, numPoints, spaceDim, _data->csDest, _data->csSrc);
 
     for (size_t i = 0; i < bufferSize; ++i) {
         const double tolerance = 1.0e-6;

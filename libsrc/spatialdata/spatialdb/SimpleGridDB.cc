@@ -52,6 +52,7 @@ spatialdata::spatialdb::SimpleGridDB::SimpleGridDB(void) :
     _units(NULL),
     _filename(""),
     _cs(NULL),
+    _converter(new spatialdata::geocoords::Converter),
     _queryType(NEAREST) {}
 
 
@@ -72,6 +73,7 @@ spatialdata::spatialdb::SimpleGridDB::~SimpleGridDB(void) {
     _querySize = 0;
 
     delete _cs;_cs = NULL;
+    delete _converter;_converter = NULL;
 } // destructor
 
 
@@ -91,7 +93,14 @@ spatialdata::spatialdb::SimpleGridDB::open(void) {
 
     // Convert to SI units
     const size_t numLocs = (3 == _spaceDim) ? _numX * _numY * _numZ : (2 == _spaceDim) ? _numX * _numY : _numX;
-    SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);
+    try {
+        SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);
+    } catch (const std::exception& err) {
+        std::ostringstream msg;
+        msg << "Error parsing units for spatial database '" << getLabel() << "':\n"
+            << err.what();
+        throw std::runtime_error(msg.str().c_str());
+    } // try/catch
 
     // Default query values is all values.
     _querySize = _numValues;
@@ -221,7 +230,8 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
     // Convert coordinates
     assert(numDims <= 3);
     memcpy(_xyz, coords, numDims*sizeof(double));
-    spatialdata::geocoords::Converter::convert(_xyz, 1, numDims, _cs, csQuery);
+    assert(_converter);
+    _converter->convert(_xyz, 1, numDims, _cs, csQuery);
 
     int queryFlag = 0;
     const int spaceDim = _spaceDim;
@@ -257,18 +267,15 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
         } // if
 
         switch (_dataDim) {
-        case 1: {
+        case 1:
             _interpolate1D(vals, numVals, index0, size0);
             break;
-        } // case 1
-        case 2: {
+        case 2:
             _interpolate2D(vals, numVals, index0, size0, index1, size1);
             break;
-        } // case 2
-        case 3: {
+        case 3:
             _interpolate3D(vals, numVals, index0, index1, index2);
             break;
-        } // case 3
         default:
             assert(false);
             throw std::logic_error("Unsupported data dimension in SimpleGridDB::query().");

@@ -42,6 +42,7 @@
 spatialdata::spatialdb::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
     _queryType(SimpleDB::LINEAR),
     _db(db),
+    _converter(new spatialdata::geocoords::Converter),
     _queryValues(NULL),
     _querySize(0) {}
 
@@ -60,6 +61,7 @@ spatialdata::spatialdb::SimpleDBQuery::deallocate(void) {
     delete[] _queryValues;_queryValues = NULL;
     _querySize = 0;
     _nearest.resize(0);
+    delete _converter;_converter = NULL;
 } // deallocate
 
 
@@ -143,7 +145,8 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
     for (size_t i = 0; i < numDims; ++i) {
         _q[i] = coords[i];
     }
-    spatialdata::geocoords::Converter::convert(_q, numLocs, numDims, _db._cs, pCSQuery);
+    assert(_converter);
+    _converter->convert(_q, numLocs, numDims, _db._cs, pCSQuery);
 
     switch (_queryType) {
     case SimpleDB::LINEAR:

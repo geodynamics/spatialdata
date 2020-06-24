@@ -23,6 +23,9 @@
 #define spatialdata_spatialdb_simpledbquery_hh
 
 #include "spatialdbfwd.hh" // forward declarations
+#include "SimpleDB.hh" // USES SimpleDB
+
+#include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA Converter
 
 #include <vector> // USES std::vector
 
@@ -195,23 +198,14 @@ private:
 
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-    /** Location of query */
-    double _q[3];
+    double _q[3]; ///< Location of query.
+    SimpleDB::QueryEnum _queryType; ///< Query type.
+    std::vector<size_t> _nearest; ///< Index of nearest points in database to location.
+    const SimpleDB& _db; ///< Reference to simple database.
+    spatialdata::geocoords::Converter* _converter; ///< Covert query points to local coordinate system.
 
-    /** Query type */
-    SimpleDB::QueryEnum _queryType;
-
-    /** Index of nearest points in database to location */
-    std::vector<size_t> _nearest;
-
-    /** Reference to simple database */
-    const SimpleDB& _db;
-
-    /** Values requested to be returned in queries */
-    size_t* _queryValues;
-
-    /** Number of values requested to be returned in queries */
-    size_t _querySize;
+    size_t* _queryValues; ///< Indices of values to be returned in queries.
+    size_t _querySize; ///< Nmber of values to be returned in queries.
 
 }; // class SimpleDBQuery
 

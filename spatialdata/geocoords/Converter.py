@@ -29,7 +29,8 @@ def convert(coords, csDest, csSrc):
         raise ValueError(msg)
 
     import geocoords
-    geocoords.Converter.convert(coords, csDest, csSrc)
+    converter = geocoords.Converter()
+    converter.convert(coords, csDest, csSrc)
     return
 
 

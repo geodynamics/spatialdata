@@ -37,7 +37,8 @@ extern "C" {
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSGeo::CSGeo(void) :
-    _string("EPSG:4326" /* WGS84 */) {
+    _string("EPSG:4326" /* WGS84 */),
+    _converter(new spatialdata::geocoords::Converter) {
     setSpaceDim(3);
     setCSType(GEOGRAPHIC);
 } // constructor
@@ -45,7 +46,9 @@ spatialdata::geocoords::CSGeo::CSGeo(void) :
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CSGeo::~CSGeo(void) {}
+spatialdata::geocoords::CSGeo::~CSGeo(void) {
+    delete _converter;_converter = NULL;
+}
 
 
 // ----------------------------------------------------------------------
@@ -60,7 +63,8 @@ spatialdata::geocoords::CSGeo::clone(void) const {
 // Copy constructor
 spatialdata::geocoords::CSGeo::CSGeo(const CSGeo& cs) :
     CoordSys(cs),
-    _string(cs._string) {}
+    _string(cs._string),
+    _converter(new spatialdata::geocoords::Converter) {}
 
 
 // ----------------------------------------------------------------------
@@ -136,7 +140,8 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
             csLL.setString("EPSG:4326"); // WGS84
             double* coordsLL = (numLocs*numDims > 0) ? new double[numLocs*numDims] : NULL;
             memcpy(coordsLL, coords, numLocs*numDims*sizeof(double));
-            Converter::convert(coordsLL, numLocs, numDims, &csLL, this);
+            assert(_converter);
+            _converter->convert(coordsLL, numLocs, numDims, &csLL, this);
             for (size_t i = 0; i < numLocs; ++i) {
                 const double latRad = coordsLL[i*numDims+0] * M_PI/180.0;
                 const double lonRad = coordsLL[i*numDims+1] * M_PI/180.0;
@@ -181,8 +186,9 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s) {
 
     std::string token;
     std::istringstream buffer;
-    const int maxIgnore = 256;
-    char cbuffer[maxIgnore];
+    const int maxIgnore = 512;
+    const int maxBuffer = 1024;
+    char cbuffer[maxBuffer];
 
     // Set parameters to empty values.
     _string = "EPSG:4326"; // WGS84
@@ -196,12 +202,12 @@ spatialdata::geocoords::CSGeo::unpickle(std::istream& s) {
         buffer.ignore(maxIgnore, '=');
         if (0 == strcasecmp(token.c_str(), "crs-string")) {
             buffer >> std::ws;
-            buffer.get(cbuffer, maxIgnore, '\n');
-            setString(cbuffer);
+            buffer.get(cbuffer, maxBuffer, '\n');
+            this->setString(cbuffer);
         } else if (0 == strcasecmp(token.c_str(), "space-dim")) {
             int ndims;
             buffer >> ndims;
-            setSpaceDim(ndims);
+            this->setSpaceDim(ndims);
         } else {
             std::ostringstream msg;
             msg << "Could not parse '" << token << "' into a CSGeo token.\n"

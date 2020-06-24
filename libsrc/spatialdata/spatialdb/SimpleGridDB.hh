@@ -337,6 +337,7 @@ private:
 
     std::string _filename; ///< Filename of data file
     geocoords::CoordSys* _cs; ///< Coordinate system
+    spatialdata::geocoords::Converter* _converter; /// Convert query points to local coordinate system.
 
     QueryEnum _queryType; ///< Query type
 

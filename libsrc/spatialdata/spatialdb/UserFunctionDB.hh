@@ -23,12 +23,12 @@
 #if !defined(spatialdata_spatialdb_userfunctiondb_hh)
 #define spatialdata_spatialdb_userfunctiondb_hh
 
-#include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
+#include "SpatialDB.hh" // ISA SpatialDB
 
 #include <string> // HASA std::string
 #include <map> // HASA std::map
 
-class spatialdata::spatialdb::UserFunctionDB : public SpatialDB { // UserFunctionDB
+class spatialdata::spatialdb::UserFunctionDB : public SpatialDB {
     friend class TestUserFunctionDB; // unit testing
 
 public:
@@ -218,7 +218,8 @@ private:
 
     UserData** _queryFunctions; ///< Array of pointers to _functions of values to be returned in queries.
     std::map<std::string, UserData> _functions; ///< User functions for values.
-    geocoords::CoordSys* _cs; ///< Coordinate system
+    spatialdata::geocoords::CoordSys* _cs; ///< Coordinate system
+    spatialdata::geocoords::Converter* _converter; ///< Convert query points to local coordinate system.U
     size_t _querySize; ///< Number of values to be returned in queries.
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////

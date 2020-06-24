@@ -35,6 +35,7 @@
 #include <vector> // USES std::vector
 
 #include <stdexcept> // USES std::runtime_error
+#include <iostream> // USES std::cout
 #include <sstream> // USES std::ostringsgream
 #include <strings.h> // USES strcasecmp()
 #include <cstring> // USES strlen()
@@ -156,13 +157,13 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
     db->_numX = 0;
     db->_numY = 0;
     db->_numZ = 0;
-    delete[] db->_x;db->_x = 0;
-    delete[] db->_y;db->_y = 0;
-    delete[] db->_z;db->_z = 0;
+    delete[] db->_x;db->_x = NULL;
+    delete[] db->_y;db->_y = NULL;
+    delete[] db->_z;db->_z = NULL;
 
     db->_numValues = 0;
-    delete[] db->_names;db->_names = 0;
-    delete[] db->_units;db->_units = 0;
+    delete[] db->_names;db->_names = NULL;
+    delete[] db->_units;db->_units = NULL;
 
     buffer.str(parser.next());
     buffer.clear();
@@ -282,12 +283,11 @@ spatialdata::spatialdb::SimpleGridAscii::_readHeader(std::istream& filein,
 } // _readHeader
 
 
-#include <iostream>
 // ----------------------------------------------------------------------
 // Read data values.
 void
 spatialdata::spatialdb::SimpleGridAscii::_readData(std::istream& filein,
-                                                   SimpleGridDB* const db) { // _readData
+                                                   SimpleGridDB* const db) {
     delete[] db->_x;db->_x = 0;
     delete[] db->_y;db->_y = 0;
     delete[] db->_z;db->_z = 0;
