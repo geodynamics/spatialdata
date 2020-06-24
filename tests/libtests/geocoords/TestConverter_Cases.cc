@@ -27,6 +27,7 @@ namespace spatialdata {
         class TestConverter_WGS84ToNAD27;
         class TestConverter_WGS84ToECEF;
         class TestConverter_XYZToXYZ;
+        class TestConverter_units;
     } // geocoords
 } // spatialdata
 
@@ -170,6 +171,47 @@ class spatialdata::geocoords::TestConverter_WGS84ToECEF : public spatialdata::ge
 
 }; // TestConverter_WGS84ToECEF
 CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestConverter_WGS84ToECEF);
+
+// ---------------------------------------------------------------------------------------------------------------------
+class spatialdata::geocoords::TestConverter_units : public spatialdata::geocoords::TestConverter {
+    CPPUNIT_TEST_SUB_SUITE(TestConverter_units, TestConverter);
+    CPPUNIT_TEST_SUITE_END();
+
+    void setUp(void) {
+        TestConverter::setUp();
+
+        CPPUNIT_ASSERT(_data);
+        _data->numPoints = 3;
+        _data->spaceDim = 3;
+
+        static CSGeo csMeter;
+        csMeter.setString("+proj=tmerc +datum=WGS84 +lon_0=-122.6765 +lat_0=45.5231 +k=0.9996 +units=m +vunits=m");
+        csMeter.setSpaceDim(_data->spaceDim);
+        _data->csSrc = &csMeter;
+
+        static CSGeo csKilometer;
+        csKilometer.setString("+proj=tmerc +datum=WGS84 +lon_0=-122.6765 +lat_0=45.5231 +k=0.9996 +units=km +vunits=km");
+        csKilometer.setSpaceDim(_data->spaceDim);
+        _data->csDest = &csKilometer;
+
+        static const double coordsMeter[3*3] = {
+            1.0e+2, -5.0e+2, 1.0e+1,
+            4.0e+3, -1.5e+3, 1.0e+2,
+            -5.0e+4, +2.0e+4, 2.5e+3,
+        };
+        _data->coordsSrc = coordsMeter;
+
+        static const double coordsKilometer[3*3] = {
+            1.0e-1, -5.0e-1, 1.0e-2,
+            4.0e+0, -1.5e+0, 1.0e-1,
+            -5.0e+1, +2.0e+1, 2.5e+0,
+        };
+        _data->coordsDest = coordsKilometer;
+
+    } // setUp
+
+}; // TestConverter_units
+CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestConverter_units);
 
 // ---------------------------------------------------------------------------------------------------------------------
 class spatialdata::geocoords::TestConverter_XYZToXYZ : public spatialdata::geocoords::TestConverter {
