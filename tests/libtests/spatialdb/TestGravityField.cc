@@ -163,6 +163,7 @@ spatialdata::spatialdb::TestGravityField::testQuery(void) {
                                                  _data->gravity[iPt*querySize+iDim], gravity[iDim], tolerance);
         } // for
     } // for
+    delete[] gravity;gravity = NULL;
     db.close();
 
 } // testQuery
