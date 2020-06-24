@@ -23,12 +23,14 @@ dist_noinst_DATA = \
 	grid_area2d.spatialdb \
 	grid_area3d.spatialdb \
 	grid_volume3d.spatialdb \
+	grid_comments.spatialdb \
 	timehistory_comments.dat \
 	timehistory.timedb
 
 noinst_TMP = \
 	spatial.dat \
-	grid.spatialdb \
+	grid_xyz.spatialdb \
+	grid_geo.spatialdb \
 	timehistory.data
 
 
@@ -46,4 +48,4 @@ clean-local: clean-data
 datafiles:
 	bash generate.sh all
 
-# End of file 
+# End of file
