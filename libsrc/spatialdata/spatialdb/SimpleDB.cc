@@ -68,6 +68,7 @@ spatialdata::spatialdb::SimpleDB::setQueryType(const SimpleDB::QueryEnum queryTy
     if (!_query) {
         _query = new SimpleDBQuery(*this);
     } // if
+    assert(_query);
     _query->setQueryType(queryType);
 } // setQueryType
 
