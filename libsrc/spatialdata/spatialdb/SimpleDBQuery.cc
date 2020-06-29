@@ -51,6 +51,7 @@ spatialdata::spatialdb::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
 // Default destructor.
 spatialdata::spatialdb::SimpleDBQuery::~SimpleDBQuery(void) {
     deallocate();
+    delete _converter;_converter = NULL;
 } // destructor
 
 
@@ -61,7 +62,6 @@ spatialdata::spatialdb::SimpleDBQuery::deallocate(void) {
     delete[] _queryValues;_queryValues = NULL;
     _querySize = 0;
     _nearest.resize(0);
-    delete _converter;_converter = NULL;
 } // deallocate
 
 
@@ -110,7 +110,7 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
         } // if
         _queryValues[iVal] = iName;
     } // for
-} // QueryVals
+} // setQueryVals
 
 
 // ----------------------------------------------------------------------
@@ -144,7 +144,7 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
     _q[2] = 0.0;
     for (size_t i = 0; i < numDims; ++i) {
         _q[i] = coords[i];
-    }
+    } // for
     assert(_converter);
     _converter->convert(_q, numLocs, numDims, _db._cs, pCSQuery);
 
