@@ -22,6 +22,19 @@ from pyre.components.Component import Component
 from spatialdb import TimeHistory as ModuleTimeHistory
 
 
+def validateFilename(value):
+    """
+    Validate filename.
+    """
+    if 0 == len(value):
+        raise ValueError("Name of SimpleGridDB file must be specified.")
+    try:
+        fin = open(value, "r")
+    except IOError:
+        raise IOError("Spatial database file '{}' not found.".format(value))
+    return value
+
+
 class TimeHistory(Component, ModuleTimeHistory):
     """
     Python object for time history dependence with spatial databases.
@@ -43,7 +56,7 @@ class TimeHistory(Component, ModuleTimeHistory):
     label = pyre.inventory.str("label", default="temporal database")
     label.meta['tip'] = "Label for time history."
 
-    filename = pyre.inventory.str("filename", default="timehistory.timedb")
+    filename = pyre.inventory.str("filename", default="timehistory.timedb", validator=validateFilename)
     filename.meta['tip'] = "Name of file for time history."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

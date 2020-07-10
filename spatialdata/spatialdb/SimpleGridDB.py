@@ -28,6 +28,10 @@ def validateFilename(value):
     """
     if 0 == len(value):
         raise ValueError("Name of SimpleGridDB file must be specified.")
+    try:
+        fin = open(value, "r")
+    except IOError:
+        raise IOError("Spatial database file '{}' not found.".format(value))
     return value
 
 
