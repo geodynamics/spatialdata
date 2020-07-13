@@ -87,6 +87,13 @@ class TimeHistory(Component, ModuleTimeHistory):
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
+def createWriter(filename, label="Time history writer"):
+    writer = TimeHistory()
+    writer.setLabel(label)
+    writer.setFilename(filename)
+    return writer
+
+
 def temporal_database():
     """
     Factory associated with TimeHistory.

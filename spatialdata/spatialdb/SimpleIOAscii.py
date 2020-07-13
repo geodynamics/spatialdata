@@ -75,7 +75,6 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
         dbData.setNames(names)
         dbData.setUnits(units)
 
-        ModuleSimpleIOAscii.setFilename(self, self.filename)
         ModuleSimpleIOAscii.write(self, dbData, data['coordsys'])
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -91,6 +90,12 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
+def createWriter(filename):
+    writer = SimpleIOAscii()
+    writer.setFilename(filename)
+    return writer
+
 
 def simpledb_io():
     """
