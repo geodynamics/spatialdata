@@ -89,7 +89,7 @@ class TestSimpleGridDB(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
     def test_io_3d(self):
-        from spatialdata.spatialdb.SimpleGridAscii import SimpleGridAscii
+        from spatialdata.spatialdb.SimpleGridAscii import createWriter
 
         filename = "data/gridio3d.spatialdb"
         x = numpy.array([-2.0, 0.0, 3.0], dtype=numpy.float64)
@@ -123,9 +123,7 @@ class TestSimpleGridDB(unittest.TestCase):
 
         cs = CSCart()
 
-        writer = SimpleGridAscii()
-        writer.inventory.filename = filename
-        writer._configure()
+        writer = createWriter(filename)
         writer.write({'points': points,
                       'x': x,
                       'y': y,
@@ -176,7 +174,7 @@ class TestSimpleGridDB(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
     def test_io_2d(self):
-        from spatialdata.spatialdb.SimpleGridAscii import SimpleGridAscii
+        from spatialdata.spatialdb.SimpleGridAscii import createWriter
 
         filename = "data/gridio2d.spatialdb"
         x = numpy.array([-2.0, 0.0, 3.0], dtype=numpy.float64)
@@ -197,9 +195,7 @@ class TestSimpleGridDB(unittest.TestCase):
         cs.inventory.spaceDim = 2
         cs._configure()
 
-        writer = SimpleGridAscii()
-        writer.inventory.filename = filename
-        writer._configure()
+        writer = createWriter(filename)
         writer.write({'points': points,
                       'x': x,
                       'y': y,
@@ -250,7 +246,7 @@ class TestSimpleGridDB(unittest.TestCase):
 # ----------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSimpleDB))
+    suite.addTest(unittest.makeSuite(TestSimpleGridDB))
     unittest.TextTestRunner(verbosity=2).run(suite)
 
 

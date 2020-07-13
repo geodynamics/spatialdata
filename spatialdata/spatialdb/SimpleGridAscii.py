@@ -104,9 +104,8 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
 
         from SimpleGridDB import SimpleGridDB
         db = SimpleGridDB()
-        db.inventory.label = "Temporary database for I/O"
-        db.inventory.filename = self.filename
-        db._configure()
+        db.setLabel("Temporary SimpleGridDB for writing")
+        db.setFilename(self.filename)
         db.setCoordSys(data['coordsys'])
         db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])
         db.setX(data['x'])
@@ -125,13 +124,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
         """
         Set members using inventory.
         """
-        try:
-            Component._configure(self)
-            self.filename = self.inventory.filename
-        except ValueError, err:
-            aliases = ", ".join(self.aliases)
-            raise ValueError("Error while configuring spatial database reader "
-                             "(%s):\n%s" % (aliases, err.message))
+        Component._configure(self)
 
     def _createModuleObj(self):
         """
@@ -141,6 +134,12 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
+def createWriter(filename):
+    writer = SimpleGridAscii()
+    writer.inventory.filename = filename
+    return writer
+
 
 def simplegrid_io():
     """

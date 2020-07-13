@@ -51,10 +51,8 @@ class TestSimpleIOAscii(unittest.TestCase):
         errE = [0, 0, 0]
 
         # Write database
-        from spatialdata.spatialdb.SimpleIOAscii import SimpleIOAscii
-        writer = SimpleIOAscii()
-        writer.inventory.filename = filename
-        writer._configure()
+        from spatialdata.spatialdb.SimpleIOAscii import createWriter
+        writer = createWriter(filename)
         writer.write(data)
 
         # Test write using query

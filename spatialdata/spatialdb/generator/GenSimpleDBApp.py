@@ -31,6 +31,15 @@ def valueFactory(name):
     return facility(name, family="database_value", factory=Value)
 
 
+def validateFilename(value):
+    """
+    Validate filename.
+    """
+    if 0 == len(value):
+        raise ValueError("Filename for spatial database not specified.")
+    return value
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 class SingleValue(Component):
     """
@@ -85,9 +94,8 @@ class GenSimpleDBApp(Script):
     values = pyre.inventory.facilityArray("values", itemFactory=valueFactory, factory=SingleValue)
     values.meta['tip'] = "Values in database."
 
-    from spatialdata.spatialdb.SimpleIOAscii import SimpleIOAscii
-    iohandler = pyre.inventory.facility("iohandler", family="simpledb_io", factory=SimpleIOAscii)
-    iohandler.meta['tip'] = "Object for writing database."
+    filename = pyre.inventory.str("filename", default="", validator=validateFilename)
+    filename.meta['tip'] = "Filename for generated ASCII SimpleDB."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -101,6 +109,8 @@ class GenSimpleDBApp(Script):
         """
         Application driver.
         """
+        from spatialdata.spatialdb.SimpleIOAscii import createWriter
+
         self._info.log("Reading geometry.")
         self.geometry.read()
         points = self.geometry.vertices
@@ -119,6 +129,7 @@ class GenSimpleDBApp(Script):
                 'data': value.calculate(points, coordsys),
             })
         self._info.log("Writing database.")
-        self.iohandler.write(data)
+        writer = createWriter(self.filename)
+        writer.write(data)
 
 # End of file
