@@ -366,7 +366,7 @@ spatialdata::spatialdb::UserFunctionDB::_checkCompatibility(void) const {
         const int flag = iter->second.fn->query(&value, coords, spaceDim);
         if (flag) {
             std::ostringstream msg;
-            msg << "Error encountered in verifying compatibility for user function " << iter->second.fn
+            msg << "Error encountered in verifying compatibility for user function " << typeid(iter->second.fn).name()
                 << " for value '" << iter->first << "' in spatial database " << getLabel() << ".";
             throw std::runtime_error(msg.str());
         } // if
