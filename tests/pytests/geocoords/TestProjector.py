@@ -19,7 +19,7 @@ import numpy
 
 projection = "aea"
 units = "km"
-projOptions = "+lon_0=-100.0 +lat_0=30.0 +k=0.9996"
+projOptions = "+lon_0=-100.0 +lat_1=30.0 +k=0.9996"
 lonlatVals = numpy.array([ [-1.203425320000e+02,  5.323423000000e+01],
                            [-5.330394500000e+01,  3.334902000000e+01],
                            [ 3.422908500000e+01, -2.523422000000e+01],

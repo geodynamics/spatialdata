@@ -23,7 +23,7 @@ class TestCSGeoProj(unittest.TestCase):
     proj = Projector()
     proj.inventory.projection = "aea"
     proj.inventory.units = "m"
-    proj.inventory.projOptions = "+lon_0=-100.0 +lat_30.0 +k=0.9995"
+    proj.inventory.projOptions = "+lon_0=-100.0 +lat_1=30.0 +k=0.9995"
     proj._configure()
 
     from spatialdata.geocoords.CSGeoProj import CSGeoProj
