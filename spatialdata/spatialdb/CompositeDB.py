@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import CompositeDB as ModuleCompositeDB
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import CompositeDB as ModuleCompositeDB
 
 
 class CompositeDB(SpatialDBObj, ModuleCompositeDB):
@@ -47,7 +47,7 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
     namesB = pyre.inventory.list("values_B", default=[])
     namesB.meta['tip'] = "Names of values to query with database B."
 
-    from UniformDB import UniformDB
+    from .UniformDB import UniformDB
     dbA = pyre.inventory.facility("db_A", factory=UniformDB, family="spatial_database")
     dbA.meta['tip'] = "Spatial database A."
 

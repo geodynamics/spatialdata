@@ -28,7 +28,7 @@ def convert(coords, csDest, csSrc):
               "coordinate systems must match." % (csSrc.getSpaceDim(), csDest.getSpaceDim())
         raise ValueError(msg)
 
-    import geocoords
+    from . import geocoords
     converter = geocoords.Converter()
     converter.convert(coords, csDest, csSrc)
     return

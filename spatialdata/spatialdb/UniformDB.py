@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import UniformDB as ModuleUniformDB
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import UniformDB as ModuleUniformDB
 
 
 class UniformDB(SpatialDBObj, ModuleUniformDB):

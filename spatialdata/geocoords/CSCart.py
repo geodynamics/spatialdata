@@ -17,8 +17,8 @@
 # @brief Python manager for Cartesian coordinate systems.
 #
 
-from CoordSys import CoordSys
-from geocoords import CSCart as ModuleCSCart
+from .CoordSys import CoordSys
+from .geocoords import CSCart as ModuleCSCart
 
 # CSCart class
 

@@ -20,8 +20,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import UserFunctionDB as ModuleUserFunctionDB
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import UserFunctionDB as ModuleUserFunctionDB
 
 
 class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):

@@ -17,9 +17,11 @@
 #
 # Factory: database_value
 
+import numpy
+
 from pyre.components.Component import Component
 
-import numpy
+from .Shaper import Shaper
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -28,7 +30,6 @@ def shaperFactory(name):
     Factory for shapers.
     """
     from pyre.inventory import facility
-    from Shaper import Shaper
     return facility(name, family="shaper", factory=Shaper)
 
 
@@ -47,8 +48,6 @@ class SingleShaper(Component):
     """
 
     import pyre.inventory
-
-    from Shaper import Shaper
     valueShaper = pyre.inventory.facility("shaper", family="shaper", factory=Shaper)
     valueShaper.meta['tip'] = "Shaper for database value."
 

@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import SCECCVMH as ModuleSCECCVMH
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import SCECCVMH as ModuleSCECCVMH
 
 
 class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):

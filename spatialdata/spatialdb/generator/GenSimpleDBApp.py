@@ -20,6 +20,8 @@
 from pyre.applications.Script import Script
 from pyre.components.Component import Component
 
+from .Value import Value
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 def valueFactory(name):
@@ -27,7 +29,6 @@ def valueFactory(name):
     Factory for values.
     """
     from pyre.inventory import facility
-    from Value import Value
     return facility(name, family="database_value", factory=Value)
 
 
@@ -55,8 +56,6 @@ class SingleValue(Component):
     """
 
     import pyre.inventory
-
-    from Value import Value
     dbValue = pyre.inventory.facility("value", family="database_value", factory=Value)
     dbValue.meta['tip'] = "Value in spatial database."
 
@@ -87,7 +86,7 @@ class GenSimpleDBApp(Script):
 
     import pyre.inventory
 
-    from Geometry import Geometry
+    from .Geometry import Geometry
     geometry = pyre.inventory.facility("geometry", family="geometry", factory=Geometry)
     geometry.meta['tip'] = "Object defining geometry of region covered by database."
 

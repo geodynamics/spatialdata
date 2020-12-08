@@ -21,7 +21,7 @@ def write(time, amplitude, units, filename):
     """
     Write time history file.
     """
-    import spatialdb
+    from . import spatialdb
     spatialdb.TimeHistoryIO.write(time, amplitude, units, filename)
     return
 

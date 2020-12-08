@@ -20,7 +20,7 @@
 # Factory: simplegrid_io
 
 from pyre.components.Component import Component
-from spatialdb import SimpleGridAscii as ModuleSimpleGridAscii
+from .spatialdb import SimpleGridAscii as ModuleSimpleGridAscii
 
 
 def validateFilename(value):
@@ -102,7 +102,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
                 raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)." %
                                  (numLocs, numX, numY, numZ))
 
-        from SimpleGridDB import SimpleGridDB
+        from .SimpleGridDB import SimpleGridDB
         db = SimpleGridDB()
         db.setLabel("Temporary SimpleGridDB for writing")
         db.setFilename(self.filename)

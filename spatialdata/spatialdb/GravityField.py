@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import GravityField as ModuleGravityField
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import GravityField as ModuleGravityField
 
 
 class GravityField(SpatialDBObj, ModuleGravityField):
