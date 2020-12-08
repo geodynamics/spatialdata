@@ -38,7 +38,7 @@ class TestTimeHistory(unittest.TestCase):
         amplitude = numpy.zeros((nlocs,), dtype=numpy.float64)
         err = numpy.zeros((nlocs,), dtype=numpy.int32)
 
-        for i in xrange(nlocs):
+        for i in range(nlocs):
             (e, amplitude[i]) = th.query(timeQ[i])
             err[i] = e
         th.close()

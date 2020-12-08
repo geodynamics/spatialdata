@@ -69,7 +69,7 @@ class TestSimpleIOAscii(unittest.TestCase):
         vals = numpy.zeros(valsE.shape, dtype=numpy.float64)
         err = []
         nlocs = qlocs.shape[0]
-        for i in xrange(nlocs):
+        for i in range(nlocs):
             e = db.query(vals[i, :], qlocs[i, :], cs)
             err.append(e)
         db.close()
