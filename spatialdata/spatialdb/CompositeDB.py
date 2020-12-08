@@ -85,15 +85,11 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
         Validate parameters.
         """
         if (0 == len(data.namesA)):
-            raise ValueError, \
-                "Error in spatial database '%s'\n" \
-                "Names of values to query in database A not set." \
-                % self.label
+            raise ValueError("Error in spatial database '%s'\n"
+                             "Names of values to query in database A not set." % self.label)
         if (0 == len(data.namesB)):
-            raise ValueError, \
-                "Error in spatial database '%s'\n" \
-                "Names of values to query in database B not set." \
-                % self.label
+            raise ValueError("Error in spatial database '%s'\n"
+                             "Names of values to query in database B not set." % self.label)
         return
 
 
