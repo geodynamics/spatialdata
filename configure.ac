@@ -109,7 +109,7 @@ if test "$enable_pythia" = "yes" ; then
   AC_LANG(C++)
 
   # Check for Python modules and packages.
-  AM_PATH_PYTHON([2.7])
+  AM_PATH_PYTHON([3.6])
   AC_ARG_VAR(PYTHON, [Python interpreter])
   AC_ARG_VAR(PYTHONPATH, [Python module search path])
   CIT_PYTHON_SYSCONFIG
@@ -126,7 +126,7 @@ if test "$enable_pythia" = "yes" ; then
 
   # SWIG
   if test "$enable_swig" = "yes" ; then
-    AC_PROG_SWIG([2.0.4], [3.0.2])
+    AC_PROG_SWIG([4.0.0], [4.0.2])
   fi
 
 fi
