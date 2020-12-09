@@ -18,7 +18,7 @@ subpackage = utils
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _utilsmodule.la
+subpkgpyexec_LTLIBRARIES = _utils.la
 subpkgpyexec_PYTHON = utils.py
 
 swig_sources = \
@@ -29,12 +29,12 @@ swig_generated = \
 	utils_wrap.cxx \
 	utils.py
 
-_utilsmodule_la_LDFLAGS = -module -avoid-version \
+_utils_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist__utilsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
+dist__utils_la_SOURCES = $(swig_sources) $(swig_generated)
 
-_utilsmodule_la_LIBADD = \
+_utils_la_LIBADD = \
 	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
@@ -52,4 +52,4 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/utils.py
 
 
-# End of file 
+# End of file

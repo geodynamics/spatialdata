@@ -18,7 +18,7 @@ subpackage = units
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _unitsmodule.la
+subpkgpyexec_LTLIBRARIES = _units.la
 subpkgpyexec_PYTHON = units.py
 
 swig_sources = \
@@ -29,12 +29,12 @@ swig_generated = \
 	units_wrap.cxx \
 	units.py
 
-_unitsmodule_la_LDFLAGS = -module -avoid-version \
+_units_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist__unitsmodule_la_SOURCES = $(swig_sources) $(swig_generated)
+dist__units_la_SOURCES = $(swig_sources) $(swig_generated)
 
-_unitsmodule_la_LIBADD = \
+_units_la_LIBADD = \
 	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
@@ -52,4 +52,4 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/units.py
 
 
-# End of file 
+# End of file
