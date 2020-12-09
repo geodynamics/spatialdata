@@ -19,11 +19,11 @@
   // Check to make sure input is a list.
   if (PyList_Check($input)) {
     const int size = PyList_Size($input);
-    $1 = (size > 0) ? new char*[size] : 0;
+    $1 = (size > 0) ? new char*[size] : NULL;
     for (int i = 0; i < size; i++) {
       PyObject *s = PyList_GetItem($input,i);
-      if (PyString_Check(s))
-	$1[i] = PyString_AsString(PyList_GetItem($input,i));
+      if (PyUnicode_Check(s))
+        $1[i] = (char*)PyUnicode_AsUTF8(PyList_GetItem($input,i));
       else {
 	PyErr_SetString(PyExc_TypeError, "List must contain strings.");
 	delete[] $1;
@@ -51,8 +51,8 @@
     $1 = (size > 0) ? new char*[size] : 0;
     for (int i = 0; i < size; i++) {
       PyObject *s = PyList_GetItem($input,i);
-      if (PyString_Check(s))
-	$1[i] = PyString_AsString(PyList_GetItem($input,i));
+      if (PyUnicode_Check(s))
+        $1[i] = (char*)PyUnicode_AsUTF8(PyList_GetItem($input,i));
       else {
 	PyErr_SetString(PyExc_TypeError, "List must contain strings.");
 	delete[] $1;
