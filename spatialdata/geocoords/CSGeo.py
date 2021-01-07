@@ -18,8 +18,8 @@
 #
 # Factory: coordsys.
 
-from CoordSys import CoordSys
-from geocoords import CSGeo as ModuleCSGeo
+from .CoordSys import CoordSys
+from .geocoords import CSGeo as ModuleCSGeo
 
 
 class CSGeo(CoordSys, ModuleCSGeo):

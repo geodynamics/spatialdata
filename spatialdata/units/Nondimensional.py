@@ -18,7 +18,7 @@
 # Factory: nondimensional
 
 from pyre.components.Component import Component
-from units import Nondimensional as ModuleNondimensional
+from .units import Nondimensional as ModuleNondimensional
 
 
 class Nondimensional(Component, ModuleNondimensional):

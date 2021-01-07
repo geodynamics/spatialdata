@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import GravityField as ModuleGravityField
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import GravityField as ModuleGravityField
 
 
 class GravityField(SpatialDBObj, ModuleGravityField):
@@ -71,7 +71,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
         """
         SpatialDBObj._configure(self)
         self._validateParameters(self.inventory)
-        dir = map(float, self.gravityDir)
+        dir = list(map(float, self.gravityDir))
         ModuleGravityField.setGravityDir(self, dir[0], dir[1], dir[2])
         ModuleGravityField.setGravityAcc(self, self.acceleration.value)
 
@@ -88,7 +88,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
         if (len(params.gravityDir) != 3):
             raise ValueError("Gravity direction must be a 3 component list or tuple.")
         try:
-            dirFloat = map(float, params.gravityDir)
+            dirFloat = list(map(float, params.gravityDir))
         except:
             raise ValueError("Gravity direction must contain floating point values.")
 

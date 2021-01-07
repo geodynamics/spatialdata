@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import SimpleGridDB as ModuleSimpleGridDB
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import SimpleGridDB as ModuleSimpleGridDB
 
 
 def validateFilename(value):

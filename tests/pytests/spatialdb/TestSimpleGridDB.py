@@ -47,7 +47,7 @@ class TestSimpleGridDB(unittest.TestCase):
         data = numpy.zeros(dataE.shape, dtype=numpy.float64)
         err = []
         nlocs = locs.shape[0]
-        for i in xrange(nlocs):
+        for i in range(nlocs):
             e = db.query(data[i, :], locs[i, :], cs)
             err.append(e)
         db.close()
@@ -158,7 +158,7 @@ class TestSimpleGridDB(unittest.TestCase):
         data = numpy.zeros(dataE.shape, dtype=numpy.float64)
         err = []
         nlocs = locs.shape[0]
-        for i in xrange(nlocs):
+        for i in range(nlocs):
             e = db.query(data[i, :], locs[i, :], cs)
             err.append(e)
         db.close()
@@ -227,7 +227,7 @@ class TestSimpleGridDB(unittest.TestCase):
         data = numpy.zeros(dataE.shape, dtype=numpy.float64)
         err = []
         nlocs = locs.shape[0]
-        for i in xrange(nlocs):
+        for i in range(nlocs):
             e = db.query(data[i, :], locs[i, :], cs)
             err.append(e)
         db.close()

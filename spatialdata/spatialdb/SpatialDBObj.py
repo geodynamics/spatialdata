@@ -19,7 +19,7 @@
 # Factory: spatial_database
 
 from pyre.components.Component import Component
-from spatialdb import SpatialDB as ModuleSpatialDB
+from .spatialdb import SpatialDB as ModuleSpatialDB
 
 
 def validateLabel(value):

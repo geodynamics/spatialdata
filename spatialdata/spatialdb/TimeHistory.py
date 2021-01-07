@@ -19,7 +19,7 @@
 # Factory: temporal_database
 
 from pyre.components.Component import Component
-from spatialdb import TimeHistory as ModuleTimeHistory
+from .spatialdb import TimeHistory as ModuleTimeHistory
 
 
 def validateFilename(value):

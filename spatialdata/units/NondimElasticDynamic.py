@@ -18,7 +18,7 @@
 #
 # Factory: nondimensional
 
-from Nondimensional import Nondimensional
+from .Nondimensional import Nondimensional
 
 
 class NondimElasticDynamic(Nondimensional):

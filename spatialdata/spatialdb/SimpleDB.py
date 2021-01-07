@@ -18,8 +18,8 @@
 #
 # Factory: spatial_database
 
-from SpatialDBObj import SpatialDBObj
-from spatialdb import SimpleDB as ModuleSimpleDB
+from .SpatialDBObj import SpatialDBObj
+from .spatialdb import SimpleDB as ModuleSimpleDB
 
 
 class SimpleDB(SpatialDBObj, ModuleSimpleDB):
@@ -43,7 +43,7 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     queryType.validator = pyre.inventory.choice(["nearest", "linear"])
     queryType.meta['tip'] = "Type of query to perform."
 
-    from SimpleIOAscii import SimpleIOAscii
+    from .SimpleIOAscii import SimpleIOAscii
     iohandler = pyre.inventory.facility("iohandler", family="simpledb_io",
                                         factory=SimpleIOAscii)
     iohandler.meta['tip'] = "I/O handler for database."

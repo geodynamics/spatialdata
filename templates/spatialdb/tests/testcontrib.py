@@ -16,21 +16,24 @@
 
 import unittest
 
+
 def suite():
 
-  suite = unittest.TestSuite()
+    suite = unittest.TestSuite()
 
-  from TestUniformVelModel import TestUniformVelModel
-  suite.addTest(unittest.makeSuite(TestUniformVelModel))
+    from TestUniformVelModel import TestUniformVelModel
+    suite.addTest(unittest.makeSuite(TestUniformVelModel))
 
-  return suite
+    return suite
+
 
 def main():
-  unittest.TextTestRunner(verbosity=2).run(suite())
-  return
+    unittest.TextTestRunner(verbosity=2).run(suite())
+    return
+
 
 if __name__ == '__main__':
-  main()
-  
+    main()
 
-# End of file 
+
+# End of file

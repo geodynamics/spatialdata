@@ -18,8 +18,8 @@
 #
 # Factory: simpledb_io
 
-from SimpleIO import SimpleIO
-from spatialdb import SimpleIOAscii as ModuleSimpleIOAscii
+from .SimpleIO import SimpleIO
+from .spatialdb import SimpleIOAscii as ModuleSimpleIOAscii
 
 
 class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
@@ -67,7 +67,7 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
             values[:, i] = value['data'][:]
             i += 1
 
-        from spatialdb import SimpleDBData
+        from .spatialdb import SimpleDBData
         dbData = SimpleDBData()
         dbData.allocate(numLocs, numValues, spaceDim, dataDim)
         dbData.setCoordinates(data['points'])

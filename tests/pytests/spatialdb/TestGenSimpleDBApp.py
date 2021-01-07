@@ -54,7 +54,7 @@ class TestGenSimpleDBApp(unittest.TestCase):
         data = numpy.zeros(dataE.shape, dtype=numpy.float64)
         err = []
         nlocs = qlocs.shape[0]
-        for i in xrange(nlocs):
+        for i in range(nlocs):
             e = db.query(data[i, :], qlocs[i, :], cs)
             err.append(e)
         db.close()
