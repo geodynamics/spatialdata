@@ -117,8 +117,8 @@ if test "$enable_pythia" = "yes" ; then
   CIT_CHECK_PYTHON_SHARED
 
   # PYTHIA/PYRE
-  CIT_PYTHON_MODULE([pyre],[0.8.1])
-  CIT_PYTHON_MODULE([journal],[0.8.1])
+  CIT_PYTHON_MODULE([pyre],[0.9.0])
+  CIT_PYTHON_MODULE([journal],[0.9.0])
 
   # NUMPY
   CIT_NUMPY_PYTHON_MODULE
@@ -126,7 +126,7 @@ if test "$enable_pythia" = "yes" ; then
 
   # SWIG
   if test "$enable_swig" = "yes" ; then
-    AC_PROG_SWIG([4.0.0], [4.0.2])
+    AC_PROG_SWIG([4.0.0])
   fi
 
 fi
