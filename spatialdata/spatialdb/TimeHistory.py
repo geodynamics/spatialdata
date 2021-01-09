@@ -27,11 +27,11 @@ def validateFilename(value):
     Validate filename.
     """
     if 0 == len(value):
-        raise ValueError("Name of SimpleGridDB file must be specified.")
+        raise ValueError("Name of TimeHistoryDB file must be specified.")
     try:
         fin = open(value, "r")
     except IOError:
-        raise IOError("Spatial database file '{}' not found.".format(value))
+        raise IOError("Temporal database file '{}' not found.".format(value))
     return value
 
 
