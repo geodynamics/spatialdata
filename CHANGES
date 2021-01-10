@@ -1,4 +1,4 @@
-2020/03/03 (version 2.0.0)
+2021/01/09 (version 2.0.0)
 
   Update to use Proj 6.x. This allows a user to specify a coordinate
   system using a string consisting of Proj parameters, EPSG code, or
@@ -9,6 +9,18 @@
 
   Clean up layout of C++ unit test code. Consolidate files with test
   data.
+
+  Add factory methods for creating spatial database writers to bypass
+  validators that require files to exist. This is a result of using
+  Pyre validators to check that spatial and temporal database file
+  exist (this triggers early notification of any missing spatial or
+  temporal database files).
+
+  Improve continuous integration testing via docker containers for
+  multiple Linux distributions and Travis CI.
+
+  This is the final release for Python 2.7. The next release will only
+  support Python 3.6 and later.
 
 
 2019/07/29 (version 1.10.1)
