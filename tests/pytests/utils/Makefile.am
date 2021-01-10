@@ -20,8 +20,6 @@ TESTS = test_utils.py
 dist_check_SCRIPTS = test_utils.py
 
 noinst_PYTHON = \
-	TestChangeCoordSys.py \
-	TestConvertApp.py \
 	TestSpatialdataVersion.py
 
 data_TMP = in.txt out.txt
