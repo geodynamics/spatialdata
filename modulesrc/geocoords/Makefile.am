@@ -18,8 +18,8 @@ subpackage = geocoords
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _geocoords.la
-subpkgpyexec_PYTHON = geocoords.py
+subpkgpython_LTLIBRARIES = _geocoords.la
+subpkgpython_PYTHON = geocoords.py
 
 swig_sources = \
 	geocoords.i \

@@ -16,8 +16,8 @@
 subpkgsysconfdir = $(pkgsysconfdir)/$(subpackage)
 subpkgincludedir = $(pkgincludedir)/$(subpackage)
 subpkgpythondir = $(pkgpythondir)/$(subpackage)
-subpkgpyexecdir = $(pkgpyexecdir)/$(subpackage)
+#subpkgpyexecdir = $(pkgpyexecdir)/$(subpackage)
 subpkgdatadir = $(pkgdatadir)/$(subpackage)
 
 
-# End of file 
+# End of file

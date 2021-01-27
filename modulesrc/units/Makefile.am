@@ -18,8 +18,8 @@ subpackage = units
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _units.la
-subpkgpyexec_PYTHON = units.py
+subpkgpython_LTLIBRARIES = _units.la
+subpkgpython_PYTHON = units.py
 
 swig_sources = \
 	units.i \

@@ -15,7 +15,14 @@
 #
 # @brief Python top-level SpatialData module initialization
 
-__version__ = "2.0.0"
+try:
+    from pkg_resources import get_distribution
+    version = get_distribution("spatialdata").version
+except:
+    version = "Could not get version information via pkg_resources."
+
+__version__ = version
+
 
 __all__ = [
     'geocoords',

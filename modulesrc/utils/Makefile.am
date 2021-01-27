@@ -18,8 +18,8 @@ subpackage = utils
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _utils.la
-subpkgpyexec_PYTHON = utils.py
+subpkgpython_LTLIBRARIES = _utils.la
+subpkgpython_PYTHON = utils.py
 
 swig_sources = \
 	utils.i \

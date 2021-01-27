@@ -18,9 +18,9 @@ subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _spatialdb.la
+subpkgpython_LTLIBRARIES = _spatialdb.la
 
-subpkgpyexec_PYTHON = spatialdb.py
+subpkgpython_PYTHON = spatialdb.py
 
 swig_sources = \
 	spatialdb.i \

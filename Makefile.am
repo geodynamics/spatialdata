@@ -18,11 +18,10 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = \
 	libsrc \
+	modulesrc \
+	spatialdata \
 	templates
 
-if ENABLE_PYTHIA
-  SUBDIRS += modulesrc spatialdata applications
-endif
 
 if ENABLE_TESTING
   SUBDIRS += tests
@@ -30,12 +29,12 @@ endif
 
 DISTCHECK_CONFIGURE_FLAGS = \
 	--enable-testing \
-	--enable-pythia \
 	CPPFLAGS="-I${PROJ4_INCDIR} -I${CPPUNIT_INCDIR} -I${PYTHIA_INCDIR} -I${CIG_INCDIR}" \
 	LDFLAGS="-L${PROJ4_LIBDIR} -L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
 
 EXTRA_DIST = \
 	CHANGES
+
 
 .PHONY: coverage-libtests coverage-pytests coverage-html clean-coverage
 
