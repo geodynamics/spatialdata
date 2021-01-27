@@ -54,7 +54,7 @@ libspatialdbcontrib_la_LIBADD += \
 endif
 
 # Preprocessor flags
-AM_CPPFLAGS = $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
+AM_CPPFLAGS = -I$(PYTHON_INCDIR)
 
 # SWIG PYTHON MODULE ---------------------------------------------------
 # The name of the module will be _spatialdbcontribmodule.MACHINE_DEPENDENT_SUFFIX

@@ -18,10 +18,10 @@ import unittest
 
 from spatialdata.units.NondimElasticQuasistatic import NondimElasticQuasistatic
 
-from pyre.units.length import meter
-from pyre.units.pressure import pascal
-from pyre.units.time import year
-from pyre.units.mass import kilogram
+from pythia.pyre.units.length import meter
+from pythia.pyre.units.pressure import pascal
+from pythia.pyre.units.time import year
+from pythia.pyre.units.mass import kilogram
 
 
 class TestNondimElasticQuasistatic(unittest.TestCase):

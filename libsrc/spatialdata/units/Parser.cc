@@ -32,13 +32,13 @@ spatialdata::units::Parser::Parser(void) {
     }
 
     // Should check for NULL, decode the exception, and throw a C++ equivalent
-    PyObject* mod = PyImport_ImportModule("pyre.units");
+    PyObject* mod = PyImport_ImportModule("pythia.pyre.units");
     if (!mod) {
-        throw std::runtime_error("Could not import module 'pyre.units'.");
+        throw std::runtime_error("Could not import module 'pythia.pyre.units'.");
     } // if
     PyObject* cls = PyObject_GetAttrString(mod, "parser");
     if (!cls) {
-        throw std::runtime_error("Could not get 'parser' attribute in pyre.units module.");
+        throw std::runtime_error("Could not get 'parser' attribute in pythia.pyre.units module.");
     } // if
     _parser = PyObject_CallFunctionObjArgs(cls, NULL);
     if (!_parser) {
@@ -69,8 +69,8 @@ spatialdata::units::Parser::parse(const char* units) {
 
     /* Replicate Python functionality given by
      *
-     * import pyre.units
-     * p = pyre.units.parser()
+     * import pythia.pyre.units
+     * p = pythia.pyre.units.parser()
      * x = p.parse(units) [units is a string]
      * scale = x.value
      */

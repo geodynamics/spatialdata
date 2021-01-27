@@ -29,7 +29,7 @@ RUN git clone --depth 1 --recursive https://github.com/geodynamics/pythia.git ${
 WORKDIR ${SRC_DIR}
 RUN autoreconf --install --verbose
 WORKDIR ${BUILD_DIR}
-RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make && make install && make check
+RUN ${SRC_DIR}/configure --enable-testing --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make && make install && make check VERBOSE=1
 
 
 # SPATIALDATA ----------
@@ -44,9 +44,6 @@ WORKDIR ${SRC_DIR}
 RUN autoreconf --install --verbose --force
 
 RUN mkdir -p ${BUILD_DIR}
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
-ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
-
 WORKDIR ${BUILD_DIR}
 RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib --coverage" CXXFLAGS="-g -O --coverage"
 

@@ -38,12 +38,12 @@ class CSGeo(CoordSys, ModuleCSGeo):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    crsString = pyre.inventory.str("crs_string", default="EPSG:4326")
+    crsString = pythia.pyre.inventory.str("crs_string", default="EPSG:4326")
     crsString.meta['tip'] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
 
-    spaceDim = pyre.inventory.int("space_dim", default=3)
+    spaceDim = pythia.pyre.inventory.int("space_dim", default=3)
     spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

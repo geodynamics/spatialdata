@@ -39,19 +39,19 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
       - *db_B* Spatial database B.
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    namesA = pyre.inventory.list("values_A", default=[])
+    namesA = pythia.pyre.inventory.list("values_A", default=[])
     namesA.meta['tip'] = "Names of values to query with database A."
 
-    namesB = pyre.inventory.list("values_B", default=[])
+    namesB = pythia.pyre.inventory.list("values_B", default=[])
     namesB.meta['tip'] = "Names of values to query with database B."
 
     from .UniformDB import UniformDB
-    dbA = pyre.inventory.facility("db_A", factory=UniformDB, family="spatial_database")
+    dbA = pythia.pyre.inventory.facility("db_A", factory=UniformDB, family="spatial_database")
     dbA.meta['tip'] = "Spatial database A."
 
-    dbB = pyre.inventory.facility("db_B", factory=UniformDB, family="spatial_database")
+    dbB = pythia.pyre.inventory.facility("db_B", factory=UniformDB, family="spatial_database")
     dbB.meta['tip'] = "Spatial database B."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

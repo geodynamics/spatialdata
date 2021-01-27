@@ -118,8 +118,7 @@ if test "$enable_pythia" = "yes" ; then
   CIT_CHECK_PYTHON_SHARED
 
   # PYTHIA/PYRE
-  CIT_PYTHON_MODULE([pyre],[0.9.0])
-  CIT_PYTHON_MODULE([journal],[0.9.0])
+  CIT_PYTHON_MODULE([pythia],[1.0.0])
 
   # NUMPY
   CIT_NUMPY_PYTHON_MODULE

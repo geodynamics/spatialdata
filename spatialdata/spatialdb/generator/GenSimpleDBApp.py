@@ -17,8 +17,8 @@
 # @brief Python application to generate simple spatial database from
 # other simple spatial databases.
 
-from pyre.applications.Script import Script
-from pyre.components.Component import Component
+from pythia.pyre.applications.Script import Script
+from pythia.pyre.components.Component import Component
 
 from .Value import Value
 
@@ -28,7 +28,7 @@ def valueFactory(name):
     """
     Factory for values.
     """
-    from pyre.inventory import facility
+    from pythia.pyre.inventory import facility
     return facility(name, family="database_value", factory=Value)
 
 
@@ -55,8 +55,8 @@ class SingleValue(Component):
       - *value* Spatial database value.
     """
 
-    import pyre.inventory
-    dbValue = pyre.inventory.facility("value", family="database_value", factory=Value)
+    import pythia.pyre.inventory
+    dbValue = pythia.pyre.inventory.facility("value", family="database_value", factory=Value)
     dbValue.meta['tip'] = "Value in spatial database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -84,16 +84,16 @@ class GenSimpleDBApp(Script):
       - *iohandler* Writer for spatial database.
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
     from .Geometry import Geometry
-    geometry = pyre.inventory.facility("geometry", family="geometry", factory=Geometry)
+    geometry = pythia.pyre.inventory.facility("geometry", family="geometry", factory=Geometry)
     geometry.meta['tip'] = "Object defining geometry of region covered by database."
 
-    values = pyre.inventory.facilityArray("values", itemFactory=valueFactory, factory=SingleValue)
+    values = pythia.pyre.inventory.facilityArray("values", itemFactory=valueFactory, factory=SingleValue)
     values.meta['tip'] = "Values in database."
 
-    filename = pyre.inventory.str("filename", default="", validator=validateFilename)
+    filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
     filename.meta['tip'] = "Filename for generated ASCII SimpleDB."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

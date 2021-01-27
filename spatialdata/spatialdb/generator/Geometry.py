@@ -18,7 +18,7 @@
 #
 # Factory: geometry.
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 
 class Dummy(Component):
@@ -43,17 +43,17 @@ class Geometry(Component):
       - *coordsys* Coordinate system associated with geometry.
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    dataDim = pyre.inventory.int("data_dim", default=2)
-    dataDim.validator = pyre.inventory.choice([0, 1, 2, 3])
+    dataDim = pythia.pyre.inventory.int("data_dim", default=2)
+    dataDim.validator = pythia.pyre.inventory.choice([0, 1, 2, 3])
     dataDim.meta['tip'] = "Spatial dimension of database locations."
 
-    reader = pyre.inventory.facility("reader", family="reader", factory=Dummy)
+    reader = pythia.pyre.inventory.facility("reader", family="reader", factory=Dummy)
     reader.meta['tip'] = "Object to read geometry."
 
     from spatialdata.geocoords.CSCart import CSCart
-    coordsys = pyre.inventory.facility("coordsys", family="coordsys", factory=CSCart)
+    coordsys = pythia.pyre.inventory.facility("coordsys", family="coordsys", factory=CSCart)
     coordsys.meta['tip'] = "Coordinate system for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

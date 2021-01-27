@@ -25,7 +25,7 @@ testunits_SOURCES = \
 	TestParser.cc \
 	test_driver.cc
 
-AM_CPPFLAGS += -I$(PYTHON_INCDIR) $(PYTHON_EGG_CPPFLAGS)
+AM_CPPFLAGS += -I$(PYTHON_INCDIR)
 
 testunits_LDFLAGS = \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)

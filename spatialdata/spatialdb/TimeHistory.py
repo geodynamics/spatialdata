@@ -18,7 +18,7 @@
 #
 # Factory: temporal_database
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 from .spatialdb import TimeHistory as ModuleTimeHistory
 
 
@@ -51,12 +51,12 @@ class TimeHistory(Component, ModuleTimeHistory):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    label = pyre.inventory.str("label", default="temporal database")
+    label = pythia.pyre.inventory.str("label", default="temporal database")
     label.meta['tip'] = "Label for time history."
 
-    filename = pyre.inventory.str("filename", default="timehistory.timedb", validator=validateFilename)
+    filename = pythia.pyre.inventory.str("filename", default="timehistory.timedb", validator=validateFilename)
     filename.meta['tip'] = "Name of file for time history."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

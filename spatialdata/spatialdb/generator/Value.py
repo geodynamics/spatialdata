@@ -19,7 +19,7 @@
 
 import numpy
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 from .Shaper import Shaper
 
@@ -29,7 +29,7 @@ def shaperFactory(name):
     """
     Factory for shapers.
     """
-    from pyre.inventory import facility
+    from pythia.pyre.inventory import facility
     return facility(name, family="shaper", factory=Shaper)
 
 
@@ -47,8 +47,8 @@ class SingleShaper(Component):
       - *shaper* Shaper for database value.
     """
 
-    import pyre.inventory
-    valueShaper = pyre.inventory.facility("shaper", family="shaper", factory=Shaper)
+    import pythia.pyre.inventory
+    valueShaper = pythia.pyre.inventory.facility("shaper", family="shaper", factory=Shaper)
     valueShaper.meta['tip'] = "Shaper for database value."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -77,15 +77,15 @@ class Value(Component):
       - *shapers* Shapers/filters used to construct spatial distribution.
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    vname = pyre.inventory.str("name", default="")
+    vname = pythia.pyre.inventory.str("name", default="")
     vname.meta['tip'] = "Name of value."
 
-    units = pyre.inventory.str("units", default="none")
+    units = pythia.pyre.inventory.str("units", default="none")
     units.meta['tip'] = "Units associated with value."
 
-    shapers = pyre.inventory.facilityArray("shapers", itemFactory=shaperFactory, factory=SingleShaper)
+    shapers = pythia.pyre.inventory.facilityArray("shapers", itemFactory=shaperFactory, factory=SingleShaper)
     shapers.meta['tip'] = "Shapers/filters used to construct spatial distribution."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

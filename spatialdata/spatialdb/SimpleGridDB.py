@@ -51,13 +51,13 @@ class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    filename = pyre.inventory.str("filename", default="", validator=validateFilename)
+    filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
     filename.meta['tip'] = "Name for data file."
 
-    queryType = pyre.inventory.str("query_type", default="nearest")
-    queryType.validator = pyre.inventory.choice(["nearest", "linear"])
+    queryType = pythia.pyre.inventory.str("query_type", default="nearest")
+    queryType.validator = pythia.pyre.inventory.choice(["nearest", "linear"])
     queryType.meta['tip'] = "Type of query to perform."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
