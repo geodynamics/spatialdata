@@ -15,7 +15,7 @@
 #
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [2.0.0], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [3.0.0], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
@@ -42,6 +42,7 @@ AC_ARG_ENABLE([test-coverage],
 	[  --enable-test-coverage  Enable test coverage with lcov and python-coverage [[default=no]]],
 	[if test "$enableval" = yes ; then enable_test_coverage=yes; else enable_test_coverage=no; fi],
 	[enable_test_coverage=no])
+AM_CONDITIONAL([ENABLE_TEST_COVERAGE], [test "$enable_test_coverage" = yes])
 AC_ARG_WITH([python-coverage],
     [AC_HELP_STRING([--with-python-coverage],
         [set executable for python-coverage @<:@default=coverage2@:>@])],
@@ -132,7 +133,6 @@ if test "$enable_pythia" = "yes" ; then
 fi
 
 # TEST COVERAGE
-AM_CONDITIONAL([ENABLE_TEST_COVERAGE], [test "$enable_test_coverage" = yes])
 if test "$enable_test_coverage" = "yes" ; then
   AC_PATH_PROG(LCOV, lcov)
   if test -z "$LCOV"; then
