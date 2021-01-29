@@ -31,12 +31,13 @@ jobs:
     - name: fedora-33
       os: linux
       env: BASE_IMAGE=geodynamics/pylith-testenv-fedora-33 TEST_COVERAGE=yes PYTHON_COVERAGE=coverage3
-    - name: centos-7
-      os: linux
-      env: BASE_IMAGE=geodynamics/pylith-testenv-centos-7
     - name: centos-8
       os: linux
       env: BASE_IMAGE=geodynamics/pylith-testenv-centos-8
+
+#    - name: centos-7
+#      os: linux
+#      env: BASE_IMAGE=geodynamics/pylith-testenv-centos-7
 
 addons:
   apt:
