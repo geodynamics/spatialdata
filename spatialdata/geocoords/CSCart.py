@@ -39,12 +39,12 @@ class CSCart(CoordSys, ModuleCSCart):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    units = pyre.inventory.str("units", default="m")
+    units = pythia.pyre.inventory.str("units", default="m")
     units.meta['tip'] = "Units of coordinates."
 
-    spaceDim = pyre.inventory.int("space_dim", default=3)
+    spaceDim = pythia.pyre.inventory.int("space_dim", default=3)
     spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -64,8 +64,8 @@ class CSCart(CoordSys, ModuleCSCart):
         """
         CoordSys._configure(self)
 
-        import pyre.units
-        uparser = pyre.units.parser()
+        import pythia.pyre.units
+        uparser = pythia.pyre.units.parser()
         coordUnits = uparser.parse(self.inventory.units)
         ModuleCSCart.setToMeters(self, coordUnits.value)
         ModuleCSCart.setSpaceDim(self, self.spaceDim)

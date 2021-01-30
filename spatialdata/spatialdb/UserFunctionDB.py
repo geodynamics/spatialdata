@@ -39,10 +39,10 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
       - *coordsys* Coordinate system.
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
     from spatialdata.geocoords.CSCart import CSCart
-    cs = pyre.inventory.facility("coordsys", factory=CSCart)
+    cs = pythia.pyre.inventory.facility("coordsys", factory=CSCart)
     cs.meta['tip'] = "Coordinate system."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

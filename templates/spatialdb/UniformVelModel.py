@@ -15,7 +15,7 @@
 #
 
 # @brief Python object associated with the C++ UniformVelModel
-# object. This objects provides a Pyre interface to the C++ object.
+# object. This objects provides a pythia.pyre interface to the C++ object.
 ##
 # Factory: spatial_database
 
@@ -28,10 +28,10 @@ from .spatialdbcontrib import UniformVelModel as ModuleUniformVelModel
 class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
     """
     Python object associated with the C++ UniformVelModel object. This
-    objects provides a Pyre interface to the C++ object. It inherits
+    objects provides a pythia.pyre interface to the C++ object. It inherits
     from the generic SpatialDBObj and the UniformVelModel SWIG module
     object. This insures that this object has all of the SpatialDBObj
-    Pyre properties and facilities and functions and calls to the
+    pythia.pyre properties and facilities and functions and calls to the
     underlying C++ code are passed onto the SWIG Python module.
 
     Factory: spatial_database
@@ -41,7 +41,7 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
 
     class Inventory(SpatialDBObj.Inventory):
         """
-        Python object for managing UniformVelModel Pyre facilities and properties.
+        Python object for managing UniformVelModel pythia.pyre facilities and properties.
 
         ## \b Properties
         ## @li \b vs S wave speed.
@@ -52,25 +52,25 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
         ## @li none
         """
 
-        import pyre.inventory
+        import pythia.pyre.inventory
 
         # Units used in properties
-        from pyre.units.time import s
-        from pyre.units.length import km, m
-        from pyre.units.mass import kg
+        from pythia.pyre.units.time import s
+        from pythia.pyre.units.length import km, m
+        from pythia.pyre.units.mass import kg
 
-        # Pyre properties have the form
+        # pythia.pyre properties have the form
         #
-        # VARIABLE = pyre.inventory.TYPE("CFG_NAME", default=DEFAULT_VALUE)
+        # VARIABLE = pythia.pyre.inventory.TYPE("CFG_NAME", default=DEFAULT_VALUE)
         # VARIABLE.meta['tip'] = "HELP STRING"
         #
-        # where VARIABLE is a variable used to refer to the Pyre property,
+        # where VARIABLE is a variable used to refer to the pythia.pyre property,
         # TYPE of the type of property (dimensional, str, float, int,
-        # etc), CFG_NAME is the name used in the Pyre .cfg files and the
+        # etc), CFG_NAME is the name used in the pythia.pyre .cfg files and the
         # command line, and DEFAULT_VALUE is the default value.
         #
-        # When a Pyre property is a dimensional scalar quantity, use the
-        # dimensional type for properties and Pyre will automatically
+        # When a pythia.pyre property is a dimensional scalar quantity, use the
+        # dimensional type for properties and pythia.pyre will automatically
         # check to make sure user-specified quantities have compatible
         # units and convert the value to SI units.
         #
@@ -80,16 +80,16 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
         # "Running PyLith" for more information regarding getting help
         # using command line arguments.
         #
-        # Create a Pyre property named vs with a default value of 2.6 km/s.
-        vs = pyre.inventory.dimensional("vs", default=2.6 * km / s)
+        # Create a pythia.pyre property named vs with a default value of 2.6 km/s.
+        vs = pythia.pyre.inventory.dimensional("vs", default=2.6 * km / s)
         vs.meta['tip'] = "S wave speed."
 
-        # Create a Pyre property named vp with a default value of 4.5 km/s.
-        vp = pyre.inventory.dimensional("vp", default=4.5 * km / s)
+        # Create a pythia.pyre property named vp with a default value of 4.5 km/s.
+        vp = pythia.pyre.inventory.dimensional("vp", default=4.5 * km / s)
         vp.meta['tip'] = "P wave speed."
 
-        # Create a Pyre property named density with a default value of 2500 kg/m**3.
-        density = pyre.inventory.dimensional("density", default=2.5e+3 * kg / m**3)
+        # Create a pythia.pyre property named density with a default value of 2500 kg/m**3.
+        density = pythia.pyre.inventory.dimensional("density", default=2.5e+3 * kg / m**3)
         density.meta['tip'] = "Density."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -130,7 +130,7 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
-# Factory used when setting UniformVelModel to a Pyre 'spatial_database' facility.
+# Factory used when setting UniformVelModel to a pythia.pyre 'spatial_database' facility.
 def spatial_database():
     """
     Factory associated with UniformVelModel.

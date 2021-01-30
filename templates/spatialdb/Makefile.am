@@ -25,7 +25,6 @@ SUBDIRS = tests
 
 # Define path where python and module will be installed
 subpkgpythondir = $(pythondir)/spatialdata/spatialdb/contrib
-subpkgpyexecdir = $(pyexecdir)/spatialdata/spatialdb/contrib
 
 
 # C++ LIBRARY ----------------------------------------------------------
@@ -54,14 +53,14 @@ libspatialdbcontrib_la_LIBADD += \
 endif
 
 # Preprocessor flags
-AM_CPPFLAGS = $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
+AM_CPPFLAGS = -I$(PYTHON_INCDIR)
 
 # SWIG PYTHON MODULE ---------------------------------------------------
 # The name of the module will be _spatialdbcontribmodule.MACHINE_DEPENDENT_SUFFIX
-subpkgpyexec_LTLIBRARIES = _spatialdbcontribmodule.la
+subpkgpython_LTLIBRARIES = _spatialdbcontribmodule.la
 
 # SWIG generated Python file and user-generated module initialization file.
-subpkgpyexec_PYTHON = \
+subpkgpython_PYTHON = \
 	spatialdbcontrib.py \
 	__init__.py
 
@@ -103,9 +102,9 @@ MAINTAINERCLEANFILES = $(swig_generated)
 
 # PYTHON ---------------------------------------------------------------
 
-nobase_subpkgpyexec_PYTHON = \
+nobase_subpkgpython_PYTHON = \
 	__init__.py \
 	UniformVelModel.py
 
 
-# End of file 
+# End of file

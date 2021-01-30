@@ -38,21 +38,21 @@ class NondimElasticQuasistatic(Nondimensional):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    from pyre.units.length import meter
-    lengthScale = pyre.inventory.dimensional("length_scale", default=1.0e+3 * meter,
-                                             validator=pyre.inventory.greater(0.0 * meter))
+    from pythia.pyre.units.length import meter
+    lengthScale = pythia.pyre.inventory.dimensional("length_scale", default=1.0e+3 * meter,
+                                             validator=pythia.pyre.inventory.greater(0.0 * meter))
     lengthScale.meta['tip'] = "Value to nondimensionalize length scale."
 
-    from pyre.units.pressure import pascal
-    shearModulus = pyre.inventory.dimensional("shear_modulus", default=3.0e+10 * pascal,
-                                              validator=pyre.inventory.greater(0.0 * pascal))
+    from pythia.pyre.units.pressure import pascal
+    shearModulus = pythia.pyre.inventory.dimensional("shear_modulus", default=3.0e+10 * pascal,
+                                              validator=pythia.pyre.inventory.greater(0.0 * pascal))
     shearModulus.meta['tip'] = "Shear modulus to nondimensionalize pressure."
 
-    from pyre.units.time import year
-    relaxationTime = pyre.inventory.dimensional("relaxation_time", default=100.0 * year,
-                                                validator=pyre.inventory.greater(0.0 * year))
+    from pythia.pyre.units.time import year
+    relaxationTime = pythia.pyre.inventory.dimensional("relaxation_time", default=100.0 * year,
+                                                validator=pythia.pyre.inventory.greater(0.0 * year))
     relaxationTime.meta['tip'] = "Relaxation time to nondimensionalize time."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

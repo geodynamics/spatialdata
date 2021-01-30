@@ -15,4 +15,4 @@ parsers:
       macro: no
 
 fixes:
-  - "/home/geomodelgrids-user/src/::"
+  - "/home/spatialdata-user/src/::"

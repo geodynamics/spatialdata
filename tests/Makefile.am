@@ -15,11 +15,8 @@
 #
 
 SUBDIRS = \
-	libtests
-
-if ENABLE_PYTHIA
-  SUBDIRS += pytests
-endif
+	libtests \
+	pytests
 
 
 # End of file 

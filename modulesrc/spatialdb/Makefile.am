@@ -18,9 +18,9 @@ subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 include $(top_srcdir)/modulesrc/module.am
 
-subpkgpyexec_LTLIBRARIES = _spatialdbmodule.la
+subpkgpython_LTLIBRARIES = _spatialdb.la
 
-subpkgpyexec_PYTHON = spatialdb.py
+subpkgpython_PYTHON = spatialdb.py
 
 swig_sources = \
 	spatialdb.i \
@@ -45,12 +45,12 @@ swig_generated = \
 	spatialdb_wrap.cxx \
 	spatialdb.py
 
-_spatialdbmodule_la_LDFLAGS = -module -avoid-version \
+_spatialdb_la_LDFLAGS = -module -avoid-version \
 	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-dist__spatialdbmodule_la_SOURCES = $(swig_sources) $(swig_generated)
+dist__spatialdb_la_SOURCES = $(swig_sources) $(swig_generated)
 
-_spatialdbmodule_la_LIBADD = \
+_spatialdb_la_LIBADD = \
 	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
@@ -66,4 +66,4 @@ endif
 MAINTAINERCLEANFILES = $(swig_generated)
 
 
-# End of file 
+# End of file

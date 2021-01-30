@@ -15,7 +15,7 @@
 import unittest
 
 import numpy
-from pyre.units.length import m
+from pythia.pyre.units.length import m
 
 
 # ----------------------------------------------------------------------------------------------------------------------

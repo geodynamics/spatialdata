@@ -19,7 +19,7 @@
 #
 # Factory: simplegrid_io
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 from .spatialdb import SimpleGridAscii as ModuleSimpleGridAscii
 
 
@@ -47,9 +47,9 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    filename = pyre.inventory.str("filename", default="", validator=validateFilename)
+    filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
     filename.meta['tip'] = "Name of database file."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

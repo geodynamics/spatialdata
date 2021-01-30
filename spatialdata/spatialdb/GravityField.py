@@ -39,19 +39,19 @@ class GravityField(SpatialDBObj, ModuleGravityField):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    gravityDir = pyre.inventory.list("gravity_dir", default=[0.0, 0.0, -1.0])
+    gravityDir = pythia.pyre.inventory.list("gravity_dir", default=[0.0, 0.0, -1.0])
     gravityDir.meta['tip'] = "Direction of gravitational body force. " \
                              "(used only with a Cartesian coordinate system."
 
-    from pyre.units.length import meter
-    from pyre.units.time import second
-    acceleration = pyre.inventory.dimensional("acceleration",
+    from pythia.pyre.units.length import meter
+    from pythia.pyre.units.time import second
+    acceleration = pythia.pyre.inventory.dimensional("acceleration",
                                               default=9.80665 * meter / second**2)
     acceleration.meta['tip'] = "Gravitational acceleration."
 
-    label = pyre.inventory.str("label", default="Gravity field")
+    label = pythia.pyre.inventory.str("label", default="Gravity field")
     label.meta['tip'] = "Descriptive label for gravity field."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

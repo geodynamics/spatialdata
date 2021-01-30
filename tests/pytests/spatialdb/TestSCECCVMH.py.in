@@ -79,7 +79,7 @@ class TestSCECCVMH(unittest.TestCase):
         db = self._db
         db.open()
         db.setQueryValues(queryVals)
-        from pyre.units.length import km
+        from pythia.pyre.units.length import km
         squashLimit = -2.5 * km
         db.setSquashFlag(True, squashLimit.value)
         data = numpy.zeros(dataE.shape, dtype=numpy.float64)

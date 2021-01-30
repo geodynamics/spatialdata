@@ -38,12 +38,12 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    values = pyre.inventory.list("values", default=[])
+    values = pythia.pyre.inventory.list("values", default=[])
     values.meta['tip'] = "Names of values in spatial database."
 
-    data = pyre.inventory.list("data", default=[])
+    data = pythia.pyre.inventory.list("data", default=[])
     data.meta['tip'] = "Values in spatial database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
         Constructor.
         """
         SpatialDBObj.__init__(self, name)
-        from pyre.units import parser
+        from pythia.pyre.units import parser
         self.parser = parser()
 
     # PRIVATE METHODS ////////////////////////////////////////////////////

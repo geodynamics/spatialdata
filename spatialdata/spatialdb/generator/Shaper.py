@@ -19,7 +19,7 @@
 #
 # Factory: shaper
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 import numpy
 
@@ -41,20 +41,20 @@ class Shaper(Component):
       - *db* Database containing value for adjustment (shaping).
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    defaultValue = pyre.inventory.float("default", default=0.0)
+    defaultValue = pythia.pyre.inventory.float("default", default=0.0)
     defaultValue.meta['tip'] = "Default value for shaper."
 
-    dbValue = pyre.inventory.str("db_value", default="")
+    dbValue = pythia.pyre.inventory.str("db_value", default="")
     dbValue.meta['tip'] = "Name of value supplied in spatial database."
 
-    operand = pyre.inventory.str("operand", default="multiply")
-    operand.validator = pyre.inventory.choice(["add", "subtract", "multiply", "divide"])
+    operand = pythia.pyre.inventory.str("operand", default="multiply")
+    operand.validator = pythia.pyre.inventory.choice(["add", "subtract", "multiply", "divide"])
     operand.meta['tip'] = "Operand to use in applying shaper."
 
     from spatialdata.spatialdb.SimpleDB import SimpleDB
-    db = pyre.inventory.facility("db", family="spatial_database", factory=SimpleDB)
+    db = pythia.pyre.inventory.facility("db", family="spatial_database", factory=SimpleDB)
     db.meta['tip'] = "Database containing value defining shaper."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

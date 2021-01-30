@@ -18,7 +18,7 @@
 #
 # Factories: reader, writer
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 
 import numpy
 
@@ -38,15 +38,15 @@ class PointsStream(Component):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    filename = pyre.inventory.str("filename", default="")
+    filename = pythia.pyre.inventory.str("filename", default="")
     filename.meta['tip'] = "Name of file for input/output."
 
-    commentFlag = pyre.inventory.str("comment_flag", default="#")
+    commentFlag = pythia.pyre.inventory.str("comment_flag", default="#")
     commentFlag.meta['tip'] = "String identifying comment."
 
-    numFormat = pyre.inventory.str("number_format", default="%14.5e")
+    numFormat = pythia.pyre.inventory.str("number_format", default="%14.5e")
     numFormat.meta['tip'] = "C style string specifying number format."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

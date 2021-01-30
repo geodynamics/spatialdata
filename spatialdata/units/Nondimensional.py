@@ -17,7 +17,7 @@
 #
 # Factory: nondimensional
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 from .units import Nondimensional as ModuleNondimensional
 
 
@@ -55,7 +55,7 @@ class Nondimensional(Component, ModuleNondimensional):
         """
         Get length scale.
         """
-        from pyre.units.length import meter
+        from pythia.pyre.units.length import meter
         return ModuleNondimensional.getLengthScale(self) * meter
 
     def setPressureScale(self, value):
@@ -68,7 +68,7 @@ class Nondimensional(Component, ModuleNondimensional):
         """
         Get pressure scale.
         """
-        from pyre.units.pressure import pascal
+        from pythia.pyre.units.pressure import pascal
         return ModuleNondimensional.getPressureScale(self) * pascal
 
     def setTimeScale(self, value):
@@ -81,7 +81,7 @@ class Nondimensional(Component, ModuleNondimensional):
         """
         Get time scale.
         """
-        from pyre.units.time import second
+        from pythia.pyre.units.time import second
         return ModuleNondimensional.getTimeScale(self) * second
 
     def setDensityScale(self, value):
@@ -94,8 +94,8 @@ class Nondimensional(Component, ModuleNondimensional):
         """
         Get density scale.
         """
-        from pyre.units.length import meter
-        from pyre.units.mass import kilogram
+        from pythia.pyre.units.length import meter
+        from pythia.pyre.units.mass import kilogram
         return ModuleNondimensional.getDensityScale(self) * kilogram / meter**3
 
     def setTemperatureScale(self, value):
@@ -108,7 +108,7 @@ class Nondimensional(Component, ModuleNondimensional):
         """
         Get temperature scale.
         """
-        from pyre.units.temperature import kelvin
+        from pythia.pyre.units.temperature import kelvin
         return ModuleNondimensional.getTemperatureScale(self) * kelvin
 
     def nondimensionalize(self, value, scale):

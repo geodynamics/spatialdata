@@ -4,7 +4,7 @@
 ARG BASE_IMAGE
 from ${BASE_IMAGE} as base
 ARG TEST_COVERAGE=no
-ARG PYTHON_COVERAGE=coverage2
+ARG PYTHON_COVERAGE=coverage3
 ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE} 
 
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
@@ -19,27 +19,20 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
 ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
 
 
-# Install pythia
-ENV SRC_DIR ${TOP_DIR}/src/pythia
+# Pythia ----------
 RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages
-
-RUN git clone --branch v0.8.1.20 --depth 1 --recursive https://github.com/geodynamics/pythia.git ${SRC_DIR}
-WORKDIR ${SRC_DIR}
-RUN python2 setup.py install --prefix=${PREFIX_DIR}
-
-# Install nemesis
-ENV SRC_DIR $TOP_DIR/src/nemesis
-ENV BUILD_DIR $TOP_DIR/build/nemesis
+ENV SRC_DIR $TOP_DIR/src/pythia
+ENV BUILD_DIR $TOP_DIR/build/pythia
 RUN mkdir -p ${BUILD_DIR}
 
-RUN git clone --branch v1.1.1 --depth 1 --recursive https://github.com/geodynamics/nemesis.git ${SRC_DIR}
+RUN git clone --depth 1 --recursive https://github.com/geodynamics/pythia.git ${SRC_DIR}
 WORKDIR ${SRC_DIR}
 RUN autoreconf --install --verbose
 WORKDIR ${BUILD_DIR}
-RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make && make install
+RUN ${SRC_DIR}/configure --enable-testing --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make && make install && make check VERBOSE=1
 
 
-# CONFIGURE SPATIALDATA ----------
+# SPATIALDATA ----------
 from base as src
 
 # Copy source code
@@ -51,16 +44,15 @@ WORKDIR ${SRC_DIR}
 RUN autoreconf --install --verbose --force
 
 RUN mkdir -p ${BUILD_DIR}
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
-ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
-
 WORKDIR ${BUILD_DIR}
 RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib --coverage" CXXFLAGS="-g -O --coverage"
 
+WORKDIR ${SRC_DIR}
 
 # TESTING ----------
 from src as test
 
+WORKDIR ${BUILD_DIR}/build/pythia
 RUN make -j$(nproc) install && make -j$(nproc) check VERBOSE=1
 RUN make coverage-libtests
 RUN make coverage-pytests

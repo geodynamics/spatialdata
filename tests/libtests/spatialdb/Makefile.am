@@ -44,7 +44,7 @@ testspatial_SOURCES = \
 	test_driver.cc
 
 
-# TestSpatialDB.cc 
+# TestSpatialDB.cc
 
 
 
@@ -60,7 +60,7 @@ noinst_HEADERS = \
 
 testspatial_LDFLAGS =
 
-AM_CPPFLAGS += $(PYTHON_EGG_CPPFLAGS) -I$(PYTHON_INCDIR) 
+AM_CPPFLAGS += -I$(PYTHON_INCDIR) 
 
 testspatial_LDADD = \
 	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
@@ -69,4 +69,4 @@ testspatial_LDADD = \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
-# End of file 
+# End of file

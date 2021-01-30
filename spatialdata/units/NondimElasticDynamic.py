@@ -38,21 +38,21 @@ class NondimElasticDynamic(Nondimensional):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    from pyre.units.length import meter
-    from pyre.units.time import second
-    from pyre.units.mass import kg
-    shearWaveSpeed = pyre.inventory.dimensional("shear_wave_speed", default=3.0e+3 * meter / second,
-                                                validator=pyre.inventory.greater(0.0 * meter / second))
+    from pythia.pyre.units.length import meter
+    from pythia.pyre.units.time import second
+    from pythia.pyre.units.mass import kg
+    shearWaveSpeed = pythia.pyre.inventory.dimensional("shear_wave_speed", default=3.0e+3 * meter / second,
+                                                validator=pythia.pyre.inventory.greater(0.0 * meter / second))
     shearWaveSpeed.meta['tip'] = "Shear wave speed to nondimensionalize problem."
 
-    massDensity = pyre.inventory.dimensional("mass_density", default=3.0e+3 * kg / meter**3,
-                                             validator=pyre.inventory.greater(0.0 * kg / meter**3))
+    massDensity = pythia.pyre.inventory.dimensional("mass_density", default=3.0e+3 * kg / meter**3,
+                                             validator=pythia.pyre.inventory.greater(0.0 * kg / meter**3))
     massDensity.meta['tip'] = "Mass density to nondimensionalize problem"
 
-    wavePeriod = pyre.inventory.dimensional("wave_period", default=1.0 * second,
-                                            validator=pyre.inventory.greater(0.0 * second))
+    wavePeriod = pythia.pyre.inventory.dimensional("wave_period", default=1.0 * second,
+                                            validator=pythia.pyre.inventory.greater(0.0 * second))
     wavePeriod.meta['tip'] = "Period of wave to nondimensionalize problem."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

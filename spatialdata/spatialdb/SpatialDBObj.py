@@ -18,7 +18,7 @@
 #
 # Factory: spatial_database
 
-from pyre.components.Component import Component
+from pythia.pyre.components.Component import Component
 from .spatialdb import SpatialDB as ModuleSpatialDB
 
 
@@ -46,9 +46,9 @@ class SpatialDBObj(Component, ModuleSpatialDB):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    label = pyre.inventory.str("label", default="", validator=validateLabel)
+    label = pythia.pyre.inventory.str("label", default="", validator=validateLabel)
     label.meta['tip'] = "Descriptive label for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

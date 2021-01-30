@@ -18,11 +18,11 @@ import unittest
 
 from spatialdata.units.Nondimensional import Nondimensional
 
-from pyre.units.length import meter
-from pyre.units.pressure import pascal
-from pyre.units.time import second
-from pyre.units.mass import kilogram
-from pyre.units.temperature import kelvin
+from pythia.pyre.units.length import meter
+from pythia.pyre.units.pressure import pascal
+from pythia.pyre.units.time import second
+from pythia.pyre.units.mass import kilogram
+from pythia.pyre.units.temperature import kelvin
 
 
 class TestNondimensional(unittest.TestCase):

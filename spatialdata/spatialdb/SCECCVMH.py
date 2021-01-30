@@ -41,24 +41,24 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
       - None
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    dataDir = pyre.inventory.str("data_dir", default=".")
+    dataDir = pythia.pyre.inventory.str("data_dir", default=".")
     dataDir.meta['tip'] = "Directory containing SCEC CVM-H data files."
 
-    from pyre.units.length import meter
-    from pyre.units.time import second
-    minVs = pyre.inventory.dimensional("min_vs", default=500.0 * meter / second)
+    from pythia.pyre.units.length import meter
+    from pythia.pyre.units.time import second
+    minVs = pythia.pyre.inventory.dimensional("min_vs", default=500.0 * meter / second)
     minVs.meta['tip'] = "Minimum shear wave speed."
 
-    squash = pyre.inventory.bool("squash", default=False)
+    squash = pythia.pyre.inventory.bool("squash", default=False)
     squash.meta['tip'] = "Squash topography/bathymetry to sea level."
 
-    from pyre.units.length import km
-    squashLimit = pyre.inventory.dimensional("squash_limit", default=-2.0 * km)
+    from pythia.pyre.units.length import km
+    squashLimit = pythia.pyre.inventory.dimensional("squash_limit", default=-2.0 * km)
     squashLimit.meta['tip'] = "Elevation above which topography is squashed."
 
-    label = pyre.inventory.str("label", default="SCEC CVM-H")
+    label = pythia.pyre.inventory.str("label", default="SCEC CVM-H")
     label.meta['tip'] = "Descriptive label for seismic velocity model."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

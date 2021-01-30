@@ -37,14 +37,14 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
       - *iohandler* I/O handler for database.
     """
 
-    import pyre.inventory
+    import pythia.pyre.inventory
 
-    queryType = pyre.inventory.str("query_type", default="nearest")
-    queryType.validator = pyre.inventory.choice(["nearest", "linear"])
+    queryType = pythia.pyre.inventory.str("query_type", default="nearest")
+    queryType.validator = pythia.pyre.inventory.choice(["nearest", "linear"])
     queryType.meta['tip'] = "Type of query to perform."
 
     from .SimpleIOAscii import SimpleIOAscii
-    iohandler = pyre.inventory.facility("iohandler", family="simpledb_io",
+    iohandler = pythia.pyre.inventory.facility("iohandler", family="simpledb_io",
                                         factory=SimpleIOAscii)
     iohandler.meta['tip'] = "I/O handler for database."
 
