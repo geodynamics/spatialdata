@@ -9,10 +9,6 @@ BUILD_DIR=${SRC_DIR}/../../build/spatialdata
 cd ${BUILD_DIR}
 
 
-make -j$(nproc) install
-if [ $? != 0 ]; then exit 1; fi
-
-
 make -j$(nproc) check -C tests/libtests VERBOSE=1
 if [ $? != 0 ]; then exit 1; fi
 
