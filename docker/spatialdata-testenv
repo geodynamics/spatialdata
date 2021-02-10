@@ -9,51 +9,54 @@ ENV TEST_COVERAGE=${TEST_COVERAGE} PYTHON_COVERAGE=${PYTHON_COVERAGE}
 
 LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
-USER ${PYLITH_USER}
-ENV TOP_DIR /home/${PYLITH_USER}
+USER ${TEST_USER}
 
-RUN mkdir -p ${TOP_DIR}/src
-ENV PREFIX_DIR /opt/pylith/cig
-ENV PATH ${PATH}:${PREFIX_DIR}/bin
-ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${PREFIX_DIR}/lib:${PREFIX_DIR}/lib64
-ENV PYTHONPATH ${PYTHONPATH}:${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages:${PREFIX_DIR}/lib64/python${PYTHON_VERSION}/site-packages
+ENV PATH=${PATH}:${INSTALL_DIR}/cig/bin \
+    LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${INSTALL_DIR}/cig/lib:${INSTALL_DIR}/cig/lib64 \
+    PYTHONPATH=${PYTHONPATH}:${INSTALL_DIR}/cig/lib/python${PYTHON_VERSION}/site-packages:${INSTALL_DIR}/cig/lib64/python${PYTHON_VERSION}/site-packages
+RUN mkdir -p ${INSTALL_DIR}/cig/lib/python${PYTHON_VERSION}/site-packages
 
 
-# Pythia ----------
-RUN mkdir -p ${PREFIX_DIR}/lib/python${PYTHON_VERSION}/site-packages
-ENV SRC_DIR $TOP_DIR/src/pythia
-ENV BUILD_DIR $TOP_DIR/build/pythia
-RUN mkdir -p ${BUILD_DIR}
+# ------------------------------------------------------------------------------
+# Pythia
+# ------------------------------------------------------------------------------
+ENV  src_dir=${TOPSRC_DIR}/pythia  build_dir=${TOPBUILD_DIR}/pythia
 
-RUN git clone --depth 1 --recursive https://github.com/geodynamics/pythia.git ${SRC_DIR}
-WORKDIR ${SRC_DIR}
+RUN git clone --depth 1 --recursive https://github.com/geodynamics/pythia.git ${src_dir}
+WORKDIR ${src_dir}
 RUN autoreconf --install --verbose
-WORKDIR ${BUILD_DIR}
-RUN ${SRC_DIR}/configure --enable-testing --prefix=${PREFIX_DIR} CPPFLAGS=-I${PREFIX_DIR} && make && make install && make check VERBOSE=1
+
+RUN mkdir -p ${build_dir}
+WORKDIR ${build_dir}
+RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR}/cig CPPFLAGS=-I${INSTALL_DIR}/dependencies/include LDFLAGS="-L${INSTALL_DIR}/dependencies/lib -L${INSTALL_DIR}/dependencies/lib64" && make && make install && make check VERBOSE=1
 
 
-# SPATIALDATA ----------
+# ------------------------------------------------------------------------------
+# Spatialdata
+# ------------------------------------------------------------------------------
 from base as src
 
-# Copy source code
-ENV BUILD_DIR ${TOP_DIR}/build/spatialdata
-ENV SRC_DIR ${TOP_DIR}/src/spatialdata
+ENV  src_dir=${TOPSRC_DIR}/spatialdata  build_dir=${TOPBUILD_DIR}/spatialdata
 
-COPY --chown=pylith-user:pylith-user . ${SRC_DIR}
-WORKDIR ${SRC_DIR}
+COPY --chown=pylith-tester:pylith-tester . ${src_dir}
+WORKDIR ${src_dir}
 RUN autoreconf --install --verbose --force
 
-RUN mkdir -p ${BUILD_DIR}
-WORKDIR ${BUILD_DIR}
-RUN ${SRC_DIR}/configure --prefix=${PREFIX_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I/opt/pylith/dependencies/include -I${TOP_DIR}/dependencies/include" LDFLAGS="-L/opt/pylith/dependencies/lib -L${TOP_DIR}/dependencies/lib --coverage" CXXFLAGS="-g -O --coverage"
+RUN mkdir -p ${build_dir}
+WORKDIR ${build_dir}
+RUN ${src_dir}/configure --prefix=${INSTALL_DIR}/cig --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I${INSTALL_DIR}/dependencies/include -I${INSTALL_DIR}/cig/include" LDFLAGS="-L${INSTALL_DIR}/dependencies/lib -L${INSTALL_DIR}/dependencies/lib64 -L${INSTALL_DIR}/cig/lib -L${INSTALL_DIR}/cig/lib64 --coverage" CXXFLAGS="-g -O --coverage"
 
-WORKDIR ${SRC_DIR}
+from src as build
+RUN make -j$(nproc) install
+
+
+WORKDIR ${src_dir}
 
 # TESTING ----------
-from src as test
+from build as test
 
-WORKDIR ${BUILD_DIR}/build/pythia
-RUN make -j$(nproc) install && make -j$(nproc) check VERBOSE=1
+WORKDIR ${build_dir}
+RUN make -j$(nproc) check VERBOSE=1
 RUN make coverage-libtests
 RUN make coverage-pytests
 
