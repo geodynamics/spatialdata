@@ -29,6 +29,7 @@
 #include <stdexcept> // USES std::runtime_error
 #include <sstream> // USES std::ostringstream
 #include <cassert> // USES assert()
+#include <typeinfo> // USES typeid()
 
 // ----------------------------------------------------------------------
 namespace spatialdata {
