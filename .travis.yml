@@ -1,6 +1,6 @@
 # Travis-CI configuration
 
-dist: bionic
+dist: focal
 
 services:
     - docker
@@ -37,12 +37,6 @@ jobs:
     - name: centos-8
       os: linux
       env: BASE_IMAGE=testenv-centos-8
-
-
-addons:
-  apt:
-    packages:
-      - docker-ce
 
 
 # Limit number of commits in cloning (but keep enough so that 'git describe' works)
