@@ -33,7 +33,10 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	LDFLAGS="-L${PROJ4_LIBDIR} -L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
 
 EXTRA_DIST = \
-	CHANGES
+	CHANGES \
+	docker/spatialdata-testenv \
+	ci-config/run_tests.sh \
+	ci-config/codecov.yml
 
 
 .PHONY: coverage-libtests coverage-pytests coverage-html clean-coverage
