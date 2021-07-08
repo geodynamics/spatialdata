@@ -1,7 +1,7 @@
 # Spatialdata
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/geodynamics/spatialdata/blob/master/COPYING)
-[![Build Status](https://travis-ci.org/geodynamics/spatialdata.svg?branch=master)](https://travis-ci.org/geodynamics/spatialdata)
+[![Build Status](https://dev.azure.com/baagaard-usgs/pylith/_apis/build/status/geodynamics.spatialdata?branchName=main)](https://dev.azure.com/baagaard-usgs/pylith/_build/latest?definitionId=4&branchName=main)
 [![codecov](https://codecov.io/gh/geodynamics/spatialdata/branch/master/graph/badge.svg)](https://codecov.io/gh/geodynamics/spatialdata)
 
 Spatialdata is a C++ library for
