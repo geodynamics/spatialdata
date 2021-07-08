@@ -21,7 +21,7 @@ stages:
     TEST_COVERAGE: "no"
   script:
     - docker build -t spatialdata-testenv --build-arg BASE_IMAGE=$IMAGE_REGISTRY/$BASE_IMAGE --build-arg TEST_COVERAGE=$TEST_COVERAGE --build-arg PYTHON_COVERAGE=$PYTHON_COVERAGE --target build -f docker/spatialdata-testenv .
-    - docker run -e CI_JOB_ID -e GITLAB_CI -e CI_BUILD_REF_NAME -e CI_BUILD_ID -e CI_BUILD_REPO -e CI_BUILD_REF -e CODECOV_TOKEN spatialdata-testenv ci-config/run_test_coverage.sh
+    - docker run -e CI_JOB_ID -e GITLAB_CI -e CI_BUILD_REF_NAME -e CI_BUILD_ID -e CI_BUILD_REPO -e CI_BUILD_REF -e CODECOV_TOKEN spatialdata-testenv ci-config/run_tests.sh
 
 .builder-first:
   extends: .builder
@@ -97,7 +97,6 @@ centos-8-job:
   extends: .builder
   variables:
     BASE_IMAGE: "testenv-centos-8"
-
 
 auto-doc-job:
   stage: auto-documentation
