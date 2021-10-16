@@ -11,12 +11,6 @@ LABEL maintainer="Brad Aagaard <baagaard@usgs.gov>"
 
 USER ${TEST_USER}
 
-ENV PATH=${PATH}:${INSTALL_DIR}/cig/bin \
-    LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${INSTALL_DIR}/cig/lib:${INSTALL_DIR}/cig/lib64 \
-    PYTHONPATH=${PYTHONPATH}:${INSTALL_DIR}/cig/lib/python${PYTHON_VERSION}/site-packages:${INSTALL_DIR}/cig/lib64/python${PYTHON_VERSION}/site-packages
-RUN mkdir -p ${INSTALL_DIR}/cig/lib/python${PYTHON_VERSION}/site-packages
-
-
 # ------------------------------------------------------------------------------
 # Pythia
 # ------------------------------------------------------------------------------
@@ -28,7 +22,7 @@ RUN autoreconf --install --verbose
 
 RUN mkdir -p ${build_dir}
 WORKDIR ${build_dir}
-RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR}/cig CPPFLAGS=-I${INSTALL_DIR}/dependencies/include LDFLAGS="-L${INSTALL_DIR}/dependencies/lib -L${INSTALL_DIR}/dependencies/lib64" && make && make install && make check VERBOSE=1
+RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR} CPPFLAGS=-I${INSTALL_DIR}/include LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64" && make && make install && make check VERBOSE=1
 
 
 # ------------------------------------------------------------------------------
@@ -44,7 +38,7 @@ RUN autoreconf --install --verbose --force
 
 RUN mkdir -p ${build_dir}
 WORKDIR ${build_dir}
-RUN ${src_dir}/configure --prefix=${INSTALL_DIR}/cig --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I${INSTALL_DIR}/dependencies/include -I${INSTALL_DIR}/cig/include" LDFLAGS="-L${INSTALL_DIR}/dependencies/lib -L${INSTALL_DIR}/dependencies/lib64 -L${INSTALL_DIR}/cig/lib -L${INSTALL_DIR}/cig/lib64 --coverage" CXXFLAGS="-g -O --coverage"
+RUN ${src_dir}/configure --prefix=${INSTALL_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I${INSTALL_DIR}/include -I${INSTALL_DIR}/cig/include" LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64 -L${INSTALL_DIR}/cig/lib -L${INSTALL_DIR}/cig/lib64 --coverage" CXXFLAGS="-g -O --coverage"
 
 from src as build
 RUN make -j$(nproc) install
