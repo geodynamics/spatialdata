@@ -20,5 +20,7 @@ SUBDIRS = \
 	units \
 	utils
 
+noinst_PYTHON = UnitTestApp.py
+
 
 # End of file 
