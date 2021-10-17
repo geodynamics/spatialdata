@@ -17,7 +17,7 @@ stages:
         variables:
           BASE_IMAGE: "testenv-debian-stable"
           TEST_COVERAGE: "yes"
-          PYTHON_COVERAGE: "python3-coverage"
+          PYTHON_COVERAGE: "coverage3"
         steps:
           - checkout: self
             submodules: "true"

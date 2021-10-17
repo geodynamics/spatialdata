@@ -13,8 +13,12 @@
 #
 # ======================================================================
 #
+import os
+import sys
 
-from spatialdata.utils.UnitTestApp import UnitTestApp
+current = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.dirname(current))
+from UnitTestApp import UnitTestApp
 
 import unittest
 
@@ -22,12 +26,6 @@ import unittest
 class TestApp(UnitTestApp):
     """Test application.
     """
-
-    def __init__(self):
-        """Constructor.
-        """
-        UnitTestApp.__init__(self)
-        return
 
     def _suite(self):
         """Setup the test suite.
@@ -43,7 +41,7 @@ class TestApp(UnitTestApp):
 # ----------------------------------------------------------------------
 if __name__ == '__main__':
     app = TestApp()
-    app.run()
+    app.main()
 
 
 # End of file

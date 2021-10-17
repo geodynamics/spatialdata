@@ -11,15 +11,15 @@
 #
 # ======================================================================
 #
-
 # @brief Python application for Python unit tests.
-
-from pythia.pyre.applications.Script import Script
+#
+# We place this script in tests/pytests because we must initialize coverage
+# *before* importing any spatialdata modules.
 
 import unittest
 
 
-class UnitTestApp(Script):
+class UnitTestApp():
     """
     Test application.
     """
@@ -31,13 +31,6 @@ class UnitTestApp(Script):
         pass
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
-
-    def __init__(self, name="unittestapp"):
-        """
-        Constructor.
-        """
-        Script.__init__(self, name)
-        return
 
     def main(self):
         """
@@ -55,7 +48,6 @@ class UnitTestApp(Script):
         if not success:
             import sys
             sys.exit(1)
-        return
 
 
 # End of file
