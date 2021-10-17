@@ -30,7 +30,7 @@ stages:
               arguments: "-t spatialdata-testenv --build-arg BASE_IMAGE=$(IMAGE_REGISTRY)/$(BASE_IMAGE) --build-arg TEST_COVERAGE=$(TEST_COVERAGE) --build-arg PYTHON_COVERAGE=$(PYTHON_COVERAGE) --target build"
               addPipelineData: false
               addBaseImageData: false
-          - script: docker run spatialdata-testenv ci-config/run_tests.sh
+          - script: ci_env=`bash <(curl -s https://codecov.io/env)`; docker run $ci_env -e CI=true spatialdata-testenv ci-config/run_tests.sh
             displayName: Test
   - stage: other_platforms
     displayName: "Other Builds"
@@ -52,6 +52,8 @@ stages:
               BASE_IMAGE: "testenv-fedora-34"
             centos_8:
               BASE_IMAGE: "testenv-centos-8"
+            centos_7:
+              BASE_IMAGE: "testenv-centos-7"
         steps:
           - checkout: self
             submodules: "true"
