@@ -32,6 +32,8 @@ stages:
               addBaseImageData: false
           - script: ci_env=`bash <(curl -s https://codecov.io/env)`; docker run $ci_env -e CI=true spatialdata-testenv ci-config/run_tests.sh
             displayName: Test
+            env:
+                CODECOV_TOKEN: $(codecovToken)
   - stage: other_platforms
     displayName: "Other Builds"
     jobs:
