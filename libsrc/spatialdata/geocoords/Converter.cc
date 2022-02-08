@@ -26,6 +26,7 @@ extern "C" {
 #include "proj.h" // USES PROJ
 }
 
+#include <cmath> // USES HUGE_VAL
 #include <strings.h> // USES strcasecmp()
 #include <stdexcept> // USES std::runtime_error, std::exception
 #include <sstream> // USES std::ostringsgream
@@ -143,7 +144,7 @@ spatialdata::geocoords::Converter::_convert(double* coords,
     if ((0 == _cache->csDest.length()) || (0 != strcasecmp(_cache->csDest.c_str(), csDest->getString()))) { needsNewProj = true; }
     if (needsNewProj) {
         proj_destroy(_cache->proj);
-        _cache->proj = proj_create_crs_to_crs(NULL, csSrc->getString(), csDest->getString(), NULL);
+        _cache->proj = proj_create_crs_to_crs(PJ_DEFAULT_CTX, csSrc->getString(), csDest->getString(), NULL);
         if (!_cache->proj) {
             std::stringstream msg;
             msg << "Error creating projection from '" << csSrc->getString() << "' to '" << csDest->getString() << "'.\n"
@@ -154,12 +155,13 @@ spatialdata::geocoords::Converter::_convert(double* coords,
         _cache->csDest = csDest->getString();
     } // if
 
+    double t = HUGE_VAL;
     const size_t numSuccessful =
         proj_trans_generic(_cache->proj, PJ_FWD,
                            x, stride, numLocs,
                            y, stride, numLocs,
                            z, stride, numLocs,
-                           NULL, 0, 0);
+                           &t, 0, numLocs);
     if (numSuccessful < numLocs) {
         std::ostringstream msg;
         msg << "Error while converting coordinates:\n"

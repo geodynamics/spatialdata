@@ -119,8 +119,7 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
     } // if
 
     if (numDims > 2) {
-        PJ_CONTEXT* const context = NULL;
-        PJ* const proj = proj_create(context, _string.c_str());
+        PJ* const proj = proj_create(PJ_DEFAULT_CTX, _string.c_str());
         const PJ_TYPE projType = proj_get_type(proj);
         proj_destroy(proj);
         switch (projType) {
