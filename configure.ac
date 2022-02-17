@@ -166,7 +166,7 @@ AC_CONFIG_FILES([Makefile
 	tests/pytests/units/Makefile
 	tests/pytests/utils/Makefile
 	templates/Makefile
-	doc/Makefile])
+	docs/Makefile])
 
 AC_OUTPUT
 
