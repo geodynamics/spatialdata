@@ -8,4 +8,5 @@ coordsys.md
 spatialdb/index.md
 troubleshooting.md
 components/index.md
+file-formats/index.md
 :::
