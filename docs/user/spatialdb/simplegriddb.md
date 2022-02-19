@@ -43,9 +43,9 @@ SimpleGridDB {
   value-names =  displacement_x  displacement_y  displacement_z
   value-units =  m  m  m
   cs-data = geographic {
-  crs-string = EPSG:32610
-  space-dim = 3
-}
+    crs-string = EPSG:32610
+    space-dim = 3
+  }
 }
 // x-coordinates
  -3.000000e+04 -2.000000e+04 -1.000000e+04  0.000000e+00  1.000000e+04  2.000000e+04
