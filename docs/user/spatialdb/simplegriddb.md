@@ -30,7 +30,9 @@ u_z &= 1.0 + 3.0e-3*x - 1.0e-3*y
 You can create a `SimpleGridDB` data file manually in a text editor or generate the file using a Python script.
 In most cases, using a Python script is easier because you do not have to worry about the format of the file.
 
-### `SimpleGridDB` file
+::::{tab-set}
+
+:::{tab-item} SimpleGridDB file
 
 ```{code-block} c++
 #SPATIAL_GRID.ascii 1
@@ -80,7 +82,9 @@ SimpleGridDB {
   2.000000e+04  1.000000e+04  0.000000e+00  8.200000e+01  2.050000e+01  5.100000e+01
 ```
 
-### Python
+:::
+
+:::{tab-item} Python
 
 ```{code-block} python
 import numpy
@@ -136,3 +140,7 @@ data = {
 writer = createWriter("displacement.spatialdb")
 writer.write(data)
 ```
+
+:::
+
+::::

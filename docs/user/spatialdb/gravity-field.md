@@ -12,7 +12,9 @@ See [GravityField component](../components/spatialdb/GravityField.md).
 We specify the gravitational field to be in the -y direction for a 2D Cartesian coordinate system.
 The defaults provide a gravitation field for a 3D Cartesian coordinate system.
 
-### C++
+::::{tab-set}
+
+:::{tab-item} C++
 
 ```{code-block} c++
 ---
@@ -22,8 +24,9 @@ spatialdata::spatialdb::GravityField gravity;
 gravityField.setGravityDir(0.0, -1.0, 0.0);
 ```
 
+:::
 
-### Python
+:::{tab-item} Python
 
 Python applications should use the Pyre framework for creating the `CompositeDB`.
 We show how to do it programatically in Python for completeness.
@@ -38,3 +41,7 @@ gravity = GravityField()
 gravity.gravityDir = [0.0, -1.0, 0.0]
 gravity._configure()
 ```
+
+:::
+
+::::

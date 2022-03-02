@@ -32,6 +32,7 @@ release = '3.0.0'
 # ones.
 extensions = [
     "myst_parser",
+    "sphinx_design",
     "sphinxcontrib.bibtex",
 ]
 myst_enable_extensions = [

@@ -15,7 +15,9 @@ See [CSCart component](components/geocoords/CSCart.md).
 
 We specify a 2D coordinate system with the coordinates given in meters.
 
-#### Spatial database file
+::::{tab-set}
+
+:::{tab-item} Spatial database file
 
 ```{code-block} c++
 ---
@@ -27,7 +29,9 @@ cs-data = cartesian {
 }
 ```
 
-#### C++
+:::
+
+:::{tab-item} C++
 
 ```{code-block} c++
 ---
@@ -39,8 +43,9 @@ spatialdata::geocoords:CSCart cs;
 cs.setToMeters(1000.0);
 cs.setSpaceDim(2);
 ```
+:::
 
-#### Python
+:::{tab-item} Python
 
 ```{code-block} python
 ---
@@ -53,6 +58,10 @@ cs.units = "km"
 cs.spaceDim = 2
 cs._configure()
 ```
+
+:::
+
+::::
 
 ## CSGeo
 
@@ -90,7 +99,9 @@ See [CSGeo component](components/geocoords/CSGeo.md).
 
 We create a 3D georeferenced coordinate system corresponding to UTM Zone 10N with the WGS84 datum (EPSG:32610).
 
-#### Spatial database file
+::::{tab-set}
+
+:::{tab-item} Spatial database file
 
 ```{code-block} c++
 ---
@@ -102,7 +113,9 @@ cs-data = geographic {
 }
 ```
 
-#### C++
+:::
+
+:::{tab-item} C++
 
 ```{code-block} c++
 ---
@@ -115,7 +128,9 @@ cs.setString("EPSG:32610");
 cs.setSpaceDim(3);
 ```
 
-#### Python
+:::
+
+:::{tab-item} Python
 
 ```{code-block} python
 ---
@@ -129,20 +144,31 @@ cs.spaceDim = 3
 cs._configure()
 ```
 
+:::
+
+::::
+
 ## Converting between coordinate systems
 
 We convert from 34.5N 118.0W in the WGS84 datum (EPSG:4326) to UTM Zone 10N in the NAD27 datum.
 
 ### Examples
 
-#### Proj command line tool `cs2cs`
+::::{tab-set}
+
+:::{tab-item} Command line
 
 ```{code-block} console
+---
+caption: Using the Proj `cs2cs` command line tool to convert between coordinate systems.
+---
 $ echo "37.5 -121.0" | cs2cs EPSG:4326 EPSG:26710 -f "%.1f"
 676885.9        4152025.1 0.0
 ```
 
-#### C++
+:::
+
+:::{tab-item} C++
 
 The points are converted in place (array values are changed).
 
@@ -166,7 +192,9 @@ spatialdata::geocoords::Converter converter;
 converter.convert(points, numPoints, spaceDim, &csDest, &csSrc);
 ```
 
-#### Python
+:::
+
+:::{tab-item} Python
 
 The points are converted in place (array values are changed).
 
@@ -189,3 +217,7 @@ csDest._configure()
 points = numpy.array([[37.5, -121.0]], dtype=numpy.float64)
 convert(points, csDest, csSrc)
 ```
+
+:::
+
+::::

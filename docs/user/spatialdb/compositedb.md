@@ -23,7 +23,9 @@ See [CompositeDB component](../components/spatialdb/CompositeDB.md).
 
 We create a `CompositeDB` with density, dilatational wave speed (Vp), and shear wave speed (Vs) from a `SimpleGridDB`  spatial database and viscosity from a `SimpleDB` spatial database.
 
-### C++
+::::{tab-set}
+
+:::{tab-item} C++
 
 ```{code-block} c++
 ---
@@ -46,7 +48,9 @@ dbComposite.setDBA(&dbElastic, namesElastic, numElastic);
 dbComposite.setDBB(&dbViscoelastic, namesViscoelastic, numViscoelastic);
 ```
 
-### Python
+:::
+
+:::{tab-item} Python
 
 Python applications should use the Pyre framework for creating the `CompositeDB`.
 We show how to do it programatically in Python for completeness.
@@ -76,3 +80,7 @@ dbComposite.namesB = ["viscosity"]
 dbComposite.dbB = dbViscoelastic
 dbCompsite._configure()
 ```
+
+:::
+
+::::

@@ -21,7 +21,9 @@ See [ZeroDB component](../components/spatialdb/ZeroDB.db).
 
 We create a `UniformDB` specifying a density of 2500 kg/m$^3$ and a shear modulus of 30 GPa.
 
-### C++
+::::{tab-set}
+
+:::{tab-item} C++
 
 ```{code-block} c++
 ---
@@ -38,8 +40,9 @@ spatialdata::spatialdb::UniformDB db;
 db.setData(names, units, values, numValues);
 ```
 
-### Python
+:::
 
+:::{tab-item} Python
 Python applications should use the Pyre framework for creating the `UniformDB`.
 We show how to do it programatically in Python for completeness.
 
@@ -53,3 +56,7 @@ db.values = ["density", "shear_modulus"]
 db.data = ["2500*kg/m**3", "30.0*GPa"]
 db._configure()
 ```
+
+:::
+
+::::

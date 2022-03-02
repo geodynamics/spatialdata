@@ -23,7 +23,9 @@ The amplitude is nondimensional.
 You can create a `TimeHistoryDB` data file manually in a text editor or generate the file using a Python script.
 In most cases, using a Python script is easier because you do not have to worry about the format of the file.
 
-### Time History File
+::::{tab-set}
+
+:::{tab-item} Time History File
 
 ```{code-block} c++
 #TIME HISTORY ascii
@@ -44,8 +46,9 @@ TimeHistory {
   1.000000e+01  2.061154e-09
 ```
 
+:::
 
-### Python
+:::{tab-item} Python
 
 ```{code-block} python
 ---
@@ -59,3 +62,7 @@ amplitude = numpy.exp(-2.0*times, dtype=numpy.float64)
 from spatialdata.spatialdb.TimeHistoryIO import write
 write(times, amplitude, "year", "amplitude.timedb")
 ```
+
+:::
+
+::::

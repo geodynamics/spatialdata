@@ -25,7 +25,9 @@ We create a piece-wise linear variation in density along the y coordinate axis u
 You can create a `SimpleDB` data file manually in a text editor or generate the file using a Python script.
 In most cases, using a Python script is easier because you do not have to worry about the format of the file.
 
-### `SimpleDB` file
+::::{tab-set}
+
+:::{tab-item} SimpleDB file
 
 ```{code-block} c++
 #SPATIAL.ascii 1
@@ -60,7 +62,9 @@ SimpleDB {
   0.000000e+00 -1.000000e+02  3.000000e+03
 ```
 
-### Python
+:::
+
+:::{tab-item} Python
 
 ```{code-block} python
 import numpy
@@ -99,3 +103,7 @@ data = {
 writer = createWriter("density.spatialdb")
 writer.write(data)
 ```
+
+:::
+
+::::
