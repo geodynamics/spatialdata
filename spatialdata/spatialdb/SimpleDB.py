@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/SimpleDB.py
-#
-# @brief Python manager for simple spatial database.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import SimpleDB as ModuleSimpleDB
@@ -24,18 +17,19 @@ from .spatialdb import SimpleDB as ModuleSimpleDB
 
 class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     """
-    Python manager for simple spatial database.
+    Simple spatial database for points with arbitrary layout.
+    Use SimpleGridDB for points on a logically rectangular grid aligned with the coordinate axes.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *query_type* Type of query to perform [nearest, linear].
-
-    Facilities
-      - *iohandler* I/O handler for database.
+    Implements `SpatialDB`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [db]
+            label = Material properties
+            query_type = linear
+            iohandler.filename = mat_elastic.spatialdb
+            """,
+    }
 
     import pythia.pyre.inventory
 

@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/SimpleGridDB.py
-#
-# @brief Python manager for simple spatial database.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import SimpleGridDB as ModuleSimpleGridDB
@@ -37,19 +30,19 @@ def validateFilename(value):
 
 class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
     """
-    Python manager for simple spatial database.
+    Simple spatial database on a logically rectangular grid aligned with the coordinate axes.
+    Points along the coordinate axes do not have to be uniformly spaced.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *filename* Name of spatial database file.
-      - *query_type* Type of query to perform.
-
-    Facilities
-      - None
+    Implements `SpatialDB`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [db]
+            label = Material properties
+            filename = mat_elastic.spatialdb
+            query_type = linear
+            """,
+    }
 
     import pythia.pyre.inventory
 

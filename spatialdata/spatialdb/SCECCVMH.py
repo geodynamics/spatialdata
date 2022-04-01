@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/SCECCVMH.py
-#
-# @brief Python manager for spatial database interface to the SCEC CVM-H.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import SCECCVMH as ModuleSCECCVMH
@@ -24,22 +17,23 @@ from .spatialdb import SCECCVMH as ModuleSCECCVMH
 
 class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     """
-    Python manager for spatial database to the SCEC CVM-H.
+    Spatial database for the SCEC CVM-H seismic velocity model versions 5.2 and 5.3.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *data_dir* Directory containing SCEC CVM-H data files.
-      - *min_vs* Minimum shear wave speed.
-      - *squash* Squash topography/bathymetry to sea level.
-      - *squash_limit* Elevation above which topography/bathymetry is adjusted.
-      - *label* Descriptive label for seismic velocity model.
-
-    Facilities
-      - None
+    Implements `SpatialDB`.
+    
+    :::{danger}
+    These models are obsolete and no longer available from SCEC.
+    :::
     """
+    DOC_CONFIG = {
+        "cfg": """
+            label = SCEC CVM-H v5.3
+            data_dir = data/scec-cvmh
+            min_vs = 500.0*m/s
+            squash = False
+            squash_limit = -20.0*km
+            """,
+    }
 
     import pythia.pyre.inventory
 
