@@ -14,9 +14,12 @@ This is something important.
 This is a tip, helpful hint, or suggestion.
 :::
 
-For features recently added to PyLith, we show the version number when they
+For features recently added to SpatialData, we show the version number when they
 were added.
-*New in v3.0.0dev*
+
+:::{info}
+New in v2.8.0.
+:::
 
 ### Command Line Arguments
 
