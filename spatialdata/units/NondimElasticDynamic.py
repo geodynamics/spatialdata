@@ -5,54 +5,45 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-# @file spatialdata/units/NondimElasticDynamic.py
-#
-# @brief Python manager for nondimensionalizing dynamic
-# elasticity problems.
-#
-# Factory: nondimensional
 
 from .Nondimensional import Nondimensional
 
 
 class NondimElasticDynamic(Nondimensional):
     """
-    Python manager for nondimensionalizing dynamic elasticity problems.
+    Convenience object for nondimensionalizing dynamic elasticity problems.
 
-    Factory: nondimensional
-
-    INVENTORY
-
-    Properties
-      - *shear_wave_speed* Shear wave speed for velocity scale of problem.
-      - *density* Mass density for density scale of problem.
-      - *wave_period* Period of shear wave for time scale of problem.
-
-    Facilities
-      - None
+    Implements `Nondimensional`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [normalizer]
+            shear_wave_speed = 3.0*km/s
+            mass_density = 3.0*kg/m**3
+            wave_period = 2.0*s
+            """,
+    }
 
     import pythia.pyre.inventory
 
     from pythia.pyre.units.length import meter
     from pythia.pyre.units.time import second
     from pythia.pyre.units.mass import kg
-    shearWaveSpeed = pythia.pyre.inventory.dimensional("shear_wave_speed", default=3.0e+3 * meter / second,
-                                                validator=pythia.pyre.inventory.greater(0.0 * meter / second))
+    shearWaveSpeed = pythia.pyre.inventory.dimensional("shear_wave_speed", default=3.0e+3 * meter / second)
+    shearWaveSpeed.validator = pythia.pyre.inventory.greater(0.0 * meter / second)
     shearWaveSpeed.meta['tip'] = "Shear wave speed to nondimensionalize problem."
 
-    massDensity = pythia.pyre.inventory.dimensional("mass_density", default=3.0e+3 * kg / meter**3,
-                                             validator=pythia.pyre.inventory.greater(0.0 * kg / meter**3))
+    massDensity = pythia.pyre.inventory.dimensional("mass_density", default=3.0e+3 * kg / meter**3)
+    massDensity.validator = pythia.pyre.inventory.greater(0.0 * kg / meter**3)
     massDensity.meta['tip'] = "Mass density to nondimensionalize problem"
 
-    wavePeriod = pythia.pyre.inventory.dimensional("wave_period", default=1.0 * second,
-                                            validator=pythia.pyre.inventory.greater(0.0 * second))
+    wavePeriod = pythia.pyre.inventory.dimensional("wave_period", default=1.0 * second)
+    wavePeriod.validator = pythia.pyre.inventory.greater(0.0 * second)
     wavePeriod.meta['tip'] = "Period of wave to nondimensionalize problem."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

@@ -5,54 +5,45 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-# @file spatialdata/units/NondimElasticQuasistatic.py
-#
-# @brief Python manager for nondimensionalizing quasi-static
-# elasticity problems.
-#
-# Factory: nondimensional
 
 from .Nondimensional import Nondimensional
 
 
 class NondimElasticQuasistatic(Nondimensional):
     """
-    Python manager for nondimensionalizing quasi-static elasticity problems.
+    Convenience object for nondimensionalizing quasi-static elasticity problems.
 
-    Factory: nondimensional
-
-    INVENTORY
-
-    Properties
-      - *shear_modulus* Shear modules for pressure scale of problem.
-      - *length_scale* Discretization size for length scale of problem.
-      - *relaxation_time* Viscoelastic relaxation time for time scale of problem.
-
-    Facilities
-      - None
+    Implements `Nondimensional`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [normalizer]
+            length_scale = 5.0*km
+            shear_modulus = 30.0*GPa
+            relaxation_time = 200.0*year
+            """,
+    }
 
     import pythia.pyre.inventory
 
     from pythia.pyre.units.length import meter
-    lengthScale = pythia.pyre.inventory.dimensional("length_scale", default=1.0e+3 * meter,
-                                             validator=pythia.pyre.inventory.greater(0.0 * meter))
+    lengthScale = pythia.pyre.inventory.dimensional("length_scale", default=1.0e+3 * meter)
+    lengthScale.validator = pythia.pyre.inventory.greater(0.0 * meter)
     lengthScale.meta['tip'] = "Value to nondimensionalize length scale."
 
     from pythia.pyre.units.pressure import pascal
-    shearModulus = pythia.pyre.inventory.dimensional("shear_modulus", default=3.0e+10 * pascal,
-                                              validator=pythia.pyre.inventory.greater(0.0 * pascal))
+    shearModulus = pythia.pyre.inventory.dimensional("shear_modulus", default=3.0e+10 * pascal)
+    shearModulus.validator = pythia.pyre.inventory.greater(0.0 * pascal)
     shearModulus.meta['tip'] = "Shear modulus to nondimensionalize pressure."
 
     from pythia.pyre.units.time import year
-    relaxationTime = pythia.pyre.inventory.dimensional("relaxation_time", default=100.0 * year,
-                                                validator=pythia.pyre.inventory.greater(0.0 * year))
+    relaxationTime = pythia.pyre.inventory.dimensional("relaxation_time", default=100.0 * year)
+    relaxationTime.validator = pythia.pyre.inventory.greater(0.0 * year)
     relaxationTime.meta['tip'] = "Relaxation time to nondimensionalize time."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
