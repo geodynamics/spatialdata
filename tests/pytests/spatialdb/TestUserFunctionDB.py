@@ -25,6 +25,7 @@ class TestUserFunctionDB(unittest.TestCase):
     def setUp(self):
         db = UserFunctionDB()
         db.inventory.label = "test"
+        db.cs._configure()
         db._configure()
         self._db = db
 

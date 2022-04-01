@@ -30,6 +30,7 @@ class TestGravityField(unittest.TestCase):
         locs = numpy.array([[1.0, 2.0, 3.0], [5.6, 4.2, 8.6]], numpy.float64)
         from spatialdata.geocoords.CSCart import CSCart
         cs = CSCart()
+        cs._configure()
         gacc = 9.80665
         dataE = numpy.array([[0.0, 0.0, -gacc], [0.0, 0.0, -gacc]], numpy.float64)
         errE = [0, 0]

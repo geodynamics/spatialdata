@@ -23,6 +23,7 @@ class TestCSCart(unittest.TestCase):
 
     def test_constructor(self):
         cs = CSCart()
+        cs._configure()
         self.assertEqual(3, cs.getSpaceDim())
 
     def test_accessors(self):

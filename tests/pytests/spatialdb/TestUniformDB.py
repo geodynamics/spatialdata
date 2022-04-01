@@ -34,6 +34,7 @@ class TestUniformDB(unittest.TestCase):
         locs = numpy.array([[1.0, 2.0, 3.0], [5.6, 4.2, 8.6]], numpy.float64)
         from spatialdata.geocoords.CSCart import CSCart
         cs = CSCart()
+        cs._configure()
         queryVals = ["three", "one"]
         dataE = numpy.array([[3.3e-2, 1.1], [3.3e-2, 1.1]], numpy.float64)
         errE = [0, 0]

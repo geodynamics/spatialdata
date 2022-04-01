@@ -122,6 +122,7 @@ class TestSimpleGridDB(unittest.TestCase):
                            9.3, 7.5, 8.3, 8.5, 8.9, 6.2, 8.3], dtype=numpy.float64)
 
         cs = CSCart()
+        cs._configure()
 
         writer = createWriter(filename)
         writer.write({'points': points,

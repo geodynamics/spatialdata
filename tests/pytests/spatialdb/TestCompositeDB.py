@@ -52,6 +52,7 @@ class TestCompositeDB(unittest.TestCase):
                            numpy.float64)
         from spatialdata.geocoords.CSCart import CSCart
         cs = CSCart()
+        cs._configure()
         queryVals = ["three", "one", "five"]
         dataE = numpy.array([[3.1, 1.1, 5.1],
                              [3.1, 1.1, 5.1]], numpy.float64)
