@@ -10,27 +10,27 @@
 # See COPYING for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/geocoords/Converter.py
-#
-# @brief Python function to convert b/t coordinate systems.
 
 
-def convert(coords, csDest, csSrc):
+def convert(points, csDest, csSrc):
     """
     Convert coordinates from source coordinate system to destination
     coordinate system. Transformation is done in place.
+
+    :param points: Numpy array of points [npoints, 2].
+    :param csDest: Destination coordinate system.
+    :param csSrc: Source coordinate system. Current coordinate system for points.
     """
 
     if not csDest.getSpaceDim() == csSrc.getSpaceDim():
         msg = "Spatial dimensions of source (%d) and destination (%d) " \
-              "coordinate systems must match." % (csSrc.getSpaceDim(), csDest.getSpaceDim())
+              "coordinate systems must match." % (
+                  csSrc.getSpaceDim(), csDest.getSpaceDim())
         raise ValueError(msg)
 
     from . import geocoords
     converter = geocoords.Converter()
-    converter.convert(coords, csDest, csSrc)
+    converter.convert(points, csDest, csSrc)
     return
 
 
