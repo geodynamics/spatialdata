@@ -36,8 +36,7 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
     _data(NULL),
     _iohandler(NULL),
     _query(NULL),
-    _cs(NULL)
-{}
+    _cs(NULL) {}
 
 
 // ----------------------------------------------------------------------
@@ -47,8 +46,7 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
     _data(NULL),
     _iohandler(NULL),
     _query(NULL),
-    _cs(NULL)
-{}
+    _cs(NULL) {}
 
 
 // ----------------------------------------------------------------------
@@ -146,7 +144,7 @@ spatialdata::spatialdb::SimpleDB::setQueryValues(const char* const* names,
                                                  const size_t numVals) {
     if (!_query) {
         std::ostringstream msg;
-        msg << "Spatial database " << getLabel() << " has not been opened.\n"
+        msg << "Spatial database " << getDescription() << " has not been opened.\n"
             << "Please call Open() before calling QueryVals().";
         throw std::logic_error(msg.str());
     } // if
@@ -165,13 +163,13 @@ spatialdata::spatialdb::SimpleDB::query(double* vals,
     try {
         if (!_query) {
             std::ostringstream msg;
-            msg << "Spatial database " << getLabel() << " has not been opened.\n"
+            msg << "Spatial database " << getDescription() << " has not been opened.\n"
                 << "Please call open() before calling query().";
             throw std::logic_error(msg.str());
         } // if
         else if (!_data) {
             std::ostringstream msg;
-            msg << "Spatial database " << getLabel() << " does not contain any data.\n"
+            msg << "Spatial database " << getDescription() << " does not contain any data.\n"
                 << "Database query aborted.";
             throw std::domain_error(msg.str());
         } // if

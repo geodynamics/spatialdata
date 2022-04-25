@@ -43,7 +43,7 @@ class spatialdata::spatialdb::TestUserFunctionDB : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE(TestUserFunctionDB);
 
     CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testLabel);
+    CPPUNIT_TEST(testDescription);
     CPPUNIT_TEST(testAddValue);
     CPPUNIT_TEST(testCoordsys);
     CPPUNIT_TEST(testOpenClose);
@@ -66,7 +66,7 @@ public:
     void testConstructor(void);
 
     /// Test label()
-    void testLabel(void);
+    void testDescription(void);
 
     /// Test addValue()
     void testAddValue(void);

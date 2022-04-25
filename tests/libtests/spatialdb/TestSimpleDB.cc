@@ -51,7 +51,7 @@ spatialdata::spatialdb::TestSimpleDB::testConstructors(void) {
 
     const std::string label("database A");
     SimpleDB db2(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db2.getLabel()));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db2.getDescription()));
 } // testConstructors
 
 
@@ -62,8 +62,8 @@ spatialdata::spatialdb::TestSimpleDB::testAccessors(void) {
     CPPUNIT_ASSERT(_db);
 
     const std::string label("database 2");
-    _db->setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getLabel()));
+    _db->setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getDescription()));
 
     spatialdata::spatialdb::SimpleIOAscii io;
     const std::string filename("db.spatialdb");

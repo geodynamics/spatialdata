@@ -94,7 +94,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
         from .SimpleGridDB import SimpleGridDB
         db = SimpleGridDB()
         db._configure()
-        db.setLabel("Temporary SimpleGridDB for writing")
+        db.setDescription("Temporary SimpleGridDB for writing")
         db.setFilename(self.filename)
         db.setCoordSys(data['coordsys'])
         db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])

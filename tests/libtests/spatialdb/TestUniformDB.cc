@@ -74,7 +74,7 @@ spatialdata::spatialdb::TestUniformDB::testConstructors(void) {
 
     const std::string label("database A");
     UniformDB dbL(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.getLabel()));
+    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.getDescription()));
 } // testConstructors
 
 
@@ -85,8 +85,8 @@ spatialdata::spatialdb::TestUniformDB::testAccessors(void) {
     const std::string label("database 2");
 
     UniformDB db;
-    db.setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(db.getLabel()));
+    db.setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(db.getDescription()));
 } // testAccessors
 
 

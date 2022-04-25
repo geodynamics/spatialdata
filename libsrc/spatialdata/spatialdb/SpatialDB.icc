@@ -18,19 +18,19 @@
 #error "SpatialDB.icc must only be included from SpatialDB.hh"
 #endif
 
-// Set label of spatial database.
+// Set description of spatial database.
 inline
 void
-spatialdata::spatialdb::SpatialDB::setLabel(const char* label) {
-    _label = label;
+spatialdata::spatialdb::SpatialDB::setDescription(const char* description) {
+    _description = description;
 }
 
 
-// Get label of spatial database.
+// Get description of spatial database.
 inline
 const char*
-spatialdata::spatialdb::SpatialDB::getLabel(void) const {
-    return _label.c_str();
+spatialdata::spatialdb::SpatialDB::getDescription(void) const {
+    return _description.c_str();
 }
 
 

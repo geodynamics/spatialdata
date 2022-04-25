@@ -13,7 +13,7 @@ If a query request the amplitude at a time beyond the last point in the database
 The file format is described in {ref}`sec-file-formats-TimeHistoryDB`.
 
 :::{admonition} Pyre User Interface
-See [TimeHistoryDB component](../components/../spatialdb/TimeHistoryDB.md).
+See [TimeHistory component](../components/spatialdb/TimeHistory.md).
 :::
 
 ## Examples

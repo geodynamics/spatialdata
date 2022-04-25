@@ -29,21 +29,18 @@
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::SpatialDB::SpatialDB(void) :
-    _label("")
-{}
+    _description("") {}
 
 
 // ----------------------------------------------------------------------
 /// Constructor with label
 spatialdata::spatialdb::SpatialDB::SpatialDB(const char* label) :
-    _label(label)
-{}
+    _description(label) {}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::SpatialDB::~SpatialDB(void)
-{}
+spatialdata::spatialdb::SpatialDB::~SpatialDB(void) {}
 
 
 // ----------------------------------------------------------------------
@@ -114,7 +111,7 @@ spatialdata::spatialdb::SpatialDB::multiquery(float* vals,
                                               const float* coords,
                                               const size_t numLocsC,
                                               const size_t numDimsC,
-                                              const spatialdata::geocoords::CoordSys* csQuery) { // multiquery
+                                              const spatialdata::geocoords::CoordSys* csQuery) {
     assert(numLocsV == numLocsE);
     assert(numLocsC == numLocsE);
     assert( (!vals && 0 == numLocsV && 0 == numValsV) ||

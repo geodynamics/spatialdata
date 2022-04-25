@@ -204,7 +204,7 @@ spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
                                                  const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getLabel()
+        msg << "Number of values for query in spatial database " << getDescription()
             << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
@@ -230,7 +230,7 @@ spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
         } else {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getLabel() << "'. Available values are:\n"
+                << getDescription() << "'. Available values are:\n"
                 << "vp, vs, density, topo-elev, basement-depth, moho-depth, vp-tag.";
             throw std::out_of_range(msg.str());
         } // else
@@ -248,13 +248,13 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
                                         const spatialdata::geocoords::CoordSys* csQuery) {
     if (0 == _querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << getLabel() << "\n"
+        msg << "Values to be returned by spatial database " << getDescription() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
         throw std::logic_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << getLabel() << "\n"
+            << getDescription() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::invalid_argument(msg.str());

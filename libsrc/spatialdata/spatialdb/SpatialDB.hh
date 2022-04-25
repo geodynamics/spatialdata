@@ -28,7 +28,7 @@
 #include <string> // USES std::string
 
 /// C++ manager for spatial database.
-class spatialdata::spatialdb::SpatialDB { // class SpatialDB
+class spatialdata::spatialdb::SpatialDB {
 public:
 
     // PUBLIC METHODS /////////////////////////////////////////////////////
@@ -45,17 +45,17 @@ public:
     /// Default destructor.
     virtual ~SpatialDB(void);
 
-    /** Set label of spatial database.
+    /** Set description of spatial database.
      *
-     * @param label Label for database
+     * @param description Description of database
      */
-    void setLabel(const char* label);
+    void setDescription(const char* description);
 
-    /** Get label of spatial database.
+    /** Get description of spatial database.
      *
-     * @returns Label for database
+     * @returns Description of database
      */
-    const char* getLabel(void) const;
+    const char* getDescription(void) const;
 
     /// Open the database and prepare for querying.
     virtual
@@ -216,7 +216,7 @@ private:
 
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-    std::string _label; ///< Label of spatial database.
+    std::string _description; ///< Description of spatial database.
 
 }; // class SpatialDB
 

@@ -37,8 +37,7 @@ spatialdata::spatialdb::UniformDB::UniformDB(void) :
     _values(NULL),
     _queryValues(NULL),
     _numValues(0),
-    _querySize(0)
-{}
+    _querySize(0) {}
 
 
 // ----------------------------------------------------------------------
@@ -49,8 +48,7 @@ spatialdata::spatialdb::UniformDB::UniformDB(const char* label) :
     _values(NULL),
     _queryValues(NULL),
     _numValues(0),
-    _querySize(0)
-{}
+    _querySize(0) {}
 
 
 // ----------------------------------------------------------------------
@@ -138,7 +136,7 @@ spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,
                                                   const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getLabel()
+        msg << "Number of values for query in spatial database " << getDescription()
             << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
@@ -157,7 +155,7 @@ spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,
         if (iName >= _numValues) {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getLabel() << "'. Available values are:";
+                << getDescription() << "'. Available values are:";
             for (size_t iName = 0; iName < _numValues; ++iName) {
                 msg << "\n  " << _names[iName];
                 msg << "\n";
@@ -179,14 +177,14 @@ spatialdata::spatialdb::UniformDB::query(double* vals,
                                          const spatialdata::geocoords::CoordSys* pCSQuery) {
     if (0 == _querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << getLabel() << "\n"
+        msg << "Values to be returned by spatial database " << getDescription() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
         throw std::logic_error(msg.str());
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << getLabel() << "\n"
+            << getDescription() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::invalid_argument(msg.str());

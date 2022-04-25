@@ -55,8 +55,8 @@ spatialdata::spatialdb::TestSimpleGridDB::testAccessors(void) {
     const std::string label("database 2");
     const std::string filename("mydb.spatialdb");
 
-    db.setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getLabel()));
+    db.setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getDescription()));
 
     db.setFilename(filename.c_str());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, db._filename);
@@ -275,7 +275,7 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
     delete[] db->_names;db->_names = NULL;
     delete[] db->_units;db->_units = NULL;
 
-    db->setLabel("Test database");
+    db->setDescription("Test database");
     db->_numValues = _data->numValues;
     db->_spaceDim = _data->spaceDim;
     db->_dataDim = _data->dataDim;

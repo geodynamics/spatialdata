@@ -198,7 +198,7 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
 
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getLabel()
+        msg << "Number of values for query in spatial database " << getDescription()
             << " must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
@@ -319,14 +319,14 @@ spatialdata::spatialdb::CompositeDB::query(double* vals,
     const size_t querySize = qsizeA + qsizeB;
     if (0 == querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << getLabel()
+        msg << "Values to be returned by spatial database " << getDescription()
             << " have not been set. Please call setQueryValues() before query().\n";
         throw std::logic_error(msg.str());
     } // if
     else if (numVals != querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << getLabel()
+            << getDescription()
             << "(" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::logic_error(msg.str());

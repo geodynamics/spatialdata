@@ -63,8 +63,8 @@ spatialdata::spatialdb::TestGravityField::testAccessors(void) {
     const double tolerance = 1.0e-06;
 
     const std::string label("database 2");
-    db.setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db.getLabel()));
+    db.setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db.getDescription()));
 
     const double gravityDirDefault[3] = { 0.0, 0.0, -1.0 };
     for (size_t i = 0; i < 3; ++i) {

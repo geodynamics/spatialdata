@@ -36,15 +36,15 @@ class TimeHistory(Component, ModuleTimeHistory):
     DOC_CONFIG = {
         "cfg": """
             [timehistory]
-            label = Time history for Dirichlet boundary condition
+            description = Time history for Dirichlet boundary condition
             filename = displacement.timedb
             """,
     }
 
     import pythia.pyre.inventory
 
-    label = pythia.pyre.inventory.str("label", default="temporal database")
-    label.meta['tip'] = "Label for time history."
+    description = pythia.pyre.inventory.str("description", default="temporal database")
+    description.meta['tip'] = "Description for time history."
 
     filename = pythia.pyre.inventory.str("filename", default="timehistory.timedb", validator=validateFilename)
     filename.meta['tip'] = "Name of file for time history."
@@ -65,7 +65,7 @@ class TimeHistory(Component, ModuleTimeHistory):
         """
         Component._configure(self)
         self._createModuleObj()
-        ModuleTimeHistory.setLabel(self, self.label)
+        ModuleTimeHistory.setDescription(self, self.description)
         ModuleTimeHistory.setFilename(self, self.filename)
 
     def _createModuleObj(self):
@@ -77,9 +77,9 @@ class TimeHistory(Component, ModuleTimeHistory):
 
 # FACTORIES ////////////////////////////////////////////////////////////
 
-def createWriter(filename, label="Time history writer"):
+def createWriter(filename, description="Time history writer"):
     writer = TimeHistory()
-    writer.setLabel(label)
+    writer.setDescription(description)
     writer.setFilename(filename)
     return writer
 
