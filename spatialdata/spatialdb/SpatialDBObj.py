@@ -16,12 +16,12 @@ from pythia.pyre.components.Component import Component
 from .spatialdb import SpatialDB as ModuleSpatialDB
 
 
-def validateLabel(value):
+def validateDescription(value):
     """
-    Validate label for spatial database.
+    Validate description for spatial database.
     """
     if 0 == len(value):
-        raise ValueError("Descriptive label for spatial database not specified.")
+        raise ValueError("Descriptive description for spatial database not specified.")
     return value
 
 
@@ -32,8 +32,8 @@ class SpatialDBObj(Component, ModuleSpatialDB):
 
     import pythia.pyre.inventory
 
-    label = pythia.pyre.inventory.str("label", default="", validator=validateLabel)
-    label.meta['tip'] = "Descriptive label for database."
+    description = pythia.pyre.inventory.str("description", default="", validator=validateDescription)
+    description.meta['tip'] = "Descriptive description for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -52,7 +52,7 @@ class SpatialDBObj(Component, ModuleSpatialDB):
         """
         Component._configure(self)
         self._createModuleObj()
-        ModuleSpatialDB.setLabel(self, self.label)
+        ModuleSpatialDB.setDescription(self, self.description)
         return
 
     def _createModuleObj(self):

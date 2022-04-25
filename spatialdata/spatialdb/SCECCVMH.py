@@ -70,7 +70,7 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
         Set members based on inventory.
         """
         SpatialDBObj._configure(self)
-        ModuleSCECCVMH.setLabel(self, "SCEC CVM-H")
+        ModuleSCECCVMH.setDescription(self, "SCEC CVM-H")
         ModuleSCECCVMH.setDataDir(self, self.dataDir)
         ModuleSCECCVMH.setMinVs(self, self.minVs.value)
         ModuleSCECCVMH.setSquashFlag(self, self.squash, self.squashLimit.value)

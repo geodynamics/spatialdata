@@ -63,8 +63,8 @@ spatialdata::spatialdb::TestTimeHistory::testAccessors(void) {
     const std::string filename("file.th");
 
     TimeHistory th;
-    th.setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(th.getLabel()));
+    th.setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(th.getDescription()));
 
     th.setFilename(filename.c_str());
     CPPUNIT_ASSERT_EQUAL(filename, std::string(th.getFilename()));

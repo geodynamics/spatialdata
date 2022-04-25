@@ -119,7 +119,7 @@ spatialdata::spatialdb::TestCompositeDB::testConstructors(void) {
 
     const std::string label("database A");
     CompositeDB db2(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in db label.", label, std::string(db2.getLabel()));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in db label.", label, std::string(db2.getDescription()));
 } // testConstructors
 
 
@@ -130,8 +130,8 @@ spatialdata::spatialdb::TestCompositeDB::testAccessors(void) {
     const std::string label("database 2");
 
     CompositeDB db;
-    db.setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getLabel()));
+    db.setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getDescription()));
 
     // Set database A
     const size_t numNamesA = 2;

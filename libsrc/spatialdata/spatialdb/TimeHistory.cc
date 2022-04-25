@@ -25,25 +25,23 @@
 // ----------------------------------------------------------------------
 /// Default constructor
 spatialdata::spatialdb::TimeHistory::TimeHistory(void) :
-    _label(""),
+    _description(""),
     _filename(""),
     _time(0),
     _amplitude(0),
     _npts(0),
-    _ilower(0) { // constructor
-} // constructor
+    _ilower(0) {}
 
 
 // ----------------------------------------------------------------------
 /// Constructor with label
 spatialdata::spatialdb::TimeHistory::TimeHistory(const char* label) :
-    _label(label),
+    _description(label),
     _filename(""),
     _time(0),
     _amplitude(0),
     _npts(0),
-    _ilower(0)
-{}
+    _ilower(0) {}
 
 
 // ----------------------------------------------------------------------

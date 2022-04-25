@@ -213,7 +213,7 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSGeo(void) {
     SimpleGridAscii::write(dbOut);
 
     SimpleGridDB dbIn;
-    dbIn.setLabel("GridDB geo");
+    dbIn.setDescription("GridDB geo");
     dbIn.setFilename(filename);
     dbIn.open();
 
@@ -328,7 +328,7 @@ spatialdata::spatialdb::TestSimpleGridAscii::testReadComments(void) {
 
     const char* filename = "data/grid_comments.spatialdb";
     SimpleGridDB dbIn;
-    dbIn.setLabel("GridDB geo");
+    dbIn.setDescription("GridDB geo");
     dbIn.setFilename(filename);
     dbIn.open();
 

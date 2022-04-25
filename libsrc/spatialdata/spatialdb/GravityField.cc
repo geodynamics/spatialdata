@@ -126,12 +126,12 @@ spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
                                                      const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values (" << numVals << ") for query of gravity field spatial database " << getLabel()
+        msg << "Number of values (" << numVals << ") for query of gravity field spatial database " << getDescription()
             << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } else if (numVals > 3) {
         std::ostringstream msg;
-        msg << "Number of values (" << numVals << ") for query of gravity field spatial database " << getLabel()
+        msg << "Number of values (" << numVals << ") for query of gravity field spatial database " << getDescription()
             << "\n must be 1, 2, or 3.\n";
         throw std::invalid_argument(msg.str());
     } // if/else
@@ -148,7 +148,7 @@ spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
         } else {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getLabel() << "'. Available values are: "
+                << getDescription() << "'. Available values are: "
                 << "'" << _GravityField::valueNames[0] << "', "
                 << "'" << _GravityField::valueNames[1] << "', "
                 << "'" << _GravityField::valueNames[2] << "'.";
@@ -170,13 +170,13 @@ spatialdata::spatialdb::GravityField::query(double* vals,
 
     if (0 == _querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << getLabel() << "\n"
+        msg << "Values to be returned by spatial database " << getDescription() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
         throw std::logic_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << getLabel() << "\n"
+            << getDescription() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::logic_error(msg.str());

@@ -91,15 +91,15 @@ spatialdata::spatialdb::TestSCECCVMH::testConstructor(void) {
 
 
 // ----------------------------------------------------------------------
-// Test Label().
+// Test accessors.
 void
 spatialdata::spatialdb::TestSCECCVMH::testAccessors(void) {
     SCECCVMH db;
 
-    // Label
+    // Description
     const std::string label("database 2");
-    db.setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db.getLabel()));
+    db.setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db.getDescription()));
 
     // Data directory
     const std::string dataDir("/path/to/data/dir");

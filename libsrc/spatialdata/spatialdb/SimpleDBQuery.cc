@@ -81,7 +81,7 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
     assert(_db._data);
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << _db.getLabel()
+        msg << "Number of values for query in spatial database " << _db.getDescription()
             << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
@@ -101,7 +101,7 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
         if (iName >= numNames) {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << _db.getLabel() << "'. Available values are:";
+                << _db.getDescription() << "'. Available values are:";
             for (size_t iName = 0; iName < numNames; ++iName) {
                 msg << "\n  " << _db._data->getName(iName);
             }
@@ -125,14 +125,14 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
 
     if (0 == _querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << _db.getLabel() << "\n"
+        msg << "Values to be returned by spatial database " << _db.getDescription() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
         throw std::logic_error(msg.str());
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << _db.getLabel() << "\n"
+            << _db.getDescription() << "\n"
             << "(" << _querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::invalid_argument(msg.str());

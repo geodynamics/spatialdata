@@ -38,26 +38,26 @@ public:
     /// Default constructor.
     TimeHistory(void);
 
-    /** Constructor with label.
+    /** Constructor with description.
      *
-     * @param label Label for database
+     * @param description Description of database
      */
-    TimeHistory(const char* label);
+    TimeHistory(const char* description);
 
     /// Default destructor.
     ~TimeHistory(void);
 
-    /** Set label of time history.
+    /** Set description of time history.
      *
-     * @param label Label for time history.
+     * @param description Description for time history.
      */
-    void setLabel(const char* label);
+    void setDescription(const char* description);
 
-    /** Get label of time history.
+    /** Get description of time history.
      *
-     * @returns Label for time history.
+     * @returns Description for time history.
      */
-    const char* getLabel(void) const;
+    const char* getDescription(void) const;
 
     /** Set filename for time history.
      *
@@ -105,7 +105,7 @@ private:
 
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-    std::string _label; ///< Label of time history.
+    std::string _description; ///< Description of time history.
     std::string _filename; ///< Name of time history file
     double* _time; ///< Time stamps for points in time history.
     double* _amplitude; ///< Amplitude at points in time history.

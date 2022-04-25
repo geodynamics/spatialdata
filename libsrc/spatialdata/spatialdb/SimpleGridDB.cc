@@ -97,7 +97,7 @@ spatialdata::spatialdb::SimpleGridDB::open(void) {
         SpatialDB::_convertToSI(_data, _units, numLocs, _numValues);
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error parsing units for spatial database '" << getLabel() << "':\n"
+        msg << "Error parsing units for spatial database '" << getDescription() << "':\n"
             << err.what();
         throw std::runtime_error(msg.str().c_str());
     } // try/catch
@@ -166,7 +166,7 @@ spatialdata::spatialdb::SimpleGridDB::setQueryValues(const char* const* names,
     if (0 == numVals) {
         std::ostringstream msg;
         msg
-            << "Number of values for query in spatial database " << getLabel()
+            << "Number of values for query in spatial database " << getDescription()
             << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
@@ -186,7 +186,7 @@ spatialdata::spatialdb::SimpleGridDB::setQueryValues(const char* const* names,
         if (iName >= numNames) {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getLabel() << "'. Available values are:";
+                << getDescription() << "'. Available values are:";
             for (size_t iName = 0; iName < numNames; ++iName) {
                 msg << "\n  " << _names[iName];
             } // for
@@ -210,13 +210,13 @@ spatialdata::spatialdb::SimpleGridDB::query(double* vals,
 
     if (0 == querySize) {
         std::ostringstream msg;
-        msg << "Values to be returned by spatial database " << getLabel() << "\n"
+        msg << "Values to be returned by spatial database " << getDescription() << "\n"
             << "have not been set. Please call setQueryValues() before query().\n";
         throw std::logic_error(msg.str());
     } else if (numVals != querySize) {
         std::ostringstream msg;
         msg << "Number of values to be returned by spatial database "
-            << getLabel() << "\n"
+            << getDescription() << "\n"
             << "(" << querySize << ") does not match size of array provided ("
             << numVals << ").\n";
         throw std::invalid_argument(msg.str());

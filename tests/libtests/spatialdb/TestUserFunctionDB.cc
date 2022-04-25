@@ -52,11 +52,11 @@ spatialdata::spatialdb::TestUserFunctionDB::testConstructor(void) {
 // ----------------------------------------------------------------------
 // Test label()
 void
-spatialdata::spatialdb::TestUserFunctionDB::testLabel(void) {
+spatialdata::spatialdb::TestUserFunctionDB::testDescription(void) {
     const std::string& label = "database 2";
-    _db->setLabel(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getLabel()));
-} // testLabel
+    _db->setDescription(label.c_str());
+    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getDescription()));
+} // testDescription
 
 
 // ----------------------------------------------------------------------
@@ -259,8 +259,7 @@ spatialdata::spatialdb::TestUserFunctionDB_Data::TestUserFunctionDB_Data(void) :
     cs(NULL),
     queryXYZ(NULL),
     queryValues(NULL),
-    numQueryPoints(0)
-{}
+    numQueryPoints(0) {}
 
 
 // ----------------------------------------------------------------------

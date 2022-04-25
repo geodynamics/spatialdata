@@ -18,19 +18,19 @@
 #error "TimeHistory.icc must only be included from TimeHistory.hh"
 #endif
 
-// Set label of time history.
+// Set description of time history.
 inline
 void
-spatialdata::spatialdb::TimeHistory::setLabel(const char* label) {
-    _label = label;
+spatialdata::spatialdb::TimeHistory::setDescription(const char* description) {
+    _description = description;
 }
 
 
-// Get label of time history.
+// Get description of time history.
 inline
 const char*
-spatialdata::spatialdb::TimeHistory::getLabel(void) const {
-    return _label.c_str();
+spatialdata::spatialdb::TimeHistory::getDescription(void) const {
+    return _description.c_str();
 }
 
 
