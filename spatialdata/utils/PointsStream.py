@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/utils/PointsStream.py
-#
-# @brief Python object for reading/writing points from stdin/stdout.
-#
-# Factories: reader, writer
 
 from pythia.pyre.components.Component import Component
 
@@ -25,18 +18,16 @@ import numpy
 
 class PointsStream(Component):
     """
-    Python object for reading/writing points from stdin/stdout.
-
-    INVENTORY
-
-    Properties
-      - *filename* Name of file to use for input/output (default is stdin/stdout).
-      - *comment_flag* String at beginning of comment lines.
-      - *number_format* C style string specifying number format.
-
-    Facilities
-      - None
+    Object for reading/writing points from stdin/stdout.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [points_writer]
+            filename = points.txt
+            comment_flag = #
+            number_format = %14.5e
+            """,
+    }
 
     import pythia.pyre.inventory
 

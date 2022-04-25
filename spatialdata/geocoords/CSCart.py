@@ -5,39 +5,29 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/geocoords/CSCart.py
-#
-# @brief Python manager for Cartesian coordinate systems.
-#
 
 from .CoordSys import CoordSys
 from .geocoords import CSCart as ModuleCSCart
-
-# CSCart class
 
 
 class CSCart(CoordSys, ModuleCSCart):
     """
     Python manager for Cartesian coordinate systems.
 
-    Factory: coordsys
-
-    INVENTORY
-
-    Properties
-      - *units* Name of units.
-      - *space_dim* Number of dimensions for coordinate system.
-
-    Facilities
-      - None
+    Implements `CoordSys`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [coordsys]
+            units = meter
+            space_dim = 3
+            """,
+    }
 
     import pythia.pyre.inventory
 

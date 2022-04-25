@@ -18,9 +18,9 @@ ENV  src_dir=${TOPSRC_DIR}/pythia  build_dir=${TOPBUILD_DIR}/pythia
 
 RUN git clone --depth 1 --recursive https://github.com/geodynamics/pythia.git ${src_dir}
 WORKDIR ${src_dir}
-RUN autoreconf --install --verbose
+RUN autoreconf --install --verbose && \
+    mkdir -p ${build_dir}
 
-RUN mkdir -p ${build_dir}
 WORKDIR ${build_dir}
 RUN ${src_dir}/configure --enable-testing --prefix=${INSTALL_DIR} CPPFLAGS=-I${INSTALL_DIR}/include LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64" && make && make install && make check VERBOSE=1
 
@@ -34,9 +34,9 @@ ENV  src_dir=${TOPSRC_DIR}/spatialdata  build_dir=${TOPBUILD_DIR}/spatialdata
 
 COPY --chown=pylith-tester:pylith-tester . ${src_dir}
 WORKDIR ${src_dir}
-RUN autoreconf --install --verbose --force
+RUN autoreconf --install --verbose --force && \
+    mkdir -p ${build_dir}
 
-RUN mkdir -p ${build_dir}
 WORKDIR ${build_dir}
 RUN ${src_dir}/configure --prefix=${INSTALL_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I${INSTALL_DIR}/include -I${INSTALL_DIR}/cig/include" LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64 -L${INSTALL_DIR}/cig/lib -L${INSTALL_DIR}/cig/lib64 --coverage" CXXFLAGS="-g -O --coverage"
 

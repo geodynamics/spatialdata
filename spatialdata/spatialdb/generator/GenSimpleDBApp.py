@@ -10,12 +10,6 @@
 # See COPYING for license information.
 #
 # ======================================================================
-#
-
-# @file spatialdata/spatialdb/generator/GenSimpleDBApp.py
-#
-# @brief Python application to generate simple spatial database from
-# other simple spatial databases.
 
 from pythia.pyre.applications.Script import Script
 from pythia.pyre.components.Component import Component
@@ -23,7 +17,6 @@ from pythia.pyre.components.Component import Component
 from .Value import Value
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 def valueFactory(name):
     """
     Factory for values.
@@ -41,25 +34,14 @@ def validateFilename(value):
     return value
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class SingleValue(Component):
     """
-    Python container with one value.
-
-    INVENTORY
-
-    Properties
-      - None
-
-    Facilities
-      - *value* Spatial database value.
+    Container with one value.
     """
 
     import pythia.pyre.inventory
     dbValue = pythia.pyre.inventory.facility("value", family="database_value", factory=Value)
     dbValue.meta['tip'] = "Value in spatial database."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
 
     def __init__(self, name="siglevalue"):
         """
@@ -68,21 +50,70 @@ class SingleValue(Component):
         Component.__init__(self, name, facility="database_value")
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class GenSimpleDBApp(Script):
     """
-    Python object to generate simple spatial database.
-
-    INVENTORY
-
-    Properties
-      - None
-
-    Facilities
-      - *geometry* Geometry of region covered by spatial database.
-      - *values* Values in spatial database.
-      - *iohandler* Writer for spatial database.
+    Application to generate simple spatial database.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            # Create a spatial dabaset with values `Vp` and `Vs`.
+            #
+            # Vp is generated from a background value given in `vp_background.spatialdb`
+            # plus a perturbation given in `vp_perturbation.spatialdb`.
+            # 
+            # Vs is generatef from a backgorund value given in `vs_background.spatialdb`
+            # multiplied by a value given in `vs_scaling.spatialdb`.
+            [gensimpledb.geometry]
+            reader = read_geometry
+            data_dim = 2
+            coordsys.space_dim = 2
+
+            [gensimpledb]
+            values = [vp, vs]
+
+            [gensimpledb.values.vp]
+            name = Vp
+            units = m/s
+            shapers = [bg, add]
+
+            [gensimpledb.values.vp.shapers.bg]
+            default = 0.0
+            operand = add
+            db_value = Vp
+            db.description = Background
+            db.query_type = linear
+            db.iohandler.filename = vp_background.spatialdb
+
+            [gensimpledb.values.vp.shapers.add]
+            default = 1.0
+            operand = add
+            db_value = Vp
+            db.description = Add
+            db.query_type = linear
+            db.iohandler.filename = vp_perturbation.spatialdb
+
+            [gensimpledb.values.vs]
+            name = Vs
+            units = m/s
+            shapers = [bg, multiply]
+
+            [gensimpledb.values.vs.shapers.bg]
+            default = 0.0
+            operand = add
+            db_value = Vs
+            db.description = Background
+            db.query_type = linear
+            db.iohandler.filename = vs_background.spatialdb
+
+            [gensimpledb.values.vs.shapers.add]
+            default = 1.0
+            operand = multiply
+            db_value = Vs
+            db.description = Multiply
+            db.query_type = linear
+            db.iohandler.filename = vs_scaling.spatialdb
+            """
+    }
 
     import pythia.pyre.inventory
 
@@ -96,7 +127,6 @@ class GenSimpleDBApp(Script):
     filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
     filename.meta['tip'] = "Filename for generated ASCII SimpleDB."
 
-    # PUBLIC METHODS /////////////////////////////////////////////////////
 
     def __init__(self, name='gensimpledb'):
         """

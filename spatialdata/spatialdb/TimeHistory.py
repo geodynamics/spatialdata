@@ -5,18 +5,12 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
 
-# @file spatialdata/spatialdb/TimeHistory.py
-#
-# @brief Python object for time history dependence with spatial databases.
-#
-# Factory: temporal_database
 
 from pythia.pyre.components.Component import Component
 from .spatialdb import TimeHistory as ModuleTimeHistory
@@ -37,19 +31,15 @@ def validateFilename(value):
 
 class TimeHistory(Component, ModuleTimeHistory):
     """
-    Python object for time history dependence with spatial databases.
-
-    Factory: temporal_database
-
-    INVENTORY
-
-    Properties
-      - *label* Label for time history.
-      - *filename* Name of file for time history.
-
-    Facilities
-      - None
+    Time history object for specifying temporal variation in a field.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [timehistory]
+            label = Time history for Dirichlet boundary condition
+            filename = displacement.timedb
+            """,
+    }
 
     import pythia.pyre.inventory
 
@@ -66,7 +56,6 @@ class TimeHistory(Component, ModuleTimeHistory):
         Constructor.
         """
         Component.__init__(self, name, facility="temporal_database")
-        self._createModuleObj()
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -75,6 +64,7 @@ class TimeHistory(Component, ModuleTimeHistory):
         Set attributes based on inventory.
         """
         Component._configure(self)
+        self._createModuleObj()
         ModuleTimeHistory.setLabel(self, self.label)
         ModuleTimeHistory.setFilename(self, self.filename)
 

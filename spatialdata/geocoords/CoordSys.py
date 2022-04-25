@@ -10,30 +10,13 @@
 # See COPYING for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/geocoords/CoordSys.py
-#
-# @brief Python manager for coordinate systems.
-#
-# Factory: coordsys
 
 from pythia.pyre.components.Component import Component
 
 
 class CoordSys(Component):
     """
-    Python manager for coordinate systems.
-
-    Factory: coordsys
-
-    INVENTORY
-
-    Properties
-      - None
-
-    Facilities
-      - None
+    Python abstract base class for coordinate systems.
     """
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -43,7 +26,6 @@ class CoordSys(Component):
         Constructor.
         """
         Component.__init__(self, name, facility="coordsys")
-        self._createModuleObj()
         return
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -53,6 +35,7 @@ class CoordSys(Component):
         Setup members using inventory.
         """
         Component._configure(self)
+        self._createModuleObj()
         return
 
     def _createModuleObj(self):

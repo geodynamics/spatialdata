@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/GravityField.py
-#
-# @brief Python manager for spatial database with gravity field information.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import GravityField as ModuleGravityField
@@ -24,20 +17,19 @@ from .spatialdb import GravityField as ModuleGravityField
 
 class GravityField(SpatialDBObj, ModuleGravityField):
     """
-    Python manager for spatial database with gravity field information.
+    Spatial database with gravity field information.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *gravity_dir* Direction of gravitational body force (only used with Cartesian coordinate system).
-      - *acceleration* Gravitational acceleration.
-      - *label* Descriptive label for gravity field spatial database.
-
-    Facilities
-      - None
+    Implements `SpatialDB`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            # Specify a gravity field in 2D with gravity in the -y direction.
+            [gravity_field]
+            label = Gravity field
+            gravity_dir = [0, -1]
+            acceleration = 9.80665*meter/second**2
+            """,
+    }
 
     import pythia.pyre.inventory
 

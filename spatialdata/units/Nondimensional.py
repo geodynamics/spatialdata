@@ -5,17 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-# @file spatialdata/units/Nondimensional.py
-#
-# @brief Python manager for nondimensionalizing problems.
-#
-# Factory: nondimensional
 
 from pythia.pyre.components.Component import Component
 from .units import Nondimensional as ModuleNondimensional
@@ -23,17 +17,7 @@ from .units import Nondimensional as ModuleNondimensional
 
 class Nondimensional(Component, ModuleNondimensional):
     """
-    Python manager for nondimensionalizing problems.
-
-    Factory: nondimensional
-
-    INVENTORY
-
-    Properties
-      - None
-
-    Facilities
-      - None
+    Abstract base class for nondimensionalizing problems.
     """
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
@@ -43,6 +27,9 @@ class Nondimensional(Component, ModuleNondimensional):
         Constructor.
         """
         Component.__init__(self, name, facility="nondimensional")
+
+    def _configure(self):
+        Component._configure(self)
         self._createModuleObj()
 
     def setLengthScale(self, value):

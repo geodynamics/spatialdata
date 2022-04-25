@@ -5,19 +5,12 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
 
-# @file spatialdata/spatialdb/SimpleGridAscii.py
-#
-# @brief Python ascii I/O manager for simple gridd spatial database
-# (SimpleGridDB).
-#
-# Factory: simplegrid_io
 
 from pythia.pyre.components.Component import Component
 from .spatialdb import SimpleGridAscii as ModuleSimpleGridAscii
@@ -34,18 +27,14 @@ def validateFilename(value):
 
 class SimpleGridAscii(Component, ModuleSimpleGridAscii):
     """
-    Python ascii I/O manager for simple grid spatial database (SimpleGridDB).
-
-    Factory: simplegrid_io
-
-    INVENTORY
-
-    Properties
-      - *filename* Name of spatial database file.
-
-    Facilities
-      - None
+    ASCII writer for a simple grid spatial database.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [dbio]
+            dbio.filename = mat_elastic.spatialdb
+            """,
+    }
 
     import pythia.pyre.inventory
 
@@ -104,6 +93,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
 
         from .SimpleGridDB import SimpleGridDB
         db = SimpleGridDB()
+        db._configure()
         db.setLabel("Temporary SimpleGridDB for writing")
         db.setFilename(self.filename)
         db.setCoordSys(data['coordsys'])

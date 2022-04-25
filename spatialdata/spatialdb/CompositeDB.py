@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2012 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/CompositeDB.py
-#
-# @brief Python manager for spatial database with uniform values.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import CompositeDB as ModuleCompositeDB
@@ -24,20 +17,27 @@ from .spatialdb import CompositeDB as ModuleCompositeDB
 
 class CompositeDB(SpatialDBObj, ModuleCompositeDB):
     """
-    Python manager for spatial database with uniform values.
+    Virtual spatial database implemented as a combination of two spatial databases.
+    This spatial database is useful when you need to provide additional values beyond those present in an existing spatial database or some values have a different layout than others.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *values_A* Names of values to query with database A.
-      - *values_B* Names of values to query with databsae B.
-
-    Facilities
-      - *db_A* Spatial database A.
-      - *db_B* Spatial database B.
+    Implements `SpatialDB`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [db]
+            values_A = [density]
+            values_B = [vp, vs]
+
+            db_A = spatialdata.spatialdb.UniformDB
+            db_A.label = Density spatial database.
+            db_A.values = [density]
+            db_A.data = [3000*kg/m**3]
+
+            db_B = spatialdata.spatialdb.SimpleDB
+            db_B.label = Wave speed spatial database.
+            db_B.iohandler.filename = vpvs.spatialdb
+            """,
+    }
 
     import pythia.pyre.inventory
 

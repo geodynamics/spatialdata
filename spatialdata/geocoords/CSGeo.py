@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/geocoords/CSGeo.py
-#
-# @brief Python manager for geographic coordinate systems.
-#
-# Factory: coordsys.
 
 from .CoordSys import CoordSys
 from .geocoords import CSGeo as ModuleCSGeo
@@ -26,17 +19,16 @@ class CSGeo(CoordSys, ModuleCSGeo):
     """
     Python manager for geographic coordinate systems.
 
-    Factory: coordsys.
-
-    INVENTORY
-
-    Properties
-      - *cs_string* String specifying coordinate system.
-      - *space_dim* Number of dimensions of coordinate system.
-
-    Facilities
-      - None
+    Implements `CoordSys`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [coordsys]
+            # WGS84 (latitude, longitude) coordinate system
+            crs_string = EPSG:4326
+            space_dim = 2
+            """,
+    }
 
     import pythia.pyre.inventory
 

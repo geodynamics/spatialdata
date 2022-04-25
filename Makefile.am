@@ -34,6 +34,7 @@ DISTCHECK_CONFIGURE_FLAGS = \
 
 EXTRA_DIST = \
 	CHANGES \
+        LICENSE.md \
 	docker/spatialdata-testenv \
 	ci-config/run_tests.sh \
 	ci-config/codecov.yml

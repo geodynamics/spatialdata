@@ -10,13 +10,6 @@
 # See COPYING for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/generator/Geometry.py
-#
-# @brief Python manager for geometry used in generating database.
-#
-# Factory: geometry.
 
 from pythia.pyre.components.Component import Component
 
@@ -29,19 +22,16 @@ class Dummy(Component):
 
 class Geometry(Component):
     """
-    Python manager for geometry used in generating database.
-
-    Factory: geometry.
-
-    INVENTORY
-
-    Properties
-      - *data_dim* Spatial dimension of database region.
-
-    Facilities
-      - *reader* Geometry reader.
-      - *coordsys* Coordinate system associated with geometry.
+    Geometry used in generating database.
     """
+    DOC_CONFIG = {
+      "cfg": """
+          [gensimplebd.geometry]
+          data_dim = 2
+          reader = read_geometry
+          coordsys = spatialdata.geocoords.CSCart
+          """
+    }
 
     import pythia.pyre.inventory
 
@@ -55,8 +45,6 @@ class Geometry(Component):
     from spatialdata.geocoords.CSCart import CSCart
     coordsys = pythia.pyre.inventory.facility("coordsys", family="coordsys", factory=CSCart)
     coordsys.meta['tip'] = "Coordinate system for database."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
 
     def __init__(self, name="geometry"):
         """

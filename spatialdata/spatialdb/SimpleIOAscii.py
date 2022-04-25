@@ -5,18 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/SimpleIOAscii.py
-#
-# @brief Python ascii I/O manager for simple spatial database (SimpleDB).
-#
-# Factory: simpledb_io
 
 from .SimpleIO import SimpleIO
 from .spatialdb import SimpleIOAscii as ModuleSimpleIOAscii
@@ -24,10 +17,16 @@ from .spatialdb import SimpleIOAscii as ModuleSimpleIOAscii
 
 class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
     """
-    Python ascii I/O manager for simple spatial database (SimpleDB).
+    ASCII writer for a simple spatial database (SimpleDB).
 
-    Factory: simpledb_io
+    Implements `SimpleIO`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [dbio]
+            filename = mat_elastic.spatialdb
+            """,
+    }
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 

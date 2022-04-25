@@ -14,6 +14,8 @@ autom4te.cache
 aclocal.m4
 aux-config
 configure
+docs/_build
+build
 .deps
 .libs
 .dirstamp

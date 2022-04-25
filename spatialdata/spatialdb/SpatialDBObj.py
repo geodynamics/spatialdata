@@ -5,18 +5,12 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
 
-# @file spatialdata/spatialdb/SpatialDBObj.py
-#
-# @brief Python abstract base class for spatial database.
-#
-# Factory: spatial_database
 
 from pythia.pyre.components.Component import Component
 from .spatialdb import SpatialDB as ModuleSpatialDB
@@ -34,16 +28,6 @@ def validateLabel(value):
 class SpatialDBObj(Component, ModuleSpatialDB):
     """
     Python abstract base class for spatial database.
-
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *label* Descriptive label for spatial database.
-
-    Facilities
-      - None
     """
 
     import pythia.pyre.inventory
@@ -58,7 +42,6 @@ class SpatialDBObj(Component, ModuleSpatialDB):
         Constructor.
         """
         Component.__init__(self, name, facility="spatial_database")
-        self._createModuleObj()
         return
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -68,6 +51,7 @@ class SpatialDBObj(Component, ModuleSpatialDB):
         Set attributes based on inventory.
         """
         Component._configure(self)
+        self._createModuleObj()
         ModuleSpatialDB.setLabel(self, self.label)
         return
 

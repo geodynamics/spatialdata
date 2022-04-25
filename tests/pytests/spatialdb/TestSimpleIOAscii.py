@@ -27,6 +27,7 @@ class TestSimpleIOAscii(unittest.TestCase):
         """
         # Database info
         cs = CSCart()
+        cs._configure()
 
         filename = "data/test.spatialdb"
         data = {'points': numpy.array([[1.0, 2.0, 3.0],

@@ -5,24 +5,19 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/TimeHistoryIO.py
-#
-# @brief Python function to write time history file.
 
 
 def write(time, amplitude, units, filename):
     """
     Write time history file.
     """
-    from . import spatialdb
-    spatialdb.TimeHistoryIO.write(time, amplitude, units, filename)
+    from .spatialdb import TimeHistoryIO as ModuleTimeHistoryIO
+    ModuleTimeHistoryIO.write(time, amplitude, units, filename)
     return
 
 

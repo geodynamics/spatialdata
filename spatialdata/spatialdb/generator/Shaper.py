@@ -10,14 +10,6 @@
 # See COPYING for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/generator/Shaper.py
-#
-# @brief Python manager for shaping spatial distribution of data
-# while generating database.
-#
-# Factory: shaper
 
 from pythia.pyre.components.Component import Component
 
@@ -26,20 +18,29 @@ import numpy
 
 class Shaper(Component):
     """
-    Python manager for shaping spatial distribution of data while
-    generating database.
-
-    Factory: shaper
-
-    INVENTORY
-
-    Properties
-      - *db_value* Name of value in spatial database.
-      - *operand* Operand to use in adjusting spatial distribution of value.
-
-    Facilities
-      - *db* Database containing value for adjustment (shaping).
+    Object for shaping spatial distribution of data while generating database.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [gensimpledb.values.density]
+            shapers = [bg, add]
+
+            [gensimpledb.values.one.shapers.bg]
+            default = 0.0
+            db_value = density
+            operand = add
+            db = spatialdata.spatialdb.UniformDB
+            db.value = [density]
+            db.data = [2500*kg/m**3]
+
+            [gensimpledb.values.one.shapers.add]
+            default = 0.0
+            db_value = density
+            operand = add
+            db = spatialdata.spatialdb.SimpleGridDB
+            db.filename = density_perturbation.spatialdb
+            """
+    }
 
     import pythia.pyre.inventory
 
@@ -56,8 +57,6 @@ class Shaper(Component):
     from spatialdata.spatialdb.SimpleDB import SimpleDB
     db = pythia.pyre.inventory.facility("db", family="spatial_database", factory=SimpleDB)
     db.meta['tip'] = "Database containing value defining shaper."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
 
     def __init__(self, name="shaper"):
         """
@@ -86,7 +85,6 @@ class Shaper(Component):
         vals[:] += default[:] * mask[:]
 
         self.db.close()
-
         self.values = vals
 
     def finalize(self):

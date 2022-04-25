@@ -5,18 +5,12 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
 
-# @file spatialdata/spatialdb/UniformDB.py
-#
-# @brief Python manager for spatial database with uniform values.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import UniformDB as ModuleUniformDB
@@ -24,19 +18,18 @@ from .spatialdb import UniformDB as ModuleUniformDB
 
 class UniformDB(SpatialDBObj, ModuleUniformDB):
     """
-    Python manager for spatial database with uniform values.
+    Spatial database with uniform values.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - *values* Names of values in spatial database.
-      - *data* Values in spatial database.
-
-    Facilities
-      - None
+    Implements `SpatialDB`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [db]
+            label = Uniform material properties
+            values = [density, vp, vs]
+            data = [2000*kg/m**3, 2.0*km/s, 1000*m/s]
+            """,
+    }
 
     import pythia.pyre.inventory
 

@@ -5,20 +5,11 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
-#
-
-# @file spatialdata/spatialdb/UserFunctionDB.py
-#
-# @brief Python manager for user function spatial database.
-#
-# @WARNING This object is incomplete.
-#
-# Factory: spatial_database
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import UserFunctionDB as ModuleUserFunctionDB
@@ -26,18 +17,20 @@ from .spatialdb import UserFunctionDB as ModuleUserFunctionDB
 
 class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
     """
-    Python manager for simple spatial database.
+    Analytical function spatial database.
+    The analytical function must be provided in C++.
+    This spatial database is intended for use in tests using the Method of Manufactured Solutions.
 
-    Factory: spatial_database
-
-    INVENTORY
-
-    Properties
-      - None
-
-    Facilities
-      - *coordsys* Coordinate system.
+    Implements `SpatialDB`.
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [db]
+            label = Linear function
+            cs = spatialdata.geocoords.CSCart
+            cs.space_dim = 2
+            """,
+    }
 
     import pythia.pyre.inventory
 

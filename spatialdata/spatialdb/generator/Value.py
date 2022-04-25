@@ -10,12 +10,6 @@
 # See COPYING for license information.
 #
 # ----------------------------------------------------------------------
-#
-# @file spatialdata/spatialdb/generator/Value.py
-#
-# @brief Python manager for generating value in database.
-#
-# Factory: database_value
 
 import numpy
 
@@ -24,7 +18,6 @@ from pythia.pyre.components.Component import Component
 from .Shaper import Shaper
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 def shaperFactory(name):
     """
     Factory for shapers.
@@ -33,25 +26,14 @@ def shaperFactory(name):
     return facility(name, family="shaper", factory=Shaper)
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class SingleShaper(Component):
     """
-    Python container with one shaper.
-
-    INVENTORY
-
-    Properties
-      - None
-
-    Facilities
-      - *shaper* Shaper for database value.
+    Container with one shaper.
     """
 
     import pythia.pyre.inventory
     valueShaper = pythia.pyre.inventory.facility("shaper", family="shaper", factory=Shaper)
     valueShaper.meta['tip'] = "Shaper for database value."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
 
     def __init__(self, name="sigleshaper"):
         """
@@ -60,22 +42,21 @@ class SingleShaper(Component):
         Component.__init__(self, name, facility="shaper")
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class Value(Component):
     """
-    Python manager for generating value in database.
-
-    Factory: database_value
-
-    INVENTORY
-
-    Properties
-      - *name* Name of value.
-      - *units* Units for value.
-
-    Facilities
-      - *shapers* Shapers/filters used to construct spatial distribution.
+    Value generated in spatial database.
     """
+    DOC_CONFIG = {
+      "cfg": """
+        [gensimpledb]
+        values = [vp, vs]
+
+        [gensimpledb.values.vp]
+        name = Vp
+        units = m/s
+        shapers = [bg, perturbation]
+        """
+    }
 
     import pythia.pyre.inventory
 
@@ -87,8 +68,6 @@ class Value(Component):
 
     shapers = pythia.pyre.inventory.facilityArray("shapers", itemFactory=shaperFactory, factory=SingleShaper)
     shapers.meta['tip'] = "Shapers/filters used to construct spatial distribution."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
 
     def __init__(self, name="value"):
         """

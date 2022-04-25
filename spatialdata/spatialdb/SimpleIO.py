@@ -36,18 +36,14 @@ def validateFilename(value):
 
 class SimpleIO(Component):
     """
-    Python I/O manager for simple database (SimpleDB).
-
-    Factory: simpledb_io
-
-    INVENTORY
-
-    Properties
-      - *filename* Name of spatial database file.
-
-    Facilities
-      - None
+    Abstract base class for writing a simple spatial database (SimpleDB).
     """
+    DOC_CONFIG = {
+        "cfg": """
+            [dbio]
+            filename = mat_elastic.spatialdb
+            """,
+    }
 
     import pythia.pyre.inventory
 
