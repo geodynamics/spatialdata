@@ -43,7 +43,7 @@ The density scale will be very large in quasistatic problems, consistent with in
 ```
 
 :::{admonition} Pyre User Interface
-See [NondimensionalQuasistatic component](components/units/NondimensionalQuasistatic.md).
+See [NondimElasticQuasistatic component](components/units/NondimElasticQuasistatic.md).
 :::
 
 ## NondimensionalDynamic
@@ -61,5 +61,5 @@ The scales are specified in terms of the minimum shear wave speed, minimum densi
 ```
 
 :::{admonition} Pyre User Interface
-See [NondimensionalDynamic component](components/units/NondimensionalDynamic.md).
+See [NondimElasticDynamic component](components/units/NondimElasticDynamic.md).
 :::

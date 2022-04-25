@@ -17,7 +17,7 @@ This is a tip, helpful hint, or suggestion.
 For features recently added to SpatialData, we show the version number when they
 were added.
 
-:::{info}
+:::{note}
 New in v2.8.0.
 :::
 
