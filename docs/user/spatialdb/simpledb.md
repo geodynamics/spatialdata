@@ -16,7 +16,7 @@ In one, two, or three dimensions, queries can use a ``nearest value'' search or 
 The file format is described in {ref}`sec-file-formats-SimpleIOAscii`.
 
 :::{admonition} Pyre User Interface
-See [SimpleDB component](../components/spatialdb/SimpleDB.db) and [SimpleIOAscii component](../components/spatialdb/SimpleIOAscii.db).
+See [SimpleDB component](../components/spatialdb/SimpleDB.md) and [SimpleIOAscii component](../components/spatialdb/SimpleIOAscii.md).
 :::
 
 ## Examples

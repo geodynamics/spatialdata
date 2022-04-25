@@ -15,7 +15,7 @@ The `SimpleGriDB` will determine the layout of the data from the spatial dimensi
 :::
 
 :::{admonition} Pyre User Interface
-See [SimpleGridDB component](../components/spatialdb/SimpleGridDB.db).
+See [SimpleGridDB component](../components/spatialdb/SimpleGridDB.md).
 :::
 
 ## Examples

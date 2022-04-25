@@ -10,12 +10,7 @@ See [UniformDB component](../components/spatialdb/UniformDB.md).
 
 ## ZeroDB
 
-A `ZeroDB` spatial database is a special case of a `UniformDB` with values set to zero.
-You can use this spatial database to specify zero values for Dirichlet boundary conditions.
-
-:::{admonition} Pyre User Interface
-See [ZeroDB component](../components/spatialdb/ZeroDB.db).
-:::
+PyLith provides a special case of a `UniformDB`, called `ZeroDB`, with values set to zero for Dirichlet boundary conditions.
 
 ## Examples
 
