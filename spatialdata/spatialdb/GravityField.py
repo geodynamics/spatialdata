@@ -19,7 +19,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     """
     Spatial database with gravity field information.
 
-    Implements `SpatialDB`.
+    Implements `SpatialDB`. 
     """
     DOC_CONFIG = {
         "cfg": """
@@ -43,11 +43,6 @@ class GravityField(SpatialDBObj, ModuleGravityField):
                                               default=9.80665 * meter / second**2)
     acceleration.meta['tip'] = "Gravitational acceleration."
 
-    label = pythia.pyre.inventory.str("label", default="Gravity field")
-    label.meta['tip'] = "Descriptive label for gravity field."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
-
     def __init__(self, name="gravityfield"):
         """
         Constructor.
@@ -55,8 +50,9 @@ class GravityField(SpatialDBObj, ModuleGravityField):
         SpatialDBObj.__init__(self, name)
         return
 
-    # PRIVATE METHODS ////////////////////////////////////////////////////
-
+    def _defaults(self):
+        self.description = "Gravity field"
+    
     def _configure(self):
         """
         Set members based on inventory.
