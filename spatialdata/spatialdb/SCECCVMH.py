@@ -27,7 +27,6 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     """
     DOC_CONFIG = {
         "cfg": """
-            label = SCEC CVM-H v5.3
             data_dir = data/scec-cvmh
             min_vs = 500.0*m/s
             squash = False
@@ -52,19 +51,15 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     squashLimit = pythia.pyre.inventory.dimensional("squash_limit", default=-2.0 * km)
     squashLimit.meta['tip'] = "Elevation above which topography is squashed."
 
-    label = pythia.pyre.inventory.str("label", default="SCEC CVM-H")
-    label.meta['tip'] = "Descriptive label for seismic velocity model."
-
-    # PUBLIC METHODS /////////////////////////////////////////////////////
-
     def __init__(self, name="sceccvmh"):
         """
         Constructor.
         """
         SpatialDBObj.__init__(self, name)
 
-    # PRIVATE METHODS ////////////////////////////////////////////////////
-
+    def _defaults(self):
+        self.description = "SCEC CVM-H v5.3"
+    
     def _configure(self):
         """
         Set members based on inventory.

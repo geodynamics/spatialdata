@@ -25,7 +25,7 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     DOC_CONFIG = {
         "cfg": """
             [db]
-            label = Material properties
+            description = Material properties
             query_type = linear
             iohandler.filename = mat_elastic.spatialdb
             """,
