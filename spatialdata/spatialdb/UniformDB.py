@@ -25,7 +25,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     DOC_CONFIG = {
         "cfg": """
             [db]
-            label = Uniform material properties
+            description = Uniform material properties
             values = [density, vp, vs]
             data = [2000*kg/m**3, 2.0*km/s, 1000*m/s]
             """,

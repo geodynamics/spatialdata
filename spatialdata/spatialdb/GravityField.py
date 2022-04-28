@@ -25,7 +25,6 @@ class GravityField(SpatialDBObj, ModuleGravityField):
         "cfg": """
             # Specify a gravity field in 2D with gravity in the -y direction.
             [gravity_field]
-            label = Gravity field
             gravity_dir = [0, -1]
             acceleration = 9.80665*meter/second**2
             """,

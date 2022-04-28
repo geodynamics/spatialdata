@@ -26,7 +26,7 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
     DOC_CONFIG = {
         "cfg": """
             [db]
-            label = Linear function
+            description = Linear function
             cs = spatialdata.geocoords.CSCart
             cs.space_dim = 2
             """,

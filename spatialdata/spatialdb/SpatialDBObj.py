@@ -21,7 +21,7 @@ def validateDescription(value):
     Validate description for spatial database.
     """
     if 0 == len(value):
-        raise ValueError("Descriptive description for spatial database not specified.")
+        raise ValueError("Description for spatial database not specified.")
     return value
 
 
@@ -33,7 +33,7 @@ class SpatialDBObj(Component, ModuleSpatialDB):
     import pythia.pyre.inventory
 
     description = pythia.pyre.inventory.str("description", default="", validator=validateDescription)
-    description.meta['tip'] = "Descriptive description for database."
+    description.meta['tip'] = "Description for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 

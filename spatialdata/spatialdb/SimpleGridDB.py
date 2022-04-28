@@ -38,7 +38,7 @@ class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
     DOC_CONFIG = {
         "cfg": """
             [db]
-            label = Material properties
+            description = Material properties
             filename = mat_elastic.spatialdb
             query_type = linear
             """,

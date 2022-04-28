@@ -29,12 +29,12 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
             values_B = [vp, vs]
 
             db_A = spatialdata.spatialdb.UniformDB
-            db_A.label = Density spatial database.
+            db_A.description = Density spatial database.
             db_A.values = [density]
             db_A.data = [3000*kg/m**3]
 
             db_B = spatialdata.spatialdb.SimpleDB
-            db_B.label = Wave speed spatial database.
+            db_B.description = Wave speed spatial database.
             db_B.iohandler.filename = vpvs.spatialdb
             """,
     }
