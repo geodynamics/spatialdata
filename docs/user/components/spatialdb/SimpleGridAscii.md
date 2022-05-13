@@ -1,7 +1,8 @@
 # SimpleGridAscii
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.SimpleGridAscii`
+:Full name: `spatialdata.spatialdb.SimpleGridAscii`
+:Journal name: `simplegridascii`
 
 ASCII writer for a simple grid spatial database.
 
@@ -10,7 +11,7 @@ ASCII writer for a simple grid spatial database.
 * `filename`=\<str\>: Name of database file.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateFilename at 0x11e4ec310>
+  - **validator**: <function validateFilename at 0x11d1be0d0>
 
 ## Example
 

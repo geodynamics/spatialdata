@@ -1,7 +1,8 @@
 # UserFunctionDB
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.UserFunctionDB`
+:Full name: `spatialdata.spatialdb.UserFunctionDB`
+:Journal name: `userfunctiondb`
 
 Analytical function spatial database.
 The analytical function must be provided in C++.
@@ -17,10 +18,10 @@ Implements `SpatialDB`.
 
 ## Pyre Properties
 
-* `description`=\<str\>: Descriptive description for database.
+* `description`=\<str\>: Description for database.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x11c2979d0>
+  - **validator**: <function validateDescription at 0x112cb1dc0>
 
 ## Example
 
@@ -28,7 +29,7 @@ Example of setting `UserFunctionDB` Pyre properties and facilities in a paramete
 
 :::{code-block} cfg
 [db]
-label = Linear function
+description = Linear function
 cs = spatialdata.geocoords.CSCart
 cs.space_dim = 2
 :::

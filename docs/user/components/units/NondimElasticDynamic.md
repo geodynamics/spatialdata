@@ -1,7 +1,8 @@
 # NondimElasticDynamic
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.units.NondimElasticDynamic`
+:Full name: `spatialdata.units.NondimElasticDynamic`
+:Journal name: `nondimelasticdynamic`
 
 Convenience object for nondimensionalizing dynamic elasticity problems.
 

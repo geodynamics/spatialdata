@@ -1,7 +1,8 @@
 # SimpleIOAscii
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.SimpleIOAscii`
+:Full name: `spatialdata.spatialdb.SimpleIOAscii`
+:Journal name: `simpleioascii`
 
 ASCII writer for a simple spatial database (SimpleDB).
 
@@ -12,7 +13,7 @@ Implements `SimpleIO`.
 * `filename`=\<str\>: Name of database file.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateFilename at 0x11e502040>
+  - **validator**: <function validateFilename at 0x11d1beca0>
 
 ## Example
 

@@ -1,7 +1,8 @@
 # Value
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.generator.Value`
+:Full name: `spatialdata.spatialdb.generator.Value`
+:Journal name: `value`
 
 Value generated in spatial database.
 
