@@ -1,7 +1,8 @@
 # GenSimpleDBApp
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.generator.GenSimpleDBApp`
+:Full name: `spatialdata.spatialdb.generator.GenSimpleDBApp`
+:Journal name: `gensimpledb`
 
 Application to generate simple spatial database.
 
@@ -22,7 +23,7 @@ Application to generate simple spatial database.
 * `filename`=\<str\>: Filename for generated ASCII SimpleDB.
   - **default value**: ''
   - **current value**: '/Users/baagaard/src/cig/pythia/bin/pyre_doc_components.py', from {file='/Users/baagaard/software/unix/py39-venv/pylith-debug/lib/python3.9/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
-  - **validator**: <function validateFilename at 0x11afbb1f0>
+  - **validator**: <function validateFilename at 0x11d1fa1f0>
 * `typos`=\<str\>: specifies the handling of typos in the names of properties and facilities
   - **default value**: 'strict'
   - **current value**: 'strict', from {default}

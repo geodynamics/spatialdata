@@ -1,7 +1,8 @@
 # UnitTestApp
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.utils.UnitTestApp`
+:Full name: `spatialdata.utils.UnitTestApp`
+:Journal name: `unittestapp`
 
 Test application.
 

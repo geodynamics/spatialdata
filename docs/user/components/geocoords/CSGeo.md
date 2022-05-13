@@ -1,7 +1,8 @@
 # CSGeo
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.geocoords.CSGeo`
+:Full name: `spatialdata.geocoords.CSGeo`
+:Journal name: `csgeo`
 
 Python manager for geographic coordinate systems.
 

@@ -1,7 +1,8 @@
 # UniformDB
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.UniformDB`
+:Full name: `spatialdata.spatialdb.UniformDB`
+:Journal name: `uniformdb`
 
 Spatial database with uniform values.
 
@@ -12,10 +13,10 @@ Implements `SpatialDB`.
 * `data`=\<list\>: Values in spatial database.
   - **default value**: []
   - **current value**: [], from {default}
-* `description`=\<str\>: Descriptive description for database.
+* `description`=\<str\>: Description for database.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x11c2979d0>
+  - **validator**: <function validateDescription at 0x112cb1dc0>
 * `values`=\<list\>: Names of values in spatial database.
   - **default value**: []
   - **current value**: [], from {default}
@@ -26,7 +27,7 @@ Example of setting `UniformDB` Pyre properties and facilities in a parameter fil
 
 :::{code-block} cfg
 [db]
-label = Uniform material properties
+description = Uniform material properties
 values = [density, vp, vs]
 data = [2000*kg/m**3, 2.0*km/s, 1000*m/s]
 :::

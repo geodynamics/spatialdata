@@ -1,7 +1,8 @@
 # TimeHistory
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.TimeHistory`
+:Full name: `spatialdata.spatialdb.TimeHistory`
+:Journal name: `timehistory`
 
 Time history object for specifying temporal variation in a field.
 
@@ -13,7 +14,7 @@ Time history object for specifying temporal variation in a field.
 * `filename`=\<str\>: Name of file for time history.
   - **default value**: 'timehistory.timedb'
   - **current value**: 'timehistory.timedb', from {default}
-  - **validator**: <function validateFilename at 0x11c2c1c10>
+  - **validator**: <function validateFilename at 0x11d0dbdc0>
 
 ## Example
 

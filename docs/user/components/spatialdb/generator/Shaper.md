@@ -1,7 +1,8 @@
 # Shaper
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.generator.Shaper`
+:Full name: `spatialdata.spatialdb.generator.Shaper`
+:Journal name: `shaper`
 
 Object for shaping spatial distribution of data while generating database.
 

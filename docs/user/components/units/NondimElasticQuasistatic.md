@@ -1,7 +1,8 @@
 # NondimElasticQuasistatic
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.units.NondimElasticQuasistatic`
+:Full name: `spatialdata.units.NondimElasticQuasistatic`
+:Journal name: `nondimelasticquasistatic`
 
 Convenience object for nondimensionalizing quasi-static elasticity problems.
 

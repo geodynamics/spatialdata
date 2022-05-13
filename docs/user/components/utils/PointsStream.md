@@ -1,7 +1,8 @@
 # PointsStream
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.utils.PointsStream`
+:Full name: `spatialdata.utils.PointsStream`
+:Journal name: `pointsstream`
 
 Object for reading/writing points from stdin/stdout.
 

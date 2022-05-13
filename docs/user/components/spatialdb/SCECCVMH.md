@@ -1,7 +1,8 @@
 # SCECCVMH
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.SCECCVMH`
+:Full name: `spatialdata.spatialdb.SCECCVMH`
+:Journal name: `sceccvmh`
 
 Spatial database for the SCEC CVM-H seismic velocity model versions 5.2 and 5.3.
 
@@ -16,13 +17,10 @@ These models are obsolete and no longer available from SCEC.
 * `data_dir`=\<str\>: Directory containing SCEC CVM-H data files.
   - **default value**: '.'
   - **current value**: '.', from {default}
-* `description`=\<str\>: Descriptive description for database.
+* `description`=\<str\>: Description for database.
   - **default value**: ''
-  - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x11c2979d0>
-* `label`=\<str\>: Descriptive label for seismic velocity model.
-  - **default value**: 'SCEC CVM-H'
-  - **current value**: 'SCEC CVM-H', from {default}
+  - **current value**: 'SCEC CVM-H v5.3', from {file='/Users/baagaard/software/unix/py39-venv/pylith-debug/lib/python3.9/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
+  - **validator**: <function validateDescription at 0x112cb1dc0>
 * `min_vs`=\<dimensional\>: Minimum shear wave speed.
   - **default value**: 500*m*s**-1
   - **current value**: 500*m*s**-1, from {default}
@@ -38,7 +36,6 @@ These models are obsolete and no longer available from SCEC.
 Example of setting `SCECCVMH` Pyre properties and facilities in a parameter file.
 
 :::{code-block} cfg
-label = SCEC CVM-H v5.3
 data_dir = data/scec-cvmh
 min_vs = 500.0*m/s
 squash = False

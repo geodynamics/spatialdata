@@ -1,7 +1,8 @@
 # CSCart
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.geocoords.CSCart`
+:Full name: `spatialdata.geocoords.CSCart`
+:Journal name: `cscart`
 
 Python manager for Cartesian coordinate systems.
 

@@ -1,7 +1,8 @@
 # Geometry
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.generator.Geometry`
+:Full name: `spatialdata.spatialdb.generator.Geometry`
+:Journal name: `geometry`
 
 Geometry used in generating database.
 

@@ -1,7 +1,8 @@
 # SimpleDB
 
 % WARNING: Do not edit; this is a generated file!
-Full name: `spatialdata.spatialdb.SimpleDB`
+:Full name: `spatialdata.spatialdb.SimpleDB`
+:Journal name: `simpledb`
 
 Simple spatial database for points with arbitrary layout.
 Use SimpleGridDB for points on a logically rectangular grid aligned with the coordinate axes.
@@ -16,10 +17,10 @@ Implements `SpatialDB`.
 
 ## Pyre Properties
 
-* `description`=\<str\>: Descriptive description for database.
+* `description`=\<str\>: Description for database.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x11c2979d0>
+  - **validator**: <function validateDescription at 0x112cb1dc0>
 * `query_type`=\<str\>: Type of query to perform.
   - **default value**: 'nearest'
   - **current value**: 'nearest', from {default}
@@ -31,7 +32,7 @@ Example of setting `SimpleDB` Pyre properties and facilities in a parameter file
 
 :::{code-block} cfg
 [db]
-label = Material properties
+description = Material properties
 query_type = linear
 iohandler.filename = mat_elastic.spatialdb
 :::
