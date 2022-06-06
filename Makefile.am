@@ -7,9 +7,9 @@
 # This code was developed as part of the Computational Infrastructure
 # for Geodynamics (http://geodynamics.org).
 #
-# Copyright (c) 2010-2017 University of California, Davis
+# Copyright (c) 2010-2022 University of California, Davis
 #
-# See COPYING for license information.
+# See LICENSE.md for license information.
 #
 # ----------------------------------------------------------------------
 #
@@ -20,7 +20,8 @@ SUBDIRS = \
 	libsrc \
 	modulesrc \
 	spatialdata \
-	templates
+	templates \
+	docs
 
 
 if ENABLE_TESTING
@@ -33,7 +34,12 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	LDFLAGS="-L${PROJ4_LIBDIR} -L${CPPUNIT_LIBDIR} -L${CIG_LIBDIR}"
 
 EXTRA_DIST = \
-	CHANGES.md \
+    README.md \
+    CHANGES.md \
+    setup.py \
+    setup.cfg \
+    configure.ac \
+	applications/gensimpledb.py \
     LICENSE.md \
 	docker/spatialdata-testenv \
 	ci-config/run_tests.sh \
