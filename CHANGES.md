@@ -1,3 +1,11 @@
+## Version 3.0.0 (2022/06/06)
+
+* Convert to Python 3
+* Change `label` in `SpatialDB` and `TimeHistory` to `description` to avoid confusion with other Pyre properties called `label`.
+* Create online documentation for Spatial Data that is now separate from PyLith.
+  * Documentation covers more features and use cases.
+  * Examples include C++, Python, and `cfg` files.
+
 ## Version 2.0.0 (2021/01/09)
 
 * Update to use Proj 6.x. This allows a user to specify a coordinate
