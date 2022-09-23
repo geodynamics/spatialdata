@@ -29,6 +29,7 @@ libspatialdata_la_SOURCES = \
 	geocoords/CSCart.cc \
 	geocoords/CSGeo.cc \
 	geocoords/CSPicklerAscii.cc \
+	spatialdb/AnalyticDB.cc \
 	spatialdb/CompositeDB.cc \
 	spatialdb/GocadVoxet.cc \
 	spatialdb/GravityField.cc \
@@ -55,6 +56,7 @@ libspatialdata_la_SOURCES = \
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 libspatialdata_la_LIBADD = \
 	-lproj \
+	-lmuparser \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 AM_CPPFLAGS = -I$(top_srcdir)/libsrc

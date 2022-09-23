@@ -18,6 +18,8 @@ subpackage = spatialdb
 include $(top_srcdir)/subpackage.am
 
 subpkginclude_HEADERS = \
+	AnalyticDB.hh \
+	AnalyticDB.icc \
 	CompositeDB.hh \
 	Exception.hh \
 	Exception.icc \
