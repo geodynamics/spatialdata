@@ -34,7 +34,6 @@ testgeocoords_LDFLAGS =
 testgeocoords_LDADD = \
 	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
 	-lproj \
-	-lmuparser \
 	-lcppunit -ldl \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 

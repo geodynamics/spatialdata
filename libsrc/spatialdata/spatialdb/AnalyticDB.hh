@@ -24,8 +24,9 @@
 
 #include "SpatialDB.hh"
 
+#include "spatialdata/muparser/muparserfwd.hh" // HOLDSA mu::parser
+
 #include <string> // HASA std::string
-#include <muParserDLL.h> // HASA muParserHandle_t
 
 /// C++ manager for analytic spatial database.
 class spatialdata::spatialdb::AnalyticDB : public SpatialDB { // class AnalyticDB
@@ -47,17 +48,20 @@ public:
     /// Default destructor.
     ~AnalyticDB(void);
 
+    /// Clear values from database.Default destructor.
+    void clear(void);
+
     /** Set expressions in database.
      *
      * @param names Array of names of expressions in database.
      * @param units Array of units for expressions in database.
      * @param expressions Array of expressions in database.
-     * @param numExpressions Number of expressions in database.
+     * @param numValues Number of expressions in database.
      */
     void setData(const char* const* names,
                  const char* const* units,
                  const char* const* expressions,
-                 const size_t numExpressions);
+                 const size_t numValues);
 
     /// Open the database and prepare for querying.
     void open(void);
@@ -78,10 +82,10 @@ public:
      * @pre Must call open() before setQueryValues()
      *
      * @param names Names of values to be returned in queries
-     * @param numVals Number of values to be returned in queries
+     * @param numValues Number of values to be returned in queries
      */
     void setQueryValues(const char* const* names,
-                        const size_t numVals);
+                        const size_t numValues);
 
     /** Query the database.
      *
@@ -89,7 +93,7 @@ public:
      *
      * @param vals Array for computed values (output from query), vals
      *   must be allocated BEFORE calling query().
-     * @param numVals Number of values expected (size of pVals array)
+     * @param numValues Number of values expected (size of pVals array)
      * @param coords Coordinates of point for query
      * @param numDims Number of dimensions for coordinates
      * @param pCSQuery Coordinate system of coordinates
@@ -98,7 +102,7 @@ public:
      *   so values set to 0)
      */
     int query(double* vals,
-              const size_t numVals,
+              const size_t numValues,
               const double* coords,
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
@@ -114,15 +118,16 @@ private:
 
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
-    size_t _numExpressions; ///< Number of expressions in database
+    mu::value_type _expVars[3]; ///< Storage for default expression variables
     std::string* _names; ///< Names of values in database
     std::string* _expressions; ///< Expressions in database
-    muParserHandle_t *_hParser; ///< Handle for muParser context
-    muFloat_t _varVals[3]; ///< Storage for default expression variables
+    mu::Parser* _parsers; ///< Handle for muParser context
     geocoords::CoordSys* _cs; ///< Coordinate system
     geocoords::Converter* _converter; /// Convert query points to local coordinate system.
     size_t* _queryValues; ///< Indices of values to be returned in queries.
+    size_t _numValues; ///< Number of valuess in database
     size_t _querySize; ///< Number of values requested to be returned in queries.
+
 }; // class AnalyticDB
 
 #include "AnalyticDB.icc"

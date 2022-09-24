@@ -24,6 +24,7 @@
 #include "spatialdata/units/Parser.hh" // USES Parser
 #include "spatialdata/geocoords/CSCart.hh" // HASA CoordSys
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
+#include "spatialdata/muparser/muParser.h" // USES mu::parser
 
 #include <vector> // USES std::vector
 #include <stdexcept> // USES std::runtime_error
@@ -37,10 +38,11 @@
 spatialdata::spatialdb::AnalyticDB::AnalyticDB(void) :
     _names(NULL),
     _expressions(NULL),
-    _hParser(NULL),
+    _parsers(NULL),
     _cs(new spatialdata::geocoords::CSCart),
     _converter(new spatialdata::geocoords::Converter),
     _queryValues(NULL),
+    _numValues(0),
     _querySize(0) {}
 
 
@@ -50,24 +52,33 @@ spatialdata::spatialdb::AnalyticDB::AnalyticDB(const char* label) :
     SpatialDB(label),
     _names(NULL),
     _expressions(NULL),
-    _hParser(NULL),
+    _parsers(NULL),
     _cs(new spatialdata::geocoords::CSCart),
     _converter(new spatialdata::geocoords::Converter),
     _queryValues(NULL),
+    _numValues(0),
     _querySize(0) {}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
 spatialdata::spatialdb::AnalyticDB::~AnalyticDB(void) {
-    delete[] _names;_names = NULL;
-    delete[] _expressions;_expressions = NULL;
-    if (_hParser) {for (size_t i = 0; i < _numExpressions; ++i) mupRelease(_hParser[i]);}
-    delete[] _hParser;_hParser = NULL;
+    clear();
     delete _cs;_cs = NULL;
     delete _converter;_converter = NULL;
+} // destructor
+
+
+// ----------------------------------------------------------------------
+/// Clear database values.
+void
+spatialdata::spatialdb::AnalyticDB::clear(void) {
+    delete[] _names;_names = NULL;
+    delete[] _expressions;_expressions = NULL;
+    delete[] _parsers;_parsers = NULL;
     delete[] _queryValues;_queryValues = NULL;
     _querySize = 0;
+    _numValues = 0;
 } // destructor
 
 
@@ -77,60 +88,55 @@ void
 spatialdata::spatialdb::AnalyticDB::setData(const char* const* names,
                                             const char* const* units,
                                             const char* const* expressions,
-                                            const size_t numExpressions) {
-    assert( (0 < numExpressions && names && units && expressions) ||
-            (0 == numExpressions && !names && !units && !expressions) );
+                                            const size_t numValues) {
+    assert( (0 < numValues && names && units && expressions) ||
+            (0 == numValues && !names && !units && !expressions) );
 
-    // clear out old data
-    delete[] _names;_names = NULL;
-    delete[] _expressions;_expressions = NULL;
-    if (_hParser) for (size_t i = 0; i < _numExpressions; ++i) mupRelease(_hParser[i]);
-    delete[] _hParser;_hParser = NULL;
-    _numExpressions = numExpressions;
+    clear();
 
-    delete[] _queryValues;_queryValues = NULL;
-    _querySize = 0;
+    if (0 == numValues) {
+        return;
+    } // if
 
     spatialdata::units::Parser parser;
 
-    if (_numExpressions > 0) {
-        _names = new std::string[_numExpressions];
-        for (size_t i = 0; i < _numExpressions; ++i) {
-            _names[i] = names[i];
-        } // for
+    _numValues = numValues;
 
-        std::vector<double> scales(_numExpressions);
-        for (size_t i = 0; i < _numExpressions; ++i) {
-            if (strcasecmp(units[i], "none") != 0) {
-                scales[i] = parser.parse(units[i]);
-            } else {
-                scales[i] = 1.0;
-            } // if/else
-        } // for
+    _names = new std::string[_numValues];
+    for (size_t i = 0; i < _numValues; ++i) {
+        _names[i] = names[i];
+    } // for
 
-        _expressions = new std::string[_numExpressions];
-        _hParser     = new muParserHandle_t[_numExpressions];
-        for (size_t i = 0; i < _numExpressions; ++i) {
-            _expressions[i] = expressions[i];
-            _hParser[i] = mupCreate(muBASETYPE_FLOAT);
-            mupSetArgSep(_hParser[i], ',');
-          	mupSetDecSep(_hParser[i], '.');
-            // Only allow built-in variables mupSetVarFactory(_hParser, AddVariable, NULL);
-            mupDefineConst(_hParser[i], "pi", M_PI);
-          	//mupDefineStrConst(_hParser, "version", PETSC_VERSION_GIT);
-          	mupDefineVar(_hParser[i], "x", &_varVals[0]);
-          	mupDefineVar(_hParser[i], "y", &_varVals[1]);
-            mupDefineVar(_hParser[i], "z", &_varVals[2]);
-            mupSetExpr(_hParser[i], _expressions[i].c_str());
-        } // for
+    std::vector<double> scales(_numValues);
+    for (size_t i = 0; i < _numValues; ++i) {
+        if (strcasecmp(units[i], "none") != 0) {
+            scales[i] = parser.parse(units[i]);
+        } else {
+            scales[i] = 1.0;
+        } // if/else
+    } // for
 
-        // Default query values is all values.
-        _querySize = _numExpressions;
-        delete[] _queryValues;_queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
-        for (size_t i = 0; i < _querySize; ++i) {
-            _queryValues[i] = i;
-        } // for
-    } // if
+    _expressions = new std::string[_numValues];
+    _parsers = new mu::Parser[_numValues];
+    for (size_t i = 0; i < _numValues; ++i) {
+        _expressions[i] = expressions[i];
+        _parsers[i].SetArgSep(',');
+        _parsers[i].SetDecSep('.');
+        // Only allow built-in variables mupSetVarFactory(_parsers, AddVariable, NULL);
+        _parsers[i].DefineConst("pi", M_PI);
+        _parsers[i].DefineVar("x", &_expVars[0]);
+        _parsers[i].DefineVar("y", &_expVars[1]);
+        _parsers[i].DefineVar("z", &_expVars[2]);
+        _parsers[i].SetExpr(_expressions[i]);
+    } // for
+
+    // Default query values is all values.
+    _querySize = _numValues;
+    delete[] _queryValues;_queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
+    for (size_t i = 0; i < _querySize; ++i) {
+        _queryValues[i] = i;
+    } // for
+
 } // setData
 
 
@@ -140,13 +146,13 @@ void
 spatialdata::spatialdb::AnalyticDB::getNamesDBValues(const char*** valueNames,
                                                      size_t* numValues) const {
     if (valueNames) {
-        *valueNames = (_numExpressions > 0) ? new const char*[_numExpressions] : NULL;
-        for (size_t i = 0; i < _numExpressions; ++i) {
+        *valueNames = (_numValues > 0) ? new const char*[_numValues] : NULL;
+        for (size_t i = 0; i < _numValues; ++i) {
             (*valueNames)[i] = _names[i].c_str();
         } // for
     }
     if (numValues) {
-        *numValues = _numExpressions;
+        *numValues = _numValues;
     } // if
 } // getNamesDBValues
 
@@ -155,7 +161,7 @@ spatialdata::spatialdb::AnalyticDB::getNamesDBValues(const char*** valueNames,
 // Set values to be returned by queries.
 void
 spatialdata::spatialdb::AnalyticDB::setQueryValues(const char* const* names,
-                                                  const size_t numVals) {
+                                                   const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
         msg << "Number of values for query in spatial database " << getDescription()
@@ -168,17 +174,17 @@ spatialdata::spatialdb::AnalyticDB::setQueryValues(const char* const* names,
     delete[] _queryValues;_queryValues = new size_t[numVals];
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
-        while (iName < _numExpressions) {
+        while (iName < _numValues) {
             if (0 == strcasecmp(names[iVal], _names[iName].c_str())) {
                 break;
             }
             ++iName;
         } // while
-        if (iName >= _numExpressions) {
+        if (iName >= _numValues) {
             std::ostringstream msg;
             msg << "Could not find value '" << names[iVal] << "' in spatial database '"
                 << getDescription() << "'. Available values are:";
-            for (size_t iName = 0; iName < _numExpressions; ++iName) {
+            for (size_t iName = 0; iName < _numValues; ++iName) {
                 msg << "\n  " << _names[iName];
                 msg << "\n";
                 throw std::out_of_range(msg.str());
@@ -193,10 +199,10 @@ spatialdata::spatialdb::AnalyticDB::setQueryValues(const char* const* names,
 // Query the database.
 int
 spatialdata::spatialdb::AnalyticDB::query(double* vals,
-                                         const size_t numVals,
-                                         const double* coords,
-                                         const size_t numDims,
-                                         const spatialdata::geocoords::CoordSys* pCSQuery) {
+                                          const size_t numVals,
+                                          const double* coords,
+                                          const size_t numDims,
+                                          const spatialdata::geocoords::CoordSys* pCSQuery) {
     if (0 == _querySize) {
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getDescription() << "\n"
@@ -214,13 +220,19 @@ spatialdata::spatialdb::AnalyticDB::query(double* vals,
 
     // Convert coordinates
     assert(numDims <= 3);
-    for (int d = 0; d < numDims; ++d) _varVals[d] = coords[d];
+    for (int d = 0; d < numDims; ++d) {
+        _expVars[d] = coords[d];
+    }
     assert(_converter);
-    _converter->convert(_varVals, 1, numDims, _cs, pCSQuery);
+    _converter->convert(_expVars, 1, numDims, _cs, pCSQuery);
 
-    for (size_t iVal = 0; iVal < _querySize; ++iVal) {
-        vals[iVal] = mupEval(_hParser[_queryValues[iVal]]);
-    } // for
+    try {
+        for (size_t iVal = 0; iVal < _querySize; ++iVal) {
+            vals[iVal] = _parsers[_queryValues[iVal]].Eval();
+        } // for
+    } catch (const mu::Parser::exception_type& exception) {
+        throw std::runtime_error(exception.GetMsg());
+    }
 
     return 0;
 } // query

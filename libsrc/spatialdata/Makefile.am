@@ -19,7 +19,8 @@ SUBDIRS = \
 	spatialdb \
 	units \
 	utils \
-	testing
+	testing \
+	muparser
 
 lib_LTLIBRARIES = libspatialdata.la
 
@@ -51,12 +52,19 @@ libspatialdata_la_SOURCES = \
 	units/Parser.cc \
 	utils/LineParser.cc \
 	utils/PointsStream.cc \
-	utils/SpatialdataVersion.cc
+	utils/SpatialdataVersion.cc \
+	muparser/muParser.cpp \
+	muparser/muParserBase.cpp \
+	muparser/muParserBytecode.cpp \
+	muparser/muParserCallback.cpp \
+	muparser/muParserError.cpp \
+	muparser/muParserInt.cpp \
+	muparser/muParserTokenReader.cpp
+
 
 libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 libspatialdata_la_LIBADD = \
 	-lproj \
-	-lmuparser \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 AM_CPPFLAGS = -I$(top_srcdir)/libsrc
@@ -70,5 +78,8 @@ libspatialdata_la_SOURCES += \
 libspatialdata_la_LIBADD += -lcppunit
 endif
 
+dist_noinstall = \
+	README.rst \
+	LICENSE
 
 # End of file

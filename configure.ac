@@ -97,10 +97,6 @@ if test "$enable_testing" = "yes" ; then
 fi
 AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
 
-dnl MUPARSER
-CIT_MUPARSER_HEADER
-CIT_MUPARSER_LIB
-
 dnl Check for Python modules and packages.
 AM_PATH_PYTHON([3.6])
 AC_ARG_VAR(PYTHON, [Python interpreter])
@@ -150,6 +146,7 @@ AC_CONFIG_FILES([Makefile
 	libsrc/spatialdata/units/Makefile
 	libsrc/spatialdata/utils/Makefile
 	libsrc/spatialdata/testing/Makefile
+	libsrc/spatialdata/muparser/Makefile
 	modulesrc/Makefile
 	modulesrc/include/Makefile
 	modulesrc/geocoords/Makefile

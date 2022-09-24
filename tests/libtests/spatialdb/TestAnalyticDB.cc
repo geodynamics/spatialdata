@@ -96,23 +96,23 @@ void
 spatialdata::spatialdb::TestAnalyticDB::testSetData(void) {
     AnalyticDB db;
 
-    const size_t numExpressions = 3;
-    const char* names[numExpressions] = { "one", "two", "three" };
-    const char* units[numExpressions] = { "m", "km", "cm" };
-    const char* expressions[numExpressions] = { "x^2 + y^2", "x/z", "x + y + z" };
+    const size_t numValuesE = 3;
+    const char* names[numValuesE] = { "one", "two", "three" };
+    const char* units[numValuesE] = { "m", "km", "cm" };
+    const char* expressions[numValuesE] = { "x^2 + y^2", "x/z", "x + y + z" };
 
-    db.setData(names, units, expressions, numExpressions);
+    db.setData(names, units, expressions, numValuesE);
 
-    CPPUNIT_ASSERT_EQUAL(numExpressions, db._numExpressions);
-    for (size_t i = 0; i < numExpressions; ++i) {
+    CPPUNIT_ASSERT_EQUAL(numValuesE, db._numValues);
+    for (size_t i = 0; i < numValuesE; ++i) {
         CPPUNIT_ASSERT_EQUAL(std::string(names[i]), db._names[i]);
     } // for
 
-    for (size_t i = 0; i < numExpressions; ++i) {
+    for (size_t i = 0; i < numValuesE; ++i) {
         CPPUNIT_ASSERT_EQUAL(std::string(expressions[i]), db._expressions[i]);
     } // for
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numExpressions, db._querySize);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValuesE, db._querySize);
 } // testSetData
 
 
@@ -120,20 +120,20 @@ spatialdata::spatialdb::TestAnalyticDB::testSetData(void) {
 // Test getNamesDBValues().
 void
 spatialdata::spatialdb::TestAnalyticDB::testGetNamesDBValues(void) {
-    const size_t numExpressions = 3;
-    const char* names[numExpressions] = { "one", "two", "three" };
-    const char* units[numExpressions] = { "none", "none", "none" };
-    const char* expressions[numExpressions] = { "x^2 + y^2", "x/z", "x + y + z" };
+    const size_t numValuesE = 3;
+    const char* names[numValuesE] = { "one", "two", "three" };
+    const char* units[numValuesE] = { "none", "none", "none" };
+    const char* expressions[numValuesE] = { "x^2 + y^2", "x/z", "x + y + z" };
 
     AnalyticDB db;
-    db.setData(names, units, expressions, numExpressions);
+    db.setData(names, units, expressions, numValuesE);
 
     const char** valueNames = NULL;
     size_t numValues = 0;
     db.getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numExpressions, numValues);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
 
-    for (size_t i = 0; i < numExpressions; ++i) {
+    for (size_t i = 0; i < numValuesE; ++i) {
         CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
                                      std::string(names[i]), std::string(valueNames[i]));
     } // for
@@ -148,16 +148,16 @@ void
 spatialdata::spatialdb::TestAnalyticDB::testQueryVals(void) {
     AnalyticDB db;
 
-    const size_t numExpressions = 3;
-    const char* names[numExpressions] = { "one", "two", "three" };
-    const char* units[numExpressions] = { "none", "none", "none" };
-    const char* expressions[numExpressions] = { "x^2 + y^2", "x/z", "x + y + z" };
+    const size_t numValuesE = 3;
+    const char* names[numValuesE] = { "one", "two", "three" };
+    const char* units[numValuesE] = { "none", "none", "none" };
+    const char* expressions[numValuesE] = { "x^2 + y^2", "x/z", "x + y + z" };
 
     const size_t querySize = 2;
     const char* queryNames[querySize] = { "three", "two" };
     const size_t queryVals[querySize] = { 2, 1 };
 
-    db.setData(names, units, expressions, numExpressions);
+    db.setData(names, units, expressions, numValuesE);
     db.setQueryValues(queryNames, querySize);
 
     CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);

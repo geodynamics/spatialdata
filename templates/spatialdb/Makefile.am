@@ -45,8 +45,8 @@ libspatialdbcontrib_la_LDFLAGS = $(AM_LDFLAGS)
 # Link to spatialdata and proj libraries
 libspatialdbcontrib_la_LIBADD = \
 	-lspatialdata \
-	-lproj \
-	-lmuparser
+	-lproj
+
 if NO_UNDEFINED
 # Add linking to Python libraries if linker doesn't allow undefined symbols
 libspatialdbcontrib_la_LIBADD += \
