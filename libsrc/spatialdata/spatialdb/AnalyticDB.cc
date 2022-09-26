@@ -37,6 +37,7 @@
 /// Default constructor
 spatialdata::spatialdb::AnalyticDB::AnalyticDB(void) :
     _names(NULL),
+    _scales(NULL),
     _expressions(NULL),
     _parsers(NULL),
     _cs(new spatialdata::geocoords::CSCart),
@@ -51,6 +52,7 @@ spatialdata::spatialdb::AnalyticDB::AnalyticDB(void) :
 spatialdata::spatialdb::AnalyticDB::AnalyticDB(const char* label) :
     SpatialDB(label),
     _names(NULL),
+    _scales(NULL),
     _expressions(NULL),
     _parsers(NULL),
     _cs(new spatialdata::geocoords::CSCart),
@@ -74,6 +76,7 @@ spatialdata::spatialdb::AnalyticDB::~AnalyticDB(void) {
 void
 spatialdata::spatialdb::AnalyticDB::clear(void) {
     delete[] _names;_names = NULL;
+    delete[] _scales;_scales = NULL;
     delete[] _expressions;_expressions = NULL;
     delete[] _parsers;_parsers = NULL;
     delete[] _queryValues;_queryValues = NULL;
@@ -107,12 +110,12 @@ spatialdata::spatialdb::AnalyticDB::setData(const char* const* names,
         _names[i] = names[i];
     } // for
 
-    std::vector<double> scales(_numValues);
+    _scales = new double[_numValues];
     for (size_t i = 0; i < _numValues; ++i) {
         if (strcasecmp(units[i], "none") != 0) {
-            scales[i] = parser.parse(units[i]);
+            _scales[i] = parser.parse(units[i]);
         } else {
-            scales[i] = 1.0;
+            _scales[i] = 1.0;
         } // if/else
     } // for
 
@@ -228,7 +231,8 @@ spatialdata::spatialdb::AnalyticDB::query(double* vals,
 
     try {
         for (size_t iVal = 0; iVal < _querySize; ++iVal) {
-            vals[iVal] = _parsers[_queryValues[iVal]].Eval();
+            const size_t index = _queryValues[iVal];
+            vals[iVal] = _scales[index] * _parsers[index].Eval();
         } // for
     } catch (const mu::Parser::exception_type& exception) {
         throw std::runtime_error(exception.GetMsg());

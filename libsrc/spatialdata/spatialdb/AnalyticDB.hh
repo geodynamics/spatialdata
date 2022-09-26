@@ -29,7 +29,7 @@
 #include <string> // HASA std::string
 
 /// C++ manager for analytic spatial database.
-class spatialdata::spatialdb::AnalyticDB : public SpatialDB { // class AnalyticDB
+class spatialdata::spatialdb::AnalyticDB : public SpatialDB {
     friend class TestAnalyticDB; // unit testing
 
 public:
@@ -120,6 +120,7 @@ private:
 
     mu::value_type _expVars[3]; ///< Storage for default expression variables
     std::string* _names; ///< Names of values in database
+    double* _scales; ///< Scales to convert expressions to SI units.
     std::string* _expressions; ///< Expressions in database
     mu::Parser* _parsers; ///< Handle for muParser context
     geocoords::CoordSys* _cs; ///< Coordinate system

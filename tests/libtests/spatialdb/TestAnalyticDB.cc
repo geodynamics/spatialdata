@@ -21,6 +21,8 @@
 #include "spatialdata/spatialdb/AnalyticDB.hh" // USES AnalyticDB
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 
+#include <cmath> // USES fabs()
+
 // ----------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
@@ -180,9 +182,14 @@ spatialdata::spatialdb::TestAnalyticDB::testQuery(void) {
 
     const size_t numValues = 3;
     const char* names[numValues] = { "one", "two", "three" };
-    const char* units[numValues] = { "none", "none", "none" };
+    const char* units[numValues] = { "none", "km", "cm" };
     const char* expressions[numValues] = { "x^2 + y^2", "x/z", "x + y + z" };
-    const double values[numValues] = { coords[0]*coords[0], coords[0]/coords[2], coords[0]+coords[1]+coords[2] };
+    const double scales[numValues] = { 1.0, 1000.0, 0.01 };
+    const double values[numValues] = {
+        coords[0]*coords[0],
+        coords[0]/coords[2],
+        coords[0]+coords[1]+coords[2],
+    };
 
     const size_t querySize = 2;
     const char* queryNames[querySize] = { "three", "two" };
@@ -195,8 +202,10 @@ spatialdata::spatialdb::TestAnalyticDB::testQuery(void) {
     db.query(data, querySize, coords, spaceDim, &cs);
 
     for (size_t i = 0; i < querySize; ++i) {
-        const double valE = values[queryVals[i]];
-        CPPUNIT_ASSERT_EQUAL(valE, data[i]);
+        const size_t index = queryVals[i];
+        const double valE = scales[index] * values[index];
+        const double tolerance = fabs(valE) > 0.0 ? fabs(valE) * 1.0e-6 : 1.0e-6;
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(valE, data[i], tolerance);
     } // for
 } // testQuery
 
