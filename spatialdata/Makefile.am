@@ -34,6 +34,7 @@ EXTRA_DIST = \
 	spatialdb/TimeHistory.py \
 	spatialdb/TimeHistoryIO.py \
 	spatialdb/UniformDB.py \
+	spatialdb/AnalyticDB.py \
 	spatialdb/UserFunctionDB.py \
 	spatialdb/__init__.py \
 	spatialdb/generator/GenSimpleDBApp.py \

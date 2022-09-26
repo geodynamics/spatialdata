@@ -41,6 +41,9 @@ class TestApp(UnitTestApp):
         from TestUniformDB import TestUniformDB
         suite.addTest(unittest.makeSuite(TestUniformDB))
 
+        from TestAnalyticDB import TestAnalyticDB
+        suite.addTest(unittest.makeSuite(TestAnalyticDB))
+
         from TestSimpleGridDB import TestSimpleGridDB
         suite.addTest(unittest.makeSuite(TestSimpleGridDB))
 
