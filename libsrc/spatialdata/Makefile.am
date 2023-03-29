@@ -52,7 +52,7 @@ libspatialdata_la_SOURCES = \
 	utils/PointsStream.cc \
 	utils/SpatialdataVersion.cc
 
-libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
+libspatialdata_la_LDFLAGS = $(AM_LDFLAGS) $(PYTHON_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 libspatialdata_la_LIBADD = \
 	-lproj \
 	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
