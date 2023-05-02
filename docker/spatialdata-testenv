@@ -38,7 +38,7 @@ RUN autoreconf --install --verbose --force && \
     mkdir -p ${build_dir}
 
 WORKDIR ${build_dir}
-RUN ${src_dir}/configure --prefix=${INSTALL_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I${INSTALL_DIR}/include -I${INSTALL_DIR}/cig/include" LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64 -L${INSTALL_DIR}/cig/lib -L${INSTALL_DIR}/cig/lib64 --coverage" CXXFLAGS="-g -O --coverage"
+RUN ${src_dir}/configure --prefix=${INSTALL_DIR} --enable-swig --enable-testing --enable-test-coverage=${TEST_COVERAGE} --with-python-coverage=${PYTHON_COVERAGE} CPPFLAGS="-I${INSTALL_DIR}/include" LDFLAGS="-L${INSTALL_DIR}/lib -L${INSTALL_DIR}/lib64 --coverage" CXXFLAGS="-g -O --coverage"
 
 from src as build
 RUN make -j$(nproc) install
