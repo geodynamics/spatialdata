@@ -51,7 +51,7 @@ spatialdata::testing::TestDriver::~TestDriver(void) {}
 // Run info application.
 int
 spatialdata::testing::TestDriver::run(int argc,
-                                 char* argv[]) {
+                                      char* argv[]) {
     _parseArgs(argc, argv);
 
     if (_showHelp) {
@@ -105,7 +105,7 @@ spatialdata::testing::TestDriver::run(int argc,
 // Parse command line arguments.
 void
 spatialdata::testing::TestDriver::_parseArgs(int argc,
-                                        char* argv[]) {
+                                             char* argv[]) {
     static struct option options[5] = {
         {"help", no_argument, NULL, 'h'},
         {"list", no_argument, NULL, 'l'},
@@ -116,7 +116,7 @@ spatialdata::testing::TestDriver::_parseArgs(int argc,
 
     while (true) {
         // extern char* optarg;
-        const char c = getopt_long(argc, argv, "hlm:", options, NULL);
+        const int c = getopt_long(argc, argv, "hlm:", options, NULL);
         if (-1 == c) { break; }
         switch (c) {
         case 'h':
@@ -183,7 +183,7 @@ spatialdata::testing::TestDriver::_printTests(const CppUnit::Test* const test) {
  */
 const CppUnit::Test*
 spatialdata::testing::TestDriver::_findTest(const CppUnit::Test* test,
-                                       const std::string& name) {
+                                            const std::string& name) {
     if (!test) { return NULL;}
     if (test->getName() == name) { return test; }
     if (!test->getChildTestCount()) { return NULL; }
