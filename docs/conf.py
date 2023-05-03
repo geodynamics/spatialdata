@@ -33,6 +33,7 @@ release = '3.0.0'
 extensions = [
     "myst_parser",
     "sphinx_design",
+    "sphinx_copybutton",
     "sphinxcontrib.bibtex",
 ]
 myst_enable_extensions = [
