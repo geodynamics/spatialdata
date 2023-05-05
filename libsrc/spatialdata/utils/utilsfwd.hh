@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -26,16 +26,14 @@
 #define spatialdata_utils_utilsfwd_hh
 
 namespace spatialdata {
-  namespace utils {
-    class LineParser;
-    class PointsStream;
+    namespace utils {
+        class LineParser;
+        class PointsStream;
 
-    class SpatialdataVersion;
-  } // utils
+        class SpatialdataVersion;
+    } // utils
 } // spatialdata
-
 
 #endif // spatialdata_utils_utilsfwd_hh
 
-
-// End of file 
+// End of file

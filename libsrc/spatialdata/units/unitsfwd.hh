@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -26,14 +26,12 @@
 #define spatialdata_units_unitsfwd_hh
 
 namespace spatialdata {
-  namespace units {
-    class Nondimensional;
-    class Parser;
-  } // units
+    namespace units {
+        class Nondimensional;
+        class Parser;
+    } // units
 } // spatialdata
-
 
 #endif // spatialdata_units_unitsfwd_hh
 
-
-// End of file 
+// End of file

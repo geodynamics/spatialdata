@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -27,58 +27,59 @@
 #include <iosfwd> // USES std::istream
 
 // ----------------------------------------------------------------------
-class spatialdata::spatialdb::SimpleIOAscii : public SimpleIO
-{ // SimpleIOAscii
+class spatialdata::spatialdb::SimpleIOAscii : public SimpleIO { // SimpleIOAscii
+public:
 
-public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  // Using default constructor.
-  
-  // Using default destructor.
+    // Using default constructor.
 
-  // Using default copy constructor
-  
-  /** Clone object.
-   *
-   * @returns Pointer copy of this.
-   */
-  SimpleIO* clone(void) const;
-  
-  /** Read the database.
-   *
-   * @param pData Database data
-   * @param ppCS Pointer to coordinate system
-   */
-  void read(SimpleDBData* pData,
-	    spatialdata::geocoords::CoordSys** ppCS);
+    // Using default destructor.
 
-  /** Write the database.
-   *
-   * @param data Database data
-   * @param pCS Pointer to coordinate system
-   */
-  void write(const SimpleDBData& data,
-	     const spatialdata::geocoords::CoordSys* pCS);
+    // Using default copy constructor
 
-private :
-  // PRIVATE METHODS ////////////////////////////////////////////////////
+    /** Clone object.
+     *
+     * @returns Pointer copy of this.
+     */
+    SimpleIO* clone(void) const;
 
-  /** Read database version 1 file.
-   *
-   * @param pData Database data
-   * @param ppCS Pointer to coordinate system
-   * @param filein File input stream
-   */
-  static void _readV1(SimpleDBData* pData,
-		      spatialdata::geocoords::CoordSys** ppCS,
-		      std::istream& filein);
+    /** Read the database.
+     *
+     * @param pData Database data
+     * @param ppCS Pointer to coordinate system
+     */
+    void read(SimpleDBData* pData,
+              spatialdata::geocoords::CoordSys** ppCS);
 
- private :
-  // PRIVATE MEMBERS ////////////////////////////////////////////////////
+    /** Write the database.
+     *
+     * @param data Database data
+     * @param pCS Pointer to coordinate system
+     */
+    void write(const SimpleDBData& data,
+               const spatialdata::geocoords::CoordSys* pCS);
 
-  /** Magic header in ascii files */
-  static const char* HEADER;
+private:
+
+    // PRIVATE METHODS ////////////////////////////////////////////////////
+
+    /** Read database version 1 file.
+     *
+     * @param pData Database data
+     * @param ppCS Pointer to coordinate system
+     * @param filein File input stream
+     */
+    static void _readV1(SimpleDBData* pData,
+                        spatialdata::geocoords::CoordSys** ppCS,
+                        std::istream& filein);
+
+private:
+
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////
+
+    /** Magic header in ascii files */
+    static const char* HEADER;
 
 }; // class SimpleIOAscii
 
@@ -89,4 +90,4 @@ private :
 // version
 // $Id$
 
-// End of file 
+// End of file

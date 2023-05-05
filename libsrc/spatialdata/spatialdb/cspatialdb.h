@@ -7,7 +7,7 @@
  * This code was developed as part of the Computational Infrastructure
  * for Geodynamics (http://geodynamics.org).
  *
- * Copyright (c) 2010-2022 University of California, Davis
+ * Copyright (c) 2010-2023 University of California, Davis
  *
  * See LICENSE.md for license information.
  *
@@ -29,12 +29,12 @@
  *
  * @returns 0 on success, 1 on failure (i.e., values not set)
  */
-int spatialdb_query(void* db, 
-		    double* vals,
-		    const int numVals,
-		    const double* coords,
-		    const int numDims,
-		    const void* cs);
+int spatialdb_query(void* db,
+                    double* vals,
+                    const int numVals,
+                    const double* coords,
+                    const int numDims,
+                    const void* cs);
 
 #endif /* spatialdata_cspatialdb_h */
 

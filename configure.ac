@@ -7,7 +7,7 @@ dnl
 dnl This code was developed as part of the Computational Infrastructure
 dnl for Geodynamics (http://geodynamics.org).
 dnl
-dnl Copyright (c) 2010-2022 University of California, Davis
+dnl Copyright (c) 2010-2023 University of California, Davis
 dnl
 dnl See LICENSE.md for license information.
 dnl

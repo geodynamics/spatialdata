@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -27,40 +27,40 @@
 #include <Python.h>
 
 /// C++ interface to Pyre units parser.
-class spatialdata::units::Parser
-{ // class Parser
-  friend class TestParser; // Unit testing
+class spatialdata::units::Parser { // class Parser
+    friend class TestParser; // Unit testing
 
-public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
+public:
 
-  /* MATT- I am not sure if we want just a single static method or we
-   *   want an object so that any setup/teardown is done once per
-   *   instantiation rather than each call to parse.
-   */
+    // PUBLIC METHODS /////////////////////////////////////////////////////
 
-  /// Default constructor
-  Parser(void);
+    /* MATT- I am not sure if we want just a single static method or we
+     *   want an object so that any setup/teardown is done once per
+     *   instantiation rather than each call to parse.
+     */
 
-  /// Default destructor
-  ~Parser(void);
+    /// Default constructor
+    Parser(void);
 
-  /** Get SI scaling factor for units given by string. To get value in
-   * SI units, multiple value given by units by scaling factor.
-   *
-   * @returns Scaling factor to convert to SI units.
-   */
-  double parse(const char* units);
+    /// Default destructor
+    ~Parser(void);
 
-private :
-  // PRIVATE MEMBERS ////////////////////////////////////////////////////
+    /** Get SI scaling factor for units given by string. To get value in
+     * SI units, multiple value given by units by scaling factor.
+     *
+     * @returns Scaling factor to convert to SI units.
+     */
+    double parse(const char* units);
 
-  PyObject* _parser;
-  bool _alreadyInitialized;
+private:
+
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////
+
+    PyObject* _parser;
+    bool _alreadyInitialized;
 
 }; // class Parser
 
 #endif // spatialdata_units_parser_hh
 
-
-// End of file 
+// End of file

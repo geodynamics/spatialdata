@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -29,14 +29,12 @@ spatialdata::units::Nondimensional::Nondimensional(void) :
     _pressure(1.0),
     _time(1.0),
     _density(1.0),
-    _temperature(1.0)
-{}
+    _temperature(1.0) {}
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::units::Nondimensional::~Nondimensional(void)
-{}
+spatialdata::units::Nondimensional::~Nondimensional(void) {}
 
 
 // ----------------------------------------------------------------------
@@ -46,8 +44,7 @@ spatialdata::units::Nondimensional::Nondimensional(const Nondimensional& dim) :
     _pressure(dim._pressure),
     _time(dim._time),
     _density(dim._density),
-    _temperature(dim._temperature)
-{}
+    _temperature(dim._temperature) {}
 
 
 // ----------------------------------------------------------------------

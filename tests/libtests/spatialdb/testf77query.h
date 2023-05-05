@@ -7,7 +7,7 @@
  * This code was developed as part of the Computational Infrastructure
  * for Geodynamics (http://geodynamics.org).
  *
- * Copyright (c) 2010-2022 University of California, Davis
+ * Copyright (c) 2010-2023 University of California, Davis
  *
  * See LICENSE.md for license information.
  *
@@ -19,7 +19,7 @@
 
 /** Fortran name mangling */
 #define testf77query \
-  FC_FUNC_(testf77query, TESTF77QUERY)
+    FC_FUNC_(testf77query, TESTF77QUERY)
 /** Call spatialdb_query_f().
  *
  * @param db Pointer to SpatialDB
@@ -32,11 +32,11 @@
  * @returns 0 on success, 1 on failure (i.e., values not set)
  */
 int testf77query(void* db,
-		 double* vals,
-		 int numVals,
-		 const double* coords,
-		 const int numDims,
-		 void* cs);
+                 double* vals,
+                 int numVals,
+                 const double* coords,
+                 const int numDims,
+                 void* cs);
 
 #endif /* spatialdata_spatialdb_testf77query_h */
 

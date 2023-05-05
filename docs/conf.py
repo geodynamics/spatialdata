@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SpatialData'
-copyright = '2021-2022, University of California, Davis'
+copyright = '2010-2023, University of California, Davis'
 author = 'Brad T. Aagaard'
 
 # The full version, including alpha/beta/rc tags
@@ -62,6 +62,13 @@ exclude_patterns = [
 #
 html_logo = "_static/images/cig_short_spatialdata.png"
 html_theme = 'pydata_sphinx_theme'
+html_context = {
+    "default_mode": "light",
+    "github_user": "geodynamics",
+    "github_repo": "spatialdata",
+    "github_version": "main",
+    "doc_path": "docs",
+}
 html_theme_options = {
     "collapse_navigation": True,
     "navigation_depth": 3,
@@ -73,12 +80,12 @@ html_theme_options = {
             "icon": "fab fa-github-square",
         },
     ],
+    "use_edit_page_button": True,
     "navbar_start": ["navbar-logo"],
-    "footer_items": ["last-updated"],
+    "footer_end": ["last-updated"],
+    "primary_sidebar_end": ["sidebar-cig"],
 }
-html_sidebars = {
-    "**": ["search-field", "sidebar-nav-bs", "sidebar-ethical-ads", "sidebar-cig"]
-}
+
 bibtex_bibfiles = ["references.bib"]
 bibtex_default_style = "alpha"
 bibtex_reference_style = "author_year"

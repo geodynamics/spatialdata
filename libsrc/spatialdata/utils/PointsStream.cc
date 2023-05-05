@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -30,14 +30,12 @@ spatialdata::utils::PointsStream::PointsStream(void) :
     _filename(""),
     _commentFlag("#"),
     _fieldWidth(14),
-    _precision(5)
-{}
+    _precision(5) {}
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::utils::PointsStream::~PointsStream(void)
-{}
+spatialdata::utils::PointsStream::~PointsStream(void) {}
 
 
 // ----------------------------------------------------------------------

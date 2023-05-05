@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -27,18 +27,17 @@
 #include <stdexcept> // ISA std::runtime_error
 
 /// C++ exceptions for spatial database.
-class spatialdata::spatialdb::OutOfBounds : public std::runtime_error
-{ // class OutOfBounds
+class spatialdata::spatialdb::OutOfBounds : public std::runtime_error { // class OutOfBounds
+public:
 
- public :
-  // PUBLIC METHODS /////////////////////////////////////////////////////
-  
-  /** Constructor.
-   *
-   * @msg Error message
-   */
-  OutOfBounds(const std::string& msg);
-  
+    // PUBLIC METHODS /////////////////////////////////////////////////////
+
+    /** Constructor.
+     *
+     * @msg Error message
+     */
+    OutOfBounds(const std::string& msg);
+
 }; // class OutOfBounds
 
 #include "Exception.icc" // inline methods
@@ -48,4 +47,4 @@ class spatialdata::spatialdb::OutOfBounds : public std::runtime_error
 // version
 // $Id$
 
-// End of file 
+// End of file
