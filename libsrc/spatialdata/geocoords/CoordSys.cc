@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -25,22 +25,19 @@
 // Default constructor
 spatialdata::geocoords::CoordSys::CoordSys(void) :
     _spaceDim(3),
-    _csType(CARTESIAN)
-{}
+    _csType(CARTESIAN) {}
 
 
 // ----------------------------------------------------------------------
 // Copy destructor
 spatialdata::geocoords::CoordSys::CoordSys(const CoordSys& cs) :
     _spaceDim(cs._spaceDim),
-    _csType(cs._csType)
-{}
+    _csType(cs._csType) {}
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CoordSys::~CoordSys(void)
-{}
+spatialdata::geocoords::CoordSys::~CoordSys(void) {}
 
 
 // ----------------------------------------------------------------------

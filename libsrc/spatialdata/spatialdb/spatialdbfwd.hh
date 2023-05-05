@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -26,33 +26,31 @@
 #define spatialdata_spatialdb_spatialdbfwd_hh
 
 namespace spatialdata {
-  namespace spatialdb {
-    class OutOfBounds;
+    namespace spatialdb {
+        class OutOfBounds;
 
-    class SpatialDB;
-    class SimpleDB;
-    class SimpleDBData;
-    class SimpleDBQuery;
-    class SimpleIO;
-    class SimpleIOAscii;
-    class UniformDB;
-    class SimpleGridDB;
-    class SimpleGridAscii;
-    class UserFunctionDB;
-    class CompositeDB;
-    class SCECCVMH;
-    class GocadVoxet;
+        class SpatialDB;
+        class SimpleDB;
+        class SimpleDBData;
+        class SimpleDBQuery;
+        class SimpleIO;
+        class SimpleIOAscii;
+        class UniformDB;
+        class SimpleGridDB;
+        class SimpleGridAscii;
+        class UserFunctionDB;
+        class CompositeDB;
+        class SCECCVMH;
+        class GocadVoxet;
 
-    class GravityField;
+        class GravityField;
 
-    class TimeHistory;
-    class TimeHistoryIO;
-    
-  } // spatialdb
+        class TimeHistory;
+        class TimeHistoryIO;
+
+    } // spatialdb
 } // spatialdata
-
 
 #endif // spatialdata_spatialdb_spatialdbfwd_hh
 
-
-// End of file 
+// End of file

@@ -7,7 +7,7 @@
 // This code was developed as part of the Computational Infrastructure
 // for Geodynamics (http://geodynamics.org).
 //
-// Copyright (c) 2010-2022 University of California, Davis
+// Copyright (c) 2010-2023 University of California, Davis
 //
 // See LICENSE.md for license information.
 //
@@ -26,13 +26,11 @@
 #define spatialdata_testing_testingfwd_hh
 
 namespace spatialdata {
-  namespace testing {
-    class TestDriver;
-  } // testing
+    namespace testing {
+        class TestDriver;
+    } // testing
 } // spatialdata
-
 
 #endif // spatialdata_testing_testingfwd_hh
 
-
-// End of file 
+// End of file
