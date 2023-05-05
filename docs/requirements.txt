@@ -2,4 +2,4 @@ myst-parser
 pydata-sphinx-theme
 sphinxcontrib.bibtex
 sphinx_design
-sphinx_copybutton
+sphinx-copybutton
