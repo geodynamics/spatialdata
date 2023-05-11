@@ -144,6 +144,14 @@ spatialdata::spatialdb::AnalyticDB::setData(const char* const* names,
 
 
 // ----------------------------------------------------------------------
+// Set filename containing data.
+void
+spatialdata::spatialdb::AnalyticDB::setCoordSys(const geocoords::CoordSys& cs) {
+    delete _cs;_cs = cs.clone();assert(_cs);
+} // setCoordSys
+
+
+// ----------------------------------------------------------------------
 // Get names of values in spatial database.
 void
 spatialdata::spatialdb::AnalyticDB::getNamesDBValues(const char*** valueNames,
@@ -174,7 +182,7 @@ spatialdata::spatialdb::AnalyticDB::setQueryValues(const char* const* names,
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryValues;_queryValues = new size_t[numVals];
+    delete[] _queryValues;_queryValues = new size_t[numVals];assert(_queryValues);
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
         while (iName < _numValues) {
@@ -205,7 +213,7 @@ spatialdata::spatialdb::AnalyticDB::query(double* vals,
                                           const size_t numVals,
                                           const double* coords,
                                           const size_t numDims,
-                                          const spatialdata::geocoords::CoordSys* pCSQuery) {
+                                          const spatialdata::geocoords::CoordSys* csQuery) {
     if (0 == _querySize) {
         std::ostringstream msg;
         msg << "Values to be returned by spatial database " << getDescription() << "\n"
@@ -226,9 +234,14 @@ spatialdata::spatialdb::AnalyticDB::query(double* vals,
     for (int d = 0; d < numDims; ++d) {
         _expVars[d] = coords[d];
     }
+    assert(csQuery);
+    assert(_cs);
     assert(_converter);
-    _converter->convert(_expVars, 1, numDims, _cs, pCSQuery);
+    _converter->convert(_expVars, 1, numDims, _cs, csQuery);
 
+    assert(_queryValues);
+    assert(_scales);
+    assert(_parsers);
     try {
         for (size_t iVal = 0; iVal < _querySize; ++iVal) {
             const size_t index = _queryValues[iVal];

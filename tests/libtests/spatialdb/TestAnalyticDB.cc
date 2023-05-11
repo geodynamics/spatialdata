@@ -20,6 +20,7 @@
 
 #include "spatialdata/spatialdb/AnalyticDB.hh" // USES AnalyticDB
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
+#include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
 #include <cmath> // USES fabs()
 
@@ -41,6 +42,7 @@ class spatialdata::spatialdb::TestAnalyticDB : public CppUnit::TestFixture {
     CPPUNIT_TEST(testGetNamesDBValues);
     CPPUNIT_TEST(testQueryVals);
     CPPUNIT_TEST(testQuery);
+    CPPUNIT_TEST(testQueryUTM);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -64,6 +66,9 @@ public:
 
     /// Test query()
     void testQuery(void);
+
+    /// Test query() WGS84 -> UTM.
+    void testQueryUTM(void);
 
 }; // class TestAnalyticDB
 CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestAnalyticDB);
@@ -197,8 +202,8 @@ spatialdata::spatialdb::TestAnalyticDB::testQuery(void) {
 
     db.setData(names, units, expressions, numValues);
     db.setQueryValues(queryNames, querySize);
-    double data[querySize];
 
+    double data[querySize];
     db.query(data, querySize, coords, spaceDim, &cs);
 
     for (size_t i = 0; i < querySize; ++i) {
@@ -208,6 +213,54 @@ spatialdata::spatialdb::TestAnalyticDB::testQuery(void) {
         CPPUNIT_ASSERT_DOUBLES_EQUAL(valE, data[i], tolerance);
     } // for
 } // testQuery
+
+
+// ----------------------------------------------------------------------
+// Test query() with WGS84 -> UTM.
+void
+spatialdata::spatialdb::TestAnalyticDB::testQueryUTM(void) {
+    AnalyticDB db;
+    const size_t spaceDim = 3;
+
+    spatialdata::geocoords::CSGeo csWGS84;
+    csWGS84.setString("EPSG:4326");
+    csWGS84.setSpaceDim(spaceDim);
+    const double coordsLL[spaceDim] = { 37.50, -122.30, 5.6 };
+
+    spatialdata::geocoords::CSGeo csUTM;
+    csUTM.setString("EPSG:32610");
+    csUTM.setSpaceDim(spaceDim);
+    const double coordsUTM[spaceDim] = { 561873.454241, 4150571.437855, 5.6 };
+
+    const size_t numValues = 3;
+    const char* names[numValues] = { "one", "two", "three" };
+    const char* units[numValues] = { "none", "km", "cm" };
+    const char* expressions[numValues] = { "x^2 + y^2", "x/z", "x + y + z" };
+    const double scales[numValues] = { 1.0, 1000.0, 0.01 };
+    const double values[numValues] = {
+        coordsUTM[0]*coordsUTM[0],
+        coordsUTM[0]/coordsUTM[2],
+        coordsUTM[0]+coordsUTM[1]+coordsUTM[2],
+    };
+
+    const size_t querySize = 2;
+    const char* queryNames[querySize] = { "three", "two" };
+    const size_t queryVals[querySize] = { 2, 1 };
+
+    db.setCoordSys(csUTM);
+    db.setData(names, units, expressions, numValues);
+    db.setQueryValues(queryNames, querySize);
+
+    double data[querySize];
+    db.query(data, querySize, coordsLL, spaceDim, &csWGS84);
+
+    for (size_t i = 0; i < querySize; ++i) {
+        const size_t index = queryVals[i];
+        const double valE = scales[index] * values[index];
+        const double tolerance = fabs(valE) > 0.0 ? fabs(valE) * 1.0e-6 : 1.0e-6;
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(valE, data[i], tolerance);
+    } // for
+} // testQueryUTM
 
 
 // End of file

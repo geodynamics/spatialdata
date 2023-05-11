@@ -63,6 +63,12 @@ public:
                  const char* const* expressions,
                  const size_t numValues);
 
+    /** Set coordinate system associated with user functions.
+     *
+     * @param cs Coordinate system.
+     */
+    void setCoordSys(const spatialdata::geocoords::CoordSys& cs);
+
     /// Open the database and prepare for querying.
     void open(void);
 
@@ -96,7 +102,7 @@ public:
      * @param numValues Number of values expected (size of pVals array)
      * @param coords Coordinates of point for query
      * @param numDims Number of dimensions for coordinates
-     * @param pCSQuery Coordinate system of coordinates
+     * @param csQuery Coordinate system of coordinates
      *
      * @returns 0 on success, 1 on failure (i.e., could not interpolate
      *   so values set to 0)
@@ -105,7 +111,7 @@ public:
               const size_t numValues,
               const double* coords,
               const size_t numDims,
-              const spatialdata::geocoords::CoordSys* pCSQuery);
+              const spatialdata::geocoords::CoordSys* csQuery);
 
 private:
 

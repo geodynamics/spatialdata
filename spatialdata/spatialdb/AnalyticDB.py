@@ -43,6 +43,10 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
     expressions = pythia.pyre.inventory.list("expressions", default=[])
     expressions.meta['tip'] = "Analytical expressions for values in spatial database."
 
+    from spatialdata.geocoords.CSCart import CSCart
+    cs = pythia.pyre.inventory.facility("coordsys", factory=CSCart)
+    cs.meta['tip'] = "Coordinate system."
+
     def __init__(self, name="AnalyticDB"):
         """
         Constructor.
@@ -57,6 +61,8 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
         """
         SpatialDBObj._configure(self)
         self._validateParameters(self.inventory)
+        self.cs._configure()
+        ModuleAnalyticDB.setCoordSys(self, self.cs)
         values = []
         for v in self.values:
             values.append(v.strip())
