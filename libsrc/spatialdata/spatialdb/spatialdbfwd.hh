@@ -36,6 +36,7 @@ namespace spatialdata {
         class SimpleIO;
         class SimpleIOAscii;
         class UniformDB;
+        class AnalyticDB;
         class SimpleGridDB;
         class SimpleGridAscii;
         class UserFunctionDB;

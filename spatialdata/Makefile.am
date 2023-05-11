@@ -13,6 +13,7 @@
 # ----------------------------------------------------------------------
 
 install-exec-local:
+	echo $(top_srcdir)
 	$(PYTHON) -m pip install $(top_srcdir)
 
 EXTRA_DIST = \
@@ -22,6 +23,7 @@ EXTRA_DIST = \
 	geocoords/Converter.py \
 	geocoords/CoordSys.py \
 	geocoords/__init__.py \
+	spatialdb/AnalyticDB.py \
 	spatialdb/CompositeDB.py \
 	spatialdb/GravityField.py \
 	spatialdb/SCECCVMH.py \
@@ -34,6 +36,7 @@ EXTRA_DIST = \
 	spatialdb/TimeHistory.py \
 	spatialdb/TimeHistoryIO.py \
 	spatialdb/UniformDB.py \
+	spatialdb/AnalyticDB.py \
 	spatialdb/UserFunctionDB.py \
 	spatialdb/__init__.py \
 	spatialdb/generator/GenSimpleDBApp.py \

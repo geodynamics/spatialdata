@@ -1,3 +1,7 @@
+## Version 3.1.0 (TBD)
+
+* Add `AnalyticDB` for a spatial database composed of analytic functions.
+
 ## Version 3.0.0 (2022/06/06)
 
 * Convert to Python 3

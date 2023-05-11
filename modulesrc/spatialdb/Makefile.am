@@ -30,6 +30,7 @@ swig_sources = \
 	SimpleIO.i \
 	SimpleIOAscii.i \
 	UniformDB.i \
+	AnalyticDB.i \
 	SimpleGridDB.i \
 	CompositeDB.i \
 	SCECCVMH.i \

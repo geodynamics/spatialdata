@@ -73,7 +73,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
                 units.append("none")
         values = []
         for v in self.values:
-            values.append(v.lstrip().rstrip())
+            values.append(v.strip())
         ModuleUniformDB.setData(self, values, units, data)
 
     def _createModuleObj(self):

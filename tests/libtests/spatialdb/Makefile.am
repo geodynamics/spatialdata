@@ -23,6 +23,7 @@ TESTS = testspatial
 check_PROGRAMS = testspatial
 
 testspatial_SOURCES = \
+  TestAnalyticDB.cc \
 	TestUniformDB.cc \
 	TestUserFunctionDB.cc \
 	TestUserFunctionDB_Cases.cc \
@@ -54,7 +55,7 @@ noinst_HEADERS = \
 
 testspatial_LDFLAGS =
 
-AM_CPPFLAGS += -I$(PYTHON_INCDIR) 
+AM_CPPFLAGS += -I$(PYTHON_INCDIR)
 
 testspatial_LDADD = \
 	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
