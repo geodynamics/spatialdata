@@ -18,7 +18,7 @@ from .spatialdb import AnalyticDB as ModuleAnalyticDB
 
 class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
     """
-    Spatial database with uniform values.
+    Spatial database composed of analytic functions.
 
     Implements `SpatialDB`.
     """
@@ -29,6 +29,8 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
             values = [density, vp, vs]
             units = [kg/m**3, km/s, m/s]
             expressions = [2.0*x-y, 2.0x*x/(y*y), -2.0*z]
+            cs = spatialdata.geocoords.CSCart
+            cs.space_dim = 3
             """,
     }
 
