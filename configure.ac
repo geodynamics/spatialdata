@@ -15,7 +15,7 @@ dnl ----------------------------------------------------------------------
 dnl
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [3.0.0], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [3.1.0dev], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
