@@ -1,8 +1,8 @@
 # UniformDB
 
 If the values for a field a uniform (same everywhere), then a `UniformDB` or `SimpleDB` should be used.
-The main difference between the two is that a `UniformDB` is specified programatically, whereas a `SimpleDB` is specified using a data file.
-If the values are used in multiple places, then it is usually easier to create a `SimpleDB` data file and reuse it rather than creating a `UniformDB` programatically each time.
+The main difference between the two is that a `UniformDB` is specified programmatically, whereas a `SimpleDB` is specified using a data file.
+If the values are used in multiple places, then it is usually easier to create a `SimpleDB` data file and reuse it rather than creating a `UniformDB` programmatically each time.
 
 :::{admonition} Pyre User Interface
 See [UniformDB component](../components/spatialdb/UniformDB.md).
@@ -39,7 +39,7 @@ db.setData(names, units, values, numValues);
 
 :::{tab-item} Python
 Python applications should use the Pyre framework for creating the `UniformDB`.
-We show how to do it programatically in Python for completeness.
+We show how to do it programmatically in Python for completeness.
 
 ```{code-block} python
 ---
