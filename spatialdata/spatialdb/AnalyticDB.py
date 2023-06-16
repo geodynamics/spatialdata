@@ -81,23 +81,23 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
         Validate parameters.
         """
         if len(params.values) == 0:
-            raise ValueError("Values in AnalyticDB '%s' not specified.", self.label)
+            raise ValueError("Values in AnalyticDB '%s' not specified.", self.description)
         if len(params.units) == 0:
-            raise ValueError("Units for AnalyticDB '%s' not specified." % self.label)
+            raise ValueError("Units for AnalyticDB '%s' not specified." % self.description)
         if len(params.expressions) == 0:
-            raise ValueError("Analytical expressions for AnalyticDB '%s' not specified." % self.label)
+            raise ValueError("Analytical expressions for AnalyticDB '%s' not specified." % self.description)
         if len(params.values) != len(params.units or len(params.values) != len(params.expressions)):
             raise ValueError("Incompatible settings for uniform spatial database '%s'.\n"
                              "'values', 'units', and 'expressions' must be lists of the same size.\n"
                              "Size of 'values'=%d, 'units'=%d, and 'expressions'=%d."
-                             % (self.label, len(params.values), len(params.units), len(params.expressions)))
+                             % (self.description, len(params.values), len(params.units), len(params.expressions)))
         try:
             for x in params.units:
                 if len(str(x).split("*")) > 1:
                     xdim = self.parser.parse(str(x))
         except:
             raise ValueError(
-                "'units' for AnalyticDB '%s' must contain dimensioned or nondimensional values." % self.label)
+                "'units' for AnalyticDB '%s' must contain dimensioned or nondimensional values." % self.description)
 
 
 def spatial_database():

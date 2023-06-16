@@ -84,7 +84,7 @@ class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
         elif label.lower() == "linear":
             value = ModuleSimpleGridDB.LINEAR
         else:
-            raise ValueError("Unknown value for query type '%s' in spatial database %s." % (label, self.label))
+            raise ValueError("Unknown value for query type '%s' in spatial database %s." % (label, self.description))
         return value
 
 

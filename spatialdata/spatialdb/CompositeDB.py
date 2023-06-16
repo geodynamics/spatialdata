@@ -86,10 +86,10 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
         """
         if (0 == len(data.namesA)):
             raise ValueError("Error in spatial database '%s'\n"
-                             "Names of values to query in database A not set." % self.label)
+                             "Names of values to query in database A not set." % self.description)
         if (0 == len(data.namesB)):
             raise ValueError("Error in spatial database '%s'\n"
-                             "Names of values to query in database B not set." % self.label)
+                             "Names of values to query in database B not set." % self.description)
         return
 
 
