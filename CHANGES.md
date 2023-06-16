@@ -1,6 +1,8 @@
 ## Version 3.1.0 (TBD)
 
 * Add `AnalyticDB` for a spatial database composed of analytic functions.
+* Bugfixes
+  - Update spatial database validateParameters() to use correct data member (self.label -> self.description).
 
 ## Version 3.0.0 (2022/06/06)
 
