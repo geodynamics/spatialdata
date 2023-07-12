@@ -1,0 +1,60 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build lib",
+            "type": "shell",
+            "command": "make install -j -l8.0",
+            "group": "build",
+            "options": {
+                "cwd": "${env:SPATIALDATA_BUILDDIR}/libsrc"
+            }
+        },
+        {
+            "label": "Build modules",
+            "type": "shell",
+            "command": "make install -j -l8.0",
+            "group": "build",
+            "options": {
+                "cwd": "${env:SPATIALDATA_BUILDDIR}/modulesrc"
+            }
+        },
+        {
+            "label": "Build Python modules",
+            "type": "shell",
+            "command": "make install -j -l8.0",
+            "group": "build",
+            "options": {
+                "cwd": "${env:SPATIALDATA_BUILDDIR}/spatialdata"
+            }
+        },
+        {
+            "label": "Build all",
+            "type": "shell",
+            "command": "make install -j -l8.0",
+            "group": "build",
+            "options": {
+                "cwd": "${env:SPATIALDATA_BUILDDIR}"
+            }
+        },
+        {
+            "label": "Run pytests",
+            "type": "shell",
+            "command": "make check",
+            "group": "test",
+            "options": {
+                "cwd": "${env:SPATIALDATA_BUILDDIR}/tests/pytests"
+            }
+        },
+        {
+            "label": "Run all tests",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Run libtests",
+                "Run pytests"
+            ]
+        }
+    ]
+}

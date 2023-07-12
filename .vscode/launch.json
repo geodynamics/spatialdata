@@ -1,0 +1,85 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "libtests geocoords",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/geocoords/.libs/libtest_geocoords",
+            "stopAtEntry": false,
+            "cwd": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/geocoords/",
+            "environment": [],
+            "externalConsole": false,
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            }
+        },
+        {
+            "name": "libtests spatialdb",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/spatialdb/.libs/libtest_spatialdb",
+            "stopAtEntry": false,
+            "cwd": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/spatialdb/",
+            "environment": [],
+            "externalConsole": false,
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            }
+        },
+        {
+            "name": "libtests units",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/units/.libs/libtest_units",
+            "stopAtEntry": false,
+            "cwd": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/units/",
+            "environment": [],
+            "externalConsole": false,
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            }
+        },
+        {
+            "name": "libtests utils",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/utils/.libs/libtest_utils",
+            "stopAtEntry": false,
+            "cwd": "${env:SPATIALDATA_BUILDDIR}/tests/libtests/utils/",
+            "environment": [],
+            "externalConsole": false,
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            }
+        },
+        {
+            "name": "Attach to process",
+            "type": "cppdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "program": "/bin/bash", // Any program that exists
+            "linux": {
+                "MIMode": "gdb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            }
+        }
+    ]
+}
