@@ -16,50 +16,58 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
+
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
 
 #include <math.h> // USES M_PI
 
 #include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace geocoords {
         class TestCSGeo;
     } // geocoords
 } // spatialdata
 
-class spatialdata::geocoords::TestCSGeo : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestCSGeo);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testComputeSurfaceNormal);
-    CPPUNIT_TEST(testPickle);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::geocoords::TestCSGeo {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test constructor
+    static
     void testConstructor(void);
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test computeSurfaceNormal().
+    static
     void testComputeSurfaceNormal(void);
 
     /// Test pickle() & unpickle()
+    static
     void testPickle(void);
 
 }; // class TestCSGeo
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestCSGeo);
+
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestCSGeo::testConstructor", "[TestCSGeo]") {
+    spatialdata::geocoords::TestCSGeo::testConstructor();
+}
+TEST_CASE("TestCSGeo::testAccessors", "[TestCSGeo]") {
+    spatialdata::geocoords::TestCSGeo::testAccessors();
+}
+TEST_CASE("TestCSGeo::testComputeSurfaceNormal", "[TestCSGeo]") {
+    spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal();
+}
+TEST_CASE("TestCSGeo::testPickle", "[TestCSGeo]") {
+    spatialdata::geocoords::TestCSGeo::testPickle();
+}
 
 // ----------------------------------------------------------------------
 // Test constructor
@@ -69,17 +77,17 @@ spatialdata::geocoords::TestCSGeo::testConstructor(void) {
     const size_t defaultSpaceDim(3);
 
     CSGeo cs;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system type.", CoordSys::GEOGRAPHIC, cs.getCSType());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default coordinate system string.", defaultCSString, std::string(cs.getString()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mis match in default coordinate system dimension.", defaultSpaceDim, cs.getSpaceDim());
+    CHECK(CoordSys::GEOGRAPHIC == cs.getCSType());
+    CHECK(defaultCSString == std::string(cs.getString()));
+    CHECK(defaultSpaceDim == cs.getSpaceDim());
 
     const std::string cloneCSString("EPSG:4269");
     const size_t cloneSpaceDim(2);
 
     cs.setSpaceDim(2);
-    CoordSys* csClone = cs.clone();CPPUNIT_ASSERT(csClone);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in clone coordinate system type.", CoordSys::GEOGRAPHIC, csClone->getCSType());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in clone coordinate system dimension.", cloneSpaceDim, csClone->getSpaceDim());
+    CoordSys* csClone = cs.clone();assert(csClone);
+    CHECK(CoordSys::GEOGRAPHIC == csClone->getCSType());
+    CHECK(cloneSpaceDim == csClone->getSpaceDim());
     delete csClone;csClone = NULL;
 } // testConstructor
 
@@ -95,8 +103,8 @@ spatialdata::geocoords::TestCSGeo::testAccessors(void) {
     cs.setString(csString.c_str());
     cs.setSpaceDim(spaceDim);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system string.", csString, std::string(cs.getString()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, cs.getSpaceDim());
+    CHECK(csString == std::string(cs.getString()));
+    CHECK(spaceDim == cs.getSpaceDim());
 } // testAccessors
 
 
@@ -121,9 +129,9 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         cs.setSpaceDim(numDims);
         cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
         for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in x-component of surface normal (WGS84).", 0.0, dirs[i++]);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in y-component of surface normal (WGS84).", 0.0, dirs[i++]);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in z-component of surface normal (WGS84).", 1.0, dirs[i++]);
+            CHECK(0.0 == dirs[i++]);
+            CHECK(0.0 == dirs[i++]);
+            CHECK(1.0 == dirs[i++]);
         } // for
         delete[] dirs;dirs = 0;
     } // WGS84
@@ -143,9 +151,9 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         cs.setSpaceDim(numDims);
         cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
         for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in x-component of surface normal (UTM).", 0.0, dirs[i++]);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in y-component of surface normal (UTM).", 0.0, dirs[i++]);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in z-component of surface normal (UTM).", 1.0, dirs[i++]);
+            CHECK(0.0 == dirs[i++]);
+            CHECK(0.0 == dirs[i++]);
+            CHECK(1.0 == dirs[i++]);
         } // for
         delete[] dirs;dirs = 0;
     } // UTM zone 10
@@ -176,9 +184,9 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const double tolerance = 1.0e-6;
         for (size_t i = 0; i < size; ++i) {
             if (fabs(dirsE[i]) > tolerance) {
-                CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value (ECEF).", 1.0, dirs[i]/dirsE[i], tolerance);
+                CHECK_THAT(dirs[i]/dirsE[i], Catch::Matchers::WithinAbs(1.0, tolerance));
             } else {
-                CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value (ECEF).", dirsE[i], dirs[i], tolerance);
+                CHECK_THAT(dirs[i], Catch::Matchers::WithinAbs(dirsE[i], tolerance));
             } // if/else
         }
         delete[] dirs;dirs = 0;
@@ -203,8 +211,8 @@ spatialdata::geocoords::TestCSGeo::testPickle(void) {
     CSGeo csB;
     csB.unpickle(s);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate system string.", csString, std::string(csB.getString()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, csB.getSpaceDim());
+    CHECK(csString == std::string(csB.getString()));
+    CHECK(spaceDim == csB.getSpaceDim());
 } // testPickle
 
 

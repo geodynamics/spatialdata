@@ -14,28 +14,20 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/tests/check.am
 
-TESTS = testgeocoords
+TESTS = libtest_geocoords
 
-check_PROGRAMS = testgeocoords
+check_PROGRAMS = libtest_geocoords
 
-testgeocoords_SOURCES = \
+libtest_geocoords_SOURCES = \
 	TestCSCart.cc \
 	TestCSGeo.cc \
 	TestCSPicklerAscii.cc \
 	TestConverter.cc \
 	TestConverter_Cases.cc \
-	test_driver.cc
+	$(top_srcdir)/tests/src/driver_catch2.cc
 
-
-testgeocoords_LDFLAGS =
-
-testgeocoords_LDADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
-	-lproj \
-	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 noinst_HEADERS = \
 	TestConverter.hh
