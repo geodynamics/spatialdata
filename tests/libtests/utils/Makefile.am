@@ -14,7 +14,7 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/tests/check.am
 
 TESTS = testutils
 

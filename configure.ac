@@ -30,9 +30,9 @@ AC_ARG_ENABLE([swig],
 	[enable_swig=no])
 AM_CONDITIONAL([ENABLE_SWIG], [test "$enable_swig" = yes])
 
-dnl TESTING w/cppunit and Python unittest
+dnl TESTING w/Catch2 and Python unittest
 AC_ARG_ENABLE([testing],
-	[  --enable-testing        Enable unit testing with cppunit (requires cppunit) [[default=no]]],
+	[  --enable-testing        Enable unit testing with Catch2 (requires Catch2) [[default=no]]],
 	[if test "$enableval" = yes ; then enable_testing=yes; else enable_testing=no; fi],
 	[enable_testing=no])
 AM_CONDITIONAL([ENABLE_TESTING], [test "$enable_testing" = yes])
@@ -52,7 +52,7 @@ AC_SUBST(python_coverage)
 
 dnl TESTING w/SCEC CVM-H
 AC_ARG_ENABLE([scec-cvm-h],
-	[  --enable-scec-cvm-h=DIR    Enable unit testing with SCEC CVM-H (requires cppunit and SCEC CVM-H data files) [[default=no]]],
+	[  --enable-scec-cvm-h=DIR    Enable unit testing with SCEC CVM-H (requires catch2 and SCEC CVM-H data files) [[default=no]]],
 	[],
 	[enable_scec_cvm_h=no])
 
@@ -65,18 +65,19 @@ AM_PROG_CC_C_O
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
 
-dnl Require C++-11
-AX_CXX_COMPILE_STDCXX(11)
+dnl Require C++-14 (Catch2)
+AX_CXX_COMPILE_STDCXX(14)
 
 dnl ----------------------------------------------------------------------
 dnl PROJ
 CIT_PROJ6_HEADER
 CIT_PROJ6_LIB
 
-dnl CPPUNIT
+dnl CATCH2
 if test "$enable_testing" = "yes" ; then
-  CIT_CPPUNIT_HEADER
-  CIT_CPPUNIT_LIB
+  CIT_CATCH2_HEADER
+  CIT_CATCH2_LIB
+
   if test "$enable_scec_cvm_h" != "no" ; then
     AC_SUBST([SCECCVMH_DATADIR], ["$enable_scec_cvm_h"])
     AC_CHECK_FILE([$enable_scec_cvm_h/topo.vo], [], [
@@ -145,7 +146,6 @@ AC_CONFIG_FILES([Makefile
 	libsrc/spatialdata/spatialdb/Makefile
 	libsrc/spatialdata/units/Makefile
 	libsrc/spatialdata/utils/Makefile
-	libsrc/spatialdata/testing/Makefile
 	libsrc/spatialdata/muparser/Makefile
 	modulesrc/Makefile
 	modulesrc/include/Makefile
@@ -155,6 +155,7 @@ AC_CONFIG_FILES([Makefile
 	modulesrc/utils/Makefile
 	spatialdata/Makefile
 	tests/Makefile
+	tests/src/Makefile
 	tests/libtests/Makefile
 	tests/libtests/geocoords/Makefile
 	tests/libtests/spatialdb/Makefile

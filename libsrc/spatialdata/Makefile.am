@@ -19,7 +19,6 @@ SUBDIRS = \
 	spatialdb \
 	units \
 	utils \
-	testing \
 	muparser
 
 lib_LTLIBRARIES = libspatialdata.la
@@ -70,13 +69,6 @@ libspatialdata_la_LIBADD = \
 AM_CPPFLAGS = -I$(top_srcdir)/libsrc
 AM_CPPFLAGS += -DDATADIR=$(pkgdatadir)/geocoords -I$(PYTHON_INCDIR)
 
-
-if ENABLE_TESTING
-libspatialdata_la_SOURCES += \
-	testing/TestDriver.cc
-
-libspatialdata_la_LIBADD += -lcppunit
-endif
 
 dist_noinstall = \
 	README.rst \

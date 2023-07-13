@@ -14,7 +14,7 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/tests/check.am
 
 TESTS = test_units.py
 dist_check_SCRIPTS = test_units.py

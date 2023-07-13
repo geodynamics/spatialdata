@@ -14,14 +14,20 @@
 # ----------------------------------------------------------------------
 #
 
-subpackage = testing
-include $(top_srcdir)/subpackage.am
+AM_CPPFLAGS = -I$(top_srcdir)/libsrc -I$(PYTHON_INCDIR)
 
-subpkginclude_HEADERS = \
-	TestDriver.hh \
-	testingfwd.hh
+LDFLAGS += $(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
 
-noinst_HEADERS =
+LDADD = \
+	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
+	-lproj \
+	-lCatch2 -ldl \
+	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
-# End of file 
+
+check-local: check-TESTS
+	for f in $(TEST_LOGS); do printf "\n=== $$f ===\n\n"; cat $$f; done
+
+
+# End of file
