@@ -25,9 +25,9 @@
 #if !defined(spatialdata_spatialdb_testsimpledb_hh)
 #define spatialdata_spatialdb_testsimpledb_hh
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
+
+#include <cstddef> // USES size_t
 
 namespace spatialdata {
     namespace spatialdb {
@@ -36,30 +36,23 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestSimpleDB : public CppUnit::TestFixture {
-    CPPUNIT_TEST_SUITE(TestSimpleDB);
-
-    CPPUNIT_TEST(testConstructors);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryNearest);
-    CPPUNIT_TEST(testQueryLinear);
-
-    CPPUNIT_TEST_SUITE_END_ABSTRACT();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestSimpleDB {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Initialize test subject.
-    void setUp(void);
+    /// Constructor.
+    TestSimpleDB(TestSimpleDB_Data* data);
 
-    /// Deallocate test data;
-    void tearDown(void);
+    /// Destructor.
+    ~TestSimpleDB(void);
 
     /// Test constructors.
+    static
     void testConstructors(void);
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test getNamesDBValues().
@@ -73,19 +66,19 @@ public:
 
 protected:
 
-    // PROTECTED METHODS //////////////////////////////////////////////////
+    // PROTECTED METHODS //////////////////////////////////////////////////////////////////////////
 
     /// Populate database with data.
     void _initializeDB(void);
 
 protected:
 
-    // PROTECTED MEMBERS //////////////////////////////////////////////////
+    // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
 
     SimpleDB* _db; ///< Test subject
     TestSimpleDB_Data* _data; ///< Data for tests.
 
-    // PRIVATE METHODS ////////////////////////////////////////////////////
+    // PRIVATE METHODS ////////////////////////////////////////////////////////////////////////////
 private:
 
     /** Test query method by doing query and checking values returned.
@@ -98,8 +91,9 @@ private:
 
 }; // class TestSimpleDB
 
+// ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDB_Data {
-    // PUBLIC METHODS ///////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Constructor
@@ -108,7 +102,7 @@ public:
     /// Destructor
     ~TestSimpleDB_Data(void);
 
-    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+    // PUBLIC MEMBERS ////////////////////////////////////////////////////////////////////////////
 public:
 
     size_t numLocs;

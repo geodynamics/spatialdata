@@ -25,9 +25,10 @@
 #if !defined(spatialdata_spatialdb_testsimplegriddb_hh)
 #define spatialdata_spatialdb_testsimplegriddb_hh
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
+
+#include <cstddef> // USES size_t
+#include <cassert>
 
 namespace spatialdata {
     namespace spatialdb {
@@ -36,40 +37,31 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestSimpleGridDB : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestSimpleGridDB);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testSearch);
-    CPPUNIT_TEST(testDataIndex);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryNearest);
-    CPPUNIT_TEST(testQueryLinear);
-    CPPUNIT_TEST(testRead);
-
-    CPPUNIT_TEST_SUITE_END_ABSTRACT();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestSimpleGridDB {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Setup testing data.
-    void setUp(void);
+    /// Constructor.
+    TestSimpleGridDB(TestSimpleGridDB_Data* data);
 
-    /// Tear down testing data.
-    void tearDown(void);
+    /// Destructor.
+    ~TestSimpleGridDB(void);
 
     /// Test constructor.
+    static
     void testConstructor(void);
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test _search()
+    static
     void testSearch(void);
 
     /// Test _dataIndex()
+    static
     void testDataIndex(void);
 
     /// Test getNamesDBValues().
@@ -84,7 +76,7 @@ public:
     /// Test read().
     void testRead(void);
 
-    // PRIVATE METHODS ////////////////////////////////////////////////////
+    // PRIVATE METHODS ////////////////////////////////////////////////////////////////////////////
 private:
 
     /** Populate database with data.
@@ -112,16 +104,17 @@ private:
                      const size_t spaceDim,
                      const size_t numVals);
 
-protected:
+private:
 
-    // PROTECTED MEMBERS //////////////////////////////////////////////////
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////////////////////////////
 
     TestSimpleGridDB_Data* _data; ///< Test data.
 
 }; // class TestSimpleGridDB
 
+// ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleGridDB_Data {
-    // PUBLIC METHODS ///////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Constructor

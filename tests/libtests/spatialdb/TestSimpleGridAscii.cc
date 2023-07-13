@@ -16,44 +16,53 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "spatialdata/spatialdb/SimpleGridAscii.hh" // Test subject
 
 #include "spatialdata/spatialdb/SimpleGridDB.hh" // USES SimpleGridDB
-#include "spatialdata/spatialdb/SimpleGridAscii.hh" // USES SimpleGridAscii
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USE CSGeo
 
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
+
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class TestSimpleGridAscii;
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestSimpleGridAscii : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestSimpleGridAscii);
-
-    CPPUNIT_TEST(testIOCSCart);
-    CPPUNIT_TEST(testIOCSGeo);
-    CPPUNIT_TEST(testReadComments);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestSimpleGridAscii {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test read() and write() with CSCart.
+    static
     void testIOCSCart(void);
 
     /// Test read() and write() with CSGeo.
+    static
     void testIOCSGeo(void);
 
     /// Test read() with comments.
+    static
     void testReadComments(void);
 
 }; // class TestSimpleGridAscii
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestSimpleGridAscii);
+
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestSimpleGridAscii::testIOCSCart", "[TestSimpleGridAscii]") {
+    spatialdata::spatialdb::TestSimpleGridAscii::testIOCSCart();
+}
+TEST_CASE("TestSimpleGridAscii::testIOCSGeo", "[TestSimpleGridAscii]") {
+    spatialdata::spatialdb::TestSimpleGridAscii::testIOCSGeo();
+}
+TEST_CASE("TestSimpleGridAscii::testReadComments", "[TestSimpleGridAscii]") {
+    spatialdata::spatialdb::TestSimpleGridAscii::testReadComments();
+}
 
 // ----------------------------------------------------------------------
 // Test filename(), write(), read().
@@ -108,29 +117,30 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSCart(void) {
     dbIn.setFilename(filename);
     dbIn.open();
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along x axis.", numX, dbIn._numX);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along y axis.", numY, dbIn._numY);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along z axis.", numZ, dbIn._numZ);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValues, dbIn._numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dbIn._dataDim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dbIn._spaceDim);
+    CHECK(numX == dbIn._numX);
+    CHECK(numY == dbIn._numY);
+    CHECK(numZ == dbIn._numZ);
+    CHECK(dataDim == dbIn._dataDim);
+    CHECK(spaceDim == dbIn._spaceDim);
+    REQUIRE(numValues == dbIn._numValues);
 
-    CPPUNIT_ASSERT(dbIn._names);
-    CPPUNIT_ASSERT(dbIn._units);
+    CHECK(dbIn._names);
+    CHECK(dbIn._units);
     for (size_t iVal = 0; iVal < numValues; ++iVal) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", std::string(names[iVal]), dbIn._names[iVal]);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", std::string(units[iVal]), dbIn._units[iVal]);
+        CHECK(std::string(names[iVal]) == dbIn._names[iVal]);
+        CHECK(std::string(units[iVal]) == dbIn._units[iVal]);
     } // for
 
     // Check to make sure values were read in correctly
-    CPPUNIT_ASSERT(dbIn._data);
+    assert(dbIn._data);
     const double tolerance = 1.0e-06;
     for (size_t iX = 0, i = 0; iX < numX; ++iX) {
         for (size_t iZ = 0; iZ < numZ; ++iZ) {
             for (size_t iY = 0; iY < numY; ++iY) {
                 const size_t iD = dbIn._getDataIndex(iX, numX, iY, numY, iZ, numZ);
                 for (size_t iVal = 0; iVal < numValues; ++iVal, ++i) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", 1.0, dbIn._data[iD+iVal]/data[i], tolerance);
+                    const double toleranceV = (fabs(data[i]) > 0.0) ? tolerance*data[i] : tolerance;
+                    CHECK_THAT(dbIn._data[iD+iVal], Catch::Matchers::WithinAbs(data[i], toleranceV));
                 } // for
             } // for
         } // for
@@ -154,9 +164,11 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSCart(void) {
     for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
         double data[numValues];
         int err = dbIn.query(data, numValues, &points[iLoc*spaceDim], spaceDim, &csOut);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", errE[iLoc], err);
+        REQUIRE(errE[iLoc] == err);
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in query.", 1.0, data[iVal]/dataE[iLoc*numValues+iVal], tolerance);
+            const double valueE = dataE[iLoc*numValues+iVal];
+            const double toleranceV = fabs(valueE) > 0.0 ? tolerance*valueE : tolerance;
+            CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(valueE, tolerance));
         } // for
     } // for
 } // testIOCSCart
@@ -217,30 +229,30 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSGeo(void) {
     dbIn.setFilename(filename);
     dbIn.open();
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along x axis.", numX, dbIn._numX);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along y axis.", numY, dbIn._numY);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along z axis.", numZ, dbIn._numZ);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValues, dbIn._numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dbIn._dataDim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dbIn._spaceDim);
+    CHECK(numX == dbIn._numX);
+    CHECK(numY == dbIn._numY);
+    CHECK(numZ == dbIn._numZ);
+    CHECK(dataDim == dbIn._dataDim);
+    CHECK(spaceDim == dbIn._spaceDim);
+    REQUIRE(numValues == dbIn._numValues);
 
-    CPPUNIT_ASSERT(dbIn._names);
-    CPPUNIT_ASSERT(dbIn._units);
+    CHECK(dbIn._names);
+    CHECK(dbIn._units);
     for (size_t iVal = 0; iVal < numValues; ++iVal) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", std::string(names[iVal]), dbIn._names[iVal]);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", std::string(units[iVal]), dbIn._units[iVal]);
+        CHECK(std::string(names[iVal]) == dbIn._names[iVal]);
+        CHECK(std::string(units[iVal]) == dbIn._units[iVal]);
     } // for
 
     // Check to make sure values were read in correctly
-    CPPUNIT_ASSERT(dbIn._data);
+    assert(dbIn._data);
     const double tolerance = 1.0e-06;
     for (size_t iX = 0, i = 0; iX < numX; ++iX) {
         for (size_t iZ = 0; iZ < numZ; ++iZ) {
             for (size_t iY = 0; iY < numY; ++iY) {
                 const size_t iD = dbIn._getDataIndex(iX, numX, iY, numY, iZ, numZ);
                 for (size_t iVal = 0; iVal < numValues; ++iVal, ++i) {
-                    const double toleranceV = tolerance*data[i];
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", data[i], dbIn._data[iD+iVal], toleranceV);
+                    const double toleranceV = (fabs(data[i]) > 0.0) ? tolerance*data[i] : tolerance;
+                    CHECK_THAT(dbIn._data[iD+iVal], Catch::Matchers::WithinAbs(data[i], toleranceV));
                 } // for
             } // for
         } // for
@@ -264,10 +276,11 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSGeo(void) {
     for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
         double data[numValues];
         int err = dbIn.query(data, numValues, &points[iLoc*spaceDim], spaceDim, &csOut);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("", errE[iLoc], err);
+        REQUIRE(errE[iLoc] == err);
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
-            const double toleranceV = tolerance*dataE[iLoc*numValues+iVal];
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in query.", dataE[iLoc*numValues+iVal], data[iVal], toleranceV);
+            const double valueE = dataE[iLoc*numValues+iVal];
+            const double toleranceV = fabs(valueE) > 0.0 ? tolerance*valueE : tolerance;
+            CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(valueE, tolerance));
         } // for
     } // for
 } // testIOCSGeo
@@ -332,42 +345,42 @@ spatialdata::spatialdb::TestSimpleGridAscii::testReadComments(void) {
     dbIn.setFilename(filename);
     dbIn.open();
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along x axis.", numX, dbIn._numX);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along y axis.", numY, dbIn._numY);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along z axis.", numZ, dbIn._numZ);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValues, dbIn._numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, dbIn._dataDim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, dbIn._spaceDim);
+    CHECK(numX == dbIn._numX);
+    CHECK(numY == dbIn._numY);
+    CHECK(numZ == dbIn._numZ);
+    CHECK(dataDim == dbIn._dataDim);
+    CHECK(spaceDim == dbIn._spaceDim);
+    REQUIRE(numValues == dbIn._numValues);
 
-    CPPUNIT_ASSERT(dbIn._names);
-    CPPUNIT_ASSERT(dbIn._units);
+    CHECK(dbIn._names);
+    CHECK(dbIn._units);
     for (size_t iVal = 0; iVal < numValues; ++iVal) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value names.", std::string(names[iVal]), dbIn._names[iVal]);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in value units.", std::string(units[iVal]), dbIn._units[iVal]);
+        CHECK(std::string(names[iVal]) == dbIn._names[iVal]);
+        CHECK(std::string(units[iVal]) == dbIn._units[iVal]);
     } // for
 
     // Check coordinates
-    CPPUNIT_ASSERT(dbIn._x);
+    assert(dbIn._x);
     const double tolerance = 1.0e-06;
     for (size_t i = 0; i < numX; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in x coordinates.", x[i], dbIn._x[i], tolerance);
+        CHECK_THAT(dbIn._x[i], Catch::Matchers::WithinAbs(x[i], tolerance));
     } // for
     for (size_t i = 0; i < numY; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in y coordinates.", y[i], dbIn._y[i], tolerance);
+        CHECK_THAT(dbIn._y[i], Catch::Matchers::WithinAbs(y[i], tolerance));
     } // for
     for (size_t i = 0; i < numZ; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in z coordinates.", z[i], dbIn._z[i], tolerance);
+        CHECK_THAT(dbIn._z[i], Catch::Matchers::WithinAbs(z[i], tolerance));
     } // for
 
     // Check to make sure values were read in correctly
-    CPPUNIT_ASSERT(dbIn._data);
+    assert(dbIn._data);
     for (size_t iX = 0, i = 0; iX < numX; ++iX) {
         for (size_t iZ = 0; iZ < numZ; ++iZ) {
             for (size_t iY = 0; iY < numY; ++iY) {
                 const size_t iD = dbIn._getDataIndex(iX, numX, iY, numY, iZ, numZ);
                 for (size_t iVal = 0; iVal < numValues; ++iVal, ++i) {
-                    const double toleranceV = tolerance*data[i];
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", data[i], dbIn._data[iD+iVal], toleranceV);
+                    const double toleranceV = (fabs(data[i]) > 0.0) ? tolerance*data[i] : tolerance;
+                    CHECK_THAT(dbIn._data[iD+iVal], Catch::Matchers::WithinAbs(data[i], toleranceV));
                 } // for
             } // for
         } // for

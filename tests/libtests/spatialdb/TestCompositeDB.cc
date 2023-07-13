@@ -16,45 +16,32 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/spatialdb/CompositeDB.hh" // USES CompositeDB
 
 #include "spatialdata/spatialdb/UniformDB.hh" // USES UniformDB
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 
-/// Namespace for spatial package
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
+
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class TestCompositeDB;
-        class CompositeDB; // USES CompositeDB
     } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for CompositeDB
-class spatialdata::spatialdb::TestCompositeDB : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestCompositeDB);
-
-    CPPUNIT_TEST(testConstructors);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryValsAB);
-    CPPUNIT_TEST(testQueryValsA);
-    CPPUNIT_TEST(testQueryValsB);
-    CPPUNIT_TEST(testQueryAB);
-    CPPUNIT_TEST(testQueryA);
-    CPPUNIT_TEST(testQueryB);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestCompositeDB {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Setup.
-    void setUp(void);
+    /// Constructor.
+    TestCompositeDB(void);
 
     /// Test constructors
+    static
     void testConstructors(void);
 
     /// Test accessors.
@@ -87,11 +74,38 @@ private:
     UniformDB _dbB; ///< Spatial databsae B.
 
 }; // class TestCompositeDB
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestCompositeDB);
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestCompositeDB::testConstructors", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB::testConstructors();
+}
 
-// --------------------------
-void
-spatialdata::spatialdb::TestCompositeDB::setUp(void) {
+TEST_CASE("TestCompositeDB::testAccessors", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testAccessors();
+}
+TEST_CASE("TestCompositeDB::testGetNamesDBValues", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testGetNamesDBValues();
+}
+TEST_CASE("TestCompositeDB::testQueryValsAB", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testQueryValsAB();
+}
+TEST_CASE("TestCompositeDB::testQueryValsA", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testQueryValsA();
+}
+TEST_CASE("TestCompositeDB::testQueryValsB", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testQueryValsB();
+}
+TEST_CASE("TestCompositeDB::testQueryAB", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testQueryAB();
+}
+TEST_CASE("TestCompositeDB::testQueryA", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testQueryA();
+}
+TEST_CASE("TestCompositeDB::testQueryB", "[TestCompositeDB]") {
+    spatialdata::spatialdb::TestCompositeDB().testQueryB();
+}
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestCompositeDB::TestCompositeDB(void) {
     { // initialize db A
         const size_t numValues = 3;
         const char* names[3] = { "one", "two", "three" };
@@ -117,9 +131,9 @@ void
 spatialdata::spatialdb::TestCompositeDB::testConstructors(void) {
     CompositeDB db;
 
-    const std::string label("database A");
-    CompositeDB db2(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in db label.", label, std::string(db2.getDescription()));
+    const std::string description("database A");
+    CompositeDB db2(description.c_str());
+    CHECK(description == std::string(db2.getDescription()));
 } // testConstructors
 
 
@@ -131,39 +145,39 @@ spatialdata::spatialdb::TestCompositeDB::testAccessors(void) {
 
     CompositeDB db;
     db.setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getDescription()));
+    CHECK(label == std::string(db.getDescription()));
 
     // Set database A
     const size_t numNamesA = 2;
     const char* namesA[2] = { "three", "one" };
     db.setDBA(&_dbA, namesA, numNamesA);
 
-    CPPUNIT_ASSERT_MESSAGE("Mismatch in dbA.", db._dbA);
-    CPPUNIT_ASSERT_MESSAGE("Mismatch in infoA", db._infoA);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query buffer.", !db._infoA->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query indicates.", !db._infoA->query_indices);
-    CPPUNIT_ASSERT_MESSAGE("Expected 0 query size.", !db._infoA->query_size);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numNamesA, db._infoA->num_names);
+    CHECK(db._dbA);
+    CHECK(db._infoA);
+    CHECK(!db._infoA->query_buffer);
+    CHECK(!db._infoA->query_indices);
+    CHECK(!db._infoA->query_size);
+    REQUIRE(numNamesA == db._infoA->num_names);
     for (size_t i = 0; i < numNamesA; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names for dbA.", std::string(namesA[i]), db._infoA->names_values[i]);
+        CHECK(std::string(namesA[i]) == db._infoA->names_values[i]);
     } // for
 
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL dbB.", !db._dbB);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL infoB", !db._infoB);
+    CHECK(!db._dbB);
+    CHECK(!db._infoB);
 
     // Set database B
     const size_t numNamesB = 1;
     const char* namesB[1] = { "five" };
     db.setDBB(&_dbB, namesB, numNamesB);
 
-    CPPUNIT_ASSERT_MESSAGE("Mismatch in dbB.", db._dbB);
-    CPPUNIT_ASSERT_MESSAGE("Mismatch in infoB", db._infoB);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query buffer.", !db._infoB->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query indicates.", !db._infoB->query_indices);
-    CPPUNIT_ASSERT_MESSAGE("Expected 0 query size.", !db._infoB->query_size);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numNamesB, db._infoB->num_names);
+    CHECK(db._dbB);
+    CHECK(db._infoB);
+    CHECK(!db._infoB->query_buffer);
+    CHECK(!db._infoB->query_indices);
+    CHECK(!db._infoB->query_size);
+    REQUIRE(numNamesB == db._infoB->num_names);
     for (size_t i = 0; i < numNamesB; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names for dbB.", std::string(namesB[i]), db._infoB->names_values[i]);
+        CHECK(std::string(namesB[i]) == db._infoB->names_values[i]);
     } // for
 } // testAccessors
 
@@ -185,16 +199,14 @@ spatialdata::spatialdb::TestCompositeDB::testGetNamesDBValues(void) {
     const char** valueNames = NULL;
     size_t numValues = 0;
     db.getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesA + numValuesB, numValues);
+    REQUIRE(numValuesA + numValuesB == numValues);
 
     size_t iAB = 0;
     for (size_t iA = 0; iA < numValuesA; ++iA, ++iAB) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values in db A.",
-                                     std::string(namesA[iA]), std::string(valueNames[iAB]));
+        CHECK(std::string(namesA[iA]) == std::string(valueNames[iAB]));
     } // for
     for (size_t iB = 0; iB < numValuesB; ++iB, ++iAB) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values in db B.",
-                                     std::string(namesB[iB]), std::string(valueNames[iAB]));
+        CHECK(std::string(namesB[iB]) == std::string(valueNames[iAB]));
     } // for
     delete[] valueNames;valueNames = NULL;
     numValues = 0;
@@ -223,24 +235,24 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
     { // Check defaults (all values in A and then all values in B).
         const size_t qsizeA = 2;
         const size_t qindicesA[qsizeA] = { 0, 1 };
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbA.", db._dbA);
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoA.", db._infoA);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbA.", qsizeA, db._infoA->query_size);
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbA.", db._infoA->query_buffer);
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbA.", db._infoA->query_indices);
+        CHECK(db._dbA);
+        CHECK(db._infoA);
+        CHECK(db._infoA->query_buffer);
+        CHECK(db._infoA->query_indices);
+        REQUIRE(qsizeA == db._infoA->query_size);
         for (size_t i = 0; i < qsizeA; ++i) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbA.", qindicesA[i], db._infoA->query_indices[i]);
+            CHECK(qindicesA[i] == db._infoA->query_indices[i]);
         } // for
 
         const size_t qsizeB = 1;
         const size_t qindicesB[1] = { 2 };
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbB.", db._dbB);
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoB.", db._infoB);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbB.", qsizeB, db._infoB->query_size);
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbB.", db._infoB->query_buffer);
-        CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbB.", db._infoB->query_indices);
+        CHECK(db._dbB);
+        CHECK(db._infoB);
+        CHECK(db._infoB->query_buffer);
+        CHECK(db._infoB->query_indices);
+        REQUIRE(qsizeB == db._infoB->query_size);
         for (size_t i = 0; i < qsizeB; ++i) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbB.", qindicesB[i], db._infoB->query_indices[i]);
+            CHECK(qindicesB[i] == db._infoB->query_indices[i]);
         } // for
     } // check defaults
 
@@ -249,24 +261,24 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
 
     const size_t qsizeA = 2;
     const size_t qindicesA[2] = { 0, 2 };
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbA.", db._dbA);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoA.", db._infoA);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbA.", qsizeA, db._infoA->query_size);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbA.", db._infoA->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbA.", db._infoA->query_indices);
+    CHECK(db._dbA);
+    CHECK(db._infoA);
+    CHECK(db._infoA->query_buffer);
+    CHECK(db._infoA->query_indices);
+    REQUIRE(qsizeA == db._infoA->query_size);
     for (size_t i = 0; i < qsizeA; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbA.", qindicesA[i], db._infoA->query_indices[i]);
+        CHECK(qindicesA[i] == db._infoA->query_indices[i]);
     } // for
 
     const size_t qsizeB = 1;
     const size_t qindicesB[1] = { 1 };
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbB.", db._dbB);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoB.", db._infoB);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbB.", qsizeB, db._infoB->query_size);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbB.", db._infoB->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbB.", db._infoB->query_indices);
+    CHECK(db._dbB);
+    CHECK(db._infoB);
+    CHECK(db._infoB->query_buffer);
+    CHECK(db._infoB->query_indices);
+    REQUIRE(qsizeB == db._infoB->query_size);
     for (size_t i = 0; i < qsizeB; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbB.", qindicesB[i], db._infoB->query_indices[i]);
+        CHECK(qindicesB[i] == db._infoB->query_indices[i]);
     } // for
 } // testQueryValsAB
 
@@ -294,21 +306,21 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsA(void) {
 
     const size_t qsizeA = 2;
     const size_t qindicesA[2] = { 0, 1 };
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbA.", db._dbA);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoA.", db._infoA);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbA.", qsizeA, db._infoA->query_size);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbA.", db._infoA->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbA.", db._infoA->query_indices);
+    CHECK(db._dbA);
+    CHECK(db._infoA);
+    CHECK(db._infoA->query_buffer);
+    CHECK(db._infoA->query_indices);
+    REQUIRE(qsizeA == db._infoA->query_size);
     for (size_t i = 0; i < qsizeA; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbA.", qindicesA[i], db._infoA->query_indices[i]);
+        CHECK(qindicesA[i] == db._infoA->query_indices[i]);
     } // for
 
     const size_t qsizeB = 0;
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbB.", db._dbB);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoB.", db._infoB);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbB.", qsizeB, db._infoB->query_size);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query buffer for dbB.", !db._infoB->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query indices for dbB.", !db._infoB->query_indices);
+    CHECK(db._dbB);
+    CHECK(db._infoB);
+    CHECK(!db._infoB->query_buffer);
+    CHECK(!db._infoB->query_indices);
+    CHECK(qsizeB == db._infoB->query_size);
 } // testQueryValsA
 
 
@@ -334,21 +346,21 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsB(void) {
     db.close();
 
     const size_t qsizeA = 0;
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbA.", db._dbA);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoA.", db._infoA);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbA.", qsizeA, db._infoA->query_size);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query buffer for dbA.", !db._infoA->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected NULL query indices for dbA.", !db._infoA->query_indices);
+    CHECK(db._dbA);
+    CHECK(db._infoA);
+    CHECK(!db._infoA->query_buffer);
+    CHECK(!db._infoA->query_indices);
+    REQUIRE(qsizeA == db._infoA->query_size);
 
     const size_t qsizeB = 1;
     const size_t qindicesB[1] = { 0 };
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL dbB.", db._dbB);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL infoB.", db._infoB);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size for dbB.", qsizeB, db._infoB->query_size);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query buffer for dbB.", db._infoB->query_buffer);
-    CPPUNIT_ASSERT_MESSAGE("Expected non-NULL query indices for dbB.", db._infoB->query_indices);
+    CHECK(db._dbB);
+    CHECK(db._infoB);
+    CHECK(db._infoB->query_buffer);
+    CHECK(db._infoB->query_indices);
+    REQUIRE(qsizeB == db._infoB->query_size);
     for (size_t i = 0; i < qsizeB; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query indices for dbB.", qindicesB[i], db._infoB->query_indices[i]);
+        CHECK(qindicesB[i] == db._infoB->query_indices[i]);
     } // for
 } // testQueryValsB
 
@@ -382,8 +394,10 @@ spatialdata::spatialdb::TestCompositeDB::testQueryAB(void) {
     db.query(data, querySize, coords, spaceDim, &cs);
     db.close();
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
-        CPPUNIT_ASSERT_EQUAL(valsE[i], data[i]);
+        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance*valsE[i] : tolerance;
+        CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valsE[i], toleranceV));
     } // for
 } // testQueryAB
 
@@ -417,8 +431,10 @@ spatialdata::spatialdb::TestCompositeDB::testQueryA(void) { // testQueryA
     db.query(data, querySize, coords, spaceDim, &cs);
     db.close();
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
-        CPPUNIT_ASSERT_EQUAL(valsE[i], data[i]);
+        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance*valsE[i] : tolerance;
+        CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valsE[i], toleranceV));
     } // for
 } // testQueryA
 
@@ -452,8 +468,10 @@ spatialdata::spatialdb::TestCompositeDB::testQueryB(void) {
     db.query(data, querySize, coords, spaceDim, &cs);
     db.close();
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
-        CPPUNIT_ASSERT_EQUAL(valsE[i], data[i]);
+        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance*valsE[i] : tolerance;
+        CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valsE[i], toleranceV));
     } // for
 } // testQueryB
 

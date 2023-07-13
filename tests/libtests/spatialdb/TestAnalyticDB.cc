@@ -16,62 +16,79 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "spatialdata/spatialdb/AnalyticDB.hh" // Test subject
 
-#include "spatialdata/spatialdb/AnalyticDB.hh" // USES AnalyticDB
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
 #include <cmath> // USES fabs()
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class TestAnalyticDB;
-        class AnalyticDB; // USES AnalyticDB
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestAnalyticDB : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestAnalyticDB);
-
-    CPPUNIT_TEST(testConstructors);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testSetData);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryVals);
-    CPPUNIT_TEST(testQuery);
-    CPPUNIT_TEST(testQueryUTM);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestAnalyticDB {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test constructors
+    static
     void testConstructors(void);
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test setData()
+    static
     void testSetData(void);
 
     /// Test getNamesDBValues().
+    static
     void testGetNamesDBValues(void);
 
     /// Test setQueryValues()
+    static
     void testQueryVals(void);
 
     /// Test query()
+    static
     void testQuery(void);
 
     /// Test query() WGS84 -> UTM.
+    static
     void testQueryUTM(void);
 
 }; // class TestAnalyticDB
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestAnalyticDB);
+
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestAnalyticDB::testConstructors", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testConstructors();
+}
+TEST_CASE("TestAnalyticDB::testAccessors", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testAccessors();
+}
+TEST_CASE("TestAnalyticDB::testSetData", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testSetData();
+}
+TEST_CASE("TestAnalyticDB::testGetNamesDBValues", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testGetNamesDBValues();
+}
+TEST_CASE("TestAnalyticDB::testQueryVals", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testQueryVals();
+}
+TEST_CASE("TestAnalyticDB::testQuery", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testQuery();
+}
+TEST_CASE("TestAnalyticDB::testQueryUTM", "[TestAnalyticDB]") {
+    spatialdata::spatialdb::TestAnalyticDB::testQueryUTM();
+}
 
 // ----------------------------------------------------------------------
 // Test constructor.
@@ -79,9 +96,9 @@ void
 spatialdata::spatialdb::TestAnalyticDB::testConstructors(void) {
     AnalyticDB db;
 
-    const std::string label("database A");
-    AnalyticDB dbL(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.getDescription()));
+    const std::string description("database A");
+    AnalyticDB dbL(description.c_str());
+    CHECK(description == std::string(dbL.getDescription()));
 } // testConstructors
 
 
@@ -89,11 +106,11 @@ spatialdata::spatialdb::TestAnalyticDB::testConstructors(void) {
 // Test accessors().
 void
 spatialdata::spatialdb::TestAnalyticDB::testAccessors(void) {
-    const std::string label("database 2");
+    const std::string description("database 2");
 
     AnalyticDB db;
-    db.setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(db.getDescription()));
+    db.setDescription(description.c_str());
+    CHECK(description == std::string(db.getDescription()));
 } // testAccessors
 
 
@@ -110,16 +127,16 @@ spatialdata::spatialdb::TestAnalyticDB::testSetData(void) {
 
     db.setData(names, units, expressions, numValuesE);
 
-    CPPUNIT_ASSERT_EQUAL(numValuesE, db._numValues);
+    REQUIRE(numValuesE == db._numValues);
     for (size_t i = 0; i < numValuesE; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(names[i]), db._names[i]);
+        CHECK(std::string(names[i]) == db._names[i]);
     } // for
 
     for (size_t i = 0; i < numValuesE; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(expressions[i]), db._expressions[i]);
+        CHECK(std::string(expressions[i]) == db._expressions[i]);
     } // for
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValuesE, db._querySize);
+    CHECK(numValuesE == db._querySize);
 } // testSetData
 
 
@@ -138,11 +155,10 @@ spatialdata::spatialdb::TestAnalyticDB::testGetNamesDBValues(void) {
     const char** valueNames = NULL;
     size_t numValues = 0;
     db.getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
+    REQUIRE(numValuesE == numValues);
 
     for (size_t i = 0; i < numValuesE; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
-                                     std::string(names[i]), std::string(valueNames[i]));
+        CHECK(std::string(names[i]) == std::string(valueNames[i]));
     } // for
     delete[] valueNames;valueNames = NULL;
     numValues = 0;
@@ -167,9 +183,9 @@ spatialdata::spatialdb::TestAnalyticDB::testQueryVals(void) {
     db.setData(names, units, expressions, numValuesE);
     db.setQueryValues(queryNames, querySize);
 
-    CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
+    REQUIRE(querySize == db._querySize);
     for (size_t i = 0; i < querySize; ++i) {
-        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
+        CHECK(queryVals[i] == db._queryValues[i]);
     } // for
 } // testQueryVals
 
@@ -206,11 +222,12 @@ spatialdata::spatialdb::TestAnalyticDB::testQuery(void) {
     double data[querySize];
     db.query(data, querySize, coords, spaceDim, &cs);
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
         const size_t index = queryVals[i];
         const double valE = scales[index] * values[index];
-        const double tolerance = fabs(valE) > 0.0 ? fabs(valE) * 1.0e-6 : 1.0e-6;
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(valE, data[i], tolerance);
+        const double toleranceV = fabs(valE) > 0.0 ? fabs(valE) * tolerance : tolerance;
+        CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valE, toleranceV));
     } // for
 } // testQuery
 
@@ -254,11 +271,12 @@ spatialdata::spatialdb::TestAnalyticDB::testQueryUTM(void) {
     double data[querySize];
     db.query(data, querySize, coordsLL, spaceDim, &csWGS84);
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
         const size_t index = queryVals[i];
         const double valE = scales[index] * values[index];
-        const double tolerance = fabs(valE) > 0.0 ? fabs(valE) * 1.0e-6 : 1.0e-6;
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(valE, data[i], tolerance);
+        const double toleranceV = fabs(valE) > 0.0 ? fabs(valE) * tolerance : tolerance;
+        CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valE, toleranceV));
     } // for
 } // testQueryUTM
 

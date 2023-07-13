@@ -16,13 +16,15 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "spatialdata/spatialdb/TimeHistory.hh" // Test subject
 
-#include "spatialdata/spatialdb/TimeHistory.hh" // USES TimeHistory
 #include "spatialdata/spatialdb/TimeHistoryIO.hh" // USES TimeHistoryIO
 #include "spatialdata/units/Parser.hh" // USES Parser
 
-// ----------------------------------------------------------------------
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class TestTimeHistory;
@@ -30,44 +32,48 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestTimeHistory : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestTimeHistory);
-
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testOpenClose);
-    CPPUNIT_TEST(testQuery);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestTimeHistory {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test open() and close()
+    static
     void testOpenClose(void);
 
     /// Test query().
+    static
     void testQuery(void);
 
 }; // class TestTimeHistory
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestTimeHistory);
+
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestTimeHistory::testAccessors", "[TestTimeHistory]") {
+    spatialdata::spatialdb::TestTimeHistory::testAccessors();
+}
+TEST_CASE("TestTimeHistory::testOpenClose", "[TestTimeHistory]") {
+    spatialdata::spatialdb::TestTimeHistory::testOpenClose();
+}
+TEST_CASE("TestTimeHistory::testQuery", "[TestTimeHistory]") {
+    spatialdata::spatialdb::TestTimeHistory::testQuery();
+}
 
 // ----------------------------------------------------------------------
 // Test accessors.
 void
 spatialdata::spatialdb::TestTimeHistory::testAccessors(void) {
-    const std::string label("time history A");
+    const std::string description("time history A");
     const std::string filename("file.th");
 
     TimeHistory th;
-    th.setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(th.getDescription()));
+    th.setDescription(description.c_str());
+    CHECK(description == std::string(th.getDescription()));
 
     th.setFilename(filename.c_str());
-    CPPUNIT_ASSERT_EQUAL(filename, std::string(th.getFilename()));
+    CHECK(filename == std::string(th.getFilename()));
 } // testAccessors
 
 
@@ -92,22 +98,22 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
 
     units::Parser parser;
     const double scale = parser.parse(timeUnits);
-    CPPUNIT_ASSERT(scale > 0.0);
+    CHECK(scale > 0.0);
 
-    CPPUNIT_ASSERT_EQUAL(size_t(0), th._ilower);
-    CPPUNIT_ASSERT_EQUAL(npts, th._npts);
-    CPPUNIT_ASSERT(th._time);
-    CPPUNIT_ASSERT(th._amplitude);
+    CHECK(size_t(0) == th._ilower);
+    REQUIRE(npts == th._npts);
+    REQUIRE(th._time);
+    REQUIRE(th._amplitude);
     const double tolerance = 1.0e-06;
     for (size_t i = 0; i < npts; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(time[i], th._time[i]/scale, tolerance);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitude[i], th._amplitude[i], tolerance);
+        CHECK_THAT(th._time[i]/scale, Catch::Matchers::WithinAbs(time[i], tolerance));
+        CHECK_THAT(th._amplitude[i], Catch::Matchers::WithinAbs(amplitude[i], tolerance));
     } // for
 
     th.close();
-    CPPUNIT_ASSERT_EQUAL(size_t(0), th._npts);
-    CPPUNIT_ASSERT(!th._time);
-    CPPUNIT_ASSERT(!th._amplitude);
+    CHECK(size_t(0) == th._npts);
+    CHECK(!th._time);
+    CHECK(!th._amplitude);
 
     th.close(); // Test calling close when already closed
 } // testOpenClose
@@ -138,9 +144,9 @@ spatialdata::spatialdb::TestTimeHistory::testQuery(void) {
     double amplitude = 0.0;
     for (size_t i = 0; i < nqueries; ++i) {
         int err = th.query(&amplitude, timeQ[i]);
-        CPPUNIT_ASSERT_EQUAL(errE[i], err);
+        REQUIRE(errE[i] == err);
         if (0 == errE[i]) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL(amplitudeE[i], amplitude, tolerance);
+            CHECK_THAT(amplitude, Catch::Matchers::WithinAbs(amplitudeE[i], tolerance));
         } // if
     } // for
 

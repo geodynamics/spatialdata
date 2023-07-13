@@ -22,7 +22,10 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 
-// ----------------------------------------------------------------------
+#include "catch2/catch_test_macros.hpp"
+
+#include <cassert>
+
 namespace spatialdata {
     namespace spatialdb {
         class TestUserFunctionDB_1D;
@@ -31,10 +34,18 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestUserFunctionDB_1D : public TestUserFunctionDB {
-    CPPUNIT_TEST_SUB_SUITE(TestUserFunctionDB_1D, TestUserFunctionDB);
-    CPPUNIT_TEST_SUITE_END();
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestUserFunctionDB_1D {
+public:
+
+    // Factories
+    static
+    TestUserFunctionDB_Data* createData(void);
+
+    static
+    UserFunctionDB* createDB(void);
+
+private:
 
     static double density(const double x) {
         return 100.0*x;
@@ -60,53 +71,67 @@ class spatialdata::spatialdb::TestUserFunctionDB_1D : public TestUserFunctionDB 
         return "km/s";
     }
 
-    void setUp(void) {
-        TestUserFunctionDB::setUp();
-        _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
-
-        _data->numValues = 3;
-        static const TestUserFunctionDB_Data::UserData values[3] = {
-            {"density", density_units(), 1.0 },
-            {"vs", vs_units(), 1000.0 },
-            {"vp", vp_units(), 1000.0 },
-        };
-        _data->values = values;
-
-        _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
-        _data->cs->setSpaceDim(1);
-
-        _data->numQueryPoints = 4;
-        static const double queryXYZ[4*1] = {
-            0.0,
-            -10.0,
-            4.0,
-            0.5,
-        };
-        _data->queryXYZ = queryXYZ;
-        static const double queryValues[4*3] = {
-            density(0.0),   vs(0.0),   vp(0.0),
-            density(-10.0), vs(-10.0), vp(-10.0),
-            density(4.0),   vs(4.0),   vp(4.0),
-            density(0.5),   vs(0.5),   vp(0.5),
-        };
-        _data->queryValues = queryValues;
-
-    } // setUp
-
-    void _addValues(void) {
-        CPPUNIT_ASSERT(_db);
-        _db->addValue("density", density, density_units());
-        _db->addValue("vs", vs, vs_units());
-        _db->addValue("vp", vp, vp_units());
-    } // _addValues
-
 }; // TestUserFunctionDB_1D
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestUserFunctionDB_1D);
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestUserFunctionDB_2D : public TestUserFunctionDB {
-    CPPUNIT_TEST_SUB_SUITE(TestUserFunctionDB_2D, TestUserFunctionDB);
-    CPPUNIT_TEST_SUITE_END();
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestUserFunctionDB_Data*
+spatialdata::spatialdb::TestUserFunctionDB_1D::createData(void) {
+    spatialdata::spatialdb::TestUserFunctionDB_Data* data = new TestUserFunctionDB_Data();assert(data);
+
+    data->numValues = 3;
+    static const TestUserFunctionDB_Data::UserData values[3] = {
+        {"density", density_units(), 1.0 },
+        {"vs", vs_units(), 1000.0 },
+        {"vp", vp_units(), 1000.0 },
+    };
+    data->values = values;
+
+    data->cs = new spatialdata::geocoords::CSCart();assert(data->cs);
+    data->cs->setSpaceDim(1);
+
+    data->numQueryPoints = 4;
+    static const double queryXYZ[4*1] = {
+        0.0,
+        -10.0,
+        4.0,
+        0.5,
+    };
+    data->queryXYZ = queryXYZ;
+    static const double queryValues[4*3] = {
+        density(0.0),   vs(0.0),   vp(0.0),
+        density(-10.0), vs(-10.0), vp(-10.0),
+        density(4.0),   vs(4.0),   vp(4.0),
+        density(0.5),   vs(0.5),   vp(0.5),
+    };
+    data->queryValues = queryValues;
+
+    return data;
+} // createData
+
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::UserFunctionDB*
+spatialdata::spatialdb::TestUserFunctionDB_1D::createDB(void) {
+    UserFunctionDB* db = new UserFunctionDB();assert(db);
+
+    db->addValue("density", density, density_units());
+    db->addValue("vs", vs, vs_units());
+    db->addValue("vp", vp, vp_units());
+
+    return db;
+} // createData
+
+
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestUserFunctionDB_2D {
+public:
+
+    // Factories
+    static
+    TestUserFunctionDB_Data* createData(void);
+
+    static
+    UserFunctionDB* createDB(void);
 
 private:
 
@@ -137,53 +162,67 @@ private:
         return "km/s";
     }
 
-    void setUp(void) {
-        TestUserFunctionDB::setUp();
-        _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
-
-        _data->numValues = 3;
-        static const TestUserFunctionDB_Data::UserData values[3] = {
-            { "vs", vs_units(), 1000.0, },
-            { "vp", vp_units(), 1000.0, },
-            { "density", density_units(), 1.0, },
-        };
-        _data->values = values;
-
-        _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
-        _data->cs->setSpaceDim(2);
-
-        _data->numQueryPoints = 4;
-        static const double queryXYZ[4*2] = {
-            0.0, 0.0,
-            -10.0, 4.0,
-            4.0, 2.0,
-            0.5, 0.1,
-        };
-        _data->queryXYZ = queryXYZ;
-        static const double queryValues[4*3] = {
-            vs(0.0, 0.0),   vp(0.0, 0.0),   density(0.0, 0.0),
-            vs(-10.0, 4.0), vp(-10.0, 4.0), density(-10.0, 4.0),
-            vs(4.0, 2.0),   vp(4.0, 2.0),   density(4.0, 2.0),
-            vs(0.5, 0.1),   vp(0.5, 0.1),   density(0.5, 0.1),
-        };
-        _data->queryValues = queryValues;
-
-    } // setUp
-
-    void _addValues(void) {
-        CPPUNIT_ASSERT(_db);
-        _db->addValue("vs", vs, vs_units());
-        _db->addValue("vp", vp, vp_units());
-        _db->addValue("density", density, density_units());
-    } // _addValues
-
 }; // TestUserFunctionDB_2D
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestUserFunctionDB_2D);
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestUserFunctionDB_3D : public TestUserFunctionDB {
-    CPPUNIT_TEST_SUB_SUITE(TestUserFunctionDB_3D, TestUserFunctionDB);
-    CPPUNIT_TEST_SUITE_END();
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestUserFunctionDB_Data*
+spatialdata::spatialdb::TestUserFunctionDB_2D::createData(void) {
+    spatialdata::spatialdb::TestUserFunctionDB_Data* data = new TestUserFunctionDB_Data();assert(data);
+
+    data->numValues = 3;
+    static const TestUserFunctionDB_Data::UserData values[3] = {
+        { "vs", vs_units(), 1000.0, },
+        { "vp", vp_units(), 1000.0, },
+        { "density", density_units(), 1.0, },
+    };
+    data->values = values;
+
+    data->cs = new spatialdata::geocoords::CSCart();assert(data->cs);
+    data->cs->setSpaceDim(2);
+
+    data->numQueryPoints = 4;
+    static const double queryXYZ[4*2] = {
+        0.0, 0.0,
+        -10.0, 4.0,
+        4.0, 2.0,
+        0.5, 0.1,
+    };
+    data->queryXYZ = queryXYZ;
+    static const double queryValues[4*3] = {
+        vs(0.0, 0.0),   vp(0.0, 0.0),   density(0.0, 0.0),
+        vs(-10.0, 4.0), vp(-10.0, 4.0), density(-10.0, 4.0),
+        vs(4.0, 2.0),   vp(4.0, 2.0),   density(4.0, 2.0),
+        vs(0.5, 0.1),   vp(0.5, 0.1),   density(0.5, 0.1),
+    };
+    data->queryValues = queryValues;
+
+    return data;
+} // createData
+
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::UserFunctionDB*
+spatialdata::spatialdb::TestUserFunctionDB_2D::createDB(void) {
+    UserFunctionDB* db = new UserFunctionDB();assert(db);
+
+    db->addValue("vs", vs, vs_units());
+    db->addValue("vp", vp, vp_units());
+    db->addValue("density", density, density_units());
+
+    return db;
+} // _addValues
+
+
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestUserFunctionDB_3D {
+public:
+
+    // Factories
+    static
+    TestUserFunctionDB_Data* createData(void);
+
+    static
+    UserFunctionDB* createDB(void);
 
 private:
 
@@ -207,41 +246,125 @@ private:
         return "km/s";
     }
 
-    void setUp(void) {
-        TestUserFunctionDB::setUp();
-        _data = new TestUserFunctionDB_Data();CPPUNIT_ASSERT(_data);
-
-        _data->numValues = 2;
-        static const TestUserFunctionDB_Data::UserData values[2] = {
-            { "density", density_units(), 1.0, },
-            { "vs", vs_units(), 1000.0, },
-        };
-        _data->values = values;
-
-        _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
-        _data->cs->setSpaceDim(3);
-
-        _data->numQueryPoints = 2;
-        static const double queryXYZ[2*3] = {
-            0.0, 0.0, 0.0,
-            1.0, 4.3, -3.6,
-        };
-        _data->queryXYZ = queryXYZ;
-        static const double queryValues[2*2] = {
-            density(0.0, 0.0, 0.0),  vs(0.0, 0.0, 0.0),
-            density(1.0, 4.3, -3.6), vs(1.0, 4.3, -3.6),
-        };
-        _data->queryValues = queryValues;
-
-    } // setUp
-
-    void _addValues(void) {
-        CPPUNIT_ASSERT(_db);
-        _db->addValue("density", density, density_units());
-        _db->addValue("vs", vs, vs_units());
-    } // _addValues
-
 }; // TestUserFunctionDB_3D
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestUserFunctionDB_3D);
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestUserFunctionDB_Data*
+spatialdata::spatialdb::TestUserFunctionDB_3D::createData(void) {
+    spatialdata::spatialdb::TestUserFunctionDB_Data* data = new TestUserFunctionDB_Data();assert(data);
+
+    data->numValues = 2;
+    static const TestUserFunctionDB_Data::UserData values[2] = {
+        { "density", density_units(), 1.0, },
+        { "vs", vs_units(), 1000.0, },
+    };
+    data->values = values;
+
+    data->cs = new spatialdata::geocoords::CSCart();assert(data->cs);
+    data->cs->setSpaceDim(3);
+
+    data->numQueryPoints = 2;
+    static const double queryXYZ[2*3] = {
+        0.0, 0.0, 0.0,
+        1.0, 4.3, -3.6,
+    };
+    data->queryXYZ = queryXYZ;
+    static const double queryValues[2*2] = {
+        density(0.0, 0.0, 0.0),  vs(0.0, 0.0, 0.0),
+        density(1.0, 4.3, -3.6), vs(1.0, 4.3, -3.6),
+    };
+    data->queryValues = queryValues;
+
+    return data;
+} // setUp
+
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::UserFunctionDB*
+spatialdata::spatialdb::TestUserFunctionDB_3D::createDB(void) {
+    UserFunctionDB* db = new UserFunctionDB();assert(db);
+
+    db->addValue("density", density, density_units());
+    db->addValue("vs", vs, vs_units());
+
+    return db;
+} // createDB
+
+
+// ------------------------------------------------------------------------------------------------
+// Static test cases
+TEST_CASE("TestUserFunctionDB::testConstructor", "[TestUserFunctionDB]") {
+    spatialdata::spatialdb::TestUserFunctionDB::testConstructor();
+}
+TEST_CASE("TestUserFunctionDB::testDescription", "[TestUserFunctionDB]") {
+    spatialdata::spatialdb::TestUserFunctionDB::testDescription();
+}
+TEST_CASE("TestUserFunctionDB::testCoordsys", "[TestUserFunctionDB]") {
+    spatialdata::spatialdb::TestUserFunctionDB::testCoordsys();
+}
+
+// Data test cases
+TEST_CASE("TestUserFunctionDB::testAddValue", "[TestUserFunctionDB][1D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_1D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_1D::createDB()).testAddValue();
+}
+TEST_CASE("TestUserFunctionDB::testOpenClose", "[TestUserFunctionDB][1D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_1D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_1D::createDB()).testOpenClose();
+}
+TEST_CASE("TestUserFunctionDB::testGetNamesDBValues", "[TestUserFunctionDB][1D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_1D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_1D::createDB()).testGetNamesDBValues();
+}
+TEST_CASE("TestUserFunctionDB::testQueryVals", "[TestUserFunctionDB][1D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_1D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_1D::createDB()).testQueryVals();
+}
+TEST_CASE("TestUserFunctionDB::testQuery", "[TestUserFunctionDB][1D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_1D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_1D::createDB()).testQuery();
+}
+
+TEST_CASE("TestUserFunctionDB::testAddValue", "[TestUserFunctionDB][2D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_2D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_2D::createDB()).testAddValue();
+}
+TEST_CASE("TestUserFunctionDB::testOpenClose", "[TestUserFunctionDB][2D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_2D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_2D::createDB()).testOpenClose();
+}
+TEST_CASE("TestUserFunctionDB::testGetNamesDBValues", "[TestUserFunctionDB][2D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_2D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_2D::createDB()).testGetNamesDBValues();
+}
+TEST_CASE("TestUserFunctionDB::testQueryVals", "[TestUserFunctionDB][2D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_2D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_2D::createDB()).testQueryVals();
+}
+TEST_CASE("TestUserFunctionDB::testQuery", "[TestUserFunctionDB][2D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_2D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_2D::createDB()).testQuery();
+}
+
+TEST_CASE("TestUserFunctionDB::testAddValue", "[TestUserFunctionDB][3D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_3D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_3D::createDB()).testAddValue();
+}
+TEST_CASE("TestUserFunctionDB::testOpenClose", "[TestUserFunctionDB][3D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_3D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_3D::createDB()).testOpenClose();
+}
+TEST_CASE("TestUserFunctionDB::testGetNamesDBValues", "[TestUserFunctionDB][3D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_3D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_3D::createDB()).testGetNamesDBValues();
+}
+TEST_CASE("TestUserFunctionDB::testQueryVals", "[TestUserFunctionDB][3D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_3D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_3D::createDB()).testQueryVals();
+}
+TEST_CASE("TestUserFunctionDB::testQuery", "[TestUserFunctionDB][3D]") {
+    spatialdata::spatialdb::TestUserFunctionDB(spatialdata::spatialdb::TestUserFunctionDB_3D::createData(),
+                                               spatialdata::spatialdb::TestUserFunctionDB_3D::createDB()).testQuery();
+}
 
 // End of file
