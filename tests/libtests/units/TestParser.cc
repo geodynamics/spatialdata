@@ -16,11 +16,12 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/units/Parser.hh" // USES Parser
 
 #include <stdexcept> // USES std::runtime_error
+
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
 
 // ----------------------------------------------------------------------
 namespace spatialdata {
@@ -29,54 +30,69 @@ namespace spatialdata {
     } // units
 } // spatialdata
 
-class spatialdata::units::TestParser : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestParser);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testLength);
-    CPPUNIT_TEST(testTime);
-    CPPUNIT_TEST(testVelocity);
-    CPPUNIT_TEST(testDensity);
-    CPPUNIT_TEST(testPressure);
-    CPPUNIT_TEST(testError);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::units::TestParser {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test constructor.
+    static
     void testConstructor(void);
 
     /// Test parse() with length scale.
+    static
     void testLength(void);
 
     /// Test parse() with time scale.
+    static
     void testTime(void);
 
     /// Test parse() with velocity scale.
+    static
     void testVelocity(void);
 
     /// Test parse() with density scale.
+    static
     void testDensity(void);
 
     /// Test parse() with pressure scale.
+    static
     void testPressure(void);
 
     /// Test trapping errors with parse().
+    static
     void testError(void);
 
-    // PRIVATE MEMBERS /////////////////////////////////////////////////////
+    // PRIVATE MEMBERS ////////////////////////////////////////////////////////////////////////////
 private:
 
     static const double _tolerance;
 }; // class TestParser
 const double spatialdata::units::TestParser::_tolerance = 1.0e-6;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::units::TestParser);
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestParser::testConstructor", "[TestParser]") {
+    spatialdata::units::TestParser::testConstructor();
+}
+TEST_CASE("TestParser::testLength", "[TestParser]") {
+    spatialdata::units::TestParser::testLength();
+}
+TEST_CASE("TestParser::testTime", "[TestParser]") {
+    spatialdata::units::TestParser::testTime();
+}
+TEST_CASE("TestParser::testVelocity", "[TestParser]") {
+    spatialdata::units::TestParser::testVelocity();
+}
+TEST_CASE("TestParser::testDensity", "[TestParser]") {
+    spatialdata::units::TestParser::testDensity();
+}
+TEST_CASE("TestParser::testPressure", "[TestParser]") {
+    spatialdata::units::TestParser::testPressure();
+}
+TEST_CASE("TestParser::testError", "[TestParser]") {
+    spatialdata::units::TestParser::testError();
+}
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test constructor.
 void
 spatialdata::units::TestParser::testConstructor(void) {
@@ -88,68 +104,68 @@ spatialdata::units::TestParser::testConstructor(void) {
 } // testConstructor
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test parse() with length scale.
 void
 spatialdata::units::TestParser::testLength(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'cm'.", 0.01, parser.parse("cm"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'inch'.", 0.0254, parser.parse("inch"), _tolerance);
+    CHECK_THAT(parser.parse("cm"), Catch::Matchers::WithinAbs(0.01, _tolerance));
+    CHECK_THAT(parser.parse("inch"), Catch::Matchers::WithinAbs(0.0254, _tolerance));
 } // testLength
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test parse() with time scale.
 void
 spatialdata::units::TestParser::testTime(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'minute'.", 60.0, parser.parse("minute"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'millisecond'.", 0.001, parser.parse("millisecond"), _tolerance);
+    CHECK_THAT(parser.parse("minute"), Catch::Matchers::WithinAbs(60.0, _tolerance));
+    CHECK_THAT(parser.parse("millisecond"), Catch::Matchers::WithinAbs(0.001, _tolerance));
 } // testTime
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test parse() with velocity scale.
 void
 spatialdata::units::TestParser::testVelocity(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'cm/s'.", 0.01, parser.parse("cm/s"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'km/hour'.", 1.0/3.6, parser.parse("km/hour"), _tolerance);
+    CHECK_THAT(parser.parse("cm/s"), Catch::Matchers::WithinAbs(0.01, _tolerance));
+    CHECK_THAT(parser.parse("km/hour"), Catch::Matchers::WithinAbs(1.0/3.6, _tolerance));
 } // testVelocity
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test parse() with density scale.
 void
 spatialdata::units::TestParser::testDensity(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'kg/m**3'.", 1.0, parser.parse("kg/m**3"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'g/cm**3'.", 1000.0, parser.parse("g/cm**3"), _tolerance);
+    CHECK_THAT(parser.parse("kg/m**3"), Catch::Matchers::WithinAbs(1.0, _tolerance));
+    CHECK_THAT(parser.parse("g/cm**3"), Catch::Matchers::WithinAbs(1000.0, _tolerance));
 } // testDensity
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test parse() with pressure scale.
 void
 spatialdata::units::TestParser::testPressure(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'pascal'.", 1.0, parser.parse("pascal"), _tolerance);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch when parsing 'MPa'.", 1.0e+06, parser.parse("MPa"), _tolerance);
+    CHECK_THAT(parser.parse("pascal"), Catch::Matchers::WithinAbs(1.0, _tolerance));
+    CHECK_THAT(parser.parse("MPa"), Catch::Matchers::WithinAbs(1.0e+06, _tolerance));
 } // testPressure
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test trapping errors with parse().
 void
 spatialdata::units::TestParser::testError(void) {
     Parser parser;
 
-    CPPUNIT_ASSERT_THROW(parser.parse("abc"), std::runtime_error);
+    CHECK_THROWS_AS(parser.parse("abc"), std::runtime_error);
 } // testError
 
 
