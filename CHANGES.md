@@ -1,6 +1,7 @@
 ## Version 3.1.0 (TBD)
 
 * Add `AnalyticDB` for a spatial database composed of analytic functions.
+* Switch from CppUnit to Catch2 for C++ testing framework.
 * Bugfixes
   - Update spatial database validateParameters() to use correct data member (self.label -> self.description).
 
