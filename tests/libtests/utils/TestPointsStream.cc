@@ -16,38 +16,33 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/utils/PointsStream.hh" // USES PointStream
+
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
 
 #include <sstream> // USES std::stringstream
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace utils {
         class TestPointsStream;
     } // utils
 } // spatialdata
 
-class spatialdata::utils::TestPointsStream : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestPointsStream);
-
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testWriteRead);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::utils::TestPointsStream {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test write()/read()
+    static
     void testWriteRead(void);
 
-    // PRIVATE METHODS ////////////////////////////////////////////////////
+    // PRIVATE METHODS ////////////////////////////////////////////////////////////////////////////
 private:
 
     static const double _POINTS[]; ///< Array of points
@@ -64,9 +59,15 @@ const double spatialdata::utils::TestPointsStream::_POINTS[4*3] = {
     1.3, 2.3, 3.3
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::utils::TestPointsStream);
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestPointsStream::testAccessors", "[TestPointsStream]") {
+    spatialdata::utils::TestPointsStream::testAccessors();
+}
+TEST_CASE("TestPointsStream::testWriteRead", "[TestPointsStream]") {
+    spatialdata::utils::TestPointsStream::testWriteRead();
+}
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test accessors.
 void
 spatialdata::utils::TestPointsStream::testAccessors(void) {
@@ -81,14 +82,14 @@ spatialdata::utils::TestPointsStream::testAccessors(void) {
     s.setFieldWidth(fieldWidth);
     s.setPrecision(precision);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, std::string(s.getFilename()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in comment flag.", flag, std::string(s.getCommentFlag()));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in field width.", fieldWidth, s.getFieldWidth());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in precision.", precision, s.getPrecision());
+    CHECK(filename == std::string(s.getFilename()));
+    CHECK(flag == std::string(s.getCommentFlag()));
+    CHECK(fieldWidth == s.getFieldWidth());
+    CHECK(precision == s.getPrecision());
 } // testAccessors
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test write() and read()
 void
 spatialdata::utils::TestPointsStream::testWriteRead(void) {
@@ -103,13 +104,13 @@ spatialdata::utils::TestPointsStream::testWriteRead(void) {
     size_t numDims = 0;
     s.read(&points, &numPts, &numDims);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points.", _NUMPTS, numPts);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", _NUMDIMS, numDims);
+    REQUIRE(_NUMPTS == numPts);
+    REQUIRE(_NUMDIMS == numDims);
 
     const size_t size = _NUMPTS * _NUMDIMS;
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < size; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in point values.", _POINTS[i], points[i], tolerance);
+        CHECK_THAT(points[i], Catch::Matchers::WithinAbs(_POINTS[i], tolerance));
     } // for
 
     delete[] points;points = NULL;
