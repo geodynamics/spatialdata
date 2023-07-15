@@ -16,12 +16,16 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "spatialdata/spatialdb/UniformDB.hh" // Test subject
 
-#include "spatialdata/spatialdb/UniformDB.hh" // USES UniformDB
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 
-// ----------------------------------------------------------------------
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
+
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class TestUniformDB;
@@ -29,52 +33,65 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestUniformDB : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestUniformDB);
-
-    CPPUNIT_TEST(testConstructors);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testSetData);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryVals);
-    CPPUNIT_TEST(testQuery);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestUniformDB {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test constructors
+    static
     void testConstructors(void);
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test setData()
+    static
     void testSetData(void);
 
     /// Test getNamesDBValues().
+    static
     void testGetNamesDBValues(void);
 
     /// Test setQueryValues()
+    static
     void testQueryVals(void);
 
     /// Test query()
+    static
     void testQuery(void);
 
 }; // class TestUniformDB
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestUniformDB);
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestUniformDB::testConstructors", "[TestUniformDB]") {
+    spatialdata::spatialdb::TestUniformDB::testConstructors();
+}
+TEST_CASE("TestUniformDB::testAccessors", "[TestUniformDB]") {
+    spatialdata::spatialdb::TestUniformDB::testAccessors();
+}
+TEST_CASE("TestUniformDB::testSetData", "[TestUniformDB]") {
+    spatialdata::spatialdb::TestUniformDB::testSetData();
+}
+TEST_CASE("TestUniformDB::testGetNamesDBValues", "[TestUniformDB]") {
+    spatialdata::spatialdb::TestUniformDB::testGetNamesDBValues();
+}
+TEST_CASE("TestUniformDB::testQueryVals", "[TestUniformDB]") {
+    spatialdata::spatialdb::TestUniformDB::testQueryVals();
+}
+TEST_CASE("TestUniformDB::testQuery", "[TestUniformDB]") {
+    spatialdata::spatialdb::TestUniformDB::testQuery();
+}
+
+// ------------------------------------------------------------------------------------------------
 // Test constructor.
 void
 spatialdata::spatialdb::TestUniformDB::testConstructors(void) {
     UniformDB db;
 
-    const std::string label("database A");
-    UniformDB dbL(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(dbL.getDescription()));
+    const std::string description("database A");
+    UniformDB dbL(description.c_str());
+    CHECK(description == std::string(dbL.getDescription()));
 } // testConstructors
 
 
@@ -82,11 +99,11 @@ spatialdata::spatialdb::TestUniformDB::testConstructors(void) {
 // Test accessors().
 void
 spatialdata::spatialdb::TestUniformDB::testAccessors(void) {
-    const std::string label("database 2");
+    const std::string description("database 2");
 
     UniformDB db;
-    db.setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(db.getDescription()));
+    db.setDescription(description.c_str());
+    CHECK(description == std::string(db.getDescription()));
 } // testAccessors
 
 
@@ -104,18 +121,18 @@ spatialdata::spatialdb::TestUniformDB::testSetData(void) {
 
     db.setData(names, units, values, numValues);
 
-    CPPUNIT_ASSERT_EQUAL(numValues, db._numValues);
+    REQUIRE(numValues == db._numValues);
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(names[i]), db._names[i]);
+        CHECK(std::string(names[i]) == db._names[i]);
     } // for
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL(valuesE[i], db._values[i]);
+        CHECK(valuesE[i] == db._values[i]);
     } // for
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValues, db._querySize);
+    REQUIRE(numValues == db._querySize);
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+        CHECK(i == db._queryValues[i]);
     } // for
 } // testSetData
 
@@ -135,11 +152,10 @@ spatialdata::spatialdb::TestUniformDB::testGetNamesDBValues(void) {
     const char** valueNames = NULL;
     size_t numValues = 0;
     db.getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
+    REQUIRE(numValuesE == numValues);
 
     for (size_t i = 0; i < numValuesE; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
-                                     std::string(names[i]), std::string(valueNames[i]));
+        CHECK(std::string(names[i]) == std::string(valueNames[i]));
     } // for
     delete[] valueNames;valueNames = NULL;
     numValues = 0;
@@ -164,9 +180,9 @@ spatialdata::spatialdb::TestUniformDB::testQueryVals(void) {
     db.setData(names, units, values, numValues);
     db.setQueryValues(queryNames, querySize);
 
-    CPPUNIT_ASSERT_EQUAL(querySize, db._querySize);
+    REQUIRE(querySize == db._querySize);
     for (size_t i = 0; i < querySize; ++i) {
-        CPPUNIT_ASSERT_EQUAL(queryVals[i], db._queryValues[i]);
+        CHECK(queryVals[i] == db._queryValues[i]);
     } // for
 } // testQueryVals
 
@@ -197,9 +213,11 @@ spatialdata::spatialdb::TestUniformDB::testQuery(void) {
 
     db.query(data, querySize, coords, spaceDim, &cs);
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
         const double valE = values[queryVals[i]];
-        CPPUNIT_ASSERT_EQUAL(valE, data[i]);
+        const double toleranceV = fabs(valE) > 0.0 ? fabs(valE) * tolerance : tolerance;
+        CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valE, toleranceV));
     } // for
 } // testQuery
 

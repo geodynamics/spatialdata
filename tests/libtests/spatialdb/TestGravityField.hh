@@ -24,11 +24,10 @@
 #if !defined(spatialdata_spatialdb_testgravityfield_hh)
 #define spatialdata_spatialdb_testgravityfield_hh
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/geocoords/geocoordsfwd.hh" // USES CoordSys
 
-/// Namespace for spatial package
+#include <cstddef> // HASA size_t
+
 namespace spatialdata {
     namespace spatialdb {
         class TestGravityField;
@@ -36,52 +35,46 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for GravityField
-class spatialdata::spatialdb::TestGravityField : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestGravityField);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryVals);
-    CPPUNIT_TEST(testQuery);
-
-    CPPUNIT_TEST_SUITE_END_ABSTRACT();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestGravityField {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Setup test data.
-    void setUp(void);
+    /// Constructor.
+    TestGravityField(TestGravityField_Data* data);
 
-    /// Destroy test data.
-    void tearDown(void);
+    /// Destructor.
+    ~TestGravityField(void);
 
     /// Test constructor
+    static
     void testConstructor(void);
 
     /// Test accessors.
+    static
     void testAccessors(void);
 
     /// Test getNamesDBValues().
+    static
     void testGetNamesDBValues(void);
 
     /// Test setQueryValues()
+    static
     void testQueryVals(void);
 
     /// Test query().
     void testQuery(void);
 
-    // PROTECTED METHODS /////////////////////////////////////////////////////
+    // PROTECTED METHODS //////////////////////////////////////////////////////////////////////////
 protected:
 
     TestGravityField_Data* _data; ///< Test data.
 
 }; // class TestGravityField
 
+// ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestGravityField_Data {
-    // PUBLIC METHODS ///////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Constructor
@@ -90,7 +83,7 @@ public:
     /// Destructor
     ~TestGravityField_Data(void);
 
-    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+    // PUBLIC MEMBERS /////////////////////////////////////////////////////////////////////////////
 public:
 
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.

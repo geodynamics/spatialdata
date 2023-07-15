@@ -25,9 +25,7 @@
 #if !defined(spatialdata_spatialdb_testuserfunctiondb_hh)
 #define spatialdata_spatialdb_testuserfunctiondb_hh
 
-#include <cppunit/extensions/HelperMacros.h>
-
-#include "spatialdata/spatialdb/UserFunctionDB.hh" // HASA UserFunctionDB::UserData
+#include "spatialdata/spatialdb/UserFunctionDB.hh" // Test subject
 
 /// Namespace for spatial package
 namespace spatialdata {
@@ -37,42 +35,32 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for UserFunctionDB
-class spatialdata::spatialdb::TestUserFunctionDB : public CppUnit::TestFixture { // class TestUserFunctionDB
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestUserFunctionDB);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testDescription);
-    CPPUNIT_TEST(testAddValue);
-    CPPUNIT_TEST(testCoordsys);
-    CPPUNIT_TEST(testOpenClose);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryVals);
-    CPPUNIT_TEST(testQuery);
-
-    CPPUNIT_TEST_SUITE_END_ABSTRACT();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestUserFunctionDB {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Setup testing data.
-    void setUp(void);
+    /// Constructor.
+    TestUserFunctionDB(TestUserFunctionDB_Data* data,
+                       UserFunctionDB* db);
 
-    /// Tear down testing data.
-    void tearDown(void);
+    /// Destructor.
+    ~TestUserFunctionDB(void);
 
     /// Test constructor
+    static
     void testConstructor(void);
 
-    /// Test label()
+    /// Test setDescription()
+    static
     void testDescription(void);
+
+    /// Test coordsys()
+    static
+    void testCoordsys(void);
 
     /// Test addValue()
     void testAddValue(void);
-
-    /// Test coordsys()
-    void testCoordsys(void);
 
     /// Test open() and close()
     void testOpenClose(void);
@@ -86,19 +74,6 @@ public:
     /// Test query().
     void testQuery(void);
 
-    // PRIVATE METHODS ////////////////////////////////////////////////////
-private:
-
-    /** Populate database with data.
-     *
-     * @param db Database
-     * @param data Data for database
-     */
-    void _initializeDB(void);
-
-    virtual
-    void _addValues(void) = 0;
-
 protected:
 
     // PROTECTED MEMBERS //////////////////////////////////////////////////
@@ -108,6 +83,7 @@ protected:
 
 }; // class TestUserFunctionDB
 
+// ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestUserFunctionDB_Data {
     // PUBLIC STRUCTS ///////////////////////////////////////////////////////
 public:

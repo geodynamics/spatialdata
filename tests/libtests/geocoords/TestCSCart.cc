@@ -16,58 +16,65 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
+
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
 
 #include <sstream> // USES std::stringstream
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace geocoords {
         class TestCSCart;
     } // geocoords
 } // spatialdata
 
-class spatialdata::geocoords::TestCSCart : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestCSCart);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testPickle);
-
-    CPPUNIT_TEST_SUITE_END();
+class spatialdata::geocoords::TestCSCart {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
+public:
 
     // Test constructor
+    static
     void testConstructor(void);
 
     // Test accessors.
+    static
     void testAccessors(void);
 
     // Test pickle() & unpickle()
+    static
     void testPickle(void);
 
 }; // class TestCSCart
 
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestCSCart);
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestCSCart::testConstructor", "[TestCSCart]") {
+    spatialdata::geocoords::TestCSCart::testConstructor();
+}
+TEST_CASE("TestCSCart::testAccessors", "[TestCSCart]") {
+    spatialdata::geocoords::TestCSCart::testAccessors();
+}
+TEST_CASE("TestCSCart::testPickle", "[TestCSCart]") {
+    spatialdata::geocoords::TestCSCart::testPickle();
+}
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test constructor
 void
 spatialdata::geocoords::TestCSCart::testConstructor(void) {
     CSCart cs;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in length scale for default constructor.", 1.0, cs.getToMeters());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in Cartesian coordinate system type.", CoordSys::CARTESIAN, cs.getCSType());
+    CHECK(1.0 == cs.getToMeters());
+    CHECK(CoordSys::CARTESIAN == cs.getCSType());
 
     cs.setSpaceDim(2);
-    CoordSys* csClone = cs.clone();CPPUNIT_ASSERT(csClone);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in coordinate dimension of clone.", cs.getSpaceDim(), csClone->getSpaceDim());
+    CoordSys* csClone = cs.clone();assert(csClone);
+    CHECK(cs.getSpaceDim() == csClone->getSpaceDim());
     delete csClone;csClone = NULL;
 } // testConstructor
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test accessors
 void
 spatialdata::geocoords::TestCSCart::testAccessors(void) {
@@ -79,12 +86,12 @@ spatialdata::geocoords::TestCSCart::testAccessors(void) {
     cs.setSpaceDim(spaceDim);
 
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in length scale.", toMeters, cs.getToMeters(), tolerance);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system.", spaceDim, cs.getSpaceDim());
+    CHECK_THAT(cs.getToMeters(), Catch::Matchers::WithinAbs(toMeters, tolerance));
+    CHECK(spaceDim == cs.getSpaceDim());
 } // testAccessors
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test pickle() and unpickle()
 void
 spatialdata::geocoords::TestCSCart::testPickle(void) {
@@ -102,8 +109,8 @@ spatialdata::geocoords::TestCSCart::testPickle(void) {
     csB.unpickle(s);
 
     const double tolerance = 1.0e-6;
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in length scale.", toMeters, csB.getToMeters(), tolerance);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in dimension of coordinate system", spaceDim, csB.getSpaceDim());
+    CHECK_THAT(csB.getToMeters(), Catch::Matchers::WithinAbs(toMeters, tolerance));
+    CHECK(spaceDim == csB.getSpaceDim());
 } // testPickle
 
 

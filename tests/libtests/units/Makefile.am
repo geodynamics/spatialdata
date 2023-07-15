@@ -14,27 +14,16 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/tests/check.am
 
-TESTS = testunits
+TESTS = libtest_units
 
-check_PROGRAMS = testunits
+check_PROGRAMS = libtest_units
 
-testunits_SOURCES = \
+libtest_units_SOURCES = \
 	TestNondimensional.cc \
 	TestParser.cc \
-	test_driver.cc
-
-AM_CPPFLAGS += -I$(PYTHON_INCDIR)
-
-testunits_LDFLAGS = \
-	$(AM_LDFLAGS) $(PYTHON_LA_LDFLAGS)
-
-testunits_LDADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
-	-lproj \
-	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
+	$(top_srcdir)/tests/src/driver_catch2.cc
 
 
 # End of file

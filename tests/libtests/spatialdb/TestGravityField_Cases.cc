@@ -21,186 +21,218 @@
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
+#include "catch2/catch_test_macros.hpp"
+
 #include <cmath> // USES sqrt()
 
-// ---------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
-        class TestGravityField_Cart2D;
-        class TestGravityField_Cart3D;
-        class TestGravityField_Geo;
-        class TestGravityField_GeoProj;
-        class TestGravityField_Geocentric;
+        class TestGravityField_Cases;
     } // spatialdb
 } // spatialdata
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestGravityField_Cart2D : public TestGravityField {
-    CPPUNIT_TEST_SUB_SUITE(TestGravityField_Cart2D, TestGravityField);
-    CPPUNIT_TEST_SUITE_END();
+class spatialdata::spatialdb::TestGravityField_Cases {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
+public:
 
-    void setUp(void) {
-        TestGravityField::setUp();
+    // Factories
+    static
+    TestGravityField_Data* Cart2D(void);
 
-        delete _data;_data = new TestGravityField_Data;CPPUNIT_ASSERT(_data);
-        _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
-        _data->cs->setSpaceDim(2);
+    static
+    TestGravityField_Data* Cart3D(void);
 
-        _data->gravityAcc = 2.0;
-        static const double gravityDir[2] = { +0.6, -0.8 };
-        _data->gravityDir = gravityDir;
+    static
+    TestGravityField_Data* Geo(void);
 
-        _data->numPoints = 1;
-        _data->querySize = 2;
+    static
+    TestGravityField_Data* GeoProj(void);
 
-        static const double coordinates[2] = { 2.5, 6.3 };
-        _data->coordinates = coordinates;
+    static
+    TestGravityField_Data* Geocentric(void);
 
-        static const double gravity[2] = { +1.2, -1.6 };
-        _data->gravity = gravity;
-    } // Setup
+}; // class TestGravity
 
-}; // TestGravityField_Cart2D
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestGravityField_Cart2D);
+// ------------------------------------------------------------------------------------------------
+// Static test cases
+TEST_CASE("TestGravityField::testConstructor", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField::testConstructor();
+}
+TEST_CASE("TestGravityField::testAccessors", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField::testAccessors();
+}
+TEST_CASE("TestGravityField::testGetNamesDBValues", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField::testGetNamesDBValues();
+}
+TEST_CASE("TestGravityField::testQueryVals", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField::testQueryVals();
+}
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestGravityField_Cart3D : public TestGravityField {
-    CPPUNIT_TEST_SUB_SUITE(TestGravityField_Cart3D, TestGravityField);
-    CPPUNIT_TEST_SUITE_END();
+// Data test cases
+TEST_CASE("TestGravityField::Cart2D::testQuery", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField(spatialdata::spatialdb::TestGravityField_Cases::Cart2D()).testQuery();
+}
+TEST_CASE("TestGravityField::Cart3D::testQuery", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField(spatialdata::spatialdb::TestGravityField_Cases::Cart3D()).testQuery();
+}
+TEST_CASE("TestGravityField::Geo::testQuery", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField(spatialdata::spatialdb::TestGravityField_Cases::Geo()).testQuery();
+}
+TEST_CASE("TestGravityField::GeoProj::testQuery", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField(spatialdata::spatialdb::TestGravityField_Cases::GeoProj()).testQuery();
+}
+TEST_CASE("TestGravityField::Geocentric::testQuery", "[TestGravityField]") {
+    spatialdata::spatialdb::TestGravityField(spatialdata::spatialdb::TestGravityField_Cases::Geocentric()).testQuery();
+}
 
-    void setUp(void) {
-        TestGravityField::setUp();
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestGravityField_Data*
+spatialdata::spatialdb::TestGravityField_Cases::Cart2D(void) {
+    TestGravityField_Data* data = new TestGravityField_Data;assert(data);
 
-        delete _data;_data = new TestGravityField_Data;CPPUNIT_ASSERT(_data);
-        _data->cs = new spatialdata::geocoords::CSCart();CPPUNIT_ASSERT(_data->cs);
-        _data->cs->setSpaceDim(3);
+    data->cs = new spatialdata::geocoords::CSCart();assert(data->cs);
+    data->cs->setSpaceDim(2);
 
-        _data->gravityAcc = 2.0;
+    data->gravityAcc = 2.0;
+    static const double gravityDir[2] = { +0.6, -0.8 };
+    data->gravityDir = gravityDir;
 
-        static const double gravityDir[3] = { +0.3, +0.4, -0.5 };
-        _data->gravityDir = gravityDir;
+    data->numPoints = 1;
+    data->querySize = 2;
 
-        _data->numPoints = 1;
-        _data->querySize = 3;
+    static const double coordinates[2] = { 2.5, 6.3 };
+    data->coordinates = coordinates;
 
-        static const double coordinates[3] = { 2.5, 6.3, -2.4 };
-        _data->coordinates = coordinates;
+    static const double gravity[2] = { +1.2, -1.6 };
+    data->gravity = gravity;
 
-        static const double gravity[3] = {
-            +0.6 / sqrt(0.5),
-            +0.8 / sqrt(0.5),
-            -1.0 / sqrt(0.5),
-        };
-        _data->gravity = gravity;
-    } // Setup
+    return data;
+} // Cart2D
 
-}; // TestGravityField_Cart3D
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestGravityField_Cart3D);
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestGravityField_Geo : public TestGravityField {
-    CPPUNIT_TEST_SUB_SUITE(TestGravityField_Geo, TestGravityField);
-    CPPUNIT_TEST_SUITE_END();
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestGravityField_Data*
+spatialdata::spatialdb::TestGravityField_Cases::Cart3D(void) {
+    TestGravityField_Data* data = new TestGravityField_Data;assert(data);
 
-    void setUp(void) {
-        TestGravityField::setUp();
+    data->cs = new spatialdata::geocoords::CSCart();assert(data->cs);
+    data->cs->setSpaceDim(3);
 
-        delete _data;_data = new TestGravityField_Data;CPPUNIT_ASSERT(_data);
-        spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();CPPUNIT_ASSERT(cs);
-        cs->setString("EPSG:4326"); // WGS84
-        cs->setSpaceDim(3);
-        _data->cs = cs;
+    data->gravityAcc = 2.0;
 
-        _data->gravityAcc = 2.0;
+    static const double gravityDir[3] = { +0.3, +0.4, -0.5 };
+    data->gravityDir = gravityDir;
 
-        static const double gravityDir[3] = { 0.0, 0.0, -1.0 };
-        _data->gravityDir = gravityDir;
+    data->numPoints = 1;
+    data->querySize = 3;
 
-        _data->numPoints = 1;
-        _data->querySize = 3;
+    static const double coordinates[3] = { 2.5, 6.3, -2.4 };
+    data->coordinates = coordinates;
 
-        static const double coordinates[3] = { 2.5, 6.3, -2.4 };
-        _data->coordinates = coordinates;
+    static const double gravity[3] = {
+        +0.6 / sqrt(0.5),
+        +0.8 / sqrt(0.5),
+        -1.0 / sqrt(0.5),
+    };
+    data->gravity = gravity;
 
-        static const double gravity[3] = { 0.0, 0.0, -2.0 };
-        _data->gravity = gravity;
-    } // Setup
+    return data;
+} // Cart3D
 
-}; // TestGravityField_Geo
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestGravityField_Geo);
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestGravityField_GeoProj : public TestGravityField {
-    CPPUNIT_TEST_SUB_SUITE(TestGravityField_GeoProj, TestGravityField);
-    CPPUNIT_TEST_SUITE_END();
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestGravityField_Data*
+spatialdata::spatialdb::TestGravityField_Cases::Geo(void) {
+    TestGravityField_Data* data = new TestGravityField_Data;assert(data);
 
-    void setUp(void) {
-        TestGravityField::setUp();
+    spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();assert(cs);
+    cs->setString("EPSG:4326"); // WGS84
+    cs->setSpaceDim(3);
+    data->cs = cs;
 
-        delete _data;_data = new TestGravityField_Data;CPPUNIT_ASSERT(_data);
-        spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();CPPUNIT_ASSERT(cs);
-        cs->setString("EPSG:3310"); // California AEA
-        cs->setSpaceDim(3);
-        _data->cs = cs;
+    data->gravityAcc = 2.0;
 
-        _data->gravityAcc = 2.0;
+    static const double gravityDir[3] = { 0.0, 0.0, -1.0 };
+    data->gravityDir = gravityDir;
 
-        static const double gravityDir[3] = { 0.0, 0.0, -1.0 };
-        _data->gravityDir = gravityDir;
+    data->numPoints = 1;
+    data->querySize = 3;
 
-        _data->numPoints = 1;
-        _data->querySize = 3;
+    static const double coordinates[3] = { 2.5, 6.3, -2.4 };
+    data->coordinates = coordinates;
 
-        static const double coordinates[3] = { 2.5, 6.3, -2.4 };
-        _data->coordinates = coordinates;
+    static const double gravity[3] = { 0.0, 0.0, -2.0 };
+    data->gravity = gravity;
 
-        static const double gravity[3] = { 0.0, 0.0, -2.0 };
-        _data->gravity = gravity;
-    } // Setup
+    return data;
+} // Geo
 
-}; // TestGravityField_GeoProj
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestGravityField_GeoProj);
 
-// ---------------------------------------------------------------------------------------------------------------------
-class spatialdata::spatialdb::TestGravityField_Geocentric : public TestGravityField {
-    CPPUNIT_TEST_SUB_SUITE(TestGravityField_Geocentric, TestGravityField);
-    CPPUNIT_TEST_SUITE_END();
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestGravityField_Data*
+spatialdata::spatialdb::TestGravityField_Cases::GeoProj(void) {
+    TestGravityField_Data* data = new TestGravityField_Data;assert(data);
 
-    void setUp(void) {
-        TestGravityField::setUp();
+    spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();assert(cs);
+    cs->setString("EPSG:3310"); // California AEA
+    cs->setSpaceDim(3);
+    data->cs = cs;
 
-        delete _data;_data = new TestGravityField_Data;CPPUNIT_ASSERT(_data);
-        spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();CPPUNIT_ASSERT(cs);
-        cs->setString("EPSG:4978"); // ECEF geocentric
-        cs->setSpaceDim(3);
-        _data->cs = cs;
+    data->gravityAcc = 2.0;
 
-        const double gacc = 2.0;
-        _data->gravityAcc = gacc;
+    static const double gravityDir[3] = { 0.0, 0.0, -1.0 };
+    data->gravityDir = gravityDir;
 
-        _data->numPoints = 5;
-        _data->querySize = 3;
+    data->numPoints = 1;
+    data->querySize = 3;
 
-        static const double coordinates[5*3] = {
-            0.0, 0.0, 6356752.31, // (lon=0.0, lat=90.0)
-            6378137.00, 0.0, 0.0, // (lon=0.0, lat=0.0)
-            0.0, -6378137.00, 0.0, // (lon=-90.0, lat=0.0)
-            -2684785.48, -4296554.90, 3861564.10, // (lon=-122.0, lat=37.5)
-            -2680581.35, -4289826.89, 3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
-        };
-        _data->coordinates = coordinates;
+    static const double coordinates[3] = { 2.5, 6.3, -2.4 };
+    data->coordinates = coordinates;
 
-        static const double gravity[5*3] = {
-            0.0, 0.0, -gacc,
-            -gacc, 0.0, 0.0,
-            0.0, gacc, 0.0,
-            +0.4204132183640867*gacc, +0.6728017898133232*gacc, -0.6087614290087207*gacc,
-            +0.4204132183640867*gacc, +0.6728017898133232*gacc, -0.6087614290087207*gacc,
-        };
-        _data->gravity = gravity;
-    } // Setup
+    static const double gravity[3] = { 0.0, 0.0, -2.0 };
+    data->gravity = gravity;
 
-}; // TestGravityField_Geocentric
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestGravityField_Geocentric);
+    return data;
+} // GeoProj
+
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::spatialdb::TestGravityField_Data*
+spatialdata::spatialdb::TestGravityField_Cases::Geocentric(void) {
+    TestGravityField_Data* data = new TestGravityField_Data;assert(data);
+
+    spatialdata::geocoords::CSGeo* cs = new spatialdata::geocoords::CSGeo();assert(cs);
+    cs->setString("EPSG:4978"); // ECEF geocentric
+    cs->setSpaceDim(3);
+    data->cs = cs;
+
+    const double gacc = 2.0;
+    data->gravityAcc = gacc;
+
+    data->numPoints = 5;
+    data->querySize = 3;
+
+    static const double coordinates[5*3] = {
+        0.0, 0.0, 6356752.31, // (lon=0.0, lat=90.0)
+        6378137.00, 0.0, 0.0, // (lon=0.0, lat=0.0)
+        0.0, -6378137.00, 0.0, // (lon=-90.0, lat=0.0)
+        -2684785.48, -4296554.90, 3861564.10, // (lon=-122.0, lat=37.5)
+        -2680581.35, -4289826.89, 3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
+    };
+    data->coordinates = coordinates;
+
+    static const double gravity[5*3] = {
+        0.0, 0.0, -gacc,
+        -gacc, 0.0, 0.0,
+        0.0, gacc, 0.0,
+        +0.4204132183640867*gacc, +0.6728017898133232*gacc, -0.6087614290087207*gacc,
+        +0.4204132183640867*gacc, +0.6728017898133232*gacc, -0.6087614290087207*gacc,
+    };
+    data->gravity = gravity;
+
+    return data;
+} // Geocentric
+
 
 // End of file

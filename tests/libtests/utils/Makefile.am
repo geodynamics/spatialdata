@@ -14,24 +14,17 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/tests/check.am
 
-TESTS = testutils
+TESTS = libtest_utils
 
-check_PROGRAMS = testutils
+check_PROGRAMS = libtest_utils
 
-testutils_SOURCES = \
+libtest_utils_SOURCES = \
 	TestPointsStream.cc \
 	TestSpatialdataVersion.cc \
-	test_driver.cc
+	$(top_srcdir)/tests/src/driver_catch2.cc
 
-testutils_LDFLAGS =
-
-testutils_LDADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
-	-lproj \
-	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
 
 
 # End of file

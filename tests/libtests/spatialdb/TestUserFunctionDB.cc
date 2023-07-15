@@ -21,21 +21,28 @@
 #include "spatialdata/spatialdb/UserFunctionDB.hh" // USES UserFunctionDB
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
 #include <stdexcept> // USES std::runtime_error
 
 // ----------------------------------------------------------------------
-// Setup testing data.
-void
-spatialdata::spatialdb::TestUserFunctionDB::setUp(void) {
-    _db = new UserFunctionDB();CPPUNIT_ASSERT(_db);
-    _data = NULL;
+// Constructor
+spatialdata::spatialdb::TestUserFunctionDB::TestUserFunctionDB(TestUserFunctionDB_Data* data,
+                                                               UserFunctionDB* db) :
+    _db(db),
+    _data(data) {
+    assert(_data);
+    assert(_db);
+
+    _db->setCoordSys(*_data->cs);
 } // setUp
 
 
 // ----------------------------------------------------------------------
 // Tear down testing data.
-void
-spatialdata::spatialdb::TestUserFunctionDB::tearDown(void) {
+spatialdata::spatialdb::TestUserFunctionDB::~TestUserFunctionDB(void) {
     delete _db;_db = NULL;
     delete _data;_data = NULL;
 } // tearDown
@@ -53,9 +60,11 @@ spatialdata::spatialdb::TestUserFunctionDB::testConstructor(void) {
 // Test label()
 void
 spatialdata::spatialdb::TestUserFunctionDB::testDescription(void) {
-    const std::string& label = "database 2";
-    _db->setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getDescription()));
+    UserFunctionDB db;
+
+    const std::string& description = "database 2";
+    db.setDescription(description.c_str());
+    CHECK(description == std::string(db.getDescription()));
 } // testDescription
 
 
@@ -63,12 +72,12 @@ spatialdata::spatialdb::TestUserFunctionDB::testDescription(void) {
 // Test coordsys()
 void
 spatialdata::spatialdb::TestUserFunctionDB::testCoordsys(void) {
+    UserFunctionDB db;
+
     spatialdata::geocoords::CSCart cs;
     cs.setSpaceDim(2);
-
-    _db->setCoordSys(cs);
-
-    CPPUNIT_ASSERT_EQUAL(cs.getSpaceDim(), _db->_cs->getSpaceDim());
+    db.setCoordSys(cs);
+    CHECK(cs.getSpaceDim() == db._cs->getSpaceDim());
 } // testCoordsys
 
 
@@ -76,16 +85,12 @@ spatialdata::spatialdb::TestUserFunctionDB::testCoordsys(void) {
 // Test addValue()
 void
 spatialdata::spatialdb::TestUserFunctionDB::testAddValue(void) {
-    _initializeDB();
-
-    // Verify functions have been added
     const int numValues = _data->numValues;
     for (int i = 0; i < numValues; ++i) {
         const std::string& name = _data->values[i].name;
-        CPPUNIT_ASSERT(_db->_functions[name].fn);
-        CPPUNIT_ASSERT_EQUAL(_data->values[i].units, _db->_functions[name].units);
+        assert(_db->_functions[name].fn);
+        CHECK(_data->values[i].units == _db->_functions[name].units);
     } // for
-
 } // testAddValue
 
 
@@ -93,9 +98,8 @@ spatialdata::spatialdb::TestUserFunctionDB::testAddValue(void) {
 // Test open() and close()
 void
 spatialdata::spatialdb::TestUserFunctionDB::testOpenClose(void) {
-    _initializeDB();
-    CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_db);
+    assert(_data);
+    assert(_db);
 
     // Test open() and close() with valid data.
     _db->open();
@@ -104,24 +108,24 @@ spatialdata::spatialdb::TestUserFunctionDB::testOpenClose(void) {
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < numValues; ++i) {
         const std::string& name = _data->values[i].name;
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(_data->values[i].scale, _db->_functions[name].scale, tolerance);
+        CHECK_THAT(_db->_functions[name].scale, Catch::Matchers::WithinAbs(_data->values[i].scale, tolerance));
     } // for
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValues, _db->_querySize);
+    REQUIRE(numValues == _db->_querySize);
 
     _db->close();
-    CPPUNIT_ASSERT(!_db->_queryFunctions);
+    assert(!_db->_queryFunctions);
 
     // Verify open() fails with spatial dimension mismatch.
     const int spaceDim = _data->cs->getSpaceDim();
     const int spaceDimBad = (spaceDim == 3) ? 2 : 3;
     _db->_cs->setSpaceDim(spaceDimBad);
-    CPPUNIT_ASSERT_THROW(_db->open(), std::runtime_error);
+    CHECK_THROWS_AS(_db->open(), std::runtime_error);
     _db->_cs->setSpaceDim(spaceDim); // Reset space dimension.
 
     // Verify open() fails with bad units.
     _db->_functions[_data->values[0].name].units = "abcd";
-    CPPUNIT_ASSERT_THROW(_db->open(), std::runtime_error);
+    CHECK_THROWS_AS(_db->open(), std::runtime_error);
 
 } // testOpenClose
 
@@ -130,14 +134,13 @@ spatialdata::spatialdb::TestUserFunctionDB::testOpenClose(void) {
 // Test getNamesDBValues().
 void
 spatialdata::spatialdb::TestUserFunctionDB::testGetNamesDBValues(void) {
-    _initializeDB();
-    CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_db);
+    assert(_data);
+    assert(_db);
 
     const char** valueNames = NULL;
     size_t numValues = 0;
     _db->getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, numValues);
+    REQUIRE(_data->numValues == numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
         bool found = false;
@@ -148,9 +151,7 @@ spatialdata::spatialdb::TestUserFunctionDB::testGetNamesDBValues(void) {
             } // if
         } // for
         if (!found) {
-            std::ostringstream msg;
-            msg << "Could not find value '" << valueNames[i] << "' in UserFunctionDB test data.";
-            CPPUNIT_FAIL(msg.str().c_str());
+            FAIL("Could not find value '" << valueNames[i] << "' in UserFunctionDB test data.");
         } // if
     } // for
     delete[] valueNames;valueNames = NULL;
@@ -162,10 +163,9 @@ spatialdata::spatialdb::TestUserFunctionDB::testGetNamesDBValues(void) {
 // Test setQueryValues().
 void
 spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
-    CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_db);
+    assert(_data);
+    assert(_db);
 
-    _initializeDB();
     _db->open();
 
     // Call setQueryValues().
@@ -180,17 +180,17 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
     // Check result.
     for (int i = 0; i < numValues; ++i) {
         const int j = numValues - 1 - i;
-        CPPUNIT_ASSERT(_db->_queryFunctions[j]->fn);
-        CPPUNIT_ASSERT_EQUAL(_data->values[j].units, _db->_queryFunctions[i]->units);
-        CPPUNIT_ASSERT_EQUAL(_data->values[j].scale, _db->_queryFunctions[i]->scale);
+        assert(_db->_queryFunctions[j]->fn);
+        CHECK(_data->values[j].units == _db->_queryFunctions[i]->units);
+        CHECK(_data->values[j].scale == _db->_queryFunctions[i]->scale);
     } // for
 
     // Attempt to create query with no values.
-    CPPUNIT_ASSERT_THROW(_db->setQueryValues(NULL, 0), std::invalid_argument);
+    CHECK_THROWS_AS(_db->setQueryValues(NULL, 0), std::invalid_argument);
 
     // Attempt to create query with value not in database (verify failure).
     const char* badname = "lkdfjglkdfjgljsdf";
-    CPPUNIT_ASSERT_THROW(_db->setQueryValues(&badname, 1), std::out_of_range);
+    CHECK_THROWS_AS(_db->setQueryValues(&badname, 1), std::out_of_range);
 
     _db->close();
 } // testQueryVals
@@ -200,15 +200,14 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
 // Test query()
 void
 spatialdata::spatialdb::TestUserFunctionDB::testQuery(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
-    CPPUNIT_ASSERT(_data->cs);
+    assert(_data->cs);
     const int spaceDim = _data->cs->getSpaceDim();
     const size_t numValues = _data->numValues;
     const size_t numQueries = _data->numQueryPoints;
     double* values = (numValues > 0) ? new double[numValues] : NULL;
 
-    _initializeDB();
     _db->open();
 
     // Call setQueryValues().
@@ -223,11 +222,11 @@ spatialdata::spatialdb::TestUserFunctionDB::testQuery(void) {
     const double tolerance = 1.0e-6;
     for (size_t iQuery = 0; iQuery < numQueries; ++iQuery) {
         const int flag = _db->query(values, numValues, &_data->queryXYZ[iQuery*spaceDim], spaceDim, _data->cs);
-        CPPUNIT_ASSERT_EQUAL(0, flag);
+        CHECK(0 == flag);
 
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
             const double valueE = _data->queryValues[iQuery*numValues+iVal]*_data->values[iVal].scale;
-            CPPUNIT_ASSERT_DOUBLES_EQUAL(valueE, values[iVal], tolerance);
+            CHECK_THAT(values[iVal], Catch::Matchers::WithinAbs(valueE, tolerance));
         } // for
     } // for
     delete[] values;values = NULL;
@@ -235,20 +234,6 @@ spatialdata::spatialdb::TestUserFunctionDB::testQuery(void) {
     _db->close();
 
 } // testQuery
-
-
-// ----------------------------------------------------------------------
-// Populate database with data.
-void
-spatialdata::spatialdb::TestUserFunctionDB::_initializeDB(void) {
-    CPPUNIT_ASSERT(_db);
-    CPPUNIT_ASSERT(_data);
-
-    CPPUNIT_ASSERT(_data->cs);
-    _db->setCoordSys(*_data->cs);
-
-    _addValues();
-} // _initializeDB
 
 
 // ----------------------------------------------------------------------

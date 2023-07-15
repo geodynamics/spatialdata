@@ -24,9 +24,9 @@
 #if !defined(spatialdata_testconverter_hh)
 #define spatialdata_testconverter_hh
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA CoordSys
+
+#include <cstddef> // USES size_t
 
 namespace spatialdata {
     namespace geocoords {
@@ -35,39 +35,34 @@ namespace spatialdata {
     } // geocoords
 } // spatialdata
 
-class spatialdata::geocoords::TestConverter : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestConverter);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testConvert);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------
+class spatialdata::geocoords::TestConverter {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Setup testing data.
-    void setUp(void);
+    /// Constructor.
+    TestConverter(TestConverter_Data* data);
 
-    /// Deallocate testing data.
-    void tearDown(void);
+    /// Destructor.
+    ~TestConverter(void);
 
     /// Test constructor.
+    static
     void testConstructor(void);
 
     /// Test convert().
     void testConvert(void);
 
-    // PROTECTED MEMBERS ///////////////////////////////////////////////////////
+    // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
 protected:
 
     TestConverter_Data* _data; ///< Data for testing.
 
 }; // class TestConverter
 
+// ------------------------------------------------------------------------------------------------
 class spatialdata::geocoords::TestConverter_Data {
-    // PUBLIC METHODS //////////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Constructor

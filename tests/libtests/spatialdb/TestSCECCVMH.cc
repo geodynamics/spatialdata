@@ -16,12 +16,13 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/spatialdb/SCECCVMH.hh" // USES SCECCVMH
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
-#include <math.h> // USES fabs()
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
 
 namespace spatialdata {
     namespace spatialdb {
@@ -29,52 +30,69 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestSCECCVMH : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestSCECCVMH);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testGetNamesDBValues);
-    CPPUNIT_TEST(testQueryVals);
-    CPPUNIT_TEST(testCalcDensity);
-    CPPUNIT_TEST(testCalcVs);
-#if defined(SCECCVMH_DATADIR)
-    CPPUNIT_TEST(testQuery);
-    CPPUNIT_TEST(testQuerySquashed);
-#endif
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestSCECCVMH {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test constructor.
+    static
     void testConstructor(void);
 
     /// Test accessors().
+    static
     void testAccessors(void);
 
     /// Test getNamesDBValues().
+    static
     void testGetNamesDBValues(void);
 
     /// Test setQueryValues().
+    static
     void testQueryVals(void);
 
-    /// Test query().
-    void testQuery(void);
-
-    /// Test querySquashed().
-    void testQuerySquashed(void);
-
     /// Test calcDensity().
+    static
     void testCalcDensity(void);
 
     /// Test calcVs().
+    static
     void testCalcVs(void);
 
+    /// Test query().
+    static
+    void testQuery(void);
+
+    /// Test querySquashed().
+    static
+    void testQuerySquashed(void);
+
 }; // class TestSCECCVMH
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestSCECCVMH);
+
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestSCECCVMH::testConstructor", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testConstructor();
+}
+TEST_CASE("TestSCECCVMH::testAccessors", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testAccessors();
+}
+TEST_CASE("TestSCECCVMH::testGetNamesDBValues", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testGetNamesDBValues();
+}
+TEST_CASE("TestSCECCVMH::testQueryVals", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testQueryVals();
+}
+TEST_CASE("TestSCECCVMH::testQuery", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testQuery();
+}
+TEST_CASE("TestSCECCVMH::testQuerySquashed", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed();
+}
+TEST_CASE("TestSCECCVMH::testCalcDensity", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testCalcDensity();
+}
+TEST_CASE("TestSCECCVMH::testCalcVs", "[TestSCECCVMH]") {
+    spatialdata::spatialdb::TestSCECCVMH::testCalcVs();
+}
 
 // ----------------------------------------------------------------------
 // Test constructor.
@@ -83,9 +101,9 @@ spatialdata::spatialdb::TestSCECCVMH::testConstructor(void) {
     SCECCVMH db;
 
     const size_t numValues = 7;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", numValues, db._querySize);
+    CHECK(numValues == db._querySize);
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+        CHECK(i == db._queryValues[i]);
     } // for
 } // testConstructor
 
@@ -97,28 +115,28 @@ spatialdata::spatialdb::TestSCECCVMH::testAccessors(void) {
     SCECCVMH db;
 
     // Description
-    const std::string label("database 2");
-    db.setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db.getDescription()));
+    const std::string description("database 2");
+    db.setDescription(description.c_str());
+    CHECK(description == std::string(db.getDescription()));
 
     // Data directory
     const std::string dataDir("/path/to/data/dir");
     db.setDataDir(dataDir.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database data directory.", dataDir, db._dataDir);
+    CHECK(dataDir == db._dataDir);
 
     // Squashing
     const double limitDefault = -2000.0;
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default squashing flag.", false, db._squashTopo);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default squashing limit.", limitDefault, db._squashLimit);
+    CHECK(false == db._squashTopo);
+    CHECK(limitDefault == db._squashLimit);
 
     db.setSquashFlag(true);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in squashing flag.", true, db._squashTopo);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default squashing limit.", limitDefault, db._squashLimit);
+    CHECK(true == db._squashTopo);
+    CHECK(limitDefault == db._squashLimit);
 
     const double limit = -4000.0;
     db.setSquashFlag(true, limit);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE(", Mismatch in squashing flag.", true, db._squashTopo);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in specified squashing limit.", limit, db._squashLimit);
+    CHECK(true == db._squashTopo);
+    CHECK(limit == db._squashLimit);
 } // testAccessors
 
 
@@ -141,11 +159,10 @@ spatialdata::spatialdb::TestSCECCVMH::testGetNamesDBValues(void) {
     const char** valueNames = NULL;
     size_t numValues = 0;
     db.getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValuesE, numValues);
+    REQUIRE(numValuesE == numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
-                                     std::string(valueNamesE[i]), std::string(valueNames[i]));
+        CHECK(std::string(valueNamesE[i]) == std::string(valueNames[i]));
     } // for
     delete[] valueNames;valueNames = NULL;
     numValues = 0;
@@ -180,9 +197,9 @@ spatialdata::spatialdb::TestSCECCVMH::testQueryVals(void) {
         };
 
         db.setQueryValues(queryNames, querySize);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size (all values).", querySize, db._querySize);
+        REQUIRE(querySize == db._querySize);
         for (size_t i = 0; i < querySize; ++i) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query values (all values).", queryVals[i], db._queryValues[i]);
+            CHECK(queryVals[i] == db._queryValues[i]);
         }
     } // all values
 
@@ -200,9 +217,9 @@ spatialdata::spatialdb::TestSCECCVMH::testQueryVals(void) {
         };
 
         db.setQueryValues(queryNames, querySize);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query size (subset of values).", querySize, db._querySize);
+        REQUIRE(querySize == db._querySize);
         for (size_t i = 0; i < querySize; ++i) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query values (subset of values).", queryVals[i], db._queryValues[i]);
+            CHECK(queryVals[i] == db._queryValues[i]);
         }
     } // subset of values
 } // testQueryVals
@@ -242,7 +259,8 @@ spatialdata::spatialdb::TestSCECCVMH::testCalcDensity(void) {
     const double tolerance = 1.0e-06;
     for (size_t i = 0; i < size; ++i) {
         const double density = db._calcDensity(vp[i]);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, density/densityE[i], tolerance);
+        const double toleranceV = fabs(densityE[i]) * tolerance;
+        CHECK_THAT(density, Catch::Matchers::WithinAbs(densityE[i], toleranceV));
     } // for
 } // testCalcDensity
 
@@ -281,16 +299,30 @@ spatialdata::spatialdb::TestSCECCVMH::testCalcVs(void) {
     const double tolerance = 1.0e-06;
     for (size_t i = 0; i < size; ++i) {
         const double vs = db._calcVs(vp[i]);
-        if (fabs(vsE[i]) > tolerance) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value.", 1.0, vs/vsE[i], tolerance);
-        } else {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value.", vsE[i], vs, tolerance);
-        } // if/else
+        const double toleranceV = fabs(vsE[i]) > 0.0 ? fabs(vsE[i]) * tolerance : tolerance;
+        CHECK_THAT(vs, Catch::Matchers::WithinAbs(vsE[i], toleranceV));
     } // for
 } // testCalcVs
 
 
-#if defined(SCECCVMH_DATADIR)
+#if !defined(SCECCVMH_DATADIR)
+// ----------------------------------------------------------------------
+// Test query().
+void
+spatialdata::spatialdb::TestSCECCVMH::testQuery(void) {
+    INFO("SCECCVMH_DATADIR not defined. Skipping test.");
+}
+
+
+// ----------------------------------------------------------------------
+// Test query() with squashing.
+void
+spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void) {
+    INFO("SCECCVMH_DATADIR not defined. Skipping test.");
+}
+
+
+#else
 // ----------------------------------------------------------------------
 // Test query().
 void
@@ -377,15 +409,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void) {
 
         for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
             int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in error flag.", flags[iLoc], err);
+            REQUIRE(flags[iLoc] == err);
 
             for (size_t iVal = 0; iVal < querySize; ++iVal) {
                 const double dataE = values[iLoc*querySize+iVal];
-                if (fabs(dataE) > tolerance) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative query value.", 1.0, data[iVal]/dataE, tolerance);
-                } else {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute query value.", dataE, data[iVal], tolerance);
-                }
+                const double toleranceV = fabs(dataE) > 0.0 ? fabs(dataE) * tolerance : tolerance;
+                CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(dataE, toleranceV));
             } // for
         } // for
     } // all values
@@ -430,15 +459,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void) {
 
         for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
             int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query flag.", flags[iLoc], err);
+            REQUIRE(flags[iLoc] == err);
 
             for (size_t iVal = 0; iVal < querySize; ++iVal) {
                 const double dataE = values[iLoc*querySize+iVal];
-                if (fabs(dataE) > tolerance) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative query value.", 1.0, data[iVal]/dataE, tolerance);
-                } else {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute query value.", dataE, data[iVal], tolerance);
-                } // if/else
+                const double toleranceV = fabs(dataE) > 0.0 ? fabs(dataE) * tolerance : tolerance;
+                CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(dataE, toleranceV));
             } // for
         } // for
     } // subset values
@@ -485,17 +511,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuery(void) {
 
         for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
             int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
-            CPPUNIT_ASSERT_EQUAL(flags[iLoc], err);
+            REQUIRE(flags[iLoc] == err);
 
             for (size_t iVal = 0; iVal < querySize; ++iVal) {
                 const double dataE = values[iLoc*querySize+iVal];
-                if (fabs(dataE) > tolerance) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative query value.",
-                                                         1.0, data[iVal]/dataE, tolerance);
-                } else {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute query value.",
-                                                         dataE, data[iVal], tolerance);
-                }
+                const double toleranceV = fabs(dataE) > 0.0 ? fabs(dataE) * tolerance : tolerance;
+                CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(dataE, toleranceV));
             } // for
         } // for
     } // subset values
@@ -592,17 +613,12 @@ spatialdata::spatialdb::TestSCECCVMH::testQuerySquashed(void) {
 
         for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
             int err = db.query(data, querySize, &lonlatelev[iLoc*spaceDim], spaceDim, &cs);
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query flag.", flags[iLoc], err);
+            REQUIRE(flags[iLoc] == err);
 
             for (size_t iVal = 0; iVal < querySize; ++iVal) {
                 const double dataE = values[iLoc*querySize+iVal];
-                if (fabs(dataE) > tolerance) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative query value.",
-                                                         1.0, data[iVal]/dataE, tolerance);
-                } else {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute query value.",
-                                                         dataE, data[iVal], tolerance);
-                }
+                const double toleranceV = fabs(dataE) > 0.0 ? fabs(dataE) * tolerance : tolerance;
+                CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(dataE, toleranceV));
             } // for
         } // for
     } // all values

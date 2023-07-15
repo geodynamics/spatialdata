@@ -16,7 +16,7 @@ This provides a specification of these parameters independent of the discretizat
 * GNU build tools w/C++ and C compilers
 * [Proj](https://proj.maptools.org) cartographic projections library (v6.0 or later)
 * [Optional] Pyre 1.0.0 and NumPy
-* [Optional] CppUnit (for unit testing)
+* [Optional] Catch2 (for unit testing)
 
 ```{include} ../LICENSE.md
 ```

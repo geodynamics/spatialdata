@@ -16,56 +16,73 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "spatialdata/spatialdb/SimpleDBData.hh" // Test subject
 
-#include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 
-// ----------------------------------------------------------------------
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
+
+// ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class TestSimpleDBData;
     } // spatialdb
 } // spatialdata
 
-class spatialdata::spatialdb::TestSimpleDBData : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestSimpleDBData);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAllocate);
-    CPPUNIT_TEST(testData);
-    CPPUNIT_TEST(testCoordinates);
-    CPPUNIT_TEST(testNames);
-    CPPUNIT_TEST(testUnits);
-
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::spatialdb::TestSimpleDBData {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test constructor.
+    static
     void testConstructor(void);
 
     /// Test allocate(), getNumLocs(), numValues(), spaceDim().
+    static
     void testAllocate(void);
 
     /// Test data() and dataDim().
+    static
     void testData(void);
 
     /// Test coordinates()
+    static
     void testCoordinates(void);
 
     /// Test names()
+    static
     void testNames(void);
 
     /// Test units()
+    static
     void testUnits(void);
 
 }; // class TestSimpleDBData
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::spatialdb::TestSimpleDBData);
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestSimpleDBData::testConstructor", "[TestSimpleDBData]") {
+    spatialdata::spatialdb::TestSimpleDBData::testConstructor();
+}
+TEST_CASE("TestSimpleDBData::testAllocate", "[TestSimpleDBData]") {
+    spatialdata::spatialdb::TestSimpleDBData::testAllocate();
+}
+TEST_CASE("TestSimpleDBData::testData", "[TestSimpleDBData]") {
+    spatialdata::spatialdb::TestSimpleDBData::testData();
+}
+TEST_CASE("TestSimpleDBData::testCoordinates", "[TestSimpleDBData]") {
+    spatialdata::spatialdb::TestSimpleDBData::testCoordinates();
+}
+TEST_CASE("TestSimpleDBData::testNames", "[TestSimpleDBData]") {
+    spatialdata::spatialdb::TestSimpleDBData::testNames();
+}
+TEST_CASE("TestSimpleDBData::testUnits", "[TestSimpleDBData]") {
+    spatialdata::spatialdb::TestSimpleDBData::testUnits();
+}
+
+// ------------------------------------------------------------------------------------------------
 // Test constructor.
 void
 spatialdata::spatialdb::TestSimpleDBData::testConstructor(void) {
@@ -73,7 +90,7 @@ spatialdata::spatialdb::TestSimpleDBData::testConstructor(void) {
 } // testConstructor
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test allocate(), getNumLocs(), numValues(), spaceDim().
 void
 spatialdata::spatialdb::TestSimpleDBData::testAllocate(void) {
@@ -85,18 +102,19 @@ spatialdata::spatialdb::TestSimpleDBData::testAllocate(void) {
     SimpleDBData data;
     data.allocate(numLocs, numValues, spaceDim, dataDim);
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points.", numLocs, data.getNumLocs());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", numValues, data.getNumValues());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", spaceDim, data.getSpaceDim());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", dataDim, data.getDataDim());
-    CPPUNIT_ASSERT(data._data);
-    CPPUNIT_ASSERT(data._coordinates);
-    CPPUNIT_ASSERT(data._names);
-    CPPUNIT_ASSERT(data._units);
+    CHECK(numLocs == data.getNumLocs());
+    CHECK(numValues == data.getNumValues());
+    CHECK(spaceDim == data.getSpaceDim());
+    CHECK(dataDim == data.getDataDim());
+
+    assert(data._data);
+    assert(data._coordinates);
+    assert(data._names);
+    assert(data._units);
 } // testAllocate
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test data()
 void
 spatialdata::spatialdb::TestSimpleDBData::testData(void) {
@@ -118,15 +136,15 @@ spatialdata::spatialdb::TestSimpleDBData::testData(void) {
 
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
         const double* values = data.getData(iLoc);
-        CPPUNIT_ASSERT(values);
+        assert(values);
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
-            CPPUNIT_ASSERT_EQUAL(valuesE[i++], values[iVal]);
+            CHECK(valuesE[i++] == values[iVal]);
         } // for
     } // for
 } // testData
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test coordinates()
 void
 spatialdata::spatialdb::TestSimpleDBData::testCoordinates(void) {
@@ -148,15 +166,15 @@ spatialdata::spatialdb::TestSimpleDBData::testCoordinates(void) {
 
     for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
         const double* coords = data.getCoordinates(iLoc);
-        CPPUNIT_ASSERT(coords);
+        assert(coords);
         for (size_t iDim = 0; iDim < spaceDim; ++iDim) {
-            CPPUNIT_ASSERT_EQUAL(coordsE[i++], coords[iDim]);
+            CHECK(coordsE[i++] == coords[iDim]);
         } // for
     } // for
 } // testCoordinates
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test names()
 void
 spatialdata::spatialdb::TestSimpleDBData::testNames(void) {
@@ -174,12 +192,12 @@ spatialdata::spatialdb::TestSimpleDBData::testNames(void) {
     data.setNames(namesE, numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(namesE[i]), std::string(data.getName(i)));
+        CHECK(std::string(namesE[i]) == std::string(data.getName(i)));
     } // for
 } // testNames
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test units()
 void
 spatialdata::spatialdb::TestSimpleDBData::testUnits(void) {
@@ -197,7 +215,7 @@ spatialdata::spatialdb::TestSimpleDBData::testUnits(void) {
     data.setUnits(unitsE, numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL(std::string(unitsE[i]), std::string(data.getUnits(i)));
+        CHECK(std::string(unitsE[i]) == std::string(data.getUnits(i)));
     } // for
 } // testUnits
 

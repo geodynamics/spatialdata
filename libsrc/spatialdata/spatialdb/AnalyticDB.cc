@@ -231,7 +231,7 @@ spatialdata::spatialdb::AnalyticDB::query(double* vals,
 
     // Convert coordinates
     assert(numDims <= 3);
-    for (int d = 0; d < numDims; ++d) {
+    for (size_t d = 0; d < numDims; ++d) {
         _expVars[d] = coords[d];
     }
     assert(csQuery);

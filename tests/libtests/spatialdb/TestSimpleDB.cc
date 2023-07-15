@@ -25,111 +25,115 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
-// ----------------------------------------------------------------------
-// Initialize test subject.
-void
-spatialdata::spatialdb::TestSimpleDB::setUp(void) {
-    _db = new SimpleDB();
-    _data = NULL;
-} // setUp
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
+
+// ------------------------------------------------------------------------------------------------
+// Constructor.
+spatialdata::spatialdb::TestSimpleDB::TestSimpleDB(TestSimpleDB_Data* data) :
+    _db(new SimpleDB()),
+    _data(data) {
+    assert(_db);
+    assert(_data);
+} // constructor
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Deallocate test data;
-void
-spatialdata::spatialdb::TestSimpleDB::tearDown(void) {
+spatialdata::spatialdb::TestSimpleDB::~TestSimpleDB(void) {
     delete _db;_db = NULL;
     delete _data;_data = NULL;
 } // testDown
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test constructor
 void
 spatialdata::spatialdb::TestSimpleDB::testConstructors(void) {
     SimpleDB db;
 
-    const std::string label("database A");
-    SimpleDB db2(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in database label.", label, std::string(db2.getDescription()));
+    const std::string description("database A");
+    SimpleDB db2(description.c_str());
+    CHECK(description == std::string(db2.getDescription()));
 } // testConstructors
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test accessors.
 void
 spatialdata::spatialdb::TestSimpleDB::testAccessors(void) {
-    CPPUNIT_ASSERT(_db);
+    SimpleDB db;
 
-    const std::string label("database 2");
-    _db->setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL(label, std::string(_db->getDescription()));
+    const std::string description("database 2");
+    db.setDescription(description.c_str());
+    CHECK(description == std::string(db.getDescription()));
 
     spatialdata::spatialdb::SimpleIOAscii io;
     const std::string filename("db.spatialdb");
     io.setFilename(filename.c_str());
-    _db->setIOHandler(&io);
-    CPPUNIT_ASSERT(_db->_iohandler);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in I/O handler filename.", filename, std::string(_db->_iohandler->getFilename()));
+    db.setIOHandler(&io);
+    assert(db._iohandler);
+    CHECK(filename == std::string(db._iohandler->getFilename()));
 } // testAccessors
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test getNamesDBValues().
 void
 spatialdata::spatialdb::TestSimpleDB::testGetNamesDBValues(void) {
     _initializeDB();
 
-    CPPUNIT_ASSERT(_db);
-    CPPUNIT_ASSERT(_data);
+    assert(_db);
+    assert(_data);
 
     const char** valueNames = NULL;
     size_t numValues = 0;
     _db->getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, numValues);
+    REQUIRE(_data->numValues == numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
-                                     std::string(_data->names[i]), std::string(valueNames[i]));
+        CHECK(std::string(_data->names[i]) == std::string(valueNames[i]));
     } // for
     delete[] valueNames;valueNames = NULL;
     numValues = 0;
 } // testGetDBValues
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test query() using nearest neighbor
 void
 spatialdata::spatialdb::TestSimpleDB::testQueryNearest(void) {
     _initializeDB();
 
-    CPPUNIT_ASSERT(_db);
-    CPPUNIT_ASSERT(_data);
+    assert(_db);
+    assert(_data);
 
     _db->setQueryType(SimpleDB::NEAREST);
     _checkQuery(_data->queryNearest, NULL);
 } // testQueryNearest
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test query() using linear interpolation
 void
 spatialdata::spatialdb::TestSimpleDB::testQueryLinear(void) {
     _initializeDB();
 
-    CPPUNIT_ASSERT(_db);
-    CPPUNIT_ASSERT(_data);
+    assert(_db);
+    assert(_data);
 
     _db->setQueryType(SimpleDB::LINEAR);
     _checkQuery(_data->queryLinear, _data->errFlags);
 } // _testQueryLinear
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Populate database with data.
 void
 spatialdata::spatialdb::TestSimpleDB::_initializeDB(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
     SimpleDBData* dbData = new SimpleDBData;
     dbData->allocate(_data->numLocs, _data->numValues, _data->spaceDim, _data->dataDim);
@@ -138,21 +142,21 @@ spatialdata::spatialdb::TestSimpleDB::_initializeDB(void) {
     dbData->setNames(_data->names, _data->numValues);
     dbData->setUnits(_data->units, _data->numValues);
 
-    CPPUNIT_ASSERT(_db);
+    assert(_db);
     _db->_data = dbData;
     _db->_query = new SimpleDBQuery(*_db);
     _db->_cs = new spatialdata::geocoords::CSCart();
 } // _setupDB
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test query method by doing query and checking values returned.
 void
 spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
                                                   const int* flagsE) {
-    CPPUNIT_ASSERT(queryData);
-    CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_db);
+    assert(queryData);
+    assert(_data);
+    assert(_db);
 
     // Query values in reverse order for nontrivial test.
     const size_t numValues = _data->numValues;
@@ -176,22 +180,21 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
         const double* valuesE = &queryData[iQuery*locSize+spaceDim];
         const int err = _db->query(values, numValues, coordinates, spaceDim, &csCart);
         if (flagsE) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query return value.", flagsE[iQuery], err);
+            CHECK(flagsE[iQuery] == err);
         } else {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in query return value.", 0, err);
+            CHECK(0 == err);
         } // if/else
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
-            if (valuesE[numValues-iVal-1] > tolerance) {
-                CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0, values[iVal]/valuesE[numValues-iVal-1], tolerance);
-            } else {
-                CPPUNIT_ASSERT_DOUBLES_EQUAL(valuesE[numValues-iVal-1], values[iVal], tolerance);
-            } // if/else
+            const double valueE = valuesE[numValues-iVal-1];
+            const double toleranceV = fabs(valueE) > 0.0 ? fabs(valueE) * tolerance : tolerance;
+            CHECK_THAT(values[iVal], Catch::Matchers::WithinAbs(valueE, toleranceV));
         } // for
     } // for
     delete[] values;values = NULL;
 } // _checkQuery
 
 
+// ------------------------------------------------------------------------------------------------
 // Constructor
 spatialdata::spatialdb::TestSimpleDB_Data::TestSimpleDB_Data(void) :
     numLocs(0),
@@ -208,6 +211,7 @@ spatialdata::spatialdb::TestSimpleDB_Data::TestSimpleDB_Data(void) :
     errFlags(NULL) {}
 
 
+// ------------------------------------------------------------------------------------------------
 spatialdata::spatialdb::TestSimpleDB_Data::~TestSimpleDB_Data(void) {
     // Set members holding static const data to NULL (no deallocation).
     dbCoordinates = NULL;

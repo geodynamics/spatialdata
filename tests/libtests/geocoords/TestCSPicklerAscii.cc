@@ -16,16 +16,17 @@
 
 #include <portinfo>
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/geocoords/CSPicklerAscii.hh" // USES CSPickleAscii
 
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
 #include <sstream> // USES std::stringstream
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 /// Namespace for spatialdata package
 namespace spatialdata {
     namespace geocoords {
@@ -33,28 +34,29 @@ namespace spatialdata {
     } // geocoords
 } // spatialdata
 
-/// C++ unit testing for CSCart
-class spatialdata::geocoords::TestCSPicklerAscii : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestCSPicklerAscii);
-    CPPUNIT_TEST(testPickleCSCart);
-    CPPUNIT_TEST(testPickleCSGeo);
-    CPPUNIT_TEST_SUITE_END();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+class spatialdata::geocoords::TestCSPicklerAscii {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Test pickle() & unpickle() for CSCart
+    static
     void testPickleCSCart(void);
 
     /// Test pickle() & unpickle() for CSGeo
+    static
     void testPickleCSGeo(void);
 
 }; // class TestCSPickleAscii
 
-CPPUNIT_TEST_SUITE_REGISTRATION(spatialdata::geocoords::TestCSPicklerAscii);
+// ------------------------------------------------------------------------------------------------
+TEST_CASE("TestCSPicklerAscii::testPickleCSCart", "[TestCSPicklerAscii]") {
+    spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart();
+}
+TEST_CASE("TestCSPicklerAscii::testPickleCSGeo", "[TestCSPicklerAscii]") {
+    spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo();
+}
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test pickle() and unpickle() for CSCart
 void
 spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart(void) {
@@ -67,13 +69,13 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart(void) {
     CoordSys* csP = NULL;
     CSPicklerAscii::unpickle(s, &csP);
 
-    CPPUNIT_ASSERT(dynamic_cast<CSCart*>(csP));
+    CHECK(dynamic_cast<CSCart*>(csP));
 
     delete csP;csP = NULL;
 } // testPickleCSCart
 
 
-// ----------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // Test pickle() and unpickle() for CSGeo
 void
 spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void) {
@@ -86,7 +88,7 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void) {
     CoordSys* csP = NULL;
     CSPicklerAscii::unpickle(s, &csP);
 
-    CPPUNIT_ASSERT(dynamic_cast<CSGeo*>(csP));
+    CHECK(dynamic_cast<CSGeo*>(csP));
 
     delete csP;csP = NULL;
 } // testPickleCSGeo

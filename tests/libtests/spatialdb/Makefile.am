@@ -14,16 +14,16 @@
 # ----------------------------------------------------------------------
 #
 
-include $(top_srcdir)/check.am
+include $(top_srcdir)/tests/check.am
 
 SUBDIRS = data
 
-TESTS = testspatial
+TESTS = libtest_spatialdb
 
-check_PROGRAMS = testspatial
+check_PROGRAMS = libtest_spatialdb
 
-testspatial_SOURCES = \
-  TestAnalyticDB.cc \
+libtest_spatialdb_SOURCES = \
+    TestAnalyticDB.cc \
 	TestUniformDB.cc \
 	TestUserFunctionDB.cc \
 	TestUserFunctionDB_Cases.cc \
@@ -33,35 +33,24 @@ testspatial_SOURCES = \
 	TestSimpleDBQuery_Cases.cc \
 	TestSimpleDB.cc \
 	TestSimpleDB_Cases.cc \
-	TestSimpleGridAscii.cc \
 	TestSimpleGridDB.cc \
 	TestSimpleGridDB_Cases.cc \
+	TestSimpleGridAscii.cc \
 	TestCompositeDB.cc \
 	TestSCECCVMH.cc \
+	TestSpatialDB.cc \
 	TestGravityField.cc \
 	TestGravityField_Cases.cc \
 	TestTimeHistoryIO.cc \
 	TestTimeHistory.cc \
-	test_driver.cc
+	$(top_srcdir)/tests/src/driver_catch2.cc
+
 
 noinst_HEADERS = \
 	TestGravityField.hh \
 	TestSimpleDBQuery.hh \
 	TestSimpleDB.hh \
 	TestSimpleGridDB.hh \
-	TestUserFunctionDB.hh \
-	TestSpatialDB.hh
-
-
-testspatial_LDFLAGS =
-
-AM_CPPFLAGS += -I$(PYTHON_INCDIR)
-
-testspatial_LDADD = \
-	$(top_builddir)/libsrc/spatialdata/libspatialdata.la \
-	-lproj \
-	-lcppunit -ldl \
-	$(PYTHON_BLDLIBRARY) $(PYTHON_LIBS) $(PYTHON_SYSLIBS)
-
+	TestUserFunctionDB.hh
 
 # End of file

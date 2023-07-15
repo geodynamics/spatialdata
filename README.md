@@ -23,7 +23,7 @@ discretization.
 * GNU build tools w/C++ and C compilers
 * Proj cartographic projections library (v6.0 or later) (http://proj.maptools.org)
 * [Optional] Pyre 1.0 and NumPy
-* [Optional] CppUnit (for unit testing)
+* [Optional] Catch2 (for unit testing)
 
 ## Author
 

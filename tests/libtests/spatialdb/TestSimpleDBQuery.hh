@@ -24,9 +24,9 @@
 #if !defined(spatialdata_spatialdb_testsimpledbquery_hh)
 #define spatialdata_spatialdb_testsimpledbquery_hh
 
-#include <cppunit/extensions/HelperMacros.h>
-
 #include "spatialdata/spatialdb/spatialdbfwd.hh" // USES SimpleDB, SimpleDBQuery
+
+#include <cstddef> // USES size_t
 
 /// Namespace for spatial package
 namespace spatialdata {
@@ -36,28 +36,16 @@ namespace spatialdata {
     } // spatialdb
 } // spatialdata
 
-/// C++ unit testing for SimpleDBQuery
-class spatialdata::spatialdb::TestSimpleDBQuery : public CppUnit::TestFixture {
-    // CPPUNIT TEST SUITE /////////////////////////////////////////////////
-    CPPUNIT_TEST_SUITE(TestSimpleDBQuery);
-
-    CPPUNIT_TEST(testConstructor);
-    CPPUNIT_TEST(testAccessors);
-    CPPUNIT_TEST(testQueryVals);
-    CPPUNIT_TEST(testDistSquared);
-    CPPUNIT_TEST(testArea);
-    CPPUNIT_TEST(testVolume);
-
-    CPPUNIT_TEST_SUITE_END_ABSTRACT();
-
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+// ------------------------------------------------------------------------------------------------
+class spatialdata::spatialdb::TestSimpleDBQuery {
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
-    /// Setup query.
-    void setUp(void);
+    /// Constructor.
+    TestSimpleDBQuery(TestSimpleDBQuery_Data* data);
 
-    /// Destroy query.
-    void tearDown(void);
+    /// Destructor.
+    ~TestSimpleDBQuery(void);
 
     /// Test constructor
     void testConstructor(void);
@@ -77,13 +65,13 @@ public:
     /// Test volume().
     void testVolume(void);
 
-    // PROTECTED MEMBERS ////////////////////////////////////////////////////
+    // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
 protected:
 
     /// Populdate database with values.
     void _initializeDB(void);
 
-    // PROTECTED MEMBERS ////////////////////////////////////////////////////
+    // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
 protected:
 
     SimpleDB* _db; ///< Database for test subject.
@@ -92,8 +80,9 @@ protected:
 
 }; // class TestSimpleDBQuery
 
+// ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDBQuery_Data {
-    // PUBLIC METHODS ///////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// Constructor
@@ -102,7 +91,7 @@ public:
     /// Destructor
     ~TestSimpleDBQuery_Data(void);
 
-    // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+    // PUBLIC MEMBERS /////////////////////////////////////////////////////////////////////////////
 public:
 
     /// @name Database information

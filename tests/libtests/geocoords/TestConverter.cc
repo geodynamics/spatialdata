@@ -21,23 +21,24 @@
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
 #include <cmath> // USES cmath()
 #include <cstring> // USES memcpy()
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Setup testing data.
-void
-spatialdata::geocoords::TestConverter::setUp(void) {
-    _data = new TestConverter_Data;CPPUNIT_ASSERT(_data);
-} // setUp
+// Constructor.
+spatialdata::geocoords::TestConverter::TestConverter(TestConverter_Data* data) : _data(data) {
+    assert(_data);
+} // constructor
 
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Tear down testing data.
-void
-spatialdata::geocoords::TestConverter::tearDown(void) {
+// Destructor.
+spatialdata::geocoords::TestConverter::~TestConverter(void) {
     delete _data;_data = NULL;
-} // tearDown
+} // destructor
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ void
 spatialdata::geocoords::TestConverter::testConstructor(void) {
     Converter converter;
 
-    CPPUNIT_ASSERT(converter._cache);
+    CHECK(converter._cache);
 } // testConstructor
 
 
@@ -54,28 +55,25 @@ spatialdata::geocoords::TestConverter::testConstructor(void) {
 // Teset convert().
 void
 spatialdata::geocoords::TestConverter::testConvert(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
     const size_t numPoints = _data->numPoints;
     const size_t spaceDim = _data->spaceDim;
     const size_t bufferSize = numPoints * spaceDim;
     double* coords = bufferSize > 0 ? new double[bufferSize] : NULL;
     if (bufferSize > 0) {
-        CPPUNIT_ASSERT(_data->coordsSrc);
-        CPPUNIT_ASSERT(_data->coordsDest);
+        assert(_data->coordsSrc);
+        assert(_data->coordsDest);
     } // if
     std::memcpy(coords, _data->coordsSrc, bufferSize*sizeof(double));
 
     Converter converter;
     converter.convert(coords, numPoints, spaceDim, _data->csDest, _data->csSrc);
 
+    const double tolerance = 1.0e-6;
     for (size_t i = 0; i < bufferSize; ++i) {
-        const double tolerance = 1.0e-6;
-        if (fabs(_data->coordsDest[i]) > tolerance) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value.", 1.0, coords[i] / _data->coordsDest[i], tolerance);
-        } else {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value.", _data->coordsDest[i], coords[i], tolerance);
-        } // if/else
+        const double toleranceV = std::max(fabs(tolerance*_data->coordsDest[i]), tolerance);
+        CHECK_THAT(coords[i], Catch::Matchers::WithinAbs(_data->coordsDest[i], toleranceV));
     } // for
 
     delete[] coords;coords = NULL;

@@ -23,18 +23,22 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
+#include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
+
+#include <cmath> // USES fabs()
+
 // ----------------------------------------------------------------------
-// Setup testing data.
-void
-spatialdata::spatialdb::TestSimpleGridDB::setUp(void) {
-    _data = new TestSimpleGridDB_Data;CPPUNIT_ASSERT(_data);
+// Constructor.
+spatialdata::spatialdb::TestSimpleGridDB::TestSimpleGridDB(TestSimpleGridDB_Data* data) :
+    _data(data) {
+    assert(_data);
 } // setUp
 
 
 // ----------------------------------------------------------------------
 // Tear down testing data.
-void
-spatialdata::spatialdb::TestSimpleGridDB::tearDown(void) {
+spatialdata::spatialdb::TestSimpleGridDB::~TestSimpleGridDB(void) {
     delete _data;_data = NULL;
 } // tearDown
 
@@ -48,27 +52,27 @@ spatialdata::spatialdb::TestSimpleGridDB::testConstructor(void) {
 
 
 // ----------------------------------------------------------------------
-// Test label()
+// Test setDescription()
 void
 spatialdata::spatialdb::TestSimpleGridDB::testAccessors(void) {
     SimpleGridDB db;
-    const std::string label("database 2");
+    const std::string description("database 2");
     const std::string filename("mydb.spatialdb");
 
-    db.setDescription(label.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in label.", label, std::string(db.getDescription()));
+    db.setDescription(description.c_str());
+    CHECK(description == std::string(db.getDescription()));
 
     db.setFilename(filename.c_str());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in filename.", filename, db._filename);
+    CHECK(filename == db._filename);
 
     // Test query type.
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query type.", SimpleGridDB::NEAREST, db._queryType);
+    CHECK(SimpleGridDB::NEAREST == db._queryType);
 
     db.setQueryType(SimpleGridDB::LINEAR);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in linear query type.", SimpleGridDB::LINEAR, db._queryType);
+    CHECK(SimpleGridDB::LINEAR == db._queryType);
 
     db.setQueryType(SimpleGridDB::NEAREST);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in nearest query type.", SimpleGridDB::NEAREST, db._queryType);
+    CHECK(SimpleGridDB::NEAREST == db._queryType);
 } // testAccessors
 
 
@@ -90,22 +94,22 @@ spatialdata::spatialdb::TestSimpleGridDB::testSearch(void) {
     const double xA = -20.0;
     const double indexA = 0.0;
     double index = db._search(xA, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexA.", indexA, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexA, tolerance));
 
     const double xB = -1.0;
     const double indexB = 1.0;
     index = db._search(xB, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexB.", indexB, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexB, tolerance));
 
     const double xC = +3.0;
     const double indexC = 2.6;
     index = db._search(xC, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexC.", indexC, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexC, tolerance));
 
     const double xD = -20.0;
     const double indexD = 0.0;
     index = db._search(xD, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexD.", indexD, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexD, tolerance));
 
     db.setQueryType(SimpleGridDB::LINEAR);
 
@@ -113,22 +117,22 @@ spatialdata::spatialdb::TestSimpleGridDB::testSearch(void) {
     const double xE = -20.0;
     const double indexE = -1.0;
     index = db._search(xE, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexE.", indexE, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexE, tolerance));
 
     const double xF = -1.0;
     const double indexF = 1.0;
     index = db._search(xF, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexF.", indexF, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexF, tolerance));
 
     const double xG = +3.0;
     const double indexG = 2.6;
     index = db._search(xG, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexG.", indexG, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexG, tolerance));
 
     const double xH = -20.0;
     const double indexH = -1.0;
     index = db._search(xH, x, numX);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in indexH.", indexH, index, tolerance);
+    CHECK_THAT(index, Catch::Matchers::WithinAbs(indexH, tolerance));
 } // testSearch
 
 
@@ -142,14 +146,14 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
     db._numZ = 5;
     db._numValues = 10;
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index 0.", size_t(0), db._getDataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index z.", size_t(1*3*4*10), db._getDataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
+    CHECK(size_t(0) == db._getDataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
+    CHECK(size_t(1*3*4*10) == db._getDataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index y.", size_t(1*4*10), db._getDataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index yz.", size_t(4*3*4*10 + 1*4*10), db._getDataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
+    CHECK(size_t(1*4*10) == db._getDataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
+    CHECK(size_t(4*3*4*10 + 1*4*10) == db._getDataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index x.", size_t(1*10), db._getDataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in index xyz.", size_t(3*4*3*10 + 1*4*10 + 2*10), db._getDataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
+    CHECK(size_t(1*10) == db._getDataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
+    CHECK(size_t(3*4*3*10 + 1*4*10 + 2*10) == db._getDataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
 } // testDataIndex
 
 
@@ -157,7 +161,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
 // Test getNamesDBValues().
 void
 spatialdata::spatialdb::TestSimpleGridDB::testGetNamesDBValues(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
     SimpleGridDB db;
     _setupDB(&db);
@@ -165,11 +169,10 @@ spatialdata::spatialdb::TestSimpleGridDB::testGetNamesDBValues(void) {
     const char** valueNames = NULL;
     size_t numValues = 0;
     db.getNamesDBValues(&valueNames, &numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, numValues);
+    REQUIRE(_data->numValues == numValues);
 
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.",
-                                     std::string(_data->names[i]), std::string(valueNames[i]));
+        CHECK(std::string(_data->names[i]) == std::string(valueNames[i]));
     } // for
     delete[] valueNames;valueNames = NULL;
     numValues = 0;
@@ -180,7 +183,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testGetNamesDBValues(void) {
 // Test query() using nearest neighbor.
 void
 spatialdata::spatialdb::TestSimpleGridDB::testQueryNearest(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
     SimpleGridDB db;
     _setupDB(&db);
@@ -193,7 +196,7 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryNearest(void) {
 // Test query() using linear interpolation.
 void
 spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
     SimpleGridDB db;
     _setupDB(&db);
@@ -206,54 +209,54 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void) {
 // Test read().
 void
 spatialdata::spatialdb::TestSimpleGridDB::testRead(void) {
-    CPPUNIT_ASSERT(_data);
+    assert(_data);
 
     SimpleGridDB db;
     db.setFilename(_data->filename);
     db.open();
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in spatial dimension.", _data->spaceDim, db._spaceDim);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of values.", _data->numValues, db._numValues);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in data dimension.", _data->dataDim, db._dataDim);
+    CHECK(_data->spaceDim == db._spaceDim);
+    CHECK(_data->dataDim == db._dataDim);
+    REQUIRE(_data->numValues == db._numValues);
 
     const size_t numValues = _data->numValues;
     for (size_t i = 0; i < numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in names of values.", std::string(_data->names[i]), db._names[i]);
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in units of values.", std::string(_data->units[i]), db._units[i]);
+        CHECK(std::string(_data->names[i]) == db._names[i]);
+        CHECK(std::string(_data->units[i]) == db._units[i]);
     } // for
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along x-axis.", _data->numX, db._numX);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along y-axis.", _data->numY, db._numY);
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in number of points along z-axis.", _data->numZ, db._numZ);
+    CHECK(_data->numX == db._numX);
+    CHECK(_data->numY == db._numY);
+    CHECK(_data->numZ == db._numZ);
 
     const double tolerance = 1.0e-6;
     size_t totalSize = 1;
     if (_data->numX > 1) {
         totalSize *= _data->numX;
         for (size_t i = 0; i < _data->numX; ++i) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in x coordinates.", _data->dbX[i], db._x[i], tolerance);
+            CHECK_THAT(db._x[i], Catch::Matchers::WithinAbs(_data->dbX[i], tolerance));
         } // for
     } // if
     if (_data->numY > 1) {
         totalSize *= _data->numY;
         for (size_t i = 0; i < _data->numY; ++i) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in y coordinates.", _data->dbY[i], db._y[i], tolerance);
+            CHECK_THAT(db._y[i], Catch::Matchers::WithinAbs(_data->dbY[i], tolerance));
         } // for
     } // if
     if (_data->numZ > 1) {
         totalSize *= _data->numZ;
         for (size_t i = 0; i < _data->numZ; ++i) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in z coordinates.", _data->dbZ[i], db._z[i], tolerance);
+            CHECK_THAT(db._z[i], Catch::Matchers::WithinAbs(_data->dbZ[i], tolerance));
         } // for
     } // if
 
     for (size_t i = 0; i < totalSize; ++i) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in data values.", _data->dbData[i], db._data[i], tolerance);
+        CHECK_THAT(db._data[i], Catch::Matchers::WithinAbs(_data->dbData[i], tolerance));
     } // for
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query size.", _data->numValues, db._querySize);
+    CHECK(_data->numValues == db._querySize);
     for (size_t i = 0; i < _data->numValues; ++i) {
-        CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in default query values.", i, db._queryValues[i]);
+        CHECK(i == db._queryValues[i]);
     } // for
 
     db.close();
@@ -264,9 +267,9 @@ spatialdata::spatialdb::TestSimpleGridDB::testRead(void) {
 // Populate database with data.
 void
 spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
-    CPPUNIT_ASSERT(db);
-    CPPUNIT_ASSERT(_data);
-    CPPUNIT_ASSERT(_data->numValues > 0);
+    assert(db);
+    assert(_data);
+    assert(_data->numValues > 0);
 
     delete[] db->_x;db->_x = NULL;
     delete[] db->_y;db->_y = NULL;
@@ -337,11 +340,11 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
                                                       const size_t numQueries,
                                                       const size_t spaceDim,
                                                       const size_t numValues) {
-    CPPUNIT_ASSERT(names);
-    CPPUNIT_ASSERT(queryData);
-    CPPUNIT_ASSERT(numQueries);
-    CPPUNIT_ASSERT(spaceDim);
-    CPPUNIT_ASSERT(numValues);
+    assert(names);
+    assert(queryData);
+    assert(numQueries);
+    assert(spaceDim);
+    assert(numValues);
 
     // reverse order of vals in queries
     const char* valNames[numValues];
@@ -361,15 +364,13 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
         const double* valsE = &queryData[iQuery*locSize+spaceDim];
         const int err = db.query(vals, numValues, coords, spaceDim, &csCart);
         if (0 != flagsE) {
-            CPPUNIT_ASSERT_EQUAL_MESSAGE("Mismatch in error flag.", flagsE[iQuery], err);
+            REQUIRE(flagsE[iQuery] == err);
         } else {
-            CPPUNIT_ASSERT(!err);
+            REQUIRE(!err);
             for (size_t iVal = 0; iVal < numValues; ++iVal) {
-                if (valsE[numValues-iVal-1] > tolerance) {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in relative value.", 1.0, vals[iVal]/valsE[numValues-iVal-1], tolerance);
-                } else {
-                    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("Mismatch in absolute value.", valsE[numValues-iVal-1], vals[iVal], tolerance);
-                } // if/else
+                const double valueE = valsE[numValues-iVal-1];
+                const double toleranceV = fabs(valueE) > 0.0 ? fabs(valueE) * tolerance : tolerance;
+                CHECK_THAT(vals[iVal], Catch::Matchers::WithinAbs(valueE, toleranceV));
             } // for
         } // if/else
     } // for
