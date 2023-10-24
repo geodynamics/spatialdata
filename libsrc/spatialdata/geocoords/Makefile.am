@@ -22,6 +22,7 @@ subpkginclude_HEADERS = \
 	CoordSys.hh \
 	CSCart.hh \
 	CSGeo.hh \
+	CSGeoLocal.hh \
 	CSPicklerAscii.hh \
 	geocoordsfwd.hh
 

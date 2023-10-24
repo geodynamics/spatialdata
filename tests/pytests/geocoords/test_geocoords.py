@@ -38,6 +38,9 @@ class TestApp(UnitTestApp):
         from TestCSGeo import TestCSGeo
         suite.addTest(unittest.makeSuite(TestCSGeo))
 
+        from TestCSGeoLocal import TestCSGeoLocal
+        suite.addTest(unittest.makeSuite(TestCSGeoLocal))
+
         from TestConverter import TestConverter
         suite.addTest(unittest.makeSuite(TestConverter))
 

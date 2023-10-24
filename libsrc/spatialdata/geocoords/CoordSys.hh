@@ -36,7 +36,8 @@ public:
     /// Type of coordinate system
     enum CSTypeEnum {
         CARTESIAN, ///< Cartesian coordinate system
-        GEOGRAPHIC ///< Geographic coordinate system
+        GEOGRAPHIC, ///< Geographic coordinate system
+        LOCAL_GEOGRAPHIC, ///< Local geographic coordinate system
     };
 
 public:

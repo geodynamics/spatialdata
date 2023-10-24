@@ -23,6 +23,7 @@ check_PROGRAMS = libtest_geocoords
 libtest_geocoords_SOURCES = \
 	TestCSCart.cc \
 	TestCSGeo.cc \
+	TestCSGeoLocal.cc \
 	TestCSPicklerAscii.cc \
 	TestConverter.cc \
 	TestConverter_Cases.cc \

@@ -20,6 +20,7 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
+#include "spatialdata/geocoords/CSGeoLocal.hh" // USES CSGeoLocal
 
 #include "catch2/catch_test_macros.hpp"
 
@@ -43,6 +44,9 @@ public:
     TestConverter_Data* WGS84ToECEF(void);
 
     static
+    TestConverter_Data* WGS84ToUTMLocal(void);
+
+    static
     TestConverter_Data* XYZToXYZ(void);
 
     static
@@ -60,6 +64,9 @@ TEST_CASE("TestConverter::NAD27ToWGS84", "[TestConverter]") {
 }
 TEST_CASE("TestConverter::WGS84ToNAD27", "[TestConverter]") {
     spatialdata::geocoords::TestConverter(spatialdata::geocoords::TestConverter_Cases::WGS84ToNAD27()).testConvert();
+}
+TEST_CASE("TestConverter::WGS84ToUTMLocal", "[TestConverter]") {
+    spatialdata::geocoords::TestConverter(spatialdata::geocoords::TestConverter_Cases::WGS84ToUTMLocal()).testConvert();
 }
 TEST_CASE("TestConverter::WGS84ToECEF", "[TestConverter]") {
     spatialdata::geocoords::TestConverter(spatialdata::geocoords::TestConverter_Cases::WGS84ToECEF()).testConvert();
@@ -153,6 +160,49 @@ spatialdata::geocoords::TestConverter_Cases::WGS84ToNAD27(void) {
 
     return data;
 } // WGS84ToNAD27
+
+
+// ------------------------------------------------------------------------------------------------
+spatialdata::geocoords::TestConverter_Data*
+spatialdata::geocoords::TestConverter_Cases::WGS84ToUTMLocal(void) {
+    TestConverter_Data* data = new TestConverter_Data();assert(data);
+
+    data->numPoints = 6;
+    data->spaceDim = 3;
+
+    static CSGeo csWGS84;
+    csWGS84.setString("EPSG:4326"); // WGS84
+    csWGS84.setSpaceDim(data->spaceDim);
+    data->csSrc = &csWGS84;
+
+    static CSGeoLocal csLocal;
+    csLocal.setString("EPSG:32611"); // WGS84 UTM Zone 11N
+    csLocal.setSpaceDim(data->spaceDim);
+    csLocal.setLocal(500000.0, 3750000.0, 30.0);
+    data->csDest = &csLocal;
+
+    static const double coordsLatLonWGS84[6*3] = {
+        34.0,  -115.0,  12.0,
+        34.2,  -119.6,   10.1,
+        35.8,  -117.2,    3.6,
+        34.9,  -115.8,    7.2,
+        32.0,  -118.3,  123.3,
+        33.89036522863132,  -117.0,   34.6,
+    };
+    data->coordsSrc = coordsLatLonWGS84;
+
+    static const double coordsUTMLocal[6*3] = {
+        +152983.836,  104443.885,  12.0,
+        -226168.561,  -87405.953,  10.1,
+        -121542.068,  174375.157,   3.6,
+        +38643.9012,  152342.458,   7.2,
+        -1931.97409, -242246.929, 123.3,
+        0.0, 0.0,  34.6,
+    };
+    data->coordsDest = coordsUTMLocal;
+
+    return data;
+} // WGS84ToUTMLocal
 
 
 // ------------------------------------------------------------------------------------------------

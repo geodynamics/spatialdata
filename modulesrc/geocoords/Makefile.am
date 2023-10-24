@@ -26,6 +26,7 @@ swig_sources = \
 	CoordSys.i \
 	CSCart.i \
 	CSGeo.i \
+	CSGeoLocal.i \
 	Converter.i
 
 swig_generated = \

@@ -28,6 +28,7 @@ libspatialdata_la_SOURCES = \
 	geocoords/CoordSys.cc \
 	geocoords/CSCart.cc \
 	geocoords/CSGeo.cc \
+	geocoords/CSGeoLocal.cc \
 	geocoords/CSPicklerAscii.cc \
 	spatialdb/AnalyticDB.cc \
 	spatialdb/CompositeDB.cc \

@@ -20,6 +20,7 @@ EXTRA_DIST = \
 	__init__.py \
 	geocoords/CSCart.py \
 	geocoords/CSGeo.py \
+	geocoords/CSGeoLocal.py \
 	geocoords/Converter.py \
 	geocoords/CoordSys.py \
 	geocoords/__init__.py \

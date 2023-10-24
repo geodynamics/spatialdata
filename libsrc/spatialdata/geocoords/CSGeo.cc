@@ -166,6 +166,24 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
 
 
 // ----------------------------------------------------------------------
+// Convert coordinates from local coordinate system to geographic coordinate system.
+void
+spatialdata::geocoords::CSGeo::localToGeographic(double* coords,
+                                                 const size_t numLocs,
+                                                 const size_t numDims) const {
+}
+
+
+// ----------------------------------------------------------------------
+// Convert coordinates from geographic coordinate system to local coordinate system.
+void
+spatialdata::geocoords::CSGeo::geographicToLocal(double* coords,
+                                                 const size_t numLocs,
+                                                 const size_t numDims) const {
+}
+
+
+// ----------------------------------------------------------------------
 // Pickle coordinate system to ascii stream.
 void
 spatialdata::geocoords::CSGeo::pickle(std::ostream& s) const {
