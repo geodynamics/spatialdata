@@ -20,6 +20,7 @@
 
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
+#include "spatialdata/geocoords/CSGeoLocal.hh" // USES CSGeoLocal
 
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/matchers/catch_matchers_floating_point.hpp"
@@ -46,6 +47,10 @@ public:
     static
     void testPickleCSGeo(void);
 
+    /// Test pickle() & unpickle() for CSGeoLocal
+    static
+    void testPickleCSGeoLocal(void);
+
 }; // class TestCSPickleAscii
 
 // ------------------------------------------------------------------------------------------------
@@ -54,6 +59,9 @@ TEST_CASE("TestCSPicklerAscii::testPickleCSCart", "[TestCSPicklerAscii]") {
 }
 TEST_CASE("TestCSPicklerAscii::testPickleCSGeo", "[TestCSPicklerAscii]") {
     spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo();
+}
+TEST_CASE("TestCSPicklerAscii::testPickleCSGeoLocal", "[TestCSPicklerAscii]") {
+    spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeoLocal();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -92,6 +100,25 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void) {
 
     delete csP;csP = NULL;
 } // testPickleCSGeo
+
+
+// ------------------------------------------------------------------------------------------------
+// Test pickle() and unpickle() for CSGeoLocal
+void
+spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeoLocal(void) {
+    CSGeoLocal cs;
+
+    std::stringstream s;
+    s << "coord-sys = ";
+    CSPicklerAscii::pickle(s, &cs);
+
+    CoordSys* csP = NULL;
+    CSPicklerAscii::unpickle(s, &csP);
+
+    CHECK(dynamic_cast<CSGeoLocal*>(csP));
+
+    delete csP;csP = NULL;
+} // testPickleCSGeoLocal
 
 
 // End of file

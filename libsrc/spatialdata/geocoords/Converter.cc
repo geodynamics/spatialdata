@@ -155,6 +155,8 @@ spatialdata::geocoords::Converter::_convert(double* coords,
         _cache->csDest = csDest->getString();
     } // if
 
+    csSrc->localToGeographic(coords, numLocs, numDims);
+
     double t = HUGE_VAL;
     const size_t numSuccessful =
         proj_trans_generic(_cache->proj, PJ_FWD,
@@ -168,6 +170,9 @@ spatialdata::geocoords::Converter::_convert(double* coords,
             << "  " << proj_errno_string(proj_errno(_cache->proj));
         throw std::runtime_error(msg.str());
     } // if
+
+    csDest->geographicToLocal(coords, numLocs, numDims);
+
 } // convert
 
 

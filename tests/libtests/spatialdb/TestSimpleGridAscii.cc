@@ -168,7 +168,7 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSCart(void) {
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
             const double valueE = dataE[iLoc*numValues+iVal];
             const double toleranceV = fabs(valueE) > 0.0 ? tolerance*valueE : tolerance;
-            CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(valueE, tolerance));
+            CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(valueE, toleranceV));
         } // for
     } // for
 } // testIOCSCart
@@ -280,7 +280,7 @@ spatialdata::spatialdb::TestSimpleGridAscii::testIOCSGeo(void) {
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
             const double valueE = dataE[iLoc*numValues+iVal];
             const double toleranceV = fabs(valueE) > 0.0 ? tolerance*valueE : tolerance;
-            CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(valueE, tolerance));
+            CHECK_THAT(data[iVal], Catch::Matchers::WithinAbs(valueE, toleranceV));
         } // for
     } // for
 } // testIOCSGeo

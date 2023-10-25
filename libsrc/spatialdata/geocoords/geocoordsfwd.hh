@@ -30,6 +30,7 @@ namespace spatialdata {
         class CoordSys;
         class CSCart;
         class CSGeo;
+        class CSGeoLocal;
         class Converter;
         class CSPicklerAscii;
     } // geocoords

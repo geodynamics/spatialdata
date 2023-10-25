@@ -72,11 +72,11 @@ See the [Proj documentation](https://proj.org/development/reference/functions.ht
 
 ```{table} Frequently used EPSG codes.
 :name: tab:common:epsg:codes
-| EPSG Code | Description |
-| :-------: | :---------- |
-| [EPSG:4326](https://epsg.io/4326) | WGS84 (latitude, longitude) |
-| [EPSG:4269](https://epsg.io/4269) | NAD83 (latitude, longitude) |
-| [EPSG:4267](https://epsg.io/4267) | NAD27 (latitude, longitude) |
+|                 EPSG Code                 | Description                                  |
+| :---------------------------------------: | :------------------------------------------- |
+|     [EPSG:4326](https://epsg.io/4326)     | WGS84 (latitude, longitude)                  |
+|     [EPSG:4269](https://epsg.io/4269)     | NAD83 (latitude, longitude)                  |
+|     [EPSG:4267](https://epsg.io/4267)     | NAD27 (latitude, longitude)                  |
 | [EPSG:32610](https://epsg.io/32610)[^utm] | UTM Zone 10N WGS84 datum (easting, northing) |
 | [EPSG:26910](https://epsg.io/26910)[^utm] | UTM Zone 10N NAD83 datum (easting, northing) |
 | [EPSG:26710](https://epsg.io/26710)[^utm] | UTM Zone 10N NAD27 datum (easting, northing) |
@@ -141,6 +141,101 @@ from spatialdata.geocoords.CSGeo import CSGeo
 cs = CSGeo()
 cs.crsString = "EPSG:32610"
 cs.spaceDim = 3
+cs._configure()
+```
+
+:::
+
+::::
+
+## CSGeoLocal
+
+`CSGeoLocal` provides the flexibility of adding a local origin and rotation to a georeferenced coordinate system.
+As with `CSGeo`, we use [Proj](https://proj.maptools.org) to perform georeferenced coordinate system operations, so any geographic coordinate system supported by Proj can be used.
+See the [Proj documentation](https://proj.org/development/reference/functions.html#c.proj_create) for more information.
+
+:::{figure-md} fig:csgeolocal:diagram
+<img src="figs/csgeolocal.*" alt="" scale="75%">
+
+Diagram of the relationship among the the geographic coordinate system ($xy$), the local unrotated coordinate system ($x'y'$), and the local rotated coordinate system ($x''y''$).
+`CSGeoLocal` corresponds to the local rotated coordinate system with the geographic coordinate system specified by the `Proj` string.
+:::
+
+Transformation from geographic coordinates to local coordinates:
+
+\begin{align}
+x' &= x - x_0 \\
+y' &= y - y_0 \\
+x'' &= \cos\theta \, x' - \sin\theta \, y' \\
+y'' &= sin\theta \, x' + cos\theta \, y' \\
+\end{align}
+
+Transformation from local coordinates to geographic coordinates:
+
+\begin{align}
+x' &= \cos\theta \, x'' + \sin\theta \, y'' \\
+y' &= -sin\theta \, x'' + cos\theta \, y'' \\
+x &= x' + x_0 \\
+y &= y' + y_0 \\
+\end{align}
+
+:::{admonition} Pyre User Interface
+See [CSGeoLocal component](components/geocoords/CSGeoLocal.md).
+:::
+
+### Examples
+
+We create a 2D georeferenced coordinate system in UTM Zone 11N with the WGS84 datum (EPSG:32611) that has a local origin at 500000 easting and 3750000 northing and rotated 30 degrees clockwise from north.
+
+::::{tab-set}
+
+:::{tab-item} Spatial database file
+
+```{code-block} c++
+---
+caption: Specifying a `CSGeoLocal` in a spatial database file.
+---
+cs-data = local-geographic {
+    crs-string = EPSG:32611
+    space-dim = 2
+    origin-x = 500000.0
+    origin-y = 3750000.0
+    y-azimuth = 30.0
+}
+```
+
+:::
+
+:::{tab-item} C++
+
+```{code-block} c++
+---
+caption: Create a `CSGeoLocal` object in C++.
+---
+#include "spatialdata/geocoords/CSGeo.hh"
+
+spatialdata::geocoords:CSGeo cs;
+cs.setString("EPSG:32611");
+cs.setSpaceDim(2);
+cs.setLocal(500000.0, 3750000.0, 30.0);
+```
+
+:::
+
+:::{tab-item} Python
+
+```{code-block} python
+---
+caption: Create a `CSGeoLocal` object in Python.
+---
+from spatialdata.geocoords.CSGeoLocal import CSGeoLocal
+
+cs = CSGeoLocal()
+cs.crsString = "EPSG:32611"
+cs.spaceDim = 2
+cs.originX = 500000.0
+cs.originY = 3750000.0
+cs.yAzimuth = 30.0
 cs._configure()
 ```
 

@@ -21,6 +21,7 @@
 
 #include "CSCart.hh" // USES CSCart
 #include "CSGeo.hh" // USES CSGeo
+#include "CSGeoLocal.hh" // USES CSGeoLocal
 
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
@@ -55,6 +56,8 @@ spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
         *cs = new CSCart;
     } else if (0 == strcasecmp(objname.c_str(), "geographic")) {
         *cs = new CSGeo;
+    } else if (0 == strcasecmp(objname.c_str(), "local-geographic")) {
+        *cs = new CSGeoLocal;
     } else {
         std::ostringstream msg;
         msg << "Could not parse coordinate system object name '"

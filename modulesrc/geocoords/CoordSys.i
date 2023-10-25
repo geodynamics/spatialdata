@@ -20,67 +20,67 @@
  */
 
 namespace spatialdata {
-  namespace geocoords {
+    namespace geocoords {
+        class CoordSys {
+public:
 
-    class CoordSys {
-    public :
-      // PUBLIC METHODS /////////////////////////////////////////////////
+            // PUBLIC METHODS /////////////////////////////////////////////////
 
-      /// Type of coordinate system
-      enum CSTypeEnum {
-	CARTESIAN, ///< Cartesian coordinate system
-	GEOGRAPHIC ///< Geographic coordinate system
-      };
+            /// Type of coordinate system
+            enum CSTypeEnum {
+                CARTESIAN, ///< Cartesian coordinate system
+                GEOGRAPHIC, ///< Geographic coordinate system
+                LOCAL_GEOGRAPHIC ///< Local geographic coordinate system
+            };
 
-    public :
-      // PUBLIC METHODS /////////////////////////////////////////////////
+public:
 
-      /// Default constructor
-      CoordSys(void);
+            // PUBLIC METHODS /////////////////////////////////////////////////
 
-      /// Default destructor
-      virtual
-      ~CoordSys(void);
+            /// Default constructor
+            CoordSys(void);
 
-      /** Clone coordinate system.
-       *
-       * @returns Copy of *this
-       */
-      virtual
-      CoordSys* clone(void) const = 0;
+            /// Default destructor
+            virtual ~CoordSys(void);
 
-      /** Set number of spatial dimensions in coordinate system.
-       *
-       * @param ndims Number of dimensions
-       */
-      virtual
-      void setSpaceDim(const int ndims);
+            /** Clone coordinate system.
+             *
+             * @returns Copy of *this
+             */
+            virtual
+            CoordSys* clone(void) const = 0;
 
-      /** Get number of spatial dimensions in coordinate system.
-       *
-       * @returns Number of dimensions
-       */
-      int getSpaceDim(void) const;
+            /** Set number of spatial dimensions in coordinate system.
+             *
+             * @param ndims Number of dimensions
+             */
+            virtual
+            void setSpaceDim(const int ndims);
 
-      /// Get type of coordinate system
-      CSTypeEnum getCSType(void) const;
+            /** Get number of spatial dimensions in coordinate system.
+             *
+             * @returns Number of dimensions
+             */
+            int getSpaceDim(void) const;
 
-    /** Pickle coordinate system to ascii stream.
-     *
-     * @param s Output stream
-     */
-    virtual void pickle(std::ostream& s) const = 0;
+            /// Get type of coordinate system
+            CSTypeEnum getCSType(void) const;
 
-    /** Unpickle coordinate system from ascii stream.
-     *
-     * @param s Input stream
-     */
-    virtual void unpickle(std::istream& s) = 0;
+            /** Pickle coordinate system to ascii stream.
+             *
+             * @param s Output stream
+             */
+            virtual void pickle(std::ostream& s) const = 0;
 
-    }; // class CoordSys
+            /** Unpickle coordinate system from ascii stream.
+             *
+             * @param s Input stream
+             */
+            virtual void unpickle(std::istream& s) = 0;
 
-  } // geocoords
+        }; // class CoordSys
+
+    } // geocoords
 } // spatialdata
 
-
-// End of file 
+// End of file

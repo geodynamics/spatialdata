@@ -14,35 +14,35 @@
 // ----------------------------------------------------------------------
 //
 
-/** @file libsrc/geocoords/CSGeo.hh
+/** @file libsrc/geocoords/CSGeoLocal.hh
  *
- * @brief C++ CSGeo object
+ * @brief C++ CSGeoLocal object
  *
  * C++ object for managing parameters defining geographic coordinate systems.
  */
 
-#if !defined(spatialdata_geocoords_csgeo_hh)
-#define spatialdata_geocoords_csgeo_hh
+#if !defined(spatialdata_geocoords_csgeoLocallocal_hh)
+#define spatialdata_geocoords_csgeoLocallocal_hh
 
-#include "CoordSys.hh" // ISA CoordSys
+#include "CSGeo.hh" // ISA CSGeo
 
 #include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA Converter
 
 #include <string> // HASA std::string
 
 /// C++ object for managing parameters defining geographic coordinate systems
-class spatialdata::geocoords::CSGeo : public CoordSys {
-    friend class TestCSGeo;
+class spatialdata::geocoords::CSGeoLocal : public CSGeo {
+    friend class TestCSGeoLocal;
 
 public:
 
-    // PUBLIC METHODS /////////////////////////////////////////////////////
+    // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 
     /// Default constructor
-    CSGeo(void);
+    CSGeoLocal(void);
 
     /// Default destructor
-    ~CSGeo(void);
+    ~CSGeoLocal(void);
 
     /** Clone coordinate system.
      *
@@ -50,41 +50,25 @@ public:
      */
     CoordSys* clone(void) const override;
 
-    /** Set string specifying coordinate system.
+    /** Set parameters specifying local coordinate system.
      *
-     * @param[in] value String specifying coordinate system (proj format, WKT, EPSG:XXXX).
+     * @param[in] originX X coordinate of local origin.
+     * @param[in] originY Y coordinate of local origin.
+     * @param[in] yAzimuth Azimuth (degrees) of y axis.
      */
-    void setString(const char* value);
+    void setLocal(const double originX,
+                  const double originY,
+                  const double yAzimuth);
 
-    /** Get string specifying coordinate system.
+    /** Get parameters specifying local coordinate system.
      *
-     * @returns String specifying coordinate system (proj format, WKT, EPSG:XXXX).
+     * @param[out] originX X coordinate of local origin.
+     * @param[out] originY Y coordinate of local origin.
+     * @param[out] yAzimuth Azimuth (degrees) of y axis.
      */
-    const char* getString(void) const;
-
-    /** Set number of spatial dimensions in coordinate system.
-     *
-     * @param ndims Number of dimensions
-     */
-    void setSpaceDim(const int ndims) override;
-
-    /** Get radial outward direction.
-     *
-     * dir and coords
-     *   size = numLocs * numDims
-     *   index = iLoc*numDims + iDim
-     *
-     * @param dir Array of direction cosines for outward radial direction.
-     * @param coords Array of coordinates for locations.
-     * @param numLocs Number of locations.
-     * @param numDims Number of dimensions in coordinates.
-     * @param dx Length scale for approximate surface tangent.
-     */
-    void computeSurfaceNormal(double* dir,
-                              const double* coords,
-                              const size_t numLocs,
-                              const size_t numDims,
-                              const double dx=1000.0) const;
+    void getLocal(double* originX,
+                  double* originY,
+                  double* yAzimuth) const;
 
     /** Convert coordinates from local coordinate system to geographic coordinate system.
      *
@@ -92,10 +76,9 @@ public:
      * @param[in] numLocs Number of location
      * @param[in] numDims Number of spatial dimensions in coordinates
      */
-    virtual
     void localToGeographic(double* coords,
                            const size_t numLocs,
-                           const size_t numDims) const;
+                           const size_t numDims) const override;
 
     /** Convert coordinates from geographic coordinate system to local coordinate system.
      *
@@ -103,23 +86,20 @@ public:
      * @param[in] numLocs Number of location
      * @param[in] numDims Number of spatial dimensions in coordinates
      */
-    virtual
     void geographicToLocal(double* coords,
                            const size_t numLocs,
-                           const size_t numDims) const;
+                           const size_t numDims) const override;
 
     /** Pickle coordinate system to ascii stream.
      *
      * @param s Output stream
      */
-    virtual
     void pickle(std::ostream& s) const override;
 
     /** Unpickle coordinate system from ascii stream.
      *
      * @param s Input stream
      */
-    virtual
     void unpickle(std::istream& s) override;
 
 protected:
@@ -130,18 +110,18 @@ protected:
      *
      * @param cs Coordinate system to copy
      */
-    CSGeo(const CSGeo& cs);
+    CSGeoLocal(const CSGeoLocal& cs);
 
 private:
 
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
-    std::string _string; ///< String specifying coordinate system.
-    int _spaceDim; ///< Number of spatial dimensions in coordinate system
-    spatialdata::geocoords::Converter* _converter; ///< Converter for coordinate transformations.
+    double _originX; ///< X coordinate of local origin.
+    double _originY; ///< Y coordinate of local origin.
+    double _yAzimuth; ///< Azimuth (degrees) of y axis.
 
-}; // class CSGeo
+}; // class CSGeoLocal
 
-#endif // spatialdata_geocoords_csgeo_hh
+#endif // spatialdata_geocoords_csgeoLocallocal_hh
 
 // End of file

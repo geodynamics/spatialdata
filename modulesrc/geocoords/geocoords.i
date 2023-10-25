@@ -26,6 +26,7 @@
 #include "spatialdata/geocoords/CoordSys.hh"
 #include "spatialdata/geocoords/CSCart.hh"
 #include "spatialdata/geocoords/CSGeo.hh"
+#include "spatialdata/geocoords/CSGeoLocal.hh"
 #include "spatialdata/geocoords/Converter.hh"
 %}
 
@@ -53,6 +54,7 @@ import_array();
 %include "CoordSys.i"
 %include "CSCart.i"
 %include "CSGeo.i"
+%include "CSGeoLocal.i"
 %include "Converter.i"
 
 // End of file

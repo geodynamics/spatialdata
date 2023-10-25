@@ -19,8 +19,8 @@ These models are obsolete and no longer available from SCEC.
   - **current value**: '.', from {default}
 * `description`=\<str\>: Description for database.
   - **default value**: ''
-  - **current value**: 'SCEC CVM-H v5.3', from {file='/Users/baagaard/software/unix/py39-venv/pylith-debug/lib/python3.9/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
-  - **validator**: <function validateDescription at 0x112cb1dc0>
+  - **current value**: 'SCEC CVM-H v5.3', from {file='/Users/baagaard/software/unix/py310-venv/pylith-debug/lib/python3.10/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
+  - **validator**: <function validateDescription at 0x102e94dc0>
 * `min_vs`=\<dimensional\>: Minimum shear wave speed.
   - **default value**: 500*m*s**-1
   - **current value**: 500*m*s**-1, from {default}
