@@ -1,0 +1,53 @@
+\documentclass[crop,tikz]{standalone}
+\usepackage{tikz}
+\usepackage[scaled]{helvet}
+\renewcommand*\familydefault{\sfdefault}
+
+\begin{document}
+
+\usetikzlibrary{shapes,calc,arrows.meta}
+\input{../../tikz-styles/figcolors}
+
+\tikzstyle{axes}=[{Latex[length=9pt,width=6pt]}-{Latex[length=9pt,width=6pt]}, line width=1.0pt]
+\tikzstyle{annotation}=[font=\large]
+\tikzstyle{ax1}=[text=purple,color=purple]
+\tikzstyle{ax2}=[text=blue,color=blue]
+\tikzstyle{ax3}=[text=orange,color=orange]
+
+\begin{tikzpicture}
+
+% Reference points
+\coordinate (o1) at (0mm,0mm);
+\coordinate (o2) at (10mm,20mm);
+\def\axsize{5}
+\def\azimuth{20}
+
+  % Geographic axes
+  \coordinate (x1) at ($(o1)+(\axsize,0)$);
+  \coordinate (y1) at ($(o1)+(0,\axsize)$);
+  \node[ax1, annotation, right] at (x1) {$x$};
+  \node[ax1, annotation, above] at (y1) {$y$};
+  \draw[ax1, axes] (x1) -- (o1) -- (y1); 
+
+  % Unrotated local axes
+  \coordinate (x2) at ($(o2)+(\axsize,0)$);
+  \coordinate (y2) at ($(o2)+(0,\axsize)$);
+  \node[ax2, annotation, right] at (x2) {$x'$};
+  \node[ax2, annotation, above] at (y2) {$y'$};
+  \draw[ax2, axes] (x2) -- (o2) -- (y2); 
+
+% Rotated local axes
+\pgfmathsetmacro{\axsin}{\axsize*sin(\azimuth)}%
+\pgfmathsetmacro{\axcos}{\axsize*cos(\azimuth)}%
+
+\coordinate (x3) at ($(o2)+(+\axcos,-\axsin)$);
+\coordinate (y3) at ($(o2)+(+\axsin,+\axcos)$);
+\node[ax3, annotation, right] at (x3) {$x''$};
+\node[ax3, annotation, above] at (y3) {$y''$};
+\draw[ax3, axes] (x3) -- (o2) -- (y3); 
+
+\draw[color=black,-{Latex[length=9pt,width=6pt]}] ($(y2)+(0,-0.1*\axsize)$) arc (90:70:0.9*\axsize) node[midway,above] {$\theta$};
+
+\end{tikzpicture}
+
+\end{document}

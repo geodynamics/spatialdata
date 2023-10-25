@@ -4,7 +4,7 @@
 :Full name: `spatialdata.spatialdb.AnalyticDB`
 :Journal name: `AnalyticDB`
 
-Spatial database with uniform values.
+Spatial database composed of analytic functions.
 
 Implements `SpatialDB`.
 
@@ -19,7 +19,7 @@ Implements `SpatialDB`.
 * `description`=\<str\>: Description for database.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x1061fcc10>
+  - **validator**: <function validateDescription at 0x102e94dc0>
 * `expressions`=\<list\>: Analytical expressions for values in spatial database.
   - **default value**: []
   - **current value**: [], from {default}
@@ -40,5 +40,7 @@ description = Uniform material properties
 values = [density, vp, vs]
 units = [kg/m**3, km/s, m/s]
 expressions = [2.0*x-y, 2.0x*x/(y*y), -2.0*z]
+cs = spatialdata.geocoords.CSCart
+cs.space_dim = 3
 :::
 

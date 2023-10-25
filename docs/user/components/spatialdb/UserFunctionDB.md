@@ -21,7 +21,7 @@ Implements `SpatialDB`.
 * `description`=\<str\>: Description for database.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x112cb1dc0>
+  - **validator**: <function validateDescription at 0x102e94dc0>
 
 ## Example
 

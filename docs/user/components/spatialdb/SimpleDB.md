@@ -20,7 +20,7 @@ Implements `SpatialDB`.
 * `description`=\<str\>: Description for database.
   - **default value**: ''
   - **current value**: '', from {default}
-  - **validator**: <function validateDescription at 0x112cb1dc0>
+  - **validator**: <function validateDescription at 0x102e94dc0>
 * `query_type`=\<str\>: Type of query to perform.
   - **default value**: 'nearest'
   - **current value**: 'nearest', from {default}

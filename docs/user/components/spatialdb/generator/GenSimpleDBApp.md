@@ -22,8 +22,8 @@ Application to generate simple spatial database.
 
 * `filename`=\<str\>: Filename for generated ASCII SimpleDB.
   - **default value**: ''
-  - **current value**: '/Users/baagaard/src/cig/pythia/bin/pyre_doc_components.py', from {file='/Users/baagaard/software/unix/py39-venv/pylith-debug/lib/python3.9/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
-  - **validator**: <function validateFilename at 0x11d1fa1f0>
+  - **current value**: '/Users/baagaard/src/cig/pythia/bin/pyre_doc_components.py', from {file='/Users/baagaard/software/unix/py310-venv/pylith-debug/lib/python3.10/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
+  - **validator**: <function validateFilename at 0x10317a0e0>
 * `typos`=\<str\>: specifies the handling of typos in the names of properties and facilities
   - **default value**: 'strict'
   - **current value**: 'strict', from {default}

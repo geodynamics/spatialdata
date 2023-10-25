@@ -15,8 +15,8 @@ Implements `SpatialDB`.
   - **current value**: 9.80665*m*s**-2, from {default}
 * `description`=\<str\>: Description for database.
   - **default value**: ''
-  - **current value**: 'Gravity field', from {file='/Users/baagaard/software/unix/py39-venv/pylith-debug/lib/python3.9/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
-  - **validator**: <function validateDescription at 0x112cb1dc0>
+  - **current value**: 'Gravity field', from {file='/Users/baagaard/software/unix/py310-venv/pylith-debug/lib/python3.10/site-packages/pythia/pyre/inventory/ConfigurableClass.py', line=26, function='__set__'}
+  - **validator**: <function validateDescription at 0x102e94dc0>
 * `gravity_dir`=\<list\>: Direction of gravitational body force. (used only with a Cartesian coordinate system.
   - **default value**: [0.0, 0.0, -1.0]
   - **current value**: [0.0, 0.0, -1.0], from {default}
