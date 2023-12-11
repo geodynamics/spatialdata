@@ -1,5 +1,10 @@
 # AnalyticDB
 
+:::{note}
+New in v3.1.0.
+:::
+
+
 If the values for a field can be described by an analytic function, such as a polynomial `f(x) = a * x + b`, then you should use an `AnalyticDB`.
 In addition to the analytical expressions for the fields, you also need to provide the name and units for each field, and the coordinate system (the default is `CSCart`).
 

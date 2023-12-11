@@ -150,6 +150,10 @@ cs._configure()
 
 ## CSGeoLocal
 
+:::{note}
+New in v3.1.0.
+:::
+
 `CSGeoLocal` provides the flexibility of adding a local origin and rotation to a georeferenced coordinate system.
 As with `CSGeo`, we use [Proj](https://proj.maptools.org) to perform georeferenced coordinate system operations, so any geographic coordinate system supported by Proj can be used.
 See the [Proj documentation](https://proj.org/development/reference/functions.html#c.proj_create) for more information.
