@@ -1,20 +1,12 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// ======================================================================
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// Brad T. Aagaard, U.S. Geological Survey
-// Charles A. Williams, GNS Science
-// Matthew G. Knepley, University at Buffalo
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ======================================================================
-//
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
 
 /**
  * @file modulesrc/utils/SpatialdataVersion.i
@@ -23,72 +15,70 @@
  */
 
 namespace spatialdata {
-  namespace utils {
+    namespace utils {
+        class SpatialdataVersion
+        { // SpatialdataVersion
+          // PUBLIC MEMBERS ///////////////////////////////////////////////////////
+public:
 
-    class SpatialdataVersion
-    { // SpatialdataVersion
+            /// Default constructor.
+            SpatialdataVersion(void);
 
-      // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-    public :
+            /// Default destrictor.
+            ~SpatialdataVersion(void);
 
-      /// Default constructor.
-      SpatialdataVersion(void);
-      
-      /// Default destrictor.
-      ~SpatialdataVersion(void);
-      
-      /** Is source from a release?
-       *
-       * @returns True if source code comes from a release?
-       */
-      static
-      bool isRelease(void);
-      
-      /** Get version number.
-       *
-       * @returns Version number.
-       */
-      static
-      const char* version(void);
-      
-      /** Get GIT revision.
-       *
-       * @returns GIT revision.
-       */
-      static
-      const char* gitRevision(void);
-      
-      /** Get GIT hash.
-       *
-       * @returns GIT hash.
-       */
-      static
-      const char* gitHash(void);
-      
-      /** Get date of GIT revision.
-       *
-       * @returns Date of GIT revision.
-       */
-      static
-      const char* gitDate(void);
-      
-      /** Get GIT branch.
-       *
-       * @returns GIT branch.
-       */
-      static
-      const char* gitBranch(void);
-      
-      /** Get Proj.4 version number.
-       *
-       * @returns Version number.
-       */
-      static
-      const char* projVersion(void);
-      
-    }; // SpatialdataVersion
-    
-  } // utils
+            /** Is source from a release?
+             *
+             * @returns True if source code comes from a release?
+             */
+            static
+            bool isRelease(void);
+
+            /** Get version number.
+             *
+             * @returns Version number.
+             */
+            static
+            const char* version(void);
+
+            /** Get GIT revision.
+             *
+             * @returns GIT revision.
+             */
+            static
+            const char* gitRevision(void);
+
+            /** Get GIT hash.
+             *
+             * @returns GIT hash.
+             */
+            static
+            const char* gitHash(void);
+
+            /** Get date of GIT revision.
+             *
+             * @returns Date of GIT revision.
+             */
+            static
+            const char* gitDate(void);
+
+            /** Get GIT branch.
+             *
+             * @returns GIT branch.
+             */
+            static
+            const char* gitBranch(void);
+
+            /** Get Proj.4 version number.
+             *
+             * @returns Version number.
+             */
+            static
+            const char* projVersion(void);
+
+        }; // SpatialdataVersion
+
+    } // utils
 } // spatialdata
 
-// End of file 
+// End of file

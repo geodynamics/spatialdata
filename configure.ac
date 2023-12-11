@@ -1,18 +1,12 @@
-dnl -*- autoconf -*-
+dnl ================================================================================================
+dnl This code is part of SpatialData, developed through the Computational Infrastructure
+dnl for Geodynamics (https://github.com/geodynamics/spatialdata).
 dnl
-dnl ----------------------------------------------------------------------
+dnl Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+dnl All rights reserved.
 dnl
-dnl Brad T. Aagaard, U.S. Geological Survey
-dnl
-dnl This code was developed as part of the Computational Infrastructure
-dnl for Geodynamics (http://geodynamics.org).
-dnl
-dnl Copyright (c) 2010-2023 University of California, Davis
-dnl
-dnl See LICENSE.md for license information.
-dnl
-dnl ----------------------------------------------------------------------
-dnl
+dnl See https://mit-license.org/ and LICENSE.md and for license information. 
+dnl ================================================================================================
 
 AC_PREREQ(2.59)
 AC_INIT([spatialdata], [3.1.0dev], [baagaard@usgs.gov])

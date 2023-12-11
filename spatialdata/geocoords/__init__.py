@@ -1,15 +1,12 @@
-# ----------------------------------------------------------------------
+# =================================================================================================
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Brad T. Aagaard, U.S. Geological Survey
+# Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+# All rights reserved.
 #
-# This code was developed as part of the Computational Infrastructure
-# for Geodynamics (http://geodynamics.org).
-#
-# Copyright (c) 2010-2023 University of California, Davis
-#
-# See LICENSE.md for license information.
-#
-# ----------------------------------------------------------------------
+# See https://mit-license.org/ and LICENSE.md and for license information. 
+# =================================================================================================
 #
 
 # @file spatialdata/geocoords/__init__.py
