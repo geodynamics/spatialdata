@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/Exception.hh
- *
- * @brief C++ exceptions for spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_exception_hh)
-#define spatialdata_spatialdb_exception_hh
+#pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
 
@@ -35,8 +28,6 @@ public:
 }; // class OutOfBounds
 
 #include "Exception.icc" // inline methods
-
-#endif // spatialdata_spatialdb_exception_hh
 
 // version
 // $Id$

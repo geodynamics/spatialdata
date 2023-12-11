@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleDB.hh
- *
- * @brief C++ manager for simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_simpledb_hh)
-#define spatialdata_spatialdb_simpledb_hh
+#pragma once
 
 #include "SpatialDB.hh" // ISA Spatialdb
 
@@ -133,7 +126,5 @@ private:
     spatialdata::geocoords::CoordSys* _cs; ///< Coordinate system
 
 }; // class SimpleDB
-
-#endif // spatialdata_spatialdb_simpledb_hh
 
 // End of file

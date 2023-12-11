@@ -5,16 +5,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/CoordSys.hh
- *
- * @brief C++ CoordSys object
- *
- * C++ object for managing parameters defining a coordinate system.
- */
-
-#if !defined(spatialdata_geocoords_coordsys_hh)
-#define spatialdata_geocoords_coordsys_hh
+#pragma once
 
 #include "geocoordsfwd.hh"
 
@@ -99,7 +90,5 @@ private:
     CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
-
-#endif // spatialdata_geocoords_coordsys_hh
 
 // End of file

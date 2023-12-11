@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleDBQuery.hh
- *
- * @brief C++ object for performing querying of SimpleDB.
- */
-
-#if !defined(spatialdata_spatialdb_simpledbquery_hh)
-#define spatialdata_spatialdb_simpledbquery_hh
+#pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
 #include "SimpleDB.hh" // USES SimpleDB
@@ -202,7 +195,5 @@ private:
     size_t _querySize; ///< Nmber of values to be returned in queries.
 
 }; // class SimpleDBQuery
-
-#endif // spatialdata_spatialdb_spatialdbquery_hh
 
 // End of file

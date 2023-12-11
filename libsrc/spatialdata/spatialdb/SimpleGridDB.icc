@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_simplegriddb_hh)
-#error "SimpleGridDB.icc must only be included from SimpleGridDB.hh"
-#endif
+#pragma once
 
 #include <cassert> // USES assert()
 

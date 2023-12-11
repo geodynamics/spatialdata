@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/**
- * @file spatialdata/utils/LineParser.hh
- *
- * @brief C++ implementation of a simple text parser that removes
- * comments and ignores input up to a given character.
- */
-
-#if !defined(spatialdata_utils_lineparser_hh)
-#define spatialdata_utils_lineparser_hh
+#pragma once
 
 #include "utilsfwd.hh"
 
@@ -82,7 +73,5 @@ private:
     bool _eatwhitespace; ///< Flag indicating to eat whitespace before fetching.
 
 }; // LineParser
-
-#endif // spatialdata_utils_lineparser_hh
 
 // End of file

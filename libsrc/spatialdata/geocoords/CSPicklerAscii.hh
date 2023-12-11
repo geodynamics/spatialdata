@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/CSPicklerAscii.hh
- *
- * @brief C++ CSPicklerAscii object
- *
- * C++ object for pickling/unpickling coordinate systems for ascii streams.
- */
-
-#if !defined(spatialdata_geocoords_cspicklerascii_hh)
-#define spatialdata_geocoords_cspicklerascii_hh
+#pragma once
 
 #include "geocoordsfwd.hh"
 
@@ -46,7 +37,5 @@ public:
                   CoordSys** cs);
 
 }; // class CSPicklerAscii
-
-#endif // spatialdata_geocoords_cspicklerascii_hh
 
 // End of file

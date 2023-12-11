@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/UniformDB.hh
- *
- * @brief C++ manager for simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_uniformdb_hh)
-#define spatialdata_spatialdb_uniformdb_hh
+#pragma once
 
 #include "SpatialDB.hh"
 
@@ -115,7 +108,5 @@ private:
 }; // class UniformDB
 
 #include "UniformDB.icc"
-
-#endif // spatialdata_spatialdb_uniformdb_hh
 
 // End of file

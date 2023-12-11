@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/units/Parser.hh
- *
- * @brief C++ interface to Pyre units parser.
- */
-
-#if !defined(spatialdata_units_parser_hh)
-#define spatialdata_units_parser_hh
+#pragma once
 
 #include "unitsfwd.hh"
 
@@ -54,7 +47,5 @@ private:
     bool _alreadyInitialized;
 
 }; // class Parser
-
-#endif // spatialdata_units_parser_hh
 
 // End of file

@@ -9,9 +9,7 @@
  * See https://mit-license.org/ and LICENSE.md and for license information.
  * =================================================================================================
  */
-
-#if !defined(spatialdata_spatialdb_cspatialdb_h)
-#define spatialdata_spatialdb_cspatialdb_h
+#pragma once
 
 /** Call SpatialDB:Query().
  *
@@ -31,7 +29,5 @@ int spatialdb_query(void* db,
                     const double* coords,
                     const int numDims,
                     const void* cs);
-
-#endif /* spatialdata_cspatialdb_h */
 
 /* End of file  */

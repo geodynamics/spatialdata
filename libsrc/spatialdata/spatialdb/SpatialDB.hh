@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SpatialDB.h
- *
- * @brief C++ manager for spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_spatialdb_hh)
-#define spatialdata_spatialdb_spatialdb_hh
+#pragma once
 
 #include "spatialdbfwd.hh"
 #include "spatialdata/geocoords/geocoordsfwd.hh"
@@ -215,7 +208,5 @@ private:
 }; // class SpatialDB
 
 #include "SpatialDB.icc" // inline methods
-
-#endif // spatialdata_spatialdb_spatialdb_hh
 
 // End of file

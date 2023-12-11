@@ -7,17 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file tests/libtests/spatialdb/TestSimpleGridDB.hh
- *
- * @brief C++ TestSimpleGridDB object
- *
- * C++ unit testing for SimpleGridDB. This object is an abstract base
- * class with children classes specific to the type of data in the database.
- */
-
-#if !defined(spatialdata_spatialdb_testsimplegriddb_hh)
-#define spatialdata_spatialdb_testsimplegriddb_hh
+#pragma once
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
 
@@ -150,7 +140,5 @@ public:
     //@}
 
 };
-
-#endif // spatialdata_spatialdb_testsimplegriddb_hh
 
 // End of file

@@ -7,17 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file tests/libtests/spatialdb/TestSimpleDB.hh
- *
- * @brief C++ TestSimpleDB object
- *
- * C++ unit testing for SimpleDB. This object is an abstract base
- * class with children classes specific to the type of data in the database.
- */
-
-#if !defined(spatialdata_spatialdb_testsimpledb_hh)
-#define spatialdata_spatialdb_testsimpledb_hh
+#pragma once
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
 
@@ -115,7 +105,5 @@ public:
     const int* errFlags;
 
 };
-
-#endif // spatialdata_spatialdb_testsimpledb_hh
 
 // End of file

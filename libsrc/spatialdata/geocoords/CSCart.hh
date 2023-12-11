@@ -7,19 +7,11 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/CSCart.hh
- *
- * @brief C++ CSCart object
- *
- * C++ object for managing parameters defining Cartesian coordinate systems.
- */
-
-#if !defined(spatialdata_geocoords_cscart_hh)
-#define spatialdata_geocoords_cscart_hh
+#pragma once
 
 #include "CoordSys.hh" // ISA CoordSys
 
+/// C++ object for Cartesian coordinate system.
 class spatialdata::geocoords::CSCart : public CoordSys {
     friend class TestCSCart;
 
@@ -80,7 +72,5 @@ private:
     double _toMeters; ///< Scale factor to convert coordinates to meters
 
 }; // class CSCart
-
-#endif // spatialdata_geocoodrs_cscart_hh
 
 // End of file

@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleIO.hh
- *
- * @brief C++ abstract base class for I/O of data for simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_simpleio_hh)
-#define spatialdata_spatialdb_simpleio_hh
+#pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
 #include "spatialdata/geocoords/geocoordsfwd.hh" // forward declarations
@@ -108,7 +101,5 @@ private:
 }; // class SimpleIO
 
 #include "SimpleIO.icc"
-
-#endif // spatialdata_spatialdb_simpleio_hh
 
 // End of file

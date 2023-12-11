@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file tests/libtests/geocoords/TestConverter.hh
- *
- * @brief C++ TestConverter object
- *
- * C++ unit testing for Converter.
- */
-
-#if !defined(spatialdata_testconverter_hh)
-#define spatialdata_testconverter_hh
+#pragma once
 
 #include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA CoordSys
 
@@ -76,7 +67,5 @@ public:
     const CoordSys* csDest; ///< Destination coordinate system.
 
 }; // TestConverter_Data
-
-#endif // spatialdata_geocoords_testconverter_hh
 
 // End of file

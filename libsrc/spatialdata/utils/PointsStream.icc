@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_utils_pointsstream_hh)
-#error "PointsSTream.icc must only be included from PointsStream.hh"
-#else
+#pragma once
 
 // Set name of file for input/output.
 inline
@@ -75,7 +72,5 @@ spatialdata::utils::PointsStream::getPrecision(void) const {
     return _precision;
 }
 
-
-#endif
 
 // End of file

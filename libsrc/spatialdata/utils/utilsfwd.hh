@@ -7,17 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/utils/utilsfwd.hh
- *
- * @brief Forward declarations for spatialdata::utils objects.
- *
- * Including this header file eliminates the need to use separate
- * forward declarations.
- */
-
-#if !defined(spatialdata_utils_utilsfwd_hh)
-#define spatialdata_utils_utilsfwd_hh
+#pragma once
 
 namespace spatialdata {
     namespace utils {
@@ -27,7 +17,5 @@ namespace spatialdata {
         class SpatialdataVersion;
     } // utils
 } // spatialdata
-
-#endif // spatialdata_utils_utilsfwd_hh
 
 // End of file

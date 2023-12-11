@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_simpledbdata_hh)
-#error "SimpleDBData.icc must only be included from SimpleDBData.hh"
-#endif
+#pragma once
 
 #include <cassert> // USES assert()
 

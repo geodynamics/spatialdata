@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_simpleio_hh)
-#error "SimpleIO.icc must only be included from SimpleIO.hh"
-#endif
+#pragma once
 
 // Set filename for database.
 inline

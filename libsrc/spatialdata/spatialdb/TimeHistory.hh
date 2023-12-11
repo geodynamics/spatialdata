@@ -7,15 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/TimeHistory.h
- *
- * @brief C++ object for time dependence in spatial databases. Time
- * history is applied independently of the spatial variation.
- */
-
-#if !defined(spatialdata_spatialdb_timehistory_hh)
-#define spatialdata_spatialdb_timehistory_hh
+#pragma once
 
 #include "spatialdbfwd.hh"
 
@@ -116,7 +108,5 @@ private:
 }; // class TimeHistory
 
 #include "TimeHistory.icc" // inline methods
-
-#endif // spatialdata_spatialdb_timehistory_hh
 
 // End of file

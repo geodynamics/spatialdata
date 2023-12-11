@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/TimeHistoryIO.h
- *
- * @brief C++ object for reading/writing time history files.
- */
-
-#if !defined(spatialdata_spatialdb_timehistoryio_hh)
-#define spatialdata_spatialdb_timehistoryio_hh
+#pragma once
 
 #include "spatialdbfwd.hh"
 
@@ -64,7 +57,5 @@ private:
     static const char* HEADER; ///< Header for time history files.
 
 }; // class TimeHistoryIO
-
-#endif // spatialdata_spatialdb_timehistoryio_hh
 
 // End of file

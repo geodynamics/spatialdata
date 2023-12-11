@@ -7,15 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleGridAscii.hh
- *
- * @brief C++ object for reading/writing SimpleGridDB info as ASCII
- * files.
- */
-
-#if !defined(spatialdata_spatialdb_simplegridascii_hh)
-#define spatialdata_spatialdb_simplegridascii_hh
+#pragma once
 
 #include "SimpleGridDB.hh" // ISA SimpleGridDB
 
@@ -95,7 +87,5 @@ private:
     static const char* FILEHEADER;
 
 }; // class SimpleGridAscii
-
-#endif // spatialdata_spatialdb_SimpleGridAscii_hh
 
 // End of file

@@ -7,22 +7,11 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
+#pragma once
 
-/**
- * @file libsrc/utils/SpatialdataVersion.hh
- *
- * @brief C++ object for Spatialdata version information.
- */
-
-#if !defined(spatialdata_utils_spatialdataversion_hh)
-#define spatialdata_utils_spatialdataversion_hh
-
-// Include directives ---------------------------------------------------
 #include "utilsfwd.hh" // forward declarations
 
-// Version ----------------------------------------------------------
-/** @brief C++ object for getting version info.
- */
+/// @brief C++ object for getting version info.
 class spatialdata::utils::SpatialdataVersion { // SpatialdataVersion
     friend class TestSpatialdataVersion; // unit testing
 
@@ -103,7 +92,5 @@ private:
     static const char* _projVersion; ///< Proj.4 version number.
 
 }; // SpatialdataVersion
-
-#endif // spatialdata_utils_spatialdataversion_hh
 
 // End of file

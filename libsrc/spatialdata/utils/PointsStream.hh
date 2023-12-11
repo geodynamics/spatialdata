@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/utils/PointsStream.hh
- *
- * @brief C++ PointsStream object.
- *
- * C++ object for reading/writing points to/from stdin/stdout.
- */
-
-#if !defined(spatialdata_utils_pointsstream_hh)
-#define spatialdata_utils_pointsstream_hh
+#pragma once
 
 #include "utilsfwd.hh"
 
@@ -127,7 +118,5 @@ private:
 }; // class PointsStream
 
 #include "PointsStream.icc" // inline methods
-
-#endif // spatialdata_geocoords_csgeo_hh
 
 // End of file

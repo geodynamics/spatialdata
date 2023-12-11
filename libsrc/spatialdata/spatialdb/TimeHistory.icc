@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_timehistory_hh)
-#error "TimeHistory.icc must only be included from TimeHistory.hh"
-#endif
+#pragma once
 
 // Set description of time history.
 inline

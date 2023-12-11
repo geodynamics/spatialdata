@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** This is the C++ header file that describes the UniformVelModel
- *  object. It includes the functions and data structures associated
- *  with the object.
- */
-
-#if !defined(contrib_uniformvelmodel_hh)
-#define contrib_uniformvelmodel_hh
+#pragma once
 
 #include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
 
@@ -147,7 +140,5 @@ private:
     const UniformVelModel& operator=(const UniformVelModel&); ///< Not implemented
 
 }; // UniformVelModel
-
-#endif // contrib_uniformvelmodel_hh
 
 // End of file

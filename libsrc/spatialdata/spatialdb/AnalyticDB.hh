@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/AnalyticDB.hh
- *
- * @brief C++ manager for analytic spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_analyticdb_hh)
-#define spatialdata_spatialdb_analyticdb_hh
+#pragma once
 
 #include "SpatialDB.hh"
 
@@ -132,7 +125,5 @@ private:
 }; // class AnalyticDB
 
 #include "AnalyticDB.icc"
-
-#endif // spatialdata_spatialdb_analyticdb_hh
 
 // End of file

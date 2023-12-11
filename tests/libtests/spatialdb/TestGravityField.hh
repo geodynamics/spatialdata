@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file tests/libtests/spatialdb/TestGravityField.hh
- *
- * @brief C++ TestGravityField object
- *
- * C++ unit testing for GravityField.
- */
-
-#if !defined(spatialdata_spatialdb_testgravityfield_hh)
-#define spatialdata_spatialdb_testgravityfield_hh
+#pragma once
 
 #include "spatialdata/geocoords/geocoordsfwd.hh" // USES CoordSys
 
@@ -92,7 +83,5 @@ public:
     const double* gravity; ///< Expected values for query.
 
 }; // TestGravityField_Data
-
-#endif // spatialdata_spatialdb_testgravityfield_hh
 
 // End of file

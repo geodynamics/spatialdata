@@ -9,9 +9,7 @@
  * See https://mit-license.org/ and LICENSE.md and for license information.
  * =================================================================================================
  */
-
-#if !defined(spatialdata_spatialdb_f77spatialdb_h)
-#define spatialdata_spatialdb_f77spatialdb_h
+#pragma once
 
 // ----------------------------------------------------------------------
 /** Fortran name mangling */
@@ -35,7 +33,5 @@ void spatialdb_query_f(void* db,
                        const int* numDims,
                        const void* cs,
                        int* ok);
-
-#endif /* spatialdata_spatialdb_f77spatialdb_h */
 
 // End of file

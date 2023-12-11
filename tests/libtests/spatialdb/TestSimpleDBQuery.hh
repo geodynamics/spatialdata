@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file tests/libtests/spatialdb/TestSimpleDBQuery.hh
- *
- * @brief C++ TestSimpleDBQuery object
- *
- * C++ unit testing for SimpleDBQuery.
- */
-
-#if !defined(spatialdata_spatialdb_testsimpledbquery_hh)
-#define spatialdata_spatialdb_testsimpledbquery_hh
+#pragma once
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh" // USES SimpleDB, SimpleDBQuery
 
@@ -111,7 +102,5 @@ public:
     //@}
 
 }; // TestSimpleDBQuery_Data
-
-#endif // spatialdata_spatialdb_testsimpledbquery_hh
 
 // End of file

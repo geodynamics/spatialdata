@@ -7,15 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleGridDB.hh
- *
- * @brief C++ object for performing querying of data on a nonuniform
- * (or uniform) grid in a geographic projected coordinate system.
- */
-
-#if !defined(spatialdata_spatialdb_simplegriddb_hh)
-#define spatialdata_spatialdb_simplegriddb_hh
+#pragma once
 
 #include "SpatialDB.hh" // ISA SpatialDB
 
@@ -346,7 +338,5 @@ private:
 }; // SimpleGridDB
 
 #include "SimpleGridDB.icc" // inline methods
-
-#endif // spatialdata_spatialdb_simplegriddb_hh
 
 // End of file

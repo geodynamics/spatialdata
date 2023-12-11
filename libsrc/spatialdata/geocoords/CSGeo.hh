@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/CSGeo.hh
- *
- * @brief C++ CSGeo object
- *
- * C++ object for managing parameters defining geographic coordinate systems.
- */
-
-#if !defined(spatialdata_geocoords_csgeo_hh)
-#define spatialdata_geocoords_csgeo_hh
+#pragma once
 
 #include "CoordSys.hh" // ISA CoordSys
 
@@ -135,7 +126,5 @@ private:
     spatialdata::geocoords::Converter* _converter; ///< Converter for coordinate transformations.
 
 }; // class CSGeo
-
-#endif // spatialdata_geocoords_csgeo_hh
 
 // End of file

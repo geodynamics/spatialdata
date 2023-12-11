@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/Converter.hh
- *
- * @brief C++ Converter object
- *
- * C++ object for converting between coordinate systems.
- */
-
-#if !defined(spatialdata_geocoords_converter_hh)
-#define spatialdata_geocoords_converter_hh
+#pragma once
 
 #include "geocoordsfwd.hh"
 
@@ -99,7 +90,5 @@ private:
     _converter::Cache* _cache;
 
 }; // class Converter
-
-#endif // spatialdata_geocoords_converter_hh
 
 // End of file

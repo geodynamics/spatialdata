@@ -7,17 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file tests/libtests/spatialdb/TestUserFunctionDB.hh
- *
- * @brief C++ TestUserFunctionDB object
- *
- * C++ unit testing for UserFunctionDB. This object is an abstract base
- * class with children classes specific to the type of data in the database.
- */
-
-#if !defined(spatialdata_spatialdb_testuserfunctiondb_hh)
-#define spatialdata_spatialdb_testuserfunctiondb_hh
+#pragma once
 
 #include "spatialdata/spatialdb/UserFunctionDB.hh" // Test subject
 
@@ -110,7 +100,5 @@ public:
     int numQueryPoints; ///< Number of points in test queries.
 
 }; // TestUserFunctionDB_Data
-
-#endif // spatialdata_spatialdb_testuserfunctiondb_hh
 
 // End of file

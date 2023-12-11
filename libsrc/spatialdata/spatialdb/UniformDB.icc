@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_uniformdb_hh)
-#error "UniformDB.icc must only be included from UniformDB.hh"
-#endif
+#pragma once
 
 // Open the database and prepare for querying.
 inline

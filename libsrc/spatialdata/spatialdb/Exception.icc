@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_exception_hh)
-#error "Exception.icc must only be included from Exception.hh"
-#endif
+#pragma once
 
 // Constructor.
 inline

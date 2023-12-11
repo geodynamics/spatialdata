@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/CSGeoLocal.hh
- *
- * @brief C++ CSGeoLocal object
- *
- * C++ object for managing parameters defining geographic coordinate systems.
- */
-
-#if !defined(spatialdata_geocoords_csgeoLocallocal_hh)
-#define spatialdata_geocoords_csgeoLocallocal_hh
+#pragma once
 
 #include "CSGeo.hh" // ISA CSGeo
 
@@ -115,7 +106,5 @@ private:
     double _yAzimuth; ///< Azimuth (degrees) of y axis.
 
 }; // class CSGeoLocal
-
-#endif // spatialdata_geocoords_csgeoLocallocal_hh
 
 // End of file

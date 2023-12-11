@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_sceccvmh_hh)
-#error "SCECCVMH.icc must only be included from SCECCVMH.hh"
-#endif
+#pragma once
 
 // Set directory containing SCEC CVM-H data files.
 inline

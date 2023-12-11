@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleDBData.hh
- *
- * @brief C++ data in simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_simpledbdata_hh)
-#define spatialdata_spatialdb_simpledbdata_hh
+#pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
 
@@ -171,7 +164,5 @@ private:
 }; // class SpatialDBData
 
 #include "SimpleDBData.icc" // inline methods
-
-#endif // spatialdata_spatialdb_simpledbdata_hh
 
 // End of file

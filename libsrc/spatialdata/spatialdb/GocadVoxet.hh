@@ -7,15 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/GocadVoxet.hh
- *
- * @brief C++ implementation of object for managing Gocad Voxets.
- *
- */
-
-#if !defined(spatialdata_spatialdb_gocadvoxet_hh)
-#define spatialdata_spatialdb_gocadvoxet_hh
+#pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
 
@@ -129,7 +121,5 @@ private:
     float* _data; ///< Array with data values
 
 }; // GocadVoxet
-
-#endif // spatialdata_spatialdb_gocadvoxet_hh
 
 // End of file

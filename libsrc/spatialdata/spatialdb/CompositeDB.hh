@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/CompositeDB.hh
- *
- * @brief C++ manager for simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_compositedb_hh)
-#define spatialdata_spatialdb_compositedb_hh
+#pragma once
 
 #include "SpatialDB.hh"
 
@@ -150,7 +143,5 @@ private:
     DBInfo* _infoA; ///< Information for database A
     DBInfo* _infoB; ///< Information for database B
 }; // class CompositeDB
-
-#endif // spatialdata_spatialdb_compositedb_hh
 
 // End of file

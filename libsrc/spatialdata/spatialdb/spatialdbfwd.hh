@@ -7,17 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/spatialdbfwd.hh
- *
- * @brief Forward declarations for spatialdata::spatialdb objects.
- *
- * Including this header file eliminates the need to use separate
- * forward declarations.
- */
-
-#if !defined(spatialdata_spatialdb_spatialdbfwd_hh)
-#define spatialdata_spatialdb_spatialdbfwd_hh
+#pragma once
 
 namespace spatialdata {
     namespace spatialdb {
@@ -45,7 +35,5 @@ namespace spatialdata {
 
     } // spatialdb
 } // spatialdata
-
-#endif // spatialdata_spatialdb_spatialdbfwd_hh
 
 // End of file

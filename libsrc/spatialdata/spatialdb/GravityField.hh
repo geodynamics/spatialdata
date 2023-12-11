@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/GravityField.hh
- *
- * @brief C++ manager for simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_gravityfield_hh)
-#define spatialdata_spatialdb_gravityfield_hh
+#pragma once
 
 #include "SpatialDB.hh"
 
@@ -111,7 +104,5 @@ private:
     size_t _queryValues[3]; ///< Indices of values to be returned in queries.
     size_t _querySize; ///< Number of values requested to be returned in queries.
 }; // class GravityField
-
-#endif // spatialdata_spatialdb_gravityfield_hh
 
 // End of file

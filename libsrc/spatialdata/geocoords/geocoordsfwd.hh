@@ -7,17 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/geocoords/geocoordsfwd.hh
- *
- * @brief Forward declarations for spatialdata::geocoords objects.
- *
- * Including this header file eliminates the need to use separate
- * forward declarations.
- */
-
-#if !defined(spatialdata_geocoords_geocoordsfwd_hh)
-#define spatialdata_geocoords_geocoordsfwd_hh
+#pragma once
 
 namespace spatialdata {
     namespace geocoords {
@@ -29,7 +19,5 @@ namespace spatialdata {
         class CSPicklerAscii;
     } // geocoords
 } // spatialdata
-
-#endif // spatialdata_geocoords_geocoordsfwd_hh
 
 // End of file

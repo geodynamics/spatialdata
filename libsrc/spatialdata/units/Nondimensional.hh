@@ -7,16 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/units/Nondimensional.hh
- *
- * @brief C++ Manager for nondimensionalization of problems.
- *
- * C++ object for managing nondimensionalization of problems.
- */
-
-#if !defined(spatialdata_units_nondimensional_hh)
-#define spatialdata_units_nondimensional_hh
+#pragma once
 
 #include "unitsfwd.hh"
 
@@ -192,7 +183,5 @@ private:
 }; // class Nondimensional
 
 #include "Nondimensional.icc" // inline methods
-
-#endif // spatialdata_units_nondimensional_hh
 
 // End of file

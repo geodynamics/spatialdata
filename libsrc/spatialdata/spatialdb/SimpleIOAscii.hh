@@ -7,14 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-/** @file libsrc/spatialdb/SimpleIOAscii.hh
- *
- * @brief C++ object for reading/writing SimpleDB info as ASCII files.
- */
-
-#if !defined(spatialdata_spatialdb_simpleioascii_hh)
-#define spatialdata_spatialdb_simpleioascii_hh
+#pragma once
 
 #include "SimpleIO.hh" // ISA SimpleIO
 
@@ -78,8 +71,6 @@ private:
 }; // class SimpleIOAscii
 
 #include "SimpleIOAscii.icc" // inline methods
-
-#endif // spatialdata_spatialdb_SimpleIOAscii_hh
 
 // version
 // $Id$

@@ -7,10 +7,7 @@
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
-
-#if !defined(spatialdata_spatialdb_analyticdb_hh)
-#error "AnalyticDB.icc must only be included from AnalyticDB.hh"
-#endif
+#pragma once
 
 // Open the database and prepare for querying.
 inline
