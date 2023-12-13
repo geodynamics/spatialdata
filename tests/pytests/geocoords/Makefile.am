@@ -22,7 +22,8 @@ dist_check_SCRIPTS = test_geocoords.py
 noinst_PYTHON = \
 	TestConverter.py \
 	TestCSCart.py \
-	TestCSGeo.py
+	TestCSGeo.py \
+	TestCSGeoLocal.py
 
 
 # End of file
