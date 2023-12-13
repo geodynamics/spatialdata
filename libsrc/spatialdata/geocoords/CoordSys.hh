@@ -1,28 +1,11 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// ----------------------------------------------------------------------
-//
-// Brad T. Aagaard, U.S. Geological Survey
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ----------------------------------------------------------------------
-//
-
-/** @file libsrc/geocoords/CoordSys.hh
- *
- * @brief C++ CoordSys object
- *
- * C++ object for managing parameters defining a coordinate system.
- */
-
-#if !defined(spatialdata_geocoords_coordsys_hh)
-#define spatialdata_geocoords_coordsys_hh
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
+#pragma once
 
 #include "geocoordsfwd.hh"
 
@@ -107,7 +90,5 @@ private:
     CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
-
-#endif // spatialdata_geocoords_coordsys_hh
 
 // End of file

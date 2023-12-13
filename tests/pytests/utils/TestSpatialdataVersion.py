@@ -1,16 +1,12 @@
-# ======================================================================
+# =================================================================================================
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Brad T. Aagaard, U.S. Geological Survey
+# Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+# All rights reserved.
 #
-# This code was developed as part of the Computational Infrastructure
-# for Geodynamics (http://geodynamics.org).
-#
-# Copyright (c) 2010-2023 University of California, Davis
-#
-# See LICENSE.md for license information.
-#
-# ======================================================================
-#
+# See https://mit-license.org/ and LICENSE.md and for license information. 
+# =================================================================================================
 
 import unittest
 
@@ -27,7 +23,7 @@ class TestSpatialdataVersion(unittest.TestCase):
         # Check that version is of the form X.X.X
         import re
         match = re.search("[0-9]+\.[0-9]+\.[0-9]+", version)
-        self.failIf(match is None)
+        self.assertFalse(match is None)
 
     def test_gitVersion(self):
         revision = SpatialdataVersion.gitRevision()
@@ -39,7 +35,7 @@ class TestSpatialdataVersion(unittest.TestCase):
             match = re.search("v[0-9]+\.[0-9]+\.[0-9]+", revision)
             if match is None:
                 match = re.search("v[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-g[0-9,a-z]+", revision)
-            self.failIf(match is None)
+            self.assertFalse(match is None)
 
     def test_gitHash(self):
         tag = SpatialdataVersion.gitHash()
@@ -49,7 +45,7 @@ class TestSpatialdataVersion(unittest.TestCase):
             # Check form of hash
             import re
             match = re.search("[0-9,a-z]+", tag)
-            self.failIf(match is None)
+            self.assertFalse(match is None)
 
     def test_gitDate(self):
         value = SpatialdataVersion.gitDate()
@@ -67,14 +63,14 @@ class TestSpatialdataVersion(unittest.TestCase):
         if SpatialdataVersion.isRelease():
             self.assertEqual("unknown", branch)
         else:
-            self.failIf(len(branch) == 0)
+            self.assertFalse(len(branch) == 0)
 
     def test_projVersion(self):
         version = SpatialdataVersion.projVersion()
         # Check that version is of the form XXX
         import re
         match = re.search("[0-9]+", version)
-        self.failIf(match is None)
+        self.assertFalse(match is None)
 
 
 # End of file

@@ -1,26 +1,13 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// ----------------------------------------------------------------------
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// Brad T. Aagaard, U.S. Geological Survey
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ----------------------------------------------------------------------
-//
-
-/** @file libsrc/spatialdb/CompositeDB.hh
- *
- * @brief C++ manager for simple spatial database.
- */
-
-#if !defined(spatialdata_spatialdb_compositedb_hh)
-#define spatialdata_spatialdb_compositedb_hh
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
+#pragma once
 
 #include "SpatialDB.hh"
 
@@ -156,7 +143,5 @@ private:
     DBInfo* _infoA; ///< Information for database A
     DBInfo* _infoB; ///< Information for database B
 }; // class CompositeDB
-
-#endif // spatialdata_spatialdb_compositedb_hh
 
 // End of file

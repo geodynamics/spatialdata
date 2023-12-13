@@ -1,28 +1,13 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// ----------------------------------------------------------------------
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// Brad T. Aagaard, U.S. Geological Survey
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ----------------------------------------------------------------------
-//
-
-/** @file tests/libtests/geocoords/TestConverter.hh
- *
- * @brief C++ TestConverter object
- *
- * C++ unit testing for Converter.
- */
-
-#if !defined(spatialdata_testconverter_hh)
-#define spatialdata_testconverter_hh
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
+#pragma once
 
 #include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA CoordSys
 
@@ -82,7 +67,5 @@ public:
     const CoordSys* csDest; ///< Destination coordinate system.
 
 }; // TestConverter_Data
-
-#endif // spatialdata_geocoords_testconverter_hh
 
 // End of file

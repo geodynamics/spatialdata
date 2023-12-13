@@ -1,17 +1,12 @@
-# -*- Makefile -*-
+# =================================================================================================
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# ----------------------------------------------------------------------
+# Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+# All rights reserved.
 #
-# Brad T. Aagaard, U.S. Geological Survey
-#
-# This code was developed as part of the Computational Infrastructure
-# for Geodynamics (http://geodynamics.org).
-#
-# Copyright (c) 2010-2023 University of California, Davis
-#
-# See LICENSE.md for license information.
-#
-# ----------------------------------------------------------------------
+# See https://mit-license.org/ and LICENSE.md and for license information. 
+# =================================================================================================
 #
 
 include $(top_srcdir)/tests/check.am
@@ -22,7 +17,8 @@ dist_check_SCRIPTS = test_geocoords.py
 noinst_PYTHON = \
 	TestConverter.py \
 	TestCSCart.py \
-	TestCSGeo.py
+	TestCSGeo.py \
+	TestCSGeoLocal.py
 
 
 # End of file

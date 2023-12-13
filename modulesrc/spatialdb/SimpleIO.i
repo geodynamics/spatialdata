@@ -1,18 +1,12 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// ----------------------------------------------------------------------
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// Brad T. Aagaard, U.S. Geological Survey
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ----------------------------------------------------------------------
-//
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
 
 /** @file modulesrc/spatialdb/SimpleIO.i
  *
@@ -20,56 +14,55 @@
  */
 
 namespace spatialdata {
-  namespace spatialdb {
-    class SimpleDBData; // forward declaration
+    namespace spatialdb {
+        class SimpleDBData; // forward declaration
 
-    class SimpleIO
-    { // class SimpleIO
+        class SimpleIO
+        { // class SimpleIO
+public:
 
-    public :
-      // PUBLIC METHODS /////////////////////////////////////////////////
+            // PUBLIC METHODS /////////////////////////////////////////////////
 
-      /// Default constructor.
-      SimpleIO(void);
-  
-      /// Default destructor.
-      virtual
-      ~SimpleIO(void);
+            /// Default constructor.
+            SimpleIO(void);
 
-      /** Set filename for database.
-       *
-       * @param filename Filename of database
-       */
-      void setFilename(const char* filename);
+            /// Default destructor.
+            virtual
+            ~SimpleIO(void);
 
-      /** Get filename for database.
-       *
-       * @returns Filename of database
-       */
-      const char* getFilename(void) const;
+            /** Set filename for database.
+             *
+             * @param filename Filename of database
+             */
+            void setFilename(const char* filename);
 
-      /** Read the database.
-       *
-       * @param pData Database data
-       * @param ppCS Pointer to coordinate system
-       */
-      virtual
-      void read(SimpleDBData* pData,
-		spatialdata::geocoords::CoordSys** ppCS) = 0;
+            /** Get filename for database.
+             *
+             * @returns Filename of database
+             */
+            const char* getFilename(void) const;
 
-      /** Write the database.
-       *
-       * @param data Database data
-       * @param pCS Pointer to coordinate system
-       */
-      virtual
-      void write(const SimpleDBData& data,
-		 const spatialdata::geocoords::CoordSys* pCS) = 0;
+            /** Read the database.
+             *
+             * @param pData Database data
+             * @param ppCS Pointer to coordinate system
+             */
+            virtual
+            void read(SimpleDBData* pData,
+                      spatialdata::geocoords::CoordSys** ppCS) = 0;
 
-    }; // class SimpleIO
+            /** Write the database.
+             *
+             * @param data Database data
+             * @param pCS Pointer to coordinate system
+             */
+            virtual
+            void write(const SimpleDBData& data,
+                       const spatialdata::geocoords::CoordSys* pCS) = 0;
 
-  } // namespace spatialdb
+        }; // class SimpleIO
+
+    } // namespace spatialdb
 } // namespace spatialdata
 
-
-// End of file 
+// End of file

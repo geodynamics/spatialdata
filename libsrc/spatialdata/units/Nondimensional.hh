@@ -1,28 +1,13 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// ----------------------------------------------------------------------
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// Brad T. Aagaard, U.S. Geological Survey
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ----------------------------------------------------------------------
-//
-
-/** @file libsrc/units/Nondimensional.hh
- *
- * @brief C++ Manager for nondimensionalization of problems.
- *
- * C++ object for managing nondimensionalization of problems.
- */
-
-#if !defined(spatialdata_units_nondimensional_hh)
-#define spatialdata_units_nondimensional_hh
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
+#pragma once
 
 #include "unitsfwd.hh"
 
@@ -198,7 +183,5 @@ private:
 }; // class Nondimensional
 
 #include "Nondimensional.icc" // inline methods
-
-#endif // spatialdata_units_nondimensional_hh
 
 // End of file

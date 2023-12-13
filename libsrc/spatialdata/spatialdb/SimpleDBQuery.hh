@@ -1,26 +1,13 @@
-// -*- C++ -*-
+// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// ----------------------------------------------------------------------
+// Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+// All rights reserved.
 //
-// Brad T. Aagaard, U.S. Geological Survey
-//
-// This code was developed as part of the Computational Infrastructure
-// for Geodynamics (http://geodynamics.org).
-//
-// Copyright (c) 2010-2023 University of California, Davis
-//
-// See LICENSE.md for license information.
-//
-// ----------------------------------------------------------------------
-//
-
-/** @file libsrc/spatialdb/SimpleDBQuery.hh
- *
- * @brief C++ object for performing querying of SimpleDB.
- */
-
-#if !defined(spatialdata_spatialdb_simpledbquery_hh)
-#define spatialdata_spatialdb_simpledbquery_hh
+// See https://mit-license.org/ and LICENSE.md and for license information.
+// =================================================================================================
+#pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
 #include "SimpleDB.hh" // USES SimpleDB
@@ -208,7 +195,5 @@ private:
     size_t _querySize; ///< Nmber of values to be returned in queries.
 
 }; // class SimpleDBQuery
-
-#endif // spatialdata_spatialdb_spatialdbquery_hh
 
 // End of file

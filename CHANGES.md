@@ -1,4 +1,4 @@
-## Version 3.1.0 (TBD)
+## Version 3.1.0 (2023/12/11)
 
 * Add `AnalyticDB` for a spatial database composed of analytic functions.
 * Add `CSGeoLocal` for local rotated geographic coordinate systems.

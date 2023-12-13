@@ -1,25 +1,19 @@
-/*  -*- C -*-  */
 /*
- * ======================================================================
+ * ================================================================================================
+ * This code is part of SpatialData, developed through the Computational Infrastructure
+ * for Geodynamics (https://github.com/geodynamics/spatialdata).
  *
- * Brad T. Aagaard, U.S. Geological Survey
+ * Copyright (c) 2010-2023, University of California, Davis and the SpatialData Development Team.
+ * All rights reserved.
  *
- * This code was developed as part of the Computational Infrastructure
- * for Geodynamics (http://geodynamics.org).
- *
- * Copyright (c) 2010-2023 University of California, Davis
- *
- * See LICENSE.md for license information.
- *
- * ======================================================================
+ * See https://mit-license.org/ and LICENSE.md and for license information.
+ * =================================================================================================
  */
-
-#if !defined(spatialdata_spatialdb_testf77query_h)
-#define spatialdata_spatialdb_testf77query_h
+#pragma once
 
 /** Fortran name mangling */
 #define testf77query \
-    FC_FUNC_(testf77query, TESTF77QUERY)
+        FC_FUNC_(testf77query, TESTF77QUERY)
 /** Call spatialdb_query_f().
  *
  * @param db Pointer to SpatialDB
@@ -37,7 +31,5 @@ int testf77query(void* db,
                  const double* coords,
                  const int numDims,
                  void* cs);
-
-#endif /* spatialdata_spatialdb_testf77query_h */
 
 /* End of file  */
