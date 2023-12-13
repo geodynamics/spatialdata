@@ -23,7 +23,7 @@ class TestSpatialdataVersion(unittest.TestCase):
         # Check that version is of the form X.X.X
         import re
         match = re.search("[0-9]+\.[0-9]+\.[0-9]+", version)
-        self.failIf(match is None)
+        self.assertFalse(match is None)
 
     def test_gitVersion(self):
         revision = SpatialdataVersion.gitRevision()
@@ -35,7 +35,7 @@ class TestSpatialdataVersion(unittest.TestCase):
             match = re.search("v[0-9]+\.[0-9]+\.[0-9]+", revision)
             if match is None:
                 match = re.search("v[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-g[0-9,a-z]+", revision)
-            self.failIf(match is None)
+            self.assertFalse(match is None)
 
     def test_gitHash(self):
         tag = SpatialdataVersion.gitHash()
@@ -45,7 +45,7 @@ class TestSpatialdataVersion(unittest.TestCase):
             # Check form of hash
             import re
             match = re.search("[0-9,a-z]+", tag)
-            self.failIf(match is None)
+            self.assertFalse(match is None)
 
     def test_gitDate(self):
         value = SpatialdataVersion.gitDate()
@@ -63,14 +63,14 @@ class TestSpatialdataVersion(unittest.TestCase):
         if SpatialdataVersion.isRelease():
             self.assertEqual("unknown", branch)
         else:
-            self.failIf(len(branch) == 0)
+            self.assertFalse(len(branch) == 0)
 
     def test_projVersion(self):
         version = SpatialdataVersion.projVersion()
         # Check that version is of the form XXX
         import re
         match = re.search("[0-9]+", version)
-        self.failIf(match is None)
+        self.assertFalse(match is None)
 
 
 # End of file

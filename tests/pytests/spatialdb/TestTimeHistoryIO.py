@@ -47,7 +47,7 @@ class TestTimeHistoryIO(unittest.TestCase):
         for (lineE, line) in zip(linesE, lines):
             if lineE != line:
                 print("Error found in line %d in file '%s' is incorrect." % (iline, filename))
-                self.failIf(True)
+                self.assertTrue(False)
             iline += 1
 
 
