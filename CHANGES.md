@@ -1,10 +1,12 @@
-## Version 3.1.0 (2023/12/11)
+## Version 3.1.0 (2023/12/13)
 
 * Add `AnalyticDB` for a spatial database composed of analytic functions.
 * Add `CSGeoLocal` for local rotated geographic coordinate systems.
 * Switch from CppUnit to Catch2 for C++ testing framework.
 * Bugfixes
   - Update spatial database validateParameters() to use correct data member (self.label -> self.description).
+* Update Pyre requirement to version 1.1.0.
+* Update Python requirement to version 3.8 or later.
 
 ## Version 3.0.0 (2022/06/06)
 

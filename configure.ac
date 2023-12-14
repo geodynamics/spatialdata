@@ -93,7 +93,7 @@ fi
 AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
 
 dnl Check for Python modules and packages.
-AM_PATH_PYTHON([3.6])
+AM_PATH_PYTHON([3.8])
 AC_ARG_VAR(PYTHON, [Python interpreter])
 AC_ARG_VAR(PYTHONPATH, [Python module search path])
 CIT_PYTHON_SYSCONFIG
@@ -101,7 +101,7 @@ CIT_CHECK_PYTHON_HEADER
 CIT_CHECK_PYTHON_SHARED
 
 dnl PYTHIA/PYRE
-CIT_PYTHON_MODULE([pythia],[1.0.0])
+CIT_PYTHON_MODULE([pythia],[1.1.0])
 
 dnl NUMPY
 CIT_NUMPY_PYTHON_MODULE
