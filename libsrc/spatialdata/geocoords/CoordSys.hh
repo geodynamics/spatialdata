@@ -9,6 +9,7 @@
 
 #include "geocoordsfwd.hh"
 
+#include <cstddef> // USES size_t
 #include <iosfwd> // USES std::istream, std::ostream
 
 class spatialdata::geocoords::CoordSys {
