@@ -8,11 +8,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
 
-# @file spatialdata/spatialdb/SimpleIO.py
-#
-# @brief Python I/O manager for simple spatial database (SimpleDB).
-#
-# Factory: simpledb_io
+import pathlib
 
 from pythia.pyre.components.Component import Component
 
@@ -23,10 +19,8 @@ def validateFilename(value):
     """
     if 0 == len(value):
         raise ValueError("Filename for spatial database not specified.")
-    try:
-        fin = open(value, "r")
-    except IOError:
-        raise IOError("Spatial database file '{}' not found.".format(value))
+    if not pathlib.Path(value).is_file():
+        raise IOError(f"Spatial database file '{value}' not found.")
     return value
 
 
