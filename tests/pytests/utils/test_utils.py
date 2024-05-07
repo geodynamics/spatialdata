@@ -9,35 +9,26 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-import os
+
+import pathlib
 import sys
 
-current = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.dirname(current))
+sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
 from UnitTestApp import UnitTestApp
 
-import unittest
+
+import TestSpatialdataVersion
 
 
-class TestApp(UnitTestApp):
-    """Test application.
-    """
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        suite = unittest.TestSuite()
-
-        from TestSpatialdataVersion import TestSpatialdataVersion
-        suite.addTest(unittest.makeSuite(TestSpatialdataVersion))
-
-        return suite
+TEST_MODULES = [
+    TestSpatialdataVersion,
+]
 
 
-# ----------------------------------------------------------------------
 if __name__ == '__main__':
-    app = TestApp()
-    app.main()
+    app = UnitTestApp(src_dirs=["spatialdata.utils"])
+    app.test_modules = TEST_MODULES
+    app.run()
 
 
 # End of file

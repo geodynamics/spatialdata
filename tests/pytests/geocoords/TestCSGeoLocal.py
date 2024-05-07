@@ -41,4 +41,17 @@ class TestCSGeoLocal(unittest.TestCase):
         self.assertEqual(30.0,  yAzimuth)
 
 
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestCSGeoLocal]
+
+    suite = unittest.TestSuite()
+    for cls in TEST_CLASSES:
+        suite.addTests(loader.loadTestsFromTestCase(cls))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
+
+
 # End of file

@@ -40,7 +40,18 @@ class TestNondimElasticQuasistatic(unittest.TestCase):
         densityScale = pressureScale / velocityScale**2
         self.assertEqual(densityScale, dim.getDensityScale())
 
-        return
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestNondimElasticQuasistatic]
+
+    suite = unittest.TestSuite()
+    for cls in TEST_CLASSES:
+        suite.addTests(loader.loadTestsFromTestCase(cls))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

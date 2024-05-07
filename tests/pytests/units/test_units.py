@@ -1,5 +1,4 @@
 #!/usr/bin/env nemesis
-#
 # =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
@@ -9,41 +8,30 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-import os
+
+import pathlib
 import sys
 
-current = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.dirname(current))
+sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
 from UnitTestApp import UnitTestApp
 
-import unittest
+
+import TestNondimensional
+import TestNondimElasticQuasistatic
+import TestNondimElasticDynamic
 
 
-class TestApp(UnitTestApp):
-    """Test application.
-    """
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        suite = unittest.TestSuite()
-
-        from TestNondimensional import TestNondimensional
-        suite.addTest(unittest.makeSuite(TestNondimensional))
-
-        from TestNondimElasticQuasistatic import TestNondimElasticQuasistatic
-        suite.addTest(unittest.makeSuite(TestNondimElasticQuasistatic))
-
-        from TestNondimElasticDynamic import TestNondimElasticDynamic
-        suite.addTest(unittest.makeSuite(TestNondimElasticDynamic))
-
-        return suite
+TEST_MODULES = [
+    TestNondimensional,
+    TestNondimElasticQuasistatic,
+    TestNondimElasticDynamic
+]
 
 
-# ----------------------------------------------------------------------
 if __name__ == '__main__':
-    app = TestApp()
-    app.main()
+    app = UnitTestApp(src_dirs=["spatialdata.units"])
+    app.test_modules = TEST_MODULES
+    app.run()
 
 
 # End of file

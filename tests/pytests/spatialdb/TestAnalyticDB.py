@@ -14,7 +14,6 @@ import numpy
 from pythia.pyre.units.length import m, km, cm
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class TestAnalyticDB(unittest.TestCase):
 
     def setUp(self):
@@ -58,11 +57,17 @@ class TestAnalyticDB(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-if __name__ == '__main__':
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestAnalyticDB]
+
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestAnalyticDB))
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    for cls in TEST_CLASSES:
+        suite.addTests(loader.loadTestsFromTestCase(cls))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

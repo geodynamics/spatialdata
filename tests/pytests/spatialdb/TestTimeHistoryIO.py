@@ -15,7 +15,6 @@ import unittest
 import numpy
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class TestTimeHistoryIO(unittest.TestCase):
 
     def test_write(self):
@@ -34,11 +33,11 @@ class TestTimeHistoryIO(unittest.TestCase):
         # Test write
         filenameE = "data/test_okay.timedb"
 
-        fin = open(filenameE, "r")
+        fin = open(filenameE, "r", encoding="utf-8")
         linesE = fin.readlines()
         fin.close()
 
-        fin = open(filename, "r")
+        fin = open(filename, "r", encoding="utf-8")
         lines = fin.readlines()
         fin.close()
 
@@ -51,11 +50,17 @@ class TestTimeHistoryIO(unittest.TestCase):
             iline += 1
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-if __name__ == '__main__':
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestTimeHistoryIO]
+
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSimpleDB))
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    for cls in TEST_CLASSES:
+        suite.addTests(loader.loadTestsFromTestCase(cls))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

@@ -9,35 +9,24 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-import os
-import sys
-
-current = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.dirname(current))
-from UnitTestApp import UnitTestApp
 
 import unittest
 
-
-class TestApp(UnitTestApp):
-    """Test application.
-    """
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        suite = unittest.TestSuite()
-
-        from TestSCECCVMH import TestSCECCVMH
-        suite.addTest(unittest.makeSuite(TestSCECCVMH))
-
-        return suite
+import TestSCECCVMH
 
 
-# ----------------------------------------------------------------------
+def load_tests(loader, tests, pattern):
+    TEST_MODULES = [
+        TestSCECCVMH,
+    ]
+    suite = unittest.TestSuite()
+    for mod in TEST_MODULES:
+        suite.addTests(loader.loadTestsFromModule(mod))
+    return suite
+
+
 if __name__ == '__main__':
-    app = TestApp()
-    app.main()
+    unittest.main(verbosity=2)
 
 
 # End of file

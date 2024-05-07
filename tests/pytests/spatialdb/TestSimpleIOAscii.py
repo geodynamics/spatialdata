@@ -14,7 +14,6 @@ import numpy
 from spatialdata.geocoords.CSCart import CSCart
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class TestSimpleIOAscii(unittest.TestCase):
 
     def test_write(self):
@@ -77,14 +76,18 @@ class TestSimpleIOAscii(unittest.TestCase):
         for vE, v in zip(numpy.reshape(valsE, -1), numpy.reshape(vals, -1)):
             self.assertAlmostEqual(vE, v, 6)
 
-        return
 
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestSimpleIOAscii]
 
-# ----------------------------------------------------------------------------------------------------------------------
-if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    for cls in TEST_CLASSES:
+        suite.addTests(loader.loadTestsFromTestCase(cls))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

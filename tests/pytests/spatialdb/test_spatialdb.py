@@ -9,65 +9,45 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-import os
+
+import pathlib
 import sys
 
-current = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.dirname(current))
+sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
 from UnitTestApp import UnitTestApp
 
-import unittest
+import TestSimpleIOAscii
+import TestSimpleDB
+import TestUniformDB
+import TestAnalyticDB
+import TestSimpleGridDB
+import TestUserFunctionDB
+import TestCompositeDB
+import TestGravityField
+import TestTimeHistoryIO
+import TestTimeHistory
+import TestGenSimpleDBApp
 
 
-class TestApp(UnitTestApp):
-    """Test application.
-    """
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        suite = unittest.TestSuite()
-
-        from TestSimpleIOAscii import TestSimpleIOAscii
-        suite.addTest(unittest.makeSuite(TestSimpleIOAscii))
-
-        from TestSimpleDB import TestSimpleDB
-        suite.addTest(unittest.makeSuite(TestSimpleDB))
-
-        from TestUniformDB import TestUniformDB
-        suite.addTest(unittest.makeSuite(TestUniformDB))
-
-        from TestAnalyticDB import TestAnalyticDB
-        suite.addTest(unittest.makeSuite(TestAnalyticDB))
-
-        from TestSimpleGridDB import TestSimpleGridDB
-        suite.addTest(unittest.makeSuite(TestSimpleGridDB))
-
-        from TestUserFunctionDB import TestUserFunctionDB
-        suite.addTest(unittest.makeSuite(TestUserFunctionDB))
-
-        from TestCompositeDB import TestCompositeDB
-        suite.addTest(unittest.makeSuite(TestCompositeDB))
-
-        from TestGravityField import TestGravityField
-        suite.addTest(unittest.makeSuite(TestGravityField))
-
-        from TestTimeHistoryIO import TestTimeHistoryIO
-        suite.addTest(unittest.makeSuite(TestTimeHistoryIO))
-
-        from TestTimeHistory import TestTimeHistory
-        suite.addTest(unittest.makeSuite(TestTimeHistory))
-
-        from TestGenSimpleDBApp import TestGenSimpleDBApp
-        suite.addTest(unittest.makeSuite(TestGenSimpleDBApp))
-
-        return suite
+TEST_MODULES = [
+    TestSimpleIOAscii,
+    TestSimpleDB,
+    TestUniformDB,
+    TestAnalyticDB,
+    TestSimpleGridDB,
+    TestUserFunctionDB,
+    TestCompositeDB,
+    TestGravityField,
+    TestTimeHistoryIO,
+    TestTimeHistory,
+    TestGenSimpleDBApp,
+]
 
 
-# ----------------------------------------------------------------------
 if __name__ == '__main__':
-    app = TestApp()
-    app.main()
+    app = UnitTestApp(src_dirs=["spatialdata.spatialdb"])
+    app.test_modules = TEST_MODULES
+    app.run()
 
 
 # End of file
