@@ -23,9 +23,9 @@ class UnitTestApp():
     """
     test_modules = []
 
-    def __init__(self, src_dirs=["spatialdata"]):
+    def __init__(self, test_modules, src_dirs=["spatialdata"]):
         self.cov = None
-        self.suite = []
+        self.test_modules = test_modules
         try:
             import coverage
             self.cov = coverage.Coverage(source=src_dirs)

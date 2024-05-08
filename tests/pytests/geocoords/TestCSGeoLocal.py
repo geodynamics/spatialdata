@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.geocoords.CSGeoLocal import CSGeoLocal
 
 
@@ -43,11 +44,7 @@ class TestCSGeoLocal(unittest.TestCase):
 
 def load_tests(loader, tests, pattern):
     TEST_CLASSES = [TestCSGeoLocal]
-
-    suite = unittest.TestSuite()
-    for cls in TEST_CLASSES:
-        suite.addTests(loader.loadTestsFromTestCase(cls))
-    return suite
+    return make_suite(TEST_CLASSES, loader)
 
 
 if __name__ == "__main__":

@@ -10,11 +10,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
 
-import pathlib
-import sys
-
-sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
-from UnitTestApp import UnitTestApp
+from spatialdata.testing.UnitTestApp import UnitTestApp
 
 
 import TestSpatialdataVersion
@@ -26,8 +22,7 @@ TEST_MODULES = [
 
 
 if __name__ == '__main__':
-    app = UnitTestApp(src_dirs=["spatialdata.utils"])
-    app.test_modules = TEST_MODULES
+    app = UnitTestApp(test_modules=TEST_MODULES, src_dirs=["spatialdata.utils"])
     app.run()
 
 

@@ -11,6 +11,7 @@
 import unittest
 
 import numpy
+from spatialdata.testing.TestCases import make_suite
 from pythia.pyre.units.length import m, km, cm
 
 
@@ -59,11 +60,7 @@ class TestAnalyticDB(unittest.TestCase):
 
 def load_tests(loader, tests, pattern):
     TEST_CLASSES = [TestAnalyticDB]
-
-    suite = unittest.TestSuite()
-    for cls in TEST_CLASSES:
-        suite.addTests(loader.loadTestsFromTestCase(cls))
-    return suite
+    return make_suite(TEST_CLASSES, loader)
 
 
 if __name__ == "__main__":

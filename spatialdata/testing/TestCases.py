@@ -7,12 +7,15 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
+"""PyLith module for unit test helper functions."""
 
-SUBDIRS = \
-	geocoords \
-	spatialdb \
-	units \
-	utils
+import unittest
+
+def make_suite(test_classes, loader=unittest.defaultTestLoader):
+    suite = unittest.TestSuite()
+    for cls in test_classes:
+        suite.addTests(loader.loadTestsFromTestCase(cls))
+    return suite
 
 
-# End of file 
+# End of file

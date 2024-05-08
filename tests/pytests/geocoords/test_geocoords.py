@@ -13,8 +13,7 @@
 import pathlib
 import sys
 
-sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
-from UnitTestApp import UnitTestApp
+from spatialdata.testing.UnitTestApp import UnitTestApp
 
 import TestCSCart
 import TestCSGeo
@@ -31,8 +30,7 @@ TEST_MODULES = [
 
 
 if __name__ == '__main__':
-    app = UnitTestApp(src_dirs=["spatialdata.geocoords"])
-    app.test_modules = TEST_MODULES
+    app = UnitTestApp(test_modules=TEST_MODULES, src_dirs=["spatialdata.geocoords"])
     app.run()
 
 

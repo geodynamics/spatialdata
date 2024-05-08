@@ -13,6 +13,7 @@
 import unittest
 
 import numpy
+from spatialdata.testing.TestCases import make_suite
 
 
 class TestTimeHistoryIO(unittest.TestCase):
@@ -52,11 +53,7 @@ class TestTimeHistoryIO(unittest.TestCase):
 
 def load_tests(loader, tests, pattern):
     TEST_CLASSES = [TestTimeHistoryIO]
-
-    suite = unittest.TestSuite()
-    for cls in TEST_CLASSES:
-        suite.addTests(loader.loadTestsFromTestCase(cls))
-    return suite
+    return make_suite(TEST_CLASSES, loader)
 
 
 if __name__ == "__main__":

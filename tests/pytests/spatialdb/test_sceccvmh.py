@@ -10,23 +10,19 @@
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
 
-import unittest
+from spatialdata.testing.UnitTestApp import UnitTestApp
 
 import TestSCECCVMH
 
 
-def load_tests(loader, tests, pattern):
-    TEST_MODULES = [
-        TestSCECCVMH,
+TEST_MODULES = [
+    TestSCECCVMH,
     ]
-    suite = unittest.TestSuite()
-    for mod in TEST_MODULES:
-        suite.addTests(loader.loadTestsFromModule(mod))
-    return suite
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    app = UnitTestApp(test_modules=TEST_MODULES, src_dirs=["spatialdata.spatialdb"])
+    app.run()
 
 
 # End of file

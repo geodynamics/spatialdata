@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.units.NondimElasticDynamic import NondimElasticDynamic
 
 from pythia.pyre.units.length import meter
@@ -43,11 +44,7 @@ class TestNondimElasticDynamic(unittest.TestCase):
 
 def load_tests(loader, tests, pattern):
     TEST_CLASSES = [TestNondimElasticDynamic]
-
-    suite = unittest.TestSuite()
-    for cls in TEST_CLASSES:
-        suite.addTests(loader.loadTestsFromTestCase(cls))
-    return suite
+    return make_suite(test_classes=TEST_CLASSES, loader=loader)
 
 
 if __name__ == "__main__":

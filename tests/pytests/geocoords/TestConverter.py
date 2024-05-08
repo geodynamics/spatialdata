@@ -12,6 +12,8 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
+
 import numpy
 
 lonlatNAD27 = numpy.array([
@@ -85,11 +87,7 @@ class TestConverter(unittest.TestCase):
 
 def load_tests(loader, tests, pattern):
     TEST_CLASSES = [TestConverter]
-
-    suite = unittest.TestSuite()
-    for cls in TEST_CLASSES:
-        suite.addTests(loader.loadTestsFromTestCase(cls))
-    return suite
+    return make_suite(TEST_CLASSES, loader)
 
 
 if __name__ == "__main__":
