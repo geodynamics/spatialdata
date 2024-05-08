@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.units.Nondimensional import Nondimensional
 
 from pythia.pyre.units.length import meter
@@ -102,6 +103,15 @@ class TestNondimensional(unittest.TestCase):
         valueE = 2.0 * meter
 
         self.assertEqual(valueE, dim.dimensionalize(value, scale))
+
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestNondimensional]
+    return make_suite(test_classes=TEST_CLASSES, loader=loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

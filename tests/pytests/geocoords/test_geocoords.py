@@ -9,44 +9,29 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-import os
+
+import pathlib
 import sys
 
-current = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.dirname(current))
-from UnitTestApp import UnitTestApp
+from spatialdata.testing.UnitTestApp import UnitTestApp
 
-import unittest
-
-
-class TestApp(UnitTestApp):
-    """Test application.
-    """
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        suite = unittest.TestSuite()
-
-        from TestCSCart import TestCSCart
-        suite.addTest(unittest.makeSuite(TestCSCart))
-
-        from TestCSGeo import TestCSGeo
-        suite.addTest(unittest.makeSuite(TestCSGeo))
-
-        from TestCSGeoLocal import TestCSGeoLocal
-        suite.addTest(unittest.makeSuite(TestCSGeoLocal))
-
-        from TestConverter import TestConverter
-        suite.addTest(unittest.makeSuite(TestConverter))
-
-        return suite
+import TestCSCart
+import TestCSGeo
+import TestCSGeoLocal
+import TestConverter
 
 
-# ----------------------------------------------------------------------
+TEST_MODULES = [
+    TestCSCart,
+    TestCSGeo,
+    TestCSGeoLocal,
+    TestConverter,
+]
+
+
 if __name__ == '__main__':
-    app = TestApp()
-    app.main()
+    app = UnitTestApp(test_modules=TEST_MODULES, src_dirs=["spatialdata.geocoords"])
+    app.run()
 
 
 # End of file

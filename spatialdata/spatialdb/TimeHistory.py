@@ -8,6 +8,7 @@
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
 
+import pathlib
 
 from pythia.pyre.components.Component import Component
 from .spatialdb import TimeHistory as ModuleTimeHistory
@@ -19,10 +20,8 @@ def validateFilename(value):
     """
     if 0 == len(value):
         raise ValueError("Name of TimeHistoryDB file must be specified.")
-    try:
-        fin = open(value, "r")
-    except IOError:
-        raise IOError("Temporal database file '{}' not found.".format(value))
+    if not pathlib.Path(value).is_file():
+        raise IOError(f"Temporal database file '{value}' not found.")
     return value
 
 

@@ -12,8 +12,8 @@ include $(top_srcdir)/tests/check.am
 
 SUBDIRS = data
 
-TESTS = test_spatial.py
-dist_check_SCRIPTS = test_spatial.py
+TESTS = test_spatialdb.py
+dist_check_SCRIPTS = test_spatialdb.py
 
 if ENABLE_SCEC_CVM_H
   TESTS += test_sceccvmh.py

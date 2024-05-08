@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.geocoords.CSGeoLocal import CSGeoLocal
 
 
@@ -39,6 +40,15 @@ class TestCSGeoLocal(unittest.TestCase):
         self.assertEqual(20.0, originX)
         self.assertEqual(21.0, originY)
         self.assertEqual(30.0,  yAzimuth)
+
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestCSGeoLocal]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

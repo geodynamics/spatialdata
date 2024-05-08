@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.geocoords.CSGeo import CSGeo
 
 
@@ -32,6 +33,15 @@ class TestCSGeo(unittest.TestCase):
 
         self.assertEqual(projString, cs.getString())
         self.assertEqual(2, cs.getSpaceDim())
+
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestCSGeo]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

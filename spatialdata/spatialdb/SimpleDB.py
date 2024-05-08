@@ -35,8 +35,7 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
     queryType.meta['tip'] = "Type of query to perform."
 
     from .SimpleIOAscii import SimpleIOAscii
-    iohandler = pythia.pyre.inventory.facility("iohandler", family="simpledb_io",
-                                        factory=SimpleIOAscii)
+    iohandler = pythia.pyre.inventory.facility("iohandler", family="simpledb_io", factory=SimpleIOAscii)
     iohandler.meta['tip'] = "I/O handler for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////

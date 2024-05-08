@@ -7,10 +7,12 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-# @brief Python application for Python unit tests.
-#
-# We place this script in tests/pytests because we must initialize coverage
-# *before* importing any spatialdata modules.
+"""Application for running Python unit tests with code coverage.
+
+We place this script in tests/pytests so that we can import it into the individual scripts in the
+subdirectories.
+"""
+
 
 import unittest
 
@@ -19,16 +21,18 @@ class UnitTestApp():
     """
     Test application.
     """
-    cov = None
-    try:
-        import coverage
-        cov = coverage.Coverage(source=["spatialdata"])
-    except ImportError:
-        pass
+    test_modules = []
 
-    # PUBLIC METHODS /////////////////////////////////////////////////////
+    def __init__(self, test_modules, src_dirs=["spatialdata"]):
+        self.cov = None
+        self.test_modules = test_modules
+        try:
+            import coverage
+            self.cov = coverage.Coverage(source=src_dirs)
+        except ImportError:
+            pass
 
-    def main(self):
+    def run(self):
         """
         Run the application.
         """
@@ -40,10 +44,19 @@ class UnitTestApp():
         if self.cov:
             self.cov.stop()
             self.cov.save()
+            self.cov.report()
         
         if not success:
             import sys
             sys.exit(1)
+
+
+    def _suite(self):
+        loader = unittest.defaultTestLoader
+        suite = unittest.TestSuite()
+        for mod in self.test_modules:
+            suite.addTests(loader.loadTestsFromModule(mod))
+        return suite
 
 
 # End of file

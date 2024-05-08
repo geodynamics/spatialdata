@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.units.NondimElasticQuasistatic import NondimElasticQuasistatic
 
 from pythia.pyre.units.length import meter
@@ -40,7 +41,14 @@ class TestNondimElasticQuasistatic(unittest.TestCase):
         densityScale = pressureScale / velocityScale**2
         self.assertEqual(densityScale, dim.getDensityScale())
 
-        return
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestNondimElasticQuasistatic]
+    return make_suite(test_classes=TEST_CLASSES, loader=loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

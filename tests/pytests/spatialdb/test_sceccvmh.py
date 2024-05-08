@@ -9,35 +9,20 @@
 #
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
-import os
-import sys
 
-current = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.dirname(current))
-from UnitTestApp import UnitTestApp
+from spatialdata.testing.UnitTestApp import UnitTestApp
 
-import unittest
+import TestSCECCVMH
 
 
-class TestApp(UnitTestApp):
-    """Test application.
-    """
-
-    def _suite(self):
-        """Setup the test suite.
-        """
-        suite = unittest.TestSuite()
-
-        from TestSCECCVMH import TestSCECCVMH
-        suite.addTest(unittest.makeSuite(TestSCECCVMH))
-
-        return suite
+TEST_MODULES = [
+    TestSCECCVMH,
+    ]
 
 
-# ----------------------------------------------------------------------
 if __name__ == '__main__':
-    app = TestApp()
-    app.main()
+    app = UnitTestApp(test_modules=TEST_MODULES, src_dirs=["spatialdata.spatialdb"])
+    app.run()
 
 
 # End of file

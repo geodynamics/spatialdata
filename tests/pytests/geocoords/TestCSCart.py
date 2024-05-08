@@ -12,6 +12,7 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.geocoords.CSCart import CSCart
 
 
@@ -30,6 +31,15 @@ class TestCSCart(unittest.TestCase):
 
         self.assertEqual(1.0e+3, cs.getToMeters())
         self.assertEqual(2, cs.getSpaceDim())
+
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestCSCart]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

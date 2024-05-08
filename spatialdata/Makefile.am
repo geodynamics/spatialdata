@@ -42,6 +42,9 @@ EXTRA_DIST = \
 	spatialdb/generator/Shaper.py \
 	spatialdb/generator/Value.py \
 	spatialdb/generator/__init__.py \
+	testing/__init__.py \
+	testing/UnitTestApp.py \
+	testing/TestCases.py \
 	units/NondimElasticDynamic.py \
 	units/NondimElasticQuasistatic.py \
 	units/Nondimensional.py \

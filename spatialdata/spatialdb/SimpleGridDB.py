@@ -8,6 +8,8 @@
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
 
+import pathlib
+
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import SimpleGridDB as ModuleSimpleGridDB
 
@@ -18,10 +20,8 @@ def validateFilename(value):
     """
     if 0 == len(value):
         raise ValueError("Name of SimpleGridDB file must be specified.")
-    try:
-        fin = open(value, "r")
-    except IOError:
-        raise IOError("Spatial database file '{}' not found.".format(value))
+    if not pathlib.Path(value).is_file():
+        raise IOError(f"Spatial database file '{value}' not found.")
     return value
 
 

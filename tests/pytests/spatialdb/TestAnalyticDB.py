@@ -11,10 +11,10 @@
 import unittest
 
 import numpy
+from spatialdata.testing.TestCases import make_suite
 from pythia.pyre.units.length import m, km, cm
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class TestAnalyticDB(unittest.TestCase):
 
     def setUp(self):
@@ -58,11 +58,13 @@ class TestAnalyticDB(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-if __name__ == '__main__':
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestAnalyticDB))
-    unittest.TextTestRunner(verbosity=2).run(suite)
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestAnalyticDB]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

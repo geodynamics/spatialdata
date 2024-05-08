@@ -12,10 +12,10 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
 from spatialdata.spatialdb.UserFunctionDB import UserFunctionDB
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class TestUserFunctionDB(unittest.TestCase):
 
     def setUp(self):
@@ -30,11 +30,13 @@ class TestUserFunctionDB(unittest.TestCase):
         pass
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-if __name__ == '__main__':
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestUserFunctionDB))
-    unittest.TextTestRunner(verbosity=2).run(suite)
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestUserFunctionDB]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

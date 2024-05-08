@@ -12,6 +12,8 @@
 
 import unittest
 
+from spatialdata.testing.TestCases import make_suite
+
 import numpy
 
 lonlatNAD27 = numpy.array([
@@ -81,6 +83,15 @@ class TestConverter(unittest.TestCase):
         for (xyE, xyT) in zip(numpy.reshape(xyM, -1),
                               numpy.reshape(xy, -1)):
             self.assertAlmostEqual(xyE, xyT, 4)
+
+
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestConverter]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file

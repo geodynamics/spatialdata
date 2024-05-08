@@ -11,9 +11,9 @@
 import unittest
 
 import numpy
+from spatialdata.testing.TestCases import make_suite
 
 
-# ----------------------------------------------------------------------------------------------------------------------
 class TestGravityField(unittest.TestCase):
 
     def setUp(self):
@@ -52,11 +52,13 @@ class TestGravityField(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-if __name__ == '__main__':
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestGravityField))
-    unittest.TextTestRunner(verbosity=2).run(suite)
+def load_tests(loader, tests, pattern):
+    TEST_CLASSES = [TestGravityField]
+    return make_suite(TEST_CLASSES, loader)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
 
 
 # End of file
