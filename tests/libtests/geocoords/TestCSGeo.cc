@@ -152,6 +152,28 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         delete[] dirs;dirs = 0;
     } // UTM zone 10
 
+    { // Transverse mercator projection
+        cs.setString("+proj=tmerc +datum=WGS84 +lon_0=-100.0 +lat_0=+40.0 +k=0.9996 +units=km");
+        const size_t numLocs = 4;
+        const size_t numDims = 3;
+        const size_t size = numLocs * numDims;
+        const double coords[size] = {
+            57.0, 41.0, -1.0,
+            40.0, 40.0,  2.0,
+            30.0, 42.0,  3.0,
+            55.0, 41.0,  4.0,
+        };
+        double* dirs = new double[size];
+        cs.setSpaceDim(numDims);
+        cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
+        for (size_t iLoc = 0, i = 0; iLoc < numLocs; ++iLoc) {
+            CHECK(0.0 == dirs[i++]);
+            CHECK(0.0 == dirs[i++]);
+            CHECK(1.0 == dirs[i++]);
+        } // for
+        delete[] dirs;dirs = 0;
+    } // Transverse mercator projection
+
     { // Geocentric ECEF
         cs.setString("EPSG:4978");
 

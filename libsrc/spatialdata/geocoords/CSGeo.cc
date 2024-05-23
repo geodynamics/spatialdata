@@ -121,6 +121,7 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
         case PJ_TYPE_GEOGRAPHIC_3D_CRS:
         case PJ_TYPE_GEODETIC_CRS:
         case PJ_TYPE_PROJECTED_CRS:
+        case PJ_TYPE_OTHER_COORDINATE_OPERATION:
             for (size_t i = 0; i < numLocs; ++i) {
                 dir[i*numDims+0] = +0.0;
                 dir[i*numDims+1] = +0.0;
@@ -146,9 +147,14 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
             break;
         } // PJ_TYPE_GEOCENTRIC_CRS
         default: {
-            std::ostringstream msg;
-            msg << "Unknown coordinate system type (" << projType << ") for coordinate system '" << _string << "'.";
-            throw std::logic_error(msg.str());
+            std::cout << "Internal error: Coordinate system type (" << projType
+                      << ") not recognized for coordinate system '" << _string << "' "
+                      << "when computing normal of ground surface. Using default value of (0, 0, +1).";
+            for (size_t i = 0; i < numLocs; ++i) {
+                dir[i*numDims+0] = +0.0;
+                dir[i*numDims+1] = +0.0;
+                dir[i*numDims+2] = +1.0;
+            } // for
         } // default
 
         } // switch
