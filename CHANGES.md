@@ -1,3 +1,9 @@
+## Main branch
+
+* **Fixed**
+  * Detect Proj string coordinate system type when computing surface normal. Default to (0, 0, 1) if coordinate system type is not recognized.
+  * Add missing include directive for cstddef to CoordSys.hh.
+
 ## Version 3.1.0 (2023/12/13)
 
 * Add `AnalyticDB` for a spatial database composed of analytic functions.
