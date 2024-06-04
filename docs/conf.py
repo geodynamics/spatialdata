@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SpatialData'
-copyright = '2010-2023, University of California, Davis'
+copyright = '2010-2024, University of California, Davis'
 author = 'Brad T. Aagaard'
 
 # The full version, including alpha/beta/rc tags
-release = '3.1.0dev'
+release = '3.1.1'
 
 
 # -- General configuration ---------------------------------------------------
