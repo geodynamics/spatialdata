@@ -1,4 +1,4 @@
-## Main branch
+## Version 3.1.1 (2024/06/04)
 
 * **Fixed**
   * Detect Proj string coordinate system type when computing surface normal. Default to (0, 0, 1) if coordinate system type is not recognized.
