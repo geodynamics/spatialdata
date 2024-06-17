@@ -1,3 +1,8 @@
+## Version 3.1.2 (2024/06/17)
+
+* **Fixed**
+  * Include list of available components in manual.
+
 ## Version 3.1.1 (2024/06/04)
 
 * **Fixed**

@@ -6,7 +6,7 @@
 Placeholder for developer guide.
 :::
 
-:::{toctree}
-contributing.md
-testing.md
-:::
+%:::{toctree}
+%contributing.md
+%testing.md
+%:::
