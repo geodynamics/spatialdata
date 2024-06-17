@@ -7,6 +7,7 @@
 ---
 maxdepth: 2
 ---
+implementations.md
 geocoords/index.md
 spatialdb/index.md
 spatialdb/generator/index.md

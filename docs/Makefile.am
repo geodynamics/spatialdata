@@ -34,8 +34,9 @@ dist_noinst_DATA = \
 	user/file-formats/time-history.md \
 	user/file-formats/simple-ascii.md \
 	user/timedb/index.md \
-	user/components/update.sh \
+	user/components/update_components.sh \
 	user/components/index.md \
+	user/components/implementations.md \
 	user/components/utils/PointsStream.md \
 	user/components/utils/UnitTestApp.md \
 	user/components/utils/index.md \
