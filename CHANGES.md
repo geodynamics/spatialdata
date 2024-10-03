@@ -1,3 +1,8 @@
+## Version 3.1.3 (2024/09/25)
+
+* **Fixed**
+  * Update autoconf macros for numpy for compatibility with location of include files in numpy version 2.x.
+
 ## Version 3.1.2 (2024/06/17)
 
 * **Fixed**
