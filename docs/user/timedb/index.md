@@ -1,6 +1,6 @@
 # Time History Database
 
-Inevitably you will want to specify both a spatial and temporal variation in values.
+In many cases you will want to specify both a spatial and temporal variation in values.
 We currently decouple the two and provide a simple time history database to describe temporal variations.
 The `TimeHistoryDB` uses a data file to specify an amplitude as a function of time.
 Currently, only a single scalar amplitude can be specified.
