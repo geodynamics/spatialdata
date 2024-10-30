@@ -1,5 +1,7 @@
-## Version 3.1.3 (2024/09/25)
+## Version 3.1.3 (2024/10/30)
 
+* **Changed**
+  * Switch CI from Azure Pipelines to GitHub Actions.
 * **Fixed**
   * Update autoconf macros for numpy for compatibility with location of include files in numpy version 2.x.
 
