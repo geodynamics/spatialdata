@@ -1,4 +1,4 @@
-## Version 3.1.3 (2024/10/30)
+## Version 3.1.3 (2024/10/31)
 
 * **Changed**
   * Switch CI from Azure Pipelines to GitHub Actions.
