@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SpatialData'
-copyright = '2010-2024, University of California, Davis'
+copyright = '2010-2025, University of California, Davis'
 author = 'Brad T. Aagaard'
 
 # The full version, including alpha/beta/rc tags
