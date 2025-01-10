@@ -2,7 +2,7 @@ dnl ============================================================================
 dnl This code is part of SpatialData, developed through the Computational Infrastructure
 dnl for Geodynamics (https://github.com/geodynamics/spatialdata).
 dnl
-dnl Copyright (c) 2010-2024, University of California, Davis and the SpatialData Development Team.
+dnl Copyright (c) 2010-2025, University of California, Davis and the SpatialData Development Team.
 dnl All rights reserved.
 dnl
 dnl See https://mit-license.org/ and LICENSE.md and for license information. 
