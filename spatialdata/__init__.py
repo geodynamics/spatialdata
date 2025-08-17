@@ -12,10 +12,10 @@
 # @brief Python top-level SpatialData module initialization
 
 try:
-    from pkg_resources import get_distribution
-    version = get_distribution("spatialdata").version
+    import importlib.metadata
+    version = importlib.metadata.version("spatialdata")
 except:
-    version = "Could not get version information via pkg_resources."
+    version = "Could not get version information via importlib.metadata."
 
 __version__ = version
 

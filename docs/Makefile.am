@@ -44,10 +44,10 @@ dist_noinst_DATA = \
 	user/components/geocoords/index.md \
 	user/components/geocoords/CSCart.md \
 	user/components/geocoords/CoordSys.md \
-	user/components/units/NondimElasticQuasistatic.md \
+	user/components/units/QuasistaticElasticity.md \
 	user/components/units/index.md \
-	user/components/units/NondimElasticDynamic.md \
-	user/components/units/Nondimensional.md \
+	user/components/units/DynamicElasticity.md \
+	user/components/units/Scales.md \
 	user/components/spatialdb/SimpleGridDB.md \
 	user/components/spatialdb/CompositeDB.md \
 	user/components/spatialdb/SimpleDB.md \
@@ -65,7 +65,6 @@ dist_noinst_DATA = \
 	user/components/spatialdb/SCECCVMH.md \
 	user/components/spatialdb/UniformDB.md \
 	user/components/spatialdb/SimpleIOAscii.md \
-	user/nondimensionalization.md \
 	user/spatialdb/simplegriddb.md \
 	user/spatialdb/overview.md \
 	user/spatialdb/compositedb.md \

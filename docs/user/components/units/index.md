@@ -6,7 +6,7 @@
 ---
 maxdepth: 1
 ---
-NondimElasticDynamic.md
-NondimElasticQuasistatic.md
-Nondimensional.md
+DynamicElasticity.md
+QuasistaticElasticity.md
+Scales.md
 :::

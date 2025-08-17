@@ -341,11 +341,11 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
     assert(numValues);
 
     // reverse order of vals in queries
-    const char* valNames[numValues];
+    std::vector<const char*>valueNames(numValues);
     for (size_t i = 0; i < numValues; ++i) {
-        valNames[numValues-i-1] = names[i];
+        valueNames[numValues-i-1] = names[i];
     }
-    db.setQueryValues(valNames, numValues);
+    db.setQueryValues(valueNames.data(), numValues);
 
     double* vals = (0 < numValues) ? new double[numValues] : NULL;
     const double tolerance = 1.0e-06;
