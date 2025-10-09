@@ -1,12 +1,12 @@
-# NondimElasticDynamic
+# DynamicElasticity
 
 % WARNING: Do not edit; this is a generated file!
-:Full name: `spatialdata.units.NondimElasticDynamic`
-:Journal name: `nondimelasticdynamic`
+:Full name: `spatialdata.units.DynamicElasticity`
+:Journal name: `DynamicElasticity`
 
 Convenience object for nondimensionalizing dynamic elasticity problems.
 
-Implements `Nondimensional`.
+Implements `Scales`.
 
 ## Pyre Properties
 
@@ -25,7 +25,7 @@ Implements `Nondimensional`.
 
 ## Example
 
-Example of setting `NondimElasticDynamic` Pyre properties and facilities in a parameter file.
+Example of setting `DynamicElasticity` Pyre properties and facilities in a parameter file.
 
 :::{code-block} cfg
 [normalizer]

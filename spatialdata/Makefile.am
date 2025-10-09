@@ -45,10 +45,6 @@ EXTRA_DIST = \
 	testing/__init__.py \
 	testing/UnitTestApp.py \
 	testing/TestCases.py \
-	units/NondimElasticDynamic.py \
-	units/NondimElasticQuasistatic.py \
-	units/Nondimensional.py \
-	units/__init__.py \
 	utils/PointsStream.py \
 	utils/__init__.py
 

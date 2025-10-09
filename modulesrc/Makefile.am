@@ -12,7 +12,6 @@ SUBDIRS = \
 	include \
 	geocoords \
 	spatialdb \
-	units \
 	utils
 
 

@@ -1,12 +1,12 @@
-# NondimElasticQuasistatic
+# QuasistaticElasticity
 
 % WARNING: Do not edit; this is a generated file!
-:Full name: `spatialdata.units.NondimElasticQuasistatic`
-:Journal name: `nondimelasticquasistatic`
+:Full name: `spatialdata.units.QuasistaticElasticity`
+:Journal name: `QuasistaticElasticity`
 
 Convenience object for nondimensionalizing quasi-static elasticity problems.
 
-Implements `Nondimensional`.
+Implements `Scales`.
 
 ## Pyre Properties
 
@@ -25,7 +25,7 @@ Implements `Nondimensional`.
 
 ## Example
 
-Example of setting `NondimElasticQuasistatic` Pyre properties and facilities in a parameter file.
+Example of setting `QuasistaticElasticity` Pyre properties and facilities in a parameter file.
 
 :::{code-block} cfg
 [normalizer]

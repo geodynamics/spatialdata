@@ -15,7 +15,6 @@ TESTS = libtest_units
 check_PROGRAMS = libtest_units
 
 libtest_units_SOURCES = \
-	TestNondimensional.cc \
 	TestParser.cc \
 	$(top_srcdir)/tests/src/driver_catch2.cc
 

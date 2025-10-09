@@ -39,10 +39,3 @@
 [`TimeHistory`](spatialdb/TimeHistory.md)
 : User-specified time history using a file.
 
-## Nondimensionalization
-
-[`NondimElasticQuasistatic`](units/NondimElasticQuasistatic.md)
-: Nondimensional length scales in terms of quasistatic parameters.
-
-[`NondimElasticDynamic`](units/NondimElasticDynamic.md)
-: Nondimensional length scales in terms of dynamic parameters.

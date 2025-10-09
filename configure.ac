@@ -145,7 +145,6 @@ AC_CONFIG_FILES([Makefile
 	modulesrc/include/Makefile
 	modulesrc/geocoords/Makefile
 	modulesrc/spatialdb/Makefile
-	modulesrc/units/Makefile
 	modulesrc/utils/Makefile
 	spatialdata/Makefile
 	tests/Makefile
@@ -160,7 +159,6 @@ AC_CONFIG_FILES([Makefile
 	tests/pytests/geocoords/Makefile
 	tests/pytests/spatialdb/Makefile
 	tests/pytests/spatialdb/data/Makefile
-	tests/pytests/units/Makefile
 	tests/pytests/utils/Makefile
 	templates/Makefile
 	docs/Makefile])

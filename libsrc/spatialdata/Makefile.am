@@ -42,7 +42,6 @@ libspatialdata_la_SOURCES = \
 	spatialdb/UniformDB.cc \
 	spatialdb/UserFunctionDB.cc \
 	spatialdb/cspatialdb.cc	\
-	units/Nondimensional.cc \
 	units/Parser.cc \
 	utils/LineParser.cc \
 	utils/PointsStream.cc \
