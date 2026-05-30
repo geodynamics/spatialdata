@@ -2,14 +2,14 @@ dnl ============================================================================
 dnl This code is part of SpatialData, developed through the Computational Infrastructure
 dnl for Geodynamics (https://github.com/geodynamics/spatialdata).
 dnl
-dnl Copyright (c) 2010-2025, University of California, Davis and the SpatialData Development Team.
+dnl Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 dnl All rights reserved.
 dnl
 dnl See https://mit-license.org/ and LICENSE.md and for license information. 
 dnl ================================================================================================
 
 AC_PREREQ(2.59)
-AC_INIT([spatialdata], [3.1.3], [baagaard@usgs.gov])
+AC_INIT([spatialdata], [4.0.0], [baagaard@usgs.gov])
 AC_CONFIG_HEADER([portinfo])
 AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([m4])
@@ -61,6 +61,8 @@ AC_PROG_INSTALL
 
 dnl Require C++-14 (Catch2)
 AX_CXX_COMPILE_STDCXX(14)
+
+CIT_LIBTOOL_CONDA_FIX_CRT_OBJECTS
 
 dnl ----------------------------------------------------------------------
 dnl PROJ
