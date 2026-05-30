@@ -1,7 +1,7 @@
 ## Version 4.0.0 (2026/05/30)
 
 * **Changed**
-  * Moved Nondimensionalization to PyLith (renamed Scales).
+  * Moved nondimensionalization to PyLith (renamed Scales).
 
 ## Version 3.1.3 (2024/10/31)
 
