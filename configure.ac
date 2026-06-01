@@ -62,8 +62,6 @@ AC_PROG_INSTALL
 dnl Require C++-14 (Catch2)
 AX_CXX_COMPILE_STDCXX(14)
 
-CIT_LIBTOOL_CONDA_FIX_CRT_OBJECTS
-
 dnl ----------------------------------------------------------------------
 dnl PROJ
 CIT_PROJ6_HEADER
