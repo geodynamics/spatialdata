@@ -9,9 +9,12 @@
 # See https://mit-license.org/ and LICENSE.md and for license information. 
 # =================================================================================================
 
+if PIP_BUILD_ISOLATION
+else
+PIP_ISOLATION_FLAG=--no-build-isolation
+endif
 install-exec-local:
-	echo $(top_srcdir)
-	$(PYTHON) -m pip install --no-build-isolation --prefix=$(prefix) $(top_srcdir)
+	$(PYTHON) -m pip install --prefix=$(prefix) $(PIP_ISOLATION_FLAG) $(top_srcdir)
 
 EXTRA_DIST = \
 	__init__.py \

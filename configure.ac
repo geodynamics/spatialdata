@@ -50,6 +50,14 @@ AC_ARG_ENABLE([scec-cvm-h],
 	[],
 	[enable_scec_cvm_h=no])
 
+dnl pip install with build isolation
+AC_ARG_WITH([build-isolation],
+    [AC_HELP_STRING([--with-build-isolation],
+        [run pip with build-isolation @<:@default=yes@:>@])],
+	[build_isolation=$withval],
+	[build_isolation="yes"])
+AM_CONDITIONAL([PIP_BUILD_ISOLATION], [test "$build_isolation" = yes])
+
 dnl ----------------------------------------------------------------------
 AC_PROG_CXX
 AC_PROG_CC
