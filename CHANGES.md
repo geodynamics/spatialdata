@@ -1,3 +1,8 @@
+## Version 4.0.1 (2026/08/17)
+
+* **Added**
+  * Added configure option for pip install without build isolation (`--without-build-isolation`).
+
 ## Version 4.0.0 (2026/05/30)
 
 * **Changed**
