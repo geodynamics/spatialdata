@@ -1,3 +1,8 @@
+## main
+
+* **Fixed**
+  * Improved error message when reading values from time history database fails.
+
 ## Version 4.0.1 (2026/08/17)
 
 * **Added**
