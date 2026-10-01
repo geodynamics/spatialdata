@@ -125,7 +125,8 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
         double* time = (size > 0) ? new double[size] : 0;
         double* amplitude = (size > 0) ? new double[size] : 0;
 
-        for (size_t i = 0; i < size; ++i) {
+        int count = 0;
+        for (size_t i = 0; i < size; ++i, ++count) {
             buffer.str(parser.next());
             buffer.clear();
             buffer >> time[i];
@@ -140,7 +141,14 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
         } // for
 
         if (!filein.good()) {
-            throw std::runtime_error("Unknown error while reading.");
+            std::ostringstream msg;
+            if (count < size) {
+                msg << "Read " << count << " out of " << size << " points before encountering the I/O error.";
+            } else {
+                msg << "Error occurred while reading data for final point.\n"
+                    << "Make sure that the last line with data ends with an end-of-line character.";
+            } // if/else
+            throw std::runtime_error(msg.str());
         } // if
 
         delete[] *ptime;*ptime = time;
