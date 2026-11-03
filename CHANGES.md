@@ -1,5 +1,7 @@
 ## main
 
+* **Changed**
+  * Updated minimum Python requirement to version 3.10.
 * **Fixed**
   * Improved error message when reading values from time history database fails.
 

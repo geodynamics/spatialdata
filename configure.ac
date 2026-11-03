@@ -101,7 +101,7 @@ fi
 AM_CONDITIONAL([ENABLE_SCEC_CVM_H], [test "$enable_scec_cvm_h" != no])
 
 dnl Check for Python modules and packages.
-AM_PATH_PYTHON([3.8])
+AM_PATH_PYTHON([3.10])
 AC_ARG_VAR(PYTHON, [Python interpreter])
 AC_ARG_VAR(PYTHONPATH, [Python module search path])
 CIT_PYTHON_SYSCONFIG
