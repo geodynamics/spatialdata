@@ -7,7 +7,6 @@ env:
   IMAGE_REGISTRY: "ghcr.io/geodynamics/pylith_installer"
 
 jobs:
-
   # CI tests
   tests:
     strategy:
@@ -32,11 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
       - name: Build Docker image
         run: docker build -t spatialdata-docenv --build-arg BASE_IMAGE=$IMAGE_REGISTRY/testenv-ubuntu-22.04 -f docker/spatialdata-docenv .
-
-
