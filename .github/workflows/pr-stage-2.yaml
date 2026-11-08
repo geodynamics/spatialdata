@@ -1,4 +1,4 @@
-name: stage-1
+name: stage-2
 
 on:
   - workflow_call
@@ -12,12 +12,23 @@ jobs:
     strategy:
       matrix:
         os:
-          - debian-stable
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - ubuntu-26.04
+          - ubuntu-26.10
+          - debian-testing
+          - fedora-44
+          - fedora-45
+          - fedora-46
+          - rockylinux-9
+          - rockylinux-10
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
+          fetch-depth: 50
           submodules: recursive
 
       - name: Build Docker image
@@ -25,15 +36,3 @@ jobs:
 
       - name: Run tests
         run: docker run spatialdata-testenv ci-config/run_tests.sh
-
-  # Build documentation
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-        with:
-          submodules: recursive
-
-      - name: Build Docker image
-        run: docker build -t spatialdata-docenv --build-arg BASE_IMAGE=$IMAGE_REGISTRY/testenv-ubuntu-22.04 -f docker/spatialdata-docenv .

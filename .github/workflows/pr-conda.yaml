@@ -1,0 +1,139 @@
+# =================================================================================================
+# This code is part of PyLith, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/pylith).
+#
+# Copyright (c) 2010-2026 All rights reserved.
+#
+# See https://mit-license.org/ and LICENSE.md and for license information.
+# =================================================================================================
+
+name: pr-conda
+
+on:
+  - workflow_call
+  # and manually
+  - workflow_dispatch
+
+jobs:
+  # build and test the ref that launched this action against a conda-forge toolchain
+  tests:
+    name: ${{matrix.target}}-${{matrix.os}}
+    runs-on: ${{matrix.os}}
+    # a login shell so the micromamba environment is active in every step
+    defaults:
+      run:
+        shell: bash -el {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        target: [opt]
+        include:
+          - os: ubuntu-latest
+            environment-file: spatialdata/.github/configs/conda-ubuntu.yaml
+            toolchain: gcc gxx
+            cc: mpicc
+            cxx: mpicxx
+          - target: opt
+            cflags: -Wall -g -O3
+            cxxflags: -Wall -g -O3
+    env:
+      PETSC_DIR: ${{github.workspace}}/petsc
+      PETSC_ARCH: arch-pylith
+      PRTE_MCA_rmaps_default_mapping_policy: ":oversubscribe"
+      OMPI_MCA_smsc: "^cma"
+      OMPI_MCA_pml: "ob1"
+      OMPI_MCA_btl: "self,sm,tcp"
+      OMPI_MCA_btl_tcp_if_include: "lo"
+
+    steps:
+      - name: checkout spatialdata
+        uses: actions/checkout@v7
+        with:
+          path: spatialdata
+          fetch-depth: 50
+          fetch-tags: true
+          submodules: recursive
+
+      - name: conda-forge environment
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          micromamba-version: latest
+          environment-file: ${{matrix.environment-file}}
+          # conda-forge only, with strict priority so nothing leaks in from defaults
+          condarc: |
+            channels:
+              - conda-forge
+            channel_priority: strict
+          create-args: >-
+            ${{matrix.toolchain}}
+
+      - name: versions
+        run: |
+          echo " -- conda prefix"
+          echo "${CONDA_PREFIX}"
+          echo " -- make"
+          make --version
+          echo " -- C compiler"
+          ${{matrix.cc}} --version
+          echo " -- C++ compiler"
+          ${{matrix.cxx}} --version
+          echo " -- python"
+          python3 --version
+          echo "    -- prefix"
+          python3-config --prefix
+          echo "    -- includes"
+          python3-config --includes
+          echo "    -- libs"
+          python3-config --libs
+          echo " -- platform tag from python"
+          python3 -c "import sys; print(sys.platform)"
+          echo " -- distribution tag from python"
+          python3 -c "import platform as p; v = p.mac_ver()[0]; print(f'macOS {v}' if v else p.freedesktop_os_release()['PRETTY_NAME'])"
+
+      # pythia/pyre/nemesis
+      - name: clone pythia
+        run: |
+          echo " -- cloning pythia"
+          git clone --recursive --depth 1 https://github.com/geodynamics/pythia
+
+      - name: build pythia
+        run: |
+          echo " -- switching to the pythia source directory"
+          cd pythia
+          autoreconf --install --verbose --force
+          echo " -- creating build directory"
+          mkdir ../pythia-build && cd ../pythia-build
+          echo " -- configure pythia"
+          ../pythia/configure --enable-testing --without-build-isolation --prefix=${CONDA_PREFIX} CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} CFLAGS="${{matrix.cflags}}" CXXFLAGS="${{matrix.cxxflags}}"
+          echo " -- building pythia into the conda prefix"
+          make -j$(nproc) install
+
+      - name: test pythia
+        run: |
+          echo " -- switching to the pythia build directory"
+          cd pythia-build
+          echo " -- running pythia tests"
+          make -j$(nproc) check
+
+      # spatialdata
+      - name: build spatialdata
+        run: |
+          echo " -- switching to the spatialdata source directory"
+          cd spatialdata
+          autoreconf --install --verbose --force
+          echo " -- creating build directory"
+          mkdir ../spatialdata-build && cd ../spatialdata-build
+          echo " -- configure spatialdata"
+          ../spatialdata/configure --enable-testing --enable-swig --without-build-isolation --prefix=${CONDA_PREFIX} CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} CFLAGS="${{matrix.cflags}}" CXXFLAGS="${{matrix.cxxflags}}"
+          echo " -- building spatialdata into the conda prefix"
+          make -j$(nproc) install
+
+      - name: test spatialdata
+        run: |
+          echo " -- switching to the spatialdata build directory"
+          cd spatialdata-build
+          echo " -- running spatialdata tests"
+          make -j$(nproc) check VERBOSE=1
+
+# end of file
