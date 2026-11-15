@@ -21,12 +21,12 @@ extern "C" {
 
 #include <cmath> // USES M_PI, cos(), sin()
 #include <cstring> // USES memcpy()
-#include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
+#include <sstream> // USES std::ostringsgream
 
-#include <strings.h> // USES strcasecmp()
-#include <stdexcept> // USES std::runtime_error, std::exception
 #include <assert.h> // USES assert()
+#include <stdexcept> // USES std::runtime_error, std::exception
+#include <strings.h> // USES strcasecmp()
 
 // ----------------------------------------------------------------------
 // Default constructor
@@ -41,7 +41,8 @@ spatialdata::geocoords::CSGeo::CSGeo(void) :
 // ----------------------------------------------------------------------
 // Default destructor
 spatialdata::geocoords::CSGeo::~CSGeo(void) {
-    delete _converter;_converter = NULL;
+    delete _converter;
+    _converter = NULL;
 }
 
 
@@ -58,7 +59,8 @@ spatialdata::geocoords::CSGeo::clone(void) const {
 spatialdata::geocoords::CSGeo::CSGeo(const CSGeo& cs) :
     CoordSys(cs),
     _string(cs._string),
-    _converter(new spatialdata::geocoords::Converter) {}
+    _converter(new spatialdata::geocoords::Converter) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -81,11 +83,9 @@ spatialdata::geocoords::CSGeo::getString(void) const {
 // Set number of spatial dimensions in coordinate system.
 void
 spatialdata::geocoords::CSGeo::setSpaceDim(const int ndims) {
-    if (( ndims < 2) || ( ndims > 3) ) {
+    if ((ndims < 2) || (ndims > 3)) {
         std::ostringstream msg;
-        msg
-            << "Number of spatial dimensions (" << ndims
-            << ") must be >= 2 and <= 3.";
+        msg << "Number of spatial dimensions (" << ndims << ") must be >= 2 and <= 3.";
         throw std::runtime_error(msg.str());
     } // if
     CoordSys::setSpaceDim(ndims);
@@ -100,15 +100,13 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
                                                     const size_t numLocs,
                                                     const size_t numDims,
                                                     const double dx) const {
-    assert( (0 < numLocs && dir) || (0 == numLocs && !dir) );
-    assert( (0 < numLocs && coords) || (0 == numLocs && !coords) );
+    assert((0 < numLocs && dir) || (0 == numLocs && !dir));
+    assert((0 < numLocs && coords) || (0 == numLocs && !coords));
 
     if (numDims != getSpaceDim()) {
         std::ostringstream msg;
-        msg
-            << "Number of spatial dimensions of coordinates ("
-            << numDims << ") does not match number of spatial dimensions ("
-            << getSpaceDim() << ") of coordinate system.";
+        msg << "Number of spatial dimensions of coordinates (" << numDims
+            << ") does not match number of spatial dimensions (" << getSpaceDim() << ") of coordinate system.";
         throw std::runtime_error(msg.str());
     } // if
 
@@ -123,27 +121,28 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
         case PJ_TYPE_PROJECTED_CRS:
         case PJ_TYPE_OTHER_COORDINATE_OPERATION:
             for (size_t i = 0; i < numLocs; ++i) {
-                dir[i*numDims+0] = +0.0;
-                dir[i*numDims+1] = +0.0;
-                dir[i*numDims+2] = +1.0;
+                dir[i * numDims + 0] = +0.0;
+                dir[i * numDims + 1] = +0.0;
+                dir[i * numDims + 2] = +1.0;
             } // for
             break;
         case PJ_TYPE_GEOCENTRIC_CRS: {
             // Surface normal is associated with geodetic lon/lat
             CSGeo csLL;
             csLL.setString("EPSG:4326"); // WGS84
-            double* coordsLL = (numLocs*numDims > 0) ? new double[numLocs*numDims] : NULL;
-            memcpy(coordsLL, coords, numLocs*numDims*sizeof(double));
+            double* coordsLL = (numLocs * numDims > 0) ? new double[numLocs * numDims] : NULL;
+            memcpy(coordsLL, coords, numLocs * numDims * sizeof(double));
             assert(_converter);
             _converter->convert(coordsLL, numLocs, numDims, &csLL, this);
             for (size_t i = 0; i < numLocs; ++i) {
-                const double latRad = coordsLL[i*numDims+0] * M_PI/180.0;
-                const double lonRad = coordsLL[i*numDims+1] * M_PI/180.0;
-                dir[i*numDims+0] = cos(latRad) * cos(lonRad);
-                dir[i*numDims+1] = cos(latRad) * sin(lonRad);
-                dir[i*numDims+2] = sin(latRad);
+                const double latRad = coordsLL[i * numDims + 0] * M_PI / 180.0;
+                const double lonRad = coordsLL[i * numDims + 1] * M_PI / 180.0;
+                dir[i * numDims + 0] = cos(latRad) * cos(lonRad);
+                dir[i * numDims + 1] = cos(latRad) * sin(lonRad);
+                dir[i * numDims + 2] = sin(latRad);
             } // for
-            delete[] coordsLL;coordsLL = NULL;
+            delete[] coordsLL;
+            coordsLL = NULL;
             break;
         } // PJ_TYPE_GEOCENTRIC_CRS
         default: {
@@ -151,9 +150,9 @@ spatialdata::geocoords::CSGeo::computeSurfaceNormal(double* dir,
                       << ") not recognized for coordinate system '" << _string << "' "
                       << "when computing normal of ground surface. Using default value of (0, 0, +1).";
             for (size_t i = 0; i < numLocs; ++i) {
-                dir[i*numDims+0] = +0.0;
-                dir[i*numDims+1] = +0.0;
-                dir[i*numDims+2] = +1.0;
+                dir[i * numDims + 0] = +0.0;
+                dir[i * numDims + 1] = +0.0;
+                dir[i * numDims + 2] = +1.0;
             } // for
         } // default
 

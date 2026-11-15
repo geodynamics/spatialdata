@@ -20,18 +20,15 @@ extern "C" {
 
 // ----------------------------------------------------------------------
 // Call SpatialDB:Query().
-extern "C"
-int
+extern "C" int
 spatialdb_query(void* db,
                 double* vals,
                 const int numVals,
                 const double* coords,
                 const int numDims,
                 const void* cs) { // spatialdb_query
-    spatialdata::spatialdb::SpatialDB* pDB =
-        (spatialdata::spatialdb::SpatialDB*) db;
-    const spatialdata::geocoords::CoordSys* pCS =
-        (const spatialdata::geocoords::CoordSys*) cs;
+    spatialdata::spatialdb::SpatialDB* pDB = (spatialdata::spatialdb::SpatialDB*)db;
+    const spatialdata::geocoords::CoordSys* pCS = (const spatialdata::geocoords::CoordSys*)cs;
     assert(0 != pDB);
     assert(0 != pCS);
     return pDB->query(vals, numVals, coords, numDims, pCS);

@@ -33,7 +33,7 @@ namespace spatialdata {
         class TimeHistory;
         class TimeHistoryIO;
 
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // End of file

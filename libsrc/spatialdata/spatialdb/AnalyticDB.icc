@@ -10,15 +10,13 @@
 #pragma once
 
 // Open the database and prepare for querying.
-inline
-void
+inline void
 spatialdata::spatialdb::AnalyticDB::open(void) {
 }
 
 
 // Close the database.
-inline
-void
+inline void
 spatialdata::spatialdb::AnalyticDB::close(void) {
 }
 

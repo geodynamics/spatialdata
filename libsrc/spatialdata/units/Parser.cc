@@ -12,9 +12,9 @@
 
 #include "Parser.hh" // implementation of class methods
 
+#include <assert.h> // USES assert()
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
-#include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
 // Default constructor

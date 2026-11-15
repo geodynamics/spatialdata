@@ -12,8 +12,7 @@
 #pragma once
 
 /** Fortran name mangling */
-#define testf77query \
-        FC_FUNC_(testf77query, TESTF77QUERY)
+#define testf77query FC_FUNC_(testf77query, TESTF77QUERY)
 /** Call spatialdb_query_f().
  *
  * @param db Pointer to SpatialDB

@@ -10,16 +10,14 @@
 #pragma once
 
 // Set description of spatial database.
-inline
-void
+inline void
 spatialdata::spatialdb::SpatialDB::setDescription(const char* description) {
     _description = description;
 }
 
 
 // Get description of spatial database.
-inline
-const char*
+inline const char*
 spatialdata::spatialdb::SpatialDB::getDescription(void) const {
     return _description.c_str();
 }

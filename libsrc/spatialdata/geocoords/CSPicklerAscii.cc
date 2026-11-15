@@ -17,10 +17,10 @@
 #include "CSGeo.hh" // USES CSGeo
 #include "CSGeoLocal.hh" // USES CSGeoLocal
 
+#include <assert.h> // USES assert()
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
 #include <strings.h> // USES strcasecmp()
-#include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
 // Pickle coordinate system.
@@ -40,7 +40,8 @@ spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
                                                  CoordSys** cs) {
     assert(cs);
 
-    delete *cs;*cs = 0;
+    delete *cs;
+    *cs = 0;
 
     const int maxIgnore = 128;
     std::string objname;
@@ -54,8 +55,7 @@ spatialdata::geocoords::CSPicklerAscii::unpickle(std::istream& s,
         *cs = new CSGeoLocal;
     } else {
         std::ostringstream msg;
-        msg << "Could not parse coordinate system object name '"
-            << objname << "'\n"
+        msg << "Could not parse coordinate system object name '" << objname << "'\n"
             << "into a known type of coordinate system object.\n"
             << "Known types of coordinate systems:\n"
             << "  'cartesian' and 'geographic'";

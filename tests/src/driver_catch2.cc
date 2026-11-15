@@ -17,13 +17,12 @@ namespace pylith {
     namespace testing {
         class TestDriver;
     }
-}
+} // namespace pylith
 
 // ------------------------------------------------------------------------------------------------
 class pylith::testing::TestDriver {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestDriver(void);
 
@@ -37,16 +36,15 @@ public:
             char* argv[]);
 
     // NOT IMPLEMENTED ////////////////////////////////////////////////////////////////////////////
-private:
-
+  private:
     TestDriver(const TestDriver&); ///< Not implemented
     const TestDriver& operator=(const TestDriver&); ///< Not implemented
-
 };
 
 // ------------------------------------------------------------------------------------------------
 // Constructor
-pylith::testing::TestDriver::TestDriver(void) { }
+pylith::testing::TestDriver::TestDriver(void) {
+}
 
 
 // ---------------------------------------------------------------------------------------------------------------------

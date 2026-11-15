@@ -21,35 +21,34 @@
 namespace spatialdata {
     namespace geocoords {
         class TestCSCart;
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 class spatialdata::geocoords::TestCSCart {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     // Test constructor
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     // Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     // Test pickle() & unpickle()
-    static
-    void testPickle(void);
+    static void testPickle(void);
 
 }; // class TestCSCart
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestCSCart::testConstructor", "[TestCSCart]") {
+TEST_CASE("TestCSCart::testConstructor",
+          "[TestCSCart]") {
     spatialdata::geocoords::TestCSCart::testConstructor();
 }
-TEST_CASE("TestCSCart::testAccessors", "[TestCSCart]") {
+TEST_CASE("TestCSCart::testAccessors",
+          "[TestCSCart]") {
     spatialdata::geocoords::TestCSCart::testAccessors();
 }
-TEST_CASE("TestCSCart::testPickle", "[TestCSCart]") {
+TEST_CASE("TestCSCart::testPickle",
+          "[TestCSCart]") {
     spatialdata::geocoords::TestCSCart::testPickle();
 }
 
@@ -62,9 +61,11 @@ spatialdata::geocoords::TestCSCart::testConstructor(void) {
     CHECK(CoordSys::CARTESIAN == cs.getCSType());
 
     cs.setSpaceDim(2);
-    CoordSys* csClone = cs.clone();assert(csClone);
+    CoordSys* csClone = cs.clone();
+    assert(csClone);
     CHECK(cs.getSpaceDim() == csClone->getSpaceDim());
-    delete csClone;csClone = NULL;
+    delete csClone;
+    csClone = NULL;
 } // testConstructor
 
 

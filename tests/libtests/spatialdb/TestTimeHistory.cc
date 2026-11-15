@@ -23,35 +23,34 @@ namespace spatialdata {
     namespace spatialdb {
         class TestTimeHistory;
         class TimeHistory; // USES TimeHistory
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 class spatialdata::spatialdb::TestTimeHistory {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     /// Test open() and close()
-    static
-    void testOpenClose(void);
+    static void testOpenClose(void);
 
     /// Test query().
-    static
-    void testQuery(void);
+    static void testQuery(void);
 
 }; // class TestTimeHistory
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestTimeHistory::testAccessors", "[TestTimeHistory]") {
+TEST_CASE("TestTimeHistory::testAccessors",
+          "[TestTimeHistory]") {
     spatialdata::spatialdb::TestTimeHistory::testAccessors();
 }
-TEST_CASE("TestTimeHistory::testOpenClose", "[TestTimeHistory]") {
+TEST_CASE("TestTimeHistory::testOpenClose",
+          "[TestTimeHistory]") {
     spatialdata::spatialdb::TestTimeHistory::testOpenClose();
 }
-TEST_CASE("TestTimeHistory::testQuery", "[TestTimeHistory]") {
+TEST_CASE("TestTimeHistory::testQuery",
+          "[TestTimeHistory]") {
     spatialdata::spatialdb::TestTimeHistory::testQuery();
 }
 
@@ -76,8 +75,8 @@ spatialdata::spatialdb::TestTimeHistory::testAccessors(void) {
 void
 spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
     const size_t npts = 6;
-    const double time[npts] = { 0.0, 0.2, 0.8, 1.0, 2.0, 10.0 };
-    const double amplitude[npts] = { 0.0, 0.4, 1.6, 2.0, 4.0, 0.0 };
+    const double time[npts] = {0.0, 0.2, 0.8, 1.0, 2.0, 10.0};
+    const double amplitude[npts] = {0.0, 0.4, 1.6, 2.0, 4.0, 0.0};
     const char* timeUnits = "minute";
 
     const char* filename = "data/timehistory.data";
@@ -100,7 +99,7 @@ spatialdata::spatialdb::TestTimeHistory::testOpenClose(void) {
     REQUIRE(th._amplitude);
     const double tolerance = 1.0e-06;
     for (size_t i = 0; i < npts; ++i) {
-        CHECK_THAT(th._time[i]/scale, Catch::Matchers::WithinAbs(time[i], tolerance));
+        CHECK_THAT(th._time[i] / scale, Catch::Matchers::WithinAbs(time[i], tolerance));
         CHECK_THAT(th._amplitude[i], Catch::Matchers::WithinAbs(amplitude[i], tolerance));
     } // for
 
@@ -119,15 +118,9 @@ void
 spatialdata::spatialdb::TestTimeHistory::testQuery(void) {
     const char* filename = "data/timehistory.timedb";
     const size_t nqueries = 7;
-    const double timeQ[nqueries] = {
-        0.5, 0.0, 0.6, 2.0, 5.0, 20.0, 8.0
-    };
-    const double amplitudeE[nqueries] = {
-        1.0, 0.0, 1.2, 4.0, 2.5, 0.0, 1.0
-    };
-    const int errE[nqueries] = {
-        0, 0, 0, 0, 0, 1, 0
-    };
+    const double timeQ[nqueries] = {0.5, 0.0, 0.6, 2.0, 5.0, 20.0, 8.0};
+    const double amplitudeE[nqueries] = {1.0, 0.0, 1.2, 4.0, 2.5, 0.0, 1.0};
+    const int errE[nqueries] = {0, 0, 0, 0, 0, 1, 0};
 
     TimeHistory th;
     th.setFilename(filename);

@@ -21,24 +21,20 @@
 namespace spatialdata {
     namespace utils {
         class TestPointsStream;
-    } // utils
-} // spatialdata
+    } // namespace utils
+} // namespace spatialdata
 
 class spatialdata::utils::TestPointsStream {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     /// Test write()/read()
-    static
-    void testWriteRead(void);
+    static void testWriteRead(void);
 
     // PRIVATE METHODS ////////////////////////////////////////////////////////////////////////////
-private:
-
+  private:
     static const double _POINTS[]; ///< Array of points
     static const size_t _NUMPTS; ///< Number of points
     static const size_t _NUMDIMS; ///< Number of dimensions
@@ -46,18 +42,16 @@ private:
 }; // class TestPointsStream
 const size_t spatialdata::utils::TestPointsStream::_NUMPTS = 4;
 const size_t spatialdata::utils::TestPointsStream::_NUMDIMS = 3;
-const double spatialdata::utils::TestPointsStream::_POINTS[4*3] = {
-    1.0, 2.0, 3.0,
-    1.1, 2.1, 3.1,
-    1.2, 2.2, 3.2,
-    1.3, 2.3, 3.3
-};
+const double spatialdata::utils::TestPointsStream::_POINTS[4 * 3] =
+    {1.0, 2.0, 3.0, 1.1, 2.1, 3.1, 1.2, 2.2, 3.2, 1.3, 2.3, 3.3};
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestPointsStream::testAccessors", "[TestPointsStream]") {
+TEST_CASE("TestPointsStream::testAccessors",
+          "[TestPointsStream]") {
     spatialdata::utils::TestPointsStream::testAccessors();
 }
-TEST_CASE("TestPointsStream::testWriteRead", "[TestPointsStream]") {
+TEST_CASE("TestPointsStream::testWriteRead",
+          "[TestPointsStream]") {
     spatialdata::utils::TestPointsStream::testWriteRead();
 }
 
@@ -107,7 +101,8 @@ spatialdata::utils::TestPointsStream::testWriteRead(void) {
         CHECK_THAT(points[i], Catch::Matchers::WithinAbs(_POINTS[i], tolerance));
     } // for
 
-    delete[] points;points = NULL;
+    delete[] points;
+    points = NULL;
 } // testWriteRead
 
 

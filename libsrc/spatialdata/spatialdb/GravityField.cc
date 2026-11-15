@@ -12,24 +12,23 @@
 
 #include "GravityField.hh" // Implementation of class methods
 
-#include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
+#include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 
-#include <cmath> // USES sqrt()
-#include <strings.h> // USES strcasecmp()
-#include <stdexcept> // USES std::runtime_error
-#include <sstream> // USES std::ostringsgream
 #include <assert.h> // USES assert()
+#include <cmath> // USES sqrt()
+#include <sstream> // USES std::ostringsgream
+#include <stdexcept> // USES std::runtime_error
+#include <strings.h> // USES strcasecmp()
 
 namespace spatialdata {
     namespace spatialdb {
         class _GravityField;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 class spatialdata::spatialdb::_GravityField {
-public:
-
+  public:
     static const size_t numValues;
     static const char* valueNames[3];
 };
@@ -69,7 +68,7 @@ void
 spatialdata::spatialdb::GravityField::setGravityDir(const double x,
                                                     const double y,
                                                     const double z) {
-    const double mag = std::max(1.0e-8, sqrt(x*x + y*y + z*z));
+    const double mag = std::max(1.0e-8, sqrt(x * x + y * y + z * z));
     _gravityDir[0] = x / mag;
     _gravityDir[1] = y / mag;
     _gravityDir[2] = z / mag;
@@ -143,8 +142,8 @@ spatialdata::spatialdb::GravityField::setQueryValues(const char* const* names,
             _queryValues[iVal] = 2;
         } else {
             std::ostringstream msg;
-            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getDescription() << "'. Available values are: "
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '" << getDescription()
+                << "'. Available values are: "
                 << "'" << _GravityField::valueNames[0] << "', "
                 << "'" << _GravityField::valueNames[1] << "', "
                 << "'" << _GravityField::valueNames[2] << "'.";
@@ -171,16 +170,14 @@ spatialdata::spatialdb::GravityField::query(double* vals,
         throw std::logic_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << getDescription() << "\n"
-            << "(" << _querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << getDescription() << "\n"
+            << "(" << _querySize << ") does not match size of array provided (" << numVals << ").\n";
         throw std::logic_error(msg.str());
     } // if
 
     if (geocoords::CoordSys::CARTESIAN == cs->getCSType()) {
         for (size_t i = 0; i < _querySize; ++i) {
-            vals[i] = _acceleration*_gravityDir[_queryValues[i]];
+            vals[i] = _acceleration * _gravityDir[_queryValues[i]];
         } // for
     } else {
         const geocoords::CSGeo* csGeo = dynamic_cast<const geocoords::CSGeo*>(cs);

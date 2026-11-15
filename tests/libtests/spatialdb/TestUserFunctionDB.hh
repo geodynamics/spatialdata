@@ -16,14 +16,13 @@ namespace spatialdata {
     namespace spatialdb {
         class TestUserFunctionDB;
         class TestUserFunctionDB_Data;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestUserFunctionDB {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestUserFunctionDB(TestUserFunctionDB_Data* data,
                        UserFunctionDB* db);
@@ -32,16 +31,13 @@ public:
     ~TestUserFunctionDB(void);
 
     /// Test constructor
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test setDescription()
-    static
-    void testDescription(void);
+    static void testDescription(void);
 
     /// Test coordsys()
-    static
-    void testCoordsys(void);
+    static void testCoordsys(void);
 
     /// Test addValue()
     void testAddValue(void);
@@ -58,8 +54,7 @@ public:
     /// Test query().
     void testQuery(void);
 
-protected:
-
+  protected:
     // PROTECTED MEMBERS //////////////////////////////////////////////////
 
     UserFunctionDB* _db; ///< Test subject.
@@ -70,8 +65,7 @@ protected:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestUserFunctionDB_Data {
     // PUBLIC STRUCTS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Structure for holding user data
     struct UserData {
         std::string name; ///< Name of value.
@@ -80,8 +74,7 @@ public:
     }; // UserData
 
     // PUBLIC METHODS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestUserFunctionDB_Data(void);
 
@@ -89,8 +82,7 @@ public:
     ~TestUserFunctionDB_Data(void);
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-public:
-
+  public:
     size_t numValues; ///< Number of values in spatial database.
     const UserData* values; ///< Names of values in spatial database.
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.

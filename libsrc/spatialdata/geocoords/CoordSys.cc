@@ -19,19 +19,22 @@
 // Default constructor
 spatialdata::geocoords::CoordSys::CoordSys(void) :
     _spaceDim(3),
-    _csType(CARTESIAN) {}
+    _csType(CARTESIAN) {
+}
 
 
 // ----------------------------------------------------------------------
 // Copy destructor
 spatialdata::geocoords::CoordSys::CoordSys(const CoordSys& cs) :
     _spaceDim(cs._spaceDim),
-    _csType(cs._csType) {}
+    _csType(cs._csType) {
+}
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CoordSys::~CoordSys(void) {}
+spatialdata::geocoords::CoordSys::~CoordSys(void) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -40,8 +43,7 @@ void
 spatialdata::geocoords::CoordSys::setSpaceDim(const int ndims) {
     if (ndims < 1) {
         std::ostringstream msg;
-        msg
-            << "Number of spatial dimensions (" << ndims << ") must be >= 1.";
+        msg << "Number of spatial dimensions (" << ndims << ") must be >= 1.";
         throw std::invalid_argument(msg.str());
     } // if
     _spaceDim = ndims;

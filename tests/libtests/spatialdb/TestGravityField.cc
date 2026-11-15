@@ -23,8 +23,7 @@
 
 // ----------------------------------------------------------------------
 // Constructor.
-spatialdata::spatialdb::TestGravityField::TestGravityField(TestGravityField_Data* data) :
-    _data(data) {
+spatialdata::spatialdb::TestGravityField::TestGravityField(TestGravityField_Data* data) : _data(data) {
     assert(_data);
 } // constructor
 
@@ -32,7 +31,8 @@ spatialdata::spatialdb::TestGravityField::TestGravityField(TestGravityField_Data
 // ----------------------------------------------------------------------
 // Destructor.
 spatialdata::spatialdb::TestGravityField::~TestGravityField(void) {
-    delete _data;_data = NULL;
+    delete _data;
+    _data = NULL;
 } // tearDown
 
 
@@ -62,12 +62,12 @@ spatialdata::spatialdb::TestGravityField::testAccessors(void) {
     db.setDescription(description.c_str());
     CHECK(description == std::string(db.getDescription()));
 
-    const double gravityDirDefault[3] = { 0.0, 0.0, -1.0 };
+    const double gravityDirDefault[3] = {0.0, 0.0, -1.0};
     for (size_t i = 0; i < 3; ++i) {
         CHECK_THAT(db._gravityDir[i], Catch::Matchers::WithinAbs(gravityDirDefault[i], tolerance));
     } // for
 
-    const double gravityDirUser[3] = { 1.1, 2.2, 3.3 };
+    const double gravityDirUser[3] = {1.1, 2.2, 3.3};
     const double gravityMag = 1.1 * sqrt(1.0 + 4.0 + 9.0);
     db.setGravityDir(gravityDirUser[0], gravityDirUser[1], gravityDirUser[2]);
     for (size_t i = 0; i < 3; ++i) {
@@ -91,7 +91,7 @@ spatialdata::spatialdb::TestGravityField::testGetNamesDBValues(void) {
     GravityField db;
 
     const size_t numValuesE = 3;
-    const char* valueNamesE[numValuesE] = { "gravity_field_x", "gravity_field_y", "gravity_field_z" };
+    const char* valueNamesE[numValuesE] = {"gravity_field_x", "gravity_field_y", "gravity_field_z"};
 
     const char** valueNames = NULL;
     size_t numValues = 0;
@@ -101,7 +101,8 @@ spatialdata::spatialdb::TestGravityField::testGetNamesDBValues(void) {
     for (size_t i = 0; i < numValues; ++i) {
         CHECK(std::string(valueNamesE[i]) == std::string(valueNames[i]));
     } // for
-    delete[] valueNames;valueNames = NULL;
+    delete[] valueNames;
+    valueNames = NULL;
     numValues = 0;
 } // testGetDBValues
 
@@ -113,8 +114,8 @@ spatialdata::spatialdb::TestGravityField::testQueryVals(void) {
     GravityField db;
 
     const size_t querySize = 2;
-    const char* queryNames[2] = { "gravity_field_z", "gravity_field_y" };
-    const size_t queryVals[2] = { 2, 1 };
+    const char* queryNames[2] = {"gravity_field_z", "gravity_field_y"};
+    const size_t queryVals[2] = {2, 1};
 
     db.setQueryValues(queryNames, querySize);
 
@@ -146,15 +147,16 @@ spatialdata::spatialdb::TestGravityField::testQuery(void) {
 
     double* gravity = (querySize > 0) ? new double[querySize] : NULL;
     for (size_t iPt = 0; iPt < _data->numPoints; ++iPt) {
-        const int err = db.query(gravity, querySize, &_data->coordinates[iPt*spaceDim], spaceDim, _data->cs);
+        const int err = db.query(gravity, querySize, &_data->coordinates[iPt * spaceDim], spaceDim, _data->cs);
         REQUIRE(!err);
         const double tolerance = 1.0e-06;
         for (size_t iDim = 0; iDim < querySize; ++iDim) {
-            const double valueE = _data->gravity[iPt*querySize+iDim];
+            const double valueE = _data->gravity[iPt * querySize + iDim];
             CHECK_THAT(gravity[iDim], Catch::Matchers::WithinAbs(valueE, tolerance));
         } // for
     } // for
-    delete[] gravity;gravity = NULL;
+    delete[] gravity;
+    gravity = NULL;
     db.close();
 } // testQuery
 
@@ -178,7 +180,8 @@ spatialdata::spatialdb::TestGravityField_Data::TestGravityField_Data(void) :
 // ----------------------------------------------------------------------
 // Destructor
 spatialdata::spatialdb::TestGravityField_Data::~TestGravityField_Data(void) {
-    delete cs;cs = NULL;
+    delete cs;
+    cs = NULL;
     gravityDir = NULL;
     coordinates = NULL;
     gravity = NULL;

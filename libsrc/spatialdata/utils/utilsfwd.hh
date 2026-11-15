@@ -15,7 +15,7 @@ namespace spatialdata {
         class PointsStream;
 
         class SpatialdataVersion;
-    } // utils
-} // spatialdata
+    } // namespace utils
+} // namespace spatialdata
 
 // End of file

@@ -17,14 +17,13 @@ namespace spatialdata {
     namespace geocoords {
         class TestConverter;
         class TestConverter_Data;
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::geocoords::TestConverter {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestConverter(TestConverter_Data* data);
 
@@ -32,15 +31,13 @@ public:
     ~TestConverter(void);
 
     /// Test constructor.
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test convert().
     void testConvert(void);
 
     // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
-protected:
-
+  protected:
     TestConverter_Data* _data; ///< Data for testing.
 
 }; // class TestConverter
@@ -48,8 +45,7 @@ protected:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::geocoords::TestConverter_Data {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestConverter_Data(void);
 
@@ -57,8 +53,7 @@ public:
     ~TestConverter_Data(void);
 
     // PUBLIC MEMBERS //////////////////////////////////////////////////////////
-public:
-
+  public:
     size_t numPoints; ///< Number of points.
     size_t spaceDim; ///< Dimension of coordinate system.
     const double* coordsSrc; ///< Coordinates of points in source coordinate system.

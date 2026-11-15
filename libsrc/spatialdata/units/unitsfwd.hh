@@ -12,7 +12,7 @@
 namespace spatialdata {
     namespace units {
         class Parser;
-    } // units
-} // spatialdata
+    } // namespace units
+} // namespace spatialdata
 
 // End of file

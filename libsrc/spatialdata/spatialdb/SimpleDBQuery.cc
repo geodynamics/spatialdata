@@ -10,9 +10,9 @@
 
 #include <portinfo>
 
-#include "SpatialDB.hh" // USES SimpleDB
 #include "SimpleDB.hh" // USES SimpleDB
 #include "SimpleDBQuery.hh" // implementation of class methods
+#include "SpatialDB.hh" // USES SimpleDB
 
 #include "SimpleDBData.hh" // USEs SimpleDBData
 
@@ -25,11 +25,11 @@
 #define MAXFLOAT 1e+30
 #endif
 
-#include <cstring> // USES memcpy()
-#include <strings.h> // USES strcasecmp()
-#include <cassert> // USES assert()
-#include <sstream> // USES std::ostringsgream
 #include <algorithm> // USES std::fill(), std::lower_bound(), std::distance()
+#include <cassert> // USES assert()
+#include <cstring> // USES memcpy()
+#include <sstream> // USES std::ostringsgream
+#include <strings.h> // USES strcasecmp()
 
 // ----------------------------------------------------------------------
 // Default constructor.
@@ -38,14 +38,16 @@ spatialdata::spatialdb::SimpleDBQuery::SimpleDBQuery(const SimpleDB& db) :
     _db(db),
     _converter(new spatialdata::geocoords::Converter),
     _queryValues(NULL),
-    _querySize(0) {}
+    _querySize(0) {
+}
 
 
 // ----------------------------------------------------------------------
 // Default destructor.
 spatialdata::spatialdb::SimpleDBQuery::~SimpleDBQuery(void) {
     deallocate();
-    delete _converter;_converter = NULL;
+    delete _converter;
+    _converter = NULL;
 } // destructor
 
 
@@ -53,7 +55,8 @@ spatialdata::spatialdb::SimpleDBQuery::~SimpleDBQuery(void) {
 // Deallocate data structures.
 void
 spatialdata::spatialdb::SimpleDBQuery::deallocate(void) {
-    delete[] _queryValues;_queryValues = NULL;
+    delete[] _queryValues;
+    _queryValues = NULL;
     _querySize = 0;
     _nearest.resize(0);
 } // deallocate
@@ -75,14 +78,14 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
     assert(_db._data);
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << _db.getDescription()
-            << "\n must be positive.\n";
+        msg << "Number of values for query in spatial database " << _db.getDescription() << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryValues;_queryValues = new size_t[numVals];
+    delete[] _queryValues;
+    _queryValues = new size_t[numVals];
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
         const size_t numNames = _db._data->getNumValues();
@@ -94,8 +97,8 @@ spatialdata::spatialdb::SimpleDBQuery::setQueryValues(const char* const* names,
         } // while
         if (iName >= numNames) {
             std::ostringstream msg;
-            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << _db.getDescription() << "'. Available values are:";
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '" << _db.getDescription()
+                << "'. Available values are:";
             for (size_t iName = 0; iName < numNames; ++iName) {
                 msg << "\n  " << _db._data->getName(iName);
             }
@@ -125,10 +128,8 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << _db.getDescription() << "\n"
-            << "(" << _querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << _db.getDescription() << "\n"
+            << "(" << _querySize << ") does not match size of array provided (" << numVals << ").\n";
         throw std::invalid_argument(msg.str());
     } // if
 
@@ -160,8 +161,7 @@ spatialdata::spatialdb::SimpleDBQuery::query(double* vals,
 void
 spatialdata::spatialdb::SimpleDBQuery::_queryNearest(double* vals,
                                                      const size_t numVals) {
-    assert( (0 < numVals && vals) ||
-            (0 == numVals && !vals) );
+    assert((0 < numVals && vals) || (0 == numVals && !vals));
     assert(_db._data);
     assert(numVals == _querySize);
 
@@ -194,8 +194,7 @@ spatialdata::spatialdb::SimpleDBQuery::_queryNearest(double* vals,
 void
 spatialdata::spatialdb::SimpleDBQuery::_queryLinear(double* vals,
                                                     const size_t numVals) {
-    assert( (0 < numVals && vals) ||
-            (0 == numVals && !vals) );
+    assert((0 < numVals && vals) || (0 == numVals && !vals));
     assert(_db._data);
     assert(numVals == _querySize);
 
@@ -253,8 +252,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findNearest(void) {
         const double dist2 = _distSquared(_q, pt);
 
         // find place in nearest list if it exists
-        const std::vector<double>::iterator pNearDist =
-            std::lower_bound(nearestDist.begin(), nearestDist.end(), dist2);
+        const std::vector<double>::iterator pNearDist = std::lower_bound(nearestDist.begin(), nearestDist.end(), dist2);
         if (dist2 <= *pNearDist) { // if found place in nearest list
 #if !defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
             size_t index = std::distance(nearestDist.begin(), pNearDist);
@@ -264,9 +262,9 @@ spatialdata::spatialdb::SimpleDBQuery::_findNearest(void) {
 #endif
 
             // move values to allow insertion of current
-            for (size_t moveIndex = nearSize-1; moveIndex > index; --moveIndex) {
-                nearestDist[moveIndex] = nearestDist[moveIndex-1];
-                _nearest[moveIndex] = _nearest[moveIndex-1];
+            for (size_t moveIndex = nearSize - 1; moveIndex > index; --moveIndex) {
+                nearestDist[moveIndex] = nearestDist[moveIndex - 1];
+                _nearest[moveIndex] = _nearest[moveIndex - 1];
             } // for
             if (index < nearSize) {
                 // insert current
@@ -361,15 +359,14 @@ spatialdata::spatialdb::SimpleDBQuery::_findLinePt(std::vector<WtStruct>* pWeigh
         const double abX = ptB[0] - ptA[0];
         const double abY = ptB[1] - ptA[1];
         const double abZ = ptB[2] - ptA[2];
-        const double abdotab = abX*abX + abY*abY + abZ*abZ;
-        const double pbdotab = (ptB[0]-_q[0])*abX + (ptB[1]-_q[1])*abY + (ptB[2]-_q[2])*abZ;
-        const double apdotab = (_q[0]-ptA[0])*abX + (_q[1]-ptA[1])*abY + (_q[2]-ptA[2])*abZ;
+        const double abdotab = abX * abX + abY * abY + abZ * abZ;
+        const double pbdotab = (ptB[0] - _q[0]) * abX + (ptB[1] - _q[1]) * abY + (ptB[2] - _q[2]) * abZ;
+        const double apdotab = (_q[0] - ptA[0]) * abX + (_q[1] - ptA[1]) * abY + (_q[2] - ptA[2]) * abZ;
         wtA = pbdotab / abdotab;
         wtB = apdotab / abdotab;
 
         const double tolerance = 1e-06;
-        if (( wtA >= -tolerance) &&
-            ( wtB >= -tolerance) ) {
+        if ((wtA >= -tolerance) && (wtB >= -tolerance)) {
             // found 2nd point if weights are positive within tolerance level
             // (i.e. interpolation, not extrapolation)
             break;
@@ -449,49 +446,38 @@ spatialdata::spatialdb::SimpleDBQuery::_findAreaPt(std::vector<WtStruct>* pWeigh
         // triangle ABC is not a tiny fraction of the distance AB
 
         // length(ab)^2
-        const double ab2 =
-            pow(ptA[0]-ptB[0], 2) +
-            pow(ptA[1]-ptB[1], 2) +
-            pow(ptA[2]-ptB[2], 2);
+        const double ab2 = pow(ptA[0] - ptB[0], 2) + pow(ptA[1] - ptB[1], 2) + pow(ptA[2] - ptB[2], 2);
 
         const double tolerance = 1.0e-06;
-        if (areaABC > tolerance*ab2) {
+        if (areaABC > tolerance * ab2) {
 #endif
             // project P onto abc plane
             double qProj[3];
-            const double qmod = dirABC[0]*_q[0] + dirABC[1]*_q[1] + dirABC[2]*_q[2];
-            qProj[0] = _q[0] - dirABC[0]*qmod;
-            qProj[1] = _q[1] - dirABC[1]*qmod;
-            qProj[2] = _q[2] - dirABC[2]*qmod;
+            const double qmod = dirABC[0] * _q[0] + dirABC[1] * _q[1] + dirABC[2] * _q[2];
+            qProj[0] = _q[0] - dirABC[0] * qmod;
+            qProj[1] = _q[1] - dirABC[1] * qmod;
+            qProj[2] = _q[2] - dirABC[2] * qmod;
 
             // wtA = areaBCQ / areaABC * DotProduct(dirBCQ, dirABC);
             double areaBCQ = 0;
             double dirBCQ[3];
             _area(&areaBCQ, dirBCQ, ptB, ptC, qProj);
-            wtA = areaBCQ/areaABC * (dirBCQ[0]*dirABC[0] +
-                                     dirBCQ[1]*dirABC[1] +
-                                     dirBCQ[2]*dirABC[2]);
+            wtA = areaBCQ / areaABC * (dirBCQ[0] * dirABC[0] + dirBCQ[1] * dirABC[1] + dirBCQ[2] * dirABC[2]);
 
             // wtB = areaCAQ / areaABC * DotProduct(dirCAQ, dirABC);
             double areaCAQ = 0;
             double dirCAQ[3];
             _area(&areaCAQ, dirCAQ, ptC, ptA, qProj);
-            wtB = areaCAQ/areaABC * (dirCAQ[0]*dirABC[0] +
-                                     dirCAQ[1]*dirABC[1] +
-                                     dirCAQ[2]*dirABC[2]);
+            wtB = areaCAQ / areaABC * (dirCAQ[0] * dirABC[0] + dirCAQ[1] * dirABC[1] + dirCAQ[2] * dirABC[2]);
 
             // wtC = areaABQ / areaABC * DotProduct(dirABQ, dirABC);
             double areaABQ = 0;
             double dirABQ[3];
             _area(&areaABQ, dirABQ, ptA, ptB, qProj);
-            wtC = areaABQ/areaABC * (dirABQ[0]*dirABC[0] +
-                                     dirABQ[1]*dirABC[1] +
-                                     dirABQ[2]*dirABC[2]);
+            wtC = areaABQ / areaABC * (dirABQ[0] * dirABC[0] + dirABQ[1] * dirABC[1] + dirABQ[2] * dirABC[2]);
 
             const double tolerance = 1e-06;
-            if (( wtA >= -tolerance) &&
-                ( wtB >= -tolerance) &&
-                ( wtC >= -tolerance) ) {
+            if ((wtA >= -tolerance) && (wtB >= -tolerance) && (wtC >= -tolerance)) {
                 // found 3rd point if weights are positive within tolerance level
                 // (i.e. interpolation, not extrapolation)
                 break;
@@ -554,13 +540,10 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
         const double abcd = _volume(ptA, ptB, ptC, ptD);
 
         // ab = length(ab)
-        const double ab3 =
-            pow(pow(ptA[0] - ptB[0], 2) +
-                pow(ptA[1] - ptB[1], 2) +
-                pow(ptA[2] - ptB[2], 2), 3);
+        const double ab3 = pow(pow(ptA[0] - ptB[0], 2) + pow(ptA[1] - ptB[1], 2) + pow(ptA[2] - ptB[2], 2), 3);
 
         const double tolerance = 1.0e-06;
-        if (fabs(abcd) > tolerance*ab3) {
+        if (fabs(abcd) > tolerance * ab3) {
             // volume pbcd
             const double pbcd = _volume(_q, ptB, ptC, ptD);
             // wtA = vol(pbcd)/vol(abcd)
@@ -582,10 +565,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
             wtD = abcp / abcd;
 
             const double tolerance = 1e-06;
-            if (( wtA >= -tolerance) &&
-                ( wtB >= -tolerance) &&
-                ( wtC >= -tolerance) &&
-                ( wtD >= -tolerance) ) {
+            if ((wtA >= -tolerance) && (wtB >= -tolerance) && (wtC >= -tolerance) && (wtD >= -tolerance)) {
                 // found 4th point if weights are positive within tolerance level
                 // (i.e. interpolation, not extrapolation)
                 break;
@@ -614,7 +594,7 @@ spatialdata::spatialdb::SimpleDBQuery::_setPoint3(double pt3[3],
     pt3[0] = 0.0;
     pt3[1] = 0.0;
     pt3[2] = 0.0;
-    memcpy(pt3, pt, spaceDim*sizeof(double));
+    memcpy(pt3, pt, spaceDim * sizeof(double));
 } // _setPoint3
 
 
@@ -623,10 +603,10 @@ spatialdata::spatialdb::SimpleDBQuery::_setPoint3(double pt3[3],
 double
 spatialdata::spatialdb::SimpleDBQuery::_distSquared(const double a[3],
                                                     const double b[3]) {
-    const double abX = b[0]-a[0];
-    const double abY = b[1]-a[1];
-    const double abZ = b[2]-a[2];
-    const double dist2 = abX*abX + abY*abY + abZ*abZ;
+    const double abX = b[0] - a[0];
+    const double abY = b[1] - a[1];
+    const double abZ = b[2] - a[2];
+    const double dist2 = abX * abX + abY * abY + abZ * abZ;
     return dist2;
 } // _distSquared
 
@@ -654,11 +634,11 @@ spatialdata::spatialdb::SimpleDBQuery::_area(double* pArea,
     const double acY = c[1] - a[1];
     const double acZ = c[2] - a[2];
 
-    dir[0] = abY*acZ - abZ*acY;
-    dir[1] = abZ*acX - abX*acZ;
-    dir[2] = abX*acY - abY*acX;
+    dir[0] = abY * acZ - abZ * acY;
+    dir[1] = abZ * acX - abX * acZ;
+    dir[2] = abX * acY - abY * acX;
 
-    *pArea = sqrt(dir[0]*dir[0] + dir[1]*dir[1] + dir[2]*dir[2]);
+    *pArea = sqrt(dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2]);
     if (0 != *pArea) {
         dir[0] /= *pArea;
         dir[1] /= *pArea;
@@ -677,21 +657,13 @@ spatialdata::spatialdb::SimpleDBQuery::_volume(const double a[3],
     /* Compute volume of tetrahedral defined by four points. */
     // _volume
     const double det1 =
-        b[0] * (c[1]*d[2] - c[2]*d[1]) +
-        b[1] * (c[2]*d[0] - c[0]*d[2]) +
-        b[2] * (c[0]*d[1] - c[1]*d[0]);
+        b[0] * (c[1] * d[2] - c[2] * d[1]) + b[1] * (c[2] * d[0] - c[0] * d[2]) + b[2] * (c[0] * d[1] - c[1] * d[0]);
     const double det2 =
-        -c[0] * (d[1]*a[2] - d[2]*a[1]) -
-        c[1] * (d[2]*a[0] - d[0]*a[2]) -
-        c[2] * (d[0]*a[1] - d[1]*a[0]);
+        -c[0] * (d[1] * a[2] - d[2] * a[1]) - c[1] * (d[2] * a[0] - d[0] * a[2]) - c[2] * (d[0] * a[1] - d[1] * a[0]);
     const double det3 =
-        d[0] * (a[1]*b[2] - a[2]*b[1]) +
-        d[1] * (a[2]*b[0] - a[0]*b[2]) +
-        d[2] * (a[0]*b[1] - a[1]*b[0]);
+        d[0] * (a[1] * b[2] - a[2] * b[1]) + d[1] * (a[2] * b[0] - a[0] * b[2]) + d[2] * (a[0] * b[1] - a[1] * b[0]);
     const double det4 =
-        -a[0] * (b[1]*c[2] - b[2]*c[1]) -
-        a[1] * (b[2]*c[0] - b[0]*c[2]) -
-        a[2] * (b[0]*c[1] - b[1]*c[0]);
+        -a[0] * (b[1] * c[2] - b[2] * c[1]) - a[1] * (b[2] * c[0] - b[0] * c[2]) - a[2] * (b[0] * c[1] - b[1] * c[0]);
     return (det1 + det2 + det3 + det4) / 6.0;
 } // _volume
 

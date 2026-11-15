@@ -16,8 +16,7 @@
 class spatialdata::spatialdb::SimpleDBData { // SimpleDBData
     friend class TestSimpleDBData; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -148,8 +147,7 @@ public:
      */
     const char* getUnits(const size_t index) const;
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     double* _data; ///< Array of data values.

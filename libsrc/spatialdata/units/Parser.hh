@@ -17,8 +17,7 @@
 class spatialdata::units::Parser { // class Parser
     friend class TestParser; // Unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /* MATT- I am not sure if we want just a single static method or we
@@ -39,8 +38,7 @@ public:
      */
     double parse(const char* units);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     PyObject* _parser;

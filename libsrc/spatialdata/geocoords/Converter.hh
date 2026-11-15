@@ -17,15 +17,14 @@ namespace spatialdata {
     namespace geocoords {
         namespace _converter {
             class Cache;
-        } // _Converter
-    } // geocoords
-} // spatialdata
+        } // namespace _converter
+    } // namespace geocoords
+} // namespace spatialdata
 
 class spatialdata::geocoords::Converter {
     friend class TestConverter; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -49,8 +48,7 @@ public:
                  const CoordSys* csDest,
                  const CoordSys* csSrc);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Convert coordinates from source geographic coordinate system to
@@ -83,8 +81,7 @@ private:
                   const CSCart* csDest,
                   const CSCart* csSrc);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     _converter::Cache* _cache;

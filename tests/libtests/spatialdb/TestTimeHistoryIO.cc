@@ -20,28 +20,27 @@
 namespace spatialdata {
     namespace spatialdb {
         class TestTimeHistoryIO;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 class spatialdata::spatialdb::TestTimeHistoryIO {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test read(), write().
-    static
-    void testWriteRead(void);
+    static void testWriteRead(void);
 
     /// Test read() with time history file that contains comments.
-    static
-    void testReadComments(void);
+    static void testReadComments(void);
 
 }; // class TestTimeHistoryIO
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestTimeHistoryIO::testWriteRead", "[TestTimeHistoryIO]") {
+TEST_CASE("TestTimeHistoryIO::testWriteRead",
+          "[TestTimeHistoryIO]") {
     spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead();
 }
-TEST_CASE("TestTimeHistoryIO::testReadComments", "[TestTimeHistoryIO]") {
+TEST_CASE("TestTimeHistoryIO::testReadComments",
+          "[TestTimeHistoryIO]") {
     spatialdata::spatialdb::TestTimeHistoryIO::testReadComments();
 }
 
@@ -50,8 +49,8 @@ TEST_CASE("TestTimeHistoryIO::testReadComments", "[TestTimeHistoryIO]") {
 void
 spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
     const size_t npts = 6;
-    const double time[npts] = { 0.0, 0.2, 0.8, 1.0, 2.0, 10.0 };
-    const double amplitude[npts] = { 0.0, 0.4, 1.6, 2.0, 4.0, 0.0 };
+    const double time[npts] = {0.0, 0.2, 0.8, 1.0, 2.0, 10.0};
+    const double amplitude[npts] = {0.0, 0.4, 1.6, 2.0, 4.0, 0.0};
     const char* timeUnits = "minute";
 
     const char* filename = "timehistory.dat";
@@ -69,12 +68,14 @@ spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
     REQUIRE(npts == nptsIn);
     const double tolerance = 1.0e-06;
     for (size_t i = 0; i < npts; ++i) {
-        CHECK_THAT(timeIn[i]/scale, Catch::Matchers::WithinAbs(time[i], tolerance));
+        CHECK_THAT(timeIn[i] / scale, Catch::Matchers::WithinAbs(time[i], tolerance));
         CHECK_THAT(amplitude[i], Catch::Matchers::WithinAbs(amplitudeIn[i], tolerance));
     } // for
 
-    delete[] timeIn;timeIn = 0;
-    delete[] amplitudeIn;amplitudeIn = 0;
+    delete[] timeIn;
+    timeIn = 0;
+    delete[] amplitudeIn;
+    amplitudeIn = 0;
 } // testWriteRead
 
 
@@ -83,8 +84,8 @@ spatialdata::spatialdb::TestTimeHistoryIO::testWriteRead(void) {
 void
 spatialdata::spatialdb::TestTimeHistoryIO::testReadComments(void) {
     const size_t npts = 6;
-    const double time[npts] = { 0.0, 0.2, 0.8, 1.0, 2.0, 10.0 };
-    const double amplitude[npts] = { 0.0, 0.4, 1.6, 2.0, 4.0, 0.0 };
+    const double time[npts] = {0.0, 0.2, 0.8, 1.0, 2.0, 10.0};
+    const double amplitude[npts] = {0.0, 0.4, 1.6, 2.0, 4.0, 0.0};
     const char* filename = "data/timehistory_comments.dat";
 
     size_t nptsIn = 0;
@@ -99,8 +100,10 @@ spatialdata::spatialdb::TestTimeHistoryIO::testReadComments(void) {
         CHECK_THAT(amplitude[i], Catch::Matchers::WithinAbs(amplitudeIn[i], tolerance));
     } // for
 
-    delete[] timeIn;timeIn = 0;
-    delete[] amplitudeIn;amplitudeIn = 0;
+    delete[] timeIn;
+    timeIn = 0;
+    delete[] amplitudeIn;
+    amplitudeIn = 0;
 } // testReadComments
 
 

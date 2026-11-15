@@ -16,13 +16,13 @@
 #include "UniformVelModel.hh" // Implementation of class methods
 
 #include "spatialdata/geocoords/CSGeoProj.hh" // USES CSGeoProj
-#include "spatialdata/geocoords/Projector.hh" // USES Projector
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
+#include "spatialdata/geocoords/Projector.hh" // USES Projector
 
-#include <strings.h> // USES strcasecmp()
 #include <cassert> // USES assert()
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error, std::logic_error
+#include <strings.h> // USES strcasecmp()
 
 // ----------------------------------------------------------------------
 // Constructor
@@ -41,9 +41,11 @@ contrib::spatialdb::UniformVelModel::UniformVelModel(void) :
 // Destructor
 contrib::spatialdb::UniformVelModel::~UniformVelModel(void) { // destructor
                                                               // Deallocate all data
-    delete _cs;_cs = 0;
+    delete _cs;
+    _cs = 0;
 
-    delete[] _queryVals;_queryVals = 0;
+    delete[] _queryVals;
+    _queryVals = 0;
     _querySize = 0;
 } // destructor
 
@@ -57,20 +59,17 @@ contrib::spatialdb::UniformVelModel::open(void) { // open
     // Make sure the physical properties have been set.
     if (0 == _vs) {
         std::ostringstream msg;
-        msg << "S wave speed has not been set for spatial database "
-            << label() << ".";
+        msg << "S wave speed has not been set for spatial database " << label() << ".";
         throw std::runtime_error(msg.str());
     } // if
     if (0 == _vp) {
         std::ostringstream msg;
-        msg << "P wave speed has not been set for spatial database "
-            << label() << ".";
+        msg << "P wave speed has not been set for spatial database " << label() << ".";
         throw std::runtime_error(msg.str());
     } // if
     if (0 == _density) {
         std::ostringstream msg;
-        msg << "Density has not been set for spatial database "
-            << label() << ".";
+        msg << "Density has not been set for spatial database " << label() << ".";
         throw std::runtime_error(msg.str());
     } // if
 
@@ -84,7 +83,8 @@ contrib::spatialdb::UniformVelModel::open(void) { // open
 
     // Create a new coordinate system object (first deleting the old one
     // if it exists).
-    delete _cs;_cs = new spatialdata::geocoords::CSGeoProj;
+    delete _cs;
+    _cs = new spatialdata::geocoords::CSGeoProj;
 
     // Set parameters for the coordinate system.
     _cs->datumHoriz("NAD27");
@@ -104,7 +104,8 @@ contrib::spatialdb::UniformVelModel::close(void) { // close
     // Deallocate coordinate system object and set to null so that
     // subsequent calls to delete won't try to dellocate memory that has
     // already been deallocated.
-    delete _cs;_cs = 0;
+    delete _cs;
+    _cs = 0;
 } // close
 
 
@@ -116,8 +117,7 @@ contrib::spatialdb::UniformVelModel::queryVals(const char* const* names,
                                                                     // Check function arguments.
     if (0 >= numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << label()
-            << "\n must be positive.\n";
+        msg << "Number of values for query in spatial database " << label() << "\n must be positive.\n";
         throw std::runtime_error(msg.str());
     } // if
     assert(0 != names && 0 < numVals);
@@ -127,7 +127,8 @@ contrib::spatialdb::UniformVelModel::queryVals(const char* const* names,
 
     // Allocate the array to store the flags for the queries (first
     // dellocating the array if necessary).
-    delete[] _queryVals;_queryVals = (numVals > 0) ? new int[numVals] : 0;
+    delete[] _queryVals;
+    _queryVals = (numVals > 0) ? new int[numVals] : 0;
 
     // Set the values in the array of values to include in queries.
     for (int iVal = 0; iVal < numVals; ++iVal) {
@@ -177,14 +178,12 @@ contrib::spatialdb::UniformVelModel::query(double* vals,
     } // if
     if (numVals != _querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << label() << "\n"
-            << "(" << _querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << label() << "\n"
+            << "(" << _querySize << ") does not match size of array provided (" << numVals << ").\n";
         throw std::runtime_error(msg.str());
     } // if
     const int spaceDim = csQuery->spaceDim();
-    if ((2 != spaceDim) && (3 != spaceDim) ) {
+    if ((2 != spaceDim) && (3 != spaceDim)) {
         std::ostringstream msg;
         msg << "Spatial dimension of coordinate system for query location must have "
             << "2 or 3 spatial dimensions while querying uniform velocity model "
@@ -261,8 +260,7 @@ void
 contrib::spatialdb::UniformVelModel::density(const double value) { // density
     if (value <= 0.0) {
         std::ostringstream msg;
-        msg << "Densiy must be positive for uniform velocity model database "
-            << label() << ".\n";
+        msg << "Densiy must be positive for uniform velocity model database " << label() << ".\n";
         throw std::runtime_error(msg.str());
     } // if
 

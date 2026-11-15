@@ -29,7 +29,8 @@ spatialdata::utils::LineParser::LineParser(std::istream& sin,
 
 // ----------------------------------------------------------------------
 spatialdata::utils::LineParser::~LineParser(void) { // destructor
-    delete[] _buffer;_buffer = 0;
+    delete[] _buffer;
+    _buffer = 0;
 } // destructor
 
 
@@ -77,7 +78,7 @@ spatialdata::utils::LineParser::eatwhitespace(const bool flag) { // eatwhitespac
 void
 spatialdata::utils::LineParser::putback(const std::string& buffer) { // putback
     const size_t size = buffer.length();
-    for (int i = size-1; i >= 0; --i) {
+    for (int i = size - 1; i >= 0; --i) {
         _in.putback(buffer[i]);
     }
     _in.clear();

@@ -13,8 +13,7 @@
 #include <iosfwd> // USES std::istream, std::ostream
 
 class spatialdata::geocoords::CoordSys {
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Type of coordinate system
@@ -24,8 +23,7 @@ public:
         LOCAL_GEOGRAPHIC, ///< Local geographic coordinate system
     };
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -67,8 +65,7 @@ public:
      */
     virtual void unpickle(std::istream& s) = 0;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Copy destructor.
@@ -83,8 +80,7 @@ protected:
      */
     void setCSType(const CSTypeEnum cs);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     int _spaceDim; ///< Number of spatial dimensions in coordinate system

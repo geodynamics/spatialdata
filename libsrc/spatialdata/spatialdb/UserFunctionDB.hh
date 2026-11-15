@@ -11,14 +11,13 @@
 
 #include "SpatialDB.hh" // ISA SpatialDB
 
-#include <string> // HASA std::string
 #include <map> // HASA std::map
+#include <string> // HASA std::string
 
 class spatialdata::spatialdb::UserFunctionDB : public SpatialDB {
     friend class TestUserFunctionDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC TYPEDEF//////////////////////////////////////////////////////
 
     /** User function prototype in 1-D.
@@ -49,8 +48,7 @@ public:
                                     const double z);
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     UserFunctionDB(void);
 
@@ -138,8 +136,7 @@ public:
      */
     void setCoordSys(const geocoords::CoordSys& cs);
 
-private:
-
+  private:
     // PRIVATE TYPEDEF//////////////////////////////////////////////////////
 
     /** User function prototype.
@@ -154,8 +151,7 @@ private:
                                 const size_t dim);
 
     // PRIVATE METHODS //////////////////////////////////////////////////////
-private:
-
+  private:
     /** Check suitability of arguments for adding user function.
      *
      * @parma[in] name Name of value.
@@ -170,21 +166,20 @@ private:
     void _checkCompatibility(void) const;
 
     // PRIVATE STRUCTS //////////////////////////////////////////////////////
-private:
-
+  private:
     class QueryFn {
-public:
+      public:
+        QueryFn(void) {
+        }
 
-        QueryFn(void) {}
 
-
-        virtual ~QueryFn(void) {}
+        virtual ~QueryFn(void) {
+        }
 
 
         virtual int query(double* value,
                           const double* coords,
                           const size_t dim) = 0;
-
     };
     class QueryFn1D;
     class QueryFn2D;
@@ -200,8 +195,7 @@ public:
     typedef std::map<std::string, UserData> function_map;
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     UserData** _queryFunctions; ///< Array of pointers to _functions of values to be returned in queries.
     std::map<std::string, UserData> _functions; ///< User functions for values.
     spatialdata::geocoords::CoordSys* _cs; ///< Coordinate system
@@ -209,8 +203,7 @@ private:
     size_t _querySize; ///< Number of values to be returned in queries.
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     UserFunctionDB(const UserFunctionDB&); ///< Not implemented
     const UserFunctionDB& operator=(const UserFunctionDB&); ///< Not implemented
 

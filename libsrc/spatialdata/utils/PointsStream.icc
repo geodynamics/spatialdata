@@ -10,64 +10,56 @@
 #pragma once
 
 // Set name of file for input/output.
-inline
-void
+inline void
 spatialdata::utils::PointsStream::setFilename(const char* filename) {
     _filename = filename;
 }
 
 
 // Get name of file for input/output.
-inline
-const char*
+inline const char*
 spatialdata::utils::PointsStream::getFilename(void) const {
     return _filename.c_str();
 }
 
 
 // Set comment flag.
-inline
-void
+inline void
 spatialdata::utils::PointsStream::setCommentFlag(const char* flag) {
     _commentFlag = flag;
 }
 
 
 // Get comment flag.
-inline
-const char*
+inline const char*
 spatialdata::utils::PointsStream::getCommentFlag(void) const {
     return _commentFlag.c_str();
 }
 
 
 // Set field width.
-inline
-void
+inline void
 spatialdata::utils::PointsStream::setFieldWidth(const size_t width) {
     _fieldWidth = width;
 }
 
 
 // Get field width.
-inline
-size_t
+inline size_t
 spatialdata::utils::PointsStream::getFieldWidth(void) const {
     return _fieldWidth;
 }
 
 
 // Set precision.
-inline
-void
+inline void
 spatialdata::utils::PointsStream::setPrecision(const size_t value) {
     _precision = value;
 }
 
 
 // Get precision.
-inline
-size_t
+inline size_t
 spatialdata::utils::PointsStream::getPrecision(void) const {
     return _precision;
 }

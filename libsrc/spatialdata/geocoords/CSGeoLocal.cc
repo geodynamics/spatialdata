@@ -15,24 +15,26 @@
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 
 #include <cmath> // USES M_PI, cos(), sin()
-#include <sstream> // USES std::ostringsgream
 #include <iostream> // USES std::istream, std::ostream
+#include <sstream> // USES std::ostringsgream
 
-#include <strings.h> // USES strcasecmp()
-#include <stdexcept> // USES std::runtime_error, std::exception
 #include <cassert> // USES assert()
+#include <stdexcept> // USES std::runtime_error, std::exception
+#include <strings.h> // USES strcasecmp()
 
 // ----------------------------------------------------------------------
 // Default constructor
 spatialdata::geocoords::CSGeoLocal::CSGeoLocal(void) :
     _originX(0.0),
     _originY(0.0),
-    _yAzimuth(0.0) {}
+    _yAzimuth(0.0) {
+}
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CSGeoLocal::~CSGeoLocal(void) {}
+spatialdata::geocoords::CSGeoLocal::~CSGeoLocal(void) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -49,7 +51,8 @@ spatialdata::geocoords::CSGeoLocal::CSGeoLocal(const CSGeoLocal& cs) :
     CSGeo(cs),
     _originX(cs._originX),
     _originY(cs._originY),
-    _yAzimuth(cs._yAzimuth) {}
+    _yAzimuth(cs._yAzimuth) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -70,9 +73,15 @@ void
 spatialdata::geocoords::CSGeoLocal::getLocal(double* originX,
                                              double* originY,
                                              double* yAzimuth) const {
-    if (originX) { *originX = _originX; }
-    if (originY) { *originY = _originY; }
-    if (yAzimuth) { *yAzimuth = _yAzimuth; }
+    if (originX) {
+        *originX = _originX;
+    }
+    if (originY) {
+        *originY = _originY;
+    }
+    if (yAzimuth) {
+        *yAzimuth = _yAzimuth;
+    }
 }
 
 
@@ -86,12 +95,12 @@ spatialdata::geocoords::CSGeoLocal::localToGeographic(double* coords,
     const double cosTheta = cos(yAzimuthR);
     const double sinTheta = sin(yAzimuthR);
     for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
-        const double localX = coords[iLoc*numDims+0];
-        const double localY = coords[iLoc*numDims+1];
+        const double localX = coords[iLoc * numDims + 0];
+        const double localY = coords[iLoc * numDims + 1];
         const double unrotX = cosTheta * localX + sinTheta * localY;
         const double unrotY = -sinTheta * localX + cosTheta * localY;
-        coords[iLoc*numDims + 0] = _originX + unrotX;
-        coords[iLoc*numDims + 1] = _originY + unrotY;
+        coords[iLoc * numDims + 0] = _originX + unrotX;
+        coords[iLoc * numDims + 1] = _originY + unrotY;
     } // for
 }
 
@@ -106,10 +115,10 @@ spatialdata::geocoords::CSGeoLocal::geographicToLocal(double* coords,
     const double cosTheta = cos(yAzimuthR);
     const double sinTheta = sin(yAzimuthR);
     for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
-        const double unrotX = coords[iLoc*numDims + 0] - _originX;
-        const double unrotY = coords[iLoc*numDims + 1] - _originY;
-        coords[iLoc*numDims + 0] = cosTheta * unrotX - sinTheta * unrotY;
-        coords[iLoc*numDims + 1] = sinTheta * unrotX + cosTheta * unrotY;
+        const double unrotX = coords[iLoc * numDims + 0] - _originX;
+        const double unrotY = coords[iLoc * numDims + 1] - _originY;
+        coords[iLoc * numDims + 0] = cosTheta * unrotX - sinTheta * unrotY;
+        coords[iLoc * numDims + 1] = sinTheta * unrotX + cosTheta * unrotY;
     } // for
 }
 

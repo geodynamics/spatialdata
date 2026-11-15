@@ -10,9 +10,8 @@
 #pragma once
 
 // Constructor.
-inline
-spatialdata::spatialdb::OutOfBounds::OutOfBounds(const std::string& msg) :
-    std::runtime_error(msg) {}
+inline spatialdata::spatialdb::OutOfBounds::OutOfBounds(const std::string& msg) : std::runtime_error(msg) {
+}
 
 
 // version

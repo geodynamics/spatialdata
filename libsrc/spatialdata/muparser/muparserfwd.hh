@@ -16,6 +16,6 @@ namespace mu {
 
     typedef MUP_BASETYPE value_type;
 
-} // mu
+} // namespace mu
 
 // End of file

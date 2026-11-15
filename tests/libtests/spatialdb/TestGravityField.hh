@@ -17,14 +17,13 @@ namespace spatialdata {
     namespace spatialdb {
         class TestGravityField;
         class TestGravityField_Data;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestGravityField {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestGravityField(TestGravityField_Data* data);
 
@@ -32,27 +31,22 @@ public:
     ~TestGravityField(void);
 
     /// Test constructor
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     /// Test getNamesDBValues().
-    static
-    void testGetNamesDBValues(void);
+    static void testGetNamesDBValues(void);
 
     /// Test setQueryValues()
-    static
-    void testQueryVals(void);
+    static void testQueryVals(void);
 
     /// Test query().
     void testQuery(void);
 
     // PROTECTED METHODS //////////////////////////////////////////////////////////////////////////
-protected:
-
+  protected:
     TestGravityField_Data* _data; ///< Test data.
 
 }; // class TestGravityField
@@ -60,8 +54,7 @@ protected:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestGravityField_Data {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestGravityField_Data(void);
 
@@ -69,8 +62,7 @@ public:
     ~TestGravityField_Data(void);
 
     // PUBLIC MEMBERS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     spatialdata::geocoords::CoordSys* cs; ///< Coordinate system.
     double gravityAcc; ///< Gravitational acceleration.
     const double* gravityDir; ///< Direction of gravitational acceleration.

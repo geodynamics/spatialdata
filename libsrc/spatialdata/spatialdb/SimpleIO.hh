@@ -9,15 +9,14 @@
 // =================================================================================================
 #pragma once
 
-#include "spatialdbfwd.hh" // forward declarations
 #include "spatialdata/geocoords/geocoordsfwd.hh" // forward declarations
+#include "spatialdbfwd.hh" // forward declarations
 
 #include <string> // HASA std::string
 
 /// C++ manager for simple spatial database.
 class spatialdata::spatialdb::SimpleIO { // class SimpleIO
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -62,8 +61,7 @@ public:
     virtual void write(const SimpleDBData& data,
                        const spatialdata::geocoords::CoordSys* pCS) = 0;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Check compatibility of topology and spatial distribution.
@@ -85,14 +83,12 @@ protected:
      */
     static void convertToSI(SimpleDBData* const data);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     const SimpleIO& operator=(const SimpleIO& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     /** Filename of database */

@@ -17,8 +17,7 @@
 class spatialdata::spatialdb::CompositeDB : public SpatialDB { // class CompositeDB
     friend class TestCompositeDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -97,15 +96,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // NOT IMPLEMENTED ////////////////////////////////////////////////////
 
     CompositeDB(const CompositeDB& data); ///< Not implemented
     const CompositeDB& operator=(const CompositeDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE STRUCTS ////////////////////////////////////////////////////
 
     struct DBInfo {
@@ -120,21 +117,24 @@ private:
             query_indices(NULL),
             names_values(NULL),
             query_size(0),
-            num_names(0) {}
+            num_names(0) {
+        }
 
 
         ~DBInfo(void) {
-            delete[] query_buffer;query_buffer = NULL;
-            delete[] query_indices;query_indices = NULL;
-            delete[] names_values;names_values = NULL;
+            delete[] query_buffer;
+            query_buffer = NULL;
+            delete[] query_indices;
+            query_indices = NULL;
+            delete[] names_values;
+            names_values = NULL;
             query_size = 0;
             num_names = 0;
         } // destructor
 
     }; // DBInfo
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     SpatialDB* _dbA; ///< Spatial database A

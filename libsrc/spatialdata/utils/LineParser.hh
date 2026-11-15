@@ -11,13 +11,12 @@
 
 #include "utilsfwd.hh"
 
-#include <string> // HASA std::string
 #include <iosfwd> // USES std::istream
+#include <string> // HASA std::string
 
 class spatialdata::utils::LineParser { // LineParser
     // PUBLIC METHODS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /** Constructor.
      *
      * @param sin Input stream.
@@ -25,8 +24,8 @@ public:
      * @param bufsize Maximum size of line
      */
     LineParser(std::istream& sin,
-               const char* delimiter="#",
-               const size_t bufsize=1024);
+               const char* delimiter = "#",
+               const size_t bufsize = 1024);
 
     // Destructor.
     ~LineParser(void);
@@ -57,14 +56,12 @@ public:
     void putback(const std::string& buffer);
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     LineParser(const LineParser&); ///< Not implemented
     const LineParser& operator=(const LineParser&); ///< Not implemented
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     std::istream& _in; ///< Input stream.
     std::string _value; ///< Value for output.
     std::string _delimiter; ///< Comment delimiter.

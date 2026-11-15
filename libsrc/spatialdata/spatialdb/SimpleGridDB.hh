@@ -18,19 +18,17 @@ class spatialdata::spatialdb::SimpleGridDB : public SpatialDB { // SimpleGridDB
     friend class TestSimpleGridAscii;
     friend class SimpleGridAscii; // reader
 
-public:
-
+  public:
     // PUBLIC ENUM ////////////////////////////////////////////////////////
 
     /** Type of query */
     enum QueryEnum {
-        NEAREST=0, ///< Nearest interpolation.
-        LINEAR=1, ///< Linear interpolation.
+        NEAREST = 0, ///< Nearest interpolation.
+        LINEAR = 1, ///< Linear interpolation.
     };
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     SimpleGridDB(void);
 
@@ -175,8 +173,7 @@ public:
     void setCoordSys(const geocoords::CoordSys& cs);
 
     // PRIVATE METHODS //////////////////////////////////////////////////////
-private:
-
+  private:
     /// Check compatibility of spatial database parameters.
     void _checkCompatibility(void) const;
 
@@ -299,8 +296,7 @@ private:
                          const size_t spaceDim) const;
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     double* _data; ///< Array of data values.
     double* _x; ///< Array of x coordinates.
     double* _y; ///< Array of y coordinates.
@@ -330,8 +326,7 @@ private:
     static const char* FILEHEADER;
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     SimpleGridDB(const SimpleGridDB&); ///< Not implemented
     const SimpleGridDB& operator=(const SimpleGridDB&); ///< Not implemented
 

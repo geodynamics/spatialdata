@@ -18,44 +18,43 @@ extern "C" {
 
 #include "catch2/catch_test_macros.hpp"
 
-#include <string> // USES std::string()
 #include <cstring> // USES strlen()
-#include <stdio.h> // USES snprintf()
 #include <sstream> // USES std::ostringstream
+#include <stdio.h> // USES snprintf()
+#include <string> // USES std::string()
 
 // ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace utils {
         class TestSpatialdataVersion;
-    } // utils
-} // spatialdata
+    } // namespace utils
+} // namespace spatialdata
 
 class spatialdata::utils::TestSpatialdataVersion {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test version()
-    static
-    void testVersion(void);
+    static void testVersion(void);
 
     /// Test git testGitMetadata.
-    static
-    void testGitMetadata(void);
+    static void testGitMetadata(void);
 
     /// Test projVersion()
-    static
-    void testProjVersion(void);
+    static void testProjVersion(void);
 
 }; // class TestSpatialdataVersion
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestSpatialdataVersion::testVersion", "[TestSpatialdataVersion]") {
+TEST_CASE("TestSpatialdataVersion::testVersion",
+          "[TestSpatialdataVersion]") {
     spatialdata::utils::TestSpatialdataVersion::testVersion();
 }
-TEST_CASE("TestSpatialdataVersion::testGitMetadata", "[TestSpatialdataVersion]") {
+TEST_CASE("TestSpatialdataVersion::testGitMetadata",
+          "[TestSpatialdataVersion]") {
     spatialdata::utils::TestSpatialdataVersion::testGitMetadata();
 }
-TEST_CASE("TestSpatialdataVersion::testProjVersion", "[TestSpatialdataVersion]") {
+TEST_CASE("TestSpatialdataVersion::testProjVersion",
+          "[TestSpatialdataVersion]") {
     spatialdata::utils::TestSpatialdataVersion::testProjVersion();
 }
 

@@ -23,56 +23,55 @@
 namespace spatialdata {
     namespace spatialdb {
         class TestSimpleDBData;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 class spatialdata::spatialdb::TestSimpleDBData {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test constructor.
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test allocate(), getNumLocs(), numValues(), spaceDim().
-    static
-    void testAllocate(void);
+    static void testAllocate(void);
 
     /// Test data() and dataDim().
-    static
-    void testData(void);
+    static void testData(void);
 
     /// Test coordinates()
-    static
-    void testCoordinates(void);
+    static void testCoordinates(void);
 
     /// Test names()
-    static
-    void testNames(void);
+    static void testNames(void);
 
     /// Test units()
-    static
-    void testUnits(void);
+    static void testUnits(void);
 
 }; // class TestSimpleDBData
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestSimpleDBData::testConstructor", "[TestSimpleDBData]") {
+TEST_CASE("TestSimpleDBData::testConstructor",
+          "[TestSimpleDBData]") {
     spatialdata::spatialdb::TestSimpleDBData::testConstructor();
 }
-TEST_CASE("TestSimpleDBData::testAllocate", "[TestSimpleDBData]") {
+TEST_CASE("TestSimpleDBData::testAllocate",
+          "[TestSimpleDBData]") {
     spatialdata::spatialdb::TestSimpleDBData::testAllocate();
 }
-TEST_CASE("TestSimpleDBData::testData", "[TestSimpleDBData]") {
+TEST_CASE("TestSimpleDBData::testData",
+          "[TestSimpleDBData]") {
     spatialdata::spatialdb::TestSimpleDBData::testData();
 }
-TEST_CASE("TestSimpleDBData::testCoordinates", "[TestSimpleDBData]") {
+TEST_CASE("TestSimpleDBData::testCoordinates",
+          "[TestSimpleDBData]") {
     spatialdata::spatialdb::TestSimpleDBData::testCoordinates();
 }
-TEST_CASE("TestSimpleDBData::testNames", "[TestSimpleDBData]") {
+TEST_CASE("TestSimpleDBData::testNames",
+          "[TestSimpleDBData]") {
     spatialdata::spatialdb::TestSimpleDBData::testNames();
 }
-TEST_CASE("TestSimpleDBData::testUnits", "[TestSimpleDBData]") {
+TEST_CASE("TestSimpleDBData::testUnits",
+          "[TestSimpleDBData]") {
     spatialdata::spatialdb::TestSimpleDBData::testUnits();
 }
 
@@ -117,11 +116,15 @@ spatialdata::spatialdb::TestSimpleDBData::testData(void) {
     const size_t spaceDim = 3;
     const size_t dataDim = 1;
 
-    const double valuesE[numLocs*numValues] = {
-        0.11, 0.21,
-        0.12, 0.22,
-        0.13, 0.23,
-        0.14, 0.24,
+    const double valuesE[numLocs * numValues] = {
+        0.11,
+        0.21,
+        0.12,
+        0.22,
+        0.13,
+        0.23,
+        0.14,
+        0.24,
     };
 
     SimpleDBData data;
@@ -147,11 +150,19 @@ spatialdata::spatialdb::TestSimpleDBData::testCoordinates(void) {
     const size_t spaceDim = 3;
     const size_t dataDim = 1;
 
-    const double coordsE[numLocs*spaceDim] = {
-        1.1, 2.1, 3.1,
-        1.2, 2.2, 3.2,
-        1.3, 2.3, 3.3,
-        1.4, 2.4, 3.4,
+    const double coordsE[numLocs * spaceDim] = {
+        1.1,
+        2.1,
+        3.1,
+        1.2,
+        2.2,
+        3.2,
+        1.3,
+        2.3,
+        3.3,
+        1.4,
+        2.4,
+        3.4,
     };
 
     SimpleDBData data;
@@ -178,7 +189,8 @@ spatialdata::spatialdb::TestSimpleDBData::testNames(void) {
     const size_t dataDim = 1;
 
     const char* namesE[numValues] = {
-        "one", "two",
+        "one",
+        "two",
     };
 
     SimpleDBData data;
@@ -201,7 +213,8 @@ spatialdata::spatialdb::TestSimpleDBData::testUnits(void) {
     const size_t dataDim = 1;
 
     const char* unitsE[numValues] = {
-        "m", "m/s",
+        "m",
+        "m/s",
     };
 
     SimpleDBData data;

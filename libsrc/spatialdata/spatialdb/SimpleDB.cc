@@ -10,19 +10,19 @@
 
 #include <portinfo>
 
-#include "SpatialDB.hh" // ISA SpatialDB object
 #include "SimpleDB.hh" // Implementation of class methods
+#include "SpatialDB.hh" // ISA SpatialDB object
 
-#include "SimpleIO.hh" // USES SimpleIO
 #include "SimpleDBData.hh" // USES SimpleDBData
 #include "SimpleDBQuery.hh" // USES SimpleDBQuery
+#include "SimpleIO.hh" // USES SimpleIO
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 
-#include <sstream> // USES std::ostringsgream
-#include <cassert> // USES assert()
-#include <stdexcept> // USES std::runtime_error
 #include "Exception.hh" // USES OutOfBounds
+#include <cassert> // USES assert()
+#include <sstream> // USES std::ostringsgream
+#include <stdexcept> // USES std::runtime_error
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -30,7 +30,8 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(void) :
     _data(NULL),
     _iohandler(NULL),
     _query(NULL),
-    _cs(NULL) {}
+    _cs(NULL) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -40,16 +41,21 @@ spatialdata::spatialdb::SimpleDB::SimpleDB(const char* label) :
     _data(NULL),
     _iohandler(NULL),
     _query(NULL),
-    _cs(NULL) {}
+    _cs(NULL) {
+}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
 spatialdata::spatialdb::SimpleDB::~SimpleDB(void) {
-    delete _data;_data = NULL;
-    delete _iohandler;_iohandler = NULL;
-    delete _query;_query = NULL;
-    delete _cs;_cs = NULL;
+    delete _data;
+    _data = NULL;
+    delete _iohandler;
+    _iohandler = NULL;
+    delete _query;
+    _query = NULL;
+    delete _cs;
+    _cs = NULL;
 } // destructor
 
 
@@ -69,7 +75,8 @@ spatialdata::spatialdb::SimpleDB::setQueryType(const SimpleDB::QueryEnum queryTy
 // Set the I/O handler.
 void
 spatialdata::spatialdb::SimpleDB::setIOHandler(const SimpleIO* iohandler) {
-    delete _iohandler;_iohandler = iohandler ? iohandler->clone() : NULL;
+    delete _iohandler;
+    _iohandler = iohandler ? iohandler->clone() : NULL;
 } // setIOHandler
 
 
@@ -97,7 +104,8 @@ spatialdata::spatialdb::SimpleDB::open(void) {
         queryValues[i] = _data->getName(i);
     } // for
     _query->setQueryValues(queryValues, numValues);
-    delete[] queryValues;queryValues = NULL;
+    delete[] queryValues;
+    queryValues = NULL;
 } // open
 
 
@@ -105,7 +113,8 @@ spatialdata::spatialdb::SimpleDB::open(void) {
 /// Close the database.
 void
 spatialdata::spatialdb::SimpleDB::close(void) {
-    delete _data;_data = 0;
+    delete _data;
+    _data = 0;
 
     if (_query) {
         _query->deallocate();
@@ -169,7 +178,7 @@ spatialdata::spatialdb::SimpleDB::query(double* vals,
         } // if
         _query->query(vals, numVals, coords, numDims, pCSQuery);
     } catch (const OutOfBounds& err) {
-        std::fill(vals, vals+numVals, 0);
+        std::fill(vals, vals + numVals, 0);
         return 1;
     } catch (const std::exception& err) {
         throw;

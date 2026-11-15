@@ -19,8 +19,7 @@
 class spatialdata::spatialdb::AnalyticDB : public SpatialDB {
     friend class TestAnalyticDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -100,15 +99,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* csQuery);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     AnalyticDB(const AnalyticDB& data); ///< Not implemented
     const AnalyticDB& operator=(const AnalyticDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     mu::value_type _expVars[3]; ///< Storage for default expression variables

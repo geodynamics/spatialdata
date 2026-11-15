@@ -31,7 +31,8 @@ spatialdata::geocoords::TestConverter::TestConverter(TestConverter_Data* data) :
 // ---------------------------------------------------------------------------------------------------------------------
 // Destructor.
 spatialdata::geocoords::TestConverter::~TestConverter(void) {
-    delete _data;_data = NULL;
+    delete _data;
+    _data = NULL;
 } // destructor
 
 
@@ -59,18 +60,19 @@ spatialdata::geocoords::TestConverter::testConvert(void) {
         assert(_data->coordsSrc);
         assert(_data->coordsDest);
     } // if
-    std::memcpy(coords, _data->coordsSrc, bufferSize*sizeof(double));
+    std::memcpy(coords, _data->coordsSrc, bufferSize * sizeof(double));
 
     Converter converter;
     converter.convert(coords, numPoints, spaceDim, _data->csDest, _data->csSrc);
 
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < bufferSize; ++i) {
-        const double toleranceV = std::max(fabs(tolerance*_data->coordsDest[i]), tolerance);
+        const double toleranceV = std::max(fabs(tolerance * _data->coordsDest[i]), tolerance);
         CHECK_THAT(coords[i], Catch::Matchers::WithinAbs(_data->coordsDest[i], toleranceV));
     } // for
 
-    delete[] coords;coords = NULL;
+    delete[] coords;
+    coords = NULL;
 } // testConvert
 
 
@@ -82,10 +84,12 @@ spatialdata::geocoords::TestConverter_Data::TestConverter_Data(void) :
     coordsSrc(NULL),
     coordsDest(NULL),
     csSrc(NULL),
-    csDest(NULL) {}
+    csDest(NULL) {
+}
 
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Destructor
 
-spatialdata::geocoords::TestConverter_Data::~TestConverter_Data(void) {} // destructor
+spatialdata::geocoords::TestConverter_Data::~TestConverter_Data(void) {
+} // destructor

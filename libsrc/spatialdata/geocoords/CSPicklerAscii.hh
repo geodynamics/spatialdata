@@ -14,8 +14,7 @@
 #include <iosfwd> // USES std::istream, std::ostream
 
 class spatialdata::geocoords::CSPicklerAscii {
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /** Pickle coordinate system.
@@ -23,18 +22,16 @@ public:
      * @param s Ouput stream
      * @param cs Pointer to coordinate system
      */
-    static
-    void pickle(std::ostream& s,
-                const CoordSys* cs);
+    static void pickle(std::ostream& s,
+                       const CoordSys* cs);
 
     /** Unpickle coordinate system.
      *
      * @param s Input stream
      * @param cs Pointer to pointer to coordinate system
      */
-    static
-    void unpickle(std::istream& s,
-                  CoordSys** cs);
+    static void unpickle(std::istream& s,
+                         CoordSys** cs);
 
 }; // class CSPicklerAscii
 

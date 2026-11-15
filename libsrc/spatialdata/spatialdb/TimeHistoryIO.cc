@@ -15,19 +15,18 @@
 // Include ios here to avoid some Python/gcc issues
 #include <ios>
 
-#include "spatialdata/utils/LineParser.hh" // USES LineParser
 #include "spatialdata/units/Parser.hh" // USES Parser
+#include "spatialdata/utils/LineParser.hh" // USES LineParser
 
 #include <fstream> // USES std::ifstream, std::ofstream
 
-#include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 #include <cassert> // USES assert()
-#include <stdexcept> // USES std::runtime_error
+#include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 #include <sstream> // USES std::ostringstream
+#include <stdexcept> // USES std::runtime_error
 
 // ----------------------------------------------------------------------
-const char* spatialdata::spatialdb::TimeHistoryIO::HEADER =
-    "#TIME HISTORY ascii";
+const char* spatialdata::spatialdb::TimeHistoryIO::HEADER = "#TIME HISTORY ascii";
 
 // ----------------------------------------------------------------------
 // Read time history file.
@@ -59,13 +58,13 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
 
         const int headerLen = strlen(HEADER);
         std::string hbuffer;
-        hbuffer.resize(headerLen+1);
-        buffer.read((char*) hbuffer.c_str(), sizeof(char)*headerLen);
+        hbuffer.resize(headerLen + 1);
+        buffer.read((char*)hbuffer.c_str(), sizeof(char) * headerLen);
         hbuffer[headerLen] = '\0';
         if (0 != strcasecmp(HEADER, hbuffer.c_str())) {
             std::ostringstream msg;
-            msg << "Magic header '" << buffer.str() << "' does not match expected header '"
-                << HEADER << "' in time history file '" << filename << "'.\n";
+            msg << "Magic header '" << buffer.str() << "' does not match expected header '" << HEADER
+                << "' in time history file '" << filename << "'.\n";
             throw std::runtime_error(msg.str());
         } // if
 
@@ -99,7 +98,7 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
             buffer.clear();
             buffer >> token;
         } // while
-        if (( token != "}") || !filein.good()) {
+        if ((token != "}") || !filein.good()) {
             throw std::runtime_error("I/O error while parsing TimeHistory settings.");
         }
 
@@ -135,7 +134,7 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
         } // for
         // Verify that the time stamps are ordered in time.
         for (size_t i = 1; i < size; ++i) {
-            if (time[i-1] >= time[i]) {
+            if (time[i - 1] >= time[i]) {
                 throw std::runtime_error("Time history must be ordered in time.");
             } // if
         } // for
@@ -151,18 +150,17 @@ spatialdata::spatialdb::TimeHistoryIO::read(double** ptime,
             throw std::runtime_error(msg.str());
         } // if
 
-        delete[] *ptime;*ptime = time;
-        delete[] *pamplitude;*pamplitude = amplitude;
+        delete[] *ptime;
+        *ptime = time;
+        delete[] *pamplitude;
+        *pamplitude = amplitude;
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error occurred while reading time history file '"
-            << filename << "'.\n"
-            << err.what();
+        msg << "Error occurred while reading time history file '" << filename << "'.\n" << err.what();
         throw std::runtime_error(msg.str());
     } catch (...) {
         std::ostringstream msg;
-        msg << "Unknown error occurred while reading time history file '"
-            << filename << "'.\n";
+        msg << "Unknown error occurred while reading time history file '" << filename << "'.\n";
         throw std::runtime_error(msg.str());
     } // try/catch
 } // read
@@ -177,10 +175,8 @@ spatialdata::spatialdb::TimeHistoryIO::write(const double* time,
                                              const size_t nptsA,
                                              const char* timeUnits,
                                              const char* filename) { // write
-    assert( (0 == nptsT && !time) ||
-            (0 < nptsT && time) );
-    assert( (0 == nptsA && !amplitude) ||
-            (0 < nptsA && amplitude) );
+    assert((0 == nptsT && !time) || (0 < nptsT && time));
+    assert((0 == nptsA && !amplitude) || (0 < nptsA && amplitude));
 
     try {
         if (nptsT != nptsA) {
@@ -208,27 +204,21 @@ spatialdata::spatialdb::TimeHistoryIO::write(const double* time,
             throw std::runtime_error("I/O error while writing TimeHistory settings.");
         } // if
 
-        fileout << std::resetiosflags(std::ios::fixed)
-                << std::setiosflags(std::ios::scientific)
+        fileout << std::resetiosflags(std::ios::fixed) << std::setiosflags(std::ios::scientific)
                 << std::setprecision(6);
         for (size_t i = 0; i < npts; ++i) {
-            fileout << std::setw(14) << time[i]
-                    << std::setw(14) << amplitude[i]
-                    << "\n";
+            fileout << std::setw(14) << time[i] << std::setw(14) << amplitude[i] << "\n";
         } // for
         if (!fileout.good()) {
             throw std::runtime_error("I/O error while writing TimeHistory data.");
         } // if
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error occurred while writing time history file '"
-            << filename << "'.\n"
-            << err.what();
+        msg << "Error occurred while writing time history file '" << filename << "'.\n" << err.what();
         throw std::runtime_error(msg.str());
     } catch (...) {
         std::ostringstream msg;
-        msg << "Unknown error occurred while writing time history file '"
-            << filename << "'.";
+        msg << "Unknown error occurred while writing time history file '" << filename << "'.";
         throw std::runtime_error(msg.str());
     } // try/catch
 } // write

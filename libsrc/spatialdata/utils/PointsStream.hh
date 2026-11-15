@@ -17,8 +17,7 @@
 class spatialdata::utils::PointsStream { // class PointsStream
     friend class TestPointsStream;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -99,15 +98,13 @@ public:
                const size_t numPts,
                const size_t numDims) const;
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     PointsStream(const PointsStream& p); ///< Not implemented
     const PointsStream& operator=(const PointsStream& p); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     std::string _filename; ///< Name of file for input/output

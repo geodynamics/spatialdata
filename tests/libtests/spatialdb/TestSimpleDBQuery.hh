@@ -18,14 +18,13 @@ namespace spatialdata {
     namespace spatialdb {
         class TestSimpleDBQuery;
         class TestSimpleDBQuery_Data;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDBQuery {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestSimpleDBQuery(TestSimpleDBQuery_Data* data);
 
@@ -51,14 +50,12 @@ public:
     void testVolume(void);
 
     // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
-protected:
-
+  protected:
     /// Populdate database with values.
     void _initializeDB(void);
 
     // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
-protected:
-
+  protected:
     SimpleDB* _db; ///< Database for test subject.
     SimpleDBQuery* _query; ///< Test subject.
     TestSimpleDBQuery_Data* _data; ///< Test data.
@@ -68,8 +65,7 @@ protected:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDBQuery_Data {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestSimpleDBQuery_Data(void);
 
@@ -77,8 +73,7 @@ public:
     ~TestSimpleDBQuery_Data(void);
 
     // PUBLIC MEMBERS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// @name Database information
     //@{
     size_t numLocs; ///< Number of locations in database.

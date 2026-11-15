@@ -18,7 +18,7 @@
 #define STR_HELPER(x) #x
 #define STR(c) STR_HELPER(x)
 
-#define VERSION_JOINER_HELPER(major, minor, patch, dot) STR_HELPER(major ## dot ## minor ## dot ## patch)
+#define VERSION_JOINER_HELPER(major, minor, patch, dot) STR_HELPER(major##dot##minor##dot##patch)
 #define VERSION_JOINER(major, minor, patch) VERSION_JOINER_HELPER(major, minor, patch, .)
 
 const bool spatialdata::utils::SpatialdataVersion::_isRelease = int(SPATIALDATA_RELEASE_VERSION);
@@ -32,12 +32,14 @@ const char* spatialdata::utils::SpatialdataVersion::_projVersion =
 
 // ----------------------------------------------------------------------
 // Default constructor.
-spatialdata::utils::SpatialdataVersion::SpatialdataVersion(void) {}
+spatialdata::utils::SpatialdataVersion::SpatialdataVersion(void) {
+}
 
 
 // ----------------------------------------------------------------------
 // Default destrictor.
-spatialdata::utils::SpatialdataVersion::~SpatialdataVersion(void) {}
+spatialdata::utils::SpatialdataVersion::~SpatialdataVersion(void) {
+}
 
 
 // ----------------------------------------------------------------------

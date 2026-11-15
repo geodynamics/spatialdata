@@ -17,7 +17,7 @@ namespace spatialdata {
         class CSGeoLocal;
         class Converter;
         class CSPicklerAscii;
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 // End of file

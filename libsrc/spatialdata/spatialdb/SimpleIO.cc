@@ -14,34 +14,35 @@
 // Include ios here to avoid some Python/gcc issues
 #include <ios>
 
-#include "SpatialDB.hh" // USES SimpleDB
 #include "SimpleDB.hh" // USES SimpleDB
 #include "SimpleDBData.hh" // USES SimpleDBData
+#include "SpatialDB.hh" // USES SimpleDB
 
 #include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/units/Parser.hh" // USES Parser
 
+#include <assert.h> // USES assert()
 #include <sstream> // USES std::ostringstream
+#include <stdexcept> // USES std::runtime_error, std::exception
 #include <string> // USES std::string
 #include <vector> // USES std::vector
-#include <stdexcept> // USES std::runtime_error, std::exception
-#include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
 /// Default constructor
-spatialdata::spatialdb::SimpleIO::SimpleIO(void) {}
+spatialdata::spatialdb::SimpleIO::SimpleIO(void) {
+}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::SimpleIO::~SimpleIO(void) {}
+spatialdata::spatialdb::SimpleIO::~SimpleIO(void) {
+}
 
 
 // ----------------------------------------------------------------------
 void
-spatialdata::spatialdb::SimpleIO::checkCompatibility(
-    const SimpleDBData& data,
-    const spatialdata::geocoords::CoordSys* cs) {
+spatialdata::spatialdb::SimpleIO::checkCompatibility(const SimpleDBData& data,
+                                                     const spatialdata::geocoords::CoordSys* cs) {
     assert(cs);
 
     const size_t numLocs = data.getNumLocs();
@@ -49,26 +50,24 @@ spatialdata::spatialdb::SimpleIO::checkCompatibility(
     const size_t dataDim = data.getDataDim();
     std::ostringstream msg;
     if (numLocs < 1 + dataDim) {
-        msg << "Spatial distribution with data dimensions of " << dataDim
-            << " must have at least " << 1+dataDim << " points.\n"
+        msg << "Spatial distribution with data dimensions of " << dataDim << " must have at least " << 1 + dataDim
+            << " points.\n"
             << "Found " << numLocs << " points in distribution.";
         throw std::domain_error(msg.str());
     } // if
-    if (( 0 == dataDim) && ( numLocs > 1) ) {
-        msg << "Spatial distribution with data dimensions of " << dataDim
-            << " cannot have more than one point.\n"
+    if ((0 == dataDim) && (numLocs > 1)) {
+        msg << "Spatial distribution with data dimensions of " << dataDim << " cannot have more than one point.\n"
             << "Found " << numLocs << " points in distribution.";
         throw std::domain_error(msg.str());
     } // if
     if (dataDim > spaceDim) {
         msg << "Dimension of data in spatial distribution (" << dataDim
-            << ") exceeds the number of dimensions of the coordinates ("
-            << spaceDim << ").";
+            << ") exceeds the number of dimensions of the coordinates (" << spaceDim << ").";
         throw std::domain_error(msg.str());
     } // if
     if (spaceDim != cs->getSpaceDim()) {
-        msg << "Number of dimensions in coordinates of spatial distribution ("
-            << spaceDim << ") does not match number of dimensions in coordinate "
+        msg << "Number of dimensions in coordinates of spatial distribution (" << spaceDim
+            << ") does not match number of dimensions in coordinate "
             << "system (" << cs->getSpaceDim() << ")";
         throw std::domain_error(msg.str());
     } // if

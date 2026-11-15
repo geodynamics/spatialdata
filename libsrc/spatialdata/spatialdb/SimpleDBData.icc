@@ -12,76 +12,67 @@
 #include <cassert> // USES assert()
 
 // Get number of locations for data.
-inline
-size_t
+inline size_t
 spatialdata::spatialdb::SimpleDBData::getNumLocs(void) const {
     return _numLocs;
 }
 
 
 // Get number of values for data.
-inline
-size_t
+inline size_t
 spatialdata::spatialdb::SimpleDBData::getNumValues(void) const {
     return _numValues;
 }
 
 
 // Get spatial dimension of data distribution.
-inline
-size_t
+inline size_t
 spatialdata::spatialdb::SimpleDBData::getDataDim(void) const {
     return _dataDim;
 }
 
 
 // Get spatial dimension of locations.
-inline
-size_t
+inline size_t
 spatialdata::spatialdb::SimpleDBData::getSpaceDim(void) const {
     return _spaceDim;
 }
 
 
 // Get coordinates of location in database.
-inline
-const double*
+inline const double*
 spatialdata::spatialdb::SimpleDBData::getCoordinates(const size_t index) const {
     assert(index >= 0 && index < _numLocs);
-    return &_coordinates[index*_spaceDim];
+    return &_coordinates[index * _spaceDim];
 }
 
 
 // Get coordinates of location in database.
-inline
-double*
+inline double*
 spatialdata::spatialdb::SimpleDBData::getCoordinates(const size_t index) {
     assert(index >= 0 && index < _numLocs);
-    return &_coordinates[index*_spaceDim];
+    return &_coordinates[index * _spaceDim];
 }
 
 
 // Get data values at location in database.
-inline
-const double*
+inline const double*
 spatialdata::spatialdb::SimpleDBData::getData(const size_t index) const {
     assert(index >= 0 && index < _numLocs);
-    return &_data[index*_numValues];
+    return &_data[index * _numValues];
 }
 
 
 // Get data values at location in database.
-inline
-double*
+inline double*
 spatialdata::spatialdb::SimpleDBData::getData(const size_t index) {
     assert(index >= 0 && index < _numLocs);
-    return &_data[index*_numValues];
+    return &_data[index * _numValues];
 }
 
 
 // Get name of value.
-inline
-const char*
+inline const char*
 spatialdata::spatialdb::SimpleDBData::getName(const size_t index) const {
     assert(index >= 0 && index < _numValues);
     return _names[index].c_str();
@@ -89,8 +80,7 @@ spatialdata::spatialdb::SimpleDBData::getName(const size_t index) const {
 
 
 // Get units of value.
-inline
-const char*
+inline const char*
 spatialdata::spatialdb::SimpleDBData::getUnits(const size_t index) const {
     assert(index >= 0 && index < _numValues);
     return _units[index].c_str();

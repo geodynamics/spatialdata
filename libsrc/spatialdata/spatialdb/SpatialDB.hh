@@ -9,15 +9,14 @@
 // =================================================================================================
 #pragma once
 
-#include "spatialdbfwd.hh"
 #include "spatialdata/geocoords/geocoordsfwd.hh"
+#include "spatialdbfwd.hh"
 
 #include <string> // USES std::string
 
 /// C++ manager for spatial database.
 class spatialdata::spatialdb::SpatialDB {
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -45,21 +44,18 @@ public:
     const char* getDescription(void) const;
 
     /// Open the database and prepare for querying.
-    virtual
-    void open(void) = 0;
+    virtual void open(void) = 0;
 
     /// Close the database.
-    virtual
-    void close(void) = 0;
+    virtual void close(void) = 0;
 
     /** Get names of values in spatial database.
      *
      * @param[out] valueNames Array of names of values.
      * @param[out] numValues Size of array.
      */
-    virtual
-    void getNamesDBValues(const char*** valueNames,
-                          size_t* numValues) const = 0;
+    virtual void getNamesDBValues(const char*** valueNames,
+                                  size_t* numValues) const = 0;
 
     /** Set values to be returned by queries.
      *
@@ -68,9 +64,8 @@ public:
      * @param names Names of values to be returned in queries
      * @param numVals Number of values to be returned in queries
      */
-    virtual
-    void setQueryValues(const char* const* names,
-                        const size_t numVals) = 0;
+    virtual void setQueryValues(const char* const* names,
+                                const size_t numVals) = 0;
 
     /** Query the database.
      *
@@ -87,12 +82,11 @@ public:
      *
      * @returns 0 on success, 1 on failure (i.e., could not interpolate)
      */
-    virtual
-    int query(double* vals,
-              const size_t numVals,
-              const double* coords,
-              const size_t numDims,
-              const spatialdata::geocoords::CoordSys* csQuery) = 0;
+    virtual int query(double* vals,
+                      const size_t numVals,
+                      const double* coords,
+                      const size_t numDims,
+                      const spatialdata::geocoords::CoordSys* csQuery) = 0;
 
     /** Query the database.
      *
@@ -178,8 +172,7 @@ public:
                     const spatialdata::geocoords::CoordSys* csQuery);
 
     // PROTECTED METHODS //////////////////////////////////////////////////
-protected:
-
+  protected:
     /** Convert values to SI units.
      *
      * @param data Array of data.
@@ -187,20 +180,17 @@ protected:
      * @param numLocs Number of locations.
      * @param numVals Number of values per location.
      */
-    static
-    void _convertToSI(double* vals,
-                      std::string* units,
-                      const size_t numLocs,
-                      const size_t numVals);
+    static void _convertToSI(double* vals,
+                             std::string* units,
+                             const size_t numLocs,
+                             const size_t numVals);
 
     // PRIVATE METHODS ////////////////////////////////////////////////////
-private:
-
+  private:
     SpatialDB(const SpatialDB& data); ///< Not implemented
     const SpatialDB& operator=(const SpatialDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     std::string _description; ///< Description of spatial database.

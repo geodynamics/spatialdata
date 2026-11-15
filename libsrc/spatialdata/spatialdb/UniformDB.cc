@@ -17,12 +17,12 @@
 
 #include "spatialdata/units/Parser.hh" // USES Parser
 
-#include <vector> // USES std::vector
 #include <stdexcept> // USES std::runtime_error
+#include <vector> // USES std::vector
 
+#include <assert.h> // USES assert()
 #include <sstream> // USES std::ostringsgream
 #include <strings.h> // USES strcasecmp()
-#include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -31,7 +31,8 @@ spatialdata::spatialdb::UniformDB::UniformDB(void) :
     _values(NULL),
     _queryValues(NULL),
     _numValues(0),
-    _querySize(0) {}
+    _querySize(0) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -42,15 +43,19 @@ spatialdata::spatialdb::UniformDB::UniformDB(const char* label) :
     _values(NULL),
     _queryValues(NULL),
     _numValues(0),
-    _querySize(0) {}
+    _querySize(0) {
+}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
 spatialdata::spatialdb::UniformDB::~UniformDB(void) {
-    delete[] _names;_names = NULL;
-    delete[] _values;_values = NULL;
-    delete[] _queryValues;_queryValues = NULL;
+    delete[] _names;
+    _names = NULL;
+    delete[] _values;
+    _values = NULL;
+    delete[] _queryValues;
+    _queryValues = NULL;
     _numValues = 0;
     _querySize = 0;
 } // destructor
@@ -63,15 +68,17 @@ spatialdata::spatialdb::UniformDB::setData(const char* const* names,
                                            const char* const* units,
                                            const double* values,
                                            const size_t numValues) {
-    assert( (0 < numValues && names && units && values) ||
-            (0 == numValues && !names && !units && !values) );
+    assert((0 < numValues && names && units && values) || (0 == numValues && !names && !units && !values));
 
     // clear out old data
-    delete[] _names;_names = NULL;
-    delete[] _values;_values = NULL;
+    delete[] _names;
+    _names = NULL;
+    delete[] _values;
+    _values = NULL;
     _numValues = numValues;
 
-    delete[] _queryValues;_queryValues = NULL;
+    delete[] _queryValues;
+    _queryValues = NULL;
     _querySize = 0;
 
     spatialdata::units::Parser parser;
@@ -93,12 +100,13 @@ spatialdata::spatialdb::UniformDB::setData(const char* const* names,
 
         _values = new double[numValues];
         for (size_t i = 0; i < numValues; ++i) {
-            _values[i] = values[i]*scales[i];
+            _values[i] = values[i] * scales[i];
         } // for
 
         // Default query values is all values.
         _querySize = _numValues;
-        delete[] _queryValues;_queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
+        delete[] _queryValues;
+        _queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
         for (size_t i = 0; i < _querySize; ++i) {
             _queryValues[i] = i;
         } // for
@@ -130,14 +138,14 @@ spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,
                                                   const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getDescription()
-            << "\n must be positive.\n";
+        msg << "Number of values for query in spatial database " << getDescription() << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryValues;_queryValues = new size_t[numVals];
+    delete[] _queryValues;
+    _queryValues = new size_t[numVals];
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
         while (iName < _numValues) {
@@ -148,8 +156,8 @@ spatialdata::spatialdb::UniformDB::setQueryValues(const char* const* names,
         } // while
         if (iName >= _numValues) {
             std::ostringstream msg;
-            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getDescription() << "'. Available values are:";
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '" << getDescription()
+                << "'. Available values are:";
             for (size_t iName = 0; iName < _numValues; ++iName) {
                 msg << "\n  " << _names[iName];
                 msg << "\n";
@@ -177,10 +185,8 @@ spatialdata::spatialdb::UniformDB::query(double* vals,
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << getDescription() << "\n"
-            << "(" << _querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << getDescription() << "\n"
+            << "(" << _querySize << ") does not match size of array provided (" << numVals << ").\n";
         throw std::invalid_argument(msg.str());
     } // if
 

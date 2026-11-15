@@ -10,32 +10,28 @@
 #pragma once
 
 // Set description of time history.
-inline
-void
+inline void
 spatialdata::spatialdb::TimeHistory::setDescription(const char* description) {
     _description = description;
 }
 
 
 // Get description of time history.
-inline
-const char*
+inline const char*
 spatialdata::spatialdb::TimeHistory::getDescription(void) const {
     return _description.c_str();
 }
 
 
 // Set filename for time history.
-inline
-void
+inline void
 spatialdata::spatialdb::TimeHistory::setFilename(const char* name) {
     _filename = name;
 }
 
 
 // Set filename for time history.
-inline
-const char*
+inline const char*
 spatialdata::spatialdb::TimeHistory::getFilename(void) {
     return _filename.c_str();
 }

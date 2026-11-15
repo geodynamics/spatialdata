@@ -12,29 +12,28 @@
 
 #include "SimpleIOAscii.hh" // implementation of class methods
 
-#include "SpatialDB.hh" // USES SimpleDB
 #include "SimpleDB.hh" // USES SimpleDB
+#include "SpatialDB.hh" // USES SimpleDB
 
 #include "SimpleDBData.hh" // USES SimpleDBData
-#include "spatialdata/geocoords/CoordSys.hh" // USES CSCart
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
 #include "spatialdata/geocoords/CSPicklerAscii.hh" // USES CSPicklerAscii
+#include "spatialdata/geocoords/CoordSys.hh" // USES CSCart
 
 #include "spatialdata/utils/LineParser.hh" // USES LineParser
 
 #include <fstream> // USES std::ofstream, std::ifstream
 #include <iomanip> // USES setw(), setiosflags(), resetiosflags()
 
-#include <stdexcept> // USES std::runtime_error
-#include <sstream> // USES std::ostringsgream
-#include <strings.h> // USES strcasecmp()
-#include <cstring> // USES strlen()
 #include <assert.h> // USES assert()
+#include <cstring> // USES strlen()
+#include <sstream> // USES std::ostringsgream
+#include <stdexcept> // USES std::runtime_error
+#include <strings.h> // USES strcasecmp()
 
 #include <iostream>
 // ----------------------------------------------------------------------
-const char* spatialdata::spatialdb::SimpleIOAscii::HEADER =
-    "#SPATIAL.ascii";
+const char* spatialdata::spatialdb::SimpleIOAscii::HEADER = "#SPATIAL.ascii";
 
 // ----------------------------------------------------------------------
 // Read ascii database file.
@@ -47,8 +46,7 @@ spatialdata::spatialdb::SimpleIOAscii::read(SimpleDBData* pData,
         std::ifstream filein(getFilename());
         if (!filein.is_open() || !filein.good()) {
             std::ostringstream msg;
-            msg << "Could not open spatial database file '" << getFilename()
-                << "' for reading.";
+            msg << "Could not open spatial database file '" << getFilename() << "' for reading.";
             throw std::runtime_error(msg.str());
         } // if
 
@@ -62,14 +60,13 @@ spatialdata::spatialdb::SimpleIOAscii::read(SimpleDBData* pData,
 
         const int headerLen = strlen(HEADER);
         std::string hbuffer;
-        hbuffer.resize(headerLen+1);
-        buffer.read((char*) hbuffer.c_str(), sizeof(char)*headerLen);
+        hbuffer.resize(headerLen + 1);
+        buffer.read((char*)hbuffer.c_str(), sizeof(char) * headerLen);
         hbuffer[headerLen] = '\0';
         if (0 != strcasecmp(HEADER, hbuffer.c_str())) {
             std::ostringstream msg;
-            msg
-                << "Magic header '" << buffer.str() << "' does not match expected header '"
-                << HEADER << "' in spatial database file '" << getFilename() << "'.";
+            msg << "Magic header '" << buffer.str() << "' does not match expected header '" << HEADER
+                << "' in spatial database file '" << getFilename() << "'.";
             throw std::runtime_error(msg.str());
         } // if
         int version = 0;
@@ -78,12 +75,10 @@ spatialdata::spatialdb::SimpleIOAscii::read(SimpleDBData* pData,
         case 1:
             _readV1(pData, ppCS, filein);
             break;
-        default:
-        { // default
+        default: { // default
             std::ostringstream msg;
-            msg
-                << "Did not recognize format version " << version
-                << " of spatial database file '" << getFilename() << "'.";
+            msg << "Did not recognize format version " << version << " of spatial database file '" << getFilename()
+                << "'.";
             throw std::runtime_error(msg.str());
         } // default
         } // switch
@@ -92,14 +87,11 @@ spatialdata::spatialdb::SimpleIOAscii::read(SimpleDBData* pData,
         }
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error occurred while reading spatial database file '"
-            << getFilename() << "'.\n"
-            << err.what();
+        msg << "Error occurred while reading spatial database file '" << getFilename() << "'.\n" << err.what();
         throw std::runtime_error(msg.str());
     } catch (...) {
         std::ostringstream msg;
-        msg << "Unknown error occurred while reading spatial database file '"
-            << getFilename() << "'.";
+        msg << "Unknown error occurred while reading spatial database file '" << getFilename() << "'.";
         throw std::runtime_error(msg.str());
     } // try/catch
 
@@ -150,10 +142,12 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
             buffer >> numLocs;
         } else if (0 == strcasecmp(token.c_str(), "value-names")) {
             if (numValues > 0) {
-                delete[] names;names = new std::string[numValues];
+                delete[] names;
+                names = new std::string[numValues];
             } else {
-                throw std::runtime_error("Number of values must be specified BEFORE "
-                                         "names of values in SimpleDB file.");
+                throw std::runtime_error(
+                    "Number of values must be specified BEFORE "
+                    "names of values in SimpleDB file.");
             }
             buffer.ignore(maxIgnore, '=');
             for (int iVal = 0; iVal < numValues; ++iVal) {
@@ -161,10 +155,12 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
             }
         } else if (0 == strcasecmp(token.c_str(), "value-units")) {
             if (numValues > 0) {
-                delete[] units;units = new std::string[numValues];
+                delete[] units;
+                units = new std::string[numValues];
             } else {
-                throw std::runtime_error("Number of values must be specified BEFORE "
-                                         "units of values in SimpleDB file.");
+                throw std::runtime_error(
+                    "Number of values must be specified BEFORE "
+                    "units of values in SimpleDB file.");
             }
             buffer.ignore(maxIgnore, '=');
             for (int iVal = 0; iVal < numValues; ++iVal) {
@@ -181,7 +177,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
             std::string rbuffer(buffer.str());
             filein.putback('\n');
             filein.clear();
-            int i = rbuffer.length()-1;
+            int i = rbuffer.length() - 1;
             while (i >= 0) {
                 filein.putback(rbuffer[i]);
                 if ('=' == rbuffer[i--]) {
@@ -200,7 +196,7 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
         buffer.clear();
         buffer >> token;
     } // while
-    if (( token != "}") || !filein.good()) {
+    if ((token != "}") || !filein.good()) {
         throw std::runtime_error("I/O error while parsing SimpleDB settings.");
     }
 
@@ -235,10 +231,14 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
     } // for
     pData->setNames(const_cast<const char**>(cnames), numValues);
     pData->setUnits(const_cast<const char**>(cunits), numValues);
-    delete[] names;names = NULL;
-    delete[] units;units = NULL;
-    delete[] cnames;cnames = NULL;
-    delete[] cunits;cunits = NULL;
+    delete[] names;
+    names = NULL;
+    delete[] units;
+    units = NULL;
+    delete[] cnames;
+    cnames = NULL;
+    delete[] cunits;
+    cunits = NULL;
 
     int count = 0;
     for (int iLoc = 0; iLoc < numLocs; ++iLoc, ++count) {
@@ -289,15 +289,13 @@ spatialdata::spatialdb::SimpleIOAscii::_readV1(SimpleDBData* pData,
 // ----------------------------------------------------------------------
 // Write ascii database file.
 void
-spatialdata::spatialdb::SimpleIOAscii::write(
-    const SimpleDBData& data,
-    const spatialdata::geocoords::CoordSys* pCS) { // write
+spatialdata::spatialdb::SimpleIOAscii::write(const SimpleDBData& data,
+                                             const spatialdata::geocoords::CoordSys* pCS) { // write
     try {
         std::ofstream fileout(getFilename());
         if (!fileout.is_open() || !fileout.good()) {
             std::ostringstream msg;
-            msg << "Could not open spatial database file " << getFilename()
-                << "for writing.\n";
+            msg << "Could not open spatial database file " << getFilename() << "for writing.\n";
             throw std::runtime_error(msg.str());
         } // if
 
@@ -307,11 +305,10 @@ spatialdata::spatialdb::SimpleIOAscii::write(
         const int spaceDim = data.getSpaceDim();
         const int dataDim = data.getDataDim();
 
-        fileout
-            << HEADER << " " << version << "\n"
-            << "SimpleDB {\n"
-            << "  num-values = " << std::setw(6) << numValues << "\n"
-            << "  value-names =";
+        fileout << HEADER << " " << version << "\n"
+                << "SimpleDB {\n"
+                << "  num-values = " << std::setw(6) << numValues << "\n"
+                << "  value-names =";
         for (int iVal = 0; iVal < numValues; ++iVal) {
             fileout << "  " << data.getName(iVal);
         }
@@ -321,21 +318,18 @@ spatialdata::spatialdb::SimpleIOAscii::write(
             fileout << "  " << data.getUnits(iVal);
         }
         fileout << "\n";
-        fileout
-            << "  num-locs = " << std::setw(6) << numLocs << "\n"
-            << "  data-dim = " << std::setw(4) << dataDim << "\n"
-            << "  space-dim = " << std::setw(4) << spaceDim << "\n"
-            << "  cs-data = ";
+        fileout << "  num-locs = " << std::setw(6) << numLocs << "\n"
+                << "  data-dim = " << std::setw(4) << dataDim << "\n"
+                << "  space-dim = " << std::setw(4) << spaceDim << "\n"
+                << "  cs-data = ";
         spatialdata::geocoords::CSPicklerAscii::pickle(fileout, pCS);
         fileout << "}\n";
         if (!fileout.good()) {
             throw std::runtime_error("I/O error while writing SimpleDB header.");
         }
 
-        fileout
-            << std::resetiosflags(std::ios::fixed)
-            << std::setiosflags(std::ios::scientific)
-            << std::setprecision(6);
+        fileout << std::resetiosflags(std::ios::fixed) << std::setiosflags(std::ios::scientific)
+                << std::setprecision(6);
         for (int iLoc = 0; iLoc < numLocs; ++iLoc) {
             const double* coordinates = data.getCoordinates(iLoc);
             for (int iCoord = 0; iCoord < spaceDim; ++iCoord) {
@@ -348,18 +342,17 @@ spatialdata::spatialdb::SimpleIOAscii::write(
             fileout << "\n";
         } // for
         if (!fileout.good()) {
-            throw std::runtime_error("I/O error while writing SimpleDB data. Make sure num-locs is correct and your last line of data contains a line feed.");
+            throw std::runtime_error(
+                "I/O error while writing SimpleDB data. Make sure num-locs is correct and your last line of data "
+                "contains a line feed.");
         }
     } catch (const std::exception& err) {
         std::ostringstream msg;
-        msg << "Error occurred while writing spatial database file '"
-            << getFilename() << "'.\n"
-            << err.what();
+        msg << "Error occurred while writing spatial database file '" << getFilename() << "'.\n" << err.what();
         throw std::runtime_error(msg.str());
     } catch (...) {
         std::ostringstream msg;
-        msg << "Unknown error occurred while writing spatial database file '"
-            << getFilename() << "'.";
+        msg << "Unknown error occurred while writing spatial database file '" << getFilename() << "'.";
         throw std::runtime_error(msg.str());
     } // try/catch
 } // write

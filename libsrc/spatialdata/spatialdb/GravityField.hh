@@ -15,8 +15,7 @@
 class spatialdata::spatialdb::GravityField : public SpatialDB {
     friend class TestGravityField; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -88,15 +87,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* cs);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     GravityField(const GravityField& data); ///< Not implemented
     const GravityField& operator=(const GravityField& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     double _gravityDir[3]; ///< Direction of gravitational body force.

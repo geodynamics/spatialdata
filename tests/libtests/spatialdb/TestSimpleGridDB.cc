@@ -12,8 +12,8 @@
 
 #include "TestSimpleGridDB.hh" // Implementation of class methods
 
-#include "spatialdata/spatialdb/SimpleGridDB.hh" // USES SimpleGridDB
 #include "spatialdata/spatialdb/SimpleGridAscii.hh" // USES SimpleGridAscii
+#include "spatialdata/spatialdb/SimpleGridDB.hh" // USES SimpleGridDB
 
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
 
@@ -24,8 +24,7 @@
 
 // ----------------------------------------------------------------------
 // Constructor.
-spatialdata::spatialdb::TestSimpleGridDB::TestSimpleGridDB(TestSimpleGridDB_Data* data) :
-    _data(data) {
+spatialdata::spatialdb::TestSimpleGridDB::TestSimpleGridDB(TestSimpleGridDB_Data* data) : _data(data) {
     assert(_data);
 } // setUp
 
@@ -33,7 +32,8 @@ spatialdata::spatialdb::TestSimpleGridDB::TestSimpleGridDB(TestSimpleGridDB_Data
 // ----------------------------------------------------------------------
 // Tear down testing data.
 spatialdata::spatialdb::TestSimpleGridDB::~TestSimpleGridDB(void) {
-    delete _data;_data = NULL;
+    delete _data;
+    _data = NULL;
 } // tearDown
 
 
@@ -76,7 +76,11 @@ void
 spatialdata::spatialdb::TestSimpleGridDB::testSearch(void) {
     const size_t numX = 5;
     const double x[numX] = {
-        -3.0, -1.0, 0.0, 5.0, 8.0,
+        -3.0,
+        -1.0,
+        0.0,
+        5.0,
+        8.0,
     };
     const double tolerance = 1.0e-6;
 
@@ -141,13 +145,13 @@ spatialdata::spatialdb::TestSimpleGridDB::testDataIndex(void) {
     db._numValues = 10;
 
     CHECK(size_t(0) == db._getDataIndex(0, db._numX, 0, db._numY, 0, db._numZ));
-    CHECK(size_t(1*3*4*10) == db._getDataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
+    CHECK(size_t(1 * 3 * 4 * 10) == db._getDataIndex(0, db._numX, 0, db._numY, 1, db._numZ));
 
-    CHECK(size_t(1*4*10) == db._getDataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
-    CHECK(size_t(4*3*4*10 + 1*4*10) == db._getDataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
+    CHECK(size_t(1 * 4 * 10) == db._getDataIndex(0, db._numX, 1, db._numY, 0, db._numZ));
+    CHECK(size_t(4 * 3 * 4 * 10 + 1 * 4 * 10) == db._getDataIndex(0, db._numX, 1, db._numY, 4, db._numZ));
 
-    CHECK(size_t(1*10) == db._getDataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
-    CHECK(size_t(3*4*3*10 + 1*4*10 + 2*10) == db._getDataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
+    CHECK(size_t(1 * 10) == db._getDataIndex(1, db._numX, 0, db._numY, 0, db._numZ));
+    CHECK(size_t(3 * 4 * 3 * 10 + 1 * 4 * 10 + 2 * 10) == db._getDataIndex(2, db._numX, 1, db._numY, 3, db._numZ));
 } // testDataIndex
 
 
@@ -168,7 +172,8 @@ spatialdata::spatialdb::TestSimpleGridDB::testGetNamesDBValues(void) {
     for (size_t i = 0; i < numValues; ++i) {
         CHECK(std::string(_data->names[i]) == std::string(valueNames[i]));
     } // for
-    delete[] valueNames;valueNames = NULL;
+    delete[] valueNames;
+    valueNames = NULL;
     numValues = 0;
 } // testGetDBValues
 
@@ -195,7 +200,13 @@ spatialdata::spatialdb::TestSimpleGridDB::testQueryLinear(void) {
     SimpleGridDB db;
     _setupDB(&db);
     db.setQueryType(SimpleGridDB::LINEAR);
-    _checkQuery(db, _data->names, _data->queryLinear, _data->errFlags, _data->numQueries, _data->spaceDim, _data->numValues);
+    _checkQuery(db,
+                _data->names,
+                _data->queryLinear,
+                _data->errFlags,
+                _data->numQueries,
+                _data->spaceDim,
+                _data->numValues);
 } // _testQueryLinear
 
 
@@ -265,12 +276,18 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
     assert(_data);
     assert(_data->numValues > 0);
 
-    delete[] db->_x;db->_x = NULL;
-    delete[] db->_y;db->_y = NULL;
-    delete[] db->_z;db->_z = NULL;
-    delete[] db->_data;db->_data = NULL;
-    delete[] db->_names;db->_names = NULL;
-    delete[] db->_units;db->_units = NULL;
+    delete[] db->_x;
+    db->_x = NULL;
+    delete[] db->_y;
+    db->_y = NULL;
+    delete[] db->_z;
+    db->_z = NULL;
+    delete[] db->_data;
+    db->_data = NULL;
+    delete[] db->_names;
+    db->_names = NULL;
+    delete[] db->_units;
+    db->_units = NULL;
 
     db->setDescription("Test database");
     db->_numValues = _data->numValues;
@@ -303,8 +320,8 @@ spatialdata::spatialdb::TestSimpleGridDB::_setupDB(SimpleGridDB* const db) {
         } // for
     } // if
 
-    db->_data = (numLocs > 0) ? new double[numLocs*_data->numValues] : NULL;
-    for (size_t i = 0; i < numLocs*_data->numValues; ++i) {
+    db->_data = (numLocs > 0) ? new double[numLocs * _data->numValues] : NULL;
+    for (size_t i = 0; i < numLocs * _data->numValues; ++i) {
         db->_data[i] = _data->dbData[i];
     } // for
 
@@ -341,9 +358,9 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
     assert(numValues);
 
     // reverse order of vals in queries
-    std::vector<const char*>valueNames(numValues);
+    std::vector<const char*> valueNames(numValues);
     for (size_t i = 0; i < numValues; ++i) {
-        valueNames[numValues-i-1] = names[i];
+        valueNames[numValues - i - 1] = names[i];
     }
     db.setQueryValues(valueNames.data(), numValues);
 
@@ -354,21 +371,22 @@ spatialdata::spatialdb::TestSimpleGridDB::_checkQuery(SimpleGridDB& db,
     spatialdata::geocoords::CSCart csCart;
     csCart.setSpaceDim(spaceDim);
     for (size_t iQuery = 0; iQuery < numQueries; ++iQuery) {
-        const double* coords = &queryData[iQuery*locSize];
-        const double* valsE = &queryData[iQuery*locSize+spaceDim];
+        const double* coords = &queryData[iQuery * locSize];
+        const double* valsE = &queryData[iQuery * locSize + spaceDim];
         const int err = db.query(vals, numValues, coords, spaceDim, &csCart);
         if (0 != flagsE) {
             REQUIRE(flagsE[iQuery] == err);
         } else {
             REQUIRE(!err);
             for (size_t iVal = 0; iVal < numValues; ++iVal) {
-                const double valueE = valsE[numValues-iVal-1];
+                const double valueE = valsE[numValues - iVal - 1];
                 const double toleranceV = fabs(valueE) > 0.0 ? fabs(valueE) * tolerance : tolerance;
                 CHECK_THAT(vals[iVal], Catch::Matchers::WithinAbs(valueE, toleranceV));
             } // for
         } // if/else
     } // for
-    delete[] vals;vals = NULL;
+    delete[] vals;
+    vals = NULL;
 } // _checkQuery
 
 
@@ -390,7 +408,8 @@ spatialdata::spatialdb::TestSimpleGridDB_Data::TestSimpleGridDB_Data(void) :
     queryNearest(NULL),
     queryLinear(NULL),
     errFlags(NULL),
-    filename(NULL) {}
+    filename(NULL) {
+}
 
 
 // ----------------------------------------------------------------------

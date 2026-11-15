@@ -17,8 +17,7 @@
 class spatialdata::spatialdb::UniformDB : public SpatialDB { // class UniformDB
     friend class TestUniformDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -89,15 +88,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     UniformDB(const UniformDB& data); ///< Not implemented
     const UniformDB& operator=(const UniformDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     std::string* _names; ///< Names of values in database

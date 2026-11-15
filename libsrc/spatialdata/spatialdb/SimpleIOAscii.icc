@@ -11,8 +11,7 @@
 
 // ----------------------------------------------------------------------
 // Clone object.
-inline
-spatialdata::spatialdb::SimpleIO*
+inline spatialdata::spatialdb::SimpleIO*
 spatialdata::spatialdb::SimpleIOAscii::clone(void) const {
     return new SimpleIOAscii(*this);
 }

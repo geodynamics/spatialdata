@@ -37,8 +37,10 @@ spatialdata::spatialdb::TestSimpleDB::TestSimpleDB(TestSimpleDB_Data* data) :
 // ------------------------------------------------------------------------------------------------
 // Deallocate test data;
 spatialdata::spatialdb::TestSimpleDB::~TestSimpleDB(void) {
-    delete _db;_db = NULL;
-    delete _data;_data = NULL;
+    delete _db;
+    _db = NULL;
+    delete _data;
+    _data = NULL;
 } // testDown
 
 
@@ -90,7 +92,8 @@ spatialdata::spatialdb::TestSimpleDB::testGetNamesDBValues(void) {
     for (size_t i = 0; i < numValues; ++i) {
         CHECK(std::string(_data->names[i]) == std::string(valueNames[i]));
     } // for
-    delete[] valueNames;valueNames = NULL;
+    delete[] valueNames;
+    valueNames = NULL;
     numValues = 0;
 } // testGetDBValues
 
@@ -157,10 +160,11 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
 
     const char** queryNames = numValues > 0 ? new const char*[numValues] : NULL;
     for (size_t i = 0; i < numValues; ++i) {
-        queryNames[numValues-i-1] = _data->names[i];
+        queryNames[numValues - i - 1] = _data->names[i];
     } // for
     _db->setQueryValues(queryNames, numValues);
-    delete[] queryNames;queryNames = NULL;
+    delete[] queryNames;
+    queryNames = NULL;
 
     double* values = (numValues > 0) ? new double[numValues] : 0;
     const double tolerance = 1.0e-06;
@@ -170,8 +174,8 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
     const size_t locSize = spaceDim + numValues;
     spatialdata::geocoords::CSCart csCart;
     for (size_t iQuery = 0; iQuery < numQueries; ++iQuery) {
-        const double* coordinates = &queryData[iQuery*locSize];
-        const double* valuesE = &queryData[iQuery*locSize+spaceDim];
+        const double* coordinates = &queryData[iQuery * locSize];
+        const double* valuesE = &queryData[iQuery * locSize + spaceDim];
         const int err = _db->query(values, numValues, coordinates, spaceDim, &csCart);
         if (flagsE) {
             CHECK(flagsE[iQuery] == err);
@@ -179,12 +183,13 @@ spatialdata::spatialdb::TestSimpleDB::_checkQuery(const double* queryData,
             CHECK(0 == err);
         } // if/else
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
-            const double valueE = valuesE[numValues-iVal-1];
+            const double valueE = valuesE[numValues - iVal - 1];
             const double toleranceV = fabs(valueE) > 0.0 ? fabs(valueE) * tolerance : tolerance;
             CHECK_THAT(values[iVal], Catch::Matchers::WithinAbs(valueE, toleranceV));
         } // for
     } // for
-    delete[] values;values = NULL;
+    delete[] values;
+    values = NULL;
 } // _checkQuery
 
 
@@ -202,7 +207,8 @@ spatialdata::spatialdb::TestSimpleDB_Data::TestSimpleDB_Data(void) :
     units(NULL),
     queryNearest(NULL),
     queryLinear(NULL),
-    errFlags(NULL) {}
+    errFlags(NULL) {
+}
 
 
 // ------------------------------------------------------------------------------------------------

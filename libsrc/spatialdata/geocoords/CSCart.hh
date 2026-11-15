@@ -15,8 +15,7 @@
 class spatialdata::geocoords::CSCart : public CoordSys {
     friend class TestCSCart;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -55,8 +54,7 @@ public:
      */
     virtual void unpickle(std::istream& s);
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Copy constructor
@@ -65,8 +63,7 @@ protected:
      */
     CSCart(const CSCart& cs);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     double _toMeters; ///< Scale factor to convert coordinates to meters

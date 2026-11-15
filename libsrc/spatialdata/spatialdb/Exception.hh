@@ -15,8 +15,7 @@
 
 /// C++ exceptions for spatial database.
 class spatialdata::spatialdb::OutOfBounds : public std::runtime_error { // class OutOfBounds
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /** Constructor.

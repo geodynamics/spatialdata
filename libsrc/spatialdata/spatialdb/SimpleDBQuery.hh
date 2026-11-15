@@ -9,8 +9,8 @@
 // =================================================================================================
 #pragma once
 
-#include "spatialdbfwd.hh" // forward declarations
 #include "SimpleDB.hh" // USES SimpleDB
+#include "spatialdbfwd.hh" // forward declarations
 
 #include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA Converter
 
@@ -20,8 +20,7 @@
 class spatialdata::spatialdb::SimpleDBQuery { // class SimpleDBQuery
     friend class TestSimpleDBQuery;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /** Default constructor.
@@ -64,8 +63,7 @@ public:
                const size_t numDims,
                const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // PRIVATE STRUCT /////////////////////////////////////////////////////
 
     /** Interpolation weighting information */
@@ -74,8 +72,7 @@ private:
         size_t nearIndex; ///< Index into nearest
     }; // struct WtStruct
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Query database using nearest neighbor algorithm.
@@ -143,10 +140,9 @@ private:
      * @param pt Cooridinates of point in current coordinate sytem.
      * @param spaceDim Spatial dimension of current coordinate system.
      */
-    static
-    void _setPoint3(double* const pt3,
-                    const double* pt,
-                    const size_t spaceDim);
+    static void _setPoint3(double* const pt3,
+                           const double* pt,
+                           const size_t spaceDim);
 
     /** Compute square of distance between points A and B.
      *
@@ -181,8 +177,7 @@ private:
                           const double c[3],
                           const double d[3]);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     double _q[3]; ///< Location of query.

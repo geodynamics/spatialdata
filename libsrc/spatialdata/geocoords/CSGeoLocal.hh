@@ -19,8 +19,7 @@
 class spatialdata::geocoords::CSGeoLocal : public CSGeo {
     friend class TestCSGeoLocal;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 
     /// Default constructor
@@ -87,8 +86,7 @@ public:
      */
     void unpickle(std::istream& s) override;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Copy constructor
@@ -97,8 +95,7 @@ protected:
      */
     CSGeoLocal(const CSGeoLocal& cs);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     double _originX; ///< X coordinate of local origin.

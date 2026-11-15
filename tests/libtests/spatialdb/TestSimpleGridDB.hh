@@ -11,21 +11,20 @@
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
 
-#include <cstddef> // USES size_t
 #include <cassert>
+#include <cstddef> // USES size_t
 
 namespace spatialdata {
     namespace spatialdb {
         class TestSimpleGridDB;
         class TestSimpleGridDB_Data;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleGridDB {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestSimpleGridDB(TestSimpleGridDB_Data* data);
 
@@ -33,20 +32,16 @@ public:
     ~TestSimpleGridDB(void);
 
     /// Test constructor.
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     /// Test _search()
-    static
-    void testSearch(void);
+    static void testSearch(void);
 
     /// Test _dataIndex()
-    static
-    void testDataIndex(void);
+    static void testDataIndex(void);
 
     /// Test getNamesDBValues().
     void testGetNamesDBValues(void);
@@ -61,8 +56,7 @@ public:
     void testRead(void);
 
     // PRIVATE METHODS ////////////////////////////////////////////////////////////////////////////
-private:
-
+  private:
     /** Populate database with data.
      *
      * @param db Database
@@ -88,8 +82,7 @@ private:
                      const size_t spaceDim,
                      const size_t numVals);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////////////////////////////
 
     TestSimpleGridDB_Data* _data; ///< Test data.
@@ -99,8 +92,7 @@ private:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleGridDB_Data {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestSimpleGridDB_Data(void);
 
@@ -108,8 +100,7 @@ public:
     ~TestSimpleGridDB_Data(void);
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// @name Database information
     //@{
     size_t numX; ///< Number of locations in x dimension.
@@ -138,7 +129,6 @@ public:
     //@{
     const char* filename; ///< Filename of matching spatial database.
     //@}
-
 };
 
 // End of file

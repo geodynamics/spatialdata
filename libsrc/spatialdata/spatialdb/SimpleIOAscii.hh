@@ -15,8 +15,7 @@
 
 // ----------------------------------------------------------------------
 class spatialdata::spatialdb::SimpleIOAscii : public SimpleIO { // SimpleIOAscii
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     // Using default constructor.
@@ -47,8 +46,7 @@ public:
     void write(const SimpleDBData& data,
                const spatialdata::geocoords::CoordSys* pCS);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Read database version 1 file.
@@ -61,8 +59,7 @@ private:
                         spatialdata::geocoords::CoordSys** ppCS,
                         std::istream& filein);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     /** Magic header in ascii files */

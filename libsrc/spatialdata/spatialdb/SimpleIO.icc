@@ -10,16 +10,14 @@
 #pragma once
 
 // Set filename for database.
-inline
-void
+inline void
 spatialdata::spatialdb::SimpleIO::setFilename(const char* filename) {
     _filename = filename;
 }
 
 
 // Get filename for database.
-inline
-const char*
+inline const char*
 spatialdata::spatialdb::SimpleIO::getFilename(void) const {
     return _filename.c_str();
 }
