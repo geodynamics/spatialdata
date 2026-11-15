@@ -7,15 +7,16 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 ## @file __init__.py
 ##
 ## @brief Python module initialization
 
-__all__ = ['UniformVelModel',
-           ]
+__all__ = [
+    "UniformVelModel",
+]
 
 
 # End of file

@@ -7,7 +7,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -24,6 +24,7 @@ class TestTimeHistory(unittest.TestCase):
         errE = numpy.array([0, 0, 0, 0, 0, 1, 0], dtype=numpy.float64)
 
         from spatialdata.spatialdb.TimeHistory import TimeHistory
+
         th = TimeHistory()
         th.inventory.label = "test"
         th.inventory.filename = "data/timehistory.timedb"
@@ -35,7 +36,7 @@ class TestTimeHistory(unittest.TestCase):
         err = numpy.zeros((nlocs,), dtype=numpy.int32)
 
         for i in range(nlocs):
-            (e, amplitude[i]) = th.query(timeQ[i])
+            e, amplitude[i] = th.query(timeQ[i])
             err[i] = e
         th.close()
 

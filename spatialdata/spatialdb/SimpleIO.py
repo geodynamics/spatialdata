@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import pathlib
@@ -28,6 +28,7 @@ class SimpleIO(Component):
     """
     Abstract base class for writing a simple spatial database (SimpleDB).
     """
+
     DOC_CONFIG = {
         "cfg": """
             [dbio]
@@ -38,7 +39,7 @@ class SimpleIO(Component):
     import pythia.pyre.inventory
 
     filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
-    filename.meta['tip'] = "Name of database file."
+    filename.meta["tip"] = "Name of database file."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -62,15 +63,17 @@ class SimpleIO(Component):
         """
         Check consistency of database data.
         """
-        (numLocs, spaceDim) = data['points'].shape
-        cs = data['coordsys']
+        numLocs, spaceDim = data["points"].shape
+        cs = data["coordsys"]
         if spaceDim != cs.getSpaceDim():
-            raise ValueError("Simple database '%s' space-dim (%d) does not agree with spatial "
-                             "dimension of coordinate system (%d)." %
-                             (self.filename, spaceDim, cs.getSpaceDim()))
+            raise ValueError(
+                "Simple database '%s' space-dim (%d) does not agree with spatial "
+                "dimension of coordinate system (%d)." % (self.filename, spaceDim, cs.getSpaceDim())
+            )
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def simpledb_io():
     """

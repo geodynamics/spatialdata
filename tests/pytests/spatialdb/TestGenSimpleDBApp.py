@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -35,12 +35,13 @@ class TestGenSimpleDBApp(unittest.TestCase):
         db.inventory.queryType = "nearest"
         db._configure()
 
-        qlocs = numpy.array([[-2.0,  2.0], [3.0, -4.0], [0.0,  0.7]], numpy.float64)
+        qlocs = numpy.array([[-2.0, 2.0], [3.0, -4.0], [0.0, 0.7]], numpy.float64)
 
         dataE = numpy.array([[-0.15, 3.45], [2.4, 6.4], [-0.6, 3.45]], numpy.float64)
         errE = [0, 0, 0]
 
         from spatialdata.geocoords.CSCart import CSCart
+
         cs = CSCart()
         cs.inventory.spaceDim = 2
         cs._configure()

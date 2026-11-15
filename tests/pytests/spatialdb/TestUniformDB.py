@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -19,6 +19,7 @@ class TestUniformDB(unittest.TestCase):
 
     def setUp(self):
         from spatialdata.spatialdb.UniformDB import UniformDB
+
         db = UniformDB()
         db.inventory.label = "test"
         db.inventory.values = ["one", "two", "three"]
@@ -29,6 +30,7 @@ class TestUniformDB(unittest.TestCase):
     def test_database(self):
         locs = numpy.array([[1.0, 2.0, 3.0], [5.6, 4.2, 8.6]], numpy.float64)
         from spatialdata.geocoords.CSCart import CSCart
+
         cs = CSCart()
         cs._configure()
         queryVals = ["three", "one"]

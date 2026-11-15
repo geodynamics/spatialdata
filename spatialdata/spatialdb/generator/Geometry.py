@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from pythia.pyre.components.Component import Component
@@ -21,27 +21,27 @@ class Geometry(Component):
     """
     Geometry used in generating database.
     """
-    DOC_CONFIG = {
-      "cfg": """
+
+    DOC_CONFIG = {"cfg": """
           [gensimplebd.geometry]
           data_dim = 2
           reader = read_geometry
           coordsys = spatialdata.geocoords.CSCart
-          """
-    }
+          """}
 
     import pythia.pyre.inventory
 
     dataDim = pythia.pyre.inventory.int("data_dim", default=2)
     dataDim.validator = pythia.pyre.inventory.choice([0, 1, 2, 3])
-    dataDim.meta['tip'] = "Spatial dimension of database locations."
+    dataDim.meta["tip"] = "Spatial dimension of database locations."
 
     reader = pythia.pyre.inventory.facility("reader", family="reader", factory=Dummy)
-    reader.meta['tip'] = "Object to read geometry."
+    reader.meta["tip"] = "Object to read geometry."
 
     from spatialdata.geocoords.CSCart import CSCart
+
     coordsys = pythia.pyre.inventory.facility("coordsys", family="coordsys", factory=CSCart)
-    coordsys.meta['tip'] = "Coordinate system for database."
+    coordsys.meta["tip"] = "Coordinate system for database."
 
     def __init__(self, name="geometry"):
         """

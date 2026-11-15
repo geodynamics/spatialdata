@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import numpy
@@ -20,6 +20,7 @@ def shaperFactory(name):
     Factory for shapers.
     """
     from pythia.pyre.inventory import facility
+
     return facility(name, family="shaper", factory=Shaper)
 
 
@@ -29,8 +30,9 @@ class SingleShaper(Component):
     """
 
     import pythia.pyre.inventory
+
     valueShaper = pythia.pyre.inventory.facility("shaper", family="shaper", factory=Shaper)
-    valueShaper.meta['tip'] = "Shaper for database value."
+    valueShaper.meta["tip"] = "Shaper for database value."
 
     def __init__(self, name="sigleshaper"):
         """
@@ -43,8 +45,8 @@ class Value(Component):
     """
     Value generated in spatial database.
     """
-    DOC_CONFIG = {
-      "cfg": """
+
+    DOC_CONFIG = {"cfg": """
         [gensimpledb]
         values = [vp, vs]
 
@@ -52,19 +54,18 @@ class Value(Component):
         name = Vp
         units = m/s
         shapers = [bg, perturbation]
-        """
-    }
+        """}
 
     import pythia.pyre.inventory
 
     vname = pythia.pyre.inventory.str("name", default="")
-    vname.meta['tip'] = "Name of value."
+    vname.meta["tip"] = "Name of value."
 
     units = pythia.pyre.inventory.str("units", default="none")
-    units.meta['tip'] = "Units associated with value."
+    units.meta["tip"] = "Units associated with value."
 
     shapers = pythia.pyre.inventory.facilityArray("shapers", itemFactory=shaperFactory, factory=SingleShaper)
-    shapers.meta['tip'] = "Shapers/filters used to construct spatial distribution."
+    shapers.meta["tip"] = "Shapers/filters used to construct spatial distribution."
 
     def __init__(self, name="value"):
         """
@@ -76,7 +77,7 @@ class Value(Component):
         """
         Calculate spatial distribution for value using shapers.
         """
-        (numLocs, spaceDim) = locs.shape
+        numLocs, spaceDim = locs.shape
         value = numpy.zeros((numLocs,), dtype=numpy.float64)
         for shaper in self.shapers.components():
             shaper.initialize(locs, cs)

@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import pathlib
@@ -29,6 +29,7 @@ class TimeHistory(Component, ModuleTimeHistory):
     """
     Time history object for specifying temporal variation in a field.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [timehistory]
@@ -40,10 +41,10 @@ class TimeHistory(Component, ModuleTimeHistory):
     import pythia.pyre.inventory
 
     description = pythia.pyre.inventory.str("description", default="temporal database")
-    description.meta['tip'] = "Description for time history."
+    description.meta["tip"] = "Description for time history."
 
     filename = pythia.pyre.inventory.str("filename", default="timehistory.timedb", validator=validateFilename)
-    filename.meta['tip'] = "Name of file for time history."
+    filename.meta["tip"] = "Name of file for time history."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -72,6 +73,7 @@ class TimeHistory(Component, ModuleTimeHistory):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def createWriter(filename, description="Time history writer"):
     writer = TimeHistory()

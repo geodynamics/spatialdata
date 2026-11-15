@@ -7,7 +7,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -18,6 +18,7 @@ def suite():
     suite = unittest.TestSuite()
 
     from TestUniformVelModel import TestUniformVelModel
+
     suite.addTest(unittest.makeSuite(TestUniformVelModel))
 
     return suite
@@ -28,7 +29,7 @@ def main():
     return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 
 

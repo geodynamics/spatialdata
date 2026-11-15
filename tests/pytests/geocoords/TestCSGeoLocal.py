@@ -7,7 +7,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -24,7 +24,7 @@ class TestCSGeoLocal(unittest.TestCase):
         self.assertEqual(3, cs.getSpaceDim())
 
     def test_accessors(self):
-        projString = "EPSG:29610" # UTM Zone 10
+        projString = "EPSG:29610"  # UTM Zone 10
 
         cs = CSGeoLocal()
         cs.inventory.crsString = projString
@@ -39,7 +39,7 @@ class TestCSGeoLocal(unittest.TestCase):
         originX, originY, yAzimuth = cs.getLocal()
         self.assertEqual(20.0, originX)
         self.assertEqual(21.0, originY)
-        self.assertEqual(30.0,  yAzimuth)
+        self.assertEqual(30.0, yAzimuth)
 
 
 def load_tests(loader, tests, pattern):

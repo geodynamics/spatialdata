@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from pythia.pyre.components.Component import Component
@@ -17,8 +17,8 @@ class Shaper(Component):
     """
     Object for shaping spatial distribution of data while generating database.
     """
-    DOC_CONFIG = {
-        "cfg": """
+
+    DOC_CONFIG = {"cfg": """
             [gensimpledb.values.density]
             shapers = [bg, add]
 
@@ -36,24 +36,24 @@ class Shaper(Component):
             operand = add
             db = spatialdata.spatialdb.SimpleGridDB
             db.filename = density_perturbation.spatialdb
-            """
-    }
+            """}
 
     import pythia.pyre.inventory
 
     defaultValue = pythia.pyre.inventory.float("default", default=0.0)
-    defaultValue.meta['tip'] = "Default value for shaper."
+    defaultValue.meta["tip"] = "Default value for shaper."
 
     dbValue = pythia.pyre.inventory.str("db_value", default="")
-    dbValue.meta['tip'] = "Name of value supplied in spatial database."
+    dbValue.meta["tip"] = "Name of value supplied in spatial database."
 
     operand = pythia.pyre.inventory.str("operand", default="multiply")
     operand.validator = pythia.pyre.inventory.choice(["add", "subtract", "multiply", "divide"])
-    operand.meta['tip'] = "Operand to use in applying shaper."
+    operand.meta["tip"] = "Operand to use in applying shaper."
 
     from spatialdata.spatialdb.SimpleDB import SimpleDB
+
     db = pythia.pyre.inventory.facility("db", family="spatial_database", factory=SimpleDB)
-    db.meta['tip'] = "Database containing value defining shaper."
+    db.meta["tip"] = "Database containing value defining shaper."
 
     def __init__(self, name="shaper"):
         """
@@ -107,6 +107,7 @@ class Shaper(Component):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def shaper():
     """

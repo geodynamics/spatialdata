@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from .CSGeo import CSGeo
@@ -18,6 +18,7 @@ class CSGeoLocal(CSGeo, ModuleCSGeoLocal):
 
     Implements `CSGeo`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [coordsys]
@@ -33,20 +34,19 @@ class CSGeoLocal(CSGeo, ModuleCSGeoLocal):
     import pythia.pyre.inventory
 
     crsString = pythia.pyre.inventory.str("crs_string", default="EPSG:4326")
-    crsString.meta['tip'] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
+    crsString.meta["tip"] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
 
     spaceDim = pythia.pyre.inventory.int("space_dim", default=3)
-    spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
+    spaceDim.meta["tip"] = "Number of dimensions for coordinate system."
 
     originX = pythia.pyre.inventory.float("origin_x", default=0.0)
-    originX.meta['tip'] = "X coordinate of local origin."
+    originX.meta["tip"] = "X coordinate of local origin."
 
     originY = pythia.pyre.inventory.float("origin_y", default=0.0)
-    originY.meta['tip'] = "Y coordinate of local origin."
+    originY.meta["tip"] = "Y coordinate of local origin."
 
     yAzimuth = pythia.pyre.inventory.float("y_azimuth", default=0.0)
-    yAzimuth.meta['tip'] = "Azimuth (degrees) of local y axis."
-
+    yAzimuth.meta["tip"] = "Azimuth (degrees) of local y axis."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -76,6 +76,7 @@ class CSGeoLocal(CSGeo, ModuleCSGeoLocal):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def coordsys():
     """

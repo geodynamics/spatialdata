@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -19,6 +19,7 @@ class TestSimpleDB(unittest.TestCase):
 
     def setUp(self):
         from spatialdata.spatialdb.SimpleDB import SimpleDB
+
         db = SimpleDB()
         db.inventory.label = "test"
         db.inventory.queryType = "nearest"
@@ -57,9 +58,7 @@ class TestSimpleDB(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
     def test_databasemulti(self):
-        locs = numpy.array([[1.0, 2.0, 3.0],
-                            [5.6, 4.2, 8.6]],
-                           numpy.float64)
+        locs = numpy.array([[1.0, 2.0, 3.0], [5.6, 4.2, 8.6]], numpy.float64)
         cs = CSCart()
         cs._configure()
         queryVals = ["two", "one"]

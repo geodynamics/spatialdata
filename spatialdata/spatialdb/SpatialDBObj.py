@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 
@@ -30,7 +30,7 @@ class SpatialDBObj(Component, ModuleSpatialDB):
     import pythia.pyre.inventory
 
     description = pythia.pyre.inventory.str("description", default="", validator=validateDescription)
-    description.meta['tip'] = "Description for database."
+    description.meta["tip"] = "Description for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 

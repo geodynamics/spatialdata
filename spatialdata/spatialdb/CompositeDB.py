@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from .SpatialDBObj import SpatialDBObj
@@ -19,6 +19,7 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
 
     Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [db]
@@ -39,17 +40,18 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
     import pythia.pyre.inventory
 
     namesA = pythia.pyre.inventory.list("values_A", default=[])
-    namesA.meta['tip'] = "Names of values to query with database A."
+    namesA.meta["tip"] = "Names of values to query with database A."
 
     namesB = pythia.pyre.inventory.list("values_B", default=[])
-    namesB.meta['tip'] = "Names of values to query with database B."
+    namesB.meta["tip"] = "Names of values to query with database B."
 
     from .UniformDB import UniformDB
+
     dbA = pythia.pyre.inventory.facility("db_A", factory=UniformDB, family="spatial_database")
-    dbA.meta['tip'] = "Spatial database A."
+    dbA.meta["tip"] = "Spatial database A."
 
     dbB = pythia.pyre.inventory.facility("db_B", factory=UniformDB, family="spatial_database")
-    dbB.meta['tip'] = "Spatial database B."
+    dbB.meta["tip"] = "Spatial database B."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -81,16 +83,19 @@ class CompositeDB(SpatialDBObj, ModuleCompositeDB):
         """
         Validate parameters.
         """
-        if (0 == len(data.namesA)):
-            raise ValueError("Error in spatial database '%s'\n"
-                             "Names of values to query in database A not set." % self.description)
-        if (0 == len(data.namesB)):
-            raise ValueError("Error in spatial database '%s'\n"
-                             "Names of values to query in database B not set." % self.description)
+        if 0 == len(data.namesA):
+            raise ValueError(
+                "Error in spatial database '%s'\n" "Names of values to query in database A not set." % self.description
+            )
+        if 0 == len(data.namesB):
+            raise ValueError(
+                "Error in spatial database '%s'\n" "Names of values to query in database B not set." % self.description
+            )
         return
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """

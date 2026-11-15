@@ -7,7 +7,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -29,7 +29,7 @@ class TestCSCart(unittest.TestCase):
         cs.inventory.spaceDim = 2
         cs._configure()
 
-        self.assertEqual(1.0e+3, cs.getToMeters())
+        self.assertEqual(1.0e3, cs.getToMeters())
         self.assertEqual(2, cs.getSpaceDim())
 
 

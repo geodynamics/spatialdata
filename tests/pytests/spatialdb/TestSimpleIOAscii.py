@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import unittest
@@ -26,34 +26,38 @@ class TestSimpleIOAscii(unittest.TestCase):
         cs._configure()
 
         filename = "data/test.spatialdb"
-        data = {'points': numpy.array([[1.0, 2.0, 3.0],
-                                       [0.5, 3.0, -3.0]], numpy.float64),
-                'coordsys': cs,
-                'data_dim': 1,
-                'values': [{'name': "One",
-                            'units': "m",
-                            'data': numpy.array([2.0, 8.0], numpy.float64)},
-                           {'name': "Two",
-                            'units': "m",
-                            'data': numpy.array([-2.0, 3.0], numpy.float64)}]}
+        data = {
+            "points": numpy.array([[1.0, 2.0, 3.0], [0.5, 3.0, -3.0]], numpy.float64),
+            "coordsys": cs,
+            "data_dim": 1,
+            "values": [
+                {
+                    "name": "One",
+                    "units": "m",
+                    "data": numpy.array([2.0, 8.0], numpy.float64),
+                },
+                {
+                    "name": "Two",
+                    "units": "m",
+                    "data": numpy.array([-2.0, 3.0], numpy.float64),
+                },
+            ],
+        }
         dataDim = 1
 
-        qlocs = numpy.array([[0.875, 2.25, 1.5],
-                             [0.6, 2.8, -1.8],
-                             [1.0, 2.0, 3.0]],
-                            numpy.float64)
-        valsE = numpy.array([[-0.75, 3.5],
-                             [2.0, 6.8],
-                             [-2.0, 2.0]], numpy.float64)
+        qlocs = numpy.array([[0.875, 2.25, 1.5], [0.6, 2.8, -1.8], [1.0, 2.0, 3.0]], numpy.float64)
+        valsE = numpy.array([[-0.75, 3.5], [2.0, 6.8], [-2.0, 2.0]], numpy.float64)
         errE = [0, 0, 0]
 
         # Write database
         from spatialdata.spatialdb.SimpleIOAscii import createWriter
+
         writer = createWriter(filename)
         writer.write(data)
 
         # Test write using query
         from spatialdata.spatialdb.SimpleDB import SimpleDB
+
         db = SimpleDB()
         db.inventory.label = "test"
         db.inventory.queryType = "linear"

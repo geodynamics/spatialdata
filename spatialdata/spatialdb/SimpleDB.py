@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from .SpatialDBObj import SpatialDBObj
@@ -19,6 +19,7 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
 
     Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [db]
@@ -32,11 +33,12 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
 
     queryType = pythia.pyre.inventory.str("query_type", default="nearest")
     queryType.validator = pythia.pyre.inventory.choice(["nearest", "linear"])
-    queryType.meta['tip'] = "Type of query to perform."
+    queryType.meta["tip"] = "Type of query to perform."
 
     from .SimpleIOAscii import SimpleIOAscii
+
     iohandler = pythia.pyre.inventory.facility("iohandler", family="simpledb_io", factory=SimpleIOAscii)
-    iohandler.meta['tip'] = "I/O handler for database."
+    iohandler.meta["tip"] = "I/O handler for database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -73,6 +75,7 @@ class SimpleDB(SpatialDBObj, ModuleSimpleDB):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """

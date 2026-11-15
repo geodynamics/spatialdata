@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from pythia.pyre.applications.Script import Script
@@ -19,6 +19,7 @@ def valueFactory(name):
     Factory for values.
     """
     from pythia.pyre.inventory import facility
+
     return facility(name, family="database_value", factory=Value)
 
 
@@ -37,8 +38,9 @@ class SingleValue(Component):
     """
 
     import pythia.pyre.inventory
+
     dbValue = pythia.pyre.inventory.facility("value", family="database_value", factory=Value)
-    dbValue.meta['tip'] = "Value in spatial database."
+    dbValue.meta["tip"] = "Value in spatial database."
 
     def __init__(self, name="siglevalue"):
         """
@@ -51,8 +53,8 @@ class GenSimpleDBApp(Script):
     """
     Application to generate simple spatial database.
     """
-    DOC_CONFIG = {
-        "cfg": """
+
+    DOC_CONFIG = {"cfg": """
             # Create a spatial dabaset with values `Vp` and `Vs`.
             #
             # Vp is generated from a background value given in `vp_background.spatialdb`
@@ -109,23 +111,22 @@ class GenSimpleDBApp(Script):
             db.description = Multiply
             db.query_type = linear
             db.iohandler.filename = vs_scaling.spatialdb
-            """
-    }
+            """}
 
     import pythia.pyre.inventory
 
     from .Geometry import Geometry
+
     geometry = pythia.pyre.inventory.facility("geometry", family="geometry", factory=Geometry)
-    geometry.meta['tip'] = "Object defining geometry of region covered by database."
+    geometry.meta["tip"] = "Object defining geometry of region covered by database."
 
     values = pythia.pyre.inventory.facilityArray("values", itemFactory=valueFactory, factory=SingleValue)
-    values.meta['tip'] = "Values in database."
+    values.meta["tip"] = "Values in database."
 
     filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
-    filename.meta['tip'] = "Filename for generated ASCII SimpleDB."
+    filename.meta["tip"] = "Filename for generated ASCII SimpleDB."
 
-
-    def __init__(self, name='gensimpledb'):
+    def __init__(self, name="gensimpledb"):
         """
         Constructor.
         """
@@ -142,20 +143,23 @@ class GenSimpleDBApp(Script):
         points = self.geometry.vertices
         coordsys = self.geometry.coordsys
         data = {
-            'points': points,
-            'coordsys': coordsys,
-            'data_dim': self.geometry.dataDim,
-            'values': [],
+            "points": points,
+            "coordsys": coordsys,
+            "data_dim": self.geometry.dataDim,
+            "values": [],
         }
         for value in self.values.components():
             self._info.log("Creating value '%s'" % value.name)
-            data['values'].append({
-                'name': value.vname,
-                'units': value.units,
-                'data': value.calculate(points, coordsys),
-            })
+            data["values"].append(
+                {
+                    "name": value.vname,
+                    "units": value.units,
+                    "data": value.calculate(points, coordsys),
+                }
+            )
         self._info.log("Writing database.")
         writer = createWriter(self.filename)
         writer.write(data)
+
 
 # End of file

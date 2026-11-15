@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 #
 
@@ -14,10 +14,10 @@
 # @brief Python spatialdata geocoords module initialization.
 
 __all__ = [
-    'CoordSys',
-    'CSCart',
-    'CSGeo',
-    'Converter',
+    "CoordSys",
+    "CSCart",
+    "CSGeo",
+    "Converter",
 ]
 
 

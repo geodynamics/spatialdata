@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from .CoordSys import CoordSys
@@ -18,6 +18,7 @@ class CSCart(CoordSys, ModuleCSCart):
 
     Implements `CoordSys`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [coordsys]
@@ -29,10 +30,10 @@ class CSCart(CoordSys, ModuleCSCart):
     import pythia.pyre.inventory
 
     units = pythia.pyre.inventory.str("units", default="m")
-    units.meta['tip'] = "Units of coordinates."
+    units.meta["tip"] = "Units of coordinates."
 
     spaceDim = pythia.pyre.inventory.int("space_dim", default=3)
-    spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
+    spaceDim.meta["tip"] = "Number of dimensions for coordinate system."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -52,6 +53,7 @@ class CSCart(CoordSys, ModuleCSCart):
         CoordSys._configure(self)
 
         import pythia.pyre.units
+
         uparser = pythia.pyre.units.parser()
         coordUnits = uparser.parse(self.inventory.units)
         ModuleCSCart.setToMeters(self, coordUnits.value)
@@ -67,6 +69,7 @@ class CSCart(CoordSys, ModuleCSCart):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def coordsys():
     """

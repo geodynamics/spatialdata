@@ -7,14 +7,14 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 # @file spatialdata/applications/gensimpledb.py
 #
 # @brief Generic use of GenSimpleDBApp.
 
 # ----------------------------------------------------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     from spatialdata.spatialdb.generator.GenSimpleDBApp import GenSimpleDBApp
 
     app = GenSimpleDBApp()

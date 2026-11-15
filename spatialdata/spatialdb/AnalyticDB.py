@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 
@@ -19,6 +19,7 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
 
     Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [db]
@@ -34,17 +35,18 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
     import pythia.pyre.inventory
 
     values = pythia.pyre.inventory.list("values", default=[])
-    values.meta['tip'] = "Names of values in spatial database."
+    values.meta["tip"] = "Names of values in spatial database."
 
     units = pythia.pyre.inventory.list("units", default=[])
-    units.meta['tip'] = "Units for values in spatial database."
+    units.meta["tip"] = "Units for values in spatial database."
 
     expressions = pythia.pyre.inventory.list("expressions", default=[])
-    expressions.meta['tip'] = "Analytical expressions for values in spatial database."
+    expressions.meta["tip"] = "Analytical expressions for values in spatial database."
 
     from spatialdata.geocoords.CSCart import CSCart
+
     cs = pythia.pyre.inventory.facility("coordsys", factory=CSCart)
-    cs.meta['tip'] = "Coordinate system."
+    cs.meta["tip"] = "Coordinate system."
 
     def __init__(self, name="AnalyticDB"):
         """
@@ -52,6 +54,7 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
         """
         SpatialDBObj.__init__(self, name)
         from pythia.pyre.units import parser
+
         self.parser = parser()
 
     def _configure(self):
@@ -84,17 +87,27 @@ class AnalyticDB(SpatialDBObj, ModuleAnalyticDB):
         if len(params.expressions) == 0:
             raise ValueError("Analytical expressions for AnalyticDB '%s' not specified." % self.description)
         if len(params.values) != len(params.units or len(params.values) != len(params.expressions)):
-            raise ValueError("Incompatible settings for uniform spatial database '%s'.\n"
-                             "'values', 'units', and 'expressions' must be lists of the same size.\n"
-                             "Size of 'values'=%d, 'units'=%d, and 'expressions'=%d."
-                             % (self.description, len(params.values), len(params.units), len(params.expressions)))
+            raise ValueError(
+                "Incompatible settings for uniform spatial database '{}'.\n"
+                "'values', 'units', and 'expressions' must be lists of the same size.\n"
+                "Size of 'values'={}}, 'units'={}}, and 'expressions'={}}."
+                % (
+                    self.description,
+                    len(params.values),
+                    len(params.units),
+                    len(params.expressions),
+                )
+            )
         try:
             for x in params.units:
                 if len(str(x).split("*")) > 1:
                     xdim = self.parser.parse(str(x))
         except:
             raise ValueError(
-                "'units' for AnalyticDB '%s' must contain dimensioned or nondimensional values." % self.description)
+                "'units' for AnalyticDB '{}' must contain dimensioned or nondimensional values.".format(
+                    self.description
+                )
+            )
 
 
 def spatial_database():

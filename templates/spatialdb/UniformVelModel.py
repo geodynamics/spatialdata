@@ -7,7 +7,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 # @brief Python object associated with the C++ UniformVelModel
@@ -78,15 +78,15 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
         #
         # Create a pythia.pyre property named vs with a default value of 2.6 km/s.
         vs = pythia.pyre.inventory.dimensional("vs", default=2.6 * km / s)
-        vs.meta['tip'] = "S wave speed."
+        vs.meta["tip"] = "S wave speed."
 
         # Create a pythia.pyre property named vp with a default value of 4.5 km/s.
         vp = pythia.pyre.inventory.dimensional("vp", default=4.5 * km / s)
-        vp.meta['tip'] = "P wave speed."
+        vp.meta["tip"] = "P wave speed."
 
         # Create a pythia.pyre property named density with a default value of 2500 kg/m**3.
-        density = pythia.pyre.inventory.dimensional("density", default=2.5e+3 * kg / m**3)
-        density.meta['tip'] = "Density."
+        density = pythia.pyre.inventory.dimensional("density", default=2.5e3 * kg / m**3)
+        density.meta["tip"] = "Density."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -125,6 +125,7 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 # Factory used when setting UniformVelModel to a pythia.pyre 'spatial_database' facility.
 def spatial_database():

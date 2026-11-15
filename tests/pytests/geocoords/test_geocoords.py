@@ -7,7 +7,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import pathlib
@@ -20,7 +20,6 @@ import TestCSGeo
 import TestCSGeoLocal
 import TestConverter
 
-
 TEST_MODULES = [
     TestCSCart,
     TestCSGeo,
@@ -29,7 +28,7 @@ TEST_MODULES = [
 ]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = UnitTestApp(test_modules=TEST_MODULES, src_dirs=["spatialdata.geocoords"])
     app.run()
 

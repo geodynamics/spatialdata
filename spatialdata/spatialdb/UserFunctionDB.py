@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from .SpatialDBObj import SpatialDBObj
@@ -20,6 +20,7 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
 
     Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [db]
@@ -32,8 +33,9 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
     import pythia.pyre.inventory
 
     from spatialdata.geocoords.CSCart import CSCart
+
     cs = pythia.pyre.inventory.facility("coordsys", factory=CSCart)
-    cs.meta['tip'] = "Coordinate system."
+    cs.meta["tip"] = "Coordinate system."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -57,7 +59,11 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
         """
         SpatialDBObj._configure(self)
         ModuleUserFunctionDB.setCoordSys(self, self.cs)
-        for (name, fn, units,) in self.functions:
+        for (
+            name,
+            fn,
+            units,
+        ) in self.functions:
             ModuleUserFunctionDB.addValue(self, name, fn, units)
         return
 
@@ -70,6 +76,7 @@ class UserFunctionDB(SpatialDBObj, ModuleUserFunctionDB):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """

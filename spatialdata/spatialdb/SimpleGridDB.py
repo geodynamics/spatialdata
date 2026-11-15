@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 import pathlib
@@ -32,6 +32,7 @@ class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
 
     Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [db]
@@ -44,11 +45,11 @@ class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
     import pythia.pyre.inventory
 
     filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
-    filename.meta['tip'] = "Name for data file."
+    filename.meta["tip"] = "Name for data file."
 
     queryType = pythia.pyre.inventory.str("query_type", default="nearest")
     queryType.validator = pythia.pyre.inventory.choice(["nearest", "linear"])
-    queryType.meta['tip'] = "Type of query to perform."
+    queryType.meta["tip"] = "Type of query to perform."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -86,6 +87,7 @@ class SimpleGridDB(SpatialDBObj, ModuleSimpleGridDB):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """

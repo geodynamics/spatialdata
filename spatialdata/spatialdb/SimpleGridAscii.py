@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 
@@ -26,6 +26,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
     """
     ASCII writer for a simple grid spatial database.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [dbio]
@@ -36,7 +37,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
     import pythia.pyre.inventory
 
     filename = pythia.pyre.inventory.str("filename", default="", validator=validateFilename)
-    filename.meta['tip'] = "Name of database file."
+    filename.meta["tip"] = "Name of database file."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -63,43 +64,47 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
         """
         import numpy
 
-        (numLocs, spaceDim) = data['points'].shape
-        numValues = len(data['values'])
+        numLocs, spaceDim = data["points"].shape
+        numValues = len(data["values"])
         names = []
         units = []
         values = numpy.zeros((numLocs, numValues), dtype=numpy.float64)
         i = 0
-        for value in data['values']:
-            names.append(value['name'])
-            units.append(value['units'])
-            values[:, i] = value['data'][:]
+        for value in data["values"]:
+            names.append(value["name"])
+            units.append(value["units"])
+            values[:, i] = value["data"][:]
             i += 1
 
-        numX = data['x'].shape[0]
-        numY = data['y'].shape[0]
-        if data['coordsys'].getSpaceDim() == 2:
+        numX = data["x"].shape[0]
+        numY = data["y"].shape[0]
+        if data["coordsys"].getSpaceDim() == 2:
             numZ = 0
-            if (numLocs != numX * numY):
-                raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d)." %
-                                 (numLocs, numX, numY))
+            if numLocs != numX * numY:
+                raise ValueError(
+                    "Number of locations (%d) does not match coordinate dimensions (%d, %d)." % (numLocs, numX, numY)
+                )
         else:
-            numZ = data['z'].shape[0]
-            if (numLocs != numX * numY * numZ):
-                raise ValueError("Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)." %
-                                 (numLocs, numX, numY, numZ))
+            numZ = data["z"].shape[0]
+            if numLocs != numX * numY * numZ:
+                raise ValueError(
+                    "Number of locations (%d) does not match coordinate dimensions (%d, %d, %d)."
+                    % (numLocs, numX, numY, numZ)
+                )
 
         from .SimpleGridDB import SimpleGridDB
+
         db = SimpleGridDB()
         db._configure()
         db.setDescription("Temporary SimpleGridDB for writing")
         db.setFilename(self.filename)
-        db.setCoordSys(data['coordsys'])
-        db.allocate(numX, numY, numZ, numValues, spaceDim, data['data_dim'])
-        db.setX(data['x'])
-        db.setY(data['y'])
-        if data['coordsys'].getSpaceDim() == 3:
-            db.setZ(data['z'])
-        db.setData(data['points'], values)
+        db.setCoordSys(data["coordsys"])
+        db.allocate(numX, numY, numZ, numValues, spaceDim, data["data_dim"])
+        db.setX(data["x"])
+        db.setY(data["y"])
+        if data["coordsys"].getSpaceDim() == 3:
+            db.setZ(data["z"])
+        db.setData(data["points"], values)
         db.setNames(names)
         db.setUnits(units)
 
@@ -121,6 +126,7 @@ class SimpleGridAscii(Component, ModuleSimpleGridAscii):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def createWriter(filename):
     writer = SimpleGridAscii()

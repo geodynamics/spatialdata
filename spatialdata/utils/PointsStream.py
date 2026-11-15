@@ -5,7 +5,7 @@
 # Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
 # All rights reserved.
 #
-# See https://mit-license.org/ and LICENSE.md and for license information. 
+# See https://mit-license.org/ and LICENSE.md and for license information.
 # =================================================================================================
 
 from pythia.pyre.components.Component import Component
@@ -17,6 +17,7 @@ class PointsStream(Component):
     """
     Object for reading/writing points from stdin/stdout.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [points_writer]
@@ -29,13 +30,13 @@ class PointsStream(Component):
     import pythia.pyre.inventory
 
     filename = pythia.pyre.inventory.str("filename", default="")
-    filename.meta['tip'] = "Name of file for input/output."
+    filename.meta["tip"] = "Name of file for input/output."
 
     commentFlag = pythia.pyre.inventory.str("comment_flag", default="#")
-    commentFlag.meta['tip'] = "String identifying comment."
+    commentFlag.meta["tip"] = "String identifying comment."
 
     numFormat = pythia.pyre.inventory.str("number_format", default="%14.5e")
-    numFormat.meta['tip'] = "C style string specifying number format."
+    numFormat.meta["tip"] = "C style string specifying number format."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -62,6 +63,7 @@ class PointsStream(Component):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def writer():
     """
