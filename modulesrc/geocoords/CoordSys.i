@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -16,8 +15,7 @@
 namespace spatialdata {
     namespace geocoords {
         class CoordSys {
-public:
-
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Type of coordinate system
@@ -27,8 +25,7 @@ public:
                 LOCAL_GEOGRAPHIC ///< Local geographic coordinate system
             };
 
-public:
-
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor
@@ -41,15 +38,13 @@ public:
              *
              * @returns Copy of *this
              */
-            virtual
-            CoordSys* clone(void) const = 0;
+            virtual CoordSys* clone(void) const = 0;
 
             /** Set number of spatial dimensions in coordinate system.
              *
              * @param ndims Number of dimensions
              */
-            virtual
-            void setSpaceDim(const int ndims);
+            virtual void setSpaceDim(const int ndims);
 
             /** Get number of spatial dimensions in coordinate system.
              *
@@ -74,7 +69,7 @@ public:
 
         }; // class CoordSys
 
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 // End of file

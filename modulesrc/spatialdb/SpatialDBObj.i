@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -16,13 +15,11 @@
 namespace spatialdata {
     namespace geocoords {
         class CoordSys; // forward declaration
-    } // geocoords
+    } // namespace geocoords
 
     namespace spatialdb {
-        class SpatialDB
-        { // class SpatialDB
-public:
-
+        class SpatialDB { // class SpatialDB
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor.
@@ -35,8 +32,7 @@ public:
             SpatialDB(const char* description);
 
             /// Default destructor.
-            virtual
-            ~SpatialDB(void);
+            virtual ~SpatialDB(void);
 
             /** Set description of spatial database.
              *
@@ -51,12 +47,10 @@ public:
             const char* getDescription(void) const;
 
             /// Open the database and prepare for querying.
-            virtual
-            void open(void) = 0;
+            virtual void open(void) = 0;
 
             /// Close the database.
-            virtual
-            void close(void) = 0;
+            virtual void close(void) = 0;
 
             /** Set values to be returned by queries.
              *
@@ -65,14 +59,14 @@ public:
              * @param names Names of values to be returned in queries
              * @param numVals Number of values to be returned in queries
              */
-            %apply(const char* const* string_list, const int list_len) {
-                (const char* const* names, const size_t numVals)
-            };
-            virtual
-            void setQueryValues(const char* const* names,
-                                const size_t numVals) = 0;
+            % apply(const char* const* string_list,
+                    const int list_len){(const char* const* names,
+                                         const size_t numVals)};
+            virtual void setQueryValues(const char* const* names,
+                                        const size_t numVals) = 0;
 
-            %clear(const char* const* names, const size_t numVals);
+            % clear(const char* const* names,
+                    const size_t numVals);
 
             /** Query the database.
              *
@@ -89,21 +83,22 @@ public:
              *
              * @returns 0 on success, 1 on failure (i.e., could not interpolate)
              */
-            %apply(double* INPLACE_ARRAY1, int DIM1) {
-                (double* vals, const size_t numVals)
-            };
-            %apply(double* IN_ARRAY1, int DIM1) {
-                (const double* coords, const size_t numDims)
-            };
-            virtual
-            int query(double* vals,
-                      const size_t numVals,
-                      const double* coords,
-                      const size_t numDims,
-                      const spatialdata::geocoords::CoordSys* csQuery) = 0;
+            % apply(double* INPLACE_ARRAY1,
+                    int DIM1){(double* vals,
+                               const size_t numVals)};
+            % apply(double* IN_ARRAY1,
+                    int DIM1){(const double* coords,
+                               const size_t numDims)};
+            virtual int query(double* vals,
+                              const size_t numVals,
+                              const double* coords,
+                              const size_t numDims,
+                              const spatialdata::geocoords::CoordSys* csQuery) = 0;
 
-            %clear(double* vals, const size_t numVals);
-            %clear(const double* coords, const size_t numDims);
+            % clear(double* vals,
+                    const size_t numVals);
+            % clear(const double* coords,
+                    const size_t numDims);
 
             /** Perform multiple queries of the database.
              *
@@ -126,20 +121,19 @@ public:
              * @param numDimsC Number of dimensions for coordinates.
              * @param csQuery Coordinate system of coordinates.
              */
-            %apply(double* INPLACE_ARRAY2, int DIM1, int DIM2) {
-                (double* vals,
-                 const size_t numLocsV,
-                 const size_t numValsV)
-            };
-            %apply(int* INPLACE_ARRAY1, int DIM1) {
-                (int* err,
-                 const size_t numLocsE)
-            };
-            %apply(double* IN_ARRAY2, int DIM1, int DIM2) {
-                (const double* coords,
-                 const size_t numLocsC,
-                 const size_t numDimsC)
-            };
+            % apply(double* INPLACE_ARRAY2,
+                    int DIM1,
+                    int DIM2){(double* vals,
+                               const size_t numLocsV,
+                               const size_t numValsV)};
+            % apply(int* INPLACE_ARRAY1,
+                    int DIM1){(int* err,
+                               const size_t numLocsE)};
+            % apply(double* IN_ARRAY2,
+                    int DIM1,
+                    int DIM2){(const double* coords,
+                               const size_t numLocsC,
+                               const size_t numDimsC)};
             void multiquery(double* vals,
                             const size_t numLocsV,
                             const size_t numValsV,
@@ -150,13 +144,18 @@ public:
                             const size_t numDimsC,
                             const spatialdata::geocoords::CoordSys* csQuery);
 
-            %clear(double* vals, const size_t numLocsV, const size_t numValsV);
-            %clear(int* err, const size_t numLocsE);
-            %clear(const double* coords, const size_t numLocsC, const size_t numDimsC);
+            % clear(double* vals,
+                    const size_t numLocsV,
+                    const size_t numValsV);
+            % clear(int* err,
+                    const size_t numLocsE);
+            % clear(const double* coords,
+                    const size_t numLocsC,
+                    const size_t numDimsC);
 
         }; // class SpatialDB
 
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // End of file

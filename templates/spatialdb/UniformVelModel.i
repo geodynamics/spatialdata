@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -22,11 +21,11 @@
 
 namespace contrib {
     namespace spatialdb {
-        class UniformVelModel: public spatialdata::spatialdb::SpatialDB
-        { // UniformVelModel
-          // PUBLIC MEMBERS ///////////////////////////////////////////////////
-public:
-
+        class UniformVelModel
+            : public spatialdata::spatialdb::SpatialDB { // UniformVelModel
+                                                         // PUBLIC MEMBERS
+                                                         // ///////////////////////////////////////////////////
+          public:
             /// Constructor
             UniformVelModel(void);
 
@@ -34,8 +33,7 @@ public:
             ~UniformVelModel(void);
 
             // PUBLIC METHODS ///////////////////////////////////////////////////
-public:
-
+          public:
             // Functions required to satisfy the SpatialDB interface.
 
             /// Open the database and prepare for querying.
@@ -78,8 +76,7 @@ public:
                       const spatialdata::geocoords::CoordSys* csQuery);
 
             // PUBLIC METHODS ///////////////////////////////////////////////////
-public:
-
+          public:
             // Functions specific to this type of spatial database.
 
             /** Set the P wave speed.
@@ -102,7 +99,7 @@ public:
 
         }; // UniformVelModel
 
-    } // spatialdb
-} // contrib
+    } // namespace spatialdb
+} // namespace contrib
 
 // End of file

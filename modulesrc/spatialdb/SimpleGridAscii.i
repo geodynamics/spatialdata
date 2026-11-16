@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -15,10 +14,8 @@
 
 namespace spatialdata {
     namespace spatialdb {
-        class spatialdata::spatialdb::SimpleGridAscii
-        { // SimpleGridAscii
-public:
-
+        class spatialdata::spatialdb::SimpleGridAscii { // SimpleGridAscii
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             // Using default constructor.
@@ -31,19 +28,17 @@ public:
              *
              * @param db Spatial database.
              */
-            static
-            void read(SimpleGridDB* db);
+            static void read(SimpleGridDB* db);
 
             /** Write the database.
              *
              * @param db Spatial database.
              */
-            static
-            void write(const SimpleGridDB& db);
+            static void write(const SimpleGridDB& db);
 
         }; // class SimpleGridAscii
 
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // End of file

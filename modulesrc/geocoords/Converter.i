@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -18,8 +17,7 @@ namespace spatialdata {
         class CoordSys; // forward declaration
 
         class Converter {
-public:
-
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor
@@ -37,20 +35,24 @@ public:
              * @param pCSDest Pointer to destination coordinate system
              * @param pCSSrc Pointer to source coordinate system
              */
-            %apply(double* INPLACE_ARRAY2, int DIM1, int DIM2) {
-                (double* coords, const size_t numLocs, const size_t numDims)
-            };
+            % apply(double* INPLACE_ARRAY2,
+                    int DIM1,
+                    int DIM2){(double* coords,
+                               const size_t numLocs,
+                               const size_t numDims)};
             void convert(double* coords,
                          const size_t numLocs,
                          const size_t numDims,
                          const CoordSys* pCSDest,
                          const CoordSys* pCSSrc);
 
-            %clear(double* coords, const size_t numLocs, const size_t numDims);
+            % clear(double* coords,
+                    const size_t numLocs,
+                    const size_t numDims);
 
         }; // class Converter
 
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 // End of file

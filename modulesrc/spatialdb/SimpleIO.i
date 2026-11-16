@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -17,18 +16,15 @@ namespace spatialdata {
     namespace spatialdb {
         class SimpleDBData; // forward declaration
 
-        class SimpleIO
-        { // class SimpleIO
-public:
-
+        class SimpleIO { // class SimpleIO
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor.
             SimpleIO(void);
 
             /// Default destructor.
-            virtual
-            ~SimpleIO(void);
+            virtual ~SimpleIO(void);
 
             /** Set filename for database.
              *
@@ -47,18 +43,16 @@ public:
              * @param pData Database data
              * @param ppCS Pointer to coordinate system
              */
-            virtual
-            void read(SimpleDBData* pData,
-                      spatialdata::geocoords::CoordSys** ppCS) = 0;
+            virtual void read(SimpleDBData* pData,
+                              spatialdata::geocoords::CoordSys** ppCS) = 0;
 
             /** Write the database.
              *
              * @param data Database data
              * @param pCS Pointer to coordinate system
              */
-            virtual
-            void write(const SimpleDBData& data,
-                       const spatialdata::geocoords::CoordSys* pCS) = 0;
+            virtual void write(const SimpleDBData& data,
+                               const spatialdata::geocoords::CoordSys* pCS) = 0;
 
         }; // class SimpleIO
 

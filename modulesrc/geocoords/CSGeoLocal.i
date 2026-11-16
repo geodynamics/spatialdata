@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -15,11 +14,10 @@
 
 namespace spatialdata {
     namespace geocoords {
-        class CSGeoLocal: public CSGeo {
+        class CSGeoLocal : public CSGeo {
             friend class TestCSGeoLocal;
 
-public:
-
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor
@@ -50,16 +48,16 @@ public:
              * @param[out] originY Y coordinate of local origin.
              * @param[out] yAzimuth Azimuth (degrees) of y axis.
              */
-            %apply double* OUTPUT { double* originX };
-            %apply double* OUTPUT { double* originY };
-            %apply double* OUTPUT { double* yAzimuth };
+            % apply double* OUTPUT{double* originX};
+            % apply double* OUTPUT{double* originY};
+            % apply double* OUTPUT{double* yAzimuth};
             void getLocal(double* originX,
                           double* originY,
                           double* yAzimuth) const;
 
-            %clear double* originX;
-            %clear double* originY;
-            %clear double* yAzimuth;
+            % clear double* originX;
+            % clear double* originY;
+            % clear double* yAzimuth;
 
             /** Convert coordinates from local coordinate system to geographic coordinate system.
              *
@@ -95,7 +93,7 @@ public:
 
         }; // class CSGeoLocal
 
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 // End of file

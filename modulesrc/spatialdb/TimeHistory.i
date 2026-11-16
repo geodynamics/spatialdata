@@ -2,8 +2,7 @@
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// Copyright (c) 2010-2026 All rights reserved.
 //
 // See https://mit-license.org/ and LICENSE.md and for license information.
 // =================================================================================================
@@ -15,10 +14,8 @@
 
 namespace spatialdata {
     namespace spatialdb {
-        class TimeHistory
-        { // class TimeHistory
-public:
-
+        class TimeHistory { // class TimeHistory
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor.
@@ -72,15 +69,15 @@ public:
              *
              * @returns 0 on success, 1 on failure (i.e., could not interpolate)
              */
-            %apply double* OUTPUT { double* value };
+            % apply double* OUTPUT{double* value};
             int query(double* value,
                       const double t);
 
-            %clear(double* value);
+            % clear(double* value);
 
         }; // class TimeHistory
 
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // End of file
