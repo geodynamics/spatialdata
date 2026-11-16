@@ -1,25 +1,23 @@
-# =================================================================================================
-# This code is part of PyLith, developed through the Computational Infrastructure
-# for Geodynamics (https://github.com/geodynamics/pylith).
+#!/usr/bin/env python3
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# Copyright (c) 2010-2026 All rights reserved..
-#
-# See https://mit-license.org/ and LICENSE.md and for license information.
-# =================================================================================================
+# michael a.g. aïvázis <michael.aivazis@para-sim.com>
+# Copyright (c) 2010-2026 all rights reserved
 
 
 # externals
 import datetime
-import pathlib
+import os
 import shutil
 import subprocess
 import sys
 import tempfile
 
 # the checker under test, next to this file
-CHECKER = pathlib.Path(__file__).parent / "check.py"
+CHECKER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "check.py")
 # the c++ formatting rules of the repository, which the scratch repositories borrow
-CLANG_FORMAT = CHECKER.parent.parent.parent.parent / ".clang-format"
+CLANG_FORMAT = os.path.join(os.path.dirname(CHECKER), "..", "..", "..", ".clang-format")
 # the current year, which the preamble of a touched file must carry
 YEAR = datetime.date.today().year
 # a misspelling for the spell checker to catch, assembled here so the source that plants it
@@ -62,10 +60,9 @@ def write(*, root: str, name: str, text: str) -> None:
     Write {text} to the file {name} under {root}
     """
     # make room for it
-    local_dir = pathlib.Path(root)
-    local_dir.mkdir(exist_ok=True, parents=True)
+    os.makedirs(os.path.dirname(os.path.join(root, name)) or root, exist_ok=True)
     # and write it
-    with open(local_dir / name, mode="w", encoding="utf-8") as stream:
+    with open(os.path.join(root, name), mode="w", encoding="utf-8") as stream:
         # all at once
         stream.write(text)
     # all done
@@ -78,8 +75,9 @@ def scaffold(*, root: str) -> None:
     """
     # make the repository
     git("init", "--quiet", "--initial-branch=main", cwd=root)
-    # with an identity for its commits
+    # with an identity for its commits: a name
     git("config", "user.name", "self test", cwd=root)
+    # and an address
     git("config", "user.email", "selftest@example.com", cwd=root)
     # the configuration the checks read
     write(
@@ -93,7 +91,7 @@ def scaffold(*, root: str) -> None:
     # an empty list of known good words
     write(root=root, name="words.txt", text="")
     # the c++ formatting rules
-    shutil.copy(CLANG_FORMAT, pathlib.Path(root) / ".clang-format")
+    shutil.copy(CLANG_FORMAT, os.path.join(root, ".clang-format"))
     # a python source that follows the conventions
     write(
         root=root,
@@ -109,16 +107,9 @@ def scaffold(*, root: str) -> None:
         text=preamble(comment="//", language="c++")
         + "\n\n// the answer\nint\nanswer() {\n    // hand it off\n    return 42;\n}\n\n\n// End of file\n",
     )
-    # commit them
-    git(
-        "add",
-        "pyproject.toml",
-        "words.txt",
-        ".clang-format",
-        "good.py",
-        "good.cc",
-        cwd=root,
-    )
+    # stage them
+    git("add", "pyproject.toml", "words.txt", ".clang-format", "good.py", "good.cc", cwd=root)
+    # and commit them
     git("commit", "--quiet", "-m", "base: the starting point", cwd=root)
     # all done
     return
@@ -207,17 +198,18 @@ def violations() -> None:
             text=preamble(comment="//", language="c++") + "\nint answer(){return 42;}\n\n\n// End of file\n",
         )
         # an existing file touched without bringing its year up to date
-        with open(pathlib.Path(root) / "good.cc", encoding="utf-8") as stream:
+        with open(os.path.join(root, "good.cc"), encoding="utf-8") as stream:
             # read it
             text = stream.read()
         # age its copyright, and change something in it
         write(
             root=root,
             name="good.cc",
-            text=text.replace(f"1998-{YEAR}", "1998-2000").replace("the answer", "the reply"),
+            text=text.replace(f"2010-{YEAR}", "2010-2000").replace("the answer", "the reply"),
         )
-        # commit it all with a subject that names no area, and a body
+        # stage it all
         git("add", "bad.py", "bad.cc", "good.cc", cwd=root)
+        # and commit it with a subject that names no area, and a body
         git("commit", "--quiet", "-m", "fixed some things", "-m", "a body", cwd=root)
         # check
         status, report = check(root=root, base="main")
@@ -225,13 +217,19 @@ def violations() -> None:
         if status == 0:
             # or else it let everything through
             raise SelfTestError(f"violations passed:\n{report}")
-        # and every check caught its violation
+        # and every check caught its violation: the misspelling
         expect(report=report, check="spelling", needle=MISSPELLING)
+        # the python formatting
         expect(report=report, check="python", needle="bad.py")
+        # the c++ formatting
         expect(report=report, check="cxx", needle="bad.cc")
+        # the missing closing marker
         expect(report=report, check="preambles", needle="bad.py: does not end")
+        # the stale copyright year
         expect(report=report, check="preambles", needle="good.cc: touched")
+        # the subject that names no area
         expect(report=report, check="commits", needle="is not of the form")
+        # and the body
         expect(report=report, check="commits", needle="has a body")
     # all done
     return
@@ -251,14 +249,14 @@ def layouts() -> None:
         ),
         # no coding line
         "coding.sh": (
-            "# -*- bash -*-\n#\n# michael a.g. aïvázis\n# (c) 1998-2026 All rights reserved.\n"
+            "# -*- bash -*-\n#\n# michael a.g. aïvázis\n# Copyright (c) 2010-2026 All rights reserved.\n"
             + "\n\necho\n\n\n# End of file\n",
             "mode, coding, spacer, author, and copyright",
         ),
-        # a single blank line after the preamble
-        "tight.yaml": (
-            preamble(comment="#", language="yaml") + "\nkey: value\n\n\n# End of file\n",
-            "1 blank lines after the preamble",
+        # two blank lines after the preamble of a yaml file, whose formatter keeps one
+        "loose.yaml": (
+            preamble(comment="#", language="yaml") + "\n\nkey: value\n\n\n# End of file\n",
+            "2 blank lines after the preamble, instead of 1",
         ),
         # a single blank line before the closing marker of a c++ source
         "short.cc": (
@@ -275,6 +273,11 @@ def layouts() -> None:
             preamble(comment="#", language="makefile") + "\nall:\n\n\n# End of file\n",
             "1 blank lines after the preamble",
         ),
+        # a python stub spaced like a python source
+        "loose.pyi": (
+            preamble(comment="#", language="python") + "\n\nx: int\n\n\n# End of file\n",
+            "2 blank lines after the preamble, instead of 1",
+        ),
         # extra blank lines at the end
         "trail.toml": (
             preamble(comment="#", language="toml") + "\n\nkey = 1\n\n\n# End of file\n\n",
@@ -282,24 +285,27 @@ def layouts() -> None:
         ),
     }
     # the departures the checker must not flag: a header with its code guard, a markdown
-    # document, a dockerfile, a script, a stylesheet, and a file the repository exempts
+    # document, a python stub as black lays it out, a dockerfile, a script, a stylesheet, and a
+    # file the repository exempts
     fine = {
+        "tight.yaml": preamble(comment="#", language="yaml") + "\nkey: value\n\n# End of file\n",
+        "tight.pyi": preamble(comment="#", language="python") + "\nx: int\n\n# End of file\n",
         "guard.icc": preamble(comment="//", language="c++") + "\n// code guard\n#pragma once\n\n\n// End of file\n",
         "doc.md": "<!--\n-*- markdown -*-\n-*- coding: utf-8 -*-\n\n"
-        + "PyLith code\n"
+        + "michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
         + f"Copyright (c) 2010-{YEAR} All rights reserved.\n-->\n\n# title\n\n\n<!-- End of file -->\n",
         "Dockerfile": '## -*- docker-image-name: "x:y" -*-\n'
         + preamble(comment="#", language="x").split("\n", 1)[1]
         + "\n\nFROM ubuntu\n\n\n# End of file\n",
         "run.sh": "#!/bin/bash\n" + preamble(comment="#", language="bash") + "\n\necho\n\n\n# End of file\n",
         "look.css": "/*  -*- css -*-  */\n/*\n * -*- coding: utf-8 -*-\n *\n"
-        + " * PyLith code\n"
+        + " * michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
         + f" * Copyright (c) 2010-{YEAR} All rights reserved.\n */\n\n\na {{\n}}\n\n\n/* End of file */\n",
         "_complete": "#compdef complete\n"
         + preamble(comment="#", language="zsh")
         + "\n\n_arguments\n\n\n# End of file\n",
         "page.html": "<!DOCTYPE html>\n\n<!--\n-*- html -*-\n-*- coding: utf-8 -*-\n\n"
-        + "PyLith code\n"
+        + "michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
         + f"Copyright (c) 2010-{YEAR} All rights reserved.\n-->\n\n\n<html>\n</html>\n\n\n<!-- End of file -->\n",
         "vendor/theirs.js": "// no preamble here\n",
         "values.csv": "1,2,3\n",
@@ -337,6 +343,74 @@ def layouts() -> None:
     return
 
 
+def narratives() -> None:
+    """
+    A statement without a comment above it is caught in the python sources the work touches,
+    and the forms the conventions allow are left alone
+    """
+    # in a scratch directory
+    with tempfile.TemporaryDirectory() as root:
+        # lay out the repository
+        scaffold(root=root)
+        # work on a branch
+        git("switch", "--quiet", "-c", "work", cwd=root)
+        # the body of a python source, one line per entry, with what the check must say
+        body = [
+            ("# support", None),
+            ("import os", None),
+            ("import sys", None),
+            ("", None),
+            ("", None),
+            ("class gadget:", None),
+            ('    """a gadget"""', None),
+            ("", None),
+            ("    # the size of the gadget", None),
+            ("    size = os.sep", None),
+            ('    size.doc = "how big"', None),
+            ("    color = sys.platform  # the color of the gadget", None),
+            ("", None),
+            ("", None),
+            ("def run():", None),
+            ('    """', None),
+            ("    Run", None),
+            ('    """', None),
+            ("    # print(os.sep)", None),
+            ("    value = 1", "flag"),
+            ("    total = value + 1", "flag"),
+            ("    # all done", None),
+            ("    return total", None),
+        ]
+        # the lines of the body start right after the preamble and the two blank lines
+        first = len(preamble(comment="#", language="python").split("\n")) + 2
+        # write the source
+        write(
+            root=root,
+            name="story.py",
+            text=preamble(comment="#", language="python")
+            + "\n\n"
+            + "\n".join(line for line, _ in body)
+            + "\n\n\n# End of file\n",
+        )
+        # stage it
+        git("add", "story.py", cwd=root)
+        # and commit it
+        git("commit", "--quiet", "-m", "story: a source with gaps in its narrative", cwd=root)
+        # check
+        status, report = check(root=root, base="main")
+        # go through the body
+        for offset, (line, verdict) in enumerate(body):
+            # the statements the check must catch
+            if verdict == "flag":
+                # are named by their line
+                expect(report=report, check="narrative", needle=f"story.py:{first + offset}:")
+            # and the rest
+            elif f"story.py:{first + offset}:" in report:
+                # are not
+                raise SelfTestError(f"'narrative' flagged '{line.strip()}':\n{report}")
+    # all done
+    return
+
+
 def bots() -> None:
     """
     The commits of a bot are not held to the commit conventions, and the same message from a
@@ -350,9 +424,11 @@ def bots() -> None:
         git("switch", "--quiet", "-c", "work", cwd=root)
         # the message a dependency update comes with: no area, and a body
         message = ["-m", "Bump black from 26.5.1 to 26.6.0", "-m", "the release notes"]
-        # a bot commits a change with it
+        # a bot makes a change
         write(root=root, name="words.txt", text="tread\n")
+        # stages it
         git("add", "words.txt", cwd=root)
+        # and commits it with that message
         git("-c", "user.name=dependabot[bot]", "commit", "--quiet", *message, cwd=root)
         # which passes
         status, report = check(root=root, base="main")
@@ -360,14 +436,91 @@ def bots() -> None:
         if status != 0:
             # or else the bot is held to conventions it cannot follow
             raise SelfTestError(f"a bot commit failed:\n{report}")
-        # a person commits another change with the same message
+        # a person makes another change
         write(root=root, name="words.txt", text="tread\nraison\n")
+        # stages it
         git("add", "words.txt", cwd=root)
+        # and commits it with the same message
         git("commit", "--quiet", *message, cwd=root)
         # which does not pass
         status, report = check(root=root, base="main")
         # the commit check catches it
         expect(report=report, check="commits", needle="is not of the form")
+    # all done
+    return
+
+
+def skips() -> None:
+    """
+    The spell check leaves alone the files its skip patterns match, by the name of the file or of
+    a directory above it, or by their paths, and still checks the rest
+    """
+    # the files with misspellings that the patterns cover, by the pattern that covers each
+    covered = {
+        # the name of the file, anywhere in the tree
+        "web/package-lock.json": "package-lock.json",
+        # the name of a directory above it
+        "src/generated/notes.txt": "generated",
+        # its path, the way the codespell documentation writes it
+        "share/data/notes.txt": "./share/data/*",
+    }
+    # in a scratch directory
+    with tempfile.TemporaryDirectory() as root:
+        # lay out the repository
+        scaffold(root=root)
+        # skip the files the patterns cover
+        with open(os.path.join(root, "pyproject.toml"), encoding="utf-8") as stream:
+            # read the configuration
+            text = stream.read()
+        # and add the patterns to it
+        write(
+            root=root,
+            name="pyproject.toml",
+            text=text.replace(
+                'ignore-words = "words.txt"\n',
+                f'ignore-words = "words.txt"\nskip = "{",".join(covered.values())}"\n',
+            ),
+        )
+        # plant a misspelling in each of the covered files
+        for name in covered:
+            # one by one
+            write(root=root, name=name, text=f"{MISSPELLING}\n")
+        # and in one that no pattern covers
+        write(root=root, name="src/notes.txt", text=f"{MISSPELLING}\n")
+        # let git know about them
+        git("add", "pyproject.toml", *covered, "src/notes.txt", cwd=root)
+        # check the spelling
+        result = subprocess.run(
+            [sys.executable, CHECKER, "--only", "spelling"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+        )
+        # the file no pattern covers was checked
+        expect(report=result.stdout, check="spelling", needle="src/notes.txt")
+        # and the covered ones were not
+        for name in covered:
+            # by name
+            if f"{name}:" in result.stdout:
+                # or else the skip patterns were ignored
+                raise SelfTestError(f"'{name}' was not skipped:\n{result.stdout}")
+        # the files the checker reported, from the details of its spelling section
+        checked = {line.strip().split(":")[0] for line in result.stdout.split("\n") if "==>" in line}
+        # every file in the repository is tracked, so codespell walking it applies the same
+        # patterns itself, and must report the same files; a release of codespell that matches
+        # its patterns differently fails here, rather than in the spell check of a repository
+        walk = subprocess.run(
+            ["codespell", "--toml", "pyproject.toml", "."],
+            cwd=root,
+            capture_output=True,
+            text=True,
+        )
+        # the files the walk reported, without the leading './' of its paths
+        walked = {line.split(":")[0].removeprefix("./") for line in walk.stdout.split("\n") if "==>" in line}
+        # the two must agree
+        if checked != walked:
+            # or else the checker no longer skips what codespell skips
+            raise SelfTestError(f"the checker reported {sorted(checked)}, codespell walking the tree {sorted(walked)}")
     # all done
     return
 
@@ -384,8 +537,10 @@ def main() -> int:
         violations()
         # one with every kind of preamble departure
         layouts()
-        # and one with commits by a bot
+        # one with commits by a bot
         bots()
+        # and one with files the spell check skips
+        skips()
     # if the checker misbehaved
     except SelfTestError as error:
         # say how
