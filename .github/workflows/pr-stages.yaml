@@ -8,9 +8,11 @@
 # =================================================================================================
 name: run-ci
 
+# a new push to a pull request replaces the runs of the commits it supersedes, so they stop
+# holding runners; runs for any other event are never cancelled
 concurrency:
-  group: ${{ github.actor }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 on:
   pull_request:
@@ -18,6 +20,8 @@ on:
       - main
 
 jobs:
+  conventions:
+    uses: ./.github/workflows/pr-conventions.yaml
   stage-1:
     uses: ./.github/workflows/pr-stage-1.yaml
   stage-2:
