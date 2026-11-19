@@ -1,0 +1,51 @@
+# -*- config -*-
+# -*- coding: utf-8 -*-
+#
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
+#
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT 
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spatialdata"
+version = "4.0.1"
+description = "Library for specifying spatial variations in input parameters (used in PyLith)."
+authors = [{ name = "Brad Aagaard", email = "baagaard@usgs.gov" }]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://geodynamics.org/resources/spatialdata"
+
+[tool.setuptools]
+zip-safe = false
+script-files = ["applications/gensimpledb.py"]
+
+[tool.setuptools.packages.find]
+exclude = [
+    "developer",
+    "docs",
+    "docker",
+    "examples",
+    "libsrc",
+    "m4",
+    "modulesrc",
+    "templates",
+    "tests",
+]
+
+[tool.conventions]
+exempt = [
+    "libsrc/spatialdata/muparser/*",
+    "*.spatialdb",
+    "*.timedb",
+    ]
+
+
+# End of file

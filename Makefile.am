@@ -31,7 +31,7 @@ EXTRA_DIST = \
     README.md \
     CHANGES.md \
     setup.py \
-    setup.cfg \
+    pyproject.toml \
     configure.ac \
 	applications/gensimpledb.py \
     LICENSE.md \

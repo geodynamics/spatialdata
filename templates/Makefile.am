@@ -11,8 +11,8 @@
 # Include files in templates in spatialdata source distribution.
 EXTRA_DIST = \
 	Makefile.am \
-	README \
-	spatialdb/README \
+	README.md \
+	spatialdb/README.md \
 	spatialdb/configure.ac \
 	spatialdb/Makefile.am \
 	spatialdb/UniformVelModel.hh \

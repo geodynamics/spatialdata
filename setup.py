@@ -9,7 +9,7 @@
 # SPDX-License-Identifier: MIT
 
 
-# Setup configuration is in setup.cfg.
+# Setup configuration is in pyproject.toml.
 
 import setuptools
 
