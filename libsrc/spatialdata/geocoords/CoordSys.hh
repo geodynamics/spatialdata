@@ -1,9 +1,13 @@
-// =================================================================================================
-// This code is part of SpatialData, developed through the Computational Infrastructure
-// Copyright (c) 2010-2026 All rights reserved.
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
 //
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
+//
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "geocoordsfwd.hh"
@@ -86,5 +90,6 @@ class spatialdata::geocoords::CoordSys {
     CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
+
 
 // End of file

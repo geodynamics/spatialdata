@@ -1,11 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026 All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /** @file modulesrc/spatialdb/SimpleDBData.i
  *
@@ -46,7 +47,7 @@ namespace spatialdata {
              * @param numLocs Number of locations.
              * @param numValues Number of values.
              */
-            % apply(double* IN_ARRAY2,
+            %apply(double* IN_ARRAY2,
                     int DIM1,
                     int DIM2){(const double* values,
                                const size_t numLocs,
@@ -54,7 +55,7 @@ namespace spatialdata {
             void setData(const double* values,
                          const size_t numLocs,
                          const size_t numValues);
-            % clear(const double* values,
+            %clear(const double* values,
                     const size_t numLocs,
                     const size_t numValues);
 
@@ -66,7 +67,7 @@ namespace spatialdata {
              * @param numLocs Number of locations.
              * @param spaceDim Spatial dimension of coordinates.
              */
-            % apply(double* IN_ARRAY2,
+            %apply(double* IN_ARRAY2,
                     int DIM1,
                     int DIM2){(const double* values,
                                const size_t numLocs,
@@ -74,7 +75,7 @@ namespace spatialdata {
             void setCoordinates(const double* values,
                                 const size_t numLocs,
                                 const size_t spaceDim);
-            % clear(const double* values,
+            %clear(const double* values,
                     const size_t numLocs,
                     const size_t numValues);
 
@@ -85,12 +86,12 @@ namespace spatialdata {
              * @param values Array of names of values [numValues].
              * @param numValues Number of values.
              */
-            % apply(const char* const* string_list,
+            %apply(const char* const* string_list,
                     const int list_len){(const char* const* values,
                                          const size_t numValues)};
             void setNames(const char* const* values,
                           const size_t numValues);
-            % clear(const char* const* values,
+            %clear(const char* const* values,
                     const size_t numValues);
 
             /** Set units of values.
@@ -100,12 +101,12 @@ namespace spatialdata {
              * @param values Array of units of values [numValues].
              * @param numValues Number of values.
              */
-            % apply(const char* const* string_list,
+            %apply(const char* const* string_list,
                     const int list_len){(const char* const* values,
                                          const int numValues)};
             void setUnits(const char* const* values,
                           const int numValues);
-            % clear(const char* const* values,
+            %clear(const char* const* values,
                     const int numValues);
 
             /** Get number of locations for data.

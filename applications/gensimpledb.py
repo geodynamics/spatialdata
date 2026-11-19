@@ -1,16 +1,15 @@
 #!/usr/bin/env nemesis
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026 All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information.
-# =================================================================================================
-# @file spatialdata/applications/gensimpledb.py
-#
-# @brief Generic use of GenSimpleDBApp.
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
+
+"""Generic use of GenSimpleDBApp."""
 
 # ----------------------------------------------------------------------
 if __name__ == "__main__":

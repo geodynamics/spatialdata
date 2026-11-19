@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # SimpleGridAscii
 
 % WARNING: Do not edit; this is a generated file!
@@ -22,3 +31,4 @@ Example of setting `SimpleGridAscii` Pyre properties and facilities in a paramet
 dbio.filename = mat_elastic.spatialdb
 :::
 
+% End of file

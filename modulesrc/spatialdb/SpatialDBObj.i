@@ -1,16 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026 All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
 
-/** @file modulesrc/spatialdb/SpatialDBObj.i
- *
- * @brief SWIG interface to C++ SpatialDB object.
- */
 
 namespace spatialdata {
     namespace geocoords {
@@ -59,13 +55,13 @@ namespace spatialdata {
              * @param names Names of values to be returned in queries
              * @param numVals Number of values to be returned in queries
              */
-            % apply(const char* const* string_list,
+            %apply(const char* const* string_list,
                     const int list_len){(const char* const* names,
                                          const size_t numVals)};
             virtual void setQueryValues(const char* const* names,
                                         const size_t numVals) = 0;
 
-            % clear(const char* const* names,
+            %clear(const char* const* names,
                     const size_t numVals);
 
             /** Query the database.
@@ -83,10 +79,10 @@ namespace spatialdata {
              *
              * @returns 0 on success, 1 on failure (i.e., could not interpolate)
              */
-            % apply(double* INPLACE_ARRAY1,
+            %apply(double* INPLACE_ARRAY1,
                     int DIM1){(double* vals,
                                const size_t numVals)};
-            % apply(double* IN_ARRAY1,
+            %apply(double* IN_ARRAY1,
                     int DIM1){(const double* coords,
                                const size_t numDims)};
             virtual int query(double* vals,
@@ -95,9 +91,9 @@ namespace spatialdata {
                               const size_t numDims,
                               const spatialdata::geocoords::CoordSys* csQuery) = 0;
 
-            % clear(double* vals,
+            %clear(double* vals,
                     const size_t numVals);
-            % clear(const double* coords,
+            %clear(const double* coords,
                     const size_t numDims);
 
             /** Perform multiple queries of the database.
@@ -121,15 +117,15 @@ namespace spatialdata {
              * @param numDimsC Number of dimensions for coordinates.
              * @param csQuery Coordinate system of coordinates.
              */
-            % apply(double* INPLACE_ARRAY2,
+            %apply(double* INPLACE_ARRAY2,
                     int DIM1,
                     int DIM2){(double* vals,
                                const size_t numLocsV,
                                const size_t numValsV)};
-            % apply(int* INPLACE_ARRAY1,
+            %apply(int* INPLACE_ARRAY1,
                     int DIM1){(int* err,
                                const size_t numLocsE)};
-            % apply(double* IN_ARRAY2,
+            %apply(double* IN_ARRAY2,
                     int DIM1,
                     int DIM2){(const double* coords,
                                const size_t numLocsC,
@@ -144,12 +140,12 @@ namespace spatialdata {
                             const size_t numDimsC,
                             const spatialdata::geocoords::CoordSys* csQuery);
 
-            % clear(double* vals,
+            %clear(double* vals,
                     const size_t numLocsV,
                     const size_t numValsV);
-            % clear(int* err,
+            %clear(int* err,
                     const size_t numLocsE);
-            % clear(const double* coords,
+            %clear(const double* coords,
                     const size_t numLocsC,
                     const size_t numDimsC);
 
@@ -157,5 +153,6 @@ namespace spatialdata {
 
     } // namespace spatialdb
 } // namespace spatialdata
+
 
 // End of file

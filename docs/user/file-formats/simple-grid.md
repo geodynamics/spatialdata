@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 (sec-file-formats-SimpleGridDB)=
 # SimpleGridDB Format
 
@@ -59,3 +68,5 @@ SimpleGridDB { // start specifying the database parameters
  1.0  8.0  4.0    5.9  3.8  2450.0
  2.0  8.0  4.0    5.7  3.7  2400.0
 ```
+
+% End of file

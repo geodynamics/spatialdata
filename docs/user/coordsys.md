@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # Coordinate Systems
 
 SpatialData provides two types of coordinate systems: Cartesian (`CSCart`) and georeferenced (`CSGeo`).
@@ -320,3 +329,5 @@ convert(points, csDest, csSrc)
 :::
 
 ::::
+
+% End of file

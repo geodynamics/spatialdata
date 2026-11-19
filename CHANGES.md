@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 ## main
 
 * **Changed**
@@ -179,3 +188,5 @@ WKT.
 ## 2007/01/07
 
 * Changed interfaces to allow spatial dimension of coordinate systems to be 1-D and 2-D instead of just 3-D.
+
+% End of file

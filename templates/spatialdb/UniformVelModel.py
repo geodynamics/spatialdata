@@ -1,18 +1,12 @@
-#!/usr/bin/env python
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026 All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information.
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
-# @brief Python object associated with the C++ UniformVelModel
-# object. This objects provides a pythia.pyre interface to the C++ object.
-##
-# Factory: spatial_database
 
 from spatialdata.spatialdb.SpatialDBObj import SpatialDBObj
 from .spatialdbcontrib import UniformVelModel as ModuleUniformVelModel

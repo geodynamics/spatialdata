@@ -2,8 +2,11 @@
 # -*- python -*-
 # -*- coding: utf-8 -*-
 #
-# michael a.g. aïvázis <michael.aivazis@para-sim.com>
-# Copyright (c) 2010-2026 all rights reserved
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
+#
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
 
 # externals
@@ -40,8 +43,10 @@ def preamble(*, comment: str, language: str) -> str:
         f"{comment} -*- {language} -*-\n"
         f"{comment} -*- coding: utf-8 -*-\n"
         f"{comment}\n"
-        f"{comment} michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
-        f"{comment} Copyright (c) 2010-{YEAR} All rights reserved.\n"
+        f"{comment} This code is part of SpatialData.\n"
+        f"{comment}\n"
+        f"{comment} Copyright (c) 2010-{YEAR} The SpatialData authors and contributors\n"
+        f"{comment} SPDX-License-Identifier: MIT\n"
     )
 
 
@@ -249,9 +254,9 @@ def layouts() -> None:
         ),
         # no coding line
         "coding.sh": (
-            "# -*- bash -*-\n#\n# michael a.g. aïvázis\n# Copyright (c) 2010-2026 All rights reserved.\n"
+            "# -*- bash -*-\n#\n# text\n#\n# Copyright (c) 2010-2026 The SpatialData authors and contributors\n# SPDX-License-Identifier: MIT\n"
             + "\n\necho\n\n\n# End of file\n",
-            "mode, coding, spacer, author, and copyright",
+            "mode, coding, spacer, text, spacer, copyright, and license",
         ),
         # two blank lines after the preamble of a yaml file, whose formatter keeps one
         "loose.yaml": (
@@ -292,21 +297,21 @@ def layouts() -> None:
         "tight.pyi": preamble(comment="#", language="python") + "\nx: int\n\n# End of file\n",
         "guard.icc": preamble(comment="//", language="c++") + "\n// code guard\n#pragma once\n\n\n// End of file\n",
         "doc.md": "<!--\n-*- markdown -*-\n-*- coding: utf-8 -*-\n\n"
-        + "michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
-        + f"Copyright (c) 2010-{YEAR} All rights reserved.\n-->\n\n# title\n\n\n<!-- End of file -->\n",
+        + "text\n\n"
+        + f"Copyright (c) 2010-{YEAR} The SpatialData authors and contributors\nSPDX-License-Identifier: MIT\n-->\n\n# title\n\n<!-- End of file -->\n",
         "Dockerfile": '## -*- docker-image-name: "x:y" -*-\n'
         + preamble(comment="#", language="x").split("\n", 1)[1]
         + "\n\nFROM ubuntu\n\n\n# End of file\n",
         "run.sh": "#!/bin/bash\n" + preamble(comment="#", language="bash") + "\n\necho\n\n\n# End of file\n",
         "look.css": "/*  -*- css -*-  */\n/*\n * -*- coding: utf-8 -*-\n *\n"
-        + " * michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
-        + f" * Copyright (c) 2010-{YEAR} All rights reserved.\n */\n\n\na {{\n}}\n\n\n/* End of file */\n",
+        + " * text\n *\n"
+        + f" * Copyright (c) 2010-{YEAR} The SpatialData authors and contributors\n * SPDX-License-Identifier: MIT\n */\n\n\na {{\n}}\n\n\n/* End of file */\n",
         "_complete": "#compdef complete\n"
         + preamble(comment="#", language="zsh")
         + "\n\n_arguments\n\n\n# End of file\n",
         "page.html": "<!DOCTYPE html>\n\n<!--\n-*- html -*-\n-*- coding: utf-8 -*-\n\n"
-        + "michael a.g. aïvázis <michael.aivazis@para-sim.com>\n"
-        + f"Copyright (c) 2010-{YEAR} All rights reserved.\n-->\n\n\n<html>\n</html>\n\n\n<!-- End of file -->\n",
+        + "text\n\n"
+        + f"Copyright (c) 2010-{YEAR} The SpatialData authors and contributors\nSPDX-License-Identifier: MIT\n-->\n\n\n<html>\n</html>\n\n\n<!-- End of file -->\n",
         "vendor/theirs.js": "// no preamble here\n",
         "values.csv": "1,2,3\n",
     }

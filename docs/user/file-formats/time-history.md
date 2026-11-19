@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 (sec-file-formats-TimeHistoryDB)=
 # TimeHistoryDB Format
 
@@ -29,3 +38,5 @@ TimeHistory { // start specifying the database parameters
 10.0     2.00
 11.0     0.00
 ```
+
+% End of file

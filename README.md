@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # Spatialdata
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/geodynamics/spatialdata/blob/master/COPYING)
@@ -28,3 +37,5 @@ discretization.
 ## Author
 
 * Brad Aagaard, Geologic Hazards Science Center, USGS, USA
+
+# End of file

@@ -1,11 +1,12 @@
-# =================================================================================================
+# -*- makefile -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026 All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT 
+
 
 # Include files in templates in spatialdata source distribution.
 EXTRA_DIST = \
@@ -26,5 +27,6 @@ EXTRA_DIST = \
 	spatialdb/m4/ac_pkg_swig.m4 \
 	spatialdb/m4/cit_numpy.m4 \
 	spatialdb/m4/cit_python.m4
+
 
 # End of file 

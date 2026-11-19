@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # PointsStream
 
 % WARNING: Do not edit; this is a generated file!
@@ -29,3 +38,4 @@ comment_flag = #
 number_format = %14.5e
 :::
 
+% End of file

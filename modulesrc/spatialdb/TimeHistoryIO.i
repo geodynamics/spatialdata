@@ -1,11 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026 All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /** @file modulesrc/spatialdb/TimeHistory.i
  *
@@ -30,10 +31,10 @@ namespace spatialdata {
              * @param timeUnits Units associated with time stamps.
              * @param filename Filename for time history.
              */
-            % apply(double* IN_ARRAY1,
+            %apply(double* IN_ARRAY1,
                     int DIM1){(const double* time,
                                const size_t nptsT)};
-            % apply(double* IN_ARRAY1,
+            %apply(double* IN_ARRAY1,
                     int DIM1){(const double* amplitude,
                                const size_t nptsA)};
             static void write(const double* time,
@@ -42,9 +43,9 @@ namespace spatialdata {
                               const size_t nptsA,
                               const char* timeUnits,
                               const char* filename);
-            % clear(const double* time,
+            %clear(const double* time,
                     const size_t nptsT);
-            % clear(const double* amplitude,
+            %clear(const double* amplitude,
                     const size_t nptsA);
 
         }; // class TimeHistoryIO

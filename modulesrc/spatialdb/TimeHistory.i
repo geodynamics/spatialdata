@@ -1,11 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026 All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /** @file modulesrc/spatialdb/TimeHistory.i
  *
@@ -69,15 +70,16 @@ namespace spatialdata {
              *
              * @returns 0 on success, 1 on failure (i.e., could not interpolate)
              */
-            % apply double* OUTPUT{double* value};
+            %apply double* OUTPUT{double* value};
             int query(double* value,
                       const double t);
 
-            % clear(double* value);
+            %clear(double* value);
 
         }; // class TimeHistory
 
     } // namespace spatialdb
 } // namespace spatialdata
+
 
 // End of file

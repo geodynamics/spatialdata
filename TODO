@@ -1,6 +1,0 @@
-GEOCOORDS
-
-  Add local origin and rotation to projected coordinate systems.
-    Update libtest.
-
-  Make it possible to pickle/unpickle to/from file like in C++?

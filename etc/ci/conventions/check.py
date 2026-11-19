@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-# =================================================================================================
-# This code is part of PyLith, developed through the Computational Infrastructure
-# for Geodynamics (https://github.com/geodynamics/pylith).
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# Copyright (c) 2010-2026 All rights reserved.
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# See https://mit-license.org/ and LICENSE.md and for license information.
-# =================================================================================================
-# Based on corresponding code in Pyre.
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
 
 # externals
@@ -73,7 +72,9 @@ CXX = (".h", ".hh", ".icc", ".cc", ".cpp", ".cu")
 # the yaml files, whose formatter keeps a single blank line wherever it finds more
 YAML = (".yml", ".yaml", ".clang-format")
 # the copyright line, with whatever comment marker precedes it
-COPYRIGHT_LINE = re.compile(r"^(?P<prefix>.*?)Copyright \(c\) 2010-\d{4} All rights reserved.$")
+COPYRIGHT_LINE = re.compile(r"^(?P<prefix>.*?)Copyright \(c\) 2010-\d{4} The SpatialData authors and contributors$")
+# the license line, which follows the copyright; the license itself is any text
+LICENSE_LINE = re.compile(r"SPDX-License-Identifier: \S.*$")
 # the lines that open a block comment preamble
 OPENERS = ("<!--", "{/*", "/*")
 # and the ones that close it
@@ -95,7 +96,7 @@ SUBJECT = re.compile(rf"^{AREA}(, ?{AREA})*: \S")
 # control, such as the dependency updates dependabot proposes
 BOTS = ("dependabot[bot]",)
 # the copyright line, with any closing year
-COPYRIGHT = re.compile(r"\(c\) 2010-(\d{4}) All rights reserved.")
+COPYRIGHT = re.compile(r"\(c\) 2010-(\d{4}) The SpatialData authors and contributors$")
 
 
 class ConventionError(Exception):
@@ -327,7 +328,7 @@ def layout(*, name: str, text: str) -> list:
     # a file without one
     if idx is None or copyright is None:
         # is missing its preamble, and nothing else can be said about it
-        return problems + ["no 'Copyright (c) 2010-YYYY All rights reserved.' in its preamble"]
+        return problems + ["no 'Copyright (c) 2010-YYYY The SpatialData authors and contributors' in its preamble"]
     # the comment marker is whatever precedes the copyright
     prefix = copyright.group("prefix")
     # a block comment preamble opens on a line of its own
@@ -361,28 +362,33 @@ def layout(*, name: str, text: str) -> list:
             problems.append("the preamble does not open with a lower case mode line")
         # move on
         comment = comment[1:]
-    # the rest of the comment: coding, spacer, at least one author, and the copyright
+    # the rest of the comment: coding, spacer, at least one line of text, a spacer, and the copyright
     expected = [f"{prefix}-*- coding: utf-8 -*-", marker]
     # compare
-    if comment[:2] != expected or len(comment) < 4 or any(not line.strip() for line in comment[2:]):
+    if (
+        comment[:2] != expected
+        or len(comment) < 5
+        or comment[-2] != marker
+        or any(not line.strip() or line.rstrip() == marker for line in comment[2:-2])
+    ):
         # the preamble has lines missing, extra, or out of order
-        problems.append("the preamble is not mode, coding, spacer, author, and copyright")
+        problems.append("the preamble is not mode, coding, spacer, text, spacer, copyright, and license")
     # past the copyright
     nxt = idx + 1
-    # an optional license pointer, set off from the copyright by a spacer, belongs to the preamble
-    if (
-        nxt + 1 < len(lines)
-        and lines[nxt] == marker
-        and lines[nxt + 1].startswith(f"{prefix}See https://mit-license.org/")
-    ):
+    # the license line follows the copyright
+    if nxt < len(lines) and lines[nxt].startswith(prefix) and LICENSE_LINE.match(lines[nxt][len(prefix) :]):
         # so move past it
-        nxt += 2
+        nxt += 1
+    # or else
+    else:
+        # the license is not recorded
+        problems.append("no 'SPDX-License-Identifier: LICENSE' line after the copyright")
     # a block comment closes on the next line
     if opener is not None:
         # make sure it does
         if nxt >= len(lines) or lines[nxt].strip() not in CLOSERS:
             # or else the preamble runs on
-            problems.append("the preamble block does not close after the copyright")
+            problems.append("the preamble block does not close after the license")
         # and move past it
         nxt += 1
     # count the blank lines after the preamble
@@ -416,7 +422,7 @@ def layout(*, name: str, text: str) -> list:
         blanks += 1
     # black puts a single blank line after imports, so python decides for itself, and a single
     # one at the end of a python stub
-    allowed = (1, 2) if name.endswith(".py") else (1,) if name.endswith((".pyi", *YAML)) else (2,)
+    allowed = (1, 2) if name.endswith(".py") else (1,) if name.endswith((".pyi", ".md", *YAML)) else (2,)
     # a file with no body shares the blank lines after the preamble
     if len(lines) - 1 - blanks == nxt:
         # so its count is the one that matters
