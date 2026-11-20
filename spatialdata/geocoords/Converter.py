@@ -1,12 +1,11 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
 
 def convert(points, csDest, csSrc):
@@ -20,12 +19,14 @@ def convert(points, csDest, csSrc):
     """
 
     if not csDest.getSpaceDim() == csSrc.getSpaceDim():
-        msg = "Spatial dimensions of source (%d) and destination (%d) " \
-              "coordinate systems must match." % (
-                  csSrc.getSpaceDim(), csDest.getSpaceDim())
+        msg = "Spatial dimensions of source (%d) and destination (%d) " "coordinate systems must match." % (
+            csSrc.getSpaceDim(),
+            csDest.getSpaceDim(),
+        )
         raise ValueError(msg)
 
     from . import geocoords
+
     converter = geocoords.Converter()
     converter.convert(points, csDest, csSrc)
     return

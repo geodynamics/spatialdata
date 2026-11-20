@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "utilsfwd.hh"
@@ -17,8 +18,7 @@
 class spatialdata::utils::PointsStream { // class PointsStream
     friend class TestPointsStream;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -71,7 +71,7 @@ public:
      */
     void setFilename(const char* filename);
 
-    /** Get name of fle.
+    /** Get name of file.
      *
      * If no filename is supplied, stdin/stdout is used.
      *
@@ -99,15 +99,13 @@ public:
                const size_t numPts,
                const size_t numDims) const;
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     PointsStream(const PointsStream& p); ///< Not implemented
     const PointsStream& operator=(const PointsStream& p); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     std::string _filename; ///< Name of file for input/output
@@ -118,5 +116,6 @@ private:
 }; // class PointsStream
 
 #include "PointsStream.icc" // inline methods
+
 
 // End of file

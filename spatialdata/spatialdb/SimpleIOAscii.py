@@ -1,12 +1,12 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 from .SimpleIO import SimpleIO
 from .spatialdb import SimpleIOAscii as ModuleSimpleIOAscii
@@ -18,6 +18,7 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
 
     Implements `SimpleIO`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [dbio]
@@ -50,28 +51,29 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
 
         self._validateData(data)
 
-        (numLocs, spaceDim) = data['points'].shape
-        dataDim = data['data_dim']
-        numValues = len(data['values'])
+        numLocs, spaceDim = data["points"].shape
+        dataDim = data["data_dim"]
+        numValues = len(data["values"])
         names = []
         units = []
         values = numpy.zeros((numLocs, numValues), dtype=numpy.float64)
         i = 0
-        for value in data['values']:
-            names.append(value['name'])
-            units.append(value['units'])
-            values[:, i] = value['data'][:]
+        for value in data["values"]:
+            names.append(value["name"])
+            units.append(value["units"])
+            values[:, i] = value["data"][:]
             i += 1
 
         from .spatialdb import SimpleDBData
+
         dbData = SimpleDBData()
         dbData.allocate(numLocs, numValues, spaceDim, dataDim)
-        dbData.setCoordinates(data['points'])
+        dbData.setCoordinates(data["points"])
         dbData.setData(values)
         dbData.setNames(names)
         dbData.setUnits(units)
 
-        ModuleSimpleIOAscii.write(self, dbData, data['coordsys'])
+        ModuleSimpleIOAscii.write(self, dbData, data["coordsys"])
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
 
@@ -86,6 +88,7 @@ class SimpleIOAscii(SimpleIO, ModuleSimpleIOAscii):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def createWriter(filename):
     writer = SimpleIOAscii()

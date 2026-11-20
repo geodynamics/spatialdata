@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "CoordSys.hh" // ISA CoordSys
@@ -19,8 +20,7 @@
 class spatialdata::geocoords::CSGeo : public CoordSys {
     friend class TestCSGeo;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -69,7 +69,7 @@ public:
                               const double* coords,
                               const size_t numLocs,
                               const size_t numDims,
-                              const double dx=1000.0) const;
+                              const double dx = 1000.0) const;
 
     /** Convert coordinates from local coordinate system to geographic coordinate system.
      *
@@ -77,10 +77,9 @@ public:
      * @param[in] numLocs Number of location
      * @param[in] numDims Number of spatial dimensions in coordinates
      */
-    virtual
-    void localToGeographic(double* coords,
-                           const size_t numLocs,
-                           const size_t numDims) const;
+    virtual void localToGeographic(double* coords,
+                                   const size_t numLocs,
+                                   const size_t numDims) const;
 
     /** Convert coordinates from geographic coordinate system to local coordinate system.
      *
@@ -88,27 +87,23 @@ public:
      * @param[in] numLocs Number of location
      * @param[in] numDims Number of spatial dimensions in coordinates
      */
-    virtual
-    void geographicToLocal(double* coords,
-                           const size_t numLocs,
-                           const size_t numDims) const;
+    virtual void geographicToLocal(double* coords,
+                                   const size_t numLocs,
+                                   const size_t numDims) const;
 
     /** Pickle coordinate system to ascii stream.
      *
      * @param s Output stream
      */
-    virtual
-    void pickle(std::ostream& s) const override;
+    virtual void pickle(std::ostream& s) const override;
 
     /** Unpickle coordinate system from ascii stream.
      *
      * @param s Input stream
      */
-    virtual
-    void unpickle(std::istream& s) override;
+    virtual void unpickle(std::istream& s) override;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Copy constructor
@@ -117,8 +112,7 @@ protected:
      */
     CSGeo(const CSGeo& cs);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     std::string _string; ///< String specifying coordinate system.
@@ -126,5 +120,6 @@ private:
     spatialdata::geocoords::Converter* _converter; ///< Converter for coordinate transformations.
 
 }; // class CSGeo
+
 
 // End of file

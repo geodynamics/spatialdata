@@ -1,12 +1,12 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 import unittest
 
@@ -18,6 +18,7 @@ class TestGravityField(unittest.TestCase):
 
     def setUp(self):
         from spatialdata.spatialdb.GravityField import GravityField
+
         db = GravityField()
         db._configure()
         self._db = db
@@ -25,6 +26,7 @@ class TestGravityField(unittest.TestCase):
     def test_database(self):
         locs = numpy.array([[1.0, 2.0, 3.0], [5.6, 4.2, 8.6]], numpy.float64)
         from spatialdata.geocoords.CSCart import CSCart
+
         cs = CSCart()
         cs._configure()
         gacc = 9.80665

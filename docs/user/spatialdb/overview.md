@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # Overview
 
 A spatial database defines how values for some field (scalar, vector, tensor) vary spatially, and they can be quite complex.
@@ -19,3 +28,5 @@ Examples of compatible coordinate systems include geographic coordinates (longit
 Spatial database queries use the [Proj Cartographic Projections library](https://proj.maptools.org) to convert between coordinate systems, so a large number of geographic projections are available with support for converting between NAD27 and WGS84 horizontal datums as well as several other frequently used datums.
 Because the interpolation is done in the coordinate system of the spatial database, geographic coordinates should only be used for very simple datasets, or undesirable results will occur.
 This is especially true when the spatial database coordinate system combines latitude, longitude, and elevation in meters; longitude and latitude in degrees are often much smaller than elevations in meters leading to distorted ``distance'' between locations and interpolation.
+
+% End of file

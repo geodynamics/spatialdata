@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # DynamicElasticity
 
 % WARNING: Do not edit; this is a generated file!
@@ -34,3 +43,4 @@ mass_density = 3.0*kg/m**3
 wave_period = 2.0*s
 :::
 
+% End of file

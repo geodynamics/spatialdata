@@ -1,3 +1,12 @@
+# -*- yaml -*-
+# -*- coding: utf-8 -*-
+#
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
+#
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 codecov:
   require_ci_to_pass: yes
 
@@ -16,3 +25,5 @@ parsers:
 
 fixes:
   - "/home/spatialdata-user/src/::"
+
+# End of file

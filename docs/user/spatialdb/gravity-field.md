@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # Gravity Field
 
 The `GravityField` spatial database is a specialized spatial database for specifying gravitational body forces.
@@ -29,7 +38,7 @@ gravityField.setGravityDir(0.0, -1.0, 0.0);
 :::{tab-item} Python
 
 Python applications should use the Pyre framework for creating the `CompositeDB`.
-We show how to do it programatically in Python for completeness.
+We show how to do it programmatically in Python for completeness.
 
 ```{code-block} python
 ---
@@ -45,3 +54,5 @@ gravity._configure()
 :::
 
 ::::
+
+% End of file

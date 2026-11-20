@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SpatialDB.hh"
@@ -17,8 +18,7 @@
 class spatialdata::spatialdb::UniformDB : public SpatialDB { // class UniformDB
     friend class TestUniformDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -89,15 +89,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     UniformDB(const UniformDB& data); ///< Not implemented
     const UniformDB& operator=(const UniformDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     std::string* _names; ///< Names of values in database
@@ -108,5 +106,6 @@ private:
 }; // class UniformDB
 
 #include "UniformDB.icc"
+
 
 // End of file

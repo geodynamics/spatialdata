@@ -1,12 +1,12 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import GravityField as ModuleGravityField
@@ -16,8 +16,9 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     """
     Spatial database with gravity field information.
 
-    Implements `SpatialDB`. 
+    Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             # Specify a gravity field in 2D with gravity in the -y direction.
@@ -30,14 +31,13 @@ class GravityField(SpatialDBObj, ModuleGravityField):
     import pythia.pyre.inventory
 
     gravityDir = pythia.pyre.inventory.list("gravity_dir", default=[0.0, 0.0, -1.0])
-    gravityDir.meta['tip'] = "Direction of gravitational body force. " \
-                             "(used only with a Cartesian coordinate system."
+    gravityDir.meta["tip"] = "Direction of gravitational body force. " "(used only with a Cartesian coordinate system."
 
     from pythia.pyre.units.length import meter
     from pythia.pyre.units.time import second
-    acceleration = pythia.pyre.inventory.dimensional("acceleration",
-                                              default=9.80665 * meter / second**2)
-    acceleration.meta['tip'] = "Gravitational acceleration."
+
+    acceleration = pythia.pyre.inventory.dimensional("acceleration", default=9.80665 * meter / second**2)
+    acceleration.meta["tip"] = "Gravitational acceleration."
 
     def __init__(self, name="gravityfield"):
         """
@@ -48,7 +48,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
 
     def _defaults(self):
         self.description = "Gravity field"
-    
+
     def _configure(self):
         """
         Set members based on inventory.
@@ -69,7 +69,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
         """
         Validate parameters.
         """
-        if (len(params.gravityDir) != 3):
+        if len(params.gravityDir) != 3:
             raise ValueError("Gravity direction must be a 3 component list or tuple.")
         try:
             dirFloat = list(map(float, params.gravityDir))
@@ -78,6 +78,7 @@ class GravityField(SpatialDBObj, ModuleGravityField):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """

@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -24,7 +24,8 @@ spatialdata::spatialdb::TimeHistory::TimeHistory(void) :
     _time(0),
     _amplitude(0),
     _npts(0),
-    _ilower(0) {}
+    _ilower(0) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -35,14 +36,17 @@ spatialdata::spatialdb::TimeHistory::TimeHistory(const char* label) :
     _time(0),
     _amplitude(0),
     _npts(0),
-    _ilower(0) {}
+    _ilower(0) {
+}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
 spatialdata::spatialdb::TimeHistory::~TimeHistory(void) {
-    delete[] _time;_time = 0;
-    delete[] _amplitude;_amplitude = 0;
+    delete[] _time;
+    _time = 0;
+    delete[] _amplitude;
+    _amplitude = 0;
     _npts = 0;
 } // destructor
 
@@ -60,8 +64,10 @@ spatialdata::spatialdb::TimeHistory::open(void) {
 // Close the time history.
 void
 spatialdata::spatialdb::TimeHistory::close(void) {
-    delete[] _time;_time = 0;
-    delete[] _amplitude;_amplitude = 0;
+    delete[] _time;
+    _time = 0;
+    delete[] _amplitude;
+    _amplitude = 0;
     _npts = 0;
 } // close
 
@@ -82,23 +88,23 @@ spatialdata::spatialdb::TimeHistory::query(double* value,
                 }
                 --_ilower;
             } // while
-        } else if (t > _time[_ilower+1]) {
-            const size_t imax = _npts-2;
+        } else if (t > _time[_ilower + 1]) {
+            const size_t imax = _npts - 2;
             while (_ilower < imax) {
-                if (t <= _time[_ilower+1]) {
+                if (t <= _time[_ilower + 1]) {
                     break;
                 }
                 ++_ilower;
             } // while
         } // if/else
 
-        assert(_ilower < _npts-1);
-        if (( t >= _time[_ilower]) && ( t <= _time[_ilower+1]) ) {
+        assert(_ilower < _npts - 1);
+        if ((t >= _time[_ilower]) && (t <= _time[_ilower + 1])) {
             const double tL = _time[_ilower];
-            const double tU = _time[_ilower+1];
+            const double tU = _time[_ilower + 1];
             const double wtL = (tU - t) / (tU - tL);
             const double wtU = (t - tL) / (tU - tL);
-            *value = wtL * _amplitude[_ilower] + wtU * _amplitude[_ilower+1];
+            *value = wtL * _amplitude[_ilower] + wtU * _amplitude[_ilower + 1];
         } else {
             return 1;
         } // else

@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh"
@@ -17,14 +18,13 @@ namespace spatialdata {
     namespace spatialdb {
         class TestSimpleDB;
         class TestSimpleDB_Data;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDB {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestSimpleDB(TestSimpleDB_Data* data);
 
@@ -32,12 +32,10 @@ public:
     ~TestSimpleDB(void);
 
     /// Test constructors.
-    static
-    void testConstructors(void);
+    static void testConstructors(void);
 
     /// Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     /// Test getNamesDBValues().
     void testGetNamesDBValues(void);
@@ -48,23 +46,20 @@ public:
     /// Test queryLinear()
     void testQueryLinear(void);
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////////////////////////////
 
     /// Populate database with data.
     void _initializeDB(void);
 
-protected:
-
+  protected:
     // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
 
     SimpleDB* _db; ///< Test subject
     TestSimpleDB_Data* _data; ///< Data for tests.
 
     // PRIVATE METHODS ////////////////////////////////////////////////////////////////////////////
-private:
-
+  private:
     /** Test query method by doing query and checking values returned.
      *
      * @param queryData Query locations and expected values
@@ -78,8 +73,7 @@ private:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDB_Data {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestSimpleDB_Data(void);
 
@@ -87,8 +81,7 @@ public:
     ~TestSimpleDB_Data(void);
 
     // PUBLIC MEMBERS ////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     size_t numLocs;
     size_t spaceDim;
     size_t numValues;
@@ -103,7 +96,7 @@ public:
     const double* queryNearest;
     const double* queryLinear;
     const int* errFlags;
-
 };
+
 
 // End of file

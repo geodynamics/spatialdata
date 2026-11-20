@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "CSGeo.hh" // ISA CSGeo
@@ -19,8 +20,7 @@
 class spatialdata::geocoords::CSGeoLocal : public CSGeo {
     friend class TestCSGeoLocal;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
 
     /// Default constructor
@@ -87,8 +87,7 @@ public:
      */
     void unpickle(std::istream& s) override;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Copy constructor
@@ -97,8 +96,7 @@ protected:
      */
     CSGeoLocal(const CSGeoLocal& cs);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     double _originX; ///< X coordinate of local origin.
@@ -106,5 +104,6 @@ private:
     double _yAzimuth; ///< Azimuth (degrees) of y axis.
 
 }; // class CSGeoLocal
+
 
 // End of file

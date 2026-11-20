@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SpatialDB.hh"
@@ -17,8 +18,7 @@
 class spatialdata::spatialdb::CompositeDB : public SpatialDB { // class CompositeDB
     friend class TestCompositeDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -97,15 +97,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // NOT IMPLEMENTED ////////////////////////////////////////////////////
 
     CompositeDB(const CompositeDB& data); ///< Not implemented
     const CompositeDB& operator=(const CompositeDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE STRUCTS ////////////////////////////////////////////////////
 
     struct DBInfo {
@@ -120,21 +118,24 @@ private:
             query_indices(NULL),
             names_values(NULL),
             query_size(0),
-            num_names(0) {}
+            num_names(0) {
+        }
 
 
         ~DBInfo(void) {
-            delete[] query_buffer;query_buffer = NULL;
-            delete[] query_indices;query_indices = NULL;
-            delete[] names_values;names_values = NULL;
+            delete[] query_buffer;
+            query_buffer = NULL;
+            delete[] query_indices;
+            query_indices = NULL;
+            delete[] names_values;
+            names_values = NULL;
             query_size = 0;
             num_names = 0;
         } // destructor
 
     }; // DBInfo
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     SpatialDB* _dbA; ///< Spatial database A
@@ -143,5 +144,6 @@ private:
     DBInfo* _infoA; ///< Information for database A
     DBInfo* _infoB; ///< Information for database B
 }; // class CompositeDB
+
 
 // End of file

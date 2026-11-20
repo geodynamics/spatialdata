@@ -1,8 +1,20 @@
-# Configuration file for the Sphinx documentation builder.
+#!/usr/bin/env python3
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
+#
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
+
+"""Configuration file for the Sphinx documentation builder.
+
+This file only contains a selection of the most common options. For a full
+list see the documentation:
+https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""
 
 # -- Path setup --------------------------------------------------------------
 
@@ -99,3 +111,5 @@ html_css_files = [
     "css/custom.css",
 ]
 html_last_updated_fmt = ""
+
+# End of file

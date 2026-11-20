@@ -1,21 +1,21 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
 #include "CompositeDB.hh" // Implementation of class methods
 
-#include <stdexcept> // USES std::runtime_error
-#include <sstream> // USES std::ostringsgream
-#include <strings.h> // USES strcasecmp()
 #include <cassert> // USES assert()
+#include <sstream> // USES std::ostringsgream
+#include <stdexcept> // USES std::runtime_error
+#include <strings.h> // USES strcasecmp()
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -23,7 +23,8 @@ spatialdata::spatialdb::CompositeDB::CompositeDB(void) :
     _dbA(NULL),
     _dbB(NULL),
     _infoA(NULL),
-    _infoB(NULL) {}
+    _infoB(NULL) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -33,7 +34,8 @@ spatialdata::spatialdb::CompositeDB::CompositeDB(const char* label) :
     _dbA(NULL),
     _dbB(NULL),
     _infoA(NULL),
-    _infoB(NULL) {}
+    _infoB(NULL) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -41,8 +43,10 @@ spatialdata::spatialdb::CompositeDB::CompositeDB(const char* label) :
 spatialdata::spatialdb::CompositeDB::~CompositeDB(void) {
     // Don't manage memory for dbA and dbB
 
-    delete _infoA;_infoA = NULL;
-    delete _infoB;_infoB = NULL;
+    delete _infoA;
+    _infoA = NULL;
+    delete _infoB;
+    _infoB = NULL;
 } // destructor
 
 
@@ -57,7 +61,8 @@ spatialdata::spatialdb::CompositeDB::setDBA(SpatialDB* db,
     assert(numNames > 0);
 
     // Clear out old data
-    delete _infoA;_infoA = new DBInfo;
+    delete _infoA;
+    _infoA = new DBInfo;
     _dbA = db;
 
     // Set data
@@ -82,7 +87,8 @@ spatialdata::spatialdb::CompositeDB::setDBB(SpatialDB* db,
     assert(numNames > 0);
 
     // Clear out old data
-    delete _infoB;_infoB = new DBInfo;
+    delete _infoB;
+    _infoB = new DBInfo;
     _dbB = db;
 
     // Set data
@@ -114,8 +120,10 @@ spatialdata::spatialdb::CompositeDB::open(void) {
     _infoA->query_size = _infoA->num_names;
     const size_t qsizeA = _infoA->query_size;
     char** queryValuesA = (qsizeA > 0) ? new char*[qsizeA] : NULL;
-    delete[] _infoA->query_indices;_infoA->query_indices = (qsizeA > 0) ? new size_t[qsizeA] : NULL;
-    delete[] _infoA->query_buffer;_infoA->query_buffer = (qsizeA > 0) ? new double[qsizeA] : NULL;
+    delete[] _infoA->query_indices;
+    _infoA->query_indices = (qsizeA > 0) ? new size_t[qsizeA] : NULL;
+    delete[] _infoA->query_buffer;
+    _infoA->query_buffer = (qsizeA > 0) ? new double[qsizeA] : NULL;
     for (size_t i = 0; i < qsizeA; ++i) {
         _infoA->query_indices[i] = i;
         queryValuesA[i] = const_cast<char*>(_infoA->names_values[i].c_str());
@@ -126,16 +134,20 @@ spatialdata::spatialdb::CompositeDB::open(void) {
     _infoB->query_size = _infoB->num_names;
     const size_t qsizeB = _infoB->query_size;
     char** queryValuesB = (qsizeB > 0) ? new char*[qsizeB] : NULL;
-    delete[] _infoB->query_indices;_infoB->query_indices = (qsizeB > 0) ? new size_t[qsizeB] : NULL;
-    delete[] _infoB->query_buffer;_infoB->query_buffer = (qsizeB > 0) ? new double[qsizeB] : NULL;
+    delete[] _infoB->query_indices;
+    _infoB->query_indices = (qsizeB > 0) ? new size_t[qsizeB] : NULL;
+    delete[] _infoB->query_buffer;
+    _infoB->query_buffer = (qsizeB > 0) ? new double[qsizeB] : NULL;
     for (size_t i = 0; i < qsizeB; ++i) {
         _infoB->query_indices[i] = qsizeA + i;
         queryValuesB[i] = const_cast<char*>(_infoB->names_values[i].c_str());
     } // for
     _dbB->setQueryValues(const_cast<const char**>(queryValuesB), qsizeB);
 
-    delete[] queryValuesA;queryValuesA = NULL;
-    delete[] queryValuesB;queryValuesB = NULL;
+    delete[] queryValuesA;
+    queryValuesA = NULL;
+    delete[] queryValuesB;
+    queryValuesB = NULL;
 } // open
 
 
@@ -192,8 +204,7 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
 
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getDescription()
-            << " must be positive.\n";
+        msg << "Number of values for query in spatial database " << getDescription() << " must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
@@ -290,8 +301,10 @@ spatialdata::spatialdb::CompositeDB::setQueryValues(const char* const* names,
         _dbB->setQueryValues(const_cast<const char**>(queryValsB), qsizeB);
     } // if
 
-    delete[] queryValsA;queryValsA = NULL;
-    delete[] queryValsB;queryValsB = NULL;
+    delete[] queryValsA;
+    queryValsA = NULL;
+    delete[] queryValsB;
+    queryValsB = NULL;
 } // queryVals
 
 
@@ -319,10 +332,8 @@ spatialdata::spatialdb::CompositeDB::query(double* vals,
     } // if
     else if (numVals != querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << getDescription()
-            << "(" << querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << getDescription() << "(" << querySize
+            << ") does not match size of array provided (" << numVals << ").\n";
         throw std::logic_error(msg.str());
     } // if
 

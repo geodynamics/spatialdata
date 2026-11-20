@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "spatialdata/spatialdb/spatialdbfwd.hh" // USES SimpleDB, SimpleDBQuery
@@ -18,14 +19,13 @@ namespace spatialdata {
     namespace spatialdb {
         class TestSimpleDBQuery;
         class TestSimpleDBQuery_Data;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDBQuery {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestSimpleDBQuery(TestSimpleDBQuery_Data* data);
 
@@ -51,14 +51,12 @@ public:
     void testVolume(void);
 
     // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
-protected:
-
+  protected:
     /// Populdate database with values.
     void _initializeDB(void);
 
     // PROTECTED MEMBERS //////////////////////////////////////////////////////////////////////////
-protected:
-
+  protected:
     SimpleDB* _db; ///< Database for test subject.
     SimpleDBQuery* _query; ///< Test subject.
     TestSimpleDBQuery_Data* _data; ///< Test data.
@@ -68,8 +66,7 @@ protected:
 // ------------------------------------------------------------------------------------------------
 class spatialdata::spatialdb::TestSimpleDBQuery_Data {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     TestSimpleDBQuery_Data(void);
 
@@ -77,8 +74,7 @@ public:
     ~TestSimpleDBQuery_Data(void);
 
     // PUBLIC MEMBERS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// @name Database information
     //@{
     size_t numLocs; ///< Number of locations in database.
@@ -102,5 +98,6 @@ public:
     //@}
 
 }; // TestSimpleDBQuery_Data
+
 
 // End of file

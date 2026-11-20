@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 ## main
 
 * **Changed**
@@ -173,9 +182,11 @@ WKT.
 
 ## 2007/01/01
 
-* Changed interface so that it no longer uses pointers to pointers when passing arrays as arugments. You now pass just a pointer to where the values are to be stored. This makes the user interface cleaner.
+* Changed interface so that it no longer uses pointers to pointers when passing arrays as arguments. You now pass just a pointer to where the values are to be stored. This makes the user interface cleaner.
 * Numpy version >= 1.0 is now required (previous changeset).
 
 ## 2007/01/07
 
 * Changed interfaces to allow spatial dimension of coordinate systems to be 1-D and 2-D instead of just 3-D.
+
+% End of file

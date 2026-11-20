@@ -1,10 +1,13 @@
-// =================================================================================================
-// This code is part of SpatialData, developed through the Computational Infrastructure
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
 //
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
+//
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "geocoordsfwd.hh"
@@ -13,8 +16,7 @@
 #include <iosfwd> // USES std::istream, std::ostream
 
 class spatialdata::geocoords::CoordSys {
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Type of coordinate system
@@ -24,8 +26,7 @@ public:
         LOCAL_GEOGRAPHIC, ///< Local geographic coordinate system
     };
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -67,8 +68,7 @@ public:
      */
     virtual void unpickle(std::istream& s) = 0;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Copy destructor.
@@ -83,13 +83,13 @@ protected:
      */
     void setCSType(const CSTypeEnum cs);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     int _spaceDim; ///< Number of spatial dimensions in coordinate system
     CSTypeEnum _csType; ///< Type of coordinate system
 
 }; // class CoordSys
+
 
 // End of file

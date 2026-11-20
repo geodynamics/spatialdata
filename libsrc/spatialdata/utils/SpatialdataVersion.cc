@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -18,7 +18,7 @@
 #define STR_HELPER(x) #x
 #define STR(c) STR_HELPER(x)
 
-#define VERSION_JOINER_HELPER(major, minor, patch, dot) STR_HELPER(major ## dot ## minor ## dot ## patch)
+#define VERSION_JOINER_HELPER(major, minor, patch, dot) STR_HELPER(major##dot##minor##dot##patch)
 #define VERSION_JOINER(major, minor, patch) VERSION_JOINER_HELPER(major, minor, patch, .)
 
 const bool spatialdata::utils::SpatialdataVersion::_isRelease = int(SPATIALDATA_RELEASE_VERSION);
@@ -32,12 +32,14 @@ const char* spatialdata::utils::SpatialdataVersion::_projVersion =
 
 // ----------------------------------------------------------------------
 // Default constructor.
-spatialdata::utils::SpatialdataVersion::SpatialdataVersion(void) {}
+spatialdata::utils::SpatialdataVersion::SpatialdataVersion(void) {
+}
 
 
 // ----------------------------------------------------------------------
 // Default destrictor.
-spatialdata::utils::SpatialdataVersion::~SpatialdataVersion(void) {}
+spatialdata::utils::SpatialdataVersion::~SpatialdataVersion(void) {
+}
 
 
 // ----------------------------------------------------------------------

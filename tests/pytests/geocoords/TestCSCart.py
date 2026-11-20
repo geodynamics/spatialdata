@@ -1,14 +1,13 @@
 #!/usr/bin/env nemesis
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 import unittest
 
@@ -29,7 +28,7 @@ class TestCSCart(unittest.TestCase):
         cs.inventory.spaceDim = 2
         cs._configure()
 
-        self.assertEqual(1.0e+3, cs.getToMeters())
+        self.assertEqual(1.0e3, cs.getToMeters())
         self.assertEqual(2, cs.getSpaceDim())
 
 

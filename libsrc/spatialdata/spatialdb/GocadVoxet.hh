@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
@@ -17,8 +18,7 @@ class spatialdata::spatialdb::GocadVoxet { // GocadVoxet
     friend class TestGocadVOxet; // unit testing
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     GocadVoxet(void);
 
@@ -54,14 +54,12 @@ public:
                      const double pt[3]) const;
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     GocadVoxet(const GocadVoxet&); ///< Not implemented
     const GocadVoxet& operator=(const GocadVoxet&); ///< Not implemented
 
     // PRIVATE STRUCTS //////////////////////////////////////////////////////
-private:
-
+  private:
     struct Geometry {
         float o[3];
         float u[3];
@@ -86,8 +84,7 @@ private:
     }; // property
 
     // PRIVATE METHODS //////////////////////////////////////////////////////
-private:
-
+  private:
     /** Read voxet file.
      *
      * @param filename Name of Gocad voxet file.
@@ -114,12 +111,12 @@ private:
     void _resetData(void);
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     Geometry _geometry; ///< Geometry of voxet data.
     Property _property; ///< Voxet properties.
     float* _data; ///< Array with data values
 
 }; // GocadVoxet
+
 
 // End of file

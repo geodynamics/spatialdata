@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /** @file modulesrc/geocoords/CSGeo.i
  *
@@ -15,26 +15,23 @@
 
 namespace spatialdata {
     namespace geocoords {
-        class CSGeo:public CoordSys {
+        class CSGeo : public CoordSys {
             friend class TestCSGeo;
 
-public:
-
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor
             CSGeo(void);
 
             /// Default destructor
-            virtual
-            ~CSGeo(void);
+            virtual ~CSGeo(void);
 
             /** Clone coordinate system.
              *
              * @returns Pointer to copy
              */
-            virtual
-            CoordSys* clone(void) const;
+            virtual CoordSys* clone(void) const;
 
             /** Set string specifying coordinate system.
              *
@@ -52,8 +49,7 @@ public:
              *
              * @param ndims Number of dimensions
              */
-            virtual
-            void setSpaceDim(const int ndims);
+            virtual void setSpaceDim(const int ndims);
 
             /** Get radial outward direction.
              *
@@ -71,7 +67,7 @@ public:
                                       const double* coords,
                                       const size_t numLocs,
                                       const size_t numDims,
-                                      const double dx=1000.0) const;
+                                      const double dx = 1000.0) const;
 
             /** Convert coordinates from local coordinate system to geographic coordinate system.
              *
@@ -79,10 +75,9 @@ public:
              * @param[in] numLocs Number of location
              * @param[in] numDims Number of spatial dimensions in coordinates
              */
-            virtual
-            void localToGeographic(double* coords,
-                                   const size_t numLocs,
-                                   const size_t numDims) const;
+            virtual void localToGeographic(double* coords,
+                                           const size_t numLocs,
+                                           const size_t numDims) const;
 
             /** Convert coordinates from geographic coordinate system to local coordinate system.
              *
@@ -90,10 +85,9 @@ public:
              * @param[in] numLocs Number of location
              * @param[in] numDims Number of spatial dimensions in coordinates
              */
-            virtual
-            void geographicToLocal(double* coords,
-                                   const size_t numLocs,
-                                   const size_t numDims) const;
+            virtual void geographicToLocal(double* coords,
+                                           const size_t numLocs,
+                                           const size_t numDims) const;
 
             /** Pickle coordinate system to ascii stream.
              *
@@ -109,7 +103,8 @@ public:
 
         }; // class CSGeo
 
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
+
 
 // End of file

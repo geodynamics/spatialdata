@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -17,49 +17,48 @@
 
 #include <math.h> // USES M_PI
 
-#include <strings.h> // USES strcasecmp()
 #include <sstream> // USES std::stringstream
+#include <strings.h> // USES strcasecmp()
 
 // ------------------------------------------------------------------------------------------------
 namespace spatialdata {
     namespace geocoords {
         class TestCSGeo;
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 class spatialdata::geocoords::TestCSGeo {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test constructor
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test accessors.
-    static
-    void testAccessors(void);
+    static void testAccessors(void);
 
     /// Test computeSurfaceNormal().
-    static
-    void testComputeSurfaceNormal(void);
+    static void testComputeSurfaceNormal(void);
 
     /// Test pickle() & unpickle()
-    static
-    void testPickle(void);
+    static void testPickle(void);
 
 }; // class TestCSGeo
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestCSGeo::testConstructor", "[TestCSGeo]") {
+TEST_CASE("TestCSGeo::testConstructor",
+          "[TestCSGeo]") {
     spatialdata::geocoords::TestCSGeo::testConstructor();
 }
-TEST_CASE("TestCSGeo::testAccessors", "[TestCSGeo]") {
+TEST_CASE("TestCSGeo::testAccessors",
+          "[TestCSGeo]") {
     spatialdata::geocoords::TestCSGeo::testAccessors();
 }
-TEST_CASE("TestCSGeo::testComputeSurfaceNormal", "[TestCSGeo]") {
+TEST_CASE("TestCSGeo::testComputeSurfaceNormal",
+          "[TestCSGeo]") {
     spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal();
 }
-TEST_CASE("TestCSGeo::testPickle", "[TestCSGeo]") {
+TEST_CASE("TestCSGeo::testPickle",
+          "[TestCSGeo]") {
     spatialdata::geocoords::TestCSGeo::testPickle();
 }
 
@@ -79,10 +78,12 @@ spatialdata::geocoords::TestCSGeo::testConstructor(void) {
     const size_t cloneSpaceDim(2);
 
     cs.setSpaceDim(2);
-    CoordSys* csClone = cs.clone();assert(csClone);
+    CoordSys* csClone = cs.clone();
+    assert(csClone);
     CHECK(CoordSys::GEOGRAPHIC == csClone->getCSType());
     CHECK(cloneSpaceDim == csClone->getSpaceDim());
-    delete csClone;csClone = NULL;
+    delete csClone;
+    csClone = NULL;
 } // testConstructor
 
 
@@ -114,10 +115,18 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const size_t numDims = 3;
         const size_t size = numLocs * numDims;
         const double coords[size] = {
-            28.0, 23.0, 3.4,
-            42.0, 34.0, 3.5,
-            -12.0, 65.7, 12.6,
-            64.3, -163.0, -1.5,
+            28.0,
+            23.0,
+            3.4,
+            42.0,
+            34.0,
+            3.5,
+            -12.0,
+            65.7,
+            12.6,
+            64.3,
+            -163.0,
+            -1.5,
         };
         double* dirs = new double[size];
         cs.setSpaceDim(numDims);
@@ -127,7 +136,8 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
             CHECK(0.0 == dirs[i++]);
             CHECK(1.0 == dirs[i++]);
         } // for
-        delete[] dirs;dirs = 0;
+        delete[] dirs;
+        dirs = 0;
     } // WGS84
 
     { // UTM zone 10
@@ -136,10 +146,18 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const size_t numDims = 3;
         const size_t size = numLocs * numDims;
         const double coords[size] = {
-            570000.0, 4150000.0, -1.0,
-            400000.0, 4000000.0, 20.0,
-            300000.0, 4250000.0, 30.0,
-            550000.0, 4100000.0, 40.0,
+            570000.0,
+            4150000.0,
+            -1.0,
+            400000.0,
+            4000000.0,
+            20.0,
+            300000.0,
+            4250000.0,
+            30.0,
+            550000.0,
+            4100000.0,
+            40.0,
         };
         double* dirs = new double[size];
         cs.setSpaceDim(numDims);
@@ -149,7 +167,8 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
             CHECK(0.0 == dirs[i++]);
             CHECK(1.0 == dirs[i++]);
         } // for
-        delete[] dirs;dirs = 0;
+        delete[] dirs;
+        dirs = 0;
     } // UTM zone 10
 
     { // Transverse mercator projection
@@ -158,10 +177,18 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const size_t numDims = 3;
         const size_t size = numLocs * numDims;
         const double coords[size] = {
-            57.0, 41.0, -1.0,
-            40.0, 40.0,  2.0,
-            30.0, 42.0,  3.0,
-            55.0, 41.0,  4.0,
+            57.0,
+            41.0,
+            -1.0,
+            40.0,
+            40.0,
+            2.0,
+            30.0,
+            42.0,
+            3.0,
+            55.0,
+            41.0,
+            4.0,
         };
         double* dirs = new double[size];
         cs.setSpaceDim(numDims);
@@ -171,7 +198,8 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
             CHECK(0.0 == dirs[i++]);
             CHECK(1.0 == dirs[i++]);
         } // for
-        delete[] dirs;dirs = 0;
+        delete[] dirs;
+        dirs = 0;
     } // Transverse mercator projection
 
     { // Geocentric ECEF
@@ -181,18 +209,38 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const size_t numDims = 3;
         const size_t size = numLocs * numDims;
         const double coords[size] = {
-            0.0, 0.0, 6356752.31424518, // (lon=0.0, lat=90.0)
-            6378137.00, 0.0, 0.0, // (lon=0.0, lat=0.0)
-            0.0, -6378137.00, 0.0, // (lon=-90.0, lat=0.0)
-            -2684785.48, -4296554.90, 3861564.10, // (lon=-122.0, lat=37.5)
-            -2680581.35, -4289826.89, 3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
+            0.0,
+            0.0,
+            6356752.31424518, // (lon=0.0, lat=90.0)
+            6378137.00,
+            0.0,
+            0.0, // (lon=0.0, lat=0.0)
+            0.0,
+            -6378137.00,
+            0.0, // (lon=-90.0, lat=0.0)
+            -2684785.48,
+            -4296554.90,
+            3861564.10, // (lon=-122.0, lat=37.5)
+            -2680581.35,
+            -4289826.89,
+            3855476.48, // (lon=-122.0, lat=37.5, elev=-10km)
         };
         const double dirsE[size] = {
-            0.0, 0.0, 1.0,
-            1.0, 0.0, 0.0,
-            0.0, -1.0, 0.0,
-            -0.4204132183640867, -0.6728017898133232, 0.6087614290087207,
-            -0.4204132183640867, -0.6728017898133232, 0.6087614290087207,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            -0.4204132183640867,
+            -0.6728017898133232,
+            0.6087614290087207,
+            -0.4204132183640867,
+            -0.6728017898133232,
+            0.6087614290087207,
         };
         double* dirs = new double[size];
         cs.computeSurfaceNormal(dirs, coords, numLocs, numDims);
@@ -200,12 +248,13 @@ spatialdata::geocoords::TestCSGeo::testComputeSurfaceNormal(void) {
         const double tolerance = 1.0e-6;
         for (size_t i = 0; i < size; ++i) {
             if (fabs(dirsE[i]) > tolerance) {
-                CHECK_THAT(dirs[i]/dirsE[i], Catch::Matchers::WithinAbs(1.0, tolerance));
+                CHECK_THAT(dirs[i] / dirsE[i], Catch::Matchers::WithinAbs(1.0, tolerance));
             } else {
                 CHECK_THAT(dirs[i], Catch::Matchers::WithinAbs(dirsE[i], tolerance));
             } // if/else
         }
-        delete[] dirs;dirs = 0;
+        delete[] dirs;
+        dirs = 0;
     } // Geocentric ECEF
 } // testComputeSurfaceNormal
 

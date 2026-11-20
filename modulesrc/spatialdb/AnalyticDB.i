@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /** @file modulesrc/spatialdb/AnalyticDB.i
  *
@@ -15,9 +15,8 @@
 
 namespace spatialdata {
     namespace spatialdb {
-        class AnalyticDB: public SpatialDB {
-public:
-
+        class AnalyticDB : public SpatialDB {
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor.
@@ -39,16 +38,11 @@ public:
              * @param expressions Array of expressions in database.
              * @param numValues Number of values in database.
              */
-            %apply(const char* const* string_list) {
-                (const char* const* names)
-            };
-            %apply(const char* const* string_list) {
-                (const char* const* units)
-            };
-            %apply(const char* const* string_list, const int list_len) {
-                (const char* const* expressions,
-                 const size_t numValues)
-            };
+            %apply(const char* const* string_list){(const char* const* names)};
+            %apply(const char* const* string_list){(const char* const* units)};
+            %apply(const char* const* string_list,
+                    const int list_len){(const char* const* expressions,
+                                         const size_t numValues)};
             void setData(const char* const* names,
                          const char* const* names,
                          const char* const* expressions,
@@ -56,7 +50,8 @@ public:
 
             %clear(const char* const* names);
             %clear(const char* const* units);
-            %clear(const char* const* expressions, const size_t numValues);
+            %clear(const char* const* expressions,
+                    const size_t numValues);
 
             /** Set coordinate system associated with user functions.
              *
@@ -77,13 +72,14 @@ public:
              * @param names Names of values to be returned in queries
              * @param numValues Number of values to be returned in queries
              */
-            %apply(const char* const* string_list, const int list_len) {
-                (const char* const* names, const size_t numValues)
-            };
+            %apply(const char* const* string_list,
+                    const int list_len){(const char* const* names,
+                                         const size_t numValues)};
             void setQueryValues(const char* const* names,
                                 const size_t numValues);
 
-            %clear(const char* const* names, const size_t numValues);
+            %clear(const char* const* names,
+                    const size_t numValues);
 
             /** Query the database.
              *
@@ -99,24 +95,27 @@ public:
              * @returns 0 on success, 1 on failure (i.e., could not interpolate
              *   so values set to 0)
              */
-            %apply(double* INPLACE_ARRAY1, int DIM1) {
-                (double* values, const size_t numValues)
-            };
-            %apply(double* IN_ARRAY1, int DIM1) {
-                (const double* coords, const size_t numDims)
-            };
+            %apply(double* INPLACE_ARRAY1,
+                    int DIM1){(double* values,
+                               const size_t numValues)};
+            %apply(double* IN_ARRAY1,
+                    int DIM1){(const double* coords,
+                               const size_t numDims)};
             int query(double* values,
                       const size_t numValues,
                       const double* coords,
                       const size_t numDims,
                       const spatialdata::geocoords::CoordSys* pCSQuery);
 
-            %clear(double* values, const size_t numValues);
-            %clear(const double* coords, const size_t numDims);
+            %clear(double* values,
+                    const size_t numValues);
+            %clear(const double* coords,
+                    const size_t numDims);
 
         }; // class AnalyticDB
 
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
+
 
 // End of file

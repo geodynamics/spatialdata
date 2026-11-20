@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SpatialDB.hh"
@@ -19,8 +20,7 @@
 class spatialdata::spatialdb::AnalyticDB : public SpatialDB {
     friend class TestAnalyticDB; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -100,15 +100,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* csQuery);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     AnalyticDB(const AnalyticDB& data); ///< Not implemented
     const AnalyticDB& operator=(const AnalyticDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     mu::value_type _expVars[3]; ///< Storage for default expression variables
@@ -119,11 +117,12 @@ private:
     geocoords::CoordSys* _cs; ///< Coordinate system
     geocoords::Converter* _converter; /// Convert query points to local coordinate system.
     size_t* _queryValues; ///< Indices of values to be returned in queries.
-    size_t _numValues; ///< Number of valuess in database
+    size_t _numValues; ///< Number of values in database
     size_t _querySize; ///< Number of values requested to be returned in queries.
 
 }; // class AnalyticDB
 
 #include "AnalyticDB.icc"
+
 
 // End of file

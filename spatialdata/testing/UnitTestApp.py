@@ -1,26 +1,27 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
+
 """Application for running Python unit tests with code coverage.
 
 We place this script in tests/pytests so that we can import it into the individual scripts in the
 subdirectories.
 """
 
-
 import unittest
 
 
-class UnitTestApp():
+class UnitTestApp:
     """
     Test application.
     """
+
     test_modules = []
 
     def __init__(self, test_modules, src_dirs=["spatialdata"]):
@@ -28,6 +29,7 @@ class UnitTestApp():
         self.test_modules = test_modules
         try:
             import coverage
+
             self.cov = coverage.Coverage(source=src_dirs)
         except ImportError:
             pass
@@ -45,11 +47,11 @@ class UnitTestApp():
             self.cov.stop()
             self.cov.save()
             self.cov.report()
-        
+
         if not success:
             import sys
-            sys.exit(1)
 
+            sys.exit(1)
 
     def _suite(self):
         loader = unittest.defaultTestLoader

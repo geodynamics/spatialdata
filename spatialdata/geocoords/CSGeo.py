@@ -1,12 +1,12 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 from .CoordSys import CoordSys
 from .geocoords import CSGeo as ModuleCSGeo
@@ -18,6 +18,7 @@ class CSGeo(CoordSys, ModuleCSGeo):
 
     Implements `CoordSys`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [coordsys]
@@ -30,10 +31,10 @@ class CSGeo(CoordSys, ModuleCSGeo):
     import pythia.pyre.inventory
 
     crsString = pythia.pyre.inventory.str("crs_string", default="EPSG:4326")
-    crsString.meta['tip'] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
+    crsString.meta["tip"] = "String specifying coordinate system (PROJ parameters, EPSG, or WKT). Default is WGS84."
 
     spaceDim = pythia.pyre.inventory.int("space_dim", default=3)
-    spaceDim.meta['tip'] = "Number of dimensions for coordinate system."
+    spaceDim.meta["tip"] = "Number of dimensions for coordinate system."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -64,6 +65,7 @@ class CSGeo(CoordSys, ModuleCSGeo):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def coordsys():
     """

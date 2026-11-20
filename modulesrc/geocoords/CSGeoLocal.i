@@ -1,25 +1,19 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
 
-/** @file modulesrc/geocoords/CSGeoLocal.i
- *
- * @brief SWIG interface to C++ CSGeoLocal object.
- */
 
 namespace spatialdata {
     namespace geocoords {
-        class CSGeoLocal: public CSGeo {
+        class CSGeoLocal : public CSGeo {
             friend class TestCSGeoLocal;
 
-public:
-
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor
@@ -50,9 +44,9 @@ public:
              * @param[out] originY Y coordinate of local origin.
              * @param[out] yAzimuth Azimuth (degrees) of y axis.
              */
-            %apply double* OUTPUT { double* originX };
-            %apply double* OUTPUT { double* originY };
-            %apply double* OUTPUT { double* yAzimuth };
+            %apply double* OUTPUT{double* originX};
+            %apply double* OUTPUT{double* originY};
+            %apply double* OUTPUT{double* yAzimuth};
             void getLocal(double* originX,
                           double* originY,
                           double* yAzimuth) const;
@@ -95,7 +89,8 @@ public:
 
         }; // class CSGeoLocal
 
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
+
 
 // End of file

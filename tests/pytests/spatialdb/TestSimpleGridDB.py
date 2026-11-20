@@ -1,14 +1,13 @@
 #!/usr/bin/env nemesis
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 import unittest
 
@@ -59,7 +58,7 @@ class TestSimpleGridDB(unittest.TestCase):
             self.assertAlmostEqual(vE, v, 6)
 
     def test_databasemulti(self):
-        locs = numpy.array([[2.3, -0.1, 1.8], [2.0,  0.4, -2.0]], numpy.float64)
+        locs = numpy.array([[2.3, -0.1, 1.8], [2.0, 0.4, -2.0]], numpy.float64)
         cs = CSCart()
         cs._configure()
         queryVals = ["two", "one"]
@@ -92,48 +91,94 @@ class TestSimpleGridDB(unittest.TestCase):
         y = numpy.array([0.0, 1.0], dtype=numpy.float64)
         z = numpy.array([-2.0, -1.0, 2.0], dtype=numpy.float64)
 
-        points = numpy.array([
-            [-2.0,  0.0, -2.0],
-            [-2.0,  1.0, -2.0],
-            [-2.0,  0.0, -1.0],
-            [-2.0,  1.0, -1.0],
-            [-2.0,  0.0,  2.0],
-            [-2.0,  1.0,  2.0],
-            [0.0,  0.0, -2.0],
-            [0.0,  1.0, -2.0],  # query (5.7, 8.2)
-            [0.0,  0.0, -1.0],
-            [0.0,  1.0, -1.0],
-            [0.0,  0.0,  2.0],
-            [0.0,  1.0,  2.0],
-            [3.0,  0.0, -2.0],
-            [3.0,  1.0, -2.0],
-            [3.0,  0.0, -1.0],
-            [3.0,  1.0, -1.0],
-            [3.0,  0.0,  2.0],
-            [3.0,  1.0,  2.0],
-        ], dtype=numpy.float64)
-        one = numpy.array([6.6, 5.5, 2.3, 5.7, 6.3, 3.4, 7.2, 5.7, 3.4, 5.7, 9.4,
-                           7.2, 4.8, 9.2, 5.8, 4.7, 7.8, 2.9], dtype=numpy.float64)
-        two = numpy.array([3.4, 6.7, 4.1, 2.0, 6.7, 6.4, 6.8, 8.2, 9.8, 2.3, 8.5,
-                           9.3, 7.5, 8.3, 8.5, 8.9, 6.2, 8.3], dtype=numpy.float64)
+        points = numpy.array(
+            [
+                [-2.0, 0.0, -2.0],
+                [-2.0, 1.0, -2.0],
+                [-2.0, 0.0, -1.0],
+                [-2.0, 1.0, -1.0],
+                [-2.0, 0.0, 2.0],
+                [-2.0, 1.0, 2.0],
+                [0.0, 0.0, -2.0],
+                [0.0, 1.0, -2.0],  # query (5.7, 8.2)
+                [0.0, 0.0, -1.0],
+                [0.0, 1.0, -1.0],
+                [0.0, 0.0, 2.0],
+                [0.0, 1.0, 2.0],
+                [3.0, 0.0, -2.0],
+                [3.0, 1.0, -2.0],
+                [3.0, 0.0, -1.0],
+                [3.0, 1.0, -1.0],
+                [3.0, 0.0, 2.0],
+                [3.0, 1.0, 2.0],
+            ],
+            dtype=numpy.float64,
+        )
+        one = numpy.array(
+            [
+                6.6,
+                5.5,
+                2.3,
+                5.7,
+                6.3,
+                3.4,
+                7.2,
+                5.7,
+                3.4,
+                5.7,
+                9.4,
+                7.2,
+                4.8,
+                9.2,
+                5.8,
+                4.7,
+                7.8,
+                2.9,
+            ],
+            dtype=numpy.float64,
+        )
+        two = numpy.array(
+            [
+                3.4,
+                6.7,
+                4.1,
+                2.0,
+                6.7,
+                6.4,
+                6.8,
+                8.2,
+                9.8,
+                2.3,
+                8.5,
+                9.3,
+                7.5,
+                8.3,
+                8.5,
+                8.9,
+                6.2,
+                8.3,
+            ],
+            dtype=numpy.float64,
+        )
 
         cs = CSCart()
         cs._configure()
 
         writer = createWriter(filename)
-        writer.write({'points': points,
-                      'x': x,
-                      'y': y,
-                      'z': z,
-                      'coordsys': cs,
-                      'data_dim': 3,
-                      'values': [{'name': "one",
-                                  'units': "m",
-                                  'data': one},
-                                 {'name': "two",
-                                  'units': "m",
-                                  'data': two},
-                                 ]})
+        writer.write(
+            {
+                "points": points,
+                "x": x,
+                "y": y,
+                "z": z,
+                "coordsys": cs,
+                "data_dim": 3,
+                "values": [
+                    {"name": "one", "units": "m", "data": one},
+                    {"name": "two", "units": "m", "data": two},
+                ],
+            }
+        )
 
         db = SimpleGridDB()
         db.inventory.label = "test"
@@ -177,14 +222,17 @@ class TestSimpleGridDB(unittest.TestCase):
         x = numpy.array([-2.0, 0.0, 3.0], dtype=numpy.float64)
         y = numpy.array([0.0, 1.0], dtype=numpy.float64)
 
-        points = numpy.array([
-            [-2.0,  0.0],
-            [-2.0,  1.0],
-            [0.0,  0.0],
-            [0.0,  1.0],  # query (5.7, 8.2)
-            [3.0,  0.0],
-            [3.0,  1.0],
-        ], dtype=numpy.float64)
+        points = numpy.array(
+            [
+                [-2.0, 0.0],
+                [-2.0, 1.0],
+                [0.0, 0.0],
+                [0.0, 1.0],  # query (5.7, 8.2)
+                [3.0, 0.0],
+                [3.0, 1.0],
+            ],
+            dtype=numpy.float64,
+        )
         one = numpy.array([6.6, 5.5, 7.2, 5.7, 4.8, 9.2], dtype=numpy.float64)
         two = numpy.array([3.4, 6.7, 6.8, 8.2, 7.5, 8.3], dtype=numpy.float64)
 
@@ -193,18 +241,19 @@ class TestSimpleGridDB(unittest.TestCase):
         cs._configure()
 
         writer = createWriter(filename)
-        writer.write({'points': points,
-                      'x': x,
-                      'y': y,
-                      'coordsys': cs,
-                      'data_dim': 2,
-                      'values': [{'name': "one",
-                                  'units': "m",
-                                  'data': one},
-                                 {'name': "two",
-                                  'units': "m",
-                                  'data': two},
-                                 ]})
+        writer.write(
+            {
+                "points": points,
+                "x": x,
+                "y": y,
+                "coordsys": cs,
+                "data_dim": 2,
+                "values": [
+                    {"name": "one", "units": "m", "data": one},
+                    {"name": "two", "units": "m", "data": two},
+                ],
+            }
+        )
 
         db = SimpleGridDB()
         db.inventory.label = "test"

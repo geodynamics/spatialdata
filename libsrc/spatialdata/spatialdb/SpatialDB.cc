@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -22,19 +22,20 @@
 
 // ----------------------------------------------------------------------
 /// Default constructor
-spatialdata::spatialdb::SpatialDB::SpatialDB(void) :
-    _description("") {}
+spatialdata::spatialdb::SpatialDB::SpatialDB(void) : _description("") {
+}
 
 
 // ----------------------------------------------------------------------
 /// Constructor with label
-spatialdata::spatialdb::SpatialDB::SpatialDB(const char* label) :
-    _description(label) {}
+spatialdata::spatialdb::SpatialDB::SpatialDB(const char* label) : _description(label) {
+}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
-spatialdata::spatialdb::SpatialDB::~SpatialDB(void) {}
+spatialdata::spatialdb::SpatialDB::~SpatialDB(void) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -58,8 +59,10 @@ spatialdata::spatialdb::SpatialDB::query(float* vals,
         vals[i] = valsD[i];
     } // for
 
-    delete[] valsD;valsD = NULL;
-    delete[] coordsD;coordsD = NULL;
+    delete[] valsD;
+    valsD = NULL;
+    delete[] coordsD;
+    coordsD = NULL;
 
     return err;
 } // query
@@ -79,16 +82,11 @@ spatialdata::spatialdb::SpatialDB::multiquery(double* vals,
                                               const spatialdata::geocoords::CoordSys* csQuery) {
     assert(numLocsV == numLocsE);
     assert(numLocsC == numLocsE);
-    assert( (!vals && 0 == numLocsV && 0 == numValsV) ||
-            (vals && numLocsV > 0 && numValsV > 0) );
-    assert( (!err && 0 == numLocsE) ||
-            (err && numLocsE > 0) );
-    assert( (!coords && 0 == numLocsC && 0 == numDimsC) ||
-            (coords && numLocsC > 0 && numDimsC > 0) );
+    assert((!vals && 0 == numLocsV && 0 == numValsV) || (vals && numLocsV > 0 && numValsV > 0));
+    assert((!err && 0 == numLocsE) || (err && numLocsE > 0));
+    assert((!coords && 0 == numLocsC && 0 == numDimsC) || (coords && numLocsC > 0 && numDimsC > 0));
 
-    for (size_t i = 0, indexV = 0, indexC = 0;
-         i < numLocsV;
-         ++i, indexV += numValsV, indexC += numDimsC) {
+    for (size_t i = 0, indexV = 0, indexC = 0; i < numLocsV; ++i, indexV += numValsV, indexC += numDimsC) {
         err[i] = query(&vals[indexV], numValsV, &coords[indexC], numDimsC, csQuery);
     } // for
 } // multiquery
@@ -108,16 +106,11 @@ spatialdata::spatialdb::SpatialDB::multiquery(float* vals,
                                               const spatialdata::geocoords::CoordSys* csQuery) {
     assert(numLocsV == numLocsE);
     assert(numLocsC == numLocsE);
-    assert( (!vals && 0 == numLocsV && 0 == numValsV) ||
-            (vals && numLocsV > 0 && numValsV > 0) );
-    assert( (!err && 0 == numLocsE) ||
-            (err && numLocsE > 0) );
-    assert( (!coords && 0 == numLocsC && 0 == numDimsC) ||
-            (coords && numLocsC > 0 && numDimsC > 0) );
+    assert((!vals && 0 == numLocsV && 0 == numValsV) || (vals && numLocsV > 0 && numValsV > 0));
+    assert((!err && 0 == numLocsE) || (err && numLocsE > 0));
+    assert((!coords && 0 == numLocsC && 0 == numDimsC) || (coords && numLocsC > 0 && numDimsC > 0));
 
-    for (size_t i = 0, indexV = 0, indexC = 0;
-         i < numLocsV;
-         ++i, indexV += numValsV, indexC += numDimsC) {
+    for (size_t i = 0, indexV = 0, indexC = 0; i < numLocsV; ++i, indexV += numValsV, indexC += numDimsC) {
         err[i] = query(&vals[indexV], numValsV, &coords[indexC], numDimsC, csQuery);
     } // for
 } // multiquery
@@ -148,7 +141,7 @@ spatialdata::spatialdb::SpatialDB::_convertToSI(double* vals,
 
     for (size_t iLoc = 0; iLoc < numLocs; ++iLoc) {
         for (size_t iVal = 0; iVal < numVals; ++iVal) {
-            vals[iLoc*numVals+iVal] *= scales[iVal];
+            vals[iLoc * numVals + iVal] *= scales[iVal];
         } // for
     } // for
 } // _convertToSI

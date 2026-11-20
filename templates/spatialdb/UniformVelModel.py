@@ -1,19 +1,12 @@
-#!/usr/bin/env python
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
-# @brief Python object associated with the C++ UniformVelModel
-# object. This objects provides a pythia.pyre interface to the C++ object.
-##
-# Factory: spatial_database
 
 from spatialdata.spatialdb.SpatialDBObj import SpatialDBObj
 from .spatialdbcontrib import UniformVelModel as ModuleUniformVelModel
@@ -71,22 +64,22 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
         # units and convert the value to SI units.
         #
         # The help string will be printed when the user uses the command
-        # line arugments --FULL_COMPONENT_NAME.help-properties or
+        # line arguments --FULL_COMPONENT_NAME.help-properties or
         # --FULL_COMPONENT.help-components. See the PyLith manual chapter
         # "Running PyLith" for more information regarding getting help
         # using command line arguments.
         #
         # Create a pythia.pyre property named vs with a default value of 2.6 km/s.
         vs = pythia.pyre.inventory.dimensional("vs", default=2.6 * km / s)
-        vs.meta['tip'] = "S wave speed."
+        vs.meta["tip"] = "S wave speed."
 
         # Create a pythia.pyre property named vp with a default value of 4.5 km/s.
         vp = pythia.pyre.inventory.dimensional("vp", default=4.5 * km / s)
-        vp.meta['tip'] = "P wave speed."
+        vp.meta["tip"] = "P wave speed."
 
         # Create a pythia.pyre property named density with a default value of 2500 kg/m**3.
-        density = pythia.pyre.inventory.dimensional("density", default=2.5e+3 * kg / m**3)
-        density.meta['tip'] = "Density."
+        density = pythia.pyre.inventory.dimensional("density", default=2.5e3 * kg / m**3)
+        density.meta["tip"] = "Density."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -125,6 +118,7 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 # Factory used when setting UniformVelModel to a pythia.pyre 'spatial_database' facility.
 def spatial_database():

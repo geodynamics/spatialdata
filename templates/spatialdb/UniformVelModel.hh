@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "spatialdata/spatialdb/SpatialDB.hh" // ISA SpatialDB
@@ -16,19 +17,17 @@
 namespace contrib {
     namespace spatialdb {
         class UniformVelModel;
-    } // spatialdb
-} // contrib
+    } // namespace spatialdb
+} // namespace contrib
 
-class contrib::spatialdb::UniformVelModel :
-    public spatialdata::spatialdb::SpatialDB // inheritance from SpatialDB
+class contrib::spatialdb::UniformVelModel : public spatialdata::spatialdb::SpatialDB // inheritance from SpatialDB
 { // UniformVelModel
   // Allow the unit testing TestUniformVelModel object access to
   // private class methods and members.
     friend class TestUniformVelModel;
 
     // PUBLIC METHODS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     UniformVelModel(void);
 
@@ -36,8 +35,7 @@ public:
     ~UniformVelModel(void);
 
     // PUBLIC METHODS ///////////////////////////////////////////////////////
-public:
-
+  public:
     // Functions required to satisfy the SpatialDB interface.
 
     /// Open the database and prepare for querying.
@@ -80,8 +78,7 @@ public:
               const spatialdata::geocoords::CoordSys* csQuery);
 
     // PUBLIC METHODS ///////////////////////////////////////////////////////
-public:
-
+  public:
     // Functions specific to this type of spatial database.
 
     /** Set the P wave speed.
@@ -103,19 +100,17 @@ public:
     void density(const double value);
 
     // PRIVATE ENUMS ////////////////////////////////////////////////////////
-private:
-
+  private:
     // Indices of values in database (used in queryVals to indicate
     // which values to return in a query).
     enum QueryValsEnum {
-        QUERY_VP=0, // vp
-        QUERY_VS=1, // vs
-        QUERY_DENSITY=2, // density
+        QUERY_VP = 0, // vp
+        QUERY_VS = 1, // vs
+        QUERY_DENSITY = 2, // density
     }; // ValsEnum
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     // Physical property information (hardwired in this case). Replace
     // with data structures for holding the physical property
     // information.
@@ -134,11 +129,11 @@ private:
     int _querySize; ///< Number of values requested to be returned in queries.
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     UniformVelModel(const UniformVelModel&); ///< Not implemented
     const UniformVelModel& operator=(const UniformVelModel&); ///< Not implemented
 
 }; // UniformVelModel
+
 
 // End of file

@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SimpleIO.hh" // ISA SimpleIO
@@ -15,8 +16,7 @@
 
 // ----------------------------------------------------------------------
 class spatialdata::spatialdb::SimpleIOAscii : public SimpleIO { // SimpleIOAscii
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     // Using default constructor.
@@ -47,8 +47,7 @@ public:
     void write(const SimpleDBData& data,
                const spatialdata::geocoords::CoordSys* pCS);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Read database version 1 file.
@@ -61,8 +60,7 @@ private:
                         spatialdata::geocoords::CoordSys** ppCS,
                         std::istream& filein);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     /** Magic header in ascii files */
@@ -74,5 +72,6 @@ private:
 
 // version
 // $Id$
+
 
 // End of file

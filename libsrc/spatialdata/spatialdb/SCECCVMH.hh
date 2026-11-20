@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SpatialDB.hh" // ISA SpatialDB
@@ -17,8 +18,7 @@ class spatialdata::spatialdb::SCECCVMH : SpatialDB {
     friend class TestSCECCVMH; // unit testing
 
     // PUBLIC MEMBERS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor
     SCECCVMH(void);
 
@@ -46,7 +46,7 @@ public:
      * @param limit Minimum elevation for squashing.
      */
     void setSquashFlag(const bool flag,
-                       const double limit=-2000.0);
+                       const double limit = -2000.0);
 
     /// Open the database and prepare for querying.
     void open(void);
@@ -94,27 +94,24 @@ public:
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     SCECCVMH(const SCECCVMH&); ///< Not implemented
     const SCECCVMH& operator=(const SCECCVMH&); ///< Not implemented
 
     // PRIVATE ENUMS ////////////////////////////////////////////////////////
-private:
-
+  private:
     enum QueryValsEnum {
-        QUERY_VP=0, // vp
-        QUERY_VS=1, // vs
-        QUERY_DENSITY=2, // density
-        QUERY_TOPOELEV=3, // Elevation of topography
-        QUERY_BASEDEPTH=4, // Depth of basement
-        QUERY_MOHODEPTH=5, // Depth of Moho
-        QUERY_VPTAG=6 // Tag for Vp
+        QUERY_VP = 0, // vp
+        QUERY_VS = 1, // vs
+        QUERY_DENSITY = 2, // density
+        QUERY_TOPOELEV = 3, // Elevation of topography
+        QUERY_BASEDEPTH = 4, // Depth of basement
+        QUERY_MOHODEPTH = 5, // Depth of Moho
+        QUERY_VPTAG = 6 // Tag for Vp
     }; // ValsEnum
 
     // PRIVATE METHODS //////////////////////////////////////////////////////
-private:
-
+  private:
     /** Perform query for Vp.
      *
      * @param vp Result of query
@@ -150,8 +147,7 @@ private:
     double _minVp(void) const;
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     double _xyzUTM[3];
     std::string _dataDir;
     GocadVoxet* _laLowResVp;
@@ -176,5 +172,6 @@ private:
 }; // SCECCVMH
 
 #include "SCECCVMH.icc" // inline methods
+
 
 // End of file

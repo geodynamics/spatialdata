@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -16,28 +16,29 @@
 
 #include <iostream> // USES std::istream, std::ostream
 
-#include <strings.h> // USES strcasecmp
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
+#include <strings.h> // USES strcasecmp
 
 // ----------------------------------------------------------------------
 // Default constructor
-spatialdata::geocoords::CSCart::CSCart(void) :
-    _toMeters(1.0) {
+spatialdata::geocoords::CSCart::CSCart(void) : _toMeters(1.0) {
     setCSType(CARTESIAN);
 } // constructor
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::geocoords::CSCart::~CSCart(void) {} // destructor
+spatialdata::geocoords::CSCart::~CSCart(void) {
+} // destructor
 
 
 // ----------------------------------------------------------------------
 // Copy constructor
 spatialdata::geocoords::CSCart::CSCart(const CSCart& cs) :
     CoordSys(cs),
-    _toMeters(cs._toMeters) {}
+    _toMeters(cs._toMeters) {
+}
 
 
 // ----------------------------------------------------------------------

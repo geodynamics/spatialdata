@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "geocoordsfwd.hh"
@@ -17,15 +18,14 @@ namespace spatialdata {
     namespace geocoords {
         namespace _converter {
             class Cache;
-        } // _Converter
-    } // geocoords
-} // spatialdata
+        } // namespace _converter
+    } // namespace geocoords
+} // namespace spatialdata
 
 class spatialdata::geocoords::Converter {
     friend class TestConverter; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -49,8 +49,7 @@ public:
                  const CoordSys* csDest,
                  const CoordSys* csSrc);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Convert coordinates from source geographic coordinate system to
@@ -83,12 +82,12 @@ private:
                   const CSCart* csDest,
                   const CSCart* csSrc);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     _converter::Cache* _cache;
 
 }; // class Converter
+
 
 // End of file

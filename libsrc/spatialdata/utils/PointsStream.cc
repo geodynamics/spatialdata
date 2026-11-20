@@ -1,22 +1,22 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include "PointsStream.hh" // Implementation of class methods
 
-#include <iostream> // USES std::cout, std::cin
+#include <assert.h> // USES assert()
 #include <fstream> // USES std::ifstream, std::ofstream
 #include <iomanip> // USES std::setprecision(), std::width()
-#include <vector> // USES std::vector
-#include <assert.h> // USES assert()
+#include <iostream> // USES std::cout, std::cin
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::runtime_error
+#include <vector> // USES std::vector
 
 // ----------------------------------------------------------------------
 // Default constructor
@@ -24,12 +24,14 @@ spatialdata::utils::PointsStream::PointsStream(void) :
     _filename(""),
     _commentFlag("#"),
     _fieldWidth(14),
-    _precision(5) {}
+    _precision(5) {
+}
 
 
 // ----------------------------------------------------------------------
 // Default destructor
-spatialdata::utils::PointsStream::~PointsStream(void) {}
+spatialdata::utils::PointsStream::~PointsStream(void) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -43,20 +45,20 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     if (!sin || !sin->good()) {
         const std::string name = !_filename.length() ? _filename : "std::cin";
         std::ostringstream msg;
-        msg << "Could not open intput stream '" << name << "' for reading points.";
+        msg << "Could not open input stream '" << name << "' for reading points.";
         throw std::runtime_error(msg.str());
     } // if
 
     size_t numPts = 0;
     size_t numDims = 3;
 
-    const size_t initialCapacity = numDims*256;
+    const size_t initialCapacity = numDims * 256;
     std::vector<double> buffer(initialCapacity);
 
     size_t capacity = initialCapacity;
     size_t index = 0;
     while (!sin->eof() && sin->good()) {
-        if (numPts*numDims >= capacity) {
+        if (numPts * numDims >= capacity) {
             capacity *= 2;
             buffer.resize(capacity);
         } // if
@@ -110,10 +112,8 @@ spatialdata::utils::PointsStream::write(const double* pPoints,
         throw std::runtime_error(msg.str());
     } // if
 
-    *pOut
-        << std::resetiosflags(std::ios::fixed)
-        << std::setiosflags(std::ios::scientific)
-        << std::setprecision(_precision);
+    *pOut << std::resetiosflags(std::ios::fixed) << std::setiosflags(std::ios::scientific)
+          << std::setprecision(_precision);
 
     for (size_t iPoint = 0, index = 0; iPoint < numPts; ++iPoint) {
         for (size_t iDim = 0; iDim < numDims; ++iDim) {

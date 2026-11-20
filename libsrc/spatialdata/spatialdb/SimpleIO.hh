@@ -1,23 +1,23 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
-#include "spatialdbfwd.hh" // forward declarations
 #include "spatialdata/geocoords/geocoordsfwd.hh" // forward declarations
+#include "spatialdbfwd.hh" // forward declarations
 
 #include <string> // HASA std::string
 
 /// C++ manager for simple spatial database.
 class spatialdata::spatialdb::SimpleIO { // class SimpleIO
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -62,13 +62,12 @@ public:
     virtual void write(const SimpleDBData& data,
                        const spatialdata::geocoords::CoordSys* pCS) = 0;
 
-protected:
-
+  protected:
     // PROTECTED METHODS //////////////////////////////////////////////////
 
     /** Check compatibility of topology and spatial distribution.
      *
-     * Currently, this compatiblity check only involves making sure
+     * Currently, this compatibility check only involves making sure
      * there are enough number of points to perform the interpolation
      * corresponding to the topology of the spatial distribution. It
      * does not check the actual topology of the distribution.
@@ -85,14 +84,12 @@ protected:
      */
     static void convertToSI(SimpleDBData* const data);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     const SimpleIO& operator=(const SimpleIO& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     /** Filename of database */
@@ -101,5 +98,6 @@ private:
 }; // class SimpleIO
 
 #include "SimpleIO.icc"
+
 
 // End of file

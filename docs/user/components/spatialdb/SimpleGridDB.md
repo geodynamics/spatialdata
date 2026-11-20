@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # SimpleGridDB
 
 % WARNING: Do not edit; this is a generated file!
@@ -35,3 +44,4 @@ filename = mat_elastic.spatialdb
 query_type = linear
 :::
 
+% End of file

@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /** @file modulesrc/spatialdb/SimpleIOAscii.i
  *
@@ -17,10 +17,8 @@ namespace spatialdata {
     namespace spatialdb {
         class SimpleDBData; // forward declaration
 
-        class SimpleIOAscii: public SimpleIO
-        { // SimpleIOAscii
-public:
-
+        class SimpleIOAscii : public SimpleIO { // SimpleIOAscii
+          public:
             // PUBLIC METHODS /////////////////////////////////////////////////
 
             /// Default constructor.
@@ -47,7 +45,8 @@ public:
 
         }; // class SimpleIOAscii
 
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
+
 
 // End of file

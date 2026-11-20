@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -15,73 +15,79 @@
 // Include ios here to avoid some Python/gcc issues
 #include <ios>
 
-#include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
+#include "spatialdata/geocoords/CoordSys.hh" // USES CoordSys
 #include "spatialdata/units/Parser.hh" // USES Parser
 
-#include <string> // USES std::string
-#include <stdexcept> // USES std::runtime_error
-#include <sstream> // USES std::ostringstream
 #include <cassert> // USES assert()
+#include <sstream> // USES std::ostringstream
+#include <stdexcept> // USES std::runtime_error
+#include <string> // USES std::string
 #include <typeinfo> // USES typeid()
 
 // ----------------------------------------------------------------------
 namespace spatialdata {
     namespace spatialdb {
         class UserFunctionDB::QueryFn1D : public UserFunctionDB::QueryFn {
-public:
+          public:
+            QueryFn1D(UserFunctionDB::userfn1D_type fn) : _fn(fn) {
+            }
 
-            QueryFn1D(UserFunctionDB::userfn1D_type fn) : _fn(fn) {}
 
-
-            int query(double* value,
-                      const double* coords,
-                      const size_t dim) {
-                if (!value || !coords || ( 1 != dim) ) { return 1; }
+            int
+            query(double* value,
+                  const double* coords,
+                  const size_t dim) {
+                if (!value || !coords || (1 != dim)) {
+                    return 1;
+                }
                 *value = _fn(coords[0]);
                 return 0;
             }
 
-private:
-
+          private:
             UserFunctionDB::userfn1D_type _fn;
         };
 
         class UserFunctionDB::QueryFn2D : public UserFunctionDB::QueryFn {
-public:
+          public:
+            QueryFn2D(UserFunctionDB::userfn2D_type fn) : _fn(fn) {
+            }
 
-            QueryFn2D(UserFunctionDB::userfn2D_type fn) : _fn(fn) {}
 
-
-            int query(double* value,
-                      const double* coords,
-                      const size_t dim) {
-                if (!value || !coords || ( 2 != dim) ) { return 1; }
+            int
+            query(double* value,
+                  const double* coords,
+                  const size_t dim) {
+                if (!value || !coords || (2 != dim)) {
+                    return 1;
+                }
                 *value = _fn(coords[0], coords[1]);
                 return 0;
             }
 
-private:
-
+          private:
             UserFunctionDB::userfn2D_type _fn;
         };
 
         class UserFunctionDB::QueryFn3D : public UserFunctionDB::QueryFn {
-public:
+          public:
+            QueryFn3D(UserFunctionDB::userfn3D_type fn) : _fn(fn) {
+            }
 
-            QueryFn3D(UserFunctionDB::userfn3D_type fn) : _fn(fn) {}
 
-
-            int query(double* value,
-                      const double* coords,
-                      const size_t dim) {
-                if (!value || !coords || ( 3 != dim) ) { return 1; }
+            int
+            query(double* value,
+                  const double* coords,
+                  const size_t dim) {
+                if (!value || !coords || (3 != dim)) {
+                    return 1;
+                }
                 *value = _fn(coords[0], coords[1], coords[2]);
                 return 0;
             }
 
-private:
-
+          private:
             UserFunctionDB::userfn3D_type _fn;
         };
 
@@ -94,21 +100,26 @@ spatialdata::spatialdb::UserFunctionDB::UserFunctionDB(void) :
     _queryFunctions(NULL),
     _cs(NULL),
     _converter(new spatialdata::geocoords::Converter),
-    _querySize(0) {}
+    _querySize(0) {
+}
 
 
 // ----------------------------------------------------------------------
 // Destructor
 spatialdata::spatialdb::UserFunctionDB::~UserFunctionDB(void) {
-    delete[] _queryFunctions;_queryFunctions = NULL;
+    delete[] _queryFunctions;
+    _queryFunctions = NULL;
     _querySize = 0;
 
     for (function_map::iterator iter = _functions.begin(); iter != _functions.end(); ++iter) {
-        delete iter->second.fn;iter->second.fn = NULL;
+        delete iter->second.fn;
+        iter->second.fn = NULL;
     } // for
 
-    delete _cs;_cs = NULL;
-    delete _converter;_converter = NULL;
+    delete _cs;
+    _cs = NULL;
+    delete _converter;
+    _converter = NULL;
 } // destructor
 
 
@@ -169,7 +180,7 @@ spatialdata::spatialdb::UserFunctionDB::open(void) {
 
     const std::string& none = "none";
     for (function_map::iterator iter = _functions.begin(); iter != _functions.end(); ++iter) {
-        if (strcasecmp(none.c_str(),  iter->second.units.c_str()) != 0) {
+        if (strcasecmp(none.c_str(), iter->second.units.c_str()) != 0) {
             iter->second.scale = parser.parse(iter->second.units.c_str());
         } else {
             iter->second.scale = 1.0;
@@ -180,7 +191,8 @@ spatialdata::spatialdb::UserFunctionDB::open(void) {
 
     // Default query values is all values.
     _querySize = _functions.size();
-    delete[] _queryFunctions;_queryFunctions = (_querySize > 0) ? new UserData*[_querySize] : NULL;
+    delete[] _queryFunctions;
+    _queryFunctions = (_querySize > 0) ? new UserData*[_querySize] : NULL;
     size_t index = 0;
     for (function_map::iterator iter = _functions.begin(); iter != _functions.end(); ++iter, ++index) {
         _queryFunctions[index] = &iter->second;
@@ -192,7 +204,8 @@ spatialdata::spatialdb::UserFunctionDB::open(void) {
 // Close the database.
 void
 spatialdata::spatialdb::UserFunctionDB::close(void) {
-    delete[] _queryFunctions;_queryFunctions = NULL;
+    delete[] _queryFunctions;
+    _queryFunctions = NULL;
 } // close
 
 
@@ -222,20 +235,20 @@ spatialdata::spatialdb::UserFunctionDB::setQueryValues(const char* const* names,
                                                        const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getDescription()
-            << "\n must be positive.\n";
+        msg << "Number of values for query in spatial database " << getDescription() << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryFunctions;_queryFunctions = numVals > 0 ? new UserData*[numVals] : NULL;
+    delete[] _queryFunctions;
+    _queryFunctions = numVals > 0 ? new UserData*[numVals] : NULL;
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         const function_map::iterator iter = _functions.find(names[iVal]);
         if (_functions.end() == iter) {
             std::ostringstream msg;
-            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getDescription() << "'. Available values are:";
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '" << getDescription()
+                << "'. Available values are:";
             for (function_map::iterator viter = _functions.begin(); viter != _functions.end(); ++viter) {
                 msg << "\n  " << viter->first;
             } // for
@@ -267,21 +280,20 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
         throw std::logic_error(msg.str());
     } else if (numVals != querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << getDescription() << " (" << querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << getDescription() << " (" << querySize
+            << ") does not match size of array provided (" << numVals << ").\n";
         throw std::invalid_argument(msg.str());
     } else if (numDims != _cs->getSpaceDim()) {
         std::ostringstream msg;
-        msg << "Spatial dimension (" << numDims
-            << ") does not match spatial dimension of spatial database (" << _cs->getSpaceDim() << ").";
+        msg << "Spatial dimension (" << numDims << ") does not match spatial dimension of spatial database ("
+            << _cs->getSpaceDim() << ").";
         throw std::invalid_argument(msg.str());
     } // if
 
     // Convert coordinates
     assert(numDims <= 3);
     double xyz[3];
-    memcpy(xyz, coords, numDims*sizeof(double));
+    memcpy(xyz, coords, numDims * sizeof(double));
     assert(_converter);
     _converter->convert(xyz, 1, numDims, _cs, csQuery);
 
@@ -289,7 +301,9 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
     for (size_t iVal = 0; iVal < querySize; ++iVal) {
         assert(_queryFunctions[iVal]->fn);
         queryFlag = _queryFunctions[iVal]->fn->query(&vals[iVal], xyz, numDims);
-        if (queryFlag) { break; }
+        if (queryFlag) {
+            break;
+        }
         vals[iVal] *= _queryFunctions[iVal]->scale; // Convert to SI units.
     } // for
 
@@ -301,7 +315,9 @@ spatialdata::spatialdb::UserFunctionDB::query(double* vals,
 // Set filename containing data.
 void
 spatialdata::spatialdb::UserFunctionDB::setCoordSys(const geocoords::CoordSys& cs) {
-    delete _cs;_cs = cs.clone();assert(_cs);
+    delete _cs;
+    _cs = cs.clone();
+    assert(_cs);
 } // setCoordSys
 
 
@@ -351,7 +367,7 @@ spatialdata::spatialdb::UserFunctionDB::_checkCompatibility(void) const {
         throw std::logic_error(msg.str());
     } // if
 
-    double coords[3] = { 0.0, 0.0, 0.0 };
+    double coords[3] = {0.0, 0.0, 0.0};
     const int spaceDim = _cs->getSpaceDim();
     assert(0 < spaceDim && spaceDim <= 3);
 

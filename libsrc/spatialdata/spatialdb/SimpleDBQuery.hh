@@ -1,16 +1,17 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
-#include "spatialdbfwd.hh" // forward declarations
 #include "SimpleDB.hh" // USES SimpleDB
+#include "spatialdbfwd.hh" // forward declarations
 
 #include "spatialdata/geocoords/geocoordsfwd.hh" // HOLDSA Converter
 
@@ -20,8 +21,7 @@
 class spatialdata::spatialdb::SimpleDBQuery { // class SimpleDBQuery
     friend class TestSimpleDBQuery;
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /** Default constructor.
@@ -33,7 +33,7 @@ public:
     /// Default destructor.
     ~SimpleDBQuery(void);
 
-    /// Dellocate data structures.
+    /// Deallocate data structures.
     void deallocate(void);
 
     /** Set query type.
@@ -64,8 +64,7 @@ public:
                const size_t numDims,
                const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // PRIVATE STRUCT /////////////////////////////////////////////////////
 
     /** Interpolation weighting information */
@@ -74,8 +73,7 @@ private:
         size_t nearIndex; ///< Index into nearest
     }; // struct WtStruct
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Query database using nearest neighbor algorithm.
@@ -136,17 +134,16 @@ private:
      */
     void _findVolumePt(std::vector<WtStruct>* pWeights);
 
-    /** Set coordiantes of point in 3-D space using coordinates in
+    /** Set coordinates of point in 3-D space using coordinates in
      * current coordinate system.
      *
      * @param pt3 Coordinates of point in 3-D space [output].
-     * @param pt Cooridinates of point in current coordinate sytem.
+     * @param pt Coordinates of point in current coordinate system.
      * @param spaceDim Spatial dimension of current coordinate system.
      */
-    static
-    void _setPoint3(double* const pt3,
-                    const double* pt,
-                    const size_t spaceDim);
+    static void _setPoint3(double* const pt3,
+                           const double* pt,
+                           const size_t spaceDim);
 
     /** Compute square of distance between points A and B.
      *
@@ -181,19 +178,19 @@ private:
                           const double c[3],
                           const double d[3]);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     double _q[3]; ///< Location of query.
     SimpleDB::QueryEnum _queryType; ///< Query type.
     std::vector<size_t> _nearest; ///< Index of nearest points in database to location.
     const SimpleDB& _db; ///< Reference to simple database.
-    spatialdata::geocoords::Converter* _converter; ///< Covert query points to local coordinate system.
+    spatialdata::geocoords::Converter* _converter; ///< Convert query points to local coordinate system.
 
     size_t* _queryValues; ///< Indices of values to be returned in queries.
-    size_t _querySize; ///< Nmber of values to be returned in queries.
+    size_t _querySize; ///< Number of values to be returned in queries.
 
 }; // class SimpleDBQuery
+
 
 // End of file

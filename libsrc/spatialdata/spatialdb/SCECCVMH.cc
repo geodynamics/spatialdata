@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -17,12 +17,12 @@
 #include "spatialdata/geocoords/CSGeo.hh" // USES CSGeo
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 
+#include <cassert> // USES assert()
+#include <cstring> // USES memcpy()
 #include <math.h> // USES pow()
 #include <sstream> // USES std::ostringstream
 #include <stdexcept> // USES std::logic_error
-#include <cstring> // USES memcpy()
 #include <strings.h> // USES strcasecmp()
-#include <cassert> // USES assert()
 
 // ----------------------------------------------------------------------
 // Constructor
@@ -59,25 +59,38 @@ spatialdata::spatialdb::SCECCVMH::SCECCVMH(void) :
 // ----------------------------------------------------------------------
 // Destructor
 spatialdata::spatialdb::SCECCVMH::~SCECCVMH(void) {
-    delete _laLowResVp;_laLowResVp = NULL;
-    delete _laLowResTag;_laLowResTag = NULL;
-    delete _laHighResVp;_laHighResVp = NULL;
-    delete _laHighResTag;_laHighResTag = NULL;
-    delete _crustMantleVp;_crustMantleVp = NULL;
-    delete _crustMantleVs;_crustMantleVs = NULL;
-    delete _crustMantleTag;_crustMantleTag = NULL;
-    delete _topoElev;_topoElev = NULL;
-    delete _baseDepth;_baseDepth = NULL;
-    delete _mohoDepth;_mohoDepth = NULL;
-    delete _csUTM;_csUTM = NULL;
+    delete _laLowResVp;
+    _laLowResVp = NULL;
+    delete _laLowResTag;
+    _laLowResTag = NULL;
+    delete _laHighResVp;
+    _laHighResVp = NULL;
+    delete _laHighResTag;
+    _laHighResTag = NULL;
+    delete _crustMantleVp;
+    _crustMantleVp = NULL;
+    delete _crustMantleVs;
+    _crustMantleVs = NULL;
+    delete _crustMantleTag;
+    _crustMantleTag = NULL;
+    delete _topoElev;
+    _topoElev = NULL;
+    delete _baseDepth;
+    _baseDepth = NULL;
+    delete _mohoDepth;
+    _mohoDepth = NULL;
+    delete _csUTM;
+    _csUTM = NULL;
 
     _squashLimit = 0.0;
     _minVs = 0.0;
-    delete[] _queryValues;_queryValues = NULL;
+    delete[] _queryValues;
+    _queryValues = NULL;
     _querySize = 0;
     _squashTopo = 0;
 
-    delete _converter;_converter = NULL;
+    delete _converter;
+    _converter = NULL;
 } // destructor
 
 
@@ -151,16 +164,26 @@ spatialdata::spatialdb::SCECCVMH::open(void) {
 // Close the database.
 void
 spatialdata::spatialdb::SCECCVMH::close(void) {
-    delete _laLowResVp;_laLowResVp = NULL;
-    delete _laLowResTag;_laLowResTag = NULL;
-    delete _laHighResVp;_laHighResVp = NULL;
-    delete _laHighResTag;_laHighResTag = NULL;
-    delete _crustMantleVp;_crustMantleVp = NULL;
-    delete _crustMantleVs;_crustMantleVs = NULL;
-    delete _crustMantleTag;_crustMantleTag = NULL;
-    delete _topoElev;_topoElev = NULL;
-    delete _baseDepth;_baseDepth = NULL;
-    delete _mohoDepth;_mohoDepth = NULL;
+    delete _laLowResVp;
+    _laLowResVp = NULL;
+    delete _laLowResTag;
+    _laLowResTag = NULL;
+    delete _laHighResVp;
+    _laHighResVp = NULL;
+    delete _laHighResTag;
+    _laHighResTag = NULL;
+    delete _crustMantleVp;
+    _crustMantleVp = NULL;
+    delete _crustMantleVs;
+    _crustMantleVs = NULL;
+    delete _crustMantleTag;
+    _crustMantleTag = NULL;
+    delete _topoElev;
+    _topoElev = NULL;
+    delete _baseDepth;
+    _baseDepth = NULL;
+    delete _mohoDepth;
+    _mohoDepth = NULL;
 } // close
 
 
@@ -198,14 +221,14 @@ spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
                                                  const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getDescription()
-            << "\n must be positive.\n";
+        msg << "Number of values for query in spatial database " << getDescription() << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryValues;_queryValues = new size_t[numVals];
+    delete[] _queryValues;
+    _queryValues = new size_t[numVals];
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         if (0 == strcasecmp(names[iVal], "vp")) {
             _queryValues[iVal] = QUERY_VP;
@@ -223,8 +246,8 @@ spatialdata::spatialdb::SCECCVMH::setQueryValues(const char* const* names,
             _queryValues[iVal] = QUERY_VPTAG;
         } else {
             std::ostringstream msg;
-            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getDescription() << "'. Available values are:\n"
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '" << getDescription()
+                << "'. Available values are:\n"
                 << "vp, vs, density, topo-elev, basement-depth, moho-depth, vp-tag.";
             throw std::out_of_range(msg.str());
         } // else
@@ -247,10 +270,8 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
         throw std::logic_error(msg.str());
     } else if (numVals != _querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << getDescription() << "\n"
-            << "(" << _querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << getDescription() << "\n"
+            << "(" << _querySize << ") does not match size of array provided (" << numVals << ").\n";
         throw std::invalid_argument(msg.str());
     } else if (3 != numDims) {
         std::ostringstream msg;
@@ -259,13 +280,13 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
     } // if
 
     // Convert coordinates to UTM
-    memcpy(_xyzUTM, coords, numDims*sizeof(double));
+    memcpy(_xyzUTM, coords, numDims * sizeof(double));
     assert(_converter);
     _converter->convert(_xyzUTM, 1, numDims, _csUTM, csQuery);
 
     bool haveTopo = false;
     double topoElev = 0;
-    if (_squashTopo && ( _xyzUTM[2] > _squashLimit) ) {
+    if (_squashTopo && (_xyzUTM[2] > _squashLimit)) {
         _topoElev->queryNearest(&topoElev, _xyzUTM);
         haveTopo = true;
         _xyzUTM[2] += topoElev;
@@ -339,7 +360,6 @@ spatialdata::spatialdb::SCECCVMH::query(double* vals,
         default:
             assert(0);
         } // switch
-
     }
     return queryFlag;
 } // query
@@ -424,13 +444,12 @@ spatialdata::spatialdb::SCECCVMH::_calcDensity(const double vp) const {
 // Compute density from Vp.
 double
 spatialdata::spatialdb::SCECCVMH::_calcVs(const double vp) const {
-    double vs = (vp < 4250.0) ?
-                (vp - 1360.0) / 1.16 :
-                785.8 - 1.2344*vp + 794.9 * pow(vp/1000.0,2)
-                - 123.8 * pow(vp/1000.0,3) + 6.4 * pow(vp/1000.0,4);
+    double vs = (vp < 4250.0) ? (vp - 1360.0) / 1.16
+                              : 785.8 - 1.2344 * vp + 794.9 * pow(vp / 1000.0, 2) - 123.8 * pow(vp / 1000.0, 3) +
+                                    6.4 * pow(vp / 1000.0, 4);
     if (vp < 1500.0) {
         if (vp != 1480.0) { // if not water
-            vs = (1500.0-1360.0)/1.16;
+            vs = (1500.0 - 1360.0) / 1.16;
         } else {
             vs = 0.0; // water
         } // if/else

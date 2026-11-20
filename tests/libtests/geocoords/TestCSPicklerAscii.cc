@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -26,35 +26,34 @@
 namespace spatialdata {
     namespace geocoords {
         class TestCSPicklerAscii;
-    } // geocoords
-} // spatialdata
+    } // namespace geocoords
+} // namespace spatialdata
 
 class spatialdata::geocoords::TestCSPicklerAscii {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test pickle() & unpickle() for CSCart
-    static
-    void testPickleCSCart(void);
+    static void testPickleCSCart(void);
 
     /// Test pickle() & unpickle() for CSGeo
-    static
-    void testPickleCSGeo(void);
+    static void testPickleCSGeo(void);
 
     /// Test pickle() & unpickle() for CSGeoLocal
-    static
-    void testPickleCSGeoLocal(void);
+    static void testPickleCSGeoLocal(void);
 
 }; // class TestCSPickleAscii
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestCSPicklerAscii::testPickleCSCart", "[TestCSPicklerAscii]") {
+TEST_CASE("TestCSPicklerAscii::testPickleCSCart",
+          "[TestCSPicklerAscii]") {
     spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart();
 }
-TEST_CASE("TestCSPicklerAscii::testPickleCSGeo", "[TestCSPicklerAscii]") {
+TEST_CASE("TestCSPicklerAscii::testPickleCSGeo",
+          "[TestCSPicklerAscii]") {
     spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo();
 }
-TEST_CASE("TestCSPicklerAscii::testPickleCSGeoLocal", "[TestCSPicklerAscii]") {
+TEST_CASE("TestCSPicklerAscii::testPickleCSGeoLocal",
+          "[TestCSPicklerAscii]") {
     spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeoLocal();
 }
 
@@ -73,7 +72,8 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSCart(void) {
 
     CHECK(dynamic_cast<CSCart*>(csP));
 
-    delete csP;csP = NULL;
+    delete csP;
+    csP = NULL;
 } // testPickleCSCart
 
 
@@ -92,7 +92,8 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeo(void) {
 
     CHECK(dynamic_cast<CSGeo*>(csP));
 
-    delete csP;csP = NULL;
+    delete csP;
+    csP = NULL;
 } // testPickleCSGeo
 
 
@@ -111,7 +112,8 @@ spatialdata::geocoords::TestCSPicklerAscii::testPickleCSGeoLocal(void) {
 
     CHECK(dynamic_cast<CSGeoLocal*>(csP));
 
-    delete csP;csP = NULL;
+    delete csP;
+    csP = NULL;
 } // testPickleCSGeoLocal
 
 

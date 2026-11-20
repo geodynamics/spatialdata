@@ -1,19 +1,19 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
 #include "spatialdata/spatialdb/SimpleIOAscii.hh" // Test subject
 
-#include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
+#include "spatialdata/spatialdb/SimpleDBData.hh" // USES SimpleDBData
 
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/matchers/catch_matchers_floating_point.hpp"
@@ -24,29 +24,28 @@
 namespace spatialdata {
     namespace spatialdb {
         class TestSimpleIOAscii;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 class spatialdata::spatialdb::TestSimpleIOAscii {
     // PUBLIC METHODS /////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test filename(), read(), write().
-    static
-    void testWriteRead(void);
+    static void testWriteRead(void);
 
     /// Test filename(), read() with spatial database file that contains
     /// comments.
-    static
-    void testReadComments(void);
+    static void testReadComments(void);
 
 }; // class TestSimpleIOAscii
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestSimpleIOAscii::testWriteRead", "[TestSimpleIOAscii]") {
+TEST_CASE("TestSimpleIOAscii::testWriteRead",
+          "[TestSimpleIOAscii]") {
     spatialdata::spatialdb::TestSimpleIOAscii::testWriteRead();
 }
-TEST_CASE("TestSimpleIOAscii::testReadComments", "[TestSimpleIOAscii]") {
+TEST_CASE("TestSimpleIOAscii::testReadComments",
+          "[TestSimpleIOAscii]") {
     spatialdata::spatialdb::TestSimpleIOAscii::testReadComments();
 }
 
@@ -58,21 +57,36 @@ spatialdata::spatialdb::TestSimpleIOAscii::testWriteRead(void) {
     const size_t numLocsE = 5;
     const size_t numValsE = 2;
     const size_t dataDimE = 3;
-    const char* names[numValsE] = { "One", "Two" };
-    const char* units[numValsE] = { "m", "m" };
-    const double coordsE[numLocsE*spaceDimE] = {
-        0.6, 0.1, 0.2,
-        1.0, 1.1, 1.2,
-        4.7, 9.5, 8.7,
-        3.4, 0.7, 9.8,
-        3.4, 9.8, 5.7,
+    const char* names[numValsE] = {"One", "Two"};
+    const char* units[numValsE] = {"m", "m"};
+    const double coordsE[numLocsE * spaceDimE] = {
+        0.6,
+        0.1,
+        0.2,
+        1.0,
+        1.1,
+        1.2,
+        4.7,
+        9.5,
+        8.7,
+        3.4,
+        0.7,
+        9.8,
+        3.4,
+        9.8,
+        5.7,
     };
-    const double dataE[numLocsE*numValsE] = {
-        6.6, 3.4,
-        5.5, 6.7,
-        2.3, 4.1,
-        5.7, 2.0,
-        6.3, 6.7,
+    const double dataE[numLocsE * numValsE] = {
+        6.6,
+        3.4,
+        5.5,
+        6.7,
+        2.3,
+        4.1,
+        5.7,
+        2.0,
+        6.3,
+        6.7,
     };
 
     SimpleDBData dataOut;
@@ -118,7 +132,8 @@ spatialdata::spatialdb::TestSimpleIOAscii::testWriteRead(void) {
         } // for
     } // for
 
-    delete csIn;csIn = NULL;
+    delete csIn;
+    csIn = NULL;
 } // testWriteRead
 
 
@@ -131,21 +146,36 @@ spatialdata::spatialdb::TestSimpleIOAscii::testReadComments(void) {
     const size_t numLocsE = 5;
     const size_t numValsE = 2;
     const size_t dataDimE = 3;
-    const char* names[numValsE] = { "One", "Two" };
-    const char* units[numValsE] = { "m", "m" };
-    const double coordsE[numLocsE*spaceDimE] = {
-        0.6, 0.1, 0.2,
-        1.0, 1.1, 1.2,
-        4.7, 9.5, 8.7,
-        3.4, 0.7, 9.8,
-        3.4, 9.8, 5.7,
+    const char* names[numValsE] = {"One", "Two"};
+    const char* units[numValsE] = {"m", "m"};
+    const double coordsE[numLocsE * spaceDimE] = {
+        0.6,
+        0.1,
+        0.2,
+        1.0,
+        1.1,
+        1.2,
+        4.7,
+        9.5,
+        8.7,
+        3.4,
+        0.7,
+        9.8,
+        3.4,
+        9.8,
+        5.7,
     };
-    const double dataE[numLocsE*numValsE] = {
-        6.6, 3.4,
-        5.5, 6.7,
-        2.3, 4.1,
-        5.7, 2.0,
-        6.3, 6.7,
+    const double dataE[numLocsE * numValsE] = {
+        6.6,
+        3.4,
+        5.5,
+        6.7,
+        2.3,
+        4.1,
+        5.7,
+        2.0,
+        6.3,
+        6.7,
     };
 
     const char* filename = "data/spatial_comments.dat";
@@ -182,7 +212,8 @@ spatialdata::spatialdb::TestSimpleIOAscii::testReadComments(void) {
         } // for
     } // for
 
-    delete csIn;csIn = NULL;
+    delete csIn;
+    csIn = NULL;
 } // testReadComments
 
 

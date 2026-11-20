@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "spatialdbfwd.hh" // forward declarations
@@ -16,8 +17,7 @@
 class spatialdata::spatialdb::SimpleDBData { // SimpleDBData
     friend class TestSimpleDBData; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor
@@ -26,7 +26,7 @@ public:
     /// Default destructor
     ~SimpleDBData(void);
 
-    /** Allocate data structues.
+    /** Allocate data structures.
      *
      * @param numLocs Number of locations.
      * @param numValues Number of values.
@@ -148,8 +148,7 @@ public:
      */
     const char* getUnits(const size_t index) const;
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     double* _data; ///< Array of data values.
@@ -164,5 +163,6 @@ private:
 }; // class SpatialDBData
 
 #include "SimpleDBData.icc" // inline methods
+
 
 // End of file

@@ -1,14 +1,13 @@
 #!/usr/bin/env nemesis
+# -*- python -*-
+# -*- coding: utf-8 -*-
 #
-# =================================================================================================
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 import unittest
 
@@ -29,6 +28,7 @@ class TestTimeHistoryIO(unittest.TestCase):
 
         # Write database
         from spatialdata.spatialdb.TimeHistoryIO import write
+
         write(time, amplitude, units, filename)
 
         # Test write
@@ -44,7 +44,7 @@ class TestTimeHistoryIO(unittest.TestCase):
 
         self.assertEqual(len(linesE), len(lines))
         iline = 0
-        for (lineE, line) in zip(linesE, lines):
+        for lineE, line in zip(linesE, lines):
             if lineE != line:
                 print("Error found in line %d in file '%s' is incorrect." % (iline, filename))
                 self.assertTrue(False)

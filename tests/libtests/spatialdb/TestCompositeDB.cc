@@ -1,19 +1,19 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
 #include "spatialdata/spatialdb/CompositeDB.hh" // USES CompositeDB
 
-#include "spatialdata/spatialdb/UniformDB.hh" // USES UniformDB
 #include "spatialdata/geocoords/CSCart.hh" // USES CSCart
+#include "spatialdata/spatialdb/UniformDB.hh" // USES UniformDB
 
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/matchers/catch_matchers_floating_point.hpp"
@@ -24,19 +24,17 @@
 namespace spatialdata {
     namespace spatialdb {
         class TestCompositeDB;
-    } // spatialdb
-} // spatialdata
+    } // namespace spatialdb
+} // namespace spatialdata
 
 class spatialdata::spatialdb::TestCompositeDB {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestCompositeDB(void);
 
     /// Test constructors
-    static
-    void testConstructors(void);
+    static void testConstructors(void);
 
     /// Test accessors.
     void testAccessors(void);
@@ -62,39 +60,47 @@ public:
     /// Test query() with values in dbB.
     void testQueryB(void);
 
-private:
-
+  private:
     UniformDB _dbA; ///< Spatial database A.
-    UniformDB _dbB; ///< Spatial databsae B.
+    UniformDB _dbB; ///< Spatial database B.
 
 }; // class TestCompositeDB
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestCompositeDB::testConstructors", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testConstructors",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB::testConstructors();
 }
 
-TEST_CASE("TestCompositeDB::testAccessors", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testAccessors",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testAccessors();
 }
-TEST_CASE("TestCompositeDB::testGetNamesDBValues", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testGetNamesDBValues",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testGetNamesDBValues();
 }
-TEST_CASE("TestCompositeDB::testQueryValsAB", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testQueryValsAB",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testQueryValsAB();
 }
-TEST_CASE("TestCompositeDB::testQueryValsA", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testQueryValsA",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testQueryValsA();
 }
-TEST_CASE("TestCompositeDB::testQueryValsB", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testQueryValsB",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testQueryValsB();
 }
-TEST_CASE("TestCompositeDB::testQueryAB", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testQueryAB",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testQueryAB();
 }
-TEST_CASE("TestCompositeDB::testQueryA", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testQueryA",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testQueryA();
 }
-TEST_CASE("TestCompositeDB::testQueryB", "[TestCompositeDB]") {
+TEST_CASE("TestCompositeDB::testQueryB",
+          "[TestCompositeDB]") {
     spatialdata::spatialdb::TestCompositeDB().testQueryB();
 }
 
@@ -102,17 +108,17 @@ TEST_CASE("TestCompositeDB::testQueryB", "[TestCompositeDB]") {
 spatialdata::spatialdb::TestCompositeDB::TestCompositeDB(void) {
     { // initialize db A
         const size_t numValues = 3;
-        const char* names[3] = { "one", "two", "three" };
-        const char* units[3] = { "none", "none", "none" };
-        const double values[3] = { 1.1, 2.2, 3.3 };
+        const char* names[3] = {"one", "two", "three"};
+        const char* units[3] = {"none", "none", "none"};
+        const double values[3] = {1.1, 2.2, 3.3};
         _dbA.setData(names, units, values, numValues);
     } // initialize db A
 
     { // initialize db B
         const size_t numValues = 2;
-        const char* names[2] = { "four", "five" };
-        const char* units[2] = { "none", "none" };
-        const double values[2] = { 4.4, 5.5 };
+        const char* names[2] = {"four", "five"};
+        const char* units[2] = {"none", "none"};
+        const double values[2] = {4.4, 5.5};
         _dbB.setData(names, units, values, numValues);
     } // initialize db B
 
@@ -143,7 +149,7 @@ spatialdata::spatialdb::TestCompositeDB::testAccessors(void) {
 
     // Set database A
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     CHECK(db._dbA);
@@ -161,7 +167,7 @@ spatialdata::spatialdb::TestCompositeDB::testAccessors(void) {
 
     // Set database B
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     CHECK(db._dbB);
@@ -183,11 +189,11 @@ spatialdata::spatialdb::TestCompositeDB::testGetNamesDBValues(void) {
     CompositeDB db;
 
     const size_t numValuesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numValuesA);
 
     const size_t numValuesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numValuesB);
 
     const char** valueNames = NULL;
@@ -202,7 +208,8 @@ spatialdata::spatialdb::TestCompositeDB::testGetNamesDBValues(void) {
     for (size_t iB = 0; iB < numValuesB; ++iB, ++iAB) {
         CHECK(std::string(namesB[iB]) == std::string(valueNames[iAB]));
     } // for
-    delete[] valueNames;valueNames = NULL;
+    delete[] valueNames;
+    valueNames = NULL;
     numValues = 0;
 } // testGetDBValues
 
@@ -214,21 +221,21 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
     CompositeDB db;
 
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     const size_t querySize = 3;
-    const char* queryVals[3] = { "one", "five", "three" };
+    const char* queryVals[3] = {"one", "five", "three"};
 
     db.open();
 
     { // Check defaults (all values in A and then all values in B).
         const size_t qsizeA = 2;
-        const size_t qindicesA[qsizeA] = { 0, 1 };
+        const size_t qindicesA[qsizeA] = {0, 1};
         CHECK(db._dbA);
         CHECK(db._infoA);
         CHECK(db._infoA->query_buffer);
@@ -239,7 +246,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
         } // for
 
         const size_t qsizeB = 1;
-        const size_t qindicesB[1] = { 2 };
+        const size_t qindicesB[1] = {2};
         CHECK(db._dbB);
         CHECK(db._infoB);
         CHECK(db._infoB->query_buffer);
@@ -254,7 +261,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
     db.close();
 
     const size_t qsizeA = 2;
-    const size_t qindicesA[2] = { 0, 2 };
+    const size_t qindicesA[2] = {0, 2};
     CHECK(db._dbA);
     CHECK(db._infoA);
     CHECK(db._infoA->query_buffer);
@@ -265,7 +272,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsAB(void) {
     } // for
 
     const size_t qsizeB = 1;
-    const size_t qindicesB[1] = { 1 };
+    const size_t qindicesB[1] = {1};
     CHECK(db._dbB);
     CHECK(db._infoB);
     CHECK(db._infoB->query_buffer);
@@ -284,22 +291,22 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsA(void) {
     CompositeDB db;
 
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     const size_t querySize = 2;
-    const char* queryVals[2] = { "one", "three" };
+    const char* queryVals[2] = {"one", "three"};
 
     db.open();
     db.setQueryValues(queryVals, querySize);
     db.close();
 
     const size_t qsizeA = 2;
-    const size_t qindicesA[2] = { 0, 1 };
+    const size_t qindicesA[2] = {0, 1};
     CHECK(db._dbA);
     CHECK(db._infoA);
     CHECK(db._infoA->query_buffer);
@@ -325,15 +332,15 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsB(void) {
     CompositeDB db;
 
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     const size_t querySize = 1;
-    const char* queryVals[1] = { "five" };
+    const char* queryVals[1] = {"five"};
 
     db.open();
     db.setQueryValues(queryVals, querySize);
@@ -347,7 +354,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryValsB(void) {
     REQUIRE(qsizeA == db._infoA->query_size);
 
     const size_t qsizeB = 1;
-    const size_t qindicesB[1] = { 0 };
+    const size_t qindicesB[1] = {0};
     CHECK(db._dbB);
     CHECK(db._infoB);
     CHECK(db._infoB->query_buffer);
@@ -366,22 +373,22 @@ spatialdata::spatialdb::TestCompositeDB::testQueryAB(void) {
     CompositeDB db;
 
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     const size_t querySize = 2;
-    const char* queryVals[2] = { "five", "one" };
+    const char* queryVals[2] = {"five", "one"};
 
     const size_t spaceDim = 2;
     spatialdata::geocoords::CSCart cs;
     cs.setSpaceDim(spaceDim);
-    const double coords[2] = { 2.3, 5.6 };
+    const double coords[2] = {2.3, 5.6};
     double data[querySize];
-    const double valsE[2] = { 5.5, 1.1 };
+    const double valsE[2] = {5.5, 1.1};
 
     db.open();
     db.setQueryValues(queryVals, querySize);
@@ -390,7 +397,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryAB(void) {
 
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
-        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance*valsE[i] : tolerance;
+        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance * valsE[i] : tolerance;
         CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valsE[i], toleranceV));
     } // for
 } // testQueryAB
@@ -403,22 +410,22 @@ spatialdata::spatialdb::TestCompositeDB::testQueryA(void) { // testQueryA
     CompositeDB db;
 
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     const size_t querySize = 1;
-    const char* queryVals[1] = { "three" };
+    const char* queryVals[1] = {"three"};
 
     const size_t spaceDim = 2;
     spatialdata::geocoords::CSCart cs;
     cs.setSpaceDim(spaceDim);
-    const double coords[2] = { 2.3, 5.6 };
+    const double coords[2] = {2.3, 5.6};
     double data[querySize];
-    const double valsE[1] = { 3.3 };
+    const double valsE[1] = {3.3};
 
     db.open();
     db.setQueryValues(queryVals, querySize);
@@ -427,7 +434,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryA(void) { // testQueryA
 
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
-        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance*valsE[i] : tolerance;
+        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance * valsE[i] : tolerance;
         CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valsE[i], toleranceV));
     } // for
 } // testQueryA
@@ -440,22 +447,24 @@ spatialdata::spatialdb::TestCompositeDB::testQueryB(void) {
     CompositeDB db;
 
     const size_t numNamesA = 2;
-    const char* namesA[2] = { "three", "one" };
+    const char* namesA[2] = {"three", "one"};
     db.setDBA(&_dbA, namesA, numNamesA);
 
     const size_t numNamesB = 1;
-    const char* namesB[1] = { "five" };
+    const char* namesB[1] = {"five"};
     db.setDBB(&_dbB, namesB, numNamesB);
 
     const size_t querySize = 1;
-    const char* queryVals[1] = { "five", };
+    const char* queryVals[1] = {
+        "five",
+    };
 
     const size_t spaceDim = 2;
     spatialdata::geocoords::CSCart cs;
     cs.setSpaceDim(spaceDim);
-    const double coords[2] = { 2.3, 5.6 };
+    const double coords[2] = {2.3, 5.6};
     double data[querySize];
-    const double valsE[1] = { 5.5 };
+    const double valsE[1] = {5.5};
 
     db.open();
     db.setQueryValues(queryVals, querySize);
@@ -464,7 +473,7 @@ spatialdata::spatialdb::TestCompositeDB::testQueryB(void) {
 
     const double tolerance = 1.0e-6;
     for (size_t i = 0; i < querySize; ++i) {
-        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance*valsE[i] : tolerance;
+        const double toleranceV = fabs(valsE[i]) > 0.0 ? tolerance * valsE[i] : tolerance;
         CHECK_THAT(data[i], Catch::Matchers::WithinAbs(valsE[i], toleranceV));
     } // for
 } // testQueryB

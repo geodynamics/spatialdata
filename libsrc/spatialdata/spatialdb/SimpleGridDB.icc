@@ -1,20 +1,20 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include <cassert> // USES assert()
 
 // ----------------------------------------------------------------------
 // Get index into data array.
-inline
-size_t
+inline size_t
 spatialdata::spatialdb::SimpleGridDB::_getDataIndex(const size_t index0,
                                                     const size_t size0,
                                                     const size_t index1,
@@ -22,8 +22,8 @@ spatialdata::spatialdb::SimpleGridDB::_getDataIndex(const size_t index0,
                                                     const size_t index2,
                                                     const size_t size2) const {
     // Order points so indexing works in any dimension.
-    const size_t locIndex = index2*size1*size0 + index1*size0 + index0;
-    return locIndex*_numValues;
+    const size_t locIndex = index2 * size1 * size0 + index1 * size0 + index0;
+    return locIndex * _numValues;
 } // _dataIndex
 
 

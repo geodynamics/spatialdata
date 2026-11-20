@@ -1,19 +1,19 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
 #include "TestUserFunctionDB.hh" // Implementation of class methods
 
-#include "spatialdata/spatialdb/UserFunctionDB.hh" // USES UserFunctionDB
 #include "spatialdata/geocoords/CSCart.hh" // USE CSCart
+#include "spatialdata/spatialdb/UserFunctionDB.hh" // USES UserFunctionDB
 
 #include "catch2/catch_test_macros.hpp"
 #include "catch2/matchers/catch_matchers_floating_point.hpp"
@@ -37,8 +37,10 @@ spatialdata::spatialdb::TestUserFunctionDB::TestUserFunctionDB(TestUserFunctionD
 // ----------------------------------------------------------------------
 // Tear down testing data.
 spatialdata::spatialdb::TestUserFunctionDB::~TestUserFunctionDB(void) {
-    delete _db;_db = NULL;
-    delete _data;_data = NULL;
+    delete _db;
+    _db = NULL;
+    delete _data;
+    _data = NULL;
 } // tearDown
 
 
@@ -148,7 +150,8 @@ spatialdata::spatialdb::TestUserFunctionDB::testGetNamesDBValues(void) {
             FAIL("Could not find value '" << valueNames[i] << "' in UserFunctionDB test data.");
         } // if
     } // for
-    delete[] valueNames;valueNames = NULL;
+    delete[] valueNames;
+    valueNames = NULL;
     numValues = 0;
 } // testGetDBValues
 
@@ -166,10 +169,11 @@ spatialdata::spatialdb::TestUserFunctionDB::testQueryVals(void) {
     const int numValues = _data->numValues - 1;
     const char** names = (numValues > 0) ? new const char*[numValues] : NULL;
     for (int i = 0; i < numValues; ++i) {
-        names[i] = _data->values[numValues-1-i].name.c_str();
+        names[i] = _data->values[numValues - 1 - i].name.c_str();
     } // for
     _db->setQueryValues(names, numValues);
-    delete[] names;names = NULL;
+    delete[] names;
+    names = NULL;
 
     // Check result.
     for (int i = 0; i < numValues; ++i) {
@@ -210,20 +214,22 @@ spatialdata::spatialdb::TestUserFunctionDB::testQuery(void) {
         names[i] = _data->values[i].name.c_str();
     } // for
     _db->setQueryValues(names, numValues);
-    delete[] names;names = NULL;
+    delete[] names;
+    names = NULL;
 
     // Call query() and check result.
     const double tolerance = 1.0e-6;
     for (size_t iQuery = 0; iQuery < numQueries; ++iQuery) {
-        const int flag = _db->query(values, numValues, &_data->queryXYZ[iQuery*spaceDim], spaceDim, _data->cs);
+        const int flag = _db->query(values, numValues, &_data->queryXYZ[iQuery * spaceDim], spaceDim, _data->cs);
         CHECK(0 == flag);
 
         for (size_t iVal = 0; iVal < numValues; ++iVal) {
-            const double valueE = _data->queryValues[iQuery*numValues+iVal]*_data->values[iVal].scale;
+            const double valueE = _data->queryValues[iQuery * numValues + iVal] * _data->values[iVal].scale;
             CHECK_THAT(values[iVal], Catch::Matchers::WithinAbs(valueE, tolerance));
         } // for
     } // for
-    delete[] values;values = NULL;
+    delete[] values;
+    values = NULL;
 
     _db->close();
 
@@ -238,13 +244,15 @@ spatialdata::spatialdb::TestUserFunctionDB_Data::TestUserFunctionDB_Data(void) :
     cs(NULL),
     queryXYZ(NULL),
     queryValues(NULL),
-    numQueryPoints(0) {}
+    numQueryPoints(0) {
+}
 
 
 // ----------------------------------------------------------------------
 // Destructor
 spatialdata::spatialdb::TestUserFunctionDB_Data::~TestUserFunctionDB_Data(void) {
-    delete cs;cs = NULL;
+    delete cs;
+    cs = NULL;
 }
 
 

@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SpatialDB.hh" // ISA Spatialdb
@@ -17,26 +18,24 @@ class spatialdata::spatialdb::SimpleDB : public SpatialDB { // class SimpleDB
     friend class TestSimpleDB; // unit testing
     friend class TestSimpleDBQuery; // unit testing
 
-public:
-
+  public:
     // PUBLIC ENUM ////////////////////////////////////////////////////////
 
     /** Topology of spatial data */
     enum TopoEnum {
-        POINT=0,
-        LINE=1,
-        AREA=2,
-        VOLUME=3
+        POINT = 0,
+        LINE = 1,
+        AREA = 2,
+        VOLUME = 3
     };
 
     /** Type of query */
     enum QueryEnum {
-        NEAREST=0,
-        LINEAR=1
+        NEAREST = 0,
+        LINEAR = 1
     };
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -109,15 +108,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* pCSQuery);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     SimpleDB(const SimpleDB& data); ///< Not implemented
     const SimpleDB& operator=(const SimpleDB& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     SimpleDBData* _data; ///< Pointer to data
@@ -126,5 +123,6 @@ private:
     spatialdata::geocoords::CoordSys* _cs; ///< Coordinate system
 
 }; // class SimpleDB
+
 
 // End of file

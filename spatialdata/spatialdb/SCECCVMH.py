@@ -1,12 +1,12 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 
 from .SpatialDBObj import SpatialDBObj
 from .spatialdb import SCECCVMH as ModuleSCECCVMH
@@ -17,11 +17,12 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     Spatial database for the SCEC CVM-H seismic velocity model versions 5.2 and 5.3.
 
     Implements `SpatialDB`.
-    
+
     :::{danger}
     These models are obsolete and no longer available from SCEC.
     :::
     """
+
     DOC_CONFIG = {
         "cfg": """
             data_dir = data/scec-cvmh
@@ -34,19 +35,21 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
     import pythia.pyre.inventory
 
     dataDir = pythia.pyre.inventory.str("data_dir", default=".")
-    dataDir.meta['tip'] = "Directory containing SCEC CVM-H data files."
+    dataDir.meta["tip"] = "Directory containing SCEC CVM-H data files."
 
     from pythia.pyre.units.length import meter
     from pythia.pyre.units.time import second
+
     minVs = pythia.pyre.inventory.dimensional("min_vs", default=500.0 * meter / second)
-    minVs.meta['tip'] = "Minimum shear wave speed."
+    minVs.meta["tip"] = "Minimum shear wave speed."
 
     squash = pythia.pyre.inventory.bool("squash", default=False)
-    squash.meta['tip'] = "Squash topography/bathymetry to sea level."
+    squash.meta["tip"] = "Squash topography/bathymetry to sea level."
 
     from pythia.pyre.units.length import km
+
     squashLimit = pythia.pyre.inventory.dimensional("squash_limit", default=-2.0 * km)
-    squashLimit.meta['tip'] = "Elevation above which topography is squashed."
+    squashLimit.meta["tip"] = "Elevation above which topography is squashed."
 
     def __init__(self, name="sceccvmh"):
         """
@@ -56,7 +59,7 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
 
     def _defaults(self):
         self.description = "SCEC CVM-H v5.3"
-    
+
     def _configure(self):
         """
         Set members based on inventory.
@@ -75,6 +78,7 @@ class SCECCVMH(SpatialDBObj, ModuleSCECCVMH):
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """

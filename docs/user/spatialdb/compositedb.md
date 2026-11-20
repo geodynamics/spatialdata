@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # CompositeDB
 
 For some use cases, it is advantageous to combine two spatial databases into one.
@@ -53,7 +62,7 @@ dbComposite.setDBB(&dbViscoelastic, namesViscoelastic, numViscoelastic);
 :::{tab-item} Python
 
 Python applications should use the Pyre framework for creating the `CompositeDB`.
-We show how to do it programatically in Python for completeness.
+We show how to do it programmatically in Python for completeness.
 
 ```{code-block} python
 ---
@@ -84,3 +93,5 @@ dbCompsite._configure()
 :::
 
 ::::
+
+% End of file

@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # SimpleGridDB
 
 The `SimpleGridDB` is very similar to the `SimpleDB` but the values must be provided at locations on a logically rectangular grid aligned with the coordinate axes.
@@ -144,3 +153,5 @@ writer.write(data)
 :::
 
 ::::
+
+% End of file

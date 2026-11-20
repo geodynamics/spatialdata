@@ -1,4 +1,12 @@
-/* -*- C -*-  (not really, but good for syntax highlighting) */
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
+// This code is part of SpatialData, developed through the Computational Infrastructure
+// for Geodynamics (https://github.com/geodynamics/spatialdata).
+//
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 /*
  * Copyright (c) 2005-2015, NumPy Developers.
@@ -2969,3 +2977,6 @@ PyObject* cap = PyCapsule_New((void*)(*$5), SWIGPY_CAPSULE_NAME, free_cap);
 #endif
 
 #endif /* SWIGPYTHON */
+
+
+// End of file

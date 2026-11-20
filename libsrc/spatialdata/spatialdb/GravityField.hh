@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SpatialDB.hh"
@@ -15,8 +16,7 @@
 class spatialdata::spatialdb::GravityField : public SpatialDB {
     friend class TestGravityField; // unit testing
 
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     /// Default constructor.
@@ -88,15 +88,13 @@ public:
               const size_t numDims,
               const spatialdata::geocoords::CoordSys* cs);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     GravityField(const GravityField& data); ///< Not implemented
     const GravityField& operator=(const GravityField& data); ///< Not implemented
 
-private:
-
+  private:
     // PRIVATE MEMBERS /////////////////////////////////////////////////////
 
     double _gravityDir[3]; ///< Direction of gravitational body force.
@@ -104,5 +102,6 @@ private:
     size_t _queryValues[3]; ///< Indices of values to be returned in queries.
     size_t _querySize; ///< Number of values requested to be returned in queries.
 }; // class GravityField
+
 
 // End of file

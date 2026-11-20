@@ -1,3 +1,12 @@
+% -*- markdown -*-
+% -*- coding: utf-8 -*-
+%
+% This code is part of SpatialData, developed through the Computational Infrastructure
+% for Geodynamics (https://github.com/geodynamics/spatialdata).
+%
+% Copyright (c) 2010-2026 The SpatialData authors and contributors
+% SPDX-License-Identifier: MIT
+
 # GenSimpleDBApp
 
 % WARNING: Do not edit; this is a generated file!
@@ -39,7 +48,7 @@ Example of setting `GenSimpleDBApp` Pyre properties and facilities in a paramete
 # Vp is generated from a background value given in `vp_background.spatialdb`
 # plus a perturbation given in `vp_perturbation.spatialdb`.
 # 
-# Vs is generatef from a backgorund value given in `vs_background.spatialdb`
+# Vs is generatef from a background value given in `vs_background.spatialdb`
 # multiplied by a value given in `vs_scaling.spatialdb`.
 [gensimpledb.geometry]
 reader = read_geometry
@@ -92,3 +101,4 @@ db.query_type = linear
 db.iohandler.filename = vs_scaling.spatialdb
 :::
 
+% End of file

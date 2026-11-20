@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "SimpleGridDB.hh" // ISA SimpleGridDB
@@ -15,8 +16,7 @@
 
 // ----------------------------------------------------------------------
 class spatialdata::spatialdb::SimpleGridAscii { // SimpleGridAscii
-public:
-
+  public:
     // PUBLIC METHODS /////////////////////////////////////////////////////
 
     // Using default constructor.
@@ -29,18 +29,15 @@ public:
      *
      * @param db Spatial database.
      */
-    static
-    void read(SimpleGridDB* db);
+    static void read(SimpleGridDB* db);
 
     /** Write the database.
      *
      * @param db Spatial database.
      */
-    static
-    void write(const SimpleGridDB& db);
+    static void write(const SimpleGridDB& db);
 
-private:
-
+  private:
     // PRIVATE METHODS ////////////////////////////////////////////////////
 
     /** Read data file header.
@@ -48,44 +45,40 @@ private:
      * @param filein Input stream.
      * @param db Spatial database.
      */
-    static
-    void _readHeader(std::istream& filein,
-                     SimpleGridDB* const db);
+    static void _readHeader(std::istream& filein,
+                            SimpleGridDB* const db);
 
     /** Read data values.
      *
      * @param filein Input stream.
      * @param db Spatial database.
      */
-    static
-    void _readData(std::istream& filein,
-                   SimpleGridDB* const db);
+    static void _readData(std::istream& filein,
+                          SimpleGridDB* const db);
 
     /** Write the data file header.
      *
      * @param fileout Output stream.
      * @param db Spatial database.
      */
-    static
-    void _writeHeader(std::ostream& fileout,
-                      const SimpleGridDB& db);
+    static void _writeHeader(std::ostream& fileout,
+                             const SimpleGridDB& db);
 
     /** Write data values.
      *
      * @param fileout Output stream.
      * @param db Spatial database.
      */
-    static
-    void _writeData(std::ostream& fileout,
-                    const SimpleGridDB& db);
+    static void _writeData(std::ostream& fileout,
+                           const SimpleGridDB& db);
 
-private:
-
+  private:
     // PRIVATE MEMBERS ////////////////////////////////////////////////////
 
     /** Magic header in ascii files */
     static const char* FILEHEADER;
 
 }; // class SimpleGridAscii
+
 
 // End of file

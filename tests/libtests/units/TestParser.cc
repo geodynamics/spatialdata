@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -21,68 +21,66 @@
 namespace spatialdata {
     namespace units {
         class TestParser;
-    } // units
-} // spatialdata
+    } // namespace units
+} // namespace spatialdata
 
 class spatialdata::units::TestParser {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Test constructor.
-    static
-    void testConstructor(void);
+    static void testConstructor(void);
 
     /// Test parse() with length scale.
-    static
-    void testLength(void);
+    static void testLength(void);
 
     /// Test parse() with time scale.
-    static
-    void testTime(void);
+    static void testTime(void);
 
     /// Test parse() with velocity scale.
-    static
-    void testVelocity(void);
+    static void testVelocity(void);
 
     /// Test parse() with density scale.
-    static
-    void testDensity(void);
+    static void testDensity(void);
 
     /// Test parse() with pressure scale.
-    static
-    void testPressure(void);
+    static void testPressure(void);
 
     /// Test trapping errors with parse().
-    static
-    void testError(void);
+    static void testError(void);
 
     // PRIVATE MEMBERS ////////////////////////////////////////////////////////////////////////////
-private:
-
+  private:
     static const double _tolerance;
 }; // class TestParser
 const double spatialdata::units::TestParser::_tolerance = 1.0e-6;
 
 // ------------------------------------------------------------------------------------------------
-TEST_CASE("TestParser::testConstructor", "[TestParser]") {
+TEST_CASE("TestParser::testConstructor",
+          "[TestParser]") {
     spatialdata::units::TestParser::testConstructor();
 }
-TEST_CASE("TestParser::testLength", "[TestParser]") {
+TEST_CASE("TestParser::testLength",
+          "[TestParser]") {
     spatialdata::units::TestParser::testLength();
 }
-TEST_CASE("TestParser::testTime", "[TestParser]") {
+TEST_CASE("TestParser::testTime",
+          "[TestParser]") {
     spatialdata::units::TestParser::testTime();
 }
-TEST_CASE("TestParser::testVelocity", "[TestParser]") {
+TEST_CASE("TestParser::testVelocity",
+          "[TestParser]") {
     spatialdata::units::TestParser::testVelocity();
 }
-TEST_CASE("TestParser::testDensity", "[TestParser]") {
+TEST_CASE("TestParser::testDensity",
+          "[TestParser]") {
     spatialdata::units::TestParser::testDensity();
 }
-TEST_CASE("TestParser::testPressure", "[TestParser]") {
+TEST_CASE("TestParser::testPressure",
+          "[TestParser]") {
     spatialdata::units::TestParser::testPressure();
 }
-TEST_CASE("TestParser::testError", "[TestParser]") {
+TEST_CASE("TestParser::testError",
+          "[TestParser]") {
     spatialdata::units::TestParser::testError();
 }
 
@@ -127,7 +125,7 @@ spatialdata::units::TestParser::testVelocity(void) {
     Parser parser;
 
     CHECK_THAT(parser.parse("cm/s"), Catch::Matchers::WithinAbs(0.01, _tolerance));
-    CHECK_THAT(parser.parse("km/hour"), Catch::Matchers::WithinAbs(1.0/3.6, _tolerance));
+    CHECK_THAT(parser.parse("km/hour"), Catch::Matchers::WithinAbs(1.0 / 3.6, _tolerance));
 } // testVelocity
 
 

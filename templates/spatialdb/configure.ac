@@ -1,14 +1,12 @@
-# -*- autoconf -*-
-#
-# =================================================================================================
-# This code is part of SpatialData, developed through the Computational Infrastructure
-# for Geodynamics (https://github.com/geodynamics/spatialdata).
-#
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+dnl -*- autoconf -*-
+dnl -*- coding: utf-8 -*-
+dnl
+dnl This code is part of SpatialData, developed through the Computational Infrastructure
+dnl for Geodynamics (https://github.com/geodynamics/spatialdata).
+dnl
+dnl Copyright (c) 2010-2026 The SpatialData authors and contributors
+dnl SPDX-License-Identifier: MIT 
+
 
 AC_PREREQ(2.59)
 AC_INIT([spatialdbcontrib], [0.0.1], [cig-short@geodynamics.org])
@@ -17,15 +15,15 @@ AC_CONFIG_AUX_DIR([./aux-config])
 AC_CONFIG_MACRO_DIR([./m4])
 AM_INIT_AUTOMAKE([foreign])
 
-# ----------------------------------------------------------------------
-# C/C++/libtool/install
+dnl ----------------------------------------------------------------------
+dnl C/C++/libtool/install
 AC_PROG_CXX
 AC_PROG_CC
 AC_DISABLE_STATIC
 
 AC_PROG_LIBTOOL
+dnl See issue119.
 if test "$allow_undefined_flag" = unsupported; then
-    # See issue119.
     AM_LDFLAGS="-no-undefined $AM_LDFLAGS"
 fi
 AM_CONDITIONAL([NO_UNDEFINED], [test "$allow_undefined_flag" = unsupported])
@@ -33,16 +31,16 @@ AC_SUBST(AM_LDFLAGS)
 
 AC_PROG_INSTALL
 
-# PYTHON
+dnl PYTHON
 AM_PATH_PYTHON([2.3])
 CIT_PYTHON_SYSCONFIG
 
-# SWIG
+dnl SWIG
 CIT_NUMPY_PYTHON_MODULE
 CIT_NUMPY_INCDIR
 AC_PROG_SWIG(1.3.33)
 
-# SPATIALDATA
+dnl SPATIALDATA
 AC_LANG(C++)
 AC_CHECK_HEADER([spatialdata/spatialdb/SpatialDB.hh], [], [
   AC_MSG_ERROR([SpatialDB header not found; try CPPFLAGS="-I<Spatialdata include dir>"])
@@ -67,14 +65,14 @@ else
 fi
 
 
-# ENDIANNESS
+dnl ENDIANNESS
 AC_C_BIGENDIAN
 
-# ----------------------------------------------------------------------
+dnl ----------------------------------------------------------------------
 AC_CONFIG_FILES([Makefile
 	         tests/Makefile])
 
 AC_OUTPUT
 
 
-# End of file
+dnl End of file

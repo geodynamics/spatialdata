@@ -1,15 +1,15 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
 
-#include <portinfo>
+
 #include "f77spatialdb.h"
+#include <portinfo>
 
 extern "C" {
 #include "cspatialdb.h"
@@ -21,8 +21,7 @@ extern "C" {
 
 // ----------------------------------------------------------------------
 // Call SpatialDB:Query().
-extern "C"
-void
+extern "C" void
 spatialdb_query_f(void* db,
                   double* vals,
                   const int* numVals,
@@ -30,10 +29,8 @@ spatialdb_query_f(void* db,
                   const int* numDims,
                   const void* cs,
                   int* ok) { // spatialdb_query_f
-    spatialdata::spatialdb::SpatialDB* pDB =
-        (spatialdata::spatialdb::SpatialDB*) db;
-    const spatialdata::geocoords::CoordSys* pCS =
-        (const spatialdata::geocoords::CoordSys*) cs;
+    spatialdata::spatialdb::SpatialDB* pDB = (spatialdata::spatialdb::SpatialDB*)db;
+    const spatialdata::geocoords::CoordSys* pCS = (const spatialdata::geocoords::CoordSys*)cs;
     assert(0 != pDB);
     assert(0 != pCS);
     assert(0 != numVals);
@@ -43,8 +40,5 @@ spatialdb_query_f(void* db,
     *ok = pDB->query(vals, *numVals, coords, *numDims, pCS);
 } // spatialdb_query_f
 
-
-// version
-// $Id$
 
 // End of file

@@ -1,23 +1,23 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #pragma once
 
 #include "utilsfwd.hh"
 
-#include <string> // HASA std::string
 #include <iosfwd> // USES std::istream
+#include <string> // HASA std::string
 
 class spatialdata::utils::LineParser { // LineParser
     // PUBLIC METHODS ///////////////////////////////////////////////////////
-public:
-
+  public:
     /** Constructor.
      *
      * @param sin Input stream.
@@ -25,8 +25,8 @@ public:
      * @param bufsize Maximum size of line
      */
     LineParser(std::istream& sin,
-               const char* delimiter="#",
-               const size_t bufsize=1024);
+               const char* delimiter = "#",
+               const size_t bufsize = 1024);
 
     // Destructor.
     ~LineParser(void);
@@ -57,14 +57,12 @@ public:
     void putback(const std::string& buffer);
 
     // NOT IMPLEMENTED //////////////////////////////////////////////////////
-private:
-
+  private:
     LineParser(const LineParser&); ///< Not implemented
     const LineParser& operator=(const LineParser&); ///< Not implemented
 
     // PRIVATE MEMBERS //////////////////////////////////////////////////////
-private:
-
+  private:
     std::istream& _in; ///< Input stream.
     std::string _value; ///< Value for output.
     std::string _delimiter; ///< Comment delimiter.
@@ -73,5 +71,6 @@ private:
     bool _eatwhitespace; ///< Flag indicating to eat whitespace before fetching.
 
 }; // LineParser
+
 
 // End of file

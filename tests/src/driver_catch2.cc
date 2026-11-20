@@ -1,12 +1,13 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
+
 #include <portinfo>
 
 #include "catch2/catch_session.hpp"
@@ -17,13 +18,12 @@ namespace pylith {
     namespace testing {
         class TestDriver;
     }
-}
+} // namespace pylith
 
 // ------------------------------------------------------------------------------------------------
 class pylith::testing::TestDriver {
     // PUBLIC METHODS /////////////////////////////////////////////////////////////////////////////
-public:
-
+  public:
     /// Constructor.
     TestDriver(void);
 
@@ -37,16 +37,15 @@ public:
             char* argv[]);
 
     // NOT IMPLEMENTED ////////////////////////////////////////////////////////////////////////////
-private:
-
+  private:
     TestDriver(const TestDriver&); ///< Not implemented
     const TestDriver& operator=(const TestDriver&); ///< Not implemented
-
 };
 
 // ------------------------------------------------------------------------------------------------
 // Constructor
-pylith::testing::TestDriver::TestDriver(void) { }
+pylith::testing::TestDriver::TestDriver(void) {
+}
 
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,13 @@
-# Travis-CI configuration
+# -*- yaml -*-
+# -*- coding: utf-8 -*-
+#
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
+#
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
+# Travis-CI configuration
 dist: focal
 
 services:
@@ -51,3 +59,5 @@ install:
 script:
   - ci_env=`bash <(curl -s https://codecov.io/env)`
   - docker run $ci_env spatialdata-testenv ci-config/run_tests.sh
+
+# End of file

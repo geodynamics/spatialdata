@@ -1,12 +1,12 @@
-// =================================================================================================
+// -*- c++ -*-
+// -*- coding: utf-8 -*-
+//
 // This code is part of SpatialData, developed through the Computational Infrastructure
 // for Geodynamics (https://github.com/geodynamics/spatialdata).
 //
-// Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-// All rights reserved.
-//
-// See https://mit-license.org/ and LICENSE.md and for license information.
-// =================================================================================================
+// Copyright (c) 2010-2026 The SpatialData authors and contributors
+// SPDX-License-Identifier: MIT
+
 
 #include <portinfo>
 
@@ -15,17 +15,17 @@
 // Include ios here to avoid some Python/gcc issues
 #include <ios>
 
-#include "spatialdata/units/Parser.hh" // USES Parser
 #include "spatialdata/geocoords/CSCart.hh" // HASA CoordSys
 #include "spatialdata/geocoords/Converter.hh" // USES Converter
 #include "spatialdata/muparser/muParser.h" // USES mu::parser
+#include "spatialdata/units/Parser.hh" // USES Parser
 
-#include <vector> // USES std::vector
 #include <stdexcept> // USES std::runtime_error
+#include <vector> // USES std::vector
 
+#include <assert.h> // USES assert()
 #include <sstream> // USES std::ostringsgream
 #include <strings.h> // USES strcasecmp()
-#include <assert.h> // USES assert()
 
 // ----------------------------------------------------------------------
 /// Default constructor
@@ -38,7 +38,8 @@ spatialdata::spatialdb::AnalyticDB::AnalyticDB(void) :
     _converter(new spatialdata::geocoords::Converter),
     _queryValues(NULL),
     _numValues(0),
-    _querySize(0) {}
+    _querySize(0) {
+}
 
 
 // ----------------------------------------------------------------------
@@ -53,15 +54,18 @@ spatialdata::spatialdb::AnalyticDB::AnalyticDB(const char* label) :
     _converter(new spatialdata::geocoords::Converter),
     _queryValues(NULL),
     _numValues(0),
-    _querySize(0) {}
+    _querySize(0) {
+}
 
 
 // ----------------------------------------------------------------------
 /// Default destructor
 spatialdata::spatialdb::AnalyticDB::~AnalyticDB(void) {
     clear();
-    delete _cs;_cs = NULL;
-    delete _converter;_converter = NULL;
+    delete _cs;
+    _cs = NULL;
+    delete _converter;
+    _converter = NULL;
 } // destructor
 
 
@@ -69,11 +73,16 @@ spatialdata::spatialdb::AnalyticDB::~AnalyticDB(void) {
 /// Clear database values.
 void
 spatialdata::spatialdb::AnalyticDB::clear(void) {
-    delete[] _names;_names = NULL;
-    delete[] _scales;_scales = NULL;
-    delete[] _expressions;_expressions = NULL;
-    delete[] _parsers;_parsers = NULL;
-    delete[] _queryValues;_queryValues = NULL;
+    delete[] _names;
+    _names = NULL;
+    delete[] _scales;
+    _scales = NULL;
+    delete[] _expressions;
+    _expressions = NULL;
+    delete[] _parsers;
+    _parsers = NULL;
+    delete[] _queryValues;
+    _queryValues = NULL;
     _querySize = 0;
     _numValues = 0;
 } // destructor
@@ -86,8 +95,7 @@ spatialdata::spatialdb::AnalyticDB::setData(const char* const* names,
                                             const char* const* units,
                                             const char* const* expressions,
                                             const size_t numValues) {
-    assert( (0 < numValues && names && units && expressions) ||
-            (0 == numValues && !names && !units && !expressions) );
+    assert((0 < numValues && names && units && expressions) || (0 == numValues && !names && !units && !expressions));
 
     clear();
 
@@ -129,7 +137,8 @@ spatialdata::spatialdb::AnalyticDB::setData(const char* const* names,
 
     // Default query values is all values.
     _querySize = _numValues;
-    delete[] _queryValues;_queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
+    delete[] _queryValues;
+    _queryValues = (_querySize > 0) ? new size_t[_querySize] : NULL;
     for (size_t i = 0; i < _querySize; ++i) {
         _queryValues[i] = i;
     } // for
@@ -141,7 +150,9 @@ spatialdata::spatialdb::AnalyticDB::setData(const char* const* names,
 // Set filename containing data.
 void
 spatialdata::spatialdb::AnalyticDB::setCoordSys(const geocoords::CoordSys& cs) {
-    delete _cs;_cs = cs.clone();assert(_cs);
+    delete _cs;
+    _cs = cs.clone();
+    assert(_cs);
 } // setCoordSys
 
 
@@ -169,14 +180,15 @@ spatialdata::spatialdb::AnalyticDB::setQueryValues(const char* const* names,
                                                    const size_t numVals) {
     if (0 == numVals) {
         std::ostringstream msg;
-        msg << "Number of values for query in spatial database " << getDescription()
-            << "\n must be positive.\n";
+        msg << "Number of values for query in spatial database " << getDescription() << "\n must be positive.\n";
         throw std::invalid_argument(msg.str());
     } // if
     assert(names && 0 < numVals);
 
     _querySize = numVals;
-    delete[] _queryValues;_queryValues = new size_t[numVals];assert(_queryValues);
+    delete[] _queryValues;
+    _queryValues = new size_t[numVals];
+    assert(_queryValues);
     for (size_t iVal = 0; iVal < numVals; ++iVal) {
         size_t iName = 0;
         while (iName < _numValues) {
@@ -187,8 +199,8 @@ spatialdata::spatialdb::AnalyticDB::setQueryValues(const char* const* names,
         } // while
         if (iName >= _numValues) {
             std::ostringstream msg;
-            msg << "Could not find value '" << names[iVal] << "' in spatial database '"
-                << getDescription() << "'. Available values are:";
+            msg << "Could not find value '" << names[iVal] << "' in spatial database '" << getDescription()
+                << "'. Available values are:";
             for (size_t iName = 0; iName < _numValues; ++iName) {
                 msg << "\n  " << _names[iName];
                 msg << "\n";
@@ -216,10 +228,8 @@ spatialdata::spatialdb::AnalyticDB::query(double* vals,
     } // if
     else if (numVals != _querySize) {
         std::ostringstream msg;
-        msg << "Number of values to be returned by spatial database "
-            << getDescription() << "\n"
-            << "(" << _querySize << ") does not match size of array provided ("
-            << numVals << ").\n";
+        msg << "Number of values to be returned by spatial database " << getDescription() << "\n"
+            << "(" << _querySize << ") does not match size of array provided (" << numVals << ").\n";
         throw std::invalid_argument(msg.str());
     } // if
 

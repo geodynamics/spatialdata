@@ -1,3 +1,12 @@
+# -*- yaml -*-
+# -*- coding: utf-8 -*-
+#
+# This code is part of SpatialData, developed through the Computational Infrastructure
+# for Geodynamics (https://github.com/geodynamics/spatialdata).
+#
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
+
 name: stage-1
 
 on:
@@ -38,3 +47,5 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t spatialdata-docenv --build-arg BASE_IMAGE=$IMAGE_REGISTRY/testenv-ubuntu-22.04 -f docker/spatialdata-docenv .
+
+# End of file

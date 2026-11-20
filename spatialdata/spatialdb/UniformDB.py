@@ -1,12 +1,11 @@
-# =================================================================================================
+# -*- python -*-
+# -*- coding: utf-8 -*-
+#
 # This code is part of SpatialData, developed through the Computational Infrastructure
 # for Geodynamics (https://github.com/geodynamics/spatialdata).
 #
-# Copyright (c) 2010-2026, University of California, Davis and the SpatialData Development Team.
-# All rights reserved.
-#
-# See https://mit-license.org/ and LICENSE.md and for license information. 
-# =================================================================================================
+# Copyright (c) 2010-2026 The SpatialData authors and contributors
+# SPDX-License-Identifier: MIT
 
 
 from .SpatialDBObj import SpatialDBObj
@@ -19,6 +18,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
 
     Implements `SpatialDB`.
     """
+
     DOC_CONFIG = {
         "cfg": """
             [db]
@@ -31,10 +31,10 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
     import pythia.pyre.inventory
 
     values = pythia.pyre.inventory.list("values", default=[])
-    values.meta['tip'] = "Names of values in spatial database."
+    values.meta["tip"] = "Names of values in spatial database."
 
     data = pythia.pyre.inventory.list("data", default=[])
-    data.meta['tip'] = "Values in spatial database."
+    data.meta["tip"] = "Values in spatial database."
 
     # PUBLIC METHODS /////////////////////////////////////////////////////
 
@@ -44,6 +44,7 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
         """
         SpatialDBObj.__init__(self, name)
         from pythia.pyre.units import parser
+
         self.parser = parser()
 
     # PRIVATE METHODS ////////////////////////////////////////////////////
@@ -89,10 +90,12 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
         if len(params.data) == 0:
             raise ValueError("Data for UniformDB '%s' not specified." % self.description)
         if len(params.values) != len(params.data):
-            raise ValueError("Incompatible settings for uniform spatial database '%s'.\n"
-                             "'values' and 'data' must be lists of the same size.\n"
-                             "'values' has size of %d but 'data' has size of %d."
-                             % (self.description, len(params.values), len(params.data)))
+            raise ValueError(
+                "Incompatible settings for uniform spatial database '%s'.\n"
+                "'values' and 'data' must be lists of the same size.\n"
+                "'values' has size of %d but 'data' has size of %d."
+                % (self.description, len(params.values), len(params.data))
+            )
         try:
             for x in params.data:
                 if len(str(x).split("*")) > 1:
@@ -102,10 +105,13 @@ class UniformDB(SpatialDBObj, ModuleUniformDB):
                     dataFloat = float(x)
         except:
             raise ValueError(
-                "'data' list for UniformDB '%s' must contain dimensioned or nondimensional values." % self.inventory.label)
+                "'data' list for UniformDB '%s' must contain dimensioned or nondimensional values."
+                % self.inventory.label
+            )
 
 
 # FACTORIES ////////////////////////////////////////////////////////////
+
 
 def spatial_database():
     """
