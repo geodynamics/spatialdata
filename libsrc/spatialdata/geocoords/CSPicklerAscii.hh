@@ -20,7 +20,7 @@ class spatialdata::geocoords::CSPicklerAscii {
 
     /** Pickle coordinate system.
      *
-     * @param s Ouput stream
+     * @param s Output stream
      * @param cs Pointer to coordinate system
      */
     static void pickle(std::ostream& s,

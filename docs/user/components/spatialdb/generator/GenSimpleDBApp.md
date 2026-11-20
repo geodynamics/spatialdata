@@ -48,7 +48,7 @@ Example of setting `GenSimpleDBApp` Pyre properties and facilities in a paramete
 # Vp is generated from a background value given in `vp_background.spatialdb`
 # plus a perturbation given in `vp_perturbation.spatialdb`.
 # 
-# Vs is generatef from a backgorund value given in `vs_background.spatialdb`
+# Vs is generatef from a background value given in `vs_background.spatialdb`
 # multiplied by a value given in `vs_scaling.spatialdb`.
 [gensimpledb.geometry]
 reader = read_geometry

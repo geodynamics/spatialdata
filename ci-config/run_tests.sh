@@ -9,7 +9,7 @@
 # SPDX-License-Identifier: MIT 
 
 
-# WARNING: If test coverage is enabled, this script downlaods the
+# WARNING: If test coverage is enabled, this script downloads the
 # CodeCov uploader for Linux.
 #
 # Run tests to generate coverage information. Upload test coverage data.

@@ -67,7 +67,7 @@ class spatialdata::spatialdb::SimpleIO { // class SimpleIO
 
     /** Check compatibility of topology and spatial distribution.
      *
-     * Currently, this compatiblity check only involves making sure
+     * Currently, this compatibility check only involves making sure
      * there are enough number of points to perform the interpolation
      * corresponding to the topology of the spatial distribution. It
      * does not check the actual topology of the distribution.

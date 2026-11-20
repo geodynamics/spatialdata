@@ -48,4 +48,10 @@ exempt = [
     ]
 
 
+[tool.codespell]
+exclude-file = "etc/ci/conventions/codespell-lines.txt"
+ignore-words = "etc/ci/conventions/codespell-words.txt"
+skip = "numpy.i,*.pdf,libsrc/spatialdata/muparser/*"
+
+
 # End of file

@@ -45,7 +45,7 @@ spatialdata::utils::PointsStream::read(double** ppPoints,
     if (!sin || !sin->good()) {
         const std::string name = !_filename.length() ? _filename : "std::cin";
         std::ostringstream msg;
-        msg << "Could not open intput stream '" << name << "' for reading points.";
+        msg << "Could not open input stream '" << name << "' for reading points.";
         throw std::runtime_error(msg.str());
     } // if
 

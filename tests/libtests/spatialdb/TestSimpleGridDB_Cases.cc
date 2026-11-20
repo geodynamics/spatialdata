@@ -252,7 +252,7 @@ spatialdata::spatialdb::TestSimpleGridDB_Cases::Line1D(void) {
         0.0, // not found
         3.0,
         0.0,
-        0.0, // not fount
+        0.0, // not found
     };
     data->queryLinear = queryLinear;
 
@@ -341,7 +341,7 @@ spatialdata::spatialdb::TestSimpleGridDB_Cases::Line2D(void) {
         3.5,
         3.0,
         0.0,
-        0.0, // not fount
+        0.0, // not found
     };
     data->queryLinear = queryLinear;
 
@@ -441,7 +441,7 @@ spatialdata::spatialdb::TestSimpleGridDB_Cases::Line3D(void) {
         7.5,
         3.0,
         0.0,
-        0.0, // not fount
+        0.0, // not found
     };
     data->queryLinear = queryLinear;
 
@@ -537,7 +537,7 @@ spatialdata::spatialdb::TestSimpleGridDB_Cases::Area2D(void) {
         3.0,
         2.0,
         0.0,
-        0.0, // not fount
+        0.0, // not found
     };
     data->queryLinear = queryLinear;
 

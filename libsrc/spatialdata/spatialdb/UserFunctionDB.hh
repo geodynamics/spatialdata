@@ -155,7 +155,7 @@ class spatialdata::spatialdb::UserFunctionDB : public SpatialDB {
   private:
     /** Check suitability of arguments for adding user function.
      *
-     * @parma[in] name Name of value.
+     * @param[in] name Name of value.
      * @param[in] fn User-defined function for value.
      * @param[in] units Units of value.
      */

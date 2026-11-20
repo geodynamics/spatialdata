@@ -71,7 +71,7 @@ class spatialdata::utils::PointsStream { // class PointsStream
      */
     void setFilename(const char* filename);
 
-    /** Get name of fle.
+    /** Get name of file.
      *
      * If no filename is supplied, stdin/stdout is used.
      *

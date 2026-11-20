@@ -101,7 +101,7 @@ contrib::spatialdb::UniformVelModel::close(void) { // close
                                                    // Deallocate all data allocated in open() and query().
 
     // Deallocate coordinate system object and set to null so that
-    // subsequent calls to delete won't try to dellocate memory that has
+    // subsequent calls to delete won't try to deallocate memory that has
     // already been deallocated.
     delete _cs;
     _cs = 0;

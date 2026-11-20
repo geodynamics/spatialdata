@@ -117,7 +117,7 @@ class spatialdata::spatialdb::AnalyticDB : public SpatialDB {
     geocoords::CoordSys* _cs; ///< Coordinate system
     geocoords::Converter* _converter; /// Convert query points to local coordinate system.
     size_t* _queryValues; ///< Indices of values to be returned in queries.
-    size_t _numValues; ///< Number of valuess in database
+    size_t _numValues; ///< Number of values in database
     size_t _querySize; ///< Number of values requested to be returned in queries.
 
 }; // class AnalyticDB

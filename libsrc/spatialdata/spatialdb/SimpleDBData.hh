@@ -26,7 +26,7 @@ class spatialdata::spatialdb::SimpleDBData { // SimpleDBData
     /// Default destructor
     ~SimpleDBData(void);
 
-    /** Allocate data structues.
+    /** Allocate data structures.
      *
      * @param numLocs Number of locations.
      * @param numValues Number of values.

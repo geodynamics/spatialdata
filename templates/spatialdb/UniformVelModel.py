@@ -64,7 +64,7 @@ class UniformVelModel(SpatialDBObj, ModuleUniformVelModel):
         # units and convert the value to SI units.
         #
         # The help string will be printed when the user uses the command
-        # line arugments --FULL_COMPONENT_NAME.help-properties or
+        # line arguments --FULL_COMPONENT_NAME.help-properties or
         # --FULL_COMPONENT.help-components. See the PyLith manual chapter
         # "Running PyLith" for more information regarding getting help
         # using command line arguments.

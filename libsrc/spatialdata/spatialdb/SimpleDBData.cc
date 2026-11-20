@@ -50,7 +50,7 @@ spatialdata::spatialdb::SimpleDBData::~SimpleDBData(void) {
 
 
 // ----------------------------------------------------------------------
-// Allocate data structues.
+// Allocate data structures.
 void
 spatialdata::spatialdb::SimpleDBData::allocate(const size_t numLocs,
                                                const size_t numValues,

@@ -62,7 +62,7 @@ class spatialdata::spatialdb::TestCompositeDB {
 
   private:
     UniformDB _dbA; ///< Spatial database A.
-    UniformDB _dbB; ///< Spatial databsae B.
+    UniformDB _dbB; ///< Spatial database B.
 
 }; // class TestCompositeDB
 // ------------------------------------------------------------------------------------------------

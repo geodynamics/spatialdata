@@ -38,7 +38,7 @@ gravityField.setGravityDir(0.0, -1.0, 0.0);
 :::{tab-item} Python
 
 Python applications should use the Pyre framework for creating the `CompositeDB`.
-We show how to do it programatically in Python for completeness.
+We show how to do it programmatically in Python for completeness.
 
 ```{code-block} python
 ---

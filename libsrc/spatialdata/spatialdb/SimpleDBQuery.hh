@@ -33,7 +33,7 @@ class spatialdata::spatialdb::SimpleDBQuery { // class SimpleDBQuery
     /// Default destructor.
     ~SimpleDBQuery(void);
 
-    /// Dellocate data structures.
+    /// Deallocate data structures.
     void deallocate(void);
 
     /** Set query type.
@@ -134,11 +134,11 @@ class spatialdata::spatialdb::SimpleDBQuery { // class SimpleDBQuery
      */
     void _findVolumePt(std::vector<WtStruct>* pWeights);
 
-    /** Set coordiantes of point in 3-D space using coordinates in
+    /** Set coordinates of point in 3-D space using coordinates in
      * current coordinate system.
      *
      * @param pt3 Coordinates of point in 3-D space [output].
-     * @param pt Cooridinates of point in current coordinate sytem.
+     * @param pt Coordinates of point in current coordinate system.
      * @param spaceDim Spatial dimension of current coordinate system.
      */
     static void _setPoint3(double* const pt3,
@@ -185,10 +185,10 @@ class spatialdata::spatialdb::SimpleDBQuery { // class SimpleDBQuery
     SimpleDB::QueryEnum _queryType; ///< Query type.
     std::vector<size_t> _nearest; ///< Index of nearest points in database to location.
     const SimpleDB& _db; ///< Reference to simple database.
-    spatialdata::geocoords::Converter* _converter; ///< Covert query points to local coordinate system.
+    spatialdata::geocoords::Converter* _converter; ///< Convert query points to local coordinate system.
 
     size_t* _queryValues; ///< Indices of values to be returned in queries.
-    size_t _querySize; ///< Nmber of values to be returned in queries.
+    size_t _querySize; ///< Number of values to be returned in queries.
 
 }; // class SimpleDBQuery
 

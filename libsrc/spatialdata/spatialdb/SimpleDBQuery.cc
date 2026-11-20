@@ -524,20 +524,20 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
     double wtB = 0;
     double wtC = 0;
     double wtD = 0;
-    double ptD[3];
+    double pointD[3];
 
     // find nearest pt where we can interpolate
     const size_t nearSize = _nearest.size();
     size_t nearIndexD = nearIndexC + 1;
     while (nearIndexD < nearSize) {
         const size_t locIndexD = _nearest[nearIndexD];
-        _setPoint3(ptD, _db._data->getCoordinates(locIndexD), spaceDim);
+        _setPoint3(pointD, _db._data->getCoordinates(locIndexD), spaceDim);
 
         // make sure A,B,C,D are not coplanar by checking if volume of
         // tetrahedron ABCD is not a tiny fraction of the distance AB
 
         // volume abcd
-        const double abcd = _volume(ptA, ptB, ptC, ptD);
+        const double abcd = _volume(ptA, ptB, ptC, pointD);
 
         // ab = length(ab)
         const double ab3 = pow(pow(ptA[0] - ptB[0], 2) + pow(ptA[1] - ptB[1], 2) + pow(ptA[2] - ptB[2], 2), 3);
@@ -545,17 +545,17 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
         const double tolerance = 1.0e-06;
         if (fabs(abcd) > tolerance * ab3) {
             // volume pbcd
-            const double pbcd = _volume(_q, ptB, ptC, ptD);
+            const double pbcd = _volume(_q, ptB, ptC, pointD);
             // wtA = vol(pbcd)/vol(abcd)
             wtA = pbcd / abcd;
 
             // volume apcd
-            const double apcd = _volume(ptA, _q, ptC, ptD);
+            const double apcd = _volume(ptA, _q, ptC, pointD);
             // wtB = vol(apcd)/vol(abcd)
             wtB = apcd / abcd;
 
             // volume abpd
-            const double abpd = _volume(ptA, ptB, _q, ptD);
+            const double abpd = _volume(ptA, ptB, _q, pointD);
             // wtC = vol(abpd)/vol(abcd)
             wtC = abpd / abcd;
 
@@ -585,7 +585,7 @@ spatialdata::spatialdb::SimpleDBQuery::_findVolumePt(std::vector<WtStruct>* pWei
 
 
 // ----------------------------------------------------------------------
-// Set coordiantes of point in 3-D space using coordinates in
+// Set coordinates of point in 3-D space using coordinates in
 // current coordinate system.
 void
 spatialdata::spatialdb::SimpleDBQuery::_setPoint3(double pt3[3],
