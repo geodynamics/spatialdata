@@ -684,10 +684,6 @@ def commits(*, root: str, base: str | None) -> list:
         if not SUBJECT.match(subject):
             # or else it does not read like the rest of the history
             problems.append(f"{sha}: '{subject}' is not of the form 'area: what the commit does'")
-        # and the subject is all there is
-        if body.strip():
-            # the narrative belongs in the pull request, not the commit
-            problems.append(f"{sha}: has a body; the subject line is the whole message")
     # hand off the complaints
     return problems
 

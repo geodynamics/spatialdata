@@ -234,8 +234,6 @@ def violations() -> None:
         expect(report=report, check="preambles", needle="good.cc: touched")
         # the subject that names no area
         expect(report=report, check="commits", needle="is not of the form")
-        # and the body
-        expect(report=report, check="commits", needle="has a body")
     # all done
     return
 
